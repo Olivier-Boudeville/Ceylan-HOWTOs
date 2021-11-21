@@ -1,0 +1,240 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: 3D Topics
+
+
+--------
+3D HOWTO
+--------
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%203D%20HOWTO">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2021-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Saturday, November 20, 2021
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 2
+
+:raw-html:`</center>`
+
+
+As usual, these information pertain to a GNU/Linux perspective.
+
+
+
+Cross-Platform Game Engines
+===========================
+
+The big three are Godot_, `Unreal Engine`_ and Unity3D_.
+
+
+Godot
+-----
+
+`Godot <https://en.wikipedia.org/wiki/Godot_(game_engine)>`_ is our personal favorite engine, notably because it is free software (`released under the very permissive MIT license <https://godotengine.org/license>`_).
+
+See its `official website <https://godotengine.org/>`_ and its `asset library <https://godotengine.org/asset-library/asset>`_.
+
+
+
+Installation
+............
+
+On Arch Linux: ``pacman -Sy godot``.
+
+
+
+
+
+Unreal Engine
+-------------
+
+Another contender is the `Unreal Engine <https://en.wikipedia.org/wiki/Unreal_Engine>`_, a C++ game engine developed by Epic Games; we have not used it yet.
+
+Its `licence <https://www.unrealengine.com/en-US/faq>`_ is meant to induce costs only when making large-enough profits.
+
+See its `official website <https://www.unrealengine.com>`_ and its `marketplace <https://www.unrealengine.com/marketplace/en-US/store>`_.
+
+
+Assets
+......
+
+Purchased assets may be used in one's own shipped products (`source <https://marketplacehelp.epicgames.com/s/article/How-can-I-use-the-products-I-ve-purchased-from-the-Marketplace-or-Learn-Tab?language=en_US>`_) and apparently at least usually no restrictive terms apply.
+
+Assets not created by Epic Games can be used in other engines unless otherwise specified (`source <https://marketplacehelp.epicgames.com/s/article/Can-I-use-these-products-in-other-gaming-engines-like-Source-or-Unity?language=en_US>`_).
+
+
+
+
+Unity3D
+-------
+
+`Unity <https://en.wikipedia.org/wiki/Unity_(game_engine)>`_ is most probably the cross-platform game engine that is the most popular.
+
+Regarding the licensing of the engine, `various plans <https://store.unity.com/#plans-individual>`_ apply, depending notably on whether one subscribes as an individual or a team, and on one's profile, revenue and funding.
+
+See its `official website <https://unity.com/>`_ and its `asset store <https://assetstore.unity.com/>`_.
+
+Unity may be installed at least in order to access its asset store, knowing that apparently an asset purchased in this store may be used with any game engine of choice. Indeed, for the standard licence, it is stipulated in the `EULA legal terms <https://unity3d.com/legal/as_terms>`_ that:
+
+*Licensor grants to the END-USER a non-exclusive, worldwide, and perpetual license to the Asset to integrate Assets only as incorporated and embedded components of electronic games and interactive media and distribute such electronic game and interactive media.*
+
+So, in legal terms, an asset could be bought in the Unity Asset Store and used in Godot, for example - provided that its content can be used there without too much technical effort/constraint.
+
+
+
+Installation
+............
+
+Unity shall now be obtained thanks to the Unity Hub.
+
+On Arch Linux it is `available through the AUR <https://aur.archlinux.org/packages/unityhub/>`_, as an `AppImage <https://en.wikipedia.org/wiki/AppImage>`_; one may thus use: ``yay -Sy unityhub``.
+
+A Unity account will be needed, then a licence, then a Unity release will have to be added in order to have it downloaded and installed for good, covering the selected target platforms (ex: Linux and Windows "Build Supports").
+
+
+Additional information: `Unity3D on Arch <https://wiki.archlinux.org/title/Unity3D>`_.
+
+
+
+Configuration
+.............
+
+Configuring Unity so that its interface (mouse, keyboard bindings) behave like, for example, the one of Blender, is not natively supported.
+
+
+
+Assets
+......
+
+They can be downloaded through the ``Window -> Package Manager -> Packages:My Assets`` menu option.
+
+To access the assets provided by such packages, of course the simplest approach is to use the Unity editor; this is done by creating a project (ex: ``MyProject``), selecting the aforementioned menu option (just above), then clicking on ``Import`` and selecting the relevant content that will end up in clear form in your project, i.e. in the UNIX filesystem with their actual name and content, for example in ``MyProject/Assets/CorrespondingAssetProvider/AssetName``.
+
+Yet such Unity packages, once downloaded (whether or not they have been imported in projects afterwards) are files stored typically in the ``~/.local/share/unity3d/Asset Store-5.x`` directory and whose extension is ``.unitypackage``.
+
+Such files are actually ``.tar.gz`` archives, and thus their content can be listed thanks to:
+
+.. code:: bash
+
+   $ tar tvzf Foobar.unitypackage
+
+Inside such archives, each individual package resource is located in a directory whose name is probably akin to the checksum of this resource (ex: ``167e85f3d750117459ff6199b79166fd``) [#]_; such directory generally contains at least 3 files:
+
+- ``asset``: the resource itself, renamed to that unique name, yet containing its exact original content (ex: the one of a Targa image)
+- ``asset.meta``: the metadata about that asset (file format, identifier, timestamp, type-specific settings, etc.), as an ASCII, YAML-like, text 
+- ``pathname``: the path of that asset in the package "virtual" tree (ex: ``Assets/Foo/Textures/baz.tga``)
+
+When applicable, a ``preview.png`` file may also exist.
+
+.. [#] Yet no checksum tool among ``md5sum``, ``sha1sum``, ``sha256sum``, ``sha512sum``, ``shasum``, ``sha224sum``, ``sha384sum`` seems to correspond; it must a be a different, possibly custom, checksum.
+
+
+Some types of content are Unity-specific and thus may not transpose (at least directly) to another game engine. This is the case for example for materials or prefabs (whose file format is relatively simple, based on `YAML <https://en.wikipedia.org/wiki/YAML>`_ 1.1).
+
+Tools like `AssetStudio <https://github.com/Perfare/AssetStudio>`_ (probably Windows-only) strive to automate most of the process of exploring, extracting and exporting Unity assets.
+
+Meshes are typically in the `FBX <https://en.wikipedia.org/wiki/FBX>`_ (proprietary) file format, that can nevertheless be imported in Blender_; one may use for that our `blender-import.sh <http://hull.esperide.org#blender>`_ script.
+
+
+
+3D Data
+=======
+
+
+File Formats
+------------
+
+They are designed to store 3D content (scenes, nodes, vertices, normals, meshes, textures, materials, animations, skins, cameras, lights, etc.).
+
+
+We prefer to rely on the open, well-specified, modern `glTF 2.0 format <https://en.wikipedia.org/wiki/GlTF>`_ in order to perform import/export operations.
+
+It comes in two forms:
+
+- either as ``*.gltf`` when JSON-based, possibly embedding the actual data (vertices, normals, textures, etc.) as ASCII `base64-encoded <https://en.wikipedia.org/wiki/Base64>`_ content, or referencing external files
+
+- or as ``*.glb`` when binary; this is the most compact form, and the one that we recommend especially
+
+See also the `glTF 2.0 quick reference guide <https://www.khronos.org/files/gltf20-reference-guide.pdf>`_ and the `related section of Godot <https://docs.godotengine.org/en/stable/getting_started/workflow/assets/importing_scenes.html>`_.
+
+
+The second best choice we see is `Collada <https://en.wikipedia.org/wiki/COLLADA>`_ (``*.dae`` files), an XML-based counterpart (open as well) to glTF.
+
+Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ <https://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ files and thus may have to be converted (typically to glTF), which is never a riskless task.
+
+.. comment Wings3D https://github.com/bjorng/wings/blob/master/plugins_src/import_export/wpc_collada.erl)
+
+
+
+Samples
+-------
+
+For:
+
+- `glTF <https://github.com/KhronosGroup/glTF-Sample-Models>`_, notably `glTF 2.0 <https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0>`_; also a `simple cube <http://paulbourke.net/dataformats/glTF/cube.txt>`_
+- `DAE <https://github.com/assimp/assimp/tree/master/test/models/Collada>`_; also a `simple cube <https://gist.github.com/wtsnz/bfa11c40e04594b260255b5dc7956f26>`_
+- `FBX <https://free3d.com/dl-files.php?p=5671208f26be8b5e7b8b4567&f=4>`_
+
+
+
+
+Modelling Software
+==================
+
+
+Blender
+-------
+
+`Blender <https://en.wikipedia.org/wiki/Blender_(software)>`_ is a very powerful open-source 3D toolset.
+
+
+Wings3D
+-------
+
+`Wings3D <https://en.wikipedia.org/wiki/Wings_3D>`_ is a nice, Erlang-based, free software subdivision modeler.
+
+
+
+
+OpenGL Corner
+=============
+
+Hints
+-----
+
+OpenGL allows the main program running on the CPU to communicate with typically a graphic card. As such most of the calls performed by user programs are asynchronous: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued. Indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process.
+
+
+Information
+-----------
+
+- FAQ for `OpenGL <https://www.khronos.org/opengl/wiki/FAQ>`_ and `GLUT <https://www.opengl.org/resources/libraries/glut/faq/>`_
+- About `OpenGL Performance <https://www.khronos.org/opengl/wiki/Performance>`_
+
+
+
