@@ -1,0 +1,88 @@
+.. _Top:
+
+
+.. comment This is the HTML version of the main page, where each HOWTO RST file
+   is linked to (not included, as in the PDF version in
+   Ceylan-HOWTOs-overview-for-pdf-english.rst.template).
+
+
+.. title:: Welcome to the Ceylan's HOW-TOs
+
+.. comment stylesheet specified through GNUmakefile
+
+
+==========
+*Ceylan's*
+==========
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-small"></img>`
+
+
+:Organisation: Copyright (C) 2021-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Wednesday, November 17, 2021
+:Lastly updated: GENERATION_DATE_TAG
+:Version: PROJECT_VERSION_TAG
+:Status: In progress
+:Dedication: Users of these HOWTOs
+:Abstract:
+
+	The role of these ``HOW-TOs`` is, akin to a cookbook, to share a collection of (technical) recipes ("how-to do this task?) regarding various topics.
+
+	These elements are part of the `Ceylan <https://github.com/Olivier-Boudeville/Ceylan>`_ umbrella project.
+
+
+.. meta::
+   :keywords: HOWTOS, how-to, cookbook
+
+:raw-html:`</center>`
+
+
+The latest version of this documentation is to be found at the `official Ceylan-HOWTOs website <http://howtos.esperide.org>`_ (``http://howtos.esperide.org``).
+
+:raw-html:`These HOWTOs are also available in the PDF format (see <a href="Ceylan-HOWTOs-english.pdf">Ceylan-HOWTOs-english.pdf</a>).`
+
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+
+:raw-html:`<div class="box">`
+
+The Ceylan HOWTOs that are currently available relate to the following topics:
+
+- `Build Tools <Build.html>`_
+.. comment - `3D Topics <ThreeDimensional.html>`_
+.. comment - `Erlang <Erlang.html>`_
+
+:raw-html:`</div>`
+
+
+
+-------------
+Please React!
+-------------
+
+If you have information more detailed or more recent than those presented in this document, if you noticed errors, neglects or points insufficiently discussed, drop us a line! (for that, use the contact address at the top of this document).
+
+
+
+-----------
+Ending Word
+-----------
+
+Hoping that these Ceylan-HOWTOs may be of help!
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-small"></img></center>`
+
+:raw-html:`<a name="howtos_bottom"></a>`

@@ -1,0 +1,88 @@
+.. _Top:
+
+
+.. comment This is the PDF version of the main page, where each HOWTO RST file
+   is included (not linked to, as in the HTML version in
+   Ceylan-HOWTOs-overview-english.rst.template).
+
+
+.. title:: Welcome to the Ceylan's HOW-TOs
+
+.. comment stylesheet specified through GNUmakefile
+
+
+================
+*Ceylan's* HOWTO
+================
+
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+:raw-latex:`\begin{center} \includegraphics[scale=0.2]{howtos-title.png} \end{center}`
+
+
+
+:Organisation: Copyright (C) 2021-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Wednesday, November 17, 2021
+:Lastly updated: GENERATION_DATE_TAG
+:Version: PROJECT_VERSION_TAG
+:Status: In progress
+:Dedication: Users of these HOWTOs
+:Abstract:
+
+	The role of these ``HOW-TOs`` is, akin to a cookbook, to share a collection of (technical) recipes ("how-to do this task?) regarding various topics.
+
+	These elements are part of the `Ceylan <https://github.com/Olivier-Boudeville/Ceylan>`_ umbrella project.
+
+
+.. meta::
+   :keywords: HOWTOS, how-to, cookbook
+
+
+
+The latest version of this documentation is to be found at the `official Ceylan-HOWTOs website <http://howtos.esperide.org>`_ (``http://howtos.esperide.org``).
+
+
+
+:raw-latex:`\pagebreak`
+
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :depth: 3
+
+
+
+
+:raw-latex:`\pagebreak`
+
+
+.. include:: Build.rst
+.. comment include:: ThreeDimensional.rst
+.. comment include:: Erlang.rst
+
+
+:raw-latex:`\pagebreak`
+
+
+
+
+-------------
+Please React!
+-------------
+
+If you have information more detailed or more recent than those presented in this document, if you noticed errors, neglects or points insufficiently discussed, drop us a line! (for that, use the contact address at the top of this document).
+
+
+-----------
+Ending Word
+-----------
+
+Hoping that these Ceylan-HOWTOs may be of help!
+
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.15]{howtos-title.png} \end{figure}`
+

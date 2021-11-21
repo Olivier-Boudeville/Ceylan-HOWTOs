@@ -1,0 +1,84 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About Build Tools
+
+-----------
+Build Tools
+-----------
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Build%20Remark">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+
+:Organisation: Copyright (C) 2021-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Saturday, November 20, 2021
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :depth: 2
+
+
+Purpose of Build Tools
+======================
+
+A build tool allows to automate all kinds of tasks, by **applying rules and tracking dependencies**: not only compiling, linking, etc. applications, but also checking them, generating their documentation, running and debugging them, etc.
+
+
+Choice
+======
+
+Often build tools are tied to some programming languages (ex: Maven for Java, `Rebar3 <https://github.com/erlang/rebar3>`_ for Erlang, etc.).
+
+Some tools are more generic by nature, like late GNU autotools, or `Cmake <https://cmake.org/>`_, `GNU make <https://www.gnu.org/software/make/>`_, etc.
+
+For most uses, our personal preference goes to the latter. Notably all our Erlang-based developments, starting from `Ceylan-Myriad <http://myriad.esperide.org>`_, are based on GNU make.
+
+
+GNU make
+========
+
+We recommend the reading of `this essential source <https://www.gnu.org/software/make/manual/make.html>`_ for reference purpose, notably the section about `The Two Flavors of Variables <https://www.gnu.org/software/make/manual/make.html#Flavors>`_.
+
+Taking our Erlang developments as an example, their base, first layer, `Ceylan-Myriad <http://myriad.esperide.org>`_, relies on build facilities that are designed to be also reused and further adapted / specialised / parametrised in turn  by all layers above in the stack (ex: `Ceylan-WOOPER <http://wooper.esperide.org>`_).
+
+For that, Myriad defines three top-level makefiles:
+
+- base build-related *variables* (settings) in `GNUmakevars.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakevars.inc>`_, providing defaults that can be overridden by upper layers
+
+- *automatic rules*, in `GNUmakerules-automatic.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakerules-automatic.inc>`_, able to operate generically on patterns, typically based on file extensions
+
+- *explicit rules*, in `GNUmakerules-explicit.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakerules-explicit.inc>`_, for all specific named make targets (ex: ``all``, ``clean``)
+
+Each layer references its specialisation of these three elements (and the ones of all layers below) in its own `GNUmakesettings.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakesettings.inc>`_ file, which is the only element that each per-directory ``GNUmakefile`` file will have to include.
+
+Such a system allows defining (build-time and runtime) settings and rules once for all, while remaining flexible and enabling individual makefiles to be minimalistic: beside said include, they just have to list which of their subdirectories the build should traverse (thanks to the ``MODULES_DIRS`` variable, see `example <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/user-interface/GNUmakefile>`_).
+
+:raw-html:`<a name="howtos_bottom"></a>`
+
+
+See Also
+========
+
+One may refer to the `development section <http://hull.esperide.org#for-development>`_ of Ceylan-Hull, or go back to the `Ceylan-HOWTOs main page <Ceylan-HOWTOs-overview-english.html>`_.
+
