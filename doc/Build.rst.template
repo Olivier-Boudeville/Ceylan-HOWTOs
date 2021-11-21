@@ -17,7 +17,7 @@ Build Tools
 
 :raw-html:`<a name="howtos_top"></a>`
 
-:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Build%20Remark">email us</a></p></div>`
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Build">email us</a></p></div>`
 
 
 :raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
@@ -36,7 +36,12 @@ Build Tools
 
 
 .. contents:: **Table of Contents**
+  :local:
   :depth: 2
+
+
+:raw-html:`</center>`
+
 
 
 Purpose of Build Tools
@@ -54,6 +59,8 @@ Some tools are more generic by nature, like late GNU autotools, or `Cmake <https
 
 For most uses, our personal preference goes to the latter. Notably all our Erlang-based developments, starting from `Ceylan-Myriad <http://myriad.esperide.org>`_, are based on GNU make.
 
+
+.. _`GNU make`:
 
 GNU make
 ========
