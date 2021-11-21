@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<title>Ceylan-HOWTOs: About Build Tools</title>
+<title>Ceylan-HOWTOs: About Erlang</title>
 <meta content="HOWTOS, how-to, cookbook" name="keywords" />
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -52,20 +52,58 @@
 <div class="contents topic" id="id1">
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#build-tools" id="id7">Build Tools</a><ul>
-<li><a class="reference internal" href="#purpose-of-build-tools" id="id8">Purpose of Build Tools</a></li>
-<li><a class="reference internal" href="#choice" id="id9">Choice</a></li>
-<li><a class="reference internal" href="#id5" id="id10">GNU make</a></li>
-<li><a class="reference internal" href="#see-also" id="id11">See Also</a></li>
+<li><a class="reference internal" href="#build-tools" id="id32">Build Tools</a><ul>
+<li><a class="reference internal" href="#purpose-of-build-tools" id="id33">Purpose of Build Tools</a></li>
+<li><a class="reference internal" href="#choice" id="id34">Choice</a></li>
+<li><a class="reference internal" href="#id6" id="id35">GNU make</a></li>
+<li><a class="reference internal" href="#see-also" id="id36">See Also</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#please-react" id="id12">Please React!</a></li>
-<li><a class="reference internal" href="#ending-word" id="id13">Ending Word</a></li>
+<li><a class="reference internal" href="#d-howto" id="id37">3D HOWTO</a><ul>
+<li><a class="reference internal" href="#cross-platform-game-engines" id="id38">Cross-Platform Game Engines</a><ul>
+<li><a class="reference internal" href="#godot" id="id39">Godot</a></li>
+<li><a class="reference internal" href="#unreal-engine" id="id40">Unreal Engine</a></li>
+<li><a class="reference internal" href="#unity3d" id="id41">Unity3D</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#d-data" id="id42">3D Data</a><ul>
+<li><a class="reference internal" href="#file-formats" id="id43">File Formats</a></li>
+<li><a class="reference internal" href="#samples" id="id44">Samples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modelling-software" id="id45">Modelling Software</a><ul>
+<li><a class="reference internal" href="#blender" id="id46">Blender</a></li>
+<li><a class="reference internal" href="#wings3d" id="id47">Wings3D</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#opengl-corner" id="id48">OpenGL Corner</a><ul>
+<li><a class="reference internal" href="#hints" id="id49">Hints</a></li>
+<li><a class="reference internal" href="#information" id="id50">Information</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#erlang" id="id51">Erlang</a><ul>
+<li><a class="reference internal" href="#overview" id="id52">Overview</a></li>
+<li><a class="reference internal" href="#let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm" id="id53">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></li>
+<li><a class="reference internal" href="#id29" id="id54">Installation</a></li>
+<li><a class="reference internal" href="#language-use" id="id55">Language Use</a></li>
+<li><a class="reference internal" href="#language-implementation" id="id56">Language Implementation</a><ul>
+<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="id57">Message-Passing: Copying vs Sharing</a></li>
+<li><a class="reference internal" href="#just-in-time-compilation" id="id58">Just-in-Time Compilation</a></li>
+<li><a class="reference internal" href="#static-typing" id="id59">Static Typing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#erlang-resources" id="id60">Erlang Resources</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#please-react" id="id61">Please React!</a></li>
+<li><a class="reference internal" href="#ending-word" id="id62">Ending Word</a></li>
 </ul>
 </div>
 <p></p>
 <div class="section" id="build-tools">
-<span id="id2"></span><h1><a class="toc-backref" href="#id14">Build Tools</a></h1>
+<span id="id2"></span><h1><a class="toc-backref" href="#id32">Build Tools</a></h1>
 <p><span class="raw-html"><a name="howtos_top"></a></span></p>
 <p><span class="raw-html"><div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Build">email us</a></p></div></span></p>
 <p><span class="raw-html"><center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img></span></p>
@@ -84,32 +122,28 @@
 </tbody>
 </table>
 <p><span class="raw-html"><a name="howtos_toc"></a></span></p>
-<div class="contents topic" id="id4">
+<div class="contents local topic" id="id4">
 <span id="id3"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#build-tools" id="id14">Build Tools</a><ul>
-<li><a class="reference internal" href="#purpose-of-build-tools" id="id15">Purpose of Build Tools</a></li>
-<li><a class="reference internal" href="#choice" id="id16">Choice</a></li>
-<li><a class="reference internal" href="#id5" id="id17">GNU make</a></li>
-<li><a class="reference internal" href="#see-also" id="id18">See Also</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#please-react" id="id19">Please React!</a></li>
-<li><a class="reference internal" href="#ending-word" id="id20">Ending Word</a></li>
+<li><a class="reference internal" href="#purpose-of-build-tools" id="id63">Purpose of Build Tools</a></li>
+<li><a class="reference internal" href="#choice" id="id64">Choice</a></li>
+<li><a class="reference internal" href="#id6" id="id65">GNU make</a></li>
+<li><a class="reference internal" href="#see-also" id="id66">See Also</a></li>
 </ul>
 </div>
+<p><span class="raw-html"></center></span></p>
 <div class="section" id="purpose-of-build-tools">
-<h2><a class="toc-backref" href="#id15">Purpose of Build Tools</a></h2>
+<h2><a class="toc-backref" href="#id63">Purpose of Build Tools</a></h2>
 <p>A build tool allows to automate all kinds of tasks, by <strong>applying rules and tracking dependencies</strong>: not only compiling, linking, etc. applications, but also checking them, generating their documentation, running and debugging them, etc.</p>
 </div>
 <div class="section" id="choice">
-<h2><a class="toc-backref" href="#id16">Choice</a></h2>
+<h2><a class="toc-backref" href="#id64">Choice</a></h2>
 <p>Often build tools are tied to some programming languages (ex: Maven for Java, <a class="reference external" href="https://github.com/erlang/rebar3">Rebar3</a> for Erlang, etc.).</p>
 <p>Some tools are more generic by nature, like late GNU autotools, or <a class="reference external" href="https://cmake.org/">Cmake</a>, <a class="reference external" href="https://www.gnu.org/software/make/">GNU make</a>, etc.</p>
 <p>For most uses, our personal preference goes to the latter. Notably all our Erlang-based developments, starting from <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a>, are based on GNU make.</p>
 </div>
-<div class="section" id="id5">
-<h2><a class="toc-backref" href="#id17">GNU make</a></h2>
+<div class="section" id="id6">
+<span id="id5"></span><h2><a class="toc-backref" href="#id65">GNU make</a></h2>
 <p>We recommend the reading of <a class="reference external" href="https://www.gnu.org/software/make/manual/make.html">this essential source</a> for reference purpose, notably the section about <a class="reference external" href="https://www.gnu.org/software/make/manual/make.html#Flavors">The Two Flavors of Variables</a>.</p>
 <p>Taking our Erlang developments as an example, their base, first layer, <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a>, relies on build facilities that are designed to be also reused and further adapted / specialised / parametrised in turn  by all layers above in the stack (ex: <a class="reference external" href="http://wooper.esperide.org">Ceylan-WOOPER</a>).</p>
 <p>For that, Myriad defines three top-level makefiles:</p>
@@ -123,19 +157,313 @@
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
 </div>
 <div class="section" id="see-also">
-<h2><a class="toc-backref" href="#id18">See Also</a></h2>
+<h2><a class="toc-backref" href="#id66">See Also</a></h2>
 <p>One may refer to the <a class="reference external" href="http://hull.esperide.org#for-development">development section</a> of Ceylan-Hull, or go back to the <a class="reference external" href="Ceylan-HOWTOs-overview-english.html">Ceylan-HOWTOs main page</a>.</p>
 <p></p>
 </div>
 </div>
+<div class="section" id="d-howto">
+<span id="id8"></span><h1><a class="toc-backref" href="#id37">3D HOWTO</a></h1>
+<p><span class="raw-html"><a name="howtos_top"></a></span></p>
+<p><span class="raw-html"><div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%203D%20HOWTO">email us</a></p></div></span></p>
+<p><span class="raw-html"><center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img></span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2021 Olivier Boudeville</td>
+</tr>
+<tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
+</tr>
+<tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
+</tr>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, November 21, 2021</td>
+</tr>
+</tbody>
+</table>
+<p><span class="raw-html"><a name="howtos_toc"></a></span></p>
+<div class="contents local topic" id="id10">
+<span id="id9"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="#cross-platform-game-engines" id="id67">Cross-Platform Game Engines</a><ul>
+<li><a class="reference internal" href="#godot" id="id68">Godot</a></li>
+<li><a class="reference internal" href="#unreal-engine" id="id69">Unreal Engine</a></li>
+<li><a class="reference internal" href="#unity3d" id="id70">Unity3D</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#d-data" id="id71">3D Data</a><ul>
+<li><a class="reference internal" href="#file-formats" id="id72">File Formats</a></li>
+<li><a class="reference internal" href="#samples" id="id73">Samples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modelling-software" id="id74">Modelling Software</a><ul>
+<li><a class="reference internal" href="#blender" id="id75">Blender</a></li>
+<li><a class="reference internal" href="#wings3d" id="id76">Wings3D</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#opengl-corner" id="id77">OpenGL Corner</a><ul>
+<li><a class="reference internal" href="#hints" id="id78">Hints</a></li>
+<li><a class="reference internal" href="#information" id="id79">Information</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><span class="raw-html"></center></span></p>
+<p>As usual, these information pertain to a GNU/Linux perspective.</p>
+<div class="section" id="cross-platform-game-engines">
+<h2><a class="toc-backref" href="#id67">Cross-Platform Game Engines</a></h2>
+<p>The big three are <a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Unreal_Engine">Unreal Engine</a> and <a class="reference internal" href="#unity3d">Unity3D</a>.</p>
+<div class="section" id="godot">
+<h3><a class="toc-backref" href="#id68">Godot</a></h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a> is our personal favorite engine, notably because it is free software (<a class="reference external" href="https://godotengine.org/license">released under the very permissive MIT license</a>).</p>
+<p>See its <a class="reference external" href="https://godotengine.org/">official website</a> and its <a class="reference external" href="https://godotengine.org/asset-library/asset">asset library</a>.</p>
+<div class="section" id="installation">
+<h4>Installation</h4>
+<p>On Arch Linux: <tt class="docutils literal">pacman <span class="pre">-Sy</span> godot</tt>.</p>
+</div>
+</div>
+<div class="section" id="unreal-engine">
+<h3><a class="toc-backref" href="#id69">Unreal Engine</a></h3>
+<p>Another contender is the <a class="reference external" href="https://en.wikipedia.org/wiki/Unreal_Engine">Unreal Engine</a>, a C++ game engine developed by Epic Games; we have not used it yet.</p>
+<p>Its <a class="reference external" href="https://www.unrealengine.com/en-US/faq">licence</a> is meant to induce costs only when making large-enough profits.</p>
+<p>See its <a class="reference external" href="https://www.unrealengine.com">official website</a> and its <a class="reference external" href="https://www.unrealengine.com/marketplace/en-US/store">marketplace</a>.</p>
+<div class="section" id="assets">
+<h4>Assets</h4>
+<p>Purchased assets may be used in one's own shipped products (<a class="reference external" href="https://marketplacehelp.epicgames.com/s/article/How-can-I-use-the-products-I-ve-purchased-from-the-Marketplace-or-Learn-Tab?language=en_US">source</a>) and apparently at least usually no restrictive terms apply.</p>
+<p>Assets not created by Epic Games can be used in other engines unless otherwise specified (<a class="reference external" href="https://marketplacehelp.epicgames.com/s/article/Can-I-use-these-products-in-other-gaming-engines-like-Source-or-Unity?language=en_US">source</a>).</p>
+</div>
+</div>
+<div class="section" id="unity3d">
+<h3><a class="toc-backref" href="#id70">Unity3D</a></h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Unity_(game_engine)">Unity</a> is most probably the cross-platform game engine that is the most popular.</p>
+<p>Regarding the licensing of the engine, <a class="reference external" href="https://store.unity.com/#plans-individual">various plans</a> apply, depending notably on whether one subscribes as an individual or a team, and on one's profile, revenue and funding.</p>
+<p>See its <a class="reference external" href="https://unity.com/">official website</a> and its <a class="reference external" href="https://assetstore.unity.com/">asset store</a>.</p>
+<p>Unity may be installed at least in order to access its asset store, knowing that apparently an asset purchased in this store may be used with any game engine of choice. Indeed, for the standard licence, it is stipulated in the <a class="reference external" href="https://unity3d.com/legal/as_terms">EULA legal terms</a> that:</p>
+<p><em>Licensor grants to the END-USER a non-exclusive, worldwide, and perpetual license to the Asset to integrate Assets only as incorporated and embedded components of electronic games and interactive media and distribute such electronic game and interactive media.</em></p>
+<p>So, in legal terms, an asset could be bought in the Unity Asset Store and used in Godot, for example - provided that its content can be used there without too much technical effort/constraint.</p>
+<div class="section" id="id16">
+<h4>Installation</h4>
+<p>Unity shall now be obtained thanks to the Unity Hub.</p>
+<p>On Arch Linux it is <a class="reference external" href="https://aur.archlinux.org/packages/unityhub/">available through the AUR</a>, as an <a class="reference external" href="https://en.wikipedia.org/wiki/AppImage">AppImage</a>; one may thus use: <tt class="docutils literal">yay <span class="pre">-Sy</span> unityhub</tt>.</p>
+<p>A Unity account will be needed, then a licence, then a Unity release will have to be added in order to have it downloaded and installed for good, covering the selected target platforms (ex: Linux and Windows &quot;Build Supports&quot;).</p>
+<p>Additional information: <a class="reference external" href="https://wiki.archlinux.org/title/Unity3D">Unity3D on Arch</a>.</p>
+</div>
+<div class="section" id="configuration">
+<h4>Configuration</h4>
+<p>Configuring Unity so that its interface (mouse, keyboard bindings) behave like, for example, the one of Blender, is not natively supported.</p>
+</div>
+<div class="section" id="id17">
+<h4>Assets</h4>
+<p>They can be downloaded through the <tt class="docutils literal">Window <span class="pre">-&gt;</span> Package Manager <span class="pre">-&gt;</span> Packages:My Assets</tt> menu option.</p>
+<p>To access the assets provided by such packages, of course the simplest approach is to use the Unity editor; this is done by creating a project (ex: <tt class="docutils literal">MyProject</tt>), selecting the aforementioned menu option (just above), then clicking on <tt class="docutils literal">Import</tt> and selecting the relevant content that will end up in clear form in your project, i.e. in the UNIX filesystem with their actual name and content, for example in <tt class="docutils literal">MyProject/Assets/CorrespondingAssetProvider/AssetName</tt>.</p>
+<p>Yet such Unity packages, once downloaded (whether or not they have been imported in projects afterwards) are files stored typically in the <tt class="docutils literal"><span class="pre">~/.local/share/unity3d/Asset</span> <span class="pre">Store-5.x</span></tt> directory and whose extension is <tt class="docutils literal">.unitypackage</tt>.</p>
+<p>Such files are actually <tt class="docutils literal">.tar.gz</tt> archives, and thus their content can be listed thanks to:</p>
+<pre class="code bash literal-block">
+$ tar tvzf Foobar.unitypackage
+</pre>
+<p>Inside such archives, each individual package resource is located in a directory whose name is probably akin to the checksum of this resource (ex: <tt class="docutils literal">167e85f3d750117459ff6199b79166fd</tt>) <a class="footnote-reference" href="#id19" id="id18">[1]</a>; such directory generally contains at least 3 files:</p>
+<ul class="simple">
+<li><tt class="docutils literal">asset</tt>: the resource itself, renamed to that unique name, yet containing its exact original content (ex: the one of a Targa image)</li>
+<li><tt class="docutils literal">asset.meta</tt>: the metadata about that asset (file format, identifier, timestamp, type-specific settings, etc.), as an ASCII, YAML-like, text</li>
+<li><tt class="docutils literal">pathname</tt>: the path of that asset in the package &quot;virtual&quot; tree (ex: <tt class="docutils literal">Assets/Foo/Textures/baz.tga</tt>)</li>
+</ul>
+<p>When applicable, a <tt class="docutils literal">preview.png</tt> file may also exist.</p>
+<table class="docutils footnote" frame="void" id="id19" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id18">[1]</a></td><td>Yet no checksum tool among <tt class="docutils literal">md5sum</tt>, <tt class="docutils literal">sha1sum</tt>, <tt class="docutils literal">sha256sum</tt>, <tt class="docutils literal">sha512sum</tt>, <tt class="docutils literal">shasum</tt>, <tt class="docutils literal">sha224sum</tt>, <tt class="docutils literal">sha384sum</tt> seems to correspond; it must a be a different, possibly custom, checksum.</td></tr>
+</tbody>
+</table>
+<p>Some types of content are Unity-specific and thus may not transpose (at least directly) to another game engine. This is the case for example for materials or prefabs (whose file format is relatively simple, based on <a class="reference external" href="https://en.wikipedia.org/wiki/YAML">YAML</a> 1.1).</p>
+<p>Tools like <a class="reference external" href="https://github.com/Perfare/AssetStudio">AssetStudio</a> (probably Windows-only) strive to automate most of the process of exploring, extracting and exporting Unity assets.</p>
+<p>Meshes are typically in the <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> (proprietary) file format, that can nevertheless be imported in <a class="reference external" href="https://en.wikipedia.org/wiki/Blender_(software)">Blender</a>; one may use for that our <a class="reference external" href="http://hull.esperide.org#blender">blender-import.sh</a> script.</p>
+</div>
+</div>
+</div>
+<div class="section" id="d-data">
+<h2><a class="toc-backref" href="#id71">3D Data</a></h2>
+<div class="section" id="file-formats">
+<h3><a class="toc-backref" href="#id72">File Formats</a></h3>
+<p>They are designed to store 3D content (scenes, nodes, vertices, normals, meshes, textures, materials, animations, skins, cameras, lights, etc.).</p>
+<p>We prefer to rely on the open, well-specified, modern <a class="reference external" href="https://en.wikipedia.org/wiki/GlTF">glTF 2.0 format</a> in order to perform import/export operations.</p>
+<p>It comes in two forms:</p>
+<ul class="simple">
+<li>either as <tt class="docutils literal">*.gltf</tt> when JSON-based, possibly embedding the actual data (vertices, normals, textures, etc.) as ASCII <a class="reference external" href="https://en.wikipedia.org/wiki/Base64">base64-encoded</a> content, or referencing external files</li>
+<li>or as <tt class="docutils literal">*.glb</tt> when binary; this is the most compact form, and the one that we recommend especially</li>
+</ul>
+<p>See also the <a class="reference external" href="https://www.khronos.org/files/gltf20-reference-guide.pdf">glTF 2.0 quick reference guide</a> and the <a class="reference external" href="https://docs.godotengine.org/en/stable/getting_started/workflow/assets/importing_scenes.html">related section of Godot</a>.</p>
+<p>The second best choice we see is <a class="reference external" href="https://en.wikipedia.org/wiki/COLLADA">Collada</a> (<tt class="docutils literal">*.dae</tt> files), an XML-based counterpart (open as well) to glTF.</p>
+<p>Often, assets can be found as <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> of <a class="reference external" href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ</a> files and thus may have to be converted (typically to glTF), which is never a riskless task.</p>
+</div>
+<div class="section" id="samples">
+<h3><a class="toc-backref" href="#id73">Samples</a></h3>
+<p>For:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models">glTF</a>, notably <a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0">glTF 2.0</a>; also a <a class="reference external" href="http://paulbourke.net/dataformats/glTF/cube.txt">simple cube</a></li>
+<li><a class="reference external" href="https://github.com/assimp/assimp/tree/master/test/models/Collada">DAE</a>; also a <a class="reference external" href="https://gist.github.com/wtsnz/bfa11c40e04594b260255b5dc7956f26">simple cube</a></li>
+<li><a class="reference external" href="https://free3d.com/dl-files.php?p=5671208f26be8b5e7b8b4567&amp;f=4">FBX</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="modelling-software">
+<h2><a class="toc-backref" href="#id74">Modelling Software</a></h2>
+<div class="section" id="blender">
+<h3><a class="toc-backref" href="#id75">Blender</a></h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Blender_(software)">Blender</a> is a very powerful open-source 3D toolset.</p>
+</div>
+<div class="section" id="wings3d">
+<h3><a class="toc-backref" href="#id76">Wings3D</a></h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Wings_3D">Wings3D</a> is a nice, Erlang-based, free software subdivision modeler.</p>
+</div>
+</div>
+<div class="section" id="opengl-corner">
+<h2><a class="toc-backref" href="#id77">OpenGL Corner</a></h2>
+<div class="section" id="hints">
+<h3><a class="toc-backref" href="#id78">Hints</a></h3>
+<p>OpenGL allows the main program running on the CPU to communicate with typically a graphic card. As such most of the calls performed by user programs are asynchronous: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued. Indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process.</p>
+</div>
+<div class="section" id="information">
+<h3><a class="toc-backref" href="#id79">Information</a></h3>
+<ul class="simple">
+<li>FAQ for <a class="reference external" href="https://www.khronos.org/opengl/wiki/FAQ">OpenGL</a> and <a class="reference external" href="https://www.opengl.org/resources/libraries/glut/faq/">GLUT</a></li>
+<li>About <a class="reference external" href="https://www.khronos.org/opengl/wiki/Performance">OpenGL Performance</a></li>
+</ul>
+<p></p>
+</div>
+</div>
+</div>
+<div class="section" id="erlang">
+<span id="id25"></span><h1><a class="toc-backref" href="#id51">Erlang</a></h1>
+<p><span class="raw-html"><a name="howtos_top"></a></span></p>
+<p><span class="raw-html"><div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Erlang">email us</a></p></div></span></p>
+<p><span class="raw-html"><center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img></span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2021 Olivier Boudeville</td>
+</tr>
+<tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
+</tr>
+<tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
+</tr>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, November 21, 2021</td>
+</tr>
+</tbody>
+</table>
+<p><span class="raw-html"><a name="howtos_toc"></a></span></p>
+<div class="contents local topic" id="id27">
+<span id="id26"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="#overview" id="id80">Overview</a></li>
+<li><a class="reference internal" href="#let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm" id="id81">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></li>
+<li><a class="reference internal" href="#id29" id="id82">Installation</a></li>
+<li><a class="reference internal" href="#language-use" id="id83">Language Use</a></li>
+<li><a class="reference internal" href="#language-implementation" id="id84">Language Implementation</a><ul>
+<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="id85">Message-Passing: Copying vs Sharing</a></li>
+<li><a class="reference internal" href="#just-in-time-compilation" id="id86">Just-in-Time Compilation</a></li>
+<li><a class="reference internal" href="#static-typing" id="id87">Static Typing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#erlang-resources" id="id88">Erlang Resources</a></li>
+</ul>
+</div>
+<p><span class="raw-html"></center></span></p>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id80">Overview</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Erlang_(programming_language)">Erlang</a>  is a concurrent, functional programming language available as free software; see <a class="reference external" href="https://www.erlang.org/">its official website</a> for more details.</p>
+<p>Erlang is dynamically typed, and is executed by the <a class="reference external" href="https://en.wikipedia.org/wiki/BEAM_(Erlang_virtual_machine)">BEAM virtual machine</a>. This VM (<em>Virtual Machine</em>) operates on bytecodes and can perform Just-In-Time compilation. It powers also <a class="reference external" href="https://github.com/llaisdy/beam_languages">other related languages</a>, such as Elixir and LFE.</p>
+</div>
+<div class="section" id="let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm">
+<h2><a class="toc-backref" href="#id81">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></h2>
+<p>Taken from <a class="reference external" href="https://erlangforums.com/t/erlang-101-processes-parallelization/594">this presentation</a>:</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p>What makes Elixir StackOverflow’s #4 most-loved language?</p>
+<p>What makes Erlang and Elixir StackOverflow’s #3 and #4 best-paid languages?</p>
+<p>How did WhatsApp scale to billions of users with just dozens of Erlang engineers?</p>
+<p>What’s so special about Erlang that it powers CouchDB and RabbitMQ?</p>
+<p>Why are multi-billion-dollar corporations like Bet365 and Klarna built on Erlang?</p>
+<p>Why do PepsiCo, Cars.com, Change.org, Boston’s MBTA, and Discord all rely on Elixir?</p>
+<p>Why was Elixir chosen to power a bank?</p>
+<p class="last">Why does Cisco ship 2 million Erlang devices each year? Why is Erlang used to control 90% of Internet traffic?</p>
+</div>
+</div>
+<div class="section" id="id29">
+<h2><a class="toc-backref" href="#id82">Installation</a></h2>
+<p>Erlang can be installed thanks to the various options listed in <a class="reference external" href="https://www.erlang.org/downloads">these guidelines</a>.</p>
+<p>Building Erlang from the sources of its latest stable version is certainly the best approach; for more control we prefer relying on our <a class="reference external" href="https://myriad.esperide.org/#software-prerequisites">custom procedure</a>.</p>
+<p>For a development activity, we recommend also specifying the following options to our <tt class="docutils literal"><span class="pre">conf/install-erlang.sh</span></tt> script:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">--doc-install</span></tt>, so that the reference documentation can be accessed locally (in <tt class="docutils literal"><span class="pre">~/Software/Erlang/Erlang-current-documentation/</span></tt>); creating a bookmark pointing to the module index, located in <tt class="docutils literal">doc/man_index.html</tt>, would most probably be useful</li>
+<li><tt class="docutils literal"><span class="pre">--generate-plt</span></tt> in order to generate a PLT file allowing the static type checking that applies to this installation (may be a bit long and processing-intensive, yet it is to be done once per built Erlang version)</li>
+</ul>
+<p>Run <tt class="docutils literal"><span class="pre">./install-erlang.sh</span> <span class="pre">--help</span></tt> for more information.</p>
+<p>Once installed, ensure that <tt class="docutils literal"><span class="pre">~/Software/Erlang/Erlang-current-install/bin/</span></tt> is in your PATH (ex: by enriching your <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt> accordingly), so that you can run <tt class="docutils literal">erl</tt> (the Erlang interpreter) from any location, resulting a prompt like:</p>
+<pre class="code bash literal-block">
+$ erl
+Erlang/OTP <span class="m">24</span> <span class="o">[</span>erts-12.1.5<span class="o">]</span> <span class="o">[</span>source<span class="o">]</span> <span class="o">[</span><span class="m">64</span>-bit<span class="o">]</span> <span class="o">[</span>smp:8:8<span class="o">]</span> <span class="o">[</span>ds:8:8:10<span class="o">]</span> <span class="o">[</span>async-threads:1<span class="o">]</span> <span class="o">[</span>jit<span class="o">]</span>
+
+Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
+<span class="m">1</span>&gt;
+</pre>
+<p>Then enter <tt class="docutils literal"><span class="pre">CTRL-C</span></tt> twice in order to come back to the (UNIX) shell.</p>
+<p>Congratulations, you have a functional Erlang now!</p>
+</div>
+<div class="section" id="language-use">
+<h2><a class="toc-backref" href="#id83">Language Use</a></h2>
+<p>Ceylan users shall note that most of our related developments (namely <a class="reference external" href="http://myriad.esperide.org">Myriad</a>, <a class="reference external" href="http://wooper.esperide.org">WOOPER</a>, <a class="reference external" href="http://traces.esperide.org">Traces</a>, <a class="reference external" href="http://leec.esperide.org">LEEC</a>, <a class="reference external" href="http://seaplus.esperide.org">Seaplus</a>, <a class="reference external" href="http://mobile.esperide.org">Mobile</a>, <a class="reference external" href="http://us-common.esperide.org">US-Common</a>, <a class="reference external" href="http://us-web.esperide.org">US-Web</a> and <a class="reference external" href="http://us-main.esperide.org">US-Main</a>) depart significantly from the general conventions observed by most Erlang applications:</p>
+<ul class="simple">
+<li>notably because of their reliance on parse transforms, by default they rely on our own build system based on <a class="reference external" href="Build.html#gnu-make">GNU make</a> (rather than on <a class="reference external" href="https://www.rebar3.org/">rebar3</a>)</li>
+<li>they tend not to rely on OTP abstractions such as <tt class="docutils literal">gen_server</tt>, as WOOPER offers OOP (<em>Object-Oriented Programming</em>) ones that we prefer</li>
+</ul>
+</div>
+<div class="section" id="language-implementation">
+<h2><a class="toc-backref" href="#id84">Language Implementation</a></h2>
+<div class="section" id="message-passing-copying-vs-sharing">
+<h3><a class="toc-backref" href="#id85">Message-Passing: Copying vs Sharing</a></h3>
+<p>Knowing that, in functional languages such as Erlang, terms (&quot;variables&quot;) are immutable, why could not they be shared between local processes when sent through messages, instead of being copied in the heap of each of them, as it is actually the case with the Erlang VM?</p>
+<p>The reason lies in the fact that, beyond the constness of these terms, their life-cycle has also to be managed. If they are copied, each process can very easily perform its (concurrent, autonomous) garbage collections. On the contrary, if terms were shared, then reference counting would be needed to deallocate them properly (neither too soon nor never at all), which, in a concurrent context, is bound to require locks.</p>
+<p>So a trade-off between memory (due to data duplication) and processing (due to lock contention) has to be found and at least for most terms (excepted larger binaries), the sweet spot consists in sacrificing a bit of memory in favour of a lesser CPU load. Solutions like <a class="reference external" href="https://www.erlang.org/doc/man/persistent_term.html">persistent_term</a> may address situations where more specific needs arise.</p>
+</div>
+<div class="section" id="just-in-time-compilation">
+<span id="jit"></span><h3><a class="toc-backref" href="#id86">Just-in-Time Compilation</a></h3>
+<p>This long-awaited feature, named <em>BeamAsm</em> and whose rationale and history have been detailed in <a class="reference external" href="https://www.erlang.org/blog/the-road-to-the-jit/">these articles</a>, has been introduced in Erlang 24 and shall transparently lead to increased performances for most applications.</p>
+</div>
+<div class="section" id="static-typing">
+<h3><a class="toc-backref" href="#id87">Static Typing</a></h3>
+<p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> exist.</p>
+<p>A few <a class="reference external" href="https://github.com/llaisdy/beam_languages#statically-typed-languages">statically-typed languages</a> can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).</p>
+<p>In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports <a class="reference internal" href="#jit">JIT</a>).</p>
+</div>
+</div>
+<div class="section" id="erlang-resources">
+<h2><a class="toc-backref" href="#id88">Erlang Resources</a></h2>
+<ul class="simple">
+<li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
+<li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well</li>
+<li>in addition to the module index mentioned in the <a href="#id89"><span class="problematic" id="id90">Installation_</span></a> section, using the <a class="reference external" href="https://erlang.org/doc/search/">online search</a> and/or <a class="reference external" href="https://erldocs.com/">Erldocs</a> may also be convenient</li>
+<li>the Erlang <a class="reference external" href="https://www.erlang.org/community">community</a> is known to be pleasant and welcoming to newcomers; one may visit the <a class="reference external" href="https://erlangforums.com/">Erlang forums</a>, which complement the <a class="reference external" href="https://erlang.org/pipermail/erlang-questions/">erlang-questions</a> mailing list</li>
+<li>for those who are interested in parse transforms (the Erlang way of doing metaprogramming), the <a class="reference external" href="https://www.erlang.org/doc/apps/erts/absform.html">section about The Abstract Format</a> is esential (despite not being well known)</li>
+<li>to better understand the inner working of the VM: <a class="reference external" href="https://blog.stenmans.org/theBeamBook/">The Erlang Runtime System</a>, a.k.a. &quot;the BEAM book&quot;, by Erik Stenman</li>
+</ul>
+<p></p>
+</div>
+</div>
 <div class="section" id="please-react">
-<h1><a class="toc-backref" href="#id19">Please React!</a></h1>
+<h1><a class="toc-backref" href="#id61">Please React!</a></h1>
 <p>If you have information more detailed or more recent than those presented in this document, if you noticed errors, neglects or points insufficiently discussed, drop us a line! (for that, use the contact address at the top of this document).</p>
 </div>
 <div class="section" id="ending-word">
-<h1><a class="toc-backref" href="#id20">Ending Word</a></h1>
+<h1><a class="toc-backref" href="#id62">Ending Word</a></h1>
 <p>Hoping that these Ceylan-HOWTOs may be of help!</p>
 <p></p>
+</div>
+<div class="system-messages section">
+<h1>Docutils System Messages</h1>
+<div class="system-message" id="id89">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">Erlang.rst</tt>, line 164); <em><a href="#id90">backlink</a></em></p>
+Duplicate target name, cannot be used as a unique reference: &quot;installation&quot;.</div>
 </div>
 </div>
 </body>
