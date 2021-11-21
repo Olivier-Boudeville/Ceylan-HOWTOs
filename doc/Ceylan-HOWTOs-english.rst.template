@@ -60,10 +60,15 @@ The latest version of this documentation is to be found at the `official Ceylan-
 
 :raw-latex:`\pagebreak`
 
-
 .. include:: Build.rst
-.. comment include:: ThreeDimensional.rst
-.. comment include:: Erlang.rst
+
+:raw-latex:`\pagebreak`
+
+.. include:: ThreeDimensional.rst
+
+:raw-latex:`\pagebreak`
+
+.. include:: Erlang.rst
 
 
 :raw-latex:`\pagebreak`
