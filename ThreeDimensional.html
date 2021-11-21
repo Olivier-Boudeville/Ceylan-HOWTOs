@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>3D HOWTO</title>
+<link rel="stylesheet" href="pygments-default.css" type="text/css" />
+<link rel="stylesheet" href="howtos.css" type="text/css" />
+<link href="howtos-icon.png" rel="icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="document" id="d-howto">
+<h1 class="title">3D HOWTO</h1>
+
+<p>As usual, these information relate to a GNU/Linux perspective.</p>
+<div class="section" id="cross-platform-game-engines">
+<h1>Cross-Platform Game Engines</h1>
+<div class="section" id="godot">
+<h2>Godot</h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a> is our personal favorite engine.</p>
+<div class="section" id="installation">
+<h3>Installation</h3>
+<p>On Arch Linux: <tt class="docutils literal">pacman <span class="pre">-Sy</span> godot</tt>.</p>
+</div>
+</div>
+<div class="section" id="unreal-engine">
+<h2>Unreal Engine</h2>
+<div class="section" id="id2">
+<h3>Installation</h3>
+</div>
+</div>
+<div class="section" id="unity3d">
+<h2>Unity3D</h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Unity_(game_engine)">Unity</a> may be installed at least in order to access its asset store, knowing that apparently an asset purchased in this store may be used with any game engine of choice.</p>
+<p>Indeed, for the standard licence, it is stipulated in the <a class="reference external" href="https://unity3d.com/legal/as_terms">EULA legal terms</a> that:</p>
+<p><em>Licensor grants to the END-USER a non-exclusive, worldwide, and perpetual license to the Asset to integrate Assets only as incorporated and embedded components of electronic games and interactive media and distribute such electronic game and interactive media.</em></p>
+<p>So, in legal terms, an asset could be bought in the Unity Asset Store and used in Godot, for example - provided that its content can be used there without too much effort/constraint.</p>
+<div class="section" id="id3">
+<h3>Installation</h3>
+<p>Unity shall now be obtained thanks to the Unity Hub.</p>
+<p>On Arch Linux it is <a class="reference external" href="https://aur.archlinux.org/packages/unityhub/">available through the AUR</a>, as an <a class="reference external" href="https://en.wikipedia.org/wiki/AppImage">AppImage</a>; one may thus use: <tt class="docutils literal">yay <span class="pre">-Sy</span> unityhub</tt>.</p>
+<p>A Unity account will be needed, then a licence, then a Unity release will have to be added in order to have it downloaded and installed for good, covering the selected target platforms (ex: Linux and Windows &quot;Build Supports&quot;).</p>
+<p>Additional information: <a class="reference external" href="https://wiki.archlinux.org/title/Unity3D">Unity3D on Arch</a>.</p>
+</div>
+<div class="section" id="configuration">
+<h3>Configuration</h3>
+<p>It does not seem easy to configure Unity so that its interface (mouse, keyboard bindings) behave like, for example, the one of Blender.</p>
+</div>
+<div class="section" id="assets">
+<h3>Assets</h3>
+<p>They can be downloaded through the <tt class="docutils literal">Window <span class="pre">-&gt;</span> Package Manager <span class="pre">-&gt;</span> Packages:My Assets</tt> menu option.</p>
+<p>To access the assets provided by such packages, of course the simplest approach is to use the Unity editor; this is done by creating a project (ex: <tt class="docutils literal">MyProject</tt>), selecting the aforementioned menu option (just above), and then clicking on <tt class="docutils literal">Import</tt> and selecting the relevant content that will end up in clear form in your project, in <tt class="docutils literal">MyProject/Assets/CorrespondingAssetProvider/AssetName</tt>.</p>
+<p>Yet such Unity packages, once downloaded (whether or not they have been imported in projects afterwards) are files stored typically in the <tt class="docutils literal"><span class="pre">~/.local/share/unity3d/Asset</span> <span class="pre">Store-5.x</span></tt> directory, whose extension is <tt class="docutils literal">.unitypackage</tt>.</p>
+<p>Such files are actually <tt class="docutils literal">.tar.gz</tt> archives, and thus their content can be listed thanks to:</p>
+<pre class="code bash literal-block">
+$ tar tvzf Foobar.unitypackage
+</pre>
+<p>Inside such archives, each individual package resource is located in a directory whose name is probably akin to the checksum of this resource (ex: <tt class="docutils literal">167e85f3d750117459ff6199b79166fd</tt>) <a class="footnote-reference" href="#id5" id="id4">[1]</a>; such directory generally contains at least 3 files:</p>
+<ul class="simple">
+<li><tt class="docutils literal">asset</tt>: the resource itself, renamed to that unique name yet containing its exact original content (ex: the one of a Targa image)</li>
+<li><tt class="docutils literal">asset.meta</tt>: the metadata about that asset (file format, identifier, timestamp, type-specific settings, etc.)</li>
+<li><tt class="docutils literal">pathname</tt>: the path of that asset in the package &quot;virtual&quot; tree (ex: <tt class="docutils literal">Assets/Foo/Textures/baz.tga</tt>)</li>
+</ul>
+<p>When applicable, a <tt class="docutils literal">preview.png</tt> file may also exist.</p>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[1]</a></td><td>Yet no checksum tool among <tt class="docutils literal">md5sum</tt>, <tt class="docutils literal">sha1sum</tt>, <tt class="docutils literal">sha256sum</tt>, <tt class="docutils literal">sha512sum</tt>, <tt class="docutils literal">shasum</tt>, <tt class="docutils literal">sha224sum</tt>, <tt class="docutils literal">sha384sum</tt> seems to correspond; it must a be a different, possibly custom, checksum.</td></tr>
+</tbody>
+</table>
+<p>Some types of content are Unity-specific and thus may not transpose (at least directly) to another game engine. This is the case for example for materials or prefabs (whose file format is relatively simple, based on <a class="reference external" href="https://en.wikipedia.org/wiki/YAML">YAML</a> 1.1).</p>
+<p>Tools like <a class="reference external" href="https://github.com/Perfare/AssetStudio">AssetStudio</a> (probably Windows-only) strive to automate most of the process of exploring, extracting and exporting assets.</p>
+<p>Meshes are typically in the <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> (proprietary) file format, that can nevertheless be imported in <a class="reference external" href="https://en.wikipedia.org/wiki/Blender_(software)">Blender</a>; one may use for that our <a class="reference external" href="http://hull.esperide.org#blender">blender-import.sh</a> script.</p>
+</div>
+</div>
+</div>
+<div class="section" id="d-data">
+<h1>3D Data</h1>
+<div class="section" id="file-formats">
+<h2>File Formats</h2>
+<p>They are designed to store 3D content (scenes, nodes, vertices, normals, meshes, textures, materials, animations, skins, cameras, lights, etc.).</p>
+<p>We prefer to rely on the open, well-specified, modern <a class="reference external" href="https://en.wikipedia.org/wiki/GlTF">glTF 2.0 format</a> in order to perform import/export operations.</p>
+<p>It comes in two forms:</p>
+<ul class="simple">
+<li><tt class="docutils literal">*.gltf</tt> when JSON-based, possibly embedding the actual data (vertices, normals, textures, etc.) as ASCII <a class="reference external" href="https://en.wikipedia.org/wiki/Base64">base64-encoded</a> content</li>
+<li><tt class="docutils literal">*.glb</tt> when binary</li>
+</ul>
+<p>See also the <a class="reference external" href="https://www.khronos.org/files/gltf20-reference-guide.pdf">glTF 2.0 quick reference guide</a>.</p>
+<p>The second best choice we see is <a class="reference external" href="https://en.wikipedia.org/wiki/COLLADA">Collada</a> (<tt class="docutils literal">*.dae</tt> files), an XML-based counterpart (open as well) to glTF.</p>
+<p>Often, assets can be found as <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> of <a class="reference external" href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ</a> files and thus may have to be converted (typically to glTF), which is never a riskless task.</p>
+</div>
+<div class="section" id="samples">
+<h2>Samples</h2>
+<p>For:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models">glTF</a>, notably <a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0">glTF 2.0</a>; also a <a class="reference external" href="http://paulbourke.net/dataformats/glTF/cube.txt">simple cube</a></li>
+<li><a class="reference external" href="https://github.com/assimp/assimp/tree/master/test/models/Collada">DAE</a>; also a <a class="reference external" href="https://gist.github.com/wtsnz/bfa11c40e04594b260255b5dc7956f26">simple cube</a></li>
+<li><a class="reference external" href="https://free3d.com/dl-files.php?p=5671208f26be8b5e7b8b4567&amp;f=4">FBX</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="modelling-software">
+<h1>Modelling Software</h1>
+<div class="section" id="blender">
+<h2>Blender</h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Blender_(software)">Blender</a> is a very powerful open-source 3D toolset.</p>
+</div>
+<div class="section" id="wings3d">
+<h2>Wings3D</h2>
+</div>
+</div>
+<div class="section" id="opengl-corner">
+<h1>OpenGL Corner</h1>
+<div class="section" id="hints">
+<h2>Hints</h2>
+<p>OpenGL allows the main program running on the CPU to communicate with typically a graphic card. As such most of the operations are asynchronous: through OpenGL they are triggered by the program but they return whereas not performed yet; they have just be queued. Indeed OpenGL implementations are almost always pipelined, the rendering must be thought as taking place in a background process.</p>
+</div>
+<div class="section" id="information">
+<h2>Information</h2>
+<ul class="simple">
+<li>FAQ for <a class="reference external" href="https://www.khronos.org/opengl/wiki/FAQ">OpenGL</a> and <a class="reference external" href="https://www.opengl.org/resources/libraries/glut/faq/">GLUT</a></li>
+<li><a class="reference external" href="https://www.khronos.org/opengl/wiki/Performance">OpenGL Performance</a></li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>
