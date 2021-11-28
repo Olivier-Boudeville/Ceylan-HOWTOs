@@ -1,0 +1,398 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About Cybersecurity
+
+
+.. comment  Refer to Conventions-OpenGPG-personnelles.rst for further details.
+
+
+----------------------
+A Bit of Cybersecurity
+----------------------
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Cybersecurity">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2021-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Saturday, November 20, 2021
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 3
+
+
+:raw-html:`</center>`
+
+
+Pointers to various Security Topics
+===================================
+
+A goal here is to favor cryptographic privacy and authentication for data communication.
+
+More precisely:
+
+- for **data storage** (be it a USB key or a SSD disk), it may translate to partition encryption, typically with `LUKS2 and cryptsetup <https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#LUKS_on_a_partition>`_
+
+- **individual files** may be `encrypted/decrypted <https://hull.esperide.org/#for-encryption>`_ with the help of appropriate scripts; see also Ceylan-Myriad's support for additional `basic, old-school ciphering <http://myriad.esperide.org/#for-basic-old-school-ciphering>`_
+
+- for the **management of credentials** such as passwords, some `Ceylan-Hull scripts <https://hull.esperide.org/#for-security>`_ may be of help, including for the generation of proper passwords or for the locking of screens
+
+- regarding **network**, each host may be protected by a relevant `firewall configuration <https://hull.esperide.org/#firewall-configuration>`_, opened ports may be checked, etc.
+
+- for **webservers**, it relates to use the HTTPS protocol with `proper X.509 security certificates <http://leec.esperide.org>`_ for TLS-secured exchanges
+
+- for **emails**, see the next section about OpenPGP
+
+
+
+Securing thanks to OpenPGP
+==========================
+
+
+Purpose
+-------
+
+Albeit such a securing scheme may apply to at least most of the digital exchanges, in practice it is mainly used in the context of email security.
+
+In the general case, sending an email will end up having its content stored at least on:
+
+- your disk
+- a disk of one of the servers of your Internet provider
+- a disk of a server of the provider of the recipient
+- the recipient's host
+
+Possibly with intermediate organisations between the endpoint ones, possibly stored on several locations per organisation - possibly times the number of specified recipients.
+
+Moreover many countries require by law that emails are stored by Internet providers durably (often at least for one year) - not to mention the large-scale data harvesting that many countries perform, officially or not, with their own measures, on their own territory or on the one of others.
+
+That's a rather large number of copies for one's private correspondence - to the point that emails sent in clear text could be mostly considered as public. Not to mention that they could also be altered in the process, at some point(s) in the chain.
+
+**Encrypting and signing are solutions to restore some privacy and safety** - yours, but also the ones of the persons with whom you happen to correspond.
+
+
+Technical Solution
+------------------
+
+It is currently best done thanks to the `OpenPGP <https://en.wikipedia.org/wiki/Pretty_Good_Privacy#OpenPGP>`_ open standard for encrypting, signing and decrypting data and communications.
+
+`GnuPG <https://wiki.archlinux.org/title/GnuPG>`_ (*GNU Privacy Guard*) is a complete and free implementation of it (we suppose here that at least its 2.2.* version is used).
+
+The corresponding command-line executable, ``gpg``, can be installed on Arch Linux with: ``pacman -Sy gnupg``.
+
+
+Obtaining One's Keys
+....................
+
+The first step is to generate locally one's key pair, knowing that each public key is bound to a username or an e-mail address (which is our preference; having one's domain name allows to create any number of them).
+
+A nice feature of this cryptographic scheme is that one may issue any number of keys in full autonomy and with neither consequences nor cost. So as many key pairs as notions of "unrelated identities" may be freely created.
+
+Several settings can be chosen when generating a key, and logically the strongest keys are preferred. Yet uncommon/too recent generation algorithms and/or higher key lengths may not be supported by the various tools [#]_, so applying the default settings retained by gpg, or similar ones yet a bit stronger (ex: at the time of this writing, November 2021, RSA 4096 bits rather than 3072 bits) is probably the way to go (it can already be deemed safe, and will be widely supported); so the generation may be best triggered simply thanks to:
+
+.. code:: bash
+
+ # For current defaults:
+ $ gpg --gen-key
+
+ # Or, for more control:
+ $ gpg --full-gen-key
+
+
+.. [#]  With "cutting-edge" settings, some tools (like Thunderbird) on your side and/or the email clients of your recipients may be unable to make use of the resulting keys, and may fail to report clearly that they actually do not support this algorithm or its parametrisation. So one may consider sticking to the reasonable gpg defaults.
+
+
+If preferring rather paranoid settings, presumably for an extra security/durability, one can select ECC (for `Elliptic-curve cryptography <https://en.wikipedia.org/wiki/Elliptic-curve_cryptography>`_), with the ``Sign``, ``Certify`` and ``Authenticate`` capabilities enabled (even if authentification is not used by many common protocols), and opt for the ``Brainpool P-512`` curve through:
+
+.. code:: bash
+
+ $ gpg --full-gen-key --expert
+
+In all cases, one may enter ``1y`` to set the initial validity duration of the generated key to one year, and already plan in one's agenda, a dozen days before the end of its validity, its renewal.
+
+Then one may enter one's selected identity (ex: for ``Real name``, one may enter ``James Bond``), one's email address of interest and possibly no specific comment.
+
+The requested passphrase only consists on a last-resort protection of the generated private key (that you should *never* transmit to *anyone*), in order to avoid that anyone accessing this file on your computer becomes directly able to fully impersonate this identity.
+
+The operation generates a public/private key pair, and also an associated emergency revocation certificate, so that you can invalidate it at any time and for any reason:
+
+.. code:: bash
+
+ gpg: key 9A60ADA4E151B8B5 marked as ultimately trusted
+ gpg: directory '/home/james/.gnupg/openpgp-revocs.d' created
+ gpg: revocation certificate stored as '/home/james/.gnupg/openpgp-revocs.d/C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5.rev'
+ public and secret key created and signed.
+
+ pub   brainpoolP512r1 2021-11-26 [SCA] [expires: 2022-11-26]
+	   C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
+ uid   James Bond <james.bond@mi6.org>
+
+Here ``C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5`` is the full fingerprint of the public key; it could be shortened to its 8, if not 4, last characters (long/short ID), yet it would expose to the forging of intentionally-colliding keys, so one should only designate a key based on its full fingerprint, and forget unsafe abbreviations.
+
+The public key can be freely shared, whereas the private one and the revocation certificate must be equally well protected (preferably in different places).
+
+The only well-known threats to these keys are either a flaw (intentional loophole or accidental weakness) in the cryptographic algorithms on which they rely, or the advent of major research progresses such as quantum computing. Yet it still remains possible for one to "upgrade" one's key with newer algorithms (a new key superseding an older one that is to be revoked afterwards), so as always it will be a never-ending struggle between the spear and the shield, i.e. attack and defense.
+
+As signing and encrypting correspond to different use cases, having different keys for each may make sense. But instead of generating two unrelated keys, one shall create:
+
+- first an infrequently-used, very-well protected (hence less accessible), signing-only "master" (primary) key of longer validity (one's actual identity)
+- then at least two subkeys (deriving from the previous one, yet autonomous) may be of use:
+
+  - one for everyday encrypting; a proper subkey has already been automatically created and used by gnupg
+  - an extra one for everyday signing: such a subkey may be created with a sufficient lifespan so that past signatures can be durably verified
+
+These "derived" subkeys are meant to change more frequently, to be able to be revoked independently, and thus are safer to expose in less secure systems.
+
+Use ``gpg --edit-key`` and ``addkey`` in order to add a subkey to a key, and refer to `this section <https://wiki.archlinux.org/title/GnuPG#Exporting_subkey>`_ to export the subkey.
+
+See also `these very relevant Debian guidelines <https://wiki.debian.org/Subkeys>`_ for further information about subkey management.
+
+.. Add here our final procedure
+
+
+Where are the keys, and how to backup them?
+...........................................
+
+The full gpg state is stored by default in its ``~/.gnupg/`` tree.
+
+One may notably notice in it:
+
+- the private keys, whose extension is ``.key`` and whose security is of course of paramount importance
+- the revocation certificates, whose extension is ``.rev``, in order to revoke one's corresponding key pair (as important as the related private key)
+- `certificate revocation lists <https://en.wikipedia.org/wiki/Certificate_revocation_list>`_, to consider that the corresponding certificates are valid yet shall *not* be trusted
+- the sets of keys ("rings") containing the public keys that have been transmitted to you, gathered according to the level of trust that you dedicated to them
+
+The public keys are usually given a ``.pub`` extension [#]_.
+
+.. [#] Other common extensions are ``.gpg`` (for encrypted content and also standard signatures), ``.asc`` (for clear-text signatures), and ``.sig`` (for detached ones).
+
+Even if a backup of one's key pair could be made by creating and encrypting an archive of this gpg filesystem tree, a far better solution is to use its integrated procedure, as the structure of its internal state may change from a version/platform of gpg to another. So the best course of action is to use the following command in order to generate a backup of a key pair in a standard, durable form:
+
+.. code:: bash
+
+ $ gpg -o $(date '+%Y%m%d')-full-key-backup-for-james.bond-at-mi6.org.gpg --export-secret-keys james.bond@mi6.org
+
+
+This will produce a half-kilobyte file containing the full key pair, whose type is:
+
+.. code::
+
+ 20211126-full-key-backup-for-james.bond-at-mi6.org.gpg: OpenPGP Secret Key Version 4, Created Fri Nov 26 21:52:31 2021, ECDSA; User ID; Signature; OpenPGP Certificate
+
+
+Of course, so that it may be used in the future, this backup of (notably) the private key should *not* be encrypted with that same key.
+
+Specifying in filenames the email address may be avoided, in the sense that rather than having multiple keys (ex: as many as email accounts), it is often more convenient to have a single key supporting multiple names/addresses (see the section about subkey below); so:
+
+.. code:: bash
+
+ # If using fingerprints and potentially having multiple registered email
+ # accounts,just focusing on their common identity:
+ #
+ $ gpg -o $(date '+%Y%m%d')-full-key-backup-for-james.bond.gpg --export-secret-keys C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
+
+
+A backup of the revocation certificate shall be done as well (knowing that by design it is not password-protected, and thus having access to this certificate is sufficient to be able to kill your key), preferably in a different location as the role of this certificate is to serve as an urgent safety measure should the private key be lost (non-emergency revocations should be performed thanks to the more adapted and informative ``--generate-revocation`` option instead).
+
+
+For long-term auxiliary storage, such a backup can be printed (on paper), possibly thanks to `Paperkey <https://wiki.archlinux.org/title/Paperkey>`_ (installed on Arch with ``pacman -Sy paperkey``). For example:
+
+.. code:: bash
+
+ # To print directly:
+ gpg --export-secret-key my_key_fingerprint | paperkey | lpr
+
+ # To store first (less secure):
+ gpg --export-secret-key my_key_fingerprint | paperkey --output my_key_fingerprint.asc
+
+
+Such exports are ASCII texts, but they can also take the perhaps more convenient (and maybe less secured if having to trust one's smartphone) form of a QR code:
+
+.. code:: bash
+
+ $ gpg --export-secret-key my_key_fingerprint | paperkey --output-type raw | qrencode --8bit --output my_key_fingerprint.qr.png
+
+
+Besides key pairs, following backups shall be done:
+
+- the known public keys, thanks to: ``gpg -o $(date '+%Y%m%d')-known-public-keys.gpg --export``
+- the associated level of trust (level per public key): ``gpg --export-ownertrust > $(date '+%Y%m%d')-openpgp-trust.txt``
+
+
+
+How Can Public Keys be Shared?
+..............................
+
+As mentioned, public keys can be freely shared without involving any specific risk, as in practice a private key cannot be derived from its public counterpart.
+
+So basically any means of sharing them is legit, including the least secured ones. However the point is that their recipients must be sure that they obtained the right public certificate, and not one that has been tampered with.
+
+Indeed, any man-in-the-middle M between peers A and B able to intercept the communication of A's public key could replace it by his. B would then have no means of detecting that it is actually relying on M's keys rather than on A's ones.
+
+So, on top of the generation of key pairs, a safe mechanism to share public ones shall be carefully considered, to establish the authenticity of the binding between a public key and its owner. Such mechanisms exist in two forms, peer-to-peer ones, or centralised ones.
+
+
+
+Decentralised Sharing
+_____________________
+
+The `Web of trust <https://en.wikipedia.org/wiki/Web_of_trust>`_ is a decentralized trust model, which - like Internet federates a large number of computer networks - is to federate trust networks.
+
+A user may have multiple key pairs, and each of the corresponding public keys may be known of various trust networks.
+
+The trust conceded by identity A to identity B means that A endorses the association of the public key of B with the person or entity listed in its certificate.
+
+The goal is to enable the emergence of some level of global trust from the trust that each given identity concedes to the various identities that it knows directly.
+
+Trust is indeed to be spread, by extending it from peer to peer (or friend to friend) in an increasingly large network of trust, typically with trust levels that decrease with the number of peers that have to be traversed in the network before reaching a given identity: you may trust friends of your friends, albeit probably a bit less than your direct friends; networks of trust may reflect that increasing risk, typically based on mean shortest distance between endpoints.
+
+In practice, if A expresses some level of trust to B, A will digitally sign (thus with its own private key) the public certificate of B, to assess its association with the identity it embeds. This is commonly done at key signing parties (a nice way of meeting likely-minded folks as well).
+
+Various schemes for vetting (validating in practice the identity carried by B; ex: should we request B to show their identity card, to prove they control a given domain, or any other identity/ownership proof?) and voting (to decide on the overall trust to be derived from a potentially conflicting set of peer-to-peer endorsements A1, A2, etc. about B) exist; one remains of course free to decide for oneself on which grounds one concedes trust, it is the beauty of a decentralised mode of operation.
+
+In practice, the sharing of public certificates used to be done through SKS `key servers <https://en.wikipedia.org/wiki/Key_server_(cryptographic)>`_; it is as simple as requesting gpg to send the pblic key that corresponds to the specified fingerprint (here its last 8 characters):
+
+.. code:: bash
+
+ $ gpg --send-keys E115A8B5
+ gpg: sending key 9D60ADA5E115A8B5 to hkps://keyserver.ubuntu.com
+
+
+Note that this sharing discloses the corresponding email address, and thus exposes it to spam.
+
+As `various issues <https://en.wikipedia.org/wiki/Key_server_(cryptographic)#Problems_with_keyservers>`_ threaten SKS-based solutions, public keys may also be sent to the Hagrid-based OpenGPG server, ``keys.openpgp.org`` (which is not replicated to peer servers, yet performs more verification of the issuer of registered certificates).
+
+To do so, register first this server in your configuration:
+
+.. code:: bash
+
+ $ echo "keyserver hkps://keys.openpgp.org" >> ~/.gnupg/dirmngr.conf
+
+ # Reload gpg daemon:
+ $ gpgconf --reload dirmngr
+
+ # Extract the public key of interest in a .pub file:
+ $ gpg -o $(date '+%Y%m%d')-james.bond-at-mi6.org.pub --export james.bond@mi6.org
+
+
+This file shall be uploaded via `this web page <http://keys.openpgp.org/upload>`_ that will guide you through the verification process, i.e. sending an email to the electronic address embedded in the transmitted public key in order to check that it is legit (by waiting for you to visit the URL that it generated and specified in said email).
+
+More generally, `various keyservers <https://en.wikipedia.org/wiki/Key_server_(cryptographic)#Keyserver_examples>`_ are looked up by gpg and thus can be considered (`with different configurations <https://wiki.archlinux.org/title/GnuPG#Key_servers>`_ regarding federation, verification, ability to forget keys, etc.).
+
+Afterwards anyone will be able to search for such key:
+
+.. code:: bash
+
+ $ gpg --search-keys james.bond@mi6.org
+ gpg: data source: https://keys.openpgp.org:443
+ (1)	James Bond <james.bond@mi6.org>
+		  512 bit ECDSA key 9A60ADA4E151B8B5, created: 2021-11-26
+
+Of course checking that only one matches is returned is important to detect spoofing attempts.
+
+Specifying your OpenPGP fingerprint in your email footers offers little interest, as your recipients cannot be sure that such incoming emails have not been tampered with.
+
+So ultimately one will have either to trust such a decentralised scheme, or to trust a central authority like discussed next.
+
+
+Centralised Sharing
+___________________
+
+A centralized trust model is based on a `Public Key Infrastructure <https://en.wikipedia.org/wiki/Public_key_infrastructure>`_ (PKI, usually based on the X.509 standard), which relies exclusively on a Certificate Authority (CA), or more often a hierarchy of such: a CA's certificate may itself be signed by a different CA, all the way up to a self-signed root certificate.
+
+So a certificate chain has to be validated, knowing that tools like browsers, and operating systems alike, come with their own keystore already comprising root certificates, and regularly updating them.
+
+These certificates are well protected, yet any compromising thereof may jeopardise their whole "subtree".
+
+
+Sharing Largely
+_______________
+
+So a public certificate can be spread as widely as wanted, through key servers / PKIs, but also it should be shared through any reliable, authoritative reference of a given identity, like one's own webserver, emails, social accounts, etc.
+
+This can be directly your public certificate (`here is mine <https://esperide.com/olivier.boudeville-at-online.fr.pub>`_) [#]_ or a (shorter) fingerprint thereof (ex: the full fingerprint of my key is ``DCA8E181DC3CEAF0EAE4033F9987EE77188E9BF4``), obtained thanks to:
+
+.. [#] Note the HTTPS protection and that is refers to ``online.fr`` rather than to ``esperide.com``.
+
+.. code:: bash
+
+ $ gpg --list-sigs james.bond@mi6.org
+ pub   brainpoolP512r1 2021-11-26 [SCA] [expires: 2022-11-26]
+	  C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
+ uid           [ultimate] James Bond <james.bond@mi6.org>
+ sig 3        9D60ADA5E115A8B5 2021-11-26 James Bond <james.bond@mi6.org>
+
+
+
+What can be done with these keys?
+.................................
+
+One may:
+
+- **encrypt** a file: ``gpg -r james.bond@mi6.org -e my_file_to_encrypt``; this generates a ``my_file_to_encrypt.gpg`` file
+- **sign** a file, with three possibilities:
+
+  - ``--sign`` / ``-s`` to generate a file containing both the input file (wrapped in an OpenPGP packet) and the signature
+  - ``--clear-sign`` to generate a file containing both the input file (verbatim, expected to be a text file) and the signature
+  - ``--detach-sign`` / ``-b`` to only generate a file containing said signature; so the input file will be needed in this mode to verify that signature; this possibility is useful when distributing content (ex: binaries), so that the intended public can check the signature if wanted
+
+- **decrypt** and possibly in  the same movement **check the signature** of a file: ``gpg -d my_file_to_decrypt.gpg`` (everything will be output to the standard stream)
+- **verify** a signature: see the ``--verify`` option for the 3 types of signatures
+- **verify** signed emails:
+
+  - import the public key of the sender: ``gpg --search-keys dr.no@foobar.org``
+  - determine whether it is valid and, more importantly, deserving trust (is it the right public key?); if yes; sign it with ``gpg --edit-key dr.no@foobar.org``
+- **import** keys (yours or not) in your email client; if using a (recent) Thunderbird, no plugin is needed, but the local gpg rings will *not* be used by Thunderbird; refer to `this documentation <https://support.mozilla.org/en-US/kb/openpgp-thunderbird-howto-and-faq#w_i-have-never-used-openpgp-with-thunderbird-before-how-do-i-setup-openpgp>`_
+- **encrypt** and/or **sign** emails
+
+
+A Link With Decentralized Identifiers
+=====================================
+
+The use of key pairs in the absence of a certificate authority directly relates to `Decentralized Identifiers <https://www.w3.org/TR/did-core/>`_ (DIDs), a class of universal solutions (not depending on any context/organisation, and able to be recognized by any) with which anyone can create one's (globally unique) identifiers that remain in one's full control: one freely issues them, they remain valid as long as their issuer wishes (as none but their creator itself can revoke them), and (for example unlike mere UUIDs) they can be cryptographically verified by anyone.
+
+No external central authority applies to such identifiers, which cannot reveal personal information unless decided by their issuer and thus sole controller.
+
+In practice, although other solutions could maybe be considered, it involves, like discussed in the previous sections, generating on one's own at least a public/private key pair, to store safely the private one and to share as widely as needed the public one. Then one can sign and/or encrypt one's messages with a pretty good hope that they will remain secure for a while; such a system enables partial disclosure (as one chooses what one encrypts or signs) in full control (as all operations are driven by the private key that the issuer is the only one to control).
+
+These decentralised identifiers, together with the principle of addressing a digital content by its fingerprint (ex: SHA1), offer a solution bringing many interesting properties and opening new possibilities to distributed systems (ex: for blockchains, a user account is often identified by the fingerprint of its associated public certificate).
+
+
+
+Hints
+=====
+
+- whenever useful, add the ``--armor`` option to use ASCII output armor, suitable for copying and pasting content in text format
+- if you have multiple email accounts, thanks to ``--edit-key`` you can add each one of themin the same key as an identity (name), using the ``adduid`` command; you can then set your favourite one as primary
+- to always show full fingerprints of keys, add ``with-fingerprint`` to your configuration file (typically ``~/.gnupg/dirmngr.conf``)
+- `these Debian guidelines <https://wiki.debian.org/Subkeys>`_ describe a robust, well-defined process for key management that may apply to most developers
+
+
+
+See Also
+========
+
+- a complete, well-written tutorial, in French: `Bien démarrer avec GnuPG <https://linuxfr.org/news/bien-demarrer-avec-gnupg>`_
+- other `interesting usage hints <https://blog.mailfence.com/fr/meilleures-pratiques-de-signature-numerique-openpgp/>`_, still in French
+- `GnuPG on Arch <https://wiki.archlinux.org/title/GnuPG>`_, for much additional information
