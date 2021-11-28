@@ -61,11 +61,13 @@ Most of the Ceylan HOWTOs pertain to an open-source, GNU/Linux context (precisel
 
 :raw-html:`<div class="box">`
 
-Current HOWTOs relate to the following topics:
+The current HOWTOs relate to the following topics:
 
-- `Build Tools <Build.html>`_
-- `3D Topics <ThreeDimensional.html>`_
-- `Erlang <Erlang.html>`_
+- `Erlang <Erlang.html>`_, a functional, concurrent language in free software
+- `3D Topics <ThreeDimensional.html>`_, for modelling, evaluating, rendering
+.. - `Git <Git.html>`_
+- `A bit of Cybersecurity <Cybersecurity.html>`_, regarding encryption, credentials, network, webservers, emails, etc.
+- `Build Tools <Build.html>`_, notably thanks to GNU make
 
 :raw-html:`</div>`
 
