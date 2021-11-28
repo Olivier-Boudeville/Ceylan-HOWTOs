@@ -1,11 +1,11 @@
 .. _Top:
 
 
-.. title:: Ceylan-HOWTOs: 3D Topics
+.. title:: Ceylan-HOWTOs: About 3D
 
 
 --------
-3D HOWTO
+About 3D
 --------
 
 
@@ -18,7 +18,7 @@
 
 :raw-html:`<a name="howtos_top"></a>`
 
-:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%203D%20HOWTO">email us</a></p></div>`
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%203D">email us</a></p></div>`
 
 
 :raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
@@ -146,7 +146,7 @@ Such files are actually ``.tar.gz`` archives, and thus their content can be list
 Inside such archives, each individual package resource is located in a directory whose name is probably akin to the checksum of this resource (ex: ``167e85f3d750117459ff6199b79166fd``) [#]_; such directory generally contains at least 3 files:
 
 - ``asset``: the resource itself, renamed to that unique name, yet containing its exact original content (ex: the one of a Targa image)
-- ``asset.meta``: the metadata about that asset (file format, identifier, timestamp, type-specific settings, etc.), as an ASCII, YAML-like, text 
+- ``asset.meta``: the metadata about that asset (file format, identifier, timestamp, type-specific settings, etc.), as an ASCII, YAML-like, text
 - ``pathname``: the path of that asset in the package "virtual" tree (ex: ``Assets/Foo/Textures/baz.tga``)
 
 When applicable, a ``preview.png`` file may also exist.
