@@ -32,8 +32,8 @@ SYMLINKS = Ceylan-HOWTOs-top-level-html.rst.template \
 		   Ceylan-HOWTOs-top-level-pdf.rst.template
 
 # For the main HTML/PDF documents of interest:
-OVERALL_DOCUMENTS = Ceylan-HOWTOs-overview-english.rst.template \
-					Ceylan-HOWTOs-overview-for-pdf-english.rst.template
+OVERALL_DOCUMENTS = Ceylan-HOWTOs-overview-english.rst.template         \
+					Ceylan-HOWTOs-english.rst.template
 
 HOWTO_RST_FILES = $(patsubst %.rst.template,%.rst,$(HOWTO_TEMPLATES))
 HOWTO_HTML_FILES = $(patsubst %.rst.template,%.html,$(HOWTO_TEMPLATES))
@@ -67,9 +67,9 @@ doc:
 
 # The HTML version just links to the HOWTOs pages, the PDF includes them:
 
-html: clean-doc $(HOWTO_HTML_FILES) $(HTML_TARGET)
+html: $(HOWTO_HTML_FILES) $(HTML_TARGET)
 
-pdf: clean-doc $(HOWTO_RST_FILES) $(PDF_TARGET)
+pdf: $(HOWTO_RST_FILES) $(PDF_TARGET)
 
 
 # This link does not need to be in version control:
