@@ -1,0 +1,11 @@
+# Only templates:
+*.rst
+*.html
+*.pdf
+*.aux
+*.log
+*.maf
+*.mtc*
+*.stc*
+*.tex
+*.toc
