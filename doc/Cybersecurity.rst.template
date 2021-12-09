@@ -61,7 +61,7 @@ More precisely:
 
 - regarding **network**, each host may be protected by a relevant `firewall configuration <https://hull.esperide.org/#firewall-configuration>`_, opened ports may be checked, etc.
 
-- for **webservers**, it relates to use the HTTPS protocol with `proper X.509 security certificates <http://leec.esperide.org>`_ for TLS-secured exchanges
+- for **webservers**, it relates to use the HTTPS protocol with proper X.509 security certificates for TLS-secured exchanges, possibly thanks to `Ceylan-LEEC <http://leec.esperide.org>`_
 
 - for **emails**, see the next section about OpenPGP
 
@@ -131,7 +131,10 @@ If preferring rather paranoid settings, presumably for an extra security/durabil
 
 In all cases, one may enter ``1y`` to set the initial validity duration of the generated key to one year, and already plan in one's agenda, a dozen days before the end of its validity, its renewal.
 
-Then one may enter one's selected identity (ex: for ``Real name``, one may enter ``James Bond``), one's email address of interest and possibly no specific comment.
+Then one may enter one's selected identity (ex: for ``Real name``, one may enter ``James Bond``), one's email address of interest (ex: ``james.bond@mi6.org``) and possibly:
+
+- either no specific comment (they are not normalised anyway)
+- or one pointing to an authoritative source against which the public key may be verified (such as: "This public key can be verified against its reference in https://mi6.org/james-bond.pub" - provided of course such a file is to exist)
 
 The requested passphrase only consists on a last-resort protection of the generated private key (that you should *never* transmit to *anyone*), in order to avoid that anyone accessing this file on your computer becomes directly able to fully impersonate this identity.
 
@@ -185,7 +188,7 @@ One may notably notice in it:
 
 The public keys are usually given a ``.pub`` extension [#]_.
 
-.. [#] Other common extensions are ``.gpg`` (for encrypted content and also standard signatures), ``.asc`` (for clear-text signatures), and ``.sig`` (for detached ones).
+.. [#] Other common extensions are ``.gpg`` (for encrypted content and also standard signatures), ``.asc`` (for clear-text signatures and other ASCII content), and ``.sig`` (for detached signatures).
 
 Even if a backup of one's key pair could be made by creating and encrypting an archive of this gpg filesystem tree, a far better solution is to use its integrated procedure, as the structure of its internal state may change from a version/platform of gpg to another. So the best course of action is to use the following command in order to generate a backup of a key pair in a standard, durable form:
 
@@ -331,17 +334,26 @@ _______________
 
 So a public certificate can be spread as widely as wanted, through key servers / PKIs, but also it should be shared through any reliable, authoritative reference of a given identity, like one's own webserver, emails, social accounts, etc.
 
-This can be directly your public certificate (`here is mine <https://esperide.com/olivier.boudeville-at-online.fr.pub>`_) [#]_ or a (shorter) fingerprint thereof (ex: the full fingerprint of my key is ``DCA8E181DC3CEAF0EAE4033F9987EE77188E9BF4``), obtained thanks to:
+This can be directly your public certificate (`here is mine <https://esperide.com/olivier-boudeville.pub>`_) [#]_ or a (shorter) fingerprint thereof (ex: the full fingerprint of my key is ``DCA8E181DC3CEAF0EAE4033F9987EE77188E9BF4``).
 
-.. [#] Note the HTTPS protection and that is refers to ``online.fr`` rather than to ``esperide.com``.
+.. [#] Note the HTTPS protection and that it currently refers to ``online.fr`` rather than to ``esperide.com``.
+
+
+Such public keys can be listed and then obtained respectively thanks to:
 
 .. code:: bash
 
- $ gpg --list-sigs james.bond@mi6.org
+ $ gpg --list-keys james.bond@mi6.org
  pub   brainpoolP512r1 2021-11-26 [SCA] [expires: 2022-11-26]
 	  C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
  uid           [ultimate] James Bond <james.bond@mi6.org>
- sig 3        9D60ADA5E115A8B5 2021-11-26 James Bond <james.bond@mi6.org>
+
+ # For a binary version of the public key:
+ $ gpg -o james-bond.pub ---export C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
+
+ # For an ASCII-based version (ex: suitable to register in GitHub):
+ $ gpg -o james-bond.pub.asc --armor --export C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
+
 
 
 
@@ -396,3 +408,4 @@ See Also
 - a complete, well-written tutorial, in French: `Bien démarrer avec GnuPG <https://linuxfr.org/news/bien-demarrer-avec-gnupg>`_
 - other `interesting usage hints <https://blog.mailfence.com/fr/meilleures-pratiques-de-signature-numerique-openpgp/>`_, still in French
 - `GnuPG on Arch <https://wiki.archlinux.org/title/GnuPG>`_, for much additional information
+- `Network Management <Networking.html>`_ information

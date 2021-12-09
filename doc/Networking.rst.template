@@ -1,0 +1,246 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About Network Management
+
+
+.. comment  Refer to Conventions-OpenGPG-personnelles.rst for further details.
+
+
+------------------
+Network Management
+------------------
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Network%20Management">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2021-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Saturday, November 20, 2021
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 3
+
+
+:raw-html:`</center>`
+
+
+Investigating Issues
+====================
+
+Tools like ``ping``, ``traceroute``, ``drill``, ``arp``, etc. are invaluable.
+
+Use `ip-scan.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-scan.sh>`_ to scans all IPs with any specified prefix, and `ip-examine.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-examine.sh>`_ to collect information about a given IP.
+
+
+Use `monitor-network.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/monitor-network.sh>`_ to investigate unstable connections.
+
+
+
+
+Firewall Management
+===================
+
+On GNU/Linux, some level of knowledge about ``iptables`` is needed, notably if exposing a computer to the Internet.
+
+A general rule is to drop all packets by default, and then only to accept the expected ones explicitly and carefully.
+
+
+Configuration of a Gateway to the Internet
+------------------------------------------
+
+Our `iptables.rules-Gateway.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.sh>`_ script shares an iptables configuration with various services that can be enabled (ex: for masquerading, IPTV, different kinds of servers) as an example that we hope is secure enough (please email us if you do not agree! Refer to the top of this document for that).
+
+This script expects a settings file to be found in ``/etc/iptables.settings-Gateway.sh`` (this file is meant to be sourced, not executed).
+
+An example thereof::
+
+ # Local firewall settings.
+ #
+ # Meant to be sourced by the iptables.rules-Gateway.sh script.
+
+ # Where firewall-related outputs will be written:
+ log_file=/root/.last-gateway-firewall-activation
+
+ # Local (LAN) interface, the one we trust:
+ #lan_if=eth1
+ lan_if=enp2s0
+
+ # Internet (WAN) interface, the one we distrust:
+
+ # For PPP ADSL connections:
+ #net_if=ppp0
+
+ # For direct connection to a set-top (telecom) box from your provider:
+ #net_if=eth0
+ net_if=enp4s0
+
+ ban_file="/etc/ban-rules.iptables"
+
+ # As the IPs banned through the ban file above are quite minimal:
+ use_ban_rules="true"
+ #use_ban_rules="false"
+
+ # IP of a test client (to avoid too many logs, selecting only related events):
+ #test_client_ip="xxx"
+
+ # Enabled input TCP port range for traffic from LAN to gateway:
+ enable_unfiltered_tcp_range="true"
+
+ # TCP unfiltered window (ex: for passive FTP and BEAM port ranges):
+ tcp_unfiltered_low_port=50000
+ tcp_unfiltered_high_port=55000
+
+ # Tells whether IPTV (TV on the Internet thanks to a box) should be allowed:
+ enable_iptv=false
+
+ # Tells whether a SMTP server can be used:
+ enable_smtp=false
+
+ # Typically a set-top box from one's ISP (defined as a possibly log match
+ # criteria):
+
+ # Classical example:
+ telecom_box="192.168.0.254"
+
+ # DHT subsection, for P2P exchanges:
+ # More infos: https://github.com/rakshasa/rtorrent/wiki/Using-DHT
+
+ dht_udp_port=7881
+
+ #use_dht="true"
+ use_dht="false"
+
+ # One may use a non-standard port:
+ #ssh_port=22
+ ssh_port=22320
+
+ smtp_port=25
+
+ # SMTPS is obsolete:
+ smtp_secure_port=465
+
+ # STARTTLS over SMTP is the proper way of securing SMTP:
+ msa_port=587
+
+ pop3_port=110
+
+ # POP3S:
+ pop3_secure_port=995
+
+ imap_port=143
+ imap_secure_port=993
+
+
+
+A script to configure iptables is best integrated to systemd, see the `iptables.rules-Gateway.service <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.service>`_ file for that (typically to be placed in ``/etc/systemd/system``). Then one may test with:
+
+.. code:: bash
+
+ $ systemctl start iptables.rules-Gateway.service
+
+
+and enable it for good with:
+
+.. code:: bash
+
+ $ systemctl enable iptables.rules-Gateway.service
+
+
+Note that often these scripts are setup remotely, while being connected thanks to SSH from another host. Care must be taken in order not to lock oneself out of the target server, notably when updating rules (this happens quite easily). We advise to prefer the ``restart`` option of our iptables script to reduce the risk of "bricking" one's server.
+
+
+
+Firewall-related Troubleshooting
+--------------------------------
+
+Use `iptables-inspect.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables-inspect.sh>`_ to list the currently-used firewall rules for the chains of the main tables. Like ``iptables -nL --line-numbers``, it displays the number of each rule of a given chain, which allows to add/remove rules more easily, like in:
+
+.. code:: bash
+
+ # Deletes the first rule of the FORWARD chain (of the 'filter' table):
+ # (note that all the next rules now bear a decremented number!)
+ $ iptables -D FORWARD 1
+
+
+Setting environment variables (either through files such as ``/etc/iptables.settings-Gateway.sh`` or directly in the shell) is less error-prone; ex:
+
+.. code:: bash
+
+ [...]
+ $ lan_if=enp2s0
+ $ net_if=enp4s0
+ $ iptables -I FORWARD -i ${lan_if} -o ${net_if} -d ${telecom_box} -j LOG
+ $ journalctl -kf --grep="IN=.*OUT=.*" | grep -v "SRC=${telecom_box}"
+
+To further match packets, one may specify log prefixes, like in:
+
+.. code:: bash
+
+ $ iptables -A INPUT -i lan.foobar -j LOG --log-prefix "[VLAN INP FOO]"
+
+
+Note that the ``LOG`` target does not intercept a packet, which thus continues to flow in the next rule(s). There are better defined as first rules (and thus could be inserted last).
+
+
+Network Troubleshooting
+=======================
+
+A few pieces of advice/information:
+
+- be familiar with ``ip link``, ``ip addr`` and ``ip route`` (generally used in that order); ``tcpdump`` for the worst cases
+- nowadays, many devices change their MAC address regularly, like smartphones do
+- one may rely on ``netctl``, and create as many profiles as found useful
+- regularly inspect network-related messages (ex: with ``journalctl -kf``) to detect anomalies such as ``IPv4: martian source 192.168.0.49``
+- interfaces may be associated to any number of IP addresses
+- when a network does not work properly, always consider that this device may be faulty, that cables may malfunction, and that power supplies may be culprits
+- having smart switches may help a lot, to better control one's network (ex: disabling ports, checking statuses, isolating sections, etc.)
+- beware to DHCP server(s) being left unnoticed; various devices may use them to get a random address and become difficult to spot
+- netmasks shall not be neglected, for example in routes:
+
+.. code:: bash
+
+ $ ip route add 192.168.0.0/16 dev enp4s0 scope link
+ $ ip route
+ default via 192.168.0.254 dev enp4s0 proto dhcp src 192.168.0.1 metric 1002
+ 10.0.0.0/8 dev enp2s0 proto kernel scope link src 10.0.0.1
+ 192.168.0.0/16 dev enp4s0 scope link
+
+Here for example, in ``192.168.0.0/16``, ``16`` corresponds to the length of the network prefix; the next 16 bits are left to designate hosts, whose addresses therefore range in ``192.168.[0..254].[1..254]``. So ``192.168.0.0/16`` includes the ``192.168.27.0/24`` network, whereas ``192.168.0.0/24`` would not.
+
+- go for VLAN only when having reach a first level of correct operation; note that some devices (ex: non-manageable switches) are not able to handle VLAN-tagged packets and may reject or overwrite this information
+- in some cases, hard reboots / returns to factory settings will fix inexplicable situations; updating to latest firmware may help too (network appliances *do* have bugs as well!)
+- secure spare parts (if possible all cables, fibers, devices, power supply, etc. shall exist at least in two copies, tested just after purchased): when the operational one will fail, the outage will be quickly solved by switching element; the troubleshooting will be easier as well: replace the whole set of equipment, check that everything works again, and try to progress by dichotomy (change half of the elements, and check whether everything remains functionalor not)
+- purchase only equipment of quality, and treat it gently (ex: use an Uninterruptible Power Supply providing good-quality current)
+- take notes about the operations that are performed, the detected issues and the current configuration, and put the whole in VCS
+- check temperature, ventilation and prevent dust accumulation
+- consider monitoring temperature, fans, availability, performances
+
+
+
+See Also
+========
+
+- Ceylan-Hull's section about scripts for `network management <http://hull.esperide.org/#network-management>`_ and for `firewall configuration <http://hull.esperide.org/#network-management>`_
+- `A bit of Cybersecurity <Cybersecurity.html>`_
