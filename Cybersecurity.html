@@ -27,7 +27,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, November 28, 2021</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, December 9, 2021</td>
 </tr>
 </tbody>
 </table>
@@ -62,7 +62,7 @@
 <li><strong>individual files</strong> may be <a class="reference external" href="https://hull.esperide.org/#for-encryption">encrypted/decrypted</a> with the help of appropriate scripts; see also Ceylan-Myriad's support for additional <a class="reference external" href="http://myriad.esperide.org/#for-basic-old-school-ciphering">basic, old-school ciphering</a></li>
 <li>for the <strong>management of credentials</strong> such as passwords, some <a class="reference external" href="https://hull.esperide.org/#for-security">Ceylan-Hull scripts</a> may be of help, including for the generation of proper passwords or for the locking of screens</li>
 <li>regarding <strong>network</strong>, each host may be protected by a relevant <a class="reference external" href="https://hull.esperide.org/#firewall-configuration">firewall configuration</a>, opened ports may be checked, etc.</li>
-<li>for <strong>webservers</strong>, it relates to use the HTTPS protocol with <a class="reference external" href="http://leec.esperide.org">proper X.509 security certificates</a> for TLS-secured exchanges</li>
+<li>for <strong>webservers</strong>, it relates to use the HTTPS protocol with proper X.509 security certificates for TLS-secured exchanges, possibly thanks to <a class="reference external" href="http://leec.esperide.org">Ceylan-LEEC</a></li>
 <li>for <strong>emails</strong>, see the next section about OpenPGP</li>
 </ul>
 </div>
@@ -111,7 +111,11 @@
 $ gpg --full-gen-key --expert
 </pre>
 <p>In all cases, one may enter <tt class="docutils literal">1y</tt> to set the initial validity duration of the generated key to one year, and already plan in one's agenda, a dozen days before the end of its validity, its renewal.</p>
-<p>Then one may enter one's selected identity (ex: for <tt class="docutils literal">Real name</tt>, one may enter <tt class="docutils literal">James Bond</tt>), one's email address of interest and possibly no specific comment.</p>
+<p>Then one may enter one's selected identity (ex: for <tt class="docutils literal">Real name</tt>, one may enter <tt class="docutils literal">James Bond</tt>), one's email address of interest (ex: <tt class="docutils literal">james.bond&#64;mi6.org</tt>) and possibly:</p>
+<ul class="simple">
+<li>either no specific comment (they are not normalised anyway)</li>
+<li>or one pointing to an authoritative source against which the public key may be verified (such as: &quot;This public key can be verified against its reference in <a class="reference external" href="https://mi6.org/james-bond.pub">https://mi6.org/james-bond.pub</a>&quot; - provided of course such a file is to exist)</li>
+</ul>
 <p>The requested passphrase only consists on a last-resort protection of the generated private key (that you should <em>never</em> transmit to <em>anyone</em>), in order to avoid that anyone accessing this file on your computer becomes directly able to fully impersonate this identity.</p>
 <p>The operation generates a public/private key pair, and also an associated emergency revocation certificate, so that you can invalidate it at any time and for any reason:</p>
 <pre class="code bash literal-block">
@@ -154,7 +158,7 @@ uid   James Bond &lt;james.bond&#64;mi6.org&gt;
 <table class="docutils footnote" frame="void" id="id5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>Other common extensions are <tt class="docutils literal">.gpg</tt> (for encrypted content and also standard signatures), <tt class="docutils literal">.asc</tt> (for clear-text signatures), and <tt class="docutils literal">.sig</tt> (for detached ones).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td>Other common extensions are <tt class="docutils literal">.gpg</tt> (for encrypted content and also standard signatures), <tt class="docutils literal">.asc</tt> (for clear-text signatures and other ASCII content), and <tt class="docutils literal">.sig</tt> (for detached signatures).</td></tr>
 </tbody>
 </table>
 <p>Even if a backup of one's key pair could be made by creating and encrypting an archive of this gpg filesystem tree, a far better solution is to use its integrated procedure, as the structure of its internal state may change from a version/platform of gpg to another. So the best course of action is to use the following command in order to generate a backup of a key pair in a standard, durable form:</p>
@@ -246,19 +250,25 @@ gpg: data source: https://keys.openpgp.org:443
 <div class="section" id="sharing-largely">
 <h4>Sharing Largely</h4>
 <p>So a public certificate can be spread as widely as wanted, through key servers / PKIs, but also it should be shared through any reliable, authoritative reference of a given identity, like one's own webserver, emails, social accounts, etc.</p>
-<p>This can be directly your public certificate (<a class="reference external" href="https://esperide.com/olivier.boudeville-at-online.fr.pub">here is mine</a>) <a class="footnote-reference" href="#id7" id="id6">[3]</a> or a (shorter) fingerprint thereof (ex: the full fingerprint of my key is <tt class="docutils literal">DCA8E181DC3CEAF0EAE4033F9987EE77188E9BF4</tt>), obtained thanks to:</p>
+<p>This can be directly your public certificate (<a class="reference external" href="https://esperide.com/olivier-boudeville.pub">here is mine</a>) <a class="footnote-reference" href="#id7" id="id6">[3]</a> or a (shorter) fingerprint thereof (ex: the full fingerprint of my key is <tt class="docutils literal">DCA8E181DC3CEAF0EAE4033F9987EE77188E9BF4</tt>).</p>
 <table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[3]</a></td><td>Note the HTTPS protection and that is refers to <tt class="docutils literal">online.fr</tt> rather than to <tt class="docutils literal">esperide.com</tt>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id6">[3]</a></td><td>Note the HTTPS protection and that it currently refers to <tt class="docutils literal">online.fr</tt> rather than to <tt class="docutils literal">esperide.com</tt>.</td></tr>
 </tbody>
 </table>
+<p>Such public keys can be listed and then obtained respectively thanks to:</p>
 <pre class="code bash literal-block">
-$ gpg --list-sigs james.bond&#64;mi6.org
+$ gpg --list-keys james.bond&#64;mi6.org
 pub   brainpoolP512r1 <span class="m">2021</span>-11-26 <span class="o">[</span>SCA<span class="o">]</span> <span class="o">[</span>expires: <span class="m">2022</span>-11-26<span class="o">]</span>
      C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
 uid           <span class="o">[</span>ultimate<span class="o">]</span> James Bond &lt;james.bond&#64;mi6.org&gt;
-sig <span class="m">3</span>        9D60ADA5E115A8B5 <span class="m">2021</span>-11-26 James Bond &lt;james.bond&#64;mi6.org&gt;
+
+<span class="c1"># For a binary version of the public key:
+</span>$ gpg -o james-bond.pub ---export C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
+
+<span class="c1"># For an ASCII-based version (ex: suitable to register in GitHub):
+</span>$ gpg -o james-bond.pub.asc --armor --export C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
 </pre>
 </div>
 </div>
@@ -308,6 +318,7 @@ sig <span class="m">3</span>        9D60ADA5E115A8B5 <span class="m">2021</span>
 <li>a complete, well-written tutorial, in French: <a class="reference external" href="https://linuxfr.org/news/bien-demarrer-avec-gnupg">Bien démarrer avec GnuPG</a></li>
 <li>other <a class="reference external" href="https://blog.mailfence.com/fr/meilleures-pratiques-de-signature-numerique-openpgp/">interesting usage hints</a>, still in French</li>
 <li><a class="reference external" href="https://wiki.archlinux.org/title/GnuPG">GnuPG on Arch</a>, for much additional information</li>
+<li><a class="reference external" href="Networking.html">Network Management</a> information</li>
 </ul>
 </div>
 </div>

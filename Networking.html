@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<title>Ceylan-HOWTOs: About Network Management</title>
+<link rel="stylesheet" href="pygments-default.css" type="text/css" />
+<link rel="stylesheet" href="howtos.css" type="text/css" />
+<link href="howtos-icon.png" rel="icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="document" id="network-management">
+<h1 class="title">Network Management</h1>
+
+<span class="target" id="top"></span><p><span class="raw-html"><a name="howtos_top"></a></span></p>
+<p><span class="raw-html"><div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Network%20Management">email us</a></p></div></span></p>
+<p><span class="raw-html"><center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img></span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2021 Olivier Boudeville</td>
+</tr>
+<tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
+</tr>
+<tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
+</tr>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, December 9, 2021</td>
+</tr>
+</tbody>
+</table>
+<p><span class="raw-html"><a name="howtos_toc"></a></span></p>
+<div class="contents local topic" id="id1">
+<span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="#investigating-issues" id="id3">Investigating Issues</a></li>
+<li><a class="reference internal" href="#firewall-management" id="id4">Firewall Management</a><ul>
+<li><a class="reference internal" href="#configuration-of-a-gateway-to-the-internet" id="id5">Configuration of a Gateway to the Internet</a></li>
+<li><a class="reference internal" href="#firewall-related-troubleshooting" id="id6">Firewall-related Troubleshooting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#network-troubleshooting" id="id7">Network Troubleshooting</a></li>
+<li><a class="reference internal" href="#see-also" id="id8">See Also</a></li>
+</ul>
+</div>
+<p><span class="raw-html"></center></span></p>
+<div class="section" id="investigating-issues">
+<h1><a class="toc-backref" href="#id3">Investigating Issues</a></h1>
+<p>Tools like <tt class="docutils literal">ping</tt>, <tt class="docutils literal">traceroute</tt>, <tt class="docutils literal">drill</tt>, <tt class="docutils literal">arp</tt>, etc. are invaluable.</p>
+<p>Use <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-scan.sh">ip-scan.sh</a> to scans all IPs with any specified prefix, and <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-examine.sh">ip-examine.sh</a> to collect information about a given IP.</p>
+<p>Use <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/monitor-network.sh">monitor-network.sh</a> to investigate unstable connections.</p>
+</div>
+<div class="section" id="firewall-management">
+<h1><a class="toc-backref" href="#id4">Firewall Management</a></h1>
+<p>On GNU/Linux, some level of knowledge about <tt class="docutils literal">iptables</tt> is needed, notably if exposing a computer to the Internet.</p>
+<p>A general rule is to drop all packets by default, and then only to accept the expected ones explicitly and carefully.</p>
+<div class="section" id="configuration-of-a-gateway-to-the-internet">
+<h2><a class="toc-backref" href="#id5">Configuration of a Gateway to the Internet</a></h2>
+<p>Our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.sh">iptables.rules-Gateway.sh</a> script shares an iptables configuration with various services that can be enabled (ex: for masquerading, IPTV, different kinds of servers) as an example that we hope is secure enough (please email us if you do not agree! Refer to the top of this document for that).</p>
+<p>This script expects a settings file to be found in <tt class="docutils literal"><span class="pre">/etc/iptables.settings-Gateway.sh</span></tt> (this file is meant to be sourced, not executed).</p>
+<p>An example thereof:</p>
+<pre class="literal-block">
+# Local firewall settings.
+#
+# Meant to be sourced by the iptables.rules-Gateway.sh script.
+
+# Where firewall-related outputs will be written:
+log_file=/root/.last-gateway-firewall-activation
+
+# Local (LAN) interface, the one we trust:
+#lan_if=eth1
+lan_if=enp2s0
+
+# Internet (WAN) interface, the one we distrust:
+
+# For PPP ADSL connections:
+#net_if=ppp0
+
+# For direct connection to a set-top (telecom) box from your provider:
+#net_if=eth0
+net_if=enp4s0
+
+ban_file=&quot;/etc/ban-rules.iptables&quot;
+
+# As the IPs banned through the ban file above are quite minimal:
+use_ban_rules=&quot;true&quot;
+#use_ban_rules=&quot;false&quot;
+
+# IP of a test client (to avoid too many logs, selecting only related events):
+#test_client_ip=&quot;xxx&quot;
+
+# Enabled input TCP port range for traffic from LAN to gateway:
+enable_unfiltered_tcp_range=&quot;true&quot;
+
+# TCP unfiltered window (ex: for passive FTP and BEAM port ranges):
+tcp_unfiltered_low_port=50000
+tcp_unfiltered_high_port=55000
+
+# Tells whether IPTV (TV on the Internet thanks to a box) should be allowed:
+enable_iptv=false
+
+# Tells whether a SMTP server can be used:
+enable_smtp=false
+
+# Typically a set-top box from one's ISP (defined as a possibly log match
+# criteria):
+
+# Classical example:
+telecom_box=&quot;192.168.0.254&quot;
+
+# DHT subsection, for P2P exchanges:
+# More infos: https://github.com/rakshasa/rtorrent/wiki/Using-DHT
+
+dht_udp_port=7881
+
+#use_dht=&quot;true&quot;
+use_dht=&quot;false&quot;
+
+# One may use a non-standard port:
+#ssh_port=22
+ssh_port=22320
+
+smtp_port=25
+
+# SMTPS is obsolete:
+smtp_secure_port=465
+
+# STARTTLS over SMTP is the proper way of securing SMTP:
+msa_port=587
+
+pop3_port=110
+
+# POP3S:
+pop3_secure_port=995
+
+imap_port=143
+imap_secure_port=993
+</pre>
+<p>A script to configure iptables is best integrated to systemd, see the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.service">iptables.rules-Gateway.service</a> file for that (typically to be placed in <tt class="docutils literal">/etc/systemd/system</tt>). Then one may test with:</p>
+<pre class="code bash literal-block">
+$ systemctl start iptables.rules-Gateway.service
+</pre>
+<p>and enable it for good with:</p>
+<pre class="code bash literal-block">
+$ systemctl <span class="nb">enable</span> iptables.rules-Gateway.service
+</pre>
+<p>Note that often these scripts are setup remotely, while being connected thanks to SSH from another host. Care must be taken in order not to lock oneself out of the target server, notably when updating rules (this happens quite easily). We advise to prefer the <tt class="docutils literal">restart</tt> option of our iptables script to reduce the risk of &quot;bricking&quot; one's server.</p>
+</div>
+<div class="section" id="firewall-related-troubleshooting">
+<h2><a class="toc-backref" href="#id6">Firewall-related Troubleshooting</a></h2>
+<p>Use <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables-inspect.sh">iptables-inspect.sh</a> to list the currently-used firewall rules for the chains of the main tables. Like <tt class="docutils literal">iptables <span class="pre">-nL</span> <span class="pre">--line-numbers</span></tt>, it displays the number of each rule of a given chain, which allows to add/remove rules more easily, like in:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Deletes the first rule of the FORWARD chain (of the 'filter' table):
+# (note that all the next rules now bear a decremented number!)
+</span>$ iptables -D FORWARD <span class="m">1</span>
+</pre>
+<p>Setting environment variables (either through files such as <tt class="docutils literal"><span class="pre">/etc/iptables.settings-Gateway.sh</span></tt> or directly in the shell) is less error-prone; ex:</p>
+<pre class="code bash literal-block">
+<span class="o">[</span>...<span class="o">]</span>
+$ <span class="nv">lan_if</span><span class="o">=</span>enp2s0
+$ <span class="nv">net_if</span><span class="o">=</span>enp4s0
+$ iptables -I FORWARD -i <span class="si">${</span><span class="nv">lan_if</span><span class="si">}</span> -o <span class="si">${</span><span class="nv">net_if</span><span class="si">}</span> -d <span class="si">${</span><span class="nv">telecom_box</span><span class="si">}</span> -j LOG
+$ journalctl -kf --grep<span class="o">=</span><span class="s2">&quot;IN=.*OUT=.*&quot;</span> <span class="p">|</span> grep -v <span class="s2">&quot;SRC=</span><span class="si">${</span><span class="nv">telecom_box</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre>
+<p>To further match packets, one may specify log prefixes, like in:</p>
+<pre class="code bash literal-block">
+$ iptables -A INPUT -i lan.foobar -j LOG --log-prefix <span class="s2">&quot;[VLAN INP FOO]&quot;</span>
+</pre>
+<p>Note that the <tt class="docutils literal">LOG</tt> target does not intercept a packet, which thus continues to flow in the next rule(s). There are better defined as first rules (and thus could be inserted last).</p>
+</div>
+</div>
+<div class="section" id="network-troubleshooting">
+<h1><a class="toc-backref" href="#id7">Network Troubleshooting</a></h1>
+<p>A few pieces of advice/information:</p>
+<ul class="simple">
+<li>be familiar with <tt class="docutils literal">ip link</tt>, <tt class="docutils literal">ip addr</tt> and <tt class="docutils literal">ip route</tt> (generally used in that order); <tt class="docutils literal">tcpdump</tt> for the worst cases</li>
+<li>nowadays, many devices change their MAC address regularly, like smartphones do</li>
+<li>one may rely on <tt class="docutils literal">netctl</tt>, and create as many profiles as found useful</li>
+<li>regularly inspect network-related messages (ex: with <tt class="docutils literal">journalctl <span class="pre">-kf</span></tt>) to detect anomalies such as <tt class="docutils literal">IPv4: martian source 192.168.0.49</tt></li>
+<li>interfaces may be associated to any number of IP addresses</li>
+<li>when a network does not work properly, always consider that this device may be faulty, that cables may malfunction, and that power supplies may be culprits</li>
+<li>having smart switches may help a lot, to better control one's network (ex: disabling ports, checking statuses, isolating sections, etc.)</li>
+<li>beware to DHCP server(s) being left unnoticed; various devices may use them to get a random address and become difficult to spot</li>
+<li>netmasks shall not be neglected, for example in routes:</li>
+</ul>
+<pre class="code bash literal-block">
+$ ip route add <span class="m">192</span>.168.0.0/16 dev enp4s0 scope link
+$ ip route
+default via <span class="m">192</span>.168.0.254 dev enp4s0 proto dhcp src <span class="m">192</span>.168.0.1 metric <span class="m">1002</span>
+<span class="m">10</span>.0.0.0/8 dev enp2s0 proto kernel scope link src <span class="m">10</span>.0.0.1
+<span class="m">192</span>.168.0.0/16 dev enp4s0 scope link
+</pre>
+<p>Here for example, in <tt class="docutils literal">192.168.0.0/16</tt>, <tt class="docutils literal">16</tt> corresponds to the length of the network prefix; the next 16 bits are left to designate hosts, whose addresses therefore range in <tt class="docutils literal"><span class="pre">192.168.[0..254].[1..254]</span></tt>. So <tt class="docutils literal">192.168.0.0/16</tt> includes the <tt class="docutils literal">192.168.27.0/24</tt> network, whereas <tt class="docutils literal">192.168.0.0/24</tt> would not.</p>
+<ul class="simple">
+<li>go for VLAN only when having reach a first level of correct operation; note that some devices (ex: non-manageable switches) are not able to handle VLAN-tagged packets and may reject or overwrite this information</li>
+<li>in some cases, hard reboots / returns to factory settings will fix inexplicable situations; updating to latest firmware may help too (network appliances <em>do</em> have bugs as well!)</li>
+<li>secure spare parts (if possible all cables, fibers, devices, power supply, etc. shall exist in two copies): when the main ones will break down, the outage will be quickly repaired by switching element; the troubleshooting will be easier as well: replace the whole chain, check everything works again, and try to progress by dichotomy (change half of the elements, and check whether everything remains functional)</li>
+<li>purchase only equipment of quality, and treat it gently (ex: use an Uninterruptible Power Supply providing good-quality current)</li>
+<li>note the operations that are performed, the detected issues and the current configuration, and put the whole in VCS</li>
+<li>check temperature, ventilation and prevent dust accumulation</li>
+<li>consider monitoring temperature, fans, availability, performances</li>
+</ul>
+</div>
+<div class="section" id="see-also">
+<h1><a class="toc-backref" href="#id8">See Also</a></h1>
+<ul class="simple">
+<li>Ceylan-Hull's section about scripts for <a class="reference external" href="http://hull.esperide.org/#network-management">network management</a> and for <a class="reference external" href="http://hull.esperide.org/#network-management">firewall configuration</a></li>
+<li><a class="reference external" href="Cybersecurity.html">A bit of Cybersecurity</a></li>
+</ul>
+</div>
+</div>
+</body>
+</html>
