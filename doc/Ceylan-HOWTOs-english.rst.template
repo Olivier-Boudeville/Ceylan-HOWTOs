@@ -59,6 +59,12 @@ The latest version of this documentation is to be found at the `official Ceylan-
 
 :raw-latex:`\pagebreak`
 
+.. include:: GNULinux.rst
+
+
+
+:raw-latex:`\pagebreak`
+
 .. include:: Erlang.rst
 
 

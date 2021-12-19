@@ -114,7 +114,7 @@ Unity shall now be obtained thanks to the Unity Hub.
 
 On Arch Linux it is `available through the AUR <https://aur.archlinux.org/packages/unityhub/>`_, as an `AppImage <https://en.wikipedia.org/wiki/AppImage>`_; one may thus use: ``yay -Sy unityhub``.
 
-A Unity account will be needed, then a licence, then a Unity release will have to be added in order to have it downloaded and installed for good, covering the selected target platforms (ex: Linux and Windows "Build Supports").
+Then, when running (as a non-priviledged user) ``unityhub``, a Unity account will be needed, then a licence, then a Unity release will have to be added in order to have it downloaded and installed for good, covering the selected target platforms (ex: Linux and Windows "Build Supports").
 
 
 Additional information: `Unity3D on Arch <https://wiki.archlinux.org/title/Unity3D>`_.
@@ -145,7 +145,7 @@ Such files are actually ``.tar.gz`` archives, and thus their content can be list
 
 Inside such archives, each individual package resource is located in a directory whose name is probably akin to the checksum of this resource (ex: ``167e85f3d750117459ff6199b79166fd``) [#]_; such directory generally contains at least 3 files:
 
-- ``asset``: the resource itself, renamed to that unique name, yet containing its exact original content (ex: the one of a Targa image)
+- ``asset``: the resource itself, renamed to that unique checksum name, yet containing its exact original content (ex: the one of a Targa image)
 - ``asset.meta``: the metadata about that asset (file format, identifier, timestamp, type-specific settings, etc.), as an ASCII, YAML-like, text
 - ``pathname``: the path of that asset in the package "virtual" tree (ex: ``Assets/Foo/Textures/baz.tga``)
 
@@ -158,7 +158,7 @@ Some types of content are Unity-specific and thus may not transpose (at least di
 
 Tools like `AssetStudio <https://github.com/Perfare/AssetStudio>`_ (probably Windows-only) strive to automate most of the process of exploring, extracting and exporting Unity assets.
 
-Meshes are typically in the `FBX <https://en.wikipedia.org/wiki/FBX>`_ (proprietary) file format, that can nevertheless be imported in Blender_; one may use for that our `blender-import.sh <http://hull.esperide.org#blender>`_ script.
+Meshes are typically in the `FBX <https://en.wikipedia.org/wiki/FBX>`_ (proprietary) file format, that can nevertheless be imported in Blender_ and converted to other file formats (ex: gltF 2.0); see `blender import`_ and `blender convert`_ for that.
 
 
 
@@ -183,23 +183,25 @@ It comes in two forms:
 See also the `glTF 2.0 quick reference guide <https://www.khronos.org/files/gltf20-reference-guide.pdf>`_ and the `related section of Godot <https://docs.godotengine.org/en/stable/getting_started/workflow/assets/importing_scenes.html>`_.
 
 
-The second best choice we see is `Collada <https://en.wikipedia.org/wiki/COLLADA>`_ (``*.dae`` files), an XML-based counterpart (open as well) to glTF.
+The second best choice we see is `Collada <https://en.wikipedia.org/wiki/COLLADA>`_ (``*.dae`` files), an XML-based counterpart (open as well, yet older and with less validating facilities) to glTF.
 
 Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ <https://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ files and thus may have to be converted (typically to glTF), which is never a riskless task.
 
 .. comment Wings3D https://github.com/bjorng/wings/blob/master/plugins_src/import_export/wpc_collada.erl)
+
+Refer to `blender import`_ in order to handle the most common 3D file formats.
 
 
 
 Samples
 -------
 
-For:
+Here are a few samples of 3D content (useful for testing):
 
-- `glTF <https://github.com/KhronosGroup/glTF-Sample-Models>`_, notably `glTF 2.0 <https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0>`_; also a `simple cube <http://paulbourke.net/dataformats/glTF/cube.txt>`_
-- `DAE <https://github.com/assimp/assimp/tree/master/test/models/Collada>`_; also a `simple cube <https://gist.github.com/wtsnz/bfa11c40e04594b260255b5dc7956f26>`_
-- `FBX <https://free3d.com/dl-files.php?p=5671208f26be8b5e7b8b4567&f=4>`_
-
+- `glTF <https://github.com/KhronosGroup/glTF-Sample-Models>`_, notably `glTF 2.0 <https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0>`_; direct: `.gltf Buggy example <https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Buggy/glTF-Embedded/Buggy.gltf>`_, `.glb Fish example <https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/BarramundiFish/glTF-Binary/BarramundiFish.glb>`_ (also: a `simple cube <http://paulbourke.net/dataformats/glTF/cube.txt>`_)
+- `DAE <https://github.com/assimp/assimp/tree/master/test/models/Collada>`_; direct: `Duck example <https://github.com/assimp/assimp/raw/master/test/models/Collada/duck.dae>`_ (also: a `simple cube <https://gist.github.com/wtsnz/bfa11c40e04594b260255b5dc7956f26>`_)
+- `FBX <https://free3d.com/dl-files.php?p=5671208f26be8b5e7b8b4567&f=4>`_; direct: `Stylized character <https://github.com/armory3d/armorpaint_samples/raw/master/sample.fbx>`_
+- `IFC <https://github.com/andrewisen/bim-whale-ifc-samples>`_; direct: `Basic house <https://github.com/andrewisen/bim-whale-ifc-samples/raw/main/BasicHouse/IFC/BasicHouse.ifc>`_ (requires the `BlenderBIM <https://blenderbim.org/download.html>`_ add-on for BIM support in Blender)
 
 
 
@@ -210,7 +212,18 @@ Modelling Software
 Blender
 -------
 
-`Blender <https://en.wikipedia.org/wiki/Blender_(software)>`_ is a very powerful open-source 3D toolset.
+Blender is a very powerful `open-source 3D toolset <https://en.wikipedia.org/wiki/Blender_(software)>`_.
+
+
+.. _`blender import`:
+.. _`blender convert`:
+
+We recommend the use our `Blender <http://hull.esperide.org#blender>`_ scripts in order to:
+
+- import conveniently various file formats in Blender, with ``blender-import.sh``
+- convert directly on the command-line various file formats (still thanks to a non-interactive Blender), with ``blender-convert.sh``
+
+
 
 
 Wings3D
@@ -218,6 +231,18 @@ Wings3D
 
 `Wings3D <https://en.wikipedia.org/wiki/Wings_3D>`_ is a nice, Erlang-based, free software subdivision modeler.
 
+
+
+Other Tools
+===========
+
+
+Draco
+-----
+
+`Draco <https://google.github.io/draco/>`_ is an open-source library for compressing and decompressing 3D geometric meshes and point clouds.
+
+It is intended to improve the storage and transmission of 3D graphics; it can be used `with glTF <https://github.com/google/draco#gltf-transcoding-tool>`_, with Blender,  with `Compressonator <https://github.com/GPUOpen-Tools/Compressonator>`_, or `separately <https://aur.archlinux.org/packages/draco-git/>`_.
 
 
 
@@ -237,4 +262,53 @@ Information
 - About `OpenGL Performance <https://www.khronos.org/opengl/wiki/Performance>`_
 
 
+
+.. _`os-support`:
+
+Operating System Support for 3D
+===============================
+
+Benefiting from a proper 2D/3D hardware acceleration on GNU/Linux is unfortunately not always straightforward, and sometimes brittle.
+
+
+Testing
+-------
+
+First, one may check whether such acceleration is already available by running, from the command-line, the ``glxinfo`` executable (to be obtained on Arch Linux thanks to the ``mesa-utils`` package), and hope to see, among the many displayed lines, ``direct rendering: Yes``.
+
+One may also run our `display-opengl-information.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/display-opengl-information.sh>`_ script to report relevant information.
+
+A final validation might be to run the ``glxgears`` executable (still obtained through the ``mesa-utils`` package), and to ensure that a window appears, showing three gears properly rotating.
+
+
+
+Troubleshooting
+---------------
+
+If it is not the case (no direct rendering, or a GLX error being returned - typically involving any ``X Error of failed request:  BadValue`` for a ``X_GLXCreateNewContext``), one should investigate one's configuration (with ``lspci | grep VGA``, ``lsmod``, etc.), update one's video driver on par with the current kernel, reboot, sacrifice a chicken, etc.
+
+If using a NVidia graphic card, consider reading this `Arch Linux wiki page <https://wiki.archlinux.org/title/NVIDIA>`_ first.
+
+In our case, installation could be done with ``pacman -Sy nvidia nvidia-utils`` but requested a reboot.
+
+Despite package dependencies and a not-so-successful attempt of using DKMS in order to link kernel updates with graphic controller updates, too often a proper 3D support was lost, either from the boot or afterwards. Refer to our `software update section <GNULinux.html#software-update>`_ for hints in order to secure the durable use of proper drivers.
+
+
+
+
+
+Mini-Glossary
+=============
+
+- **HDRP**: *High Definition Render Pipeline*, a `high-fidelity scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@13.1/manual/index.html>`_, made by Unity to target modern (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)
+
+- **IK**: *Inverse Kinematics*, the **computation of intermediary joint parameters** so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. to retain so that the hand is ultimately correctly placed on the chair (`more information <https://en.wikipedia.org/wiki/Inverse_kinematics>`_)
+
+- **PSD**: *Photoshop Document*,  a `proprietary format for graphics <https://docs.fileformat.com/image/psd/>`_ with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to `Gimp <https://www.gimp.org/>`_, `Krita <https://krita.org>`_, etc.) often used to store textures that may still be edited as templates by the user - provided they are using Photoshop as well; however, at least to some extent, `Gimp is able to edit PSD files <https://wiki.gimp.org/wiki/PSD_support>`_ and `Krita too <https://docs.krita.org/en/general_concepts/file_formats/file_psd.html>`_
+
+- **Rigging** (or *Skeletal Animation*) consists in controlling the deformation of a mesh (a.k.a. a *skin*, the surface of a body) of an articulated object (typically a character) **based on a virtual inner armature** (a hierarchical set of interconnected parts, called *bones*, and collectively forming the skeleton or *rig*) in order to animate that mesh (`more information <https://en.wikipedia.org/wiki/Skeletal_animation>`_)
+
+- **Texture Atlas**: a texture containing a **set of separate, elementary graphic elements**, meant to be extracted thanks to texture coordinates, akin to a sprite sheet; doing so is useful to reduce the overhead that would be induced by the management of many smaller textures (`more information <https://en.wikipedia.org/wiki/Texture_atlas>`_)
+
+- **URP**: *Universal Render Pipeline*, a prebuilt `scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/>`_, made by Unity that implements workflows across a range of platforms, from mobile to high-end consoles and PC (so URP is the low-end counterpart of HDRP)
 

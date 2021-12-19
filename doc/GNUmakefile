@@ -68,6 +68,8 @@ doc:
 # The HTML version just links to the HOWTOs pages, the PDF includes them:
 
 html: $(HOWTO_HTML_FILES) $(HTML_TARGET)
+	@echo "  The HTML content for HOWTOs is available at: file://$$(pwd)/Ceylan-HOWTOs-overview-english.html"
+
 
 pdf: $(HOWTO_RST_FILES) $(PDF_TARGET)
 

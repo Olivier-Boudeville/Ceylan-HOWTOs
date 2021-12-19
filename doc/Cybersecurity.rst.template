@@ -59,7 +59,7 @@ More precisely:
 
 - for the **management of credentials** such as passwords, some `Ceylan-Hull scripts <https://hull.esperide.org/#for-security>`_ may be of help, including for the generation of proper passwords or for the locking of screens
 
-- regarding **network**, each host may be protected by a relevant `firewall configuration <https://hull.esperide.org/#firewall-configuration>`_, opened ports may be checked, etc.
+- regarding **network**, each host may be protected by a relevant `firewall configuration <https://hull.esperide.org/#firewall-configuration>`_, opened ports may be checked, etc.; see also our section for `firewall management <Networking.html#firewall-management>`_
 
 - for **webservers**, it relates to use the HTTPS protocol with proper X.509 security certificates for TLS-secured exchanges, possibly thanks to `Ceylan-LEEC <http://leec.esperide.org>`_
 

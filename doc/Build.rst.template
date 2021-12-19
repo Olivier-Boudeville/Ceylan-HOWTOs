@@ -87,5 +87,7 @@ Such a system allows defining (build-time and runtime) settings and rules once f
 See Also
 ========
 
+`asdf <https://github.com/asdf-vm/asdf>`_, an extendable version manager for various languages (Ruby, Node.js, Elixir, Erlang, etc.).
+
 One may refer to the `development section <http://hull.esperide.org#for-development>`_ of Ceylan-Hull, or go back to the `Ceylan-HOWTOs main page <Ceylan-HOWTOs-overview-english.html>`_.
 

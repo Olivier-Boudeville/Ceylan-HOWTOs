@@ -1,0 +1,186 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About GNU/Linux
+
+------------------------------------
+Using the GNU/Linux Operating System
+------------------------------------
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20GNU/Linux">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2021-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Sunday, December 19, 2021
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 2
+
+
+:raw-html:`</center>`
+
+
+
+Overview
+========
+
+GNU/Linux is our operating system of choice, for many reasons: it is in free software, it is efficient, trustable, reliable and controllable, its mode of operation does not change much over time so any time invested on it is well spent.
+
+Over the years we tried many distributions, including Ubuntu, Debian, Gentoo, Mint.
+
+Our personal all-time favorite is clearly `Arch Linux <https://en.wikipedia.org/wiki/Arch_Linux>`_, because it leaves much control to its end user (not attempting to hide details that have to be mastered anyway), it is a "clean" one, driven by a skilled and knowledgeable community, and also because it is a rolling distribution: it updates constantly its packages *without needing to regularly upgrade the whole system*, which would jeopardise it in the same movement (global system updates rarely complete successfully and tend to be postponed because of the many problems they trigger; we found preferable to deal with issues incrementally on a live system - rather than on one that may fail to reboot properly).
+
+It ends up with a very stable, hassle-free distribution, with cutting-edge packages and higher uptimes (several months without needing to reboot), which is desirable for server-like usages.
+
+
+
+Software Update
+===============
+
+The setup that we use is to perform **automatic nightly updates**. For that we use our `update-distro.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-distro.sh>`_ script, run through root's crontab as:
+
+.. code:: bash
+
+ $ crontab -l
+ # Each day at 5:17 AM, update the distro:
+ 17  05   *   *  * /usr/local/bin/update-distro.sh -q
+
+As a result, all packages, libraries, executables, etc. are transparently updated, for the best.
+
+However, for a proper management of modules [#]_, the kernel-related packages shall be special-cased; otherwise after the first kernel update no more modules can be loaded (they will expect to link to that latest installed kernel version, not to the older one being running).
+
+.. [#] We tried to rely on `DKMS <https://wiki.archlinux.org/title/Dynamic_Kernel_Module_Support>`_ for that, but had still issues with some graphic-related modules, so we preferred managing updates by ourselves.
+
+
+A first line of defense is to force the loading of the modules known to be of interest directly at boot-time, so that they can be for sure loaded and linked to the right kernel.
+
+This may be done by populating ``/etc/modules-load.d/`` with as many files listing the modules to auto-load, like in::
+
+ ::::::::::::::
+ /etc/modules-load.d/for-3g-keys.conf
+ ::::::::::::::
+ option
+ usb_wwan
+
+ ::::::::::::::
+ /etc/modules-load.d/for-all-usb-keys.conf
+ ::::::::::::::
+ # To be able to mount all kinds of USB keys:
+ vfat
+ uas
+ dm_crypt
+
+ ::::::::::::::
+ /etc/modules-load.d/for-mobile-file-transfer.conf
+ ::::::::::::::
+ # To be able to transfer files between this hosts and mobile phones by MTP:
+ nls_utf8
+ isofs
+ sr_mod
+ cdrom
+ # Maybe also: agpgart ahci wdat_wdt wmi_bmof xts
+
+ ::::::::::::::
+ /etc/modules-load.d/for-tty-serial-on-usb.conf
+ ::::::::::::::
+ # To be able to connect tty-like interfaces through a USB port:
+ ftdi_sio
+ usbserial
+
+ ::::::::::::::
+ /etc/modules-load.d/for-usb-tethering.conf
+ ::::::::::::::
+ # To enable an Internet access thanks to a smartphone via USB:
+ usbnet
+ # Implies:
+ #rndis_host
+ #cdc_ether
+
+ ::::::::::::::
+ /etc/modules-load.d/for-vlan-support.conf
+ ::::::::::::::
+ # To be able to manage VLANs:
+ 8021q
+
+
+This is not sufficient though (ex: one cannot anticipate all modules needed after a while); disabling the *automatic* updates of kernels is also key to reduce issues; this can be done by specifying in ``/etc/pacman.conf``::
+
+ IgnorePkg = linux linux-headers
+
+LTS (*Long Term Support*) kernels are intentionally *not* listed here, as we prefer having them regularly updated in order to minimise the risk that the base and LTS kernels belong to too close versions (as then a problem in terms of hardware support is more likely to arise at the same time with both).
+
+At least users of NVidia graphic cards may also list there their drivers, as apparently an hardware acceleration supported at boot may be lost after some time, presumably because of an update of its drivers (knowing that the update of the kernel itself was already disabled in that case) - so, if appropriate, better be safe than sorry::
+
+ IgnorePkg = linux linux-headers nvidia nvidia-utils
+
+See also our section about `operating system support for 3D <ThreeDimensional.html#os-support>`_.
+
+Updating all packages but kernel-related ones is fine, but of course the latters shall still be also updated appropriately. The best moment for that is just prior to rebooting (knowing that your Linux box never crashes, isn't it?), so for that we use (as root) our `shutdown-local-host.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/shutdown-local-host.sh>`_ script, like in::
+
+ $ shutdown-local-host.sh --reboot
+
+The kernel packages, and possibly driver-related ones, will then only be properly updated before the host is rebooted.
+
+
+
+Package Management
+==================
+
+
+Package-related Commands
+------------------------
+
+- to get information about a package (installed or not): ``pacman -Si MY_PACKAGE``
+- to list all packages explicitly installed and not required as dependencies: ``pacman -Qet``
+- to determine which package installed a specified file: ``pkgfile SOME_FILE``
+
+See `this page <https://wiki.archlinux.org/title/Pacman/Tips_and_tricks>`_ for many more commands.
+
+
+
+Interesting Packages
+--------------------
+
+They might be lesser known:
+
+- ``cpulimit``: the way of limiting CPU usage of a given process, for example to avoid overheat (``nice`` just defines respective process priorities)
+- ``inotify-tools``: to be able to monitor filesystem events (ex: with ``inotifywait``) from scripts
+- ``jq``: for command-line JSON processing (ex: ``jq . myfile.json`` to display it properly on a terminal)
+- ``mathjax``: to generate LaTeX-like images for the web
+- ``most``: a replacement for ``more``
+- ``pdftk``: to transform PDF files
+- ``pkgfile``: to retrieve file information about packages
+
+
+
+See Also
+========
+
+One may refer to our other mini-HOWTO regarding:
+
+- `Network Management <Networking.html>`_
+- `Cybersecurity <Cybersecurity.html>`_
+
+The Ceylan-Hull section `system-related section <https://hull.esperide.org/#system-related>`_ might also be of interest.

@@ -46,8 +46,8 @@ Network Management
 :raw-html:`</center>`
 
 
-Investigating Issues
-====================
+Investigating Network Issues
+============================
 
 Tools like ``ping``, ``traceroute``, ``drill``, ``arp``, etc. are invaluable.
 
@@ -62,17 +62,21 @@ Use `monitor-network.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/
 Firewall Management
 ===================
 
-On GNU/Linux, some level of knowledge about ``iptables`` is needed, notably if exposing a computer to the Internet.
+On GNU/Linux, some level of knowledge about ``iptables`` is useful, notably if exposing a computer to the Internet; note though that it is to be superseded by `nftables <https://wiki.archlinux.org/title/Nftables>`_.
 
-A general rule is to drop all packets by default, and then only to accept the expected ones explicitly and carefully.
+One should read first the very clear Arch wiki section about `iptables basic concepts <https://wiki.archlinux.org/title/iptables#Basic_concepts>`_.
+
+A general rule that we retain, especially for an Internet gateway, is to drop all packets by default, and then only to accept the expected ones explicitly and carefully.
 
 
 Configuration of a Gateway to the Internet
 ------------------------------------------
 
-Our `iptables.rules-Gateway.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.sh>`_ script shares an iptables configuration with various services that can be enabled (ex: for masquerading, IPTV, different kinds of servers) as an example that we hope is secure enough (please email us if you do not agree! Refer to the top of this document for that).
+Our `iptables.rules-Gateway.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.sh>`_ script sets up an iptables configuration with various services that can be enabled (ex: for masquerading, IPTV, different kinds of servers) as an example that we hope is secure enough [#]_.
 
-This script expects a settings file to be found in ``/etc/iptables.settings-Gateway.sh`` (this file is meant to be sourced, not executed).
+.. [#] Please email us if you found otherwise! Refer to the top of this document for that.
+
+This script expects a settings file to be available as ``/etc/iptables.settings-Gateway.sh`` (this file is meant to be sourced, not executed).
 
 An example thereof::
 
@@ -168,7 +172,7 @@ and enable it for good with:
  $ systemctl enable iptables.rules-Gateway.service
 
 
-Note that often these scripts are setup remotely, while being connected thanks to SSH from another host. Care must be taken in order not to lock oneself out of the target server, notably when updating rules (this happens quite easily). We advise to prefer the ``restart`` option of our iptables script to reduce the risk of "bricking" one's server.
+Note that often these scripts are setup remotely, while being connected thanks to SSH from another host. Care must be taken in order not to lock oneself out of the target server, notably when updating rules (this happens quite easily). We advise to prefer the ``restart`` option of our iptables script in order to reduce the risk of "bricking" one's server.
 
 
 
@@ -180,7 +184,7 @@ Use `iptables-inspect.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob
 .. code:: bash
 
  # Deletes the first rule of the FORWARD chain (of the 'filter' table):
- # (note that all the next rules now bear a decremented number!)
+ # (note that all the next rules will bear a decremented number afterwards!)
  $ iptables -D FORWARD 1
 
 
@@ -201,7 +205,16 @@ To further match packets, one may specify log prefixes, like in:
  $ iptables -A INPUT -i lan.foobar -j LOG --log-prefix "[VLAN INP FOO]"
 
 
-Note that the ``LOG`` target does not intercept a packet, which thus continues to flow in the next rule(s). There are better defined as first rules (and thus could be inserted last).
+Note that the ``LOG`` target does not intercept a packet, which thus continues to flow in the next rule(s). so log targets are better defined as first rules (and thus could be inserted lastly).
+
+As a reminder, for a given table (``filter`` by default), rules may be:
+
+- appended *at the end* of the selected chain with ``-A``
+- inserted either at the *beginning* of the selected chain with ``-I``, or at its position N with ``-I N``
+
+
+
+See also the `iptables section <https://wiki.archlinux.org/title/iptables>`_ in the Arch wiki.
 
 
 Network Troubleshooting
@@ -209,11 +222,11 @@ Network Troubleshooting
 
 A few pieces of advice/information:
 
-- be familiar with ``ip link``, ``ip addr`` and ``ip route`` (generally used in that order); ``tcpdump`` for the worst cases
+- be familiar with ``ip link``, ``ip addr`` and ``ip route`` (generally used in that order), and ``tcpdump`` for the worst cases
 - nowadays, many devices change their MAC address regularly, like smartphones do
 - one may rely on ``netctl``, and create as many profiles as found useful
 - regularly inspect network-related messages (ex: with ``journalctl -kf``) to detect anomalies such as ``IPv4: martian source 192.168.0.49``
-- interfaces may be associated to any number of IP addresses
+- interfaces may be associated to any number of IP addresses, this may create surprises
 - when a network does not work properly, always consider that this device may be faulty, that cables may malfunction, and that power supplies may be culprits
 - having smart switches may help a lot, to better control one's network (ex: disabling ports, checking statuses, isolating sections, etc.)
 - beware to DHCP server(s) being left unnoticed; various devices may use them to get a random address and become difficult to spot
@@ -227,15 +240,15 @@ A few pieces of advice/information:
  10.0.0.0/8 dev enp2s0 proto kernel scope link src 10.0.0.1
  192.168.0.0/16 dev enp4s0 scope link
 
-Here for example, in ``192.168.0.0/16``, ``16`` corresponds to the length of the network prefix; the next 16 bits are left to designate hosts, whose addresses therefore range in ``192.168.[0..254].[1..254]``. So ``192.168.0.0/16`` includes the ``192.168.27.0/24`` network, whereas ``192.168.0.0/24`` would not.
+Here for example, in ``192.168.0.0/16``, ``16`` corresponds to the length of *the network prefix*; the next 16 bits are left to designate hosts, whose addresses therefore range in ``192.168.[0..254].[1..254]``. So ``192.168.0.0/16`` includes the ``192.168.27.0/24`` network, whereas ``192.168.0.0/24`` would not.
 
-- go for VLAN only when having reach a first level of correct operation; note that some devices (ex: non-manageable switches) are not able to handle VLAN-tagged packets and may reject or overwrite this information
+- go for VLAN only when having reached a first level of correct operation; note that some devices (ex: non-manageable switches) are not able to handle VLAN-tagged packets and may reject or overwrite this information
 - in some cases, hard reboots / returns to factory settings will fix inexplicable situations; updating to latest firmware may help too (network appliances *do* have bugs as well!)
-- secure spare parts (if possible all cables, fibers, devices, power supply, etc. shall exist at least in two copies, tested just after purchased): when the operational one will fail, the outage will be quickly solved by switching element; the troubleshooting will be easier as well: replace the whole set of equipment, check that everything works again, and try to progress by dichotomy (change half of the elements, and check whether everything remains functionalor not)
+- secure spare parts (if possible all cables, fibers, devices, power supply, etc. shall exist at least in two copies, tested just after purchased): when the one in operation will fail, the outage will be quickly solved by switching element; the troubleshooting will be easier as well: replace the whole set of equipment, check that everything works again, and try to progress by dichotomy (change half of the elements, and check whether everything remains functional)
 - purchase only equipment of quality, and treat it gently (ex: use an Uninterruptible Power Supply providing good-quality current)
 - take notes about the operations that are performed, the detected issues and the current configuration, and put the whole in VCS
 - check temperature, ventilation and prevent dust accumulation
-- consider monitoring temperature, fans, availability, performances
+- consider monitoring temperatures, fans, availability, performances
 
 
 
