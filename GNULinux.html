@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
+<title>Ceylan-HOWTOs: About GNU/Linux</title>
+<link rel="stylesheet" href="pygments-default.css" type="text/css" />
+<link rel="stylesheet" href="howtos.css" type="text/css" />
+<link href="howtos-icon.png" rel="icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="document" id="the-gnu-linux-operating-system">
+<span id="top"></span>
+<h1 class="title">The GNU/Linux Operating System</h1>
+
+<p><span class="raw-html"><a name="howtos_top"></a></span></p>
+<p><span class="raw-html"><div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20GNU/Linux">email us</a></p></div></span></p>
+<p><span class="raw-html"><center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img></span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2021 Olivier Boudeville</td>
+</tr>
+<tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
+</tr>
+<tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
+</tr>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, December 19, 2021</td>
+</tr>
+</tbody>
+</table>
+<p><span class="raw-html"><a name="howtos_toc"></a></span></p>
+<div class="contents local topic" id="id1">
+<span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="#overview" id="id4">Overview</a></li>
+<li><a class="reference internal" href="#software-update" id="id5">Software Update</a></li>
+<li><a class="reference internal" href="#package-management" id="id6">Package Management</a><ul>
+<li><a class="reference internal" href="#package-related-commands" id="id7">Package-related Commands</a></li>
+<li><a class="reference internal" href="#interesting-packages" id="id8">Interesting Packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also" id="id9">See Also</a></li>
+</ul>
+</div>
+<p><span class="raw-html"></center></span></p>
+<div class="section" id="overview">
+<h1><a class="toc-backref" href="#id4">Overview</a></h1>
+<p>GNU/Linux is our operating system of choice, for many reasons: it is in free software, it is efficient, trustable, reliable and controllable, its mode of operation does not change much over time so any time invested on it is well spent.</p>
+<p>Over the years we tried many distributions, including Ubuntu, Debian, Gentoo, Mint.</p>
+<p>Our personal all-time favorite is clearly <a class="reference external" href="https://en.wikipedia.org/wiki/Arch_Linux">Arch Linux</a>, because it leaves much control to its end user (not attempting to hide details that have to be mastered anyway), it is a &quot;clean&quot; one, driven by a skilled and knowledgeable community, and also because it is a rolling distribution: it updates constantly its packages <em>without needing to regularly upgrade the whole system</em>, which would jeopardise it in the same movement (global system updates rarely complete successfully and tend to be postponed because of the many problems they trigger; we found preferable to deal with issues incrementally on a live system - rather than on one that may fail to reboot properly).</p>
+<p>It ends up with a very stable, hassle-free distribution, with cutting-edge packages and higher uptimes (several months without needing to reboot), which is desirable for server-like usages.</p>
+</div>
+<div class="section" id="software-update">
+<h1><a class="toc-backref" href="#id5">Software Update</a></h1>
+<p>The setup that we use is to perform <strong>automatic nightly updates</strong>. For that we use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-distro.sh">update-distro.sh</a> script, run through root's crontab as:</p>
+<pre class="code bash literal-block">
+$ crontab -l
+<span class="c1"># Each day at 5:17 AM, update the distro:
+</span><span class="m">17</span>  <span class="m">05</span>   *   *  * /usr/local/bin/update-distro.sh -q
+</pre>
+<p>As a result, all packages, libraries, executables, etc. are transparently updated, for the best.</p>
+<p>However, for a proper management of modules <a class="footnote-reference" href="#id3" id="id2">[1]</a>, the kernel-related packages shall be special-cased; otherwise after the first kernel update no more modules can be loaded (they will expect to link to that latest installed kernel version, not to the older one being running).</p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>We tried to rely on <a class="reference external" href="https://wiki.archlinux.org/title/Dynamic_Kernel_Module_Support">DKMS</a> for that, but had still issues with some graphic-related modules, so we preferred managing updates by ourselves.</td></tr>
+</tbody>
+</table>
+<p>A first line of defense is to force the loading of the modules known to be of interest directly at boot-time, so that they can be for sure loaded and linked to the right kernel.</p>
+<p>This may be done by populating <tt class="docutils literal"><span class="pre">/etc/modules-load.d/</span></tt> with as many files listing the modules to auto-load, like in:</p>
+<pre class="literal-block">
+::::::::::::::
+/etc/modules-load.d/for-3g-keys.conf
+::::::::::::::
+option
+usb_wwan
+
+::::::::::::::
+/etc/modules-load.d/for-all-usb-keys.conf
+::::::::::::::
+# To be able to mount all kinds of USB keys:
+vfat
+uas
+dm_crypt
+
+::::::::::::::
+/etc/modules-load.d/for-mobile-file-transfer.conf
+::::::::::::::
+# To be able to transfer files between this hosts and mobile phones by MTP:
+nls_utf8
+isofs
+sr_mod
+cdrom
+# Maybe also: agpgart ahci wdat_wdt wmi_bmof xts
+
+::::::::::::::
+/etc/modules-load.d/for-tty-serial-on-usb.conf
+::::::::::::::
+# To be able to connect tty-like interfaces through a USB port:
+ftdi_sio
+usbserial
+
+::::::::::::::
+/etc/modules-load.d/for-usb-tethering.conf
+::::::::::::::
+# To enable an Internet access thanks to a smartphone via USB:
+usbnet
+# Implies:
+#rndis_host
+#cdc_ether
+
+::::::::::::::
+/etc/modules-load.d/for-vlan-support.conf
+::::::::::::::
+# To be able to manage VLANs:
+8021q
+</pre>
+<p>This is not sufficient though (ex: one cannot anticipate all modules needed after a while); disabling the <em>automatic</em> updates of kernels is also key to reduce issues; this can be done by specifying in <tt class="docutils literal">/etc/pacman.conf</tt>:</p>
+<pre class="literal-block">
+IgnorePkg = linux linux-headers
+</pre>
+<p>LTS (<em>Long Term Support</em>) kernels are intentionally <em>not</em> listed here, as we prefer having them regularly updated in order to minimise the risk that the base and LTS kernels belong to too close versions (as then a problem in terms of hardware support is more likely to arise at the same time with both).</p>
+<p>At least users of NVidia graphic cards may also list there their drivers, as apparently an hardware acceleration supported at boot may be lost after some time, presumably because of an update of its drivers (knowing that the update of the kernel itself was already disabled in that case) - so, if appropriate, better be safe than sorry:</p>
+<pre class="literal-block">
+IgnorePkg = linux linux-headers nvidia nvidia-utils
+</pre>
+<p>See also our section about <a class="reference external" href="ThreeDimensional.html#os-support">operating system support for 3D</a>.</p>
+<p>Updating all packages but kernel-related ones is fine, but of course the latters shall still be also updated appropriately. The best moment for that is just prior to rebooting (knowing that your Linux box never crashes, isn't it?), so for that we use (as root) our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/shutdown-local-host.sh">shutdown-local-host.sh</a> script, like in:</p>
+<pre class="literal-block">
+$ shutdown-local-host.sh --reboot
+</pre>
+<p>The kernel packages, and possibly driver-related ones, will then only be properly updated before the host is rebooted.</p>
+</div>
+<div class="section" id="package-management">
+<h1><a class="toc-backref" href="#id6">Package Management</a></h1>
+<div class="section" id="package-related-commands">
+<h2><a class="toc-backref" href="#id7">Package-related Commands</a></h2>
+<ul class="simple">
+<li>to get information about a package (installed or not): <tt class="docutils literal">pacman <span class="pre">-Si</span> MY_PACKAGE</tt></li>
+<li>to list all packages explicitly installed and not required as dependencies: <tt class="docutils literal">pacman <span class="pre">-Qet</span></tt></li>
+<li>to determine which package installed a specified file: <tt class="docutils literal">pkgfile SOME_FILE</tt></li>
+</ul>
+<p>See <a class="reference external" href="https://wiki.archlinux.org/title/Pacman/Tips_and_tricks">this page</a> for many more examples.</p>
+</div>
+<div class="section" id="interesting-packages">
+<h2><a class="toc-backref" href="#id8">Interesting Packages</a></h2>
+<p>They might be lesser known:</p>
+<ul class="simple">
+<li><tt class="docutils literal">cpulimit</tt>: the way of limiting CPU usage of a given process, for example to avoid overheat (<tt class="docutils literal">nice</tt> just defines respective process priorities)</li>
+<li><tt class="docutils literal"><span class="pre">inotify-tools</span></tt>: to be able to monitor filesystem events (ex: with <tt class="docutils literal">inotifywait</tt>) from scripts</li>
+<li><tt class="docutils literal">jq</tt>: for command-line JSON processing (ex: <tt class="docutils literal">jq . myfile.json</tt> to display it properly on a terminal)</li>
+<li><tt class="docutils literal">mathjax</tt>: to generate LaTeX-like images for the web</li>
+<li><tt class="docutils literal">most</tt>: a replacement for more</li>
+<li><tt class="docutils literal">pdftk</tt>: to transform PDF files</li>
+<li><tt class="docutils literal">pkgfile</tt>: to retrieve file information about packages</li>
+</ul>
+</div>
+</div>
+<div class="section" id="see-also">
+<h1><a class="toc-backref" href="#id9">See Also</a></h1>
+<p>Our other mini-HOWTO regarding:</p>
+<ul class="simple">
+<li><a class="reference external" href="Networking.html">Network Management</a></li>
+<li><a class="reference external" href="Cybersecurity.html">Cybersecurity</a></li>
+</ul>
+</div>
+</div>
+</body>
+</html>

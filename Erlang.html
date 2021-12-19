@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
 <title>Ceylan-HOWTOs: About Erlang</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, November 28, 2021</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, December 17, 2021</td>
 </tr>
 </tbody>
 </table>
@@ -39,15 +39,17 @@
 <li><a class="reference internal" href="#overview" id="id3">Overview</a></li>
 <li><a class="reference internal" href="#let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm" id="id4">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></li>
 <li><a class="reference internal" href="#installation" id="id5">Installation</a></li>
-<li><a class="reference internal" href="#language-use" id="id6">Language Use</a></li>
-<li><a class="reference internal" href="#language-implementation" id="id7">Language Implementation</a><ul>
-<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="id8">Message-Passing: Copying vs Sharing</a></li>
-<li><a class="reference internal" href="#just-in-time-compilation" id="id9">Just-in-Time Compilation</a></li>
-<li><a class="reference internal" href="#static-typing" id="id10">Static Typing</a></li>
-<li><a class="reference internal" href="#intermediate-languages" id="id11">Intermediate Languages</a></li>
+<li><a class="reference internal" href="#ceylan-s-language-use" id="id6">Ceylan's Language Use</a></li>
+<li><a class="reference internal" href="#using-the-shell" id="id7">Using the Shell</a></li>
+<li><a class="reference internal" href="#language-implementation" id="id8">Language Implementation</a><ul>
+<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="id9">Message-Passing: Copying vs Sharing</a></li>
+<li><a class="reference internal" href="#just-in-time-compilation" id="id10">Just-in-Time Compilation</a></li>
+<li><a class="reference internal" href="#static-typing" id="id11">Static Typing</a></li>
+<li><a class="reference internal" href="#intermediate-languages" id="id12">Intermediate Languages</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#erlang-resources" id="id12">Erlang Resources</a></li>
+<li><a class="reference internal" href="#about-security" id="id13">About Security</a></li>
+<li><a class="reference internal" href="#erlang-resources" id="id14">Erlang Resources</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -92,43 +94,71 @@ Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
 <p>Then enter <tt class="docutils literal"><span class="pre">CTRL-C</span></tt> twice in order to come back to the (UNIX) shell.</p>
 <p>Congratulations, you have a functional Erlang now!</p>
 </div>
-<div class="section" id="language-use">
-<h1><a class="toc-backref" href="#id6">Language Use</a></h1>
+<div class="section" id="ceylan-s-language-use">
+<h1><a class="toc-backref" href="#id6">Ceylan's Language Use</a></h1>
 <p>Ceylan users shall note that most of our related developments (namely <a class="reference external" href="http://myriad.esperide.org">Myriad</a>, <a class="reference external" href="http://wooper.esperide.org">WOOPER</a>, <a class="reference external" href="http://traces.esperide.org">Traces</a>, <a class="reference external" href="http://leec.esperide.org">LEEC</a>, <a class="reference external" href="http://seaplus.esperide.org">Seaplus</a>, <a class="reference external" href="http://mobile.esperide.org">Mobile</a>, <a class="reference external" href="http://us-common.esperide.org">US-Common</a>, <a class="reference external" href="http://us-web.esperide.org">US-Web</a> and <a class="reference external" href="http://us-main.esperide.org">US-Main</a>) depart significantly from the general conventions observed by most Erlang applications:</p>
 <ul class="simple">
 <li>notably because of their reliance on parse transforms, by default they rely on our own build system based on <a class="reference external" href="Build.html#gnu-make">GNU make</a> (rather than on <a class="reference external" href="https://www.rebar3.org/">rebar3</a>)</li>
 <li>they tend not to rely on OTP abstractions such as <tt class="docutils literal">gen_server</tt>, as WOOPER offers OOP (<em>Object-Oriented Programming</em>) ones that we prefer</li>
 </ul>
 </div>
+<div class="section" id="using-the-shell">
+<h1><a class="toc-backref" href="#id7">Using the Shell</a></h1>
+<p>If it is as simple to run <tt class="docutils literal">erl</tt>, we prefer, with Ceylan settings, running <tt class="docutils literal">make shell</tt> in order to benefit from a well-initialized VM (notably with the full code path of the current layer and the ones below).</p>
+<p>Refer then to the <a class="reference external" href="https://www.erlang.org/doc/man/shell.html#shell-commands">shell commands</a>, notably for:</p>
+<ul class="simple">
+<li><tt class="docutils literal">f/1</tt>, used as <tt class="docutils literal">f(X).</tt> in order to <em>forget</em> a variable <tt class="docutils literal">X</tt>, i.e. to remove the binding of this variable and be able to (re)assign it afterwards</li>
+<li><tt class="docutils literal"><span class="pre">rr/{1,2,3}</span></tt> (ex: used as <tt class="docutils literal">rr(Path).</tt>) to <em>read records</em> and have them available on the shell; for example, to be able to use the records defined by xmerl:</li>
+</ul>
+<pre class="code erlang literal-block">
+<span class="mi">1</span><span class="o">&gt;</span> <span class="n">rr</span><span class="p">(</span><span class="nn">code</span><span class="p">:</span><span class="nf">lib_dir</span><span class="p">(</span><span class="n">xmerl</span><span class="p">)</span> <span class="o">++</span> <span class="s">&quot;/include/xmerl.hrl&quot;</span><span class="p">).</span>
+</pre>
+<p>See also the <a class="reference external" href="https://www.erlang.org/doc/man/shell.html#jcl-mode">JCL mode</a> (for <em>Job Control Language</em>) to connect and interact with other Erlang nodes.</p>
+</div>
 <div class="section" id="language-implementation">
-<h1><a class="toc-backref" href="#id7">Language Implementation</a></h1>
+<h1><a class="toc-backref" href="#id8">Language Implementation</a></h1>
 <div class="section" id="message-passing-copying-vs-sharing">
-<h2><a class="toc-backref" href="#id8">Message-Passing: Copying vs Sharing</a></h2>
+<h2><a class="toc-backref" href="#id9">Message-Passing: Copying vs Sharing</a></h2>
 <p>Knowing that, in functional languages such as Erlang, terms (&quot;variables&quot;) are immutable, why could not they be shared between local processes when sent through messages, instead of being copied in the heap of each of them, as it is actually the case with the Erlang VM?</p>
 <p>The reason lies in the fact that, beyond the constness of these terms, their life-cycle has also to be managed. If they are copied, each process can very easily perform its (concurrent, autonomous) garbage collections. On the contrary, if terms were shared, then reference counting would be needed to deallocate them properly (neither too soon nor never at all), which, in a concurrent context, is bound to require locks.</p>
 <p>So a trade-off between memory (due to data duplication) and processing (due to lock contention) has to be found and at least for most terms (excepted larger binaries), the sweet spot consists in sacrificing a bit of memory in favour of a lesser CPU load. Solutions like <a class="reference external" href="https://www.erlang.org/doc/man/persistent_term.html">persistent_term</a> may address situations where more specific needs arise.</p>
 </div>
 <div class="section" id="just-in-time-compilation">
-<span id="jit"></span><h2><a class="toc-backref" href="#id9">Just-in-Time Compilation</a></h2>
+<span id="jit"></span><h2><a class="toc-backref" href="#id10">Just-in-Time Compilation</a></h2>
 <p>This long-awaited feature, named <em>BeamAsm</em> and whose rationale and history have been detailed in <a class="reference external" href="https://www.erlang.org/blog/the-road-to-the-jit/">these articles</a>, has been introduced in Erlang 24 and shall transparently lead to increased performances for most applications.</p>
 </div>
 <div class="section" id="static-typing">
-<h2><a class="toc-backref" href="#id10">Static Typing</a></h2>
+<h2><a class="toc-backref" href="#id11">Static Typing</a></h2>
 <p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> exist.</p>
 <p>A few <a class="reference external" href="https://github.com/llaisdy/beam_languages#statically-typed-languages">statically-typed languages</a> can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).</p>
 <p>In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports <a class="reference internal" href="#jit">JIT</a>).</p>
 </div>
 <div class="section" id="intermediate-languages">
-<h2><a class="toc-backref" href="#id11">Intermediate Languages</a></h2>
+<h2><a class="toc-backref" href="#id12">Intermediate Languages</a></h2>
 <p>To better discover the inner workings of the Erlang compilation, one may look at the <a class="reference external" href="http://tryerl.seriyps.ru/">eplaypen online demo</a> (whose project is <a class="reference external" href="https://github.com/seriyps/eplaypen">here</a>) and/or at the <a class="reference external" href="https://godbolt.org/">Compiler Explorer</a> (which supports the Erlang language among others).</p>
 <p>Both of them allow to read the intermediate representations involved when compiling Erlang code (BEAM stage, erl_scan, preprocessed sources, abstract code, Core Erlang, Static Single Assignment form, BEAM VM assembler opcodes, x86-64 assembler generated by the JIT, etc.).</p>
 </div>
 </div>
+<div class="section" id="about-security">
+<h1><a class="toc-backref" href="#id13">About Security</a></h1>
+<ul class="simple">
+<li>one should not encrypt messages directly with a key pair (ex: with RSA, only messages up to around 200 bytes long can be encrypted):  one should encrypt only a <em>symmetric key</em> (generated by a cryptographically-safe random algorithm) that is then used to encrypt one's message(s); ensure an Encrypt-Then-Authenticate scheme to prevent padding oracle attacks (and a secure-compare algorithm for the <em>Message Authentication Code</em> verification to prevent timing attacks); using <a class="reference external" href="https://doc.libsodium.org/">libsodium</a> should make mistakes using the standard crypto primitives less error-prone; see the <a class="reference external" href="https://github.com/jlouis/enacl">enacl</a> Erlang binding for that; for more information, refer to <a class="reference external" href="https://erlangforums.com/t/cannot-encrypt-a-long-binary-using-public-key-encrypt-private-2/724">the corresponding thread</a></li>
+<li>relevant sources of information:<ul>
+<li>books:<ul>
+<li><tt class="docutils literal">Cryptography Engineering: Design Principles and Practical Applications</tt></li>
+<li><tt class="docutils literal">Practical Cryptography</tt></li>
+</ul>
+</li>
+<li>the <a class="reference external" href="https://erlef.github.io/security-wg/secure_coding_and_deployment_hardening/">Security Working Group</a> of the EEF (<em>Erlang Ecosystem Foundation</em>)</li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="section" id="erlang-resources">
-<h1><a class="toc-backref" href="#id12">Erlang Resources</a></h1>
+<h1><a class="toc-backref" href="#id14">Erlang Resources</a></h1>
 <ul class="simple">
 <li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
-<li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well</li>
+<li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well; one may also check the <a class="reference external" href="https://exercism.org/tracks/erlang">Erlang track</a> on Exercism</li>
 <li>in addition to the module index mentioned in the <a class="reference internal" href="#erlang-installation">Erlang Installation</a> section, using the <a class="reference external" href="https://erlang.org/doc/search/">online search</a> and/or <a class="reference external" href="https://erldocs.com/">Erldocs</a> may also be convenient</li>
 <li>the Erlang <a class="reference external" href="https://www.erlang.org/community">community</a> is known to be pleasant and welcoming to newcomers; one may visit the <a class="reference external" href="https://erlangforums.com/">Erlang forums</a>, which complement the <a class="reference external" href="https://erlang.org/pipermail/erlang-questions/">erlang-questions</a> mailing list</li>
 <li>for those who are interested in parse transforms (the Erlang way of doing metaprogramming), the <a class="reference external" href="https://www.erlang.org/doc/apps/erts/absform.html">section about The Abstract Format</a> is esential (despite not being well known)</li>
