@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, December 17, 2021</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, December 24, 2021</td>
 </tr>
 </tbody>
 </table>
@@ -36,30 +36,37 @@
 <div class="contents local topic" id="id1">
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#overview" id="id3">Overview</a></li>
-<li><a class="reference internal" href="#let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm" id="id4">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></li>
-<li><a class="reference internal" href="#installation" id="id5">Installation</a></li>
-<li><a class="reference internal" href="#ceylan-s-language-use" id="id6">Ceylan's Language Use</a></li>
-<li><a class="reference internal" href="#using-the-shell" id="id7">Using the Shell</a></li>
-<li><a class="reference internal" href="#language-implementation" id="id8">Language Implementation</a><ul>
-<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="id9">Message-Passing: Copying vs Sharing</a></li>
-<li><a class="reference internal" href="#just-in-time-compilation" id="id10">Just-in-Time Compilation</a></li>
-<li><a class="reference internal" href="#static-typing" id="id11">Static Typing</a></li>
-<li><a class="reference internal" href="#intermediate-languages" id="id12">Intermediate Languages</a></li>
+<li><a class="reference internal" href="#overview" id="id8">Overview</a></li>
+<li><a class="reference internal" href="#let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm" id="id9">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></li>
+<li><a class="reference internal" href="#installation" id="id10">Installation</a></li>
+<li><a class="reference internal" href="#ceylan-s-language-use" id="id11">Ceylan's Language Use</a></li>
+<li><a class="reference internal" href="#using-the-shell" id="id12">Using the Shell</a></li>
+<li><a class="reference internal" href="#about-security" id="id13">About Security</a></li>
+<li><a class="reference internal" href="#more-advanced-topics" id="id14">More Advanced Topics</a><ul>
+<li><a class="reference internal" href="#metaprogramming" id="id15">Metaprogramming</a></li>
+<li><a class="reference internal" href="#improper-lists" id="id16">Improper Lists</a></li>
+<li><a class="reference internal" href="#post-mortem-investigations" id="id17">Post-Mortem Investigations</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#about-security" id="id13">About Security</a></li>
-<li><a class="reference internal" href="#erlang-resources" id="id14">Erlang Resources</a></li>
+<li><a class="reference internal" href="#language-bindings" id="id18">Language Bindings</a></li>
+<li><a class="reference internal" href="#language-implementation" id="id19">Language Implementation</a><ul>
+<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="id20">Message-Passing: Copying vs Sharing</a></li>
+<li><a class="reference internal" href="#just-in-time-compilation" id="id21">Just-in-Time Compilation</a></li>
+<li><a class="reference internal" href="#static-typing" id="id22">Static Typing</a></li>
+<li><a class="reference internal" href="#intermediate-languages" id="id23">Intermediate Languages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#erlang-resources" id="id24">Erlang Resources</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
 <div class="section" id="overview">
-<h1><a class="toc-backref" href="#id3">Overview</a></h1>
+<h1><a class="toc-backref" href="#id8">Overview</a></h1>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Erlang_(programming_language)">Erlang</a>  is a concurrent, functional programming language available as free software; see <a class="reference external" href="https://www.erlang.org/">its official website</a> for more details.</p>
 <p>Erlang is dynamically typed, and is executed by the <a class="reference external" href="https://en.wikipedia.org/wiki/BEAM_(Erlang_virtual_machine)">BEAM virtual machine</a>. This VM (<em>Virtual Machine</em>) operates on bytecodes and can perform Just-In-Time compilation. It powers also <a class="reference external" href="https://github.com/llaisdy/beam_languages">other related languages</a>, such as Elixir and LFE.</p>
 </div>
 <div class="section" id="let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm">
-<h1><a class="toc-backref" href="#id4">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></h1>
+<h1><a class="toc-backref" href="#id9">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></h1>
 <p>Taken from <a class="reference external" href="https://erlangforums.com/t/erlang-101-processes-parallelization/594">this presentation</a>:</p>
 <div class="admonition hint">
 <p class="first admonition-title">Hint</p>
@@ -74,7 +81,7 @@
 </div>
 </div>
 <div class="section" id="installation">
-<span id="erlang-installation"></span><h1><a class="toc-backref" href="#id5">Installation</a></h1>
+<span id="erlang-installation"></span><h1><a class="toc-backref" href="#id10">Installation</a></h1>
 <p>Erlang can be installed thanks to the various options listed in <a class="reference external" href="https://www.erlang.org/downloads">these guidelines</a>.</p>
 <p>Building Erlang from the sources of its latest stable version is certainly the best approach; for more control we prefer relying on our <a class="reference external" href="https://myriad.esperide.org/#software-prerequisites">custom procedure</a>.</p>
 <p>For a development activity, we recommend also specifying the following options to our <tt class="docutils literal"><span class="pre">conf/install-erlang.sh</span></tt> script:</p>
@@ -95,7 +102,7 @@ Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
 <p>Congratulations, you have a functional Erlang now!</p>
 </div>
 <div class="section" id="ceylan-s-language-use">
-<h1><a class="toc-backref" href="#id6">Ceylan's Language Use</a></h1>
+<h1><a class="toc-backref" href="#id11">Ceylan's Language Use</a></h1>
 <p>Ceylan users shall note that most of our related developments (namely <a class="reference external" href="http://myriad.esperide.org">Myriad</a>, <a class="reference external" href="http://wooper.esperide.org">WOOPER</a>, <a class="reference external" href="http://traces.esperide.org">Traces</a>, <a class="reference external" href="http://leec.esperide.org">LEEC</a>, <a class="reference external" href="http://seaplus.esperide.org">Seaplus</a>, <a class="reference external" href="http://mobile.esperide.org">Mobile</a>, <a class="reference external" href="http://us-common.esperide.org">US-Common</a>, <a class="reference external" href="http://us-web.esperide.org">US-Web</a> and <a class="reference external" href="http://us-main.esperide.org">US-Main</a>) depart significantly from the general conventions observed by most Erlang applications:</p>
 <ul class="simple">
 <li>notably because of their reliance on parse transforms, by default they rely on our own build system based on <a class="reference external" href="Build.html#gnu-make">GNU make</a> (rather than on <a class="reference external" href="https://www.rebar3.org/">rebar3</a>)</li>
@@ -103,7 +110,7 @@ Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
 </ul>
 </div>
 <div class="section" id="using-the-shell">
-<h1><a class="toc-backref" href="#id7">Using the Shell</a></h1>
+<h1><a class="toc-backref" href="#id12">Using the Shell</a></h1>
 <p>If it is as simple to run <tt class="docutils literal">erl</tt>, we prefer, with Ceylan settings, running <tt class="docutils literal">make shell</tt> in order to benefit from a well-initialized VM (notably with the full code path of the current layer and the ones below).</p>
 <p>Refer then to the <a class="reference external" href="https://www.erlang.org/doc/man/shell.html#shell-commands">shell commands</a>, notably for:</p>
 <ul class="simple">
@@ -114,30 +121,6 @@ Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
 <span class="mi">1</span><span class="o">&gt;</span> <span class="n">rr</span><span class="p">(</span><span class="nn">code</span><span class="p">:</span><span class="nf">lib_dir</span><span class="p">(</span><span class="n">xmerl</span><span class="p">)</span> <span class="o">++</span> <span class="s">&quot;/include/xmerl.hrl&quot;</span><span class="p">).</span>
 </pre>
 <p>See also the <a class="reference external" href="https://www.erlang.org/doc/man/shell.html#jcl-mode">JCL mode</a> (for <em>Job Control Language</em>) to connect and interact with other Erlang nodes.</p>
-</div>
-<div class="section" id="language-implementation">
-<h1><a class="toc-backref" href="#id8">Language Implementation</a></h1>
-<div class="section" id="message-passing-copying-vs-sharing">
-<h2><a class="toc-backref" href="#id9">Message-Passing: Copying vs Sharing</a></h2>
-<p>Knowing that, in functional languages such as Erlang, terms (&quot;variables&quot;) are immutable, why could not they be shared between local processes when sent through messages, instead of being copied in the heap of each of them, as it is actually the case with the Erlang VM?</p>
-<p>The reason lies in the fact that, beyond the constness of these terms, their life-cycle has also to be managed. If they are copied, each process can very easily perform its (concurrent, autonomous) garbage collections. On the contrary, if terms were shared, then reference counting would be needed to deallocate them properly (neither too soon nor never at all), which, in a concurrent context, is bound to require locks.</p>
-<p>So a trade-off between memory (due to data duplication) and processing (due to lock contention) has to be found and at least for most terms (excepted larger binaries), the sweet spot consists in sacrificing a bit of memory in favour of a lesser CPU load. Solutions like <a class="reference external" href="https://www.erlang.org/doc/man/persistent_term.html">persistent_term</a> may address situations where more specific needs arise.</p>
-</div>
-<div class="section" id="just-in-time-compilation">
-<span id="jit"></span><h2><a class="toc-backref" href="#id10">Just-in-Time Compilation</a></h2>
-<p>This long-awaited feature, named <em>BeamAsm</em> and whose rationale and history have been detailed in <a class="reference external" href="https://www.erlang.org/blog/the-road-to-the-jit/">these articles</a>, has been introduced in Erlang 24 and shall transparently lead to increased performances for most applications.</p>
-</div>
-<div class="section" id="static-typing">
-<h2><a class="toc-backref" href="#id11">Static Typing</a></h2>
-<p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> exist.</p>
-<p>A few <a class="reference external" href="https://github.com/llaisdy/beam_languages#statically-typed-languages">statically-typed languages</a> can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).</p>
-<p>In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports <a class="reference internal" href="#jit">JIT</a>).</p>
-</div>
-<div class="section" id="intermediate-languages">
-<h2><a class="toc-backref" href="#id12">Intermediate Languages</a></h2>
-<p>To better discover the inner workings of the Erlang compilation, one may look at the <a class="reference external" href="http://tryerl.seriyps.ru/">eplaypen online demo</a> (whose project is <a class="reference external" href="https://github.com/seriyps/eplaypen">here</a>) and/or at the <a class="reference external" href="https://godbolt.org/">Compiler Explorer</a> (which supports the Erlang language among others).</p>
-<p>Both of them allow to read the intermediate representations involved when compiling Erlang code (BEAM stage, erl_scan, preprocessed sources, abstract code, Core Erlang, Static Single Assignment form, BEAM VM assembler opcodes, x86-64 assembler generated by the JIT, etc.).</p>
-</div>
 </div>
 <div class="section" id="about-security">
 <h1><a class="toc-backref" href="#id13">About Security</a></h1>
@@ -154,8 +137,169 @@ Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
 </li>
 </ul>
 </div>
+<div class="section" id="more-advanced-topics">
+<h1><a class="toc-backref" href="#id14">More Advanced Topics</a></h1>
+<div class="section" id="metaprogramming">
+<h2><a class="toc-backref" href="#id15">Metaprogramming</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Metaprogramming">Metaprogramming</a> is to be done in Erlang through <strong>parse transforms</strong>, which are user-defined modules that transform an AST (for <em>Abstract Syntax Trees</em>, an Erlang term that represents actual code; see the <a class="reference external" href="https://www.erlang.org/doc/apps/erts/absform.html">Abstract Format</a> for more details) into another AST that is fed afterwards to the compiler.</p>
+<p>See also:</p>
+<ul class="simple">
+<li>this <a class="reference external" href="https://chlorophil.blogspot.com/2007/04/erlang-macro-processor-v1-part-i.html">introduction to parse transforms</a></li>
+<li>Ceylan-Myriad's <a class="reference external" href="https://myriad.esperide.org/#support-for-metaprogramming">support for metaprogramming</a></li>
+</ul>
+</div>
+<div class="section" id="improper-lists">
+<h2><a class="toc-backref" href="#id16">Improper Lists</a></h2>
+<p>A proper list is created from the empty one (<tt class="docutils literal">[]</tt>, also known as &quot;nil&quot;) by appending (with the <tt class="docutils literal">|</tt> operator, a.k.a. &quot;cons&quot;) elements in turn; for example <tt class="docutils literal">[1,2]</tt> is actually <tt class="docutils literal">[1 | [2 | <span class="pre">[]]]</span></tt>.</p>
+<p>However, instead of enriching a list from the empty one, one <em>can</em> start a list with any other term than <tt class="docutils literal">[]</tt>, for example <tt class="docutils literal">my_atom</tt>. Then, instead of <tt class="docutils literal"><span class="pre">[2|[]]</span></tt>, <tt class="docutils literal">[2|my_atom]</tt> may be specified and will be indeed a list - albeit an improper one.</p>
+<p>Many recursive functions expect proper lists, and will fail (typically with a function clause) if given an improper list to process (ex: <tt class="docutils literal">lists:flatten/1</tt>).</p>
+<p>So, why not banning such construct? Why even standard modules like <tt class="docutils literal">digraph</tt> rely on improper lists?</p>
+<p>The reason is that improper lists are a way to reduce the memory footprint of some datastructures, by storing a value of interest instead of the empty list.</p>
+<p>Indeed, as explained <a class="reference external" href="https://groups.google.com/g/erlang-programming/c/mQLS5yGX_8g/m/Ad4VVyOUDQAJ">in this post</a>, a (proper) list of 2 elements will consume:</p>
+<ul class="simple">
+<li>1 list cell (2 words of memory) to store the first element and a pointer to second cell</li>
+<li>1 list cell (2 more words) to store the second element and the empty list</li>
+</ul>
+<p>For a total of 4 words of memory (so, on a 64-bit architecture, it is 32 bytes).</p>
+<p>As for an improper list of 2 elements, only 1 list cell (2 words of memory) will be consumed to store the first element and then the second one.</p>
+<p>Such a solution is even more compact than a pair (a 2-element tuple), which consumes 2+1 = 3 words. Accessing the elements of an improper list is also faster (one handle to be inspected vs also an header to be inspected).</p>
+<p>Finally, for sizes expressed in bytes:</p>
+<pre class="code erlang literal-block">
+<span class="mi">1</span><span class="o">&gt;</span> <span class="nn">system_utils</span><span class="p">:</span><span class="nf">get_size</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="n">my_atom</span><span class="p">]).</span>
+<span class="mi">40</span>
+
+<span class="mi">2</span><span class="o">&gt;</span> <span class="nn">system_utils</span><span class="p">:</span><span class="nf">get_size</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="n">my_atom</span><span class="p">}).</span>
+<span class="mi">32</span>
+
+<span class="mi">3</span><span class="o">&gt;</span> <span class="nn">system_utils</span><span class="p">:</span><span class="nf">get_size</span><span class="p">([</span><span class="mi">2</span><span class="p">|</span><span class="n">my_atom</span><span class="p">]).</span>
+<span class="mi">24</span>
+</pre>
+<p>See also the <a class="reference external" href="http://beam-wisdoms.clau.se/en/latest/indepth-memory-layout.html#lists-cons">1</a>, <a class="reference external" href="http://beam-wisdoms.clau.se/en/latest/indepth-data-sizes.html#list">2</a> pointers for more information.</p>
+<p>Everyone shall decide on whether relying on improper lists is a trick, a hack or a technique to prohibit.</p>
+</div>
+<div class="section" id="post-mortem-investigations">
+<h2><a class="toc-backref" href="#id17">Post-Mortem Investigations</a></h2>
+<p>Erlang programs may fail, and this may result in mere (Erlang-level) crashes (the VM detects an error, and reports information about it) or in more brutal, lower-level core dumps (the VM crashes as a whole, like any faulty program run by the operating system).</p>
+<div class="section" id="erlang-crash-dumps">
+<h3>Erlang Crash Dumps</h3>
+<p>If experiencing &quot;only&quot; an Erlang-level crash, a <tt class="docutils literal">erl_crash.dump</tt> file is produced in the directory whence the executable (generally <tt class="docutils literal">erl</tt>) was launched. The best way to study it is to use the <tt class="docutils literal">cdv</tt> (refer to <a class="reference external" href="https://www.erlang.org/doc/apps/observer/crashdump_ug.html">crashdump viewer</a>) tool, available, from the Erlang installation, as <tt class="docutils literal">lib/erlang/cdv</tt> <a class="footnote-reference" href="#id7" id="id6">[3]</a>.</p>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[3]</a></td><td>Hence, according to the Ceylan-Myriad conventions, in <tt class="docutils literal"><span class="pre">~/Software/Erlang/Erlang-current-install/lib/erlang/cdv</span></tt>.</td></tr>
+</tbody>
+</table>
+<p>Using this debug tool is as easy as:</p>
+<pre class="literal-block">
+$ cdv erl_crash.dump
+</pre>
+<p>Then, through the wx-based interface, a rather large number of Erlang-level information will be available (processes, ports, ETS tables, nodes, modules, memory, etc.) to better understand the context of this crash and hopefully diagnose its root cause.</p>
+</div>
+<div class="section" id="core-dumps">
+<h3>Core Dumps</h3>
+<p>In the worst cases, the VM will crash like any other OS-level process, and generic (non Erlang-specific) tools will have to be used. Do not expect to be pointed to line numbers in Erlang source files anymore!</p>
+<p>This <a class="reference external" href="https://wiki.archlinux.org/title/Core_dump">Arch Linux article</a> will give all relevant details.</p>
+<p>In short, <tt class="docutils literal">coredumpctl list</tt> will list all known core dumps from oldest to most recent, such as in:</p>
+<pre class="literal-block">
+$ coredumpctl list
+TIME                        PID   UID  GID SIG     COREFILE EXE                SIZE
+[...]
+Tue 2021-12-21 20:53:02 CET 73873 1007 988 SIGSEGV present  [...]/bin/beam.smp 14.6M
+</pre>
+<p>The last core dump produced may be studied directly, thanks to <tt class="docutils literal">coredumpctl debug</tt>, relying on <tt class="docutils literal">gdb</tt> to fetch much lower-level information:</p>
+<pre class="literal-block">
+$ coredumpctl debug
+          PID: 73873 (beam.smp)
+          UID: 1007 (xxx)
+          GID: 988 (users)
+       Signal: 11 (SEGV)
+    Timestamp: Tue 2021-12-21 20:53:01 CET (38min ago)
+ Command Line: /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp -W w -K true -A 128 [...]
+   Executable: /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp
+Control Group: /user.slice/user-1007.slice/session-2.scope
+         Unit: session-2.scope
+        Slice: user-1007.slice
+      Session: 2
+    Owner UID: 1007 (xxx)
+      Boot ID: f8abe9473f7e4fea8ba24944e35ce7d9
+   Machine ID: c9413a71e7b4498f831e2df7a08e5f33
+     Hostname: xxx
+      Storage: /var/lib/systemd/coredump/core.beam\x2esmp.1007.f8abe9473f7e4fea8ba24944e35ce7d9.73873.1640116381000000.zst (present)
+    Disk Size: 14.6M
+      Message: Process 73873 (beam.smp) of user 1007 dumped core.
+
+               Found module /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp with build-id: 8cfbf76728dd7399444638f1ba124471181840e7
+               Found module /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/priv/erl_gl.so with build-id: 0b96532e586839d3da9afd6e5f23aa76346a0e45
+[...]
+   Stack trace of thread 74039:
+   #0  0x00007f6e5461a74b __memmove_avx_unaligned_erms (libc.so.6 + 0x16374b)
+   #1  0x00007f6d8a204428 n/a (iris_dri.so + 0xd12428)
+   #2  0x00007f6d89733207 n/a (iris_dri.so + 0x241207)
+   #3  0x00007f6d89733c97 n/a (iris_dri.so + 0x241c97)
+   #4  0x00007f6d898d8b0d n/a (iris_dri.so + 0x3e6b0d)
+   #5  0x00007f6d898d8bf2 n/a (iris_dri.so + 0x3e6bf2)
+   #6  0x00007f6d8b2f241c n/a (/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/priv/erl_gl.so + 0x5b41c)
+[New LWP 74039]
+[New LWP 73873]
+[...]
+Core was generated by `/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp -'.
+Program terminated with signal SIGSEGV, Segmentation fault.
+#0  0x00007f6e5461a74b in __memmove_avx_unaligned_erms () from /usr/lib/libc.so.6
+[Current thread is 1 (Thread 0x7f6d900aa640 (LWP 74039))]
+</pre>
+<p>Then:</p>
+<pre class="literal-block">
+(gdb) bt
+[...]
+#0  0x00007f6e5461a74b in __memmove_avx_unaligned_erms () at /usr/lib/libc.so.6
+#1  0x00007f6d8a204428 in  () at /usr/lib/dri/iris_dri.so
+#2  0x00007f6d89733207 in  () at /usr/lib/dri/iris_dri.so
+#3  0x00007f6d89733c97 in  () at /usr/lib/dri/iris_dri.so
+#4  0x00007f6d898d8b0d in  () at /usr/lib/dri/iris_dri.so
+#5  0x00007f6d898d8bf2 in  () at /usr/lib/dri/iris_dri.so
+#6  0x00007f6d8b2f241c in ecb_glTexImage2D(ErlNifEnv*, ErlNifPid*, ERL_NIF_TERM*) (env=0x5642f62bdea0, self=0x5642f665e148, argv=0x5642f665e168) at gen/gl_nif.cpp:2844
+[...]
+#29 0x00007f6d92967188 in wxe_main_loop(void*) (_unused=&lt;optimized out&gt;) at wxe_main.cpp:138
+</pre>
+<p>(this example was a wx/OpenGL-oriented crash)</p>
+<p>From there, <a class="reference external" href="https://sourceware.org/gdb/current/onlinedocs/gdb/">standard gdb-fu</a> shall be sufficient to give much insight. Once done, use <tt class="docutils literal">q</tt> to quit.</p>
+</div>
+</div>
+</div>
+<div class="section" id="language-bindings">
+<h1><a class="toc-backref" href="#id18">Language Bindings</a></h1>
+<p>The two main approaches in order to integrate third-party code to Erlang are to:</p>
+<ul class="simple">
+<li>interact with it as if it was another Erlang node; we defined <a class="reference external" href="http://seaplus.esperide.org">Ceylan-Seaplus</a> for that purpose</li>
+<li>directly link the current Erlang VM to this code, through <a class="reference external" href="https://www.erlang.org/doc/tutorial/nif.html">NIF</a>; it can be done manually, or may be automatised thanks to <a class="reference external" href="https://github.com/parapluu/nifty">nifty</a>; this can be especially useful for larger APIs (ex: <a class="reference external" href="https://www.libsdl.org/">SDL</a>)</li>
+</ul>
+</div>
+<div class="section" id="language-implementation">
+<h1><a class="toc-backref" href="#id19">Language Implementation</a></h1>
+<div class="section" id="message-passing-copying-vs-sharing">
+<h2><a class="toc-backref" href="#id20">Message-Passing: Copying vs Sharing</a></h2>
+<p>Knowing that, in functional languages such as Erlang, terms (&quot;variables&quot;) are immutable, why could not they be shared between local processes when sent through messages, instead of being copied in the heap of each of them, as it is actually the case with the Erlang VM?</p>
+<p>The reason lies in the fact that, beyond the constness of these terms, their life-cycle has also to be managed. If they are copied, each process can very easily perform its (concurrent, autonomous) garbage collections. On the contrary, if terms were shared, then reference counting would be needed to deallocate them properly (neither too soon nor never at all), which, in a concurrent context, is bound to require locks.</p>
+<p>So a trade-off between memory (due to data duplication) and processing (due to lock contention) has to be found and at least for most terms (excepted larger binaries), the sweet spot consists in sacrificing a bit of memory in favour of a lesser CPU load. Solutions like <a class="reference external" href="https://www.erlang.org/doc/man/persistent_term.html">persistent_term</a> may address situations where more specific needs arise.</p>
+</div>
+<div class="section" id="just-in-time-compilation">
+<span id="jit"></span><h2><a class="toc-backref" href="#id21">Just-in-Time Compilation</a></h2>
+<p>This long-awaited feature, named <em>BeamAsm</em> and whose rationale and history have been detailed in <a class="reference external" href="https://www.erlang.org/blog/the-road-to-the-jit/">these articles</a>, has been introduced in Erlang 24 and shall transparently lead to increased performances for most applications.</p>
+</div>
+<div class="section" id="static-typing">
+<h2><a class="toc-backref" href="#id22">Static Typing</a></h2>
+<p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> exist.</p>
+<p>A few <a class="reference external" href="https://github.com/llaisdy/beam_languages#statically-typed-languages">statically-typed languages</a> can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).</p>
+<p>In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports <a class="reference internal" href="#jit">JIT</a>).</p>
+</div>
+<div class="section" id="intermediate-languages">
+<h2><a class="toc-backref" href="#id23">Intermediate Languages</a></h2>
+<p>To better discover the inner workings of the Erlang compilation, one may look at the <a class="reference external" href="http://tryerl.seriyps.ru/">eplaypen online demo</a> (whose project is <a class="reference external" href="https://github.com/seriyps/eplaypen">here</a>) and/or at the <a class="reference external" href="https://godbolt.org/">Compiler Explorer</a> (which supports the Erlang language among others).</p>
+<p>Both of them allow to read the intermediate representations involved when compiling Erlang code (BEAM stage, erl_scan, preprocessed sources, abstract code, Core Erlang, Static Single Assignment form, BEAM VM assembler opcodes, x86-64 assembler generated by the JIT, etc.).</p>
+</div>
+</div>
 <div class="section" id="erlang-resources">
-<h1><a class="toc-backref" href="#id14">Erlang Resources</a></h1>
+<h1><a class="toc-backref" href="#id24">Erlang Resources</a></h1>
 <ul class="simple">
 <li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
 <li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well; one may also check the <a class="reference external" href="https://exercism.org/tracks/erlang">Erlang track</a> on Exercism</li>
@@ -163,6 +307,7 @@ Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
 <li>the Erlang <a class="reference external" href="https://www.erlang.org/community">community</a> is known to be pleasant and welcoming to newcomers; one may visit the <a class="reference external" href="https://erlangforums.com/">Erlang forums</a>, which complement the <a class="reference external" href="https://erlang.org/pipermail/erlang-questions/">erlang-questions</a> mailing list</li>
 <li>for those who are interested in parse transforms (the Erlang way of doing metaprogramming), the <a class="reference external" href="https://www.erlang.org/doc/apps/erts/absform.html">section about The Abstract Format</a> is esential (despite not being well known)</li>
 <li>to better understand the inner working of the VM: <a class="reference external" href="https://blog.stenmans.org/theBeamBook/">The Erlang Runtime System</a>, a.k.a. &quot;the BEAM book&quot;, by Erik Stenman</li>
+<li><a class="reference external" href="http://beam-wisdoms.clau.se/en/latest">BEAM Wisdoms</a>, by Dmytro Lytovchenko</li>
 </ul>
 </div>
 </div>

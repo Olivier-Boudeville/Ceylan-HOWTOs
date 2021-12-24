@@ -11,9 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<div class="document" id="the-gnu-linux-operating-system">
+<div class="document" id="using-the-gnu-linux-operating-system">
 <span id="top"></span>
-<h1 class="title">The GNU/Linux Operating System</h1>
+<h1 class="title">Using the GNU/Linux Operating System</h1>
 
 <p><span class="raw-html"><a name="howtos_top"></a></span></p>
 <p><span class="raw-html"><div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20GNU/Linux">email us</a></p></div></span></p>
@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, December 19, 2021</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, December 24, 2021</td>
 </tr>
 </tbody>
 </table>
@@ -36,26 +36,31 @@
 <div class="contents local topic" id="id1">
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#overview" id="id4">Overview</a></li>
-<li><a class="reference internal" href="#software-update" id="id5">Software Update</a></li>
-<li><a class="reference internal" href="#package-management" id="id6">Package Management</a><ul>
-<li><a class="reference internal" href="#package-related-commands" id="id7">Package-related Commands</a></li>
-<li><a class="reference internal" href="#interesting-packages" id="id8">Interesting Packages</a></li>
+<li><a class="reference internal" href="#overview" id="id6">Overview</a></li>
+<li><a class="reference internal" href="#software-update" id="id7">Software Update</a></li>
+<li><a class="reference internal" href="#package-management" id="id8">Package Management</a><ul>
+<li><a class="reference internal" href="#configuration" id="id9">Configuration</a></li>
+<li><a class="reference internal" href="#package-related-commands" id="id10">Package-related Commands</a></li>
+<li><a class="reference internal" href="#interesting-packages" id="id11">Interesting Packages</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="id9">See Also</a></li>
+<li><a class="reference internal" href="#quick-topics" id="id12">Quick Topics</a><ul>
+<li><a class="reference internal" href="#wine" id="id13">Wine</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also" id="id14">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
 <div class="section" id="overview">
-<h1><a class="toc-backref" href="#id4">Overview</a></h1>
+<h1><a class="toc-backref" href="#id6">Overview</a></h1>
 <p>GNU/Linux is our operating system of choice, for many reasons: it is in free software, it is efficient, trustable, reliable and controllable, its mode of operation does not change much over time so any time invested on it is well spent.</p>
 <p>Over the years we tried many distributions, including Ubuntu, Debian, Gentoo, Mint.</p>
 <p>Our personal all-time favorite is clearly <a class="reference external" href="https://en.wikipedia.org/wiki/Arch_Linux">Arch Linux</a>, because it leaves much control to its end user (not attempting to hide details that have to be mastered anyway), it is a &quot;clean&quot; one, driven by a skilled and knowledgeable community, and also because it is a rolling distribution: it updates constantly its packages <em>without needing to regularly upgrade the whole system</em>, which would jeopardise it in the same movement (global system updates rarely complete successfully and tend to be postponed because of the many problems they trigger; we found preferable to deal with issues incrementally on a live system - rather than on one that may fail to reboot properly).</p>
 <p>It ends up with a very stable, hassle-free distribution, with cutting-edge packages and higher uptimes (several months without needing to reboot), which is desirable for server-like usages.</p>
 </div>
 <div class="section" id="software-update">
-<h1><a class="toc-backref" href="#id5">Software Update</a></h1>
+<h1><a class="toc-backref" href="#id7">Software Update</a></h1>
 <p>The setup that we use is to perform <strong>automatic nightly updates</strong>. For that we use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-distro.sh">update-distro.sh</a> script, run through root's crontab as:</p>
 <pre class="code bash literal-block">
 $ crontab -l
@@ -136,37 +141,63 @@ $ shutdown-local-host.sh --reboot
 <p>The kernel packages, and possibly driver-related ones, will then only be properly updated before the host is rebooted.</p>
 </div>
 <div class="section" id="package-management">
-<h1><a class="toc-backref" href="#id6">Package Management</a></h1>
+<h1><a class="toc-backref" href="#id8">Package Management</a></h1>
+<div class="section" id="configuration">
+<h2><a class="toc-backref" href="#id9">Configuration</a></h2>
+<p id="enabling-multilib">One may enable the <a class="reference external" href="https://wiki.archlinux.org/title/Official_repositories#multilib">multilib</a> repository, which is useful to run 32-bit software on 64-bit hardware. This is useful for example if needing <tt class="docutils literal">wine</tt>, knowing that its build from the AUR may fail.</p>
+<p>To enable multilib, uncomment in <tt class="docutils literal">/etc/pacman.conf</tt>:</p>
+<pre class="literal-block">
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+</pre>
+<p>then upgrade your system with <tt class="docutils literal">pacman <span class="pre">-Syu</span></tt>.</p>
+</div>
 <div class="section" id="package-related-commands">
-<h2><a class="toc-backref" href="#id7">Package-related Commands</a></h2>
+<h2><a class="toc-backref" href="#id10">Package-related Commands</a></h2>
 <ul class="simple">
 <li>to get information about a package (installed or not): <tt class="docutils literal">pacman <span class="pre">-Si</span> MY_PACKAGE</tt></li>
 <li>to list all packages explicitly installed and not required as dependencies: <tt class="docutils literal">pacman <span class="pre">-Qet</span></tt></li>
-<li>to determine which package installed a specified file: <tt class="docutils literal">pkgfile SOME_FILE</tt></li>
+<li>to determine which package installed a specified file: <tt class="docutils literal">pkgfile SOME_FILE</tt> <a class="footnote-reference" href="#id5" id="id4">[2]</a></li>
 </ul>
-<p>See <a class="reference external" href="https://wiki.archlinux.org/title/Pacman/Tips_and_tricks">this page</a> for many more examples.</p>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td><tt class="docutils literal">pkgfile</tt> itself must have been installed beforehand, with <tt class="docutils literal">pacman <span class="pre">-S</span> pkgfile</tt>, and be updated, with <tt class="docutils literal">pkgfile <span class="pre">--update</span></tt> (still as root).</td></tr>
+</tbody>
+</table>
+<p>See <a class="reference external" href="https://wiki.archlinux.org/title/Pacman/Tips_and_tricks">this page</a> for many more commands.</p>
 </div>
 <div class="section" id="interesting-packages">
-<h2><a class="toc-backref" href="#id8">Interesting Packages</a></h2>
+<h2><a class="toc-backref" href="#id11">Interesting Packages</a></h2>
 <p>They might be lesser known:</p>
 <ul class="simple">
 <li><tt class="docutils literal">cpulimit</tt>: the way of limiting CPU usage of a given process, for example to avoid overheat (<tt class="docutils literal">nice</tt> just defines respective process priorities)</li>
 <li><tt class="docutils literal"><span class="pre">inotify-tools</span></tt>: to be able to monitor filesystem events (ex: with <tt class="docutils literal">inotifywait</tt>) from scripts</li>
 <li><tt class="docutils literal">jq</tt>: for command-line JSON processing (ex: <tt class="docutils literal">jq . myfile.json</tt> to display it properly on a terminal)</li>
 <li><tt class="docutils literal">mathjax</tt>: to generate LaTeX-like images for the web</li>
-<li><tt class="docutils literal">most</tt>: a replacement for more</li>
+<li><tt class="docutils literal">most</tt>: a replacement for <tt class="docutils literal">more</tt></li>
 <li><tt class="docutils literal">pdftk</tt>: to transform PDF files</li>
 <li><tt class="docutils literal">pkgfile</tt>: to retrieve file information about packages</li>
 </ul>
 </div>
 </div>
+<div class="section" id="quick-topics">
+<h1><a class="toc-backref" href="#id12">Quick Topics</a></h1>
+<div class="section" id="wine">
+<h2><a class="toc-backref" href="#id13">Wine</a></h2>
+<p>Install it, once <a class="reference internal" href="#enabling-multilib">enabling multilib</a> has been done, with: <tt class="docutils literal">pacman <span class="pre">-S</span> wine</tt>.</p>
+<p>When run, this may lead <tt class="docutils literal"><span class="pre">wine-mono</span></tt> to be auto-installed.</p>
+<p>The pseudo-Windows filesystem is then located mostly in <tt class="docutils literal"><span class="pre">~/.wine/drive_c</span></tt>.</p>
+</div>
+</div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#id9">See Also</a></h1>
-<p>Our other mini-HOWTO regarding:</p>
+<h1><a class="toc-backref" href="#id14">See Also</a></h1>
+<p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>
 <li><a class="reference external" href="Cybersecurity.html">Cybersecurity</a></li>
 </ul>
+<p>The Ceylan-Hull section <a class="reference external" href="https://hull.esperide.org/#system-related">system-related section</a> might also be of interest.</p>
 </div>
 </div>
 </body>
