@@ -59,6 +59,8 @@ Godot
 
 See its `official website <https://godotengine.org/>`_ and its `asset library <https://godotengine.org/asset-library/asset>`_.
 
+Godot (version 3.4.1) will not be able to load FBX files that reference formats like PSD or TIF and/or of older versions (ex: FBX 6.1). See for that our section regarding `format conversions`_.
+
 
 
 Installation
@@ -67,6 +69,12 @@ Installation
 On Arch Linux: ``pacman -Sy godot``.
 
 
+Use
+...
+
+Godot logs are stored per-project; ex: ``~/.local/share/godot/app_userdata/my-test-project/logs/godot.log``; past log files are kept once timestamped. They tend not to have interesting content.
+
+A configuration tree lies in ``.config/godot``, a cache tree in ``~/.cache/godot``.
 
 
 
@@ -99,6 +107,8 @@ Regarding the licensing of the engine, `various plans <https://store.unity.com/#
 
 See its `official website <https://unity.com/>`_ and its `asset store <https://assetstore.unity.com/>`_.
 
+.. _`Unity Assets`:
+
 Unity may be installed at least in order to access its asset store, knowing that apparently an asset purchased in this store may be used with any game engine of choice. Indeed, for the standard licence, it is stipulated in the `EULA legal terms <https://unity3d.com/legal/as_terms>`_ that:
 
 *Licensor grants to the END-USER a non-exclusive, worldwide, and perpetual license to the Asset to integrate Assets only as incorporated and embedded components of electronic games and interactive media and distribute such electronic game and interactive media.*
@@ -116,6 +126,7 @@ On Arch Linux it is `available through the AUR <https://aur.archlinux.org/packag
 
 Then, when running (as a non-priviledged user) ``unityhub``, a Unity account will be needed, then a licence, then a Unity release will have to be added in order to have it downloaded and installed for good, covering the selected target platforms (ex: Linux and Windows "Build Supports").
 
+We rely here on the Unity version 2021.2.7f1.
 
 Additional information: `Unity3D on Arch <https://wiki.archlinux.org/title/Unity3D>`_.
 
@@ -128,12 +139,32 @@ Configuring Unity so that its interface (mouse, keyboard bindings) behave like, 
 
 
 
-Assets
-......
+Troubleshooting
+...............
 
-They can be downloaded through the ``Window -> Package Manager -> Packages:My Assets`` menu option.
+The log files are stored in ``.config/unity3d``:
 
-To access the assets provided by such packages, of course the simplest approach is to use the Unity editor; this is done by creating a project (ex: ``MyProject``), selecting the aforementioned menu option (just above), then clicking on ``Import`` and selecting the relevant content that will end up in clear form in your project, i.e. in the UNIX filesystem with their actual name and content, for example in ``MyProject/Assets/CorrespondingAssetProvider/AssetName``.
+- Unity Editor: ``Editor.log`` (the most interesting one)
+- Unity Package Manager: ``upm.log``
+- Unity Licensing client: ``Unity.Licensing.Client.log``
+
+If the editor is stuck (ex: when importing an asset), one may use as a last resort `kill-unity3d.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/kill-unity3d.sh>`_.
+
+In term of persistent state, beyong the project trees themselves, there are:
+
+- ``~/.config/UnityHub/`` and ``~/.local/share/UnityHub/``
+- ``~/.config/unity3d/`` and ``~/.local/share/unity3d/``
+
+(nothing in ``~/.cache``)
+
+
+
+Unity Assets
+............
+
+Once ordered through the Unity Asset Store, assets can be downloaded through the ``Window -> Package Manager`` menu, by replacing, in the top ``Packages`` drop-down, the ``In Project`` by the ``My Assets`` one. After having selected an asset, use the ``Download`` button at the bottom-right of the screen.
+
+Then, to gain access to such downloaded assets, of course the simplest approach is to use the Unity editor; this is done by creating a project (ex: ``MyProject``), selecting the aforementioned menu option (just above), then clicking on ``Import`` and selecting the relevant content that will end up in clear form in your project, i.e. in the UNIX filesystem with their actual name and content, for example in ``MyProject/Assets/CorrespondingAssetProvider/AssetName``.
 
 Yet such Unity packages, once downloaded (whether or not they have been imported in projects afterwards) are files stored typically in the ``~/.local/share/unity3d/Asset Store-5.x`` directory and whose extension is ``.unitypackage``.
 
@@ -189,7 +220,71 @@ Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ
 
 .. comment Wings3D https://github.com/bjorng/wings/blob/master/plugins_src/import_export/wpc_collada.erl)
 
-Refer to `blender import`_ in order to handle the most common 3D file formats.
+Refer to `blender import`_ in order to handle the most common 3D file formats, and the next section about conversions.
+
+The ``file`` command is able to report the version of at least some formats; for example::
+
+ # Means FBX 7.3:
+ $ file foobar.fbx
+ foobar.fbx: Kaydara FBX model, version 7300
+
+
+
+.. _`format conversions`:
+
+
+Conversions
+-----------
+
+Due to the larger number of 3D file formats and the role of commercial software, interoperability regarding 3D content is poor and depends on many versions (tools and formats).
+
+
+Recommended Option: Relying on Blender
+......................................
+
+Using `blender import`_ is the primary solution we see: a content, once imported in Blender, can be saved in any of the supported formats.
+
+Yet this operation may fail, for example on "older" FBX files, whose FBX version (ex: 6.1) is not supported by Blender ("*Version 6100 unsupported, must be 7100 or later*") or by other tools such as Godot.
+
+
+.. _`autodesk-converter`:
+
+
+Workaround #1: Using Autodesk FBX Converter
+...........................................
+
+The simpler approach seems to download the (free) `Autodesk FBX Converter <https://images.autodesk.com/adsk/files/fbx20133_converter_win_x64.exe>`_ and to use `wine <GNULinux.html#wine>`_ to run it on GNU/Linux. Just install it with: ``wine fbx20133_converter_win_x64.exe``.
+
+A convenient alias (based on default settings) can then be defined to run it::
+
+ $ alias fbx-converter-ui="$HOME/.wine/drive_c/Program\ Files/Autodesk/FBX/FBX\ Converter/2013.3/FBXConverterUI.exe 2>/dev/null &"
+
+Conversion may take place from, for example, FBX 6.1 (also: 3DS, DAE, DXF, OBJ) to a FBX version in: 2006, 2009, 2010, 2011, 2013 (i.e. 7.3), but also DXF, OBJ and Collada, with various settings (embedded media, binary/ASCII mode, etc.).
+
+Unfortunately, at least on one FBX sample taken from a Unity package, if the mesh could be imported in Blender, textures and materials were not (having checked ``Embed media`` in the converter or not).
+
+An even better option is to use the command-line tool ``bin/FbxConverter.exe``, which the previous user interface actually executes. Use its ``/?`` option to get help, with interesting information.
+
+For example, to update a file in a presumably older FBX into a 7.3 one (that Blender can import)::
+
+ $ cd ~/.wine/drive_c/Program\ Files/Autodesk/FBX/FBX\ Converter/2013.3/bin
+ $ FbxConverter.exe My-legacy.FBX newer.fbx /v /sffFBX /dffFBX /e /f201300
+
+We devise the `update-fbx.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-fbx.sh>`_ script to automate such an in-place FBX update.
+
+
+
+Workaround #2: Relying on Unity
+...............................
+
+Here the principle is to import a content in Unity (the same could probably be done with Godot), and to export it from there.
+
+Unity does not allow to export for example FBX natively, however they provide a package for that that shall be installed first, once per project.
+
+One shall select in the menu ``Window -> Package Manager``, ensure that the entry ``Packages:`` points to ``Unity Registry``, and search for ``FBX Exporter``, then install it (bottom right button).
+
+Afterwards, in the ``GameObject`` menu a ``Export to FBX`` option will be available. Select the ``Binary`` export format (not ``ASCII``) if wanting to be compliant with Blender.
+
 
 
 
@@ -205,6 +300,52 @@ Here are a few samples of 3D content (useful for testing):
 
 
 
+Asset Providers
+---------------
+
+Usually, for one's creation, much multimedia artwork has to be secured: typically graphical assets (ex: 2D/3D geometries, animations, textures) and/or audio ones (ex: music, sounds, speech syntheses, special effects).
+
+Instead of creating such content by oneself (not enough time/interest/skill?), it may be more relevant to rely on specialised third-parties.
+
+**Hiring a professional or a freelance** is then an option. This is of course relatively expensive, involves more efforts (to define requirements and review the results), longer, but it is to provide exactly the artwork that one would like.
+
+Another option is to rely on specialised third-party providers that **sell non-exclusive licences for the content they offer**.
+
+These providers can be either direct **content producers** (companies with staffs of modellers), or **asset aggregators** (marketplaces which federate the offers of many producers of any size) that are often created in link to a given multimedia engine. An interesting point is that assets purchased in these stores generally can be used in any technical context, hence are not meant to be bound to the corresponding engine.
+
+Nowadays, much content is available, in terms of theme/setting (ex: Medieval, Science-Fiction, etc.), of nature (ex: characters, environments, vehicles, etc.), etc. and the overall quality/price ratio is rather good.
+
+The main advantages of these marketplaces is that:
+
+- they favor the competition between content providers: the clients can easily compare assets and share their opinion about them
+- they generalised simple, standard, unobtrusive licensing terms; ex: royalty free, allowing content to be used as they are or in a modified form, not limited by types of usage, number of distributed copies, duration of use, number of countries addressed, etc.; the general rule is that much freedom is left to the asset purchasers provided that they use for their own projects (rather than for example selling the artwork as they are)
+
+The main content aggregators that we spotted are (roughly by decreasing order of interest, based on our limited experience):
+
+- the `Unity Asset Store <https://assetstore.unity.com/>`_, already discussed in the `Unity Assets`_ section; websites like `this one <https://www.gameassetdeals.com/>`_ allow to track the significant discounts that are regularly made on assets
+- the `UE Marketplace <https://www.unrealengine.com/marketplace/en-US/store>`_, i.e. the store associated to the Unreal Engine; in terms of licensing and uses:
+
+  - `this article <https://marketplacehelp.epicgames.com/s/article/What-is-the-customer-getting-when-they-purchase-my-product?language=en_US>`_ states that *When customers purchase Marketplace products, they get a non-exclusive, worldwide, perpetual license to download, use, copy, post, modify, promote, license, sell, publicly perform, publicly display, digitally perform, distribute, or transmit your product’s content for personal, promotional, and/or commercial purposes. Distribution of products via the Marketplace is not a sale of the content but the granting of digital rights to the customer.*
+  - `this one <https://marketplacehelp.epicgames.com/s/article/Can-I-use-these-products-in-other-gaming-engines-like-Source-or-Unity?language=en_US>`_ states that *Any Marketplace products that have not been created by Epic Games can be used in other engines unless otherwise specified.*
+  - `this one <https://marketplacehelp.epicgames.com/s/article/What-can-a-customer-do-with-my-product?language=en_US>`_ states that *All products sold on the Marketplace are licensed to the customer (who may be either an individual or company) for the lifetime right to use the content in developing an unlimited number of products and in shipping those products. The customer is also licensed to make the content available to employees and contractors for the sole purpose of contributing to products controlled by the customer.*
+- `itch.io <https://itch.io/game-assets>`_
+- `Turbosquid <https://www.turbosquid.com/Search/3D-Models>`_
+- `Free3D <https://free3d.com/3d-models/>`_
+- `CGtrader <https://www.cgtrader.com/>`_
+- `ArtStation <https://www.artstation.com/marketplace/game-dev/assets>`_
+- `Sketchfab <https://sketchfab.com/tags/asset-store>`_
+- `3DRT <https://3drt.com/store/>`_
+- `Reallusion <https://marketplace.reallusion.com/>`_
+- `Arteria3D <https://arteria3d.myshopify.com/>`_
+- the `GameDev Market <https://www.gamedevmarket.net/>`_ (GDM)
+- the `Game Creator Store <https://tgcstore.net/>`_
+
+.. not interesting enough - the `Construct <https://www.construct.net/en/game-assets>`_ Game Asset Store / Scirra Store
+
+Many asset providers organise interesting discount offers (at least -50% on a selection of assets, sometimes even more for limited quantities) for the Black Friday (hence end of November) or for Christmas (hence mid-December).
+
+
+
 Modelling Software
 ==================
 
@@ -214,8 +355,10 @@ Blender
 
 Blender is a very powerful `open-source 3D toolset <https://en.wikipedia.org/wiki/Blender_(software)>`_.
 
+Blender (version 3.0.0) can import FBX files of version at least 7.1 ("7100"). See for that our section regarding `format conversions`_.
 
 .. _`blender import`:
+
 .. _`blender convert`:
 
 We recommend the use our `Blender <http://hull.esperide.org#blender>`_ scripts in order to:
@@ -243,6 +386,44 @@ Draco
 `Draco <https://google.github.io/draco/>`_ is an open-source library for compressing and decompressing 3D geometric meshes and point clouds.
 
 It is intended to improve the storage and transmission of 3D graphics; it can be used `with glTF <https://github.com/google/draco#gltf-transcoding-tool>`_, with Blender,  with `Compressonator <https://github.com/GPUOpen-Tools/Compressonator>`_, or `separately <https://aur.archlinux.org/packages/draco-git/>`_.
+
+A ``draco`` AUR package exists, and results notably in creating the ``/usr/lib/libdraco.so`` shared library file.
+
+
+Even once this package is installed, when Blender exports a mesh, a message like the following is displayed::
+
+ '/usr/bin/3.0/python/lib/python3.10/site-packages/libextern_draco.so' does
+ not exist, draco mesh compression not available, please add it or create
+ environment variable BLENDER_EXTERN_DRACO_LIBRARY_PATH pointing to the folder
+
+
+Setting the environment prior to running Blender is necessary (and done by our ``blender-*.sh`` scripts::
+
+ $ export BLENDER_EXTERN_DRACO_LIBRARY_PATH=/usr/lib
+
+but not sufficient, as the built library does not bear the expected name.
+
+So, as root, one shall fix that once for all:
+
+.. code:: bash
+
+ $ cd /usr/lib
+ $ ln -s libdraco.so libextern_draco.so
+
+
+Then the log message will become::
+
+ '/usr/lib/libextern_draco.so' exists, draco mesh compression is available
+
+
+
+F3D
+---
+
+`f3d <https://github.com/f3d-app/f3d>`_ (installable from the AUR) is a fast and minimalist VTK-based 3D viewer.
+
+Such a viewer is especially interesting to investigate whether a tool failed to properly export or the next failed to properly import, and to gain another chance to have relevant error messages.
+
 
 
 
@@ -304,11 +485,19 @@ Mini-Glossary
 
 - **IK**: *Inverse Kinematics*, the **computation of intermediary joint parameters** so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. to retain so that the hand is ultimately correctly placed on the chair (`more information <https://en.wikipedia.org/wiki/Inverse_kinematics>`_)
 
+- **Material**: controls the optical properties of an object, i.e. how a 3D object appears on the screen, that is: the color of each point of the object (generally thanks to multiple texture maps, like diffusion, normal, specular, glow, etc.) and how reflective or dull its surface appears; designates, with OpenGL, a set of coefficients that define **how the lighting model interacts with the surface**; in particular, ambient, diffuse, and specular coefficients for each color component (R,G,B) are defined and applied to a surface and effectively multiplied by the amount of light of each kind/color that strikes the surface; a final emmissivity coefficient is then added to each color component so that objects can also be light emitters
+
+- **PBR**: *Physically-Based Rendering* designates approaches to render images in a way that **models the flow of light in the real world**, for example thanks to photogrammetry; many PBR pipelines aim to achieve photorealism; in practice this often relies on the micro-facet theory, with specific materials (generally based on texture maps) and shaders (is also called PBS, for *Physically-Based Shading*); PBR is slowly becoming the standard for all materials
+
 - **PSD**: *Photoshop Document*,  a `proprietary format for graphics <https://docs.fileformat.com/image/psd/>`_ with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to `Gimp <https://www.gimp.org/>`_, `Krita <https://krita.org>`_, etc.) often used to store textures that may still be edited as templates by the user - provided they are using Photoshop as well; however, at least to some extent, `Gimp is able to edit PSD files <https://wiki.gimp.org/wiki/PSD_support>`_ and `Krita too <https://docs.krita.org/en/general_concepts/file_formats/file_psd.html>`_
 
 - **Rigging** (or *Skeletal Animation*) consists in controlling the deformation of a mesh (a.k.a. a *skin*, the surface of a body) of an articulated object (typically a character) **based on a virtual inner armature** (a hierarchical set of interconnected parts, called *bones*, and collectively forming the skeleton or *rig*) in order to animate that mesh (`more information <https://en.wikipedia.org/wiki/Skeletal_animation>`_)
+
+- **Textures**: bitmaps (images) used to skin 3D objects, by defining the color of each point on the surface of the object in terms of texture coordinates; besides such 2D textures, 1D, 3D and 4D ones exist
 
 - **Texture Atlas**: a texture containing a **set of separate, elementary graphic elements**, meant to be extracted thanks to texture coordinates, akin to a sprite sheet; doing so is useful to reduce the overhead that would be induced by the management of many smaller textures (`more information <https://en.wikipedia.org/wiki/Texture_atlas>`_)
 
 - **URP**: *Universal Render Pipeline*, a prebuilt `scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/>`_, made by Unity that implements workflows across a range of platforms, from mobile to high-end consoles and PC (so URP is the low-end counterpart of HDRP)
 
+
+See also the Wikipedia's `glossary of computer graphics <https://en.wikipedia.org/wiki/Glossary_of_computer_graphics>`_.

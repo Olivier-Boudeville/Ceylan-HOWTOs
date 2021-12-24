@@ -149,12 +149,31 @@ Package Management
 ==================
 
 
+Configuration
+-------------
+
+.. _`enabling multilib`:
+
+One may enable the `multilib <https://wiki.archlinux.org/title/Official_repositories#multilib>`_ repository, which is useful to run 32-bit software on 64-bit hardware. This is useful for example if needing ``wine``, knowing that its build from the AUR may fail.
+
+To enable multilib, uncomment in ``/etc/pacman.conf``::
+
+ [multilib]
+ Include = /etc/pacman.d/mirrorlist
+
+then upgrade your system with ``pacman -Syu``.
+
+
+
 Package-related Commands
 ------------------------
 
 - to get information about a package (installed or not): ``pacman -Si MY_PACKAGE``
 - to list all packages explicitly installed and not required as dependencies: ``pacman -Qet``
-- to determine which package installed a specified file: ``pkgfile SOME_FILE``
+- to determine which package installed a specified file: ``pkgfile SOME_FILE`` [#]_
+
+.. [#] ``pkgfile`` itself must have been installed beforehand, with ``pacman -S pkgfile``, and be updated, with ``pkgfile --update`` (still as root).
+
 
 See `this page <https://wiki.archlinux.org/title/Pacman/Tips_and_tricks>`_ for many more commands.
 
@@ -172,6 +191,22 @@ They might be lesser known:
 - ``most``: a replacement for ``more``
 - ``pdftk``: to transform PDF files
 - ``pkgfile``: to retrieve file information about packages
+
+
+
+
+Quick Topics
+============
+
+
+Wine
+----
+
+Install it, once `enabling multilib`_ has been done, with: ``pacman -S wine``.
+
+When run, this may lead ``wine-mono`` to be auto-installed.
+
+The pseudo-Windows filesystem is then located mostly in ``~/.wine/drive_c``.
 
 
 
