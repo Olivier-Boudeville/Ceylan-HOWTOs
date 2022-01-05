@@ -139,6 +139,13 @@ Configuring Unity so that its interface (mouse, keyboard bindings) behave like, 
 
 
 
+Running Unity
+.............
+
+Just execute ``unityhub``, which requires signing up and activating a licence.
+
+
+
 Troubleshooting
 ...............
 
@@ -172,7 +179,7 @@ Such files are actually ``.tar.gz`` archives, and thus their content can be list
 
 .. code:: bash
 
-   $ tar tvzf Foobar.unitypackage
+ $ tar tvzf Foobar.unitypackage
 
 Inside such archives, each individual package resource is located in a directory whose name is probably akin to the checksum of this resource (ex: ``167e85f3d750117459ff6199b79166fd``) [#]_; such directory generally contains at least 3 files:
 
@@ -216,7 +223,7 @@ See also the `glTF 2.0 quick reference guide <https://www.khronos.org/files/gltf
 
 The second best choice we see is `Collada <https://en.wikipedia.org/wiki/COLLADA>`_ (``*.dae`` files), an XML-based counterpart (open as well, yet older and with less validating facilities) to glTF.
 
-Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ <https://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ files and thus may have to be converted (typically to glTF), which is never a riskless task.
+Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ <https://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ files and thus may have to be converted (typically to glTF), which is never a riskless task. FBX comes in two flavours: text-based (ASCII) or binary, see `this retro-specification <https://code.blender.org/2013/08/fbx-binary-file-format-specification/>`_ for more information.
 
 .. comment Wings3D https://github.com/bjorng/wings/blob/master/plugins_src/import_export/wpc_collada.erl)
 
@@ -227,6 +234,13 @@ The ``file`` command is able to report the version of at least some formats; for
  # Means FBX 7.3:
  $ file foobar.fbx
  foobar.fbx: Kaydara FBX model, version 7300
+
+
+Too often, some tool will not be able to load a file and will fail to properly report why. When suspecting that a binary file (ex: a FBX one) references external content either missing or in an unsupported format (ex: PSD or TIFF?), one may peek at their content without an dedicated tool, directly from a terminal, like in::
+
+ $ strings my_asset.fbx | sort | uniq | grep '\.'
+
+This should list, among other elements, the paths that such a binary file is embedding.
 
 
 
@@ -244,7 +258,7 @@ Recommended Option: Relying on Blender
 
 Using `blender import`_ is the primary solution we see: a content, once imported in Blender, can be saved in any of the supported formats.
 
-Yet this operation may fail, for example on "older" FBX files, whose FBX version (ex: 6.1) is not supported by Blender ("*Version 6100 unsupported, must be 7100 or later*") or by other tools such as Godot.
+Yet this operation may fail, for example on "older" FBX files, whose FBX version (ex: 6.1) is not supported by Blender ("*Version 6100 unsupported, must be 7100 or later*") or by other tools such as Godot. See also the `Media Formats <https://docs.blender.org/manual/en/latest/files/media/index.html>`_ supported by Blender.
 
 
 .. _`autodesk-converter`:
@@ -296,6 +310,7 @@ Here are a few samples of 3D content (useful for testing):
 - `glTF <https://github.com/KhronosGroup/glTF-Sample-Models>`_, notably `glTF 2.0 <https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0>`_; direct: `.gltf Buggy example <https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Buggy/glTF-Embedded/Buggy.gltf>`_, `.glb Fish example <https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/BarramundiFish/glTF-Binary/BarramundiFish.glb>`_ (also: a `simple cube <http://paulbourke.net/dataformats/glTF/cube.txt>`_)
 - `DAE <https://github.com/assimp/assimp/tree/master/test/models/Collada>`_; direct: `Duck example <https://github.com/assimp/assimp/raw/master/test/models/Collada/duck.dae>`_ (also: a `simple cube <https://gist.github.com/wtsnz/bfa11c40e04594b260255b5dc7956f26>`_)
 - `FBX <https://free3d.com/dl-files.php?p=5671208f26be8b5e7b8b4567&f=4>`_; direct: `Stylized character <https://github.com/armory3d/armorpaint_samples/raw/master/sample.fbx>`_
+- `OBJ <https://free3d.com/dl-files.php?p=51a50c9b46e0daad6a99bb49&f=0>`_
 - `IFC <https://github.com/andrewisen/bim-whale-ifc-samples>`_; direct: `Basic house <https://github.com/andrewisen/bim-whale-ifc-samples/raw/main/BasicHouse/IFC/BasicHouse.ifc>`_ (requires the `BlenderBIM <https://blenderbim.org/download.html>`_ add-on for BIM support in Blender)
 
 
@@ -357,11 +372,12 @@ Blender is a very powerful `open-source 3D toolset <https://en.wikipedia.org/wik
 
 Blender (version 3.0.0) can import FBX files of version at least 7.1 ("7100"). See for that our section regarding `format conversions`_.
 
+
 .. _`blender import`:
 
 .. _`blender convert`:
 
-We recommend the use our `Blender <http://hull.esperide.org#blender>`_ scripts in order to:
+We recommend the use our `Blender scripts <http://hull.esperide.org#blender>`_ in order to:
 
 - import conveniently various file formats in Blender, with ``blender-import.sh``
 - convert directly on the command-line various file formats (still thanks to a non-interactive Blender), with ``blender-convert.sh``
@@ -373,6 +389,9 @@ Wings3D
 -------
 
 `Wings3D <https://en.wikipedia.org/wiki/Wings_3D>`_ is a nice, Erlang-based, free software subdivision modeler.
+
+It can be installed on Arch Linux, from the AUR, as ``wings3d``.
+
 
 
 
@@ -430,16 +449,87 @@ Such a viewer is especially interesting to investigate whether a tool failed to 
 OpenGL Corner
 =============
 
-Hints
------
 
-OpenGL allows the main program running on the CPU to communicate with typically a graphic card. As such most of the calls performed by user programs are asynchronous: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued. Indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process.
-
-
-Information
+Conventions
 -----------
 
-- FAQ for `OpenGL <https://www.khronos.org/opengl/wiki/FAQ>`_ and `GLUT <https://www.opengl.org/resources/libraries/glut/faq/>`_
+
+Basics
+......
+
+- OpenGL is a **software interface to graphics hardware**, i.e. an API of around 150 functions
+- OpenGL concentrates on **hardware-independent 2D/3D rendering**; no commands for performing windowing tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the window system
+- OpenGL offers only **low-level primitives** organised through a `pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such OpenGL is a building-block for higher-level engines (ex: like Godot_)
+- OpenGL is a **procedural** (function-based, not object-oriented) **state machine** comprising a larger number of variables defined within a given OpenGL state (named *OpenGL context*; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts until it is modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set)
+- so the **currently processed element** (ex: a vertex) **inherits (implicitly) the current settings of the context** (ex: color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply when performing an operation (specifying them would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards, until possibly being reassigned in some future
+- OpenGL respects a **client/server execution model**: an application (the client, running on a CPU) issues commands to the server (on the same host or not - see GLX, typically running on a graphic card), that executes them **sequentially and in-order**; as such most of the calls performed by user programs are **asynchronous**: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like *Display Lists* allow to pipeline operations (as opposed to the default *immediate mode*), which are accumulated for processing at a later time
+- OpenGL manages two types of data, handled by mostly different paths of its rendering pipeline yet are ultimately integrated in the framebuffer through fragment-yielding rasterization:
+
+  - geometric data (vertices, lines, and polygons)
+  - pixel data (pixels, images, and bitmaps)
+
+- Vertices and normals are transformed by the **modelview** and **projection** matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; texture coordinates are transformed by the **texture** matrix
+- Textures may reside in the main, general-purpose, client, CPU-side memory (large and slow to access for the rendering) and/or in any auxiliary, dedicated, server GPU-side memory (more constrained hence prioritized thanks to *texture objects*, and high-performance, rendering-wise)
+- OpenGL can operate on three mutually exclusive modes: *rendering* (the default, most common one, discussed here), *selection* (to determine, based on stacks of user-specified "names", which primitives would be drawn into some region of a window) and *feedback* (to determine the primitives that would be rasterized is fed back to the application)
+
+
+
+Mini OpenGL Glossary
+....................
+
+Terms that are more or less specific to OpenGL:
+
+- ``Accumulation buffer``: a buffer that may be used for scene antialiasing; the scene is rendered several times, each time jittered less than one pixel, and the images are accumulated and then averaged
+- ``Context``: a rendering context corresponds to the OpenGL state and the connection between OpenGL and the system; in order to perform rendering, a suitable context must be current (i.e. bound, active for the OpenGL commands); it is possible to have multiple rendering contexts share buffer data and textures, which is specially useful when the application use multiple threads for updating data into the memory of the graphics card
+- ``Display list``: a group of OpenGL commands that has been stored for subsequent execution, so that it can be sent and processed more efficiently by the graphic card
+- (pixel) ``fragment``: two-dimensional description of elements (point, line segment, or polygon) produced by the rasterization step, before being stored as pixels in the frame buffer; also defined as: "a point and its associated information"
+- ``Evaluator``: the part of the pipeline to perform polynomial mapping (basis functions) and transform higher-level primitives (such as NURBS) into actual ones (vertices, normals, texture coordinates and colors)
+- ``Frame buffer``: the "server-side" pixel buffer, filled, after rasterization took place, by combinations (notably blending) of the selected fragments; it is actually made of a set of logical buffers of bitplanes: the color (itself comprising multiple buffers), depth (for hidden-surface removal), stencil, and accumulation buffers
+- ``GL``: *Graphics Library* (also a shorthand for *OpenGL*)
+- ``GLU``: *OpenGL Utility Library*, a standard part of every OpenGL implementation, providing auxiliary features (ex:image scaling, automatic mipmapping, setting up matrices for specific viewing orientations and projections, performing polygon tessellation, rendering surfaces, supporting quadrics routines that create spheres, cylinders, cones, etc.); see `this page <https://www.glprogramming.com/blue/ch02.html#id24847>`_ for more information
+- ``GLUT``, *OpenGL Utility Toolkit*, a window system-independent toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, nowadays is less used
+- ``GLX``: the X extension of the OpenGL interface, i.e. a solution to integrate OpenGL to X servers; see `this page <https://www.glprogramming.com/blue/ch02.html#id86751>`_ for more information
+- ``Pixel``: *Picture Element*
+- ``Primitive``: points, lines, polygons, images, and bitmaps
+- (geometric) ``Primitives``: they are (exactly) points, lines, and polygons
+- ``Rasterization``: the process by which a primitive is converted to a two-dimensional image
+- ``Scissor Test``: an arbitrary screen-aligned rectangle outside of which fragments will be discarded.
+- ``Stencil Test``: conditionally discards a fragment based on the outcome of a selected comparison between the value in the stencil buffer and a reference value
+- ``Texel``: *Texture Element*
+
+
+
+Refer to the `description of the pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ for further details.
+
+
+
+More Advanced Topics
+--------------------
+
+
+Shadows
+.......
+
+Determining the shadow of an arbitrary object on an arbitrary plane (representing typically the ground - or other objects) from an arbitrary light source (possibly at infinity) corresponds to performing a specific **projection**. For that, a relevant 4x4 (based on homogeneous coordinates) matrix (singular, i.e. non-invertible matrix) can be defined.
+
+This matrix can be multiplied with the top of the modelview matrix stack, before drawing the object of interest in the shadow color (a shade of black generally).
+
+Refer to `this page <https://www.glprogramming.com/red/chapter14.html#name15>`_ for more information.
+
+
+
+Sources of Information
+----------------------
+
+Two very well-written books, strongly recommended, that are still perfectly relevant despite their old age (circa 1996):
+
+- *The Official Guide to Learning OpenGL*: the `OpenGL Red book <https://www.glprogramming.com/red/index.html>`_
+- *The OpenGL Reference Manual*: the `OpenGL Blue book <https://www.glprogramming.com/blue/index.html>`_
+
+
+Other elements of interest:
+
+- FAQ for `OpenGL <https://www.khronos.org/opengl/wiki/FAQ>`_ and `GLUT <https://www.opengl.org/resources/libraries/glut/faq/>`_<
 - About `OpenGL Performance <https://www.khronos.org/opengl/wiki/Performance>`_
 
 
@@ -487,9 +577,11 @@ Mini-Glossary
 
 - **Material**: controls the optical properties of an object, i.e. how a 3D object appears on the screen, that is: the color of each point of the object (generally thanks to multiple texture maps, like diffusion, normal, specular, glow, etc.) and how reflective or dull its surface appears; designates, with OpenGL, a set of coefficients that define **how the lighting model interacts with the surface**; in particular, ambient, diffuse, and specular coefficients for each color component (R,G,B) are defined and applied to a surface and effectively multiplied by the amount of light of each kind/color that strikes the surface; a final emmissivity coefficient is then added to each color component so that objects can also be light emitters
 
+- **NURBS**: *Non-Uniform Rational B-Spline*, a mathematical model using `basis splines <https://en.wikipedia.org/wiki/B-spline>`_ (B-splines) that is commonly used in computer graphics for representing curves and surfaces, whose shape is determined by control points (`more information <https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline>`_)
+
 - **PBR**: *Physically-Based Rendering* designates approaches to render images in a way that **models the flow of light in the real world**, for example thanks to photogrammetry; many PBR pipelines aim to achieve photorealism; in practice this often relies on the micro-facet theory, with specific materials (generally based on texture maps) and shaders (is also called PBS, for *Physically-Based Shading*); PBR is slowly becoming the standard for all materials
 
-- **PSD**: *Photoshop Document*,  a `proprietary format for graphics <https://docs.fileformat.com/image/psd/>`_ with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to `Gimp <https://www.gimp.org/>`_, `Krita <https://krita.org>`_, etc.) often used to store textures that may still be edited as templates by the user - provided they are using Photoshop as well; however, at least to some extent, `Gimp is able to edit PSD files <https://wiki.gimp.org/wiki/PSD_support>`_ and `Krita too <https://docs.krita.org/en/general_concepts/file_formats/file_psd.html>`_
+- **PSD**: *Photoshop Document*, a `proprietary format for graphics <https://docs.fileformat.com/image/psd/>`_ with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to `Gimp <https://www.gimp.org/>`_, `Krita <https://krita.org>`_, etc.) often used to store textures that may still be edited as templates by the user - provided they are using Photoshop as well; however, at least to some extent, `Gimp is able to edit PSD files <https://wiki.gimp.org/wiki/PSD_support>`_ and `Krita too <https://docs.krita.org/en/general_concepts/file_formats/file_psd.html>`_
 
 - **Rigging** (or *Skeletal Animation*) consists in controlling the deformation of a mesh (a.k.a. a *skin*, the surface of a body) of an articulated object (typically a character) **based on a virtual inner armature** (a hierarchical set of interconnected parts, called *bones*, and collectively forming the skeleton or *rig*) in order to animate that mesh (`more information <https://en.wikipedia.org/wiki/Skeletal_animation>`_)
 
