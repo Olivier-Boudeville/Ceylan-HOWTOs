@@ -125,19 +125,25 @@ This may be done by populating ``/etc/modules-load.d/`` with as many files listi
  8021q
 
 
-This is not sufficient though (ex: one cannot anticipate all modules needed after a while); disabling the *automatic* updates of kernels is also key to reduce issues; this can be done by specifying in ``/etc/pacman.conf``::
+This is not sufficient though (ex: one cannot anticipate all modules needed after a while); disabling the *automatic* updates of kernels is also key to reduce issues; this can be done by specifying in ``/etc/pacman.conf``:
+
+.. code:: bash
 
  IgnorePkg = linux linux-headers
 
 LTS (*Long Term Support*) kernels are intentionally *not* listed here, as we prefer having them regularly updated in order to minimise the risk that the base and LTS kernels belong to too close versions (as then a problem in terms of hardware support is more likely to arise at the same time with both).
 
-At least users of NVidia graphic cards may also list there their drivers, as apparently an hardware acceleration supported at boot may be lost after some time, presumably because of an update of its drivers (knowing that the update of the kernel itself was already disabled in that case) - so, if appropriate, better be safe than sorry::
+At least users of NVidia graphic cards may also list there their drivers, as apparently an hardware acceleration supported at boot may be lost after some time, presumably because of an update of its drivers (knowing that the update of the kernel itself was already disabled in that case) - so, if appropriate, better be safe than sorry:
+
+.. code:: bash
 
  IgnorePkg = linux linux-headers nvidia nvidia-utils
 
 See also our section about `operating system support for 3D <ThreeDimensional.html#os-support>`_.
 
-Updating all packages but kernel-related ones is fine, but of course the latters shall still be also updated appropriately. The best moment for that is just prior to rebooting (knowing that your Linux box never crashes, isn't it?), so for that we use (as root) our `shutdown-local-host.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/shutdown-local-host.sh>`_ script, like in::
+Updating all packages but kernel-related ones is fine, but of course the latters shall still be also updated appropriately. The best moment for that is just prior to rebooting (knowing that your Linux box never crashes, isn't it?), so for that we use (as root) our `shutdown-local-host.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/shutdown-local-host.sh>`_ script, like in:
+
+.. code:: bash
 
  $ shutdown-local-host.sh --reboot
 
@@ -156,7 +162,9 @@ Configuration
 
 One may enable the `multilib <https://wiki.archlinux.org/title/Official_repositories#multilib>`_ repository, which is useful to run 32-bit software on 64-bit hardware. This is useful for example if needing ``wine``, knowing that its build from the AUR may fail.
 
-To enable multilib, uncomment in ``/etc/pacman.conf``::
+To enable multilib, uncomment in ``/etc/pacman.conf``:
+
+.. code:: bash
 
  [multilib]
  Include = /etc/pacman.d/mirrorlist

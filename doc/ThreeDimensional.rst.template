@@ -113,7 +113,7 @@ Unity may be installed at least in order to access its asset store, knowing that
 
 *Licensor grants to the END-USER a non-exclusive, worldwide, and perpetual license to the Asset to integrate Assets only as incorporated and embedded components of electronic games and interactive media and distribute such electronic game and interactive media.*
 
-So, in legal terms, an asset could be bought in the Unity Asset Store and used in Godot, for example - provided that its content can be used there without too much technical effort/constraint.
+So, in legal terms, an asset could be bought in the Unity Asset Store and used in Godot, for example - provided that its content can be used there technically without too much effort/constraints (this may happen with prefabs, specific animations, materials or shaders, conventions in use, etc.).
 
 
 
@@ -157,21 +157,21 @@ The log files are stored in ``.config/unity3d``:
 
 If the editor is stuck (ex: when importing an asset), one may use as a last resort `kill-unity3d.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/kill-unity3d.sh>`_.
 
-In term of persistent state, beyong the project trees themselves, there are:
+In term of persistent state, beyond the project trees themselves, there are:
 
 - ``~/.config/UnityHub/`` and ``~/.local/share/UnityHub/``
 - ``~/.config/unity3d/`` and ``~/.local/share/unity3d/``
 
-(nothing in ``~/.cache``)
+(nothing in ``~/.cache`` apparently)
 
 
 
 Unity Assets
 ............
 
-Once ordered through the Unity Asset Store, assets can be downloaded through the ``Window -> Package Manager`` menu, by replacing, in the top ``Packages`` drop-down, the ``In Project`` by the ``My Assets`` one. After having selected an asset, use the ``Download`` button at the bottom-right of the screen.
+Once ordered through the Unity Asset Store, assets can be downloaded through the ``Window -> Package Manager`` menu, by replacing, in the top ``Packages`` drop-down, the ``In Project`` entry by the ``My Assets`` one. After having selected an asset, use the ``Download`` button at the bottom-right of the screen.
 
-Then, to gain access to such downloaded assets, of course the simplest approach is to use the Unity editor; this is done by creating a project (ex: ``MyProject``), selecting the aforementioned menu option (just above), then clicking on ``Import`` and selecting the relevant content that will end up in clear form in your project, i.e. in the UNIX filesystem with their actual name and content, for example in ``MyProject/Assets/CorrespondingAssetProvider/AssetName``.
+Then, to gain access to such downloaded assets, of course the simplest approach is to use the Unity editor; this is done by creating a project (ex: ``MyProject``), selecting the aforementioned menu option (just above), then clicking on ``Import`` and selecting the relevant content that will end up in clear form in your project, i.e. in the UNIX filesystem with their actual name and content, for example in ``MyProject/Assets/CorrespondingAssetProvider/AssetName``. We experienced reproducible freezes when importing resources.
 
 Yet such Unity packages, once downloaded (whether or not they have been imported in projects afterwards) are files stored typically in the ``~/.local/share/unity3d/Asset Store-5.x`` directory and whose extension is ``.unitypackage``.
 
@@ -221,7 +221,7 @@ It comes in two forms:
 See also the `glTF 2.0 quick reference guide <https://www.khronos.org/files/gltf20-reference-guide.pdf>`_ and the `related section of Godot <https://docs.godotengine.org/en/stable/getting_started/workflow/assets/importing_scenes.html>`_.
 
 
-The second best choice we see is `Collada <https://en.wikipedia.org/wiki/COLLADA>`_ (``*.dae`` files), an XML-based counterpart (open as well, yet older and with less validating facilities) to glTF.
+The second best choice that we see is `Collada <https://en.wikipedia.org/wiki/COLLADA>`_ (``*.dae`` files), an XML-based counterpart (open as well, yet older and with less validating facilities) to glTF.
 
 Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ <https://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ files and thus may have to be converted (typically to glTF), which is never a riskless task. FBX comes in two flavours: text-based (ASCII) or binary, see `this retro-specification <https://code.blender.org/2013/08/fbx-binary-file-format-specification/>`_ for more information.
 
@@ -229,14 +229,18 @@ Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ
 
 Refer to `blender import`_ in order to handle the most common 3D file formats, and the next section about conversions.
 
-The ``file`` command is able to report the version of at least some formats; for example::
+The ``file`` command is able to report the version of at least some formats; for example:
+
+.. code:: bash
 
  # Means FBX 7.3:
  $ file foobar.fbx
  foobar.fbx: Kaydara FBX model, version 7300
 
 
-Too often, some tool will not be able to load a file and will fail to properly report why. When suspecting that a binary file (ex: a FBX one) references external content either missing or in an unsupported format (ex: PSD or TIFF?), one may peek at their content without an dedicated tool, directly from a terminal, like in::
+Too often, some tool will not be able to load a file and will fail to properly report why. When suspecting that a binary file (ex: a FBX one) references external content either missing or in an unsupported format (ex: PSD or TIFF?), one may peek at their content without any dedicated tool, directly from a terminal, like in:
+
+.. code:: bash
 
  $ strings my_asset.fbx | sort | uniq | grep '\.'
 
@@ -250,13 +254,13 @@ This should list, among other elements, the paths that such a binary file is emb
 Conversions
 -----------
 
-Due to the larger number of 3D file formats and the role of commercial software, interoperability regarding 3D content is poor and depends on many versions (tools and formats).
+Due to the larger number of 3D file formats and the role of commercial software, interoperability regarding 3D content is poor and depends on many versions (of tools and formats).
 
 
 Recommended Option: Relying on Blender
 ......................................
 
-Using `blender import`_ is the primary solution we see: a content, once imported in Blender, can be saved in any of the supported formats.
+Using `blender import`_ is the primary solution that we see: a content, once imported in Blender, can be saved in any of the supported formats.
 
 Yet this operation may fail, for example on "older" FBX files, whose FBX version (ex: 6.1) is not supported by Blender ("*Version 6100 unsupported, must be 7100 or later*") or by other tools such as Godot. See also the `Media Formats <https://docs.blender.org/manual/en/latest/files/media/index.html>`_ supported by Blender.
 
@@ -267,25 +271,28 @@ Yet this operation may fail, for example on "older" FBX files, whose FBX version
 Workaround #1: Using Autodesk FBX Converter
 ...........................................
 
-The simpler approach seems to download the (free) `Autodesk FBX Converter <https://images.autodesk.com/adsk/files/fbx20133_converter_win_x64.exe>`_ and to use `wine <GNULinux.html#wine>`_ to run it on GNU/Linux. Just install it with: ``wine fbx20133_converter_win_x64.exe``.
+The simpler approach seems to download the (free) `Autodesk FBX Converter <https://images.autodesk.com/adsk/files/fbx20133_converter_win_x64.exe>`_ and to use `wine <GNULinux.html#wine>`_ to run it on GNU/Linux. Just install then this converter with: ``wine fbx20133_converter_win_x64.exe``.
 
-A convenient alias (based on default settings) can then be defined to run it::
+A convenient alias (based on default settings, typically to be put in one's ``~/.bashrc``) can then be defined to run it:
+
+.. code:: bash
 
  $ alias fbx-converter-ui="$HOME/.wine/drive_c/Program\ Files/Autodesk/FBX/FBX\ Converter/2013.3/FBXConverterUI.exe 2>/dev/null &"
 
-Conversion may take place from, for example, FBX 6.1 (also: 3DS, DAE, DXF, OBJ) to a FBX version in: 2006, 2009, 2010, 2011, 2013 (i.e. 7.3), but also DXF, OBJ and Collada, with various settings (embedded media, binary/ASCII mode, etc.).
+Conversions may take place from, for example, FBX 6.1 (also: 3DS, DAE, DXF, OBJ) to a FBX version in: 2006, 2009, 2010, 2011, 2013 (i.e. 7.3 - of course the most interesting one here), but also DXF, OBJ and Collada, with various settings (embedded media, binary/ASCII mode, etc.).
 
-Unfortunately, at least on one FBX sample taken from a Unity package, if the mesh could be imported in Blender, textures and materials were not (having checked ``Embed media`` in the converter or not).
+An even better option is to use directly the command-line tool ``bin/FbxConverter.exe``, which the previous user interface actually executes. Use its ``/?`` option to get help, with interesting information.
 
-An even better option is to use the command-line tool ``bin/FbxConverter.exe``, which the previous user interface actually executes. Use its ``/?`` option to get help, with interesting information.
+For example, to update a file in a presumably older FBX into a 7.3 one (that Blender can import):
 
-For example, to update a file in a presumably older FBX into a 7.3 one (that Blender can import)::
+.. code:: bash
 
  $ cd ~/.wine/drive_c/Program\ Files/Autodesk/FBX/FBX\ Converter/2013.3/bin
  $ FbxConverter.exe My-legacy.FBX newer.fbx /v /sffFBX /dffFBX /e /f201300
 
-We devise the `update-fbx.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-fbx.sh>`_ script to automate such an in-place FBX update.
+We devised the `update-fbx.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-fbx.sh>`_ script to automate such an in-place FBX update.
 
+Unfortunately, at least on one FBX sample taken from a Unity package, if the mesh could be imported in Blender, textures and materials were not (having checked ``Embed media`` in the converter or not).
 
 
 Workaround #2: Relying on Unity
@@ -293,11 +300,11 @@ Workaround #2: Relying on Unity
 
 Here the principle is to import a content in Unity (the same could probably be done with Godot), and to export it from there.
 
-Unity does not allow to export for example FBX natively, however they provide a package for that that shall be installed first, once per project.
+Unity does not allow to export for example FBX natively, however a package for that is provided. It shall be installed first, once per project.
 
 One shall select in the menu ``Window -> Package Manager``, ensure that the entry ``Packages:`` points to ``Unity Registry``, and search for ``FBX Exporter``, then install it (bottom right button).
 
-Afterwards, in the ``GameObject`` menu a ``Export to FBX`` option will be available. Select the ``Binary`` export format (not ``ASCII``) if wanting to be compliant with Blender.
+Afterwards, in the ``GameObject`` menu, an ``Export to FBX`` option will be available. Select the ``Binary`` export format (not ``ASCII``) if wanting to be compliant with Blender.
 
 
 
@@ -357,7 +364,7 @@ The main content aggregators that we spotted are (roughly by decreasing order of
 
 .. not interesting enough - the `Construct <https://www.construct.net/en/game-assets>`_ Game Asset Store / Scirra Store
 
-Many asset providers organise interesting discount offers (at least -50% on a selection of assets, sometimes even more for limited quantities) for the Black Friday (hence end of November) or for Christmas (hence mid-December).
+Many asset providers organise interesting discount offers (at least -50% on a selection of assets, sometimes even more for limited quantities) for the Black Friday (hence end of November) or for Christmas (hence mid-December till the first days of January).
 
 
 
@@ -409,14 +416,18 @@ It is intended to improve the storage and transmission of 3D graphics; it can be
 A ``draco`` AUR package exists, and results notably in creating the ``/usr/lib/libdraco.so`` shared library file.
 
 
-Even once this package is installed, when Blender exports a mesh, a message like the following is displayed::
+Even once this package is installed, when Blender exports a mesh, a message like the following is displayed:
+
+.. code:: bash
 
  '/usr/bin/3.0/python/lib/python3.10/site-packages/libextern_draco.so' does
  not exist, draco mesh compression not available, please add it or create
  environment variable BLENDER_EXTERN_DRACO_LIBRARY_PATH pointing to the folder
 
 
-Setting the environment prior to running Blender is necessary (and done by our ``blender-*.sh`` scripts::
+Setting the environment prior to running Blender is necessary (and done by our ``blender-*.sh`` scripts:
+
+.. code:: bash
 
  $ export BLENDER_EXTERN_DRACO_LIBRARY_PATH=/usr/lib
 
@@ -430,7 +441,9 @@ So, as root, one shall fix that once for all:
  $ ln -s libdraco.so libextern_draco.so
 
 
-Then the log message will become::
+Then the log message will become:
+
+.. code:: bash
 
  '/usr/lib/libextern_draco.so' exists, draco mesh compression is available
 
@@ -441,7 +454,7 @@ F3D
 
 `f3d <https://github.com/f3d-app/f3d>`_ (installable from the AUR) is a fast and minimalist VTK-based 3D viewer.
 
-Such a viewer is especially interesting to investigate whether a tool failed to properly export or the next failed to properly import, and to gain another chance to have relevant error messages.
+Such a viewer is especially interesting to investigate whether a tool failed to properly export a content or whether it is the next tool that actually failed to properly import, and to gain another chance to have relevant error messages.
 
 
 
@@ -529,7 +542,7 @@ Two very well-written books, strongly recommended, that are still perfectly rele
 
 Other elements of interest:
 
-- FAQ for `OpenGL <https://www.khronos.org/opengl/wiki/FAQ>`_ and `GLUT <https://www.opengl.org/resources/libraries/glut/faq/>`_<
+- FAQ for `OpenGL <https://www.khronos.org/opengl/wiki/FAQ>`_ and `GLUT <https://www.opengl.org/resources/libraries/glut/faq/>`_
 - About `OpenGL Performance <https://www.khronos.org/opengl/wiki/Performance>`_
 
 
