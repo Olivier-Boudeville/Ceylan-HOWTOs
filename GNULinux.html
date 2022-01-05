@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2021 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, December 24, 2021</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 5, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -125,17 +125,17 @@ usbnet
 8021q
 </pre>
 <p>This is not sufficient though (ex: one cannot anticipate all modules needed after a while); disabling the <em>automatic</em> updates of kernels is also key to reduce issues; this can be done by specifying in <tt class="docutils literal">/etc/pacman.conf</tt>:</p>
-<pre class="literal-block">
-IgnorePkg = linux linux-headers
+<pre class="code bash literal-block">
+<span class="nv">IgnorePkg</span> <span class="o">=</span> linux linux-headers
 </pre>
 <p>LTS (<em>Long Term Support</em>) kernels are intentionally <em>not</em> listed here, as we prefer having them regularly updated in order to minimise the risk that the base and LTS kernels belong to too close versions (as then a problem in terms of hardware support is more likely to arise at the same time with both).</p>
 <p>At least users of NVidia graphic cards may also list there their drivers, as apparently an hardware acceleration supported at boot may be lost after some time, presumably because of an update of its drivers (knowing that the update of the kernel itself was already disabled in that case) - so, if appropriate, better be safe than sorry:</p>
-<pre class="literal-block">
-IgnorePkg = linux linux-headers nvidia nvidia-utils
+<pre class="code bash literal-block">
+<span class="nv">IgnorePkg</span> <span class="o">=</span> linux linux-headers nvidia nvidia-utils
 </pre>
 <p>See also our section about <a class="reference external" href="ThreeDimensional.html#os-support">operating system support for 3D</a>.</p>
 <p>Updating all packages but kernel-related ones is fine, but of course the latters shall still be also updated appropriately. The best moment for that is just prior to rebooting (knowing that your Linux box never crashes, isn't it?), so for that we use (as root) our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/shutdown-local-host.sh">shutdown-local-host.sh</a> script, like in:</p>
-<pre class="literal-block">
+<pre class="code bash literal-block">
 $ shutdown-local-host.sh --reboot
 </pre>
 <p>The kernel packages, and possibly driver-related ones, will then only be properly updated before the host is rebooted.</p>
@@ -146,9 +146,9 @@ $ shutdown-local-host.sh --reboot
 <h2><a class="toc-backref" href="#id9">Configuration</a></h2>
 <p id="enabling-multilib">One may enable the <a class="reference external" href="https://wiki.archlinux.org/title/Official_repositories#multilib">multilib</a> repository, which is useful to run 32-bit software on 64-bit hardware. This is useful for example if needing <tt class="docutils literal">wine</tt>, knowing that its build from the AUR may fail.</p>
 <p>To enable multilib, uncomment in <tt class="docutils literal">/etc/pacman.conf</tt>:</p>
-<pre class="literal-block">
-[multilib]
-Include = /etc/pacman.d/mirrorlist
+<pre class="code bash literal-block">
+<span class="o">[</span>multilib<span class="o">]</span>
+<span class="nv">Include</span> <span class="o">=</span> /etc/pacman.d/mirrorlist
 </pre>
 <p>then upgrade your system with <tt class="docutils literal">pacman <span class="pre">-Syu</span></tt>.</p>
 </div>

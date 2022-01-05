@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2021 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, December 24, 2021</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 5, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -36,49 +36,50 @@
 <div class="contents local topic" id="id1">
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#cross-platform-game-engines" id="id23">Cross-Platform Game Engines</a><ul>
-<li><a class="reference internal" href="#godot" id="id24">Godot</a></li>
-<li><a class="reference internal" href="#unreal-engine" id="id25">Unreal Engine</a></li>
-<li><a class="reference internal" href="#unity3d" id="id26">Unity3D</a></li>
+<li><a class="reference internal" href="#cross-platform-game-engines" id="id26">Cross-Platform Game Engines</a><ul>
+<li><a class="reference internal" href="#godot" id="id27">Godot</a></li>
+<li><a class="reference internal" href="#unreal-engine" id="id28">Unreal Engine</a></li>
+<li><a class="reference internal" href="#unity3d" id="id29">Unity3D</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#d-data" id="id27">3D Data</a><ul>
-<li><a class="reference internal" href="#file-formats" id="id28">File Formats</a></li>
-<li><a class="reference internal" href="#conversions" id="id29">Conversions</a></li>
-<li><a class="reference internal" href="#samples" id="id30">Samples</a></li>
-<li><a class="reference internal" href="#asset-providers" id="id31">Asset Providers</a></li>
+<li><a class="reference internal" href="#d-data" id="id30">3D Data</a><ul>
+<li><a class="reference internal" href="#file-formats" id="id31">File Formats</a></li>
+<li><a class="reference internal" href="#conversions" id="id32">Conversions</a></li>
+<li><a class="reference internal" href="#samples" id="id33">Samples</a></li>
+<li><a class="reference internal" href="#asset-providers" id="id34">Asset Providers</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#modelling-software" id="id32">Modelling Software</a><ul>
-<li><a class="reference internal" href="#blender" id="id33">Blender</a></li>
-<li><a class="reference internal" href="#wings3d" id="id34">Wings3D</a></li>
+<li><a class="reference internal" href="#modelling-software" id="id35">Modelling Software</a><ul>
+<li><a class="reference internal" href="#blender" id="id36">Blender</a></li>
+<li><a class="reference internal" href="#wings3d" id="id37">Wings3D</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#other-tools" id="id35">Other Tools</a><ul>
-<li><a class="reference internal" href="#draco" id="id36">Draco</a></li>
-<li><a class="reference internal" href="#f3d" id="id37">F3D</a></li>
+<li><a class="reference internal" href="#other-tools" id="id38">Other Tools</a><ul>
+<li><a class="reference internal" href="#draco" id="id39">Draco</a></li>
+<li><a class="reference internal" href="#f3d" id="id40">F3D</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#opengl-corner" id="id38">OpenGL Corner</a><ul>
-<li><a class="reference internal" href="#hints" id="id39">Hints</a></li>
-<li><a class="reference internal" href="#information" id="id40">Information</a></li>
+<li><a class="reference internal" href="#opengl-corner" id="id41">OpenGL Corner</a><ul>
+<li><a class="reference internal" href="#conventions" id="id42">Conventions</a></li>
+<li><a class="reference internal" href="#more-advanced-topics" id="id43">More Advanced Topics</a></li>
+<li><a class="reference internal" href="#sources-of-information" id="id44">Sources of Information</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#operating-system-support-for-3d" id="id41">Operating System Support for 3D</a><ul>
-<li><a class="reference internal" href="#testing" id="id42">Testing</a></li>
-<li><a class="reference internal" href="#id20" id="id43">Troubleshooting</a></li>
+<li><a class="reference internal" href="#operating-system-support-for-3d" id="id45">Operating System Support for 3D</a><ul>
+<li><a class="reference internal" href="#testing" id="id46">Testing</a></li>
+<li><a class="reference internal" href="#id22" id="id47">Troubleshooting</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#mini-glossary" id="id44">Mini-Glossary</a></li>
+<li><a class="reference internal" href="#mini-glossary" id="id48">Mini-Glossary</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
 <p>As usual, these information pertain to a GNU/Linux perspective.</p>
 <div class="section" id="cross-platform-game-engines">
-<h1><a class="toc-backref" href="#id23">Cross-Platform Game Engines</a></h1>
+<h1><a class="toc-backref" href="#id26">Cross-Platform Game Engines</a></h1>
 <p>The big three are <a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Unreal_Engine">Unreal Engine</a> and <a class="reference internal" href="#unity3d">Unity3D</a>.</p>
 <div class="section" id="godot">
-<h2><a class="toc-backref" href="#id24">Godot</a></h2>
+<h2><a class="toc-backref" href="#id27">Godot</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a> is our personal favorite engine, notably because it is free software (<a class="reference external" href="https://godotengine.org/license">released under the very permissive MIT license</a>).</p>
 <p>See its <a class="reference external" href="https://godotengine.org/">official website</a> and its <a class="reference external" href="https://godotengine.org/asset-library/asset">asset library</a>.</p>
 <p>Godot (version 3.4.1) will not be able to load FBX files that reference formats like PSD or TIF and/or of older versions (ex: FBX 6.1). See for that our section regarding <a class="reference internal" href="#format-conversions">format conversions</a>.</p>
@@ -93,7 +94,7 @@
 </div>
 </div>
 <div class="section" id="unreal-engine">
-<h2><a class="toc-backref" href="#id25">Unreal Engine</a></h2>
+<h2><a class="toc-backref" href="#id28">Unreal Engine</a></h2>
 <p>Another contender is the <a class="reference external" href="https://en.wikipedia.org/wiki/Unreal_Engine">Unreal Engine</a>, a C++ game engine developed by Epic Games; we have not used it yet.</p>
 <p>Its <a class="reference external" href="https://www.unrealengine.com/en-US/faq">licence</a> is meant to induce costs only when making large-enough profits.</p>
 <p>See its <a class="reference external" href="https://www.unrealengine.com">official website</a> and its <a class="reference external" href="https://www.unrealengine.com/marketplace/en-US/store">marketplace</a>.</p>
@@ -104,13 +105,13 @@
 </div>
 </div>
 <div class="section" id="unity3d">
-<h2><a class="toc-backref" href="#id26">Unity3D</a></h2>
+<h2><a class="toc-backref" href="#id29">Unity3D</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Unity_(game_engine)">Unity</a> is most probably the cross-platform game engine that is the most popular.</p>
 <p>Regarding the licensing of the engine, <a class="reference external" href="https://store.unity.com/#plans-individual">various plans</a> apply, depending notably on whether one subscribes as an individual or a team, and on one's profile, revenue and funding.</p>
 <p>See its <a class="reference external" href="https://unity.com/">official website</a> and its <a class="reference external" href="https://assetstore.unity.com/">asset store</a>.</p>
 <p id="unity-assets">Unity may be installed at least in order to access its asset store, knowing that apparently an asset purchased in this store may be used with any game engine of choice. Indeed, for the standard licence, it is stipulated in the <a class="reference external" href="https://unity3d.com/legal/as_terms">EULA legal terms</a> that:</p>
 <p><em>Licensor grants to the END-USER a non-exclusive, worldwide, and perpetual license to the Asset to integrate Assets only as incorporated and embedded components of electronic games and interactive media and distribute such electronic game and interactive media.</em></p>
-<p>So, in legal terms, an asset could be bought in the Unity Asset Store and used in Godot, for example - provided that its content can be used there without too much technical effort/constraint.</p>
+<p>So, in legal terms, an asset could be bought in the Unity Asset Store and used in Godot, for example - provided that its content can be used there technically without too much effort/constraints (this may happen with prefabs, specific animations, materials or shaders, conventions in use, etc.).</p>
 <div class="section" id="id7">
 <h3>Installation</h3>
 <p>Unity shall now be obtained thanks to the Unity Hub.</p>
@@ -123,6 +124,10 @@
 <h3>Configuration</h3>
 <p>Configuring Unity so that its interface (mouse, keyboard bindings) behave like, for example, the one of Blender, is not natively supported.</p>
 </div>
+<div class="section" id="running-unity">
+<h3>Running Unity</h3>
+<p>Just execute <tt class="docutils literal">unityhub</tt>, which requires signing up and activating a licence.</p>
+</div>
 <div class="section" id="troubleshooting">
 <h3>Troubleshooting</h3>
 <p>The log files are stored in <tt class="docutils literal">.config/unity3d</tt>:</p>
@@ -132,17 +137,17 @@
 <li>Unity Licensing client: <tt class="docutils literal">Unity.Licensing.Client.log</tt></li>
 </ul>
 <p>If the editor is stuck (ex: when importing an asset), one may use as a last resort <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/kill-unity3d.sh">kill-unity3d.sh</a>.</p>
-<p>In term of persistent state, beyong the project trees themselves, there are:</p>
+<p>In term of persistent state, beyond the project trees themselves, there are:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">~/.config/UnityHub/</span></tt> and <tt class="docutils literal"><span class="pre">~/.local/share/UnityHub/</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">~/.config/unity3d/</span></tt> and <tt class="docutils literal"><span class="pre">~/.local/share/unity3d/</span></tt></li>
 </ul>
-<p>(nothing in <tt class="docutils literal"><span class="pre">~/.cache</span></tt>)</p>
+<p>(nothing in <tt class="docutils literal"><span class="pre">~/.cache</span></tt> apparently)</p>
 </div>
 <div class="section" id="id8">
 <h3>Unity Assets</h3>
-<p>Once ordered through the Unity Asset Store, assets can be downloaded through the <tt class="docutils literal">Window <span class="pre">-&gt;</span> Package Manager</tt> menu, by replacing, in the top <tt class="docutils literal">Packages</tt> drop-down, the <tt class="docutils literal">In Project</tt> by the <tt class="docutils literal">My Assets</tt> one. After having selected an asset, use the <tt class="docutils literal">Download</tt> button at the bottom-right of the screen.</p>
-<p>Then, to gain access to such downloaded assets, of course the simplest approach is to use the Unity editor; this is done by creating a project (ex: <tt class="docutils literal">MyProject</tt>), selecting the aforementioned menu option (just above), then clicking on <tt class="docutils literal">Import</tt> and selecting the relevant content that will end up in clear form in your project, i.e. in the UNIX filesystem with their actual name and content, for example in <tt class="docutils literal">MyProject/Assets/CorrespondingAssetProvider/AssetName</tt>.</p>
+<p>Once ordered through the Unity Asset Store, assets can be downloaded through the <tt class="docutils literal">Window <span class="pre">-&gt;</span> Package Manager</tt> menu, by replacing, in the top <tt class="docutils literal">Packages</tt> drop-down, the <tt class="docutils literal">In Project</tt> entry by the <tt class="docutils literal">My Assets</tt> one. After having selected an asset, use the <tt class="docutils literal">Download</tt> button at the bottom-right of the screen.</p>
+<p>Then, to gain access to such downloaded assets, of course the simplest approach is to use the Unity editor; this is done by creating a project (ex: <tt class="docutils literal">MyProject</tt>), selecting the aforementioned menu option (just above), then clicking on <tt class="docutils literal">Import</tt> and selecting the relevant content that will end up in clear form in your project, i.e. in the UNIX filesystem with their actual name and content, for example in <tt class="docutils literal">MyProject/Assets/CorrespondingAssetProvider/AssetName</tt>. We experienced reproducible freezes when importing resources.</p>
 <p>Yet such Unity packages, once downloaded (whether or not they have been imported in projects afterwards) are files stored typically in the <tt class="docutils literal"><span class="pre">~/.local/share/unity3d/Asset</span> <span class="pre">Store-5.x</span></tt> directory and whose extension is <tt class="docutils literal">.unitypackage</tt>.</p>
 <p>Such files are actually <tt class="docutils literal">.tar.gz</tt> archives, and thus their content can be listed thanks to:</p>
 <pre class="code bash literal-block">
@@ -163,14 +168,14 @@ $ tar tvzf Foobar.unitypackage
 </table>
 <p>Some types of content are Unity-specific and thus may not transpose (at least directly) to another game engine. This is the case for example for materials or prefabs (whose file format is relatively simple, based on <a class="reference external" href="https://en.wikipedia.org/wiki/YAML">YAML</a> 1.1).</p>
 <p>Tools like <a class="reference external" href="https://github.com/Perfare/AssetStudio">AssetStudio</a> (probably Windows-only) strive to automate most of the process of exploring, extracting and exporting Unity assets.</p>
-<p>Meshes are typically in the <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> (proprietary) file format, that can nevertheless be imported in <a class="reference external" href="http://hull.esperide.org#blender">Blender</a> and converted to other file formats (ex: gltF 2.0); see <a class="reference internal" href="#blender-import">blender import</a> and <a class="reference internal" href="#blender-convert">blender convert</a> for that.</p>
+<p>Meshes are typically in the <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> (proprietary) file format, that can nevertheless be imported in <a class="reference internal" href="#blender">Blender</a> and converted to other file formats (ex: gltF 2.0); see <a class="reference internal" href="#blender-import">blender import</a> and <a class="reference internal" href="#blender-convert">blender convert</a> for that.</p>
 </div>
 </div>
 </div>
 <div class="section" id="d-data">
-<h1><a class="toc-backref" href="#id27">3D Data</a></h1>
+<h1><a class="toc-backref" href="#id30">3D Data</a></h1>
 <div class="section" id="file-formats">
-<h2><a class="toc-backref" href="#id28">File Formats</a></h2>
+<h2><a class="toc-backref" href="#id31">File Formats</a></h2>
 <p>They are designed to store 3D content (scenes, nodes, vertices, normals, meshes, textures, materials, animations, skins, cameras, lights, etc.).</p>
 <p>We prefer to rely on the open, well-specified, modern <a class="reference external" href="https://en.wikipedia.org/wiki/GlTF">glTF 2.0 format</a> in order to perform import/export operations.</p>
 <p>It comes in two forms:</p>
@@ -179,61 +184,67 @@ $ tar tvzf Foobar.unitypackage
 <li>or as <tt class="docutils literal">*.glb</tt> when binary; this is the most compact form, and the one that we recommend especially</li>
 </ul>
 <p>See also the <a class="reference external" href="https://www.khronos.org/files/gltf20-reference-guide.pdf">glTF 2.0 quick reference guide</a> and the <a class="reference external" href="https://docs.godotengine.org/en/stable/getting_started/workflow/assets/importing_scenes.html">related section of Godot</a>.</p>
-<p>The second best choice we see is <a class="reference external" href="https://en.wikipedia.org/wiki/COLLADA">Collada</a> (<tt class="docutils literal">*.dae</tt> files), an XML-based counterpart (open as well, yet older and with less validating facilities) to glTF.</p>
-<p>Often, assets can be found as <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> of <a class="reference external" href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ</a> files and thus may have to be converted (typically to glTF), which is never a riskless task.</p>
+<p>The second best choice that we see is <a class="reference external" href="https://en.wikipedia.org/wiki/COLLADA">Collada</a> (<tt class="docutils literal">*.dae</tt> files), an XML-based counterpart (open as well, yet older and with less validating facilities) to glTF.</p>
+<p>Often, assets can be found as <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> of <a class="reference external" href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ</a> files and thus may have to be converted (typically to glTF), which is never a riskless task. FBX comes in two flavours: text-based (ASCII) or binary, see <a class="reference external" href="https://code.blender.org/2013/08/fbx-binary-file-format-specification/">this retro-specification</a> for more information.</p>
 <p>Refer to <a class="reference internal" href="#blender-import">blender import</a> in order to handle the most common 3D file formats, and the next section about conversions.</p>
 <p>The <tt class="docutils literal">file</tt> command is able to report the version of at least some formats; for example:</p>
-<pre class="literal-block">
-# Means FBX 7.3:
-$ file foobar.fbx
-foobar.fbx: Kaydara FBX model, version 7300
+<pre class="code bash literal-block">
+<span class="c1"># Means FBX 7.3:
+</span>$ file foobar.fbx
+foobar.fbx: Kaydara FBX model, version <span class="m">7300</span>
 </pre>
+<p>Too often, some tool will not be able to load a file and will fail to properly report why. When suspecting that a binary file (ex: a FBX one) references external content either missing or in an unsupported format (ex: PSD or TIFF?), one may peek at their content without any dedicated tool, directly from a terminal, like in:</p>
+<pre class="code bash literal-block">
+$ strings my_asset.fbx <span class="p">|</span> sort <span class="p">|</span> uniq <span class="p">|</span> grep <span class="s1">'\.'</span>
+</pre>
+<p>This should list, among other elements, the paths that such a binary file is embedding.</p>
 </div>
 <div class="section" id="conversions">
-<span id="format-conversions"></span><h2><a class="toc-backref" href="#id29">Conversions</a></h2>
-<p>Due to the larger number of 3D file formats and the role of commercial software, interoperability regarding 3D content is poor and depends on many versions (tools and formats).</p>
+<span id="format-conversions"></span><h2><a class="toc-backref" href="#id32">Conversions</a></h2>
+<p>Due to the larger number of 3D file formats and the role of commercial software, interoperability regarding 3D content is poor and depends on many versions (of tools and formats).</p>
 <div class="section" id="recommended-option-relying-on-blender">
 <h3>Recommended Option: Relying on Blender</h3>
-<p>Using <a class="reference internal" href="#blender-import">blender import</a> is the primary solution we see: a content, once imported in Blender, can be saved in any of the supported formats.</p>
-<p>Yet this operation may fail, for example on &quot;older&quot; FBX files, whose FBX version (ex: 6.1) is not supported by Blender (&quot;<em>Version 6100 unsupported, must be 7100 or later</em>&quot;) or by other tools such as Godot.</p>
+<p>Using <a class="reference internal" href="#blender-import">blender import</a> is the primary solution that we see: a content, once imported in Blender, can be saved in any of the supported formats.</p>
+<p>Yet this operation may fail, for example on &quot;older&quot; FBX files, whose FBX version (ex: 6.1) is not supported by Blender (&quot;<em>Version 6100 unsupported, must be 7100 or later</em>&quot;) or by other tools such as Godot. See also the <a class="reference external" href="https://docs.blender.org/manual/en/latest/files/media/index.html">Media Formats</a> supported by Blender.</p>
 </div>
 <div class="section" id="workaround-1-using-autodesk-fbx-converter">
 <span id="autodesk-converter"></span><h3>Workaround #1: Using Autodesk FBX Converter</h3>
-<p>The simpler approach seems to download the (free) <a class="reference external" href="https://images.autodesk.com/adsk/files/fbx20133_converter_win_x64.exe">Autodesk FBX Converter</a> and to use <a class="reference external" href="GNULinux.html#wine">wine</a> to run it on GNU/Linux. Just install it with: <tt class="docutils literal">wine fbx20133_converter_win_x64.exe</tt>.</p>
-<p>A convenient alias (based on default settings) can then be defined to run it:</p>
-<pre class="literal-block">
-$ alias fbx-converter-ui=&quot;$HOME/.wine/drive_c/Program\ Files/Autodesk/FBX/FBX\ Converter/2013.3/FBXConverterUI.exe 2&gt;/dev/null &amp;&quot;
+<p>The simpler approach seems to download the (free) <a class="reference external" href="https://images.autodesk.com/adsk/files/fbx20133_converter_win_x64.exe">Autodesk FBX Converter</a> and to use <a class="reference external" href="GNULinux.html#wine">wine</a> to run it on GNU/Linux. Just install then this converter with: <tt class="docutils literal">wine fbx20133_converter_win_x64.exe</tt>.</p>
+<p>A convenient alias (based on default settings, typically to be put in one's <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt>) can then be defined to run it:</p>
+<pre class="code bash literal-block">
+$ <span class="nb">alias</span> fbx-converter-ui<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.wine/drive_c/Program\ Files/Autodesk/FBX/FBX\ Converter/2013.3/FBXConverterUI.exe 2&gt;/dev/null &amp;&quot;</span>
 </pre>
-<p>Conversion may take place from, for example, FBX 6.1 (also: 3DS, DAE, DXF, OBJ) to a FBX version in: 2006, 2009, 2010, 2011, 2013 (i.e. 7.3), but also DXF, OBJ and Collada, with various settings (embedded media, binary/ASCII mode, etc.).</p>
-<p>Unfortunately, at least on one FBX sample taken from a Unity package, if the mesh could be imported in Blender, textures and materials were not (having checked <tt class="docutils literal">Embed media</tt> in the converter or not).</p>
-<p>An even better option is to use the command-line tool <tt class="docutils literal">bin/FbxConverter.exe</tt>, which the previous user interface actually executes. Use its <tt class="docutils literal">/?</tt> option to get help, with interesting information.</p>
+<p>Conversions may take place from, for example, FBX 6.1 (also: 3DS, DAE, DXF, OBJ) to a FBX version in: 2006, 2009, 2010, 2011, 2013 (i.e. 7.3 - of course the most interesting one here), but also DXF, OBJ and Collada, with various settings (embedded media, binary/ASCII mode, etc.).</p>
+<p>An even better option is to use directly the command-line tool <tt class="docutils literal">bin/FbxConverter.exe</tt>, which the previous user interface actually executes. Use its <tt class="docutils literal">/?</tt> option to get help, with interesting information.</p>
 <p>For example, to update a file in a presumably older FBX into a 7.3 one (that Blender can import):</p>
-<pre class="literal-block">
-$ cd ~/.wine/drive_c/Program\ Files/Autodesk/FBX/FBX\ Converter/2013.3/bin
+<pre class="code bash literal-block">
+$ <span class="nb">cd</span> ~/.wine/drive_c/Program<span class="se">\ </span>Files/Autodesk/FBX/FBX<span class="se">\ </span>Converter/2013.3/bin
 $ FbxConverter.exe My-legacy.FBX newer.fbx /v /sffFBX /dffFBX /e /f201300
 </pre>
-<p>We devise the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-fbx.sh">update-fbx.sh</a> script to automate such an in-place FBX update.</p>
+<p>We devised the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-fbx.sh">update-fbx.sh</a> script to automate such an in-place FBX update.</p>
+<p>Unfortunately, at least on one FBX sample taken from a Unity package, if the mesh could be imported in Blender, textures and materials were not (having checked <tt class="docutils literal">Embed media</tt> in the converter or not).</p>
 </div>
 <div class="section" id="workaround-2-relying-on-unity">
 <h3>Workaround #2: Relying on Unity</h3>
 <p>Here the principle is to import a content in Unity (the same could probably be done with Godot), and to export it from there.</p>
-<p>Unity does not allow to export for example FBX natively, however they provide a package for that that shall be installed first, once per project.</p>
+<p>Unity does not allow to export for example FBX natively, however a package for that is provided. It shall be installed first, once per project.</p>
 <p>One shall select in the menu <tt class="docutils literal">Window <span class="pre">-&gt;</span> Package Manager</tt>, ensure that the entry <tt class="docutils literal">Packages:</tt> points to <tt class="docutils literal">Unity Registry</tt>, and search for <tt class="docutils literal">FBX Exporter</tt>, then install it (bottom right button).</p>
-<p>Afterwards, in the <tt class="docutils literal">GameObject</tt> menu a <tt class="docutils literal">Export to FBX</tt> option will be available. Select the <tt class="docutils literal">Binary</tt> export format (not <tt class="docutils literal">ASCII</tt>) if wanting to be compliant with Blender.</p>
+<p>Afterwards, in the <tt class="docutils literal">GameObject</tt> menu, an <tt class="docutils literal">Export to FBX</tt> option will be available. Select the <tt class="docutils literal">Binary</tt> export format (not <tt class="docutils literal">ASCII</tt>) if wanting to be compliant with Blender.</p>
 </div>
 </div>
 <div class="section" id="samples">
-<h2><a class="toc-backref" href="#id30">Samples</a></h2>
+<h2><a class="toc-backref" href="#id33">Samples</a></h2>
 <p>Here are a few samples of 3D content (useful for testing):</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models">glTF</a>, notably <a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0">glTF 2.0</a>; direct: <a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Buggy/glTF-Embedded/Buggy.gltf">.gltf Buggy example</a>, <a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/BarramundiFish/glTF-Binary/BarramundiFish.glb">.glb Fish example</a> (also: a <a class="reference external" href="http://paulbourke.net/dataformats/glTF/cube.txt">simple cube</a>)</li>
 <li><a class="reference external" href="https://github.com/assimp/assimp/tree/master/test/models/Collada">DAE</a>; direct: <a class="reference external" href="https://github.com/assimp/assimp/raw/master/test/models/Collada/duck.dae">Duck example</a> (also: a <a class="reference external" href="https://gist.github.com/wtsnz/bfa11c40e04594b260255b5dc7956f26">simple cube</a>)</li>
 <li><a class="reference external" href="https://free3d.com/dl-files.php?p=5671208f26be8b5e7b8b4567&amp;f=4">FBX</a>; direct: <a class="reference external" href="https://github.com/armory3d/armorpaint_samples/raw/master/sample.fbx">Stylized character</a></li>
+<li><a class="reference external" href="https://free3d.com/dl-files.php?p=51a50c9b46e0daad6a99bb49&amp;f=0">OBJ</a></li>
 <li><a class="reference external" href="https://github.com/andrewisen/bim-whale-ifc-samples">IFC</a>; direct: <a class="reference external" href="https://github.com/andrewisen/bim-whale-ifc-samples/raw/main/BasicHouse/IFC/BasicHouse.ifc">Basic house</a> (requires the <a class="reference external" href="https://blenderbim.org/download.html">BlenderBIM</a> add-on for BIM support in Blender)</li>
 </ul>
 </div>
 <div class="section" id="asset-providers">
-<h2><a class="toc-backref" href="#id31">Asset Providers</a></h2>
+<h2><a class="toc-backref" href="#id34">Asset Providers</a></h2>
 <p>Usually, for one's creation, much multimedia artwork has to be secured: typically graphical assets (ex: 2D/3D geometries, animations, textures) and/or audio ones (ex: music, sounds, speech syntheses, special effects).</p>
 <p>Instead of creating such content by oneself (not enough time/interest/skill?), it may be more relevant to rely on specialised third-parties.</p>
 <p><strong>Hiring a professional or a freelance</strong> is then an option. This is of course relatively expensive, involves more efforts (to define requirements and review the results), longer, but it is to provide exactly the artwork that one would like.</p>
@@ -266,42 +277,43 @@ $ FbxConverter.exe My-legacy.FBX newer.fbx /v /sffFBX /dffFBX /e /f201300
 <li>the <a class="reference external" href="https://www.gamedevmarket.net/">GameDev Market</a> (GDM)</li>
 <li>the <a class="reference external" href="https://tgcstore.net/">Game Creator Store</a></li>
 </ul>
-<p>Many asset providers organise interesting discount offers (at least -50% on a selection of assets, sometimes even more for limited quantities) for the Black Friday (hence end of November) or for Christmas (hence mid-December).</p>
+<p>Many asset providers organise interesting discount offers (at least -50% on a selection of assets, sometimes even more for limited quantities) for the Black Friday (hence end of November) or for Christmas (hence mid-December till the first days of January).</p>
 </div>
 </div>
 <div class="section" id="modelling-software">
-<h1><a class="toc-backref" href="#id32">Modelling Software</a></h1>
+<h1><a class="toc-backref" href="#id35">Modelling Software</a></h1>
 <div class="section" id="blender">
-<h2><a class="toc-backref" href="#id33">Blender</a></h2>
+<h2><a class="toc-backref" href="#id36">Blender</a></h2>
 <p>Blender is a very powerful <a class="reference external" href="https://en.wikipedia.org/wiki/Blender_(software)">open-source 3D toolset</a>.</p>
 <p>Blender (version 3.0.0) can import FBX files of version at least 7.1 (&quot;7100&quot;). See for that our section regarding <a class="reference internal" href="#format-conversions">format conversions</a>.</p>
-<p>We recommend the use our <a class="reference external" href="http://hull.esperide.org#blender">Blender</a> scripts in order to:</p>
+<p id="blender-convert"><span id="blender-import"></span>We recommend the use our <a class="reference external" href="http://hull.esperide.org#blender">Blender scripts</a> in order to:</p>
 <ul class="simple">
 <li>import conveniently various file formats in Blender, with <tt class="docutils literal"><span class="pre">blender-import.sh</span></tt></li>
 <li>convert directly on the command-line various file formats (still thanks to a non-interactive Blender), with <tt class="docutils literal"><span class="pre">blender-convert.sh</span></tt></li>
 </ul>
 </div>
 <div class="section" id="wings3d">
-<h2><a class="toc-backref" href="#id34">Wings3D</a></h2>
+<h2><a class="toc-backref" href="#id37">Wings3D</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Wings_3D">Wings3D</a> is a nice, Erlang-based, free software subdivision modeler.</p>
+<p>It can be installed on Arch Linux, from the AUR, as <tt class="docutils literal">wings3d</tt>.</p>
 </div>
 </div>
 <div class="section" id="other-tools">
-<h1><a class="toc-backref" href="#id35">Other Tools</a></h1>
+<h1><a class="toc-backref" href="#id38">Other Tools</a></h1>
 <div class="section" id="draco">
-<h2><a class="toc-backref" href="#id36">Draco</a></h2>
+<h2><a class="toc-backref" href="#id39">Draco</a></h2>
 <p><a class="reference external" href="https://google.github.io/draco/">Draco</a> is an open-source library for compressing and decompressing 3D geometric meshes and point clouds.</p>
 <p>It is intended to improve the storage and transmission of 3D graphics; it can be used <a class="reference external" href="https://github.com/google/draco#gltf-transcoding-tool">with glTF</a>, with Blender,  with <a class="reference external" href="https://github.com/GPUOpen-Tools/Compressonator">Compressonator</a>, or <a class="reference external" href="https://aur.archlinux.org/packages/draco-git/">separately</a>.</p>
 <p>A <tt class="docutils literal">draco</tt> AUR package exists, and results notably in creating the <tt class="docutils literal">/usr/lib/libdraco.so</tt> shared library file.</p>
 <p>Even once this package is installed, when Blender exports a mesh, a message like the following is displayed:</p>
-<pre class="literal-block">
-'/usr/bin/3.0/python/lib/python3.10/site-packages/libextern_draco.so' does
+<pre class="code bash literal-block">
+<span class="s1">'/usr/bin/3.0/python/lib/python3.10/site-packages/libextern_draco.so'</span> does
 not exist, draco mesh compression not available, please add it or create
 environment variable BLENDER_EXTERN_DRACO_LIBRARY_PATH pointing to the folder
 </pre>
 <p>Setting the environment prior to running Blender is necessary (and done by our <tt class="docutils literal"><span class="pre">blender-*.sh</span></tt> scripts:</p>
-<pre class="literal-block">
-$ export BLENDER_EXTERN_DRACO_LIBRARY_PATH=/usr/lib
+<pre class="code bash literal-block">
+$ <span class="nb">export</span> <span class="nv">BLENDER_EXTERN_DRACO_LIBRARY_PATH</span><span class="o">=</span>/usr/lib
 </pre>
 <p>but not sufficient, as the built library does not bear the expected name.</p>
 <p>So, as root, one shall fix that once for all:</p>
@@ -310,24 +322,81 @@ $ <span class="nb">cd</span> /usr/lib
 $ ln -s libdraco.so libextern_draco.so
 </pre>
 <p>Then the log message will become:</p>
-<pre class="literal-block">
-'/usr/lib/libextern_draco.so' exists, draco mesh compression is available
+<pre class="code bash literal-block">
+<span class="s1">'/usr/lib/libextern_draco.so'</span> exists, draco mesh compression is available
 </pre>
 </div>
 <div class="section" id="f3d">
-<h2><a class="toc-backref" href="#id37">F3D</a></h2>
+<h2><a class="toc-backref" href="#id40">F3D</a></h2>
 <p><a class="reference external" href="https://github.com/f3d-app/f3d">f3d</a> (installable from the AUR) is a fast and minimalist VTK-based 3D viewer.</p>
-<p>Such a viewer is especially interesting to investigate whether a tool failed to properly export or the next failed to properly import, and to gain another chance to have relevant error messages.</p>
+<p>Such a viewer is especially interesting to investigate whether a tool failed to properly export a content or whether it is the next tool that actually failed to properly import, and to gain another chance to have relevant error messages.</p>
 </div>
 </div>
 <div class="section" id="opengl-corner">
-<h1><a class="toc-backref" href="#id38">OpenGL Corner</a></h1>
-<div class="section" id="hints">
-<h2><a class="toc-backref" href="#id39">Hints</a></h2>
-<p>OpenGL allows the main program running on the CPU to communicate with typically a graphic card. As such most of the calls performed by user programs are asynchronous: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued. Indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process.</p>
+<h1><a class="toc-backref" href="#id41">OpenGL Corner</a></h1>
+<div class="section" id="conventions">
+<h2><a class="toc-backref" href="#id42">Conventions</a></h2>
+<div class="section" id="basics">
+<h3>Basics</h3>
+<ul class="simple">
+<li>OpenGL is a <strong>software interface to graphics hardware</strong>, i.e. an API of around 150 functions</li>
+<li>OpenGL concentrates on <strong>hardware-independent 2D/3D rendering</strong>; no commands for performing windowing tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the window system</li>
+<li>OpenGL offers only <strong>low-level primitives</strong> organised through a <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id57691">pipeline</a> in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such OpenGL is a building-block for higher-level engines (ex: like <a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a>)</li>
+<li>OpenGL is a <strong>procedural</strong> (function-based, not object-oriented) <strong>state machine</strong> comprising a larger number of variables defined within a given OpenGL state (named <em>OpenGL context</em>; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts until it is modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set)</li>
+<li>so the <strong>currently processed element</strong> (ex: a vertex) <strong>inherits (implicitly) the current settings of the context</strong> (ex: color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply when performing an operation (specifying them would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards, until possibly being reassigned in some future</li>
+<li>OpenGL respects a <strong>client/server execution model</strong>: an application (the client, running on a CPU) issues commands to the server (on the same host or not - see GLX, typically running on a graphic card), that executes them <strong>sequentially and in-order</strong>; as such most of the calls performed by user programs are <strong>asynchronous</strong>: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like <em>Display Lists</em> allow to pipeline operations (as opposed to the default <em>immediate mode</em>), which are accumulated for processing at a later time</li>
+<li>OpenGL manages two types of data, handled by mostly different paths of its rendering pipeline yet are ultimately integrated in the framebuffer through fragment-yielding rasterization:<ul>
+<li>geometric data (vertices, lines, and polygons)</li>
+<li>pixel data (pixels, images, and bitmaps)</li>
+</ul>
+</li>
+<li>Vertices and normals are transformed by the <strong>modelview</strong> and <strong>projection</strong> matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; texture coordinates are transformed by the <strong>texture</strong> matrix</li>
+<li>Textures may reside in the main, general-purpose, client, CPU-side memory (large and slow to access for the rendering) and/or in any auxiliary, dedicated, server GPU-side memory (more constrained hence prioritized thanks to <em>texture objects</em>, and high-performance, rendering-wise)</li>
+<li>OpenGL can operate on three mutually exclusive modes: <em>rendering</em> (the default, most common one, discussed here), <em>selection</em> (to determine, based on stacks of user-specified &quot;names&quot;, which primitives would be drawn into some region of a window) and <em>feedback</em> (to determine the primitives that would be rasterized is fed back to the application)</li>
+</ul>
 </div>
-<div class="section" id="information">
-<h2><a class="toc-backref" href="#id40">Information</a></h2>
+<div class="section" id="mini-opengl-glossary">
+<h3>Mini OpenGL Glossary</h3>
+<p>Terms that are more or less specific to OpenGL:</p>
+<ul class="simple">
+<li><tt class="docutils literal">Accumulation buffer</tt>: a buffer that may be used for scene antialiasing; the scene is rendered several times, each time jittered less than one pixel, and the images are accumulated and then averaged</li>
+<li><tt class="docutils literal">Context</tt>: a rendering context corresponds to the OpenGL state and the connection between OpenGL and the system; in order to perform rendering, a suitable context must be current (i.e. bound, active for the OpenGL commands); it is possible to have multiple rendering contexts share buffer data and textures, which is specially useful when the application use multiple threads for updating data into the memory of the graphics card</li>
+<li><tt class="docutils literal">Display list</tt>: a group of OpenGL commands that has been stored for subsequent execution, so that it can be sent and processed more efficiently by the graphic card</li>
+<li>(pixel) <tt class="docutils literal">fragment</tt>: two-dimensional description of elements (point, line segment, or polygon) produced by the rasterization step, before being stored as pixels in the frame buffer; also defined as: &quot;a point and its associated information&quot;</li>
+<li><tt class="docutils literal">Evaluator</tt>: the part of the pipeline to perform polynomial mapping (basis functions) and transform higher-level primitives (such as NURBS) into actual ones (vertices, normals, texture coordinates and colors)</li>
+<li><tt class="docutils literal">Frame buffer</tt>: the &quot;server-side&quot; pixel buffer, filled, after rasterization took place, by combinations (notably blending) of the selected fragments; it is actually made of a set of logical buffers of bitplanes: the color (itself comprising multiple buffers), depth (for hidden-surface removal), stencil, and accumulation buffers</li>
+<li><tt class="docutils literal">GL</tt>: <em>Graphics Library</em> (also a shorthand for <em>OpenGL</em>)</li>
+<li><tt class="docutils literal">GLU</tt>: <em>OpenGL Utility Library</em>, a standard part of every OpenGL implementation, providing auxiliary features (ex:image scaling, automatic mipmapping, setting up matrices for specific viewing orientations and projections, performing polygon tessellation, rendering surfaces, supporting quadrics routines that create spheres, cylinders, cones, etc.); see <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id24847">this page</a> for more information</li>
+<li><tt class="docutils literal">GLUT</tt>, <em>OpenGL Utility Toolkit</em>, a window system-independent toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, nowadays is less used</li>
+<li><tt class="docutils literal">GLX</tt>: the X extension of the OpenGL interface, i.e. a solution to integrate OpenGL to X servers; see <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id86751">this page</a> for more information</li>
+<li><tt class="docutils literal">Pixel</tt>: <em>Picture Element</em></li>
+<li><tt class="docutils literal">Primitive</tt>: points, lines, polygons, images, and bitmaps</li>
+<li>(geometric) <tt class="docutils literal">Primitives</tt>: they are (exactly) points, lines, and polygons</li>
+<li><tt class="docutils literal">Rasterization</tt>: the process by which a primitive is converted to a two-dimensional image</li>
+<li><tt class="docutils literal">Scissor Test</tt>: an arbitrary screen-aligned rectangle outside of which fragments will be discarded.</li>
+<li><tt class="docutils literal">Stencil Test</tt>: conditionally discards a fragment based on the outcome of a selected comparison between the value in the stencil buffer and a reference value</li>
+<li><tt class="docutils literal">Texel</tt>: <em>Texture Element</em></li>
+</ul>
+<p>Refer to the <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id57691">description of the pipeline</a> for further details.</p>
+</div>
+</div>
+<div class="section" id="more-advanced-topics">
+<h2><a class="toc-backref" href="#id43">More Advanced Topics</a></h2>
+<div class="section" id="shadows">
+<h3>Shadows</h3>
+<p>Determining the shadow of an arbitrary object on an arbitrary plane (representing typically the ground - or other objects) from an arbitrary light source (possibly at infinity) corresponds to performing a specific <strong>projection</strong>. For that, a relevant 4x4 (based on homogeneous coordinates) matrix (singular, i.e. non-invertible matrix) can be defined.</p>
+<p>This matrix can be multiplied with the top of the modelview matrix stack, before drawing the object of interest in the shadow color (a shade of black generally).</p>
+<p>Refer to <a class="reference external" href="https://www.glprogramming.com/red/chapter14.html#name15">this page</a> for more information.</p>
+</div>
+</div>
+<div class="section" id="sources-of-information">
+<h2><a class="toc-backref" href="#id44">Sources of Information</a></h2>
+<p>Two very well-written books, strongly recommended, that are still perfectly relevant despite their old age (circa 1996):</p>
+<ul class="simple">
+<li><em>The Official Guide to Learning OpenGL</em>: the <a class="reference external" href="https://www.glprogramming.com/red/index.html">OpenGL Red book</a></li>
+<li><em>The OpenGL Reference Manual</em>: the <a class="reference external" href="https://www.glprogramming.com/blue/index.html">OpenGL Blue book</a></li>
+</ul>
+<p>Other elements of interest:</p>
 <ul class="simple">
 <li>FAQ for <a class="reference external" href="https://www.khronos.org/opengl/wiki/FAQ">OpenGL</a> and <a class="reference external" href="https://www.opengl.org/resources/libraries/glut/faq/">GLUT</a></li>
 <li>About <a class="reference external" href="https://www.khronos.org/opengl/wiki/Performance">OpenGL Performance</a></li>
@@ -335,16 +404,16 @@ $ ln -s libdraco.so libextern_draco.so
 </div>
 </div>
 <div class="section" id="operating-system-support-for-3d">
-<span id="os-support"></span><h1><a class="toc-backref" href="#id41">Operating System Support for 3D</a></h1>
+<span id="os-support"></span><h1><a class="toc-backref" href="#id45">Operating System Support for 3D</a></h1>
 <p>Benefiting from a proper 2D/3D hardware acceleration on GNU/Linux is unfortunately not always straightforward, and sometimes brittle.</p>
 <div class="section" id="testing">
-<h2><a class="toc-backref" href="#id42">Testing</a></h2>
+<h2><a class="toc-backref" href="#id46">Testing</a></h2>
 <p>First, one may check whether such acceleration is already available by running, from the command-line, the <tt class="docutils literal">glxinfo</tt> executable (to be obtained on Arch Linux thanks to the <tt class="docutils literal"><span class="pre">mesa-utils</span></tt> package), and hope to see, among the many displayed lines, <tt class="docutils literal">direct rendering: Yes</tt>.</p>
 <p>One may also run our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/display-opengl-information.sh">display-opengl-information.sh</a> script to report relevant information.</p>
 <p>A final validation might be to run the <tt class="docutils literal">glxgears</tt> executable (still obtained through the <tt class="docutils literal"><span class="pre">mesa-utils</span></tt> package), and to ensure that a window appears, showing three gears properly rotating.</p>
 </div>
-<div class="section" id="id20">
-<h2><a class="toc-backref" href="#id43">Troubleshooting</a></h2>
+<div class="section" id="id22">
+<h2><a class="toc-backref" href="#id47">Troubleshooting</a></h2>
 <p>If it is not the case (no direct rendering, or a GLX error being returned - typically involving any <tt class="docutils literal">X Error of failed request:&nbsp; BadValue</tt> for a <tt class="docutils literal">X_GLXCreateNewContext</tt>), one should investigate one's configuration (with <tt class="docutils literal">lspci | grep VGA</tt>, <tt class="docutils literal">lsmod</tt>, etc.), update one's video driver on par with the current kernel, reboot, sacrifice a chicken, etc.</p>
 <p>If using a NVidia graphic card, consider reading this <a class="reference external" href="https://wiki.archlinux.org/title/NVIDIA">Arch Linux wiki page</a> first.</p>
 <p>In our case, installation could be done with <tt class="docutils literal">pacman <span class="pre">-Sy</span> nvidia <span class="pre">nvidia-utils</span></tt> but requested a reboot.</p>
@@ -352,13 +421,14 @@ $ ln -s libdraco.so libextern_draco.so
 </div>
 </div>
 <div class="section" id="mini-glossary">
-<h1><a class="toc-backref" href="#id44">Mini-Glossary</a></h1>
+<h1><a class="toc-backref" href="#id48">Mini-Glossary</a></h1>
 <ul class="simple">
 <li><strong>HDRP</strong>: <em>High Definition Render Pipeline</em>, a <a class="reference external" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition&#64;13.1/manual/index.html">high-fidelity scriptable render pipeline</a>, made by Unity to target modern (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)</li>
 <li><strong>IK</strong>: <em>Inverse Kinematics</em>, the <strong>computation of intermediary joint parameters</strong> so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. to retain so that the hand is ultimately correctly placed on the chair (<a class="reference external" href="https://en.wikipedia.org/wiki/Inverse_kinematics">more information</a>)</li>
 <li><strong>Material</strong>: controls the optical properties of an object, i.e. how a 3D object appears on the screen, that is: the color of each point of the object (generally thanks to multiple texture maps, like diffusion, normal, specular, glow, etc.) and how reflective or dull its surface appears; designates, with OpenGL, a set of coefficients that define <strong>how the lighting model interacts with the surface</strong>; in particular, ambient, diffuse, and specular coefficients for each color component (R,G,B) are defined and applied to a surface and effectively multiplied by the amount of light of each kind/color that strikes the surface; a final emmissivity coefficient is then added to each color component so that objects can also be light emitters</li>
+<li><strong>NURBS</strong>: <em>Non-Uniform Rational B-Spline</em>, a mathematical model using <a class="reference external" href="https://en.wikipedia.org/wiki/B-spline">basis splines</a> (B-splines) that is commonly used in computer graphics for representing curves and surfaces, whose shape is determined by control points (<a class="reference external" href="https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline">more information</a>)</li>
 <li><strong>PBR</strong>: <em>Physically-Based Rendering</em> designates approaches to render images in a way that <strong>models the flow of light in the real world</strong>, for example thanks to photogrammetry; many PBR pipelines aim to achieve photorealism; in practice this often relies on the micro-facet theory, with specific materials (generally based on texture maps) and shaders (is also called PBS, for <em>Physically-Based Shading</em>); PBR is slowly becoming the standard for all materials</li>
-<li><strong>PSD</strong>: <em>Photoshop Document</em>,  a <a class="reference external" href="https://docs.fileformat.com/image/psd/">proprietary format for graphics</a> with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to <a class="reference external" href="https://www.gimp.org/">Gimp</a>, <a class="reference external" href="https://krita.org">Krita</a>, etc.) often used to store textures that may still be edited as templates by the user - provided they are using Photoshop as well; however, at least to some extent, <a class="reference external" href="https://wiki.gimp.org/wiki/PSD_support">Gimp is able to edit PSD files</a> and <a class="reference external" href="https://docs.krita.org/en/general_concepts/file_formats/file_psd.html">Krita too</a></li>
+<li><strong>PSD</strong>: <em>Photoshop Document</em>, a <a class="reference external" href="https://docs.fileformat.com/image/psd/">proprietary format for graphics</a> with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to <a class="reference external" href="https://www.gimp.org/">Gimp</a>, <a class="reference external" href="https://krita.org">Krita</a>, etc.) often used to store textures that may still be edited as templates by the user - provided they are using Photoshop as well; however, at least to some extent, <a class="reference external" href="https://wiki.gimp.org/wiki/PSD_support">Gimp is able to edit PSD files</a> and <a class="reference external" href="https://docs.krita.org/en/general_concepts/file_formats/file_psd.html">Krita too</a></li>
 <li><strong>Rigging</strong> (or <em>Skeletal Animation</em>) consists in controlling the deformation of a mesh (a.k.a. a <em>skin</em>, the surface of a body) of an articulated object (typically a character) <strong>based on a virtual inner armature</strong> (a hierarchical set of interconnected parts, called <em>bones</em>, and collectively forming the skeleton or <em>rig</em>) in order to animate that mesh (<a class="reference external" href="https://en.wikipedia.org/wiki/Skeletal_animation">more information</a>)</li>
 <li><strong>Textures</strong>: bitmaps (images) used to skin 3D objects, by defining the color of each point on the surface of the object in terms of texture coordinates; besides such 2D textures, 1D, 3D and 4D ones exist</li>
 <li><strong>Texture Atlas</strong>: a texture containing a <strong>set of separate, elementary graphic elements</strong>, meant to be extracted thanks to texture coordinates, akin to a sprite sheet; doing so is useful to reduce the overhead that would be induced by the management of many smaller textures (<a class="reference external" href="https://en.wikipedia.org/wiki/Texture_atlas">more information</a>)</li>

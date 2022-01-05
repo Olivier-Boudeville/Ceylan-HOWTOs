@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2021 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, December 24, 2021</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 5, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -118,7 +118,7 @@ Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
 <li><tt class="docutils literal"><span class="pre">rr/{1,2,3}</span></tt> (ex: used as <tt class="docutils literal">rr(Path).</tt>) to <em>read records</em> and have them available on the shell; for example, to be able to use the records defined by xmerl:</li>
 </ul>
 <pre class="code erlang literal-block">
-<span class="mi">1</span><span class="o">&gt;</span> <span class="n">rr</span><span class="p">(</span><span class="nn">code</span><span class="p">:</span><span class="nf">lib_dir</span><span class="p">(</span><span class="n">xmerl</span><span class="p">)</span> <span class="o">++</span> <span class="s">&quot;/include/xmerl.hrl&quot;</span><span class="p">).</span>
+<span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rr</span><span class="p">(</span><span class="nn">code</span><span class="p">:</span><span class="nf">lib_dir</span><span class="p">(</span><span class="n">xmerl</span><span class="p">)</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="s">&quot;/include/xmerl.hrl&quot;</span><span class="p">).</span>
 </pre>
 <p>See also the <a class="reference external" href="https://www.erlang.org/doc/man/shell.html#jcl-mode">JCL mode</a> (for <em>Job Control Language</em>) to connect and interact with other Erlang nodes.</p>
 </div>
@@ -165,14 +165,14 @@ Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
 <p>Such a solution is even more compact than a pair (a 2-element tuple), which consumes 2+1 = 3 words. Accessing the elements of an improper list is also faster (one handle to be inspected vs also an header to be inspected).</p>
 <p>Finally, for sizes expressed in bytes:</p>
 <pre class="code erlang literal-block">
-<span class="mi">1</span><span class="o">&gt;</span> <span class="nn">system_utils</span><span class="p">:</span><span class="nf">get_size</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="n">my_atom</span><span class="p">]).</span>
-<span class="mi">40</span>
+<span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="nn">system_utils</span><span class="p">:</span><span class="nf">get_size</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="n">my_atom</span><span class="p">]).</span><span class="w">
+</span><span class="mi">40</span><span class="w">
 
-<span class="mi">2</span><span class="o">&gt;</span> <span class="nn">system_utils</span><span class="p">:</span><span class="nf">get_size</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="n">my_atom</span><span class="p">}).</span>
-<span class="mi">32</span>
+</span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="nn">system_utils</span><span class="p">:</span><span class="nf">get_size</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="n">my_atom</span><span class="p">}).</span><span class="w">
+</span><span class="mi">32</span><span class="w">
 
-<span class="mi">3</span><span class="o">&gt;</span> <span class="nn">system_utils</span><span class="p">:</span><span class="nf">get_size</span><span class="p">([</span><span class="mi">2</span><span class="p">|</span><span class="n">my_atom</span><span class="p">]).</span>
-<span class="mi">24</span>
+</span><span class="mi">3</span><span class="o">&gt;</span><span class="w"> </span><span class="nn">system_utils</span><span class="p">:</span><span class="nf">get_size</span><span class="p">([</span><span class="mi">2</span><span class="p">|</span><span class="n">my_atom</span><span class="p">]).</span><span class="w">
+</span><span class="mi">24</span>
 </pre>
 <p>See also the <a class="reference external" href="http://beam-wisdoms.clau.se/en/latest/indepth-memory-layout.html#lists-cons">1</a>, <a class="reference external" href="http://beam-wisdoms.clau.se/en/latest/indepth-data-sizes.html#list">2</a> pointers for more information.</p>
 <p>Everyone shall decide on whether relying on improper lists is a trick, a hack or a technique to prohibit.</p>
