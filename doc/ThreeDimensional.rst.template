@@ -149,7 +149,7 @@ Just execute ``unityhub``, which requires signing up and activating a licence.
 Troubleshooting
 ...............
 
-The log files are stored in ``.config/unity3d``:
+The log files are stored in ``~/.config/unity3d``:
 
 - Unity Editor: ``Editor.log`` (the most interesting one)
 - Unity Package Manager: ``upm.log``
@@ -470,20 +470,24 @@ Conventions
 Basics
 ......
 
-- OpenGL is a **software interface to graphics hardware**, i.e. an API of around 150 functions
-- OpenGL concentrates on **hardware-independent 2D/3D rendering**; no commands for performing windowing tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the window system
+- OpenGL is a **software interface to graphics hardware**, i.e. an API of around 150 functions (version 1.1)
+- OpenGL concentrates on **hardware-independent 2D/3D rendering**; no commands for performing window-related tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the windowing system
 - OpenGL offers only **low-level primitives** organised through a `pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such OpenGL is a building-block for higher-level engines (ex: like Godot_)
-- OpenGL is a **procedural** (function-based, not object-oriented) **state machine** comprising a larger number of variables defined within a given OpenGL state (named *OpenGL context*; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts until it is modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set)
-- so the **currently processed element** (ex: a vertex) **inherits (implicitly) the current settings of the context** (ex: color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply when performing an operation (specifying them would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards, until possibly being reassigned in some future
-- OpenGL respects a **client/server execution model**: an application (the client, running on a CPU) issues commands to the server (on the same host or not - see GLX, typically running on a graphic card), that executes them **sequentially and in-order**; as such most of the calls performed by user programs are **asynchronous**: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like *Display Lists* allow to pipeline operations (as opposed to the default *immediate mode*), which are accumulated for processing at a later time
-- OpenGL manages two types of data, handled by mostly different paths of its rendering pipeline yet are ultimately integrated in the framebuffer through fragment-yielding rasterization:
+- OpenGL is a **procedural** (function-based, not object-oriented) **state machine** comprising a larger number of variables defined within a given OpenGL state (named *OpenGL context*; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts as long as it is not modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set)
+- so the **currently processed element** (ex: a vertex) **inherits (implicitly) the current settings of the context** (ex: color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply when performing a rendering operation (specifying all these parameters would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards (being "implicitly inherited"), until possibly being reassigned in some future
+- OpenGL respects a **client/server execution model**: an application (a specific client, running on a CPU) issues commands to a rendering server (on the same host or not - see GLX; generally the server can be seen as running on a local graphic card), that executes them **sequentially and in-order**; as such, most of the calls performed by user programs are **asynchronous**: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like *Display Lists* allow to pipeline operations (as opposed to the default *immediate mode*), which are accumulated for processing at a later time
+- OpenGL manages two types of data, handled by mostly different paths of its rendering pipeline yet that are ultimately integrated in the framebuffer through fragment-yielding rasterization:
 
   - geometric data (vertices, lines, and polygons)
   - pixel data (pixels, images, and bitmaps)
 
-- Vertices and normals are transformed by the **modelview** and **projection** matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; texture coordinates are transformed by the **texture** matrix
-- Textures may reside in the main, general-purpose, client, CPU-side memory (large and slow to access for the rendering) and/or in any auxiliary, dedicated, server GPU-side memory (more constrained hence prioritized thanks to *texture objects*, and high-performance, rendering-wise)
-- OpenGL can operate on three mutually exclusive modes: *rendering* (the default, most common one, discussed here), *selection* (to determine, based on stacks of user-specified "names", which primitives would be drawn into some region of a window) and *feedback* (to determine the primitives that would be rasterized is fed back to the application)
+- vertices and normals are transformed by the **modelview** and **projection** matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; texture coordinates are transformed by the **texture** matrix
+- textures may reside in the main, general-purpose, client, **CPU-side memory** (large and slow to access for the rendering) and/or in any auxiliary, dedicated, server-side **GPU memory** (more constrained, hence prioritized thanks to *texture objects*; and high-performance, rendering-wise)
+- OpenGL can operate on three mutually exclusive **modes**:
+
+  - *rendering*: the default, most common one, discussed here
+  - *selection*: determines, based on stacks of user-specified "names", which primitives would be drawn into some region of a window
+  - *feedback*: allows to captures the primitives generated by the vertex processing step(s) in order to resubmit this data multiple times
 
 
 
@@ -497,7 +501,7 @@ Terms that are more or less specific to OpenGL:
 - ``Display list``: a group of OpenGL commands that has been stored for subsequent execution, so that it can be sent and processed more efficiently by the graphic card
 - (pixel) ``fragment``: two-dimensional description of elements (point, line segment, or polygon) produced by the rasterization step, before being stored as pixels in the frame buffer; also defined as: "a point and its associated information"
 - ``Evaluator``: the part of the pipeline to perform polynomial mapping (basis functions) and transform higher-level primitives (such as NURBS) into actual ones (vertices, normals, texture coordinates and colors)
-- ``Frame buffer``: the "server-side" pixel buffer, filled, after rasterization took place, by combinations (notably blending) of the selected fragments; it is actually made of a set of logical buffers of bitplanes: the color (itself comprising multiple buffers), depth (for hidden-surface removal), stencil, and accumulation buffers
+- ``Frame buffer``: the "server-side" pixel buffer, filled, after rasterization took place, by combinations (notably blending) of the selected fragments; it is actually made of a set of logical buffers of bitplanes: the color (itself comprising multiple buffers), depth (for hidden-surface removal), accumulation, and stencil buffers
 - ``GL``: *Graphics Library* (also a shorthand for *OpenGL*)
 - ``GLU``: *OpenGL Utility Library*, a standard part of every OpenGL implementation, providing auxiliary features (ex:image scaling, automatic mipmapping, setting up matrices for specific viewing orientations and projections, performing polygon tessellation, rendering surfaces, supporting quadrics routines that create spheres, cylinders, cones, etc.); see `this page <https://www.glprogramming.com/blue/ch02.html#id24847>`_ for more information
 - ``GLUT``, *OpenGL Utility Toolkit*, a window system-independent toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, nowadays is less used
@@ -511,9 +515,26 @@ Terms that are more or less specific to OpenGL:
 - ``Texel``: *Texture Element*
 
 
-
 Refer to the `description of the pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ for further details.
 
+
+Referentials
+------------
+
+
+In 2D
+.....
+
+A convention, for example detailed in `this section <https://www.glprogramming.com/red/chapter02.html#name10>`_ of the Red book, it is consider that the ordinates increase when going from the *bottom of the viewport to its top*; then for example the lower-left corner is (0, 0), and the upper-right corner is (Width, Height).
+
+As for us, we prefer the `MyriadGUI 2D conventions <https://myriad.esperide.org/#2d-referential>`_, in which ordinates increase when going from the *top of the viewport to its bottom*, as depicted in the following figure:
+
+:raw-html:`<center><img src="myriad-2D-referential.png" id="responsive-image-xsmall"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.7]{myriad-2D-referential} \end{figure}`
+
+
+In 3D
+.....
 
 
 More Advanced Topics
@@ -581,28 +602,28 @@ Despite package dependencies and a not-so-successful attempt of using DKMS in or
 
 
 
-Mini-Glossary
-=============
+3D-Related Mini-Glossary
+========================
 
-- **HDRP**: *High Definition Render Pipeline*, a `high-fidelity scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@13.1/manual/index.html>`_, made by Unity to target modern (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)
+- **HDRP**: *High Definition Render Pipeline*, a `high-fidelity scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@13.1/manual/index.html>`_, made by Unity to target **modern** (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)
 
-- **IK**: *Inverse Kinematics*, the **computation of intermediary joint parameters** so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. to retain so that the hand is ultimately correctly placed on the chair (`more information <https://en.wikipedia.org/wiki/Inverse_kinematics>`_)
+- **IK**: *Inverse Kinematics*, the **computation of intermediary joint parameters** so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. that may be retained so that the hand is ultimately correctly placed on the chair (`more information <https://en.wikipedia.org/wiki/Inverse_kinematics>`_)
 
 - **Material**: controls the optical properties of an object, i.e. how a 3D object appears on the screen, that is: the color of each point of the object (generally thanks to multiple texture maps, like diffusion, normal, specular, glow, etc.) and how reflective or dull its surface appears; designates, with OpenGL, a set of coefficients that define **how the lighting model interacts with the surface**; in particular, ambient, diffuse, and specular coefficients for each color component (R,G,B) are defined and applied to a surface and effectively multiplied by the amount of light of each kind/color that strikes the surface; a final emmissivity coefficient is then added to each color component so that objects can also be light emitters
 
-- **NURBS**: *Non-Uniform Rational B-Spline*, a mathematical model using `basis splines <https://en.wikipedia.org/wiki/B-spline>`_ (B-splines) that is commonly used in computer graphics for representing curves and surfaces, whose shape is determined by control points (`more information <https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline>`_)
+- **NURBS**: *Non-Uniform Rational B-Spline*, a mathematical model using `basis splines <https://en.wikipedia.org/wiki/B-spline>`_ (B-splines) that is commonly used in computer graphics for representing **curves and surfaces**, whose shape is determined by control points (`more information <https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline>`_)
 
-- **PBR**: *Physically-Based Rendering* designates approaches to render images in a way that **models the flow of light in the real world**, for example thanks to photogrammetry; many PBR pipelines aim to achieve photorealism; in practice this often relies on the micro-facet theory, with specific materials (generally based on texture maps) and shaders (is also called PBS, for *Physically-Based Shading*); PBR is slowly becoming the standard for all materials
+- **PBR**: *Physically-Based Rendering* designates approaches to render images in a way that **models the flow of light in the real world**, for example thanks to photogrammetry; many PBR pipelines aim to achieve photorealism; in practice they often rely on the **micro-facet theory**, with specific materials (generally based on texture maps) and shaders (is also called PBS, for *Physically-Based Shading*); PBR is slowly becoming the standard for all materials
 
 - **PSD**: *Photoshop Document*, a `proprietary format for graphics <https://docs.fileformat.com/image/psd/>`_ with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to `Gimp <https://www.gimp.org/>`_, `Krita <https://krita.org>`_, etc.) often used to store textures that may still be edited as templates by the user - provided they are using Photoshop as well; however, at least to some extent, `Gimp is able to edit PSD files <https://wiki.gimp.org/wiki/PSD_support>`_ and `Krita too <https://docs.krita.org/en/general_concepts/file_formats/file_psd.html>`_
 
-- **Rigging** (or *Skeletal Animation*) consists in controlling the deformation of a mesh (a.k.a. a *skin*, the surface of a body) of an articulated object (typically a character) **based on a virtual inner armature** (a hierarchical set of interconnected parts, called *bones*, and collectively forming the skeleton or *rig*) in order to animate that mesh (`more information <https://en.wikipedia.org/wiki/Skeletal_animation>`_)
+- **Rigging** (or *Skeletal Animation*) consists in **controlling the deformation of a mesh** (a.k.a. a *skin*, the surface of a body) of an articulated object (typically a character) **based on a virtual inner armature** (a hierarchical set of interconnected parts, called *bones*, and collectively forming the skeleton or *rig*) in order to animate that mesh (`more information <https://en.wikipedia.org/wiki/Skeletal_animation>`_)
 
-- **Textures**: bitmaps (images) used to skin 3D objects, by defining the color of each point on the surface of the object in terms of texture coordinates; besides such 2D textures, 1D, 3D and 4D ones exist
+- **Textures**: bitmaps (images) used to **skin 3D objects**, by defining the color of each point on the surface of the object in terms of texture coordinates; besides such 2D textures, 1D, 3D and 4D ones exist
 
-- **Texture Atlas**: a texture containing a **set of separate, elementary graphic elements**, meant to be extracted thanks to texture coordinates, akin to a sprite sheet; doing so is useful to reduce the overhead that would be induced by the management of many smaller textures (`more information <https://en.wikipedia.org/wiki/Texture_atlas>`_)
+- **Texture Atlas**: a texture (an image) containing a **set of separate, elementary graphic elements**, meant to be extracted thanks to texture coordinates, akin to a sprite sheet; doing so is useful to reduce the overhead that would be induced by the management of many smaller textures (`more information <https://en.wikipedia.org/wiki/Texture_atlas>`_)
 
-- **URP**: *Universal Render Pipeline*, a prebuilt `scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/>`_, made by Unity that implements workflows across a range of platforms, from mobile to high-end consoles and PC (so URP is the low-end counterpart of HDRP)
+- **URP**: *Universal Render Pipeline*, a prebuilt `scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/>`_, made by Unity that implements workflows across a range of platforms, from mobile to high-end consoles and PC (in practice URP is the low-end counterpart of HDRP)
 
 
 See also the Wikipedia's `glossary of computer graphics <https://en.wikipedia.org/wiki/Glossary_of_computer_graphics>`_.
