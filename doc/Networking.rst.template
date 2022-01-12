@@ -53,7 +53,6 @@ Tools like ``ping``, ``traceroute``, ``drill``, ``arp``, etc. are invaluable.
 
 Use `ip-scan.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-scan.sh>`_ to scans all IPs with any specified prefix, and `ip-examine.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-examine.sh>`_ to collect information about a given IP.
 
-
 Use `monitor-network.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/monitor-network.sh>`_ to investigate unstable connections.
 
 
@@ -76,9 +75,12 @@ Our `iptables.rules-Gateway.sh <https://github.com/Olivier-Boudeville/Ceylan-Hul
 
 .. [#] Please email us if you found otherwise! Refer to the top of this document for that.
 
+
 This script expects a settings file to be available as ``/etc/iptables.settings-Gateway.sh`` (this file is meant to be sourced, not executed).
 
-An example thereof::
+An example thereof:
+
+.. code:: bash
 
  # Local firewall settings.
  #

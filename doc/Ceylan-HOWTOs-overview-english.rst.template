@@ -66,10 +66,11 @@ The current HOWTOs relate to the following topics:
 - `GNU/Linux <GNULinux.html>`_, the well-known free software operating system
 - `Erlang <Erlang.html>`_, a functional, concurrent language in free software
 - `3D Topics <ThreeDimensional.html>`_, for modelling, evaluating, rendering
-.. - `Git <Git.html>`_
 - `Network Management <Networking.html>`_, to have a better control on one's network
 - `A bit of Cybersecurity <Cybersecurity.html>`_, regarding encryption, credentials, network, webservers, emails, etc.
 - `Build Tools <Build.html>`_, notably thanks to GNU make
+- `Version Control Systems <VCS.html>`_, i.e. now Git
+- `Documentation Generation <DocGeneration.html>`_, typically to generate HTML and PDF from markup
 
 :raw-html:`</div>`
 

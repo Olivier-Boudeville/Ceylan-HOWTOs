@@ -1,0 +1,177 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About Documentation Generation
+
+
+------------------------
+Documentation Generation
+------------------------
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Documentation%20Generation">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2022-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Wednesday, January 12, 2022
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 3
+
+
+:raw-html:`</center>`
+
+
+Objective
+=========
+
+We want to be able to generate, **from a single source**, at least two **documentation formats**:
+
+- a set of **interlinked static web pages** (the most popular, flexible format)
+- a single, **standalone PDF file** (convenient for offline reading, printing, etc.)
+
+The document source shall be expressed in a simple, non-limiting, high-level syntax; in practice a rather standard, lightweight markup language.
+
+All standard documentation elements shall be available (ex: title, tables, images, links, references, tables of content, etc.) and be customisable.
+
+The resulting documents shall be quickly and easily generated, with proper error report, and be beautiful and user-friendly (ex: with well-configured LaTeX, with appropriate CSS, icons and features like banners, with proper rendering of equations).
+
+Per-format overriding shall be possible (ex: to define different image sizes depending on web output or PDF one).
+
+The whole documentation process shall be powered only by free software solutions, easily automated (ex: `with Make <Build.html>`_) and suitable for version control (ex: `with Git <Git.html>`_).
+
+
+
+Our Recommended Approach
+========================
+
+We chose to rely on the `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_ syntax and tools, also known as RST, a part of the `Docutils <https://docutils.sourceforge.io/>`_ project. We did not specifically rely on elements related to Python or the Sphinx toolchain.
+
+We augmented reStructuredText with:
+
+- a set of **make-based defines and rules** (automatic or explicit) that were aggregated in Ceylan-Myriad (see notably `GNUmakerules-docutils.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc>`_ and the `generate-docutils.sh <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/scripts/generate-docutils.sh>`_ generation script); this mechanism is layer-friendly, in the sense that all layers defined (directly or not) on top of Myriad are able by default to re-use these elements and to customise them if needed
+- a **template** on which we rely for most documents, featuring notably a standard table (to specify usual metadata such as organisation, contact information, abstract, versions, etc.), a table of contents, conventions in terms of `title hierarchy`_ and, for the HTML output, a banner (a fixed, non-scrolling panel offering shortcuts, in the top-right corner of the page)
+- a simple **tag-based system** to have the actual document markup (``*.rst``) directly generated from a higher-level source one (``*.rst.template``); in practice, if defined, only the latter element is edited by the user, and tags (such as ``*_VERSION_TAG``, ``*_DATE_TAG``, etc.) are automatically filled-in appropriately
+
+Of course this website, and many others that we created, rely on this approach; as an example, one may look at the `sources of the current document <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/DocGeneration.rst.template>`_.
+
+
+
+Technical Details
+=================
+
+
+.. _`how to render equations`:
+
+Rendering Mathematical Elements
+-------------------------------
+
+With the RST toolchain, the PDF output, thanks to LaTeX, offers built-in high-quality rendering of mathematical elements such as equations, matrices, etc.
+
+By default, the HTML output does not benefit from LaTeX, and remains significantly less pleasing to the eye, and less readable.
+
+So we complement it by `MathJax <https://www.mathjax.org/>`_, a neat open-source "*JavaScript display engine for mathematics that works in all browsers*".
+
+It shall thus be installed once for all first. For example, on Arch Linux, as ``root``, it is sufficient to execute:
+
+.. code:: bash
+
+ $ pacman -Sy mathjax
+
+
+Then, to enable the use of MathJax for a given website based on Ceylan-Myriad, run from its root (often a ``doc`` directory):
+
+.. code:: bash
+
+ make create-mathjax-symlink
+
+
+(this target is defined in `GNUmakerules-docutils.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc>`_; it boils down to symlinking ``/usr/share/mathjax``)
+
+A few examples of resulting math-related outputs can be seen for example in `this section <https://myriad.esperide.org/#linear-conventions>`_.
+
+
+
+Title Hierarchy
+---------------
+
+It must be consistent: a given type of subtitle must always be placed at the same level in the title hierarchy.
+
+We rely on the markup conventions exposed in `this demonstration <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/demo-for-css-testing.rst>`_ file (created by David Goodger), whose `source is here <https://raw.githubusercontent.com/Olivier-Boudeville/Ceylan-Myriad/master/doc/demo-for-css-testing.rst>`_.
+
+From the top-level title to the most nested ones:
+
+- ``=``'', on top and below the title (document title)
+- ``-``, on top and below the title (document subtitle)
+- ``=``, below the title (H1)
+- ``-``, below the title (H2)
+- ``.`` , below the title (H3)
+- ``_``, below the title (H4)
+- ``*``, below the title (H5)
+- ``:``, below the title (H6)
+- ``+``, below the title (H7)
+
+
+
+Multi-File Documents
+--------------------
+
+
+Targeting a Standalone Document
+...............................
+
+Although they tend to be less convenient to edit, longer documents may be split in a **set of RST source files** (the `Myriad documentation <https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/doc>`_ is an example of it; the `WOOPER documentation <https://github.com/Olivier-Boudeville/Ceylan-WOOPER/tree/master/doc>`_ is an example of the opposite approach, based on a single source file).
+
+
+Targeting Interlinked Modular Documents
+.......................................
+
+In some cases, at least for the HTML output, the need is not to produce a single, large, monolithic document, but a set of interlinked ones (`the present HOWTO <http://howtos.esperide.org>`_ is an example thereof) that can be browsed as separate pages.
+
+Then a convenient approach is to define different entry points for different output formats, like, for these HOWTOs, `this one for the HTML output <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/Ceylan-HOWTOs-overview-english.rst.template>`_ and `this one for the PDF output <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/Ceylan-HOWTOs-english.rst.template>`_.
+
+
+
+Inner Links
+-----------
+
+Defining any title (ex: the ``"Rendering Mathematical Elements"`` one above) automatically introduces in turn a corresponding anchor, which, for the HTML output, can then be referenced from any page, for example as raw HTML (like `MyPage.html#rendering-mathematical-elements <DocGeneration.html#rendering-mathematical-elements>`_, or directly from the current page as `#rendering-mathematical-elements <#rendering-mathematical-elements>`_) or directly through RST in the document (ex: specified as ```Rendering Mathematical Elements`_``, resulting in: `Rendering Mathematical Elements`_).
+
+Note the light transformation (spaces becoming dashes) of the specified name once a it is translated into a legit HTML anchor.
+
+Extra local anchors (ex: that could be named ``"how to render equations"``) can also be specified anywhere in the document (ex: just before the previously mentioned title, so that it can be designated with other words), thanks to::
+
+  .. _`how to render equations`:
+
+
+It can then be referenced from the same page as `#how-to-render-equations <#how-to-render-equations>`_ or from another one as `MyPage.html#how-to-render-equations <DocGeneration.html#how-to-render-equations>`_.
+
+
+
+Validating / Checking
+---------------------
+
+In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.
+
+Notably an online HTML page, or set of pages, can be verified by third-party tools like `this one <https://www.deadlinkchecker.com/>`_, to detect dead links.

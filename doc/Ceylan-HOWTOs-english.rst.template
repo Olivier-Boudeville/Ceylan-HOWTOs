@@ -75,12 +75,6 @@ The latest version of this documentation is to be found at the `official Ceylan-
 
 
 
-.. :raw-latex:`\pagebreak`
-
-.. .. include:: Git.rst
-
-
-
 :raw-latex:`\pagebreak`
 
 .. include:: Networking.rst
@@ -96,6 +90,17 @@ The latest version of this documentation is to be found at the `official Ceylan-
 :raw-latex:`\pagebreak`
 
 .. include:: Build.rst
+
+
+:raw-latex:`\pagebreak`
+
+.. include:: VCS.rst
+
+
+
+:raw-latex:`\pagebreak`
+
+.. include:: DocGeneration.rst
 
 
 

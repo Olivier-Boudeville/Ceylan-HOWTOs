@@ -1,0 +1,328 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About Version Control Systems
+
+----------------------------------------------
+Version Control Systems: in Practice, now, Git
+----------------------------------------------
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20VCS">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2021-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Saturday, November 20, 2021
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 3
+
+
+:raw-html:`</center>`
+
+
+
+Overview
+========
+
+No real software development shall happen without the use of a VCS - standing for *Version Control System* - of some sorts, notably in order to track the versions of the source files involved and to ease the collaborative work on them.
+
+Many solutions have been defined for this purpose (CVS, Clearcase, SVN, Mercurial, etc.), but now a single tool is the de facto standard: `Git <https://en.wikipedia.org/wiki/Git)>`_, which is a distributed version control system available as free software; refer to `its website <https://git-scm.com/>`_ for more details.
+
+
+
+Git Usage
+=========
+
+Beyond the documentation_ relative to its general use, projects have to adopt their own set of conventions - regarding the management of branches, commits, tags, etc - based on their preferences and context.
+
+
+
+Recommended General Conventions
+-------------------------------
+
+The ones to which we try to stick are:
+
+- the path (including names) of files and directories should not include spaces; as separator, prefer dashes (``-``) to underscores (``_``)
+- the character case shall be uniform (ex: directory names starting always or never with a capital letter)
+- the language used shall be uniform (ex: only English)
+- a commit message shall describe synthetically the modifications operated on the corresponding new filesystem snapshot; such a message, preferably in English, should always start with a capital letter and end with a dot; ex: "*Fixed the computation of angles.*"
+- the file formats shall be, as much as possible, homogeneous, notably for text files with regard to the line terminators; either only UNIX conventions (only ``LF``; preferred), or only Windows ones (``CRLF``); use ``dos2unix`` whenever necessary, possibly automated through a Git hook
+
+
+
+Managing Branches
+-----------------
+
+Creating branches allows to separate threads of work (while preserving their lineage) and progress concurrently. Yet often their content will have to converge ultimately; depending on the intent, two use cases can be considered, resulting in different Git uses.
+
+
+Merge versus Rebase
+...................
+
+Here one may want:
+
+- either to **integrate back a development branch** (ex: ``my-feature``) **in a shared, parent one** (ex: ``master``): then one shall prefer using ``merge``, in order to keep separate histories and not affect the past one of the shared branch
+- or to **resynchronise a development branch** (ex: ``my-feature``) **on the last version of a shared branch and continue these developments**: then one shall prefer ``rebase``, so that the history of the development branch contains only its own changes (less noise, linear history)
+
+In practice, in order to transfer the changes of a branch A in a branch B:
+
+.. code:: bash
+
+ $ git checkout B
+
+ # Either first case (integrate development A in master B):
+ $ git merge A # or: git pull A
+
+ # Or second one (resynchronise development B on master A):
+ $ git rebase A # or: git pull -rebase A
+
+
+How such a last ``rebase`` of branch A in branch B is done? The bifurcation point of B compared to A is moved from its initial position to the current head of A, on which all changes recorded in B are applied; the resulting history of B looks like if these changes had been directly performed from the version of A designated in this rebase, and thus B can be then directly fast-forwarded to its tip, which comprises both the changes synchronised from A and, then, the ones specifically introduced in B.
+
+More information: `[1] <https://www.atlassian.com/en/git/tutorials/merging-vs-rebasing>`_ or, in French: `[2] <http://codeur-pro.fr/difference-entre-git-merge-et-git-rebase/>`_, `[3] <https://meritis.fr/git-rebase-vs-git-merge-quelles-differences/>`_, `[4] <http://blog.fclement.info/git-merge-et-git-rebase-les-eternels-incompris>`_.
+
+
+
+Direct Merge
+............
+
+Sometimes, one may want to directly transfer the changes of a derivate branch B in a parent branch A. When one knows for sure that the versions in B shall be preferred in all cases to their counterparts in A (note that a classical merge is already fully able to manage fast-forwards), one may use:
+
+.. code:: bash
+
+ $ git checkout A
+ $ git merge -X theirs B
+
+No conflict should arise (`source <https://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours>`_).
+
+
+
+Common Procedures
+-----------------
+
+
+Overcoming auto-signed SSL certificate issues
+.............................................
+
+To avoid, typically in a company internal setting, errors like:
+
+.. code:: bash
+
+ Cloning into 'XXX'...
+ fatal: unable to access 'https://foo.bar.org/XX/XXX/': SSL certificate problem: self signed certificate in certificate chain
+
+
+the ``http.sslVerify=false`` option may be used, even if it weakens the overall security.
+
+This is typically useful initially:
+
+.. code:: bash
+
+ $ git -c http.sslVerify=false clone https://foo.bar.org/XX/XXX
+
+
+In order that the next operations (ex: future pushes) overcome too this problem for the current repository, use from within the current clone:
+
+.. code:: bash
+
+ $ git config http.sslVerify false
+
+
+
+
+Setting the right metadata for the next commits
+...............................................
+
+Doing so prevent from having to amend commits a posteriori.
+
+If these information apply for all projects:
+
+.. code:: bash
+
+ $ git config --global user.name "John Doe"
+ $ git config --global user.email john.doe@foobar.org
+
+
+Otherwise shall be done at least on a per-project basis with:
+
+.. code:: bash
+
+ $ git config user.name "John Doe"
+ $ git config user.email john.doe@foobar.org
+
+
+Also ``git config --global --edit`` may be of use (beware to trigger a ``vi`` by accident...).
+
+
+
+
+Performing operation on remotes with no systematic authentication
+.................................................................
+
+Using a SSH key pair, hence with its public key declared on said remote, is a relevant approach, safer than from example using a ``~/.netrc`` file.
+
+
+
+Creating an empty branch
+........................
+
+Rather than creating it from a pre-existing branch and removing all inherited content, prefer:
+
+.. code:: bash
+
+ $ git checkout --orphan my_new_branch
+
+
+(typically useful for GitHub Pages branches)
+
+
+
+
+Listing differences with prior versions of a file
+.................................................
+
+In order to list the differences of a given file with the previous commits (precisely: of a set of pathspecs), one may use our ``dif-prev.sh`` script, which by default reports the differences with the last committed version. With the ``--all`` option, it lists all differences, until the first addition of this file.
+
+
+
+Preventing the commit of a file in VCS that is often locally modified
+.....................................................................
+
+One should use `this method <https://stackoverflow.com/questions/1753070/how-do-i-configure-git-to-ignore-some-files-locally>`_:
+
+.. code:: bash
+
+ $ git update-index --skip-worktree <file-list>
+
+
+The opposite operation is:
+
+.. code:: bash
+
+ $ git update-index --no-skip-worktree <file-list>
+
+
+
+Reducing the size of a repository
+.................................
+
+One may use our `list-largest-vcs-blobs.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-largest-vcs-blobs.sh>`_ script to detect any larger files that should not be in VCS (ex: should a colleague have committed by mistake a third-party archive, or unexpected data such as CSV files).
+
+Then install `BFG Repo-Cleaner <https://rtyley.github.io/bfg-repo-cleaner/>`_:
+
+.. code:: bash
+
+ $ mkdir -p ~/Software/bfg-repo-cleaner/
+ $ cd $_
+ $ mv ~/bfg-1.14.0.jar .
+ $ ln -s bfg-1.14.0.jar bfg.jar
+ # For example in ~/.bashrc:
+ $ alias bfg="java -jar ~/Software/bfg-repo-cleaner/bfg.jar"
+
+
+All developers should be asked to commit their sources (git add + push), to archive their clone (ex: in a timestamped ``.xz`` file like ``20220412-archive-clone-foobar.tar.xz``), and to wait until notified that they can create a new clone.
+
+The repository may be then cleaned up (ex: from large, unnecessary CSV files) in isolation, with:
+
+.. code:: bash
+
+ $ git clone --mirror XXX/foobar.git
+ $ bfg --delete-files '*.csv' foobar.git
+ $ cd foobar
+ $ git reflog expire --expire=now --all && git gc --prune=now --aggressive
+ $ git push
+
+Then all developers shall be requested to perform a new clone and to check the fetched content (ex: with regard to the content of the last branch in which they committed).
+
+
+
+Tools
+=====
+
+
+On Most Platforms
+-----------------
+
+At least on UNIX, the command-line Git client (``git``) is certainly the best tool. In difficult situations, graphical tools such as ``gitk`` may be of help.
+
+See also our Ceylan-Hull section about `VCS-related scripts <https://hull.esperide.org/#for-version-control-system-vcs>`_.
+
+
+
+On Windows
+----------
+
+Tools like `TortoiseGit <https://tortoisegit.org/>`_ may foster a view on the usage of Git that is a bit particular, conflating concepts or introducing extra ones (ex: a ``sync`` command). Apparently also at least some pulls did not reintroduce files just removed from the working directory.
+
+More generally, cloning on a Windows host an UNIX-originating repository comprising symbolic links may induce oddities (ex: a symlink named ``S`` pointing to ``Foobar`` resulting, on a Windows clone, in a file named ``S`` whose content is, literally, the text ``"Foobar"``, instead of the expected content of the ``Foobar`` file).
+
+Another option is to use Visual Studio Code (``vscode``), which supports natively Git (provided that the command-line version is already installed). One may select ``View -> SCM`` (or ``Ctrl-Shift-G``) for that. Clicking on the "VCS" icon (three rings links by two curves; the third from the top) displays a contextual view offering various associated operations (here based on Git).
+
+We finally preferred using MSYS2 + Git rather than `Git Bash <https://gitforwindows.org/>`_, named "Git for Windows"; `hints <http://source.technology/speed-up-git-bash-on-windows>`_ to speed up these tools may apply.
+
+
+
+Inner Workings
+==============
+
+Git stores internally every version of every file separately (not as a diff with a parent version) as a blob (an opaque binary content) identified by its (SHA1) hash.
+
+A commit is the identifier of a tree representing the filesystem of interest at a given moment (snapshot). This tree references the files through their SHA1, similarly to a `Merkle tree <https://en.wikipedia.org/wiki/Merkle_tree>`_.
+
+A branch is thus nothing but a pointer on a given commit, and ``HEAD`` designates the current branch. Git stores natively only blobs, trees and commits.
+
+The reported differences in the content of a file or a tree are thus only recreated (established dynamically) by Git commands, they are not natively tracked.
+
+
+
+Translations
+============
+
+From English to French:
+
+- ``repository`` -> ``dépôt``
+- ``to commit`` -> ``valider``
+- ``a commit`` -> ``validation``
+- ``in VCS`` -> ``en GCL`` (Gestion de Configuration Logicielle)
+- ``snapshot`` -> ``instantané`` (de l'état du sous-système de fichiers géré en GCL)
+- ``merge`` -> ``fusion``
+- ``head`` -> ``tête``
+- ``fast-forward`` -> ``avancement direct``
+- ``fast-forwarded`` -> ``directement avancée``
+
+
+
+Documentation
+=============
+
+Many pointers exist, doing a great job in unveiling how Git is to be used.
+
+In English, `Pro GIT <https://git-scm.com/book/en/v2>`_ is surely a reference.
+
+In French:
+
+- `introduction en français <https://perso.liris.cnrs.fr/pierre-antoine.champin/enseignement/intro-git/) de l'IUT Lyon-1>`_
+- `cours sur OpenClassrooms <https://openclassrooms.com/fr/courses/1233741-gerez-vos-codes-source-avec-git>`_
+- référence incontournable et conseillée : `Pro GIT <https://git-scm.com/book/fr/v2>`_, notamment pour l'explication de `ses rudiments <https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Rudiments-de-Git>`_ puis de son `fonctionnement interne <https://git-scm.com/book/fr/v2/Les-tripes-de-Git-Plomberie-et-porcelaine>`_, à commencer par `ses objets <https://git-scm.com/book/fr/v2/Les-tripes-de-Git-Les-objets-de-Git>`_

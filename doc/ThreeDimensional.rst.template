@@ -466,6 +466,11 @@ OpenGL Corner
 Conventions
 -----------
 
+Code snippets will corresponds to the OpenGL API as it is exposed in Erlang. This translates easily in the vanilla C GL implementation for example.
+
+Referenced tests will be `Ceylan-Myriad <http://myriad.esperide.org>`_ ones, typically located `here <https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/test/user-interface/graphical>`_.
+
+
 
 Basics
 ......
@@ -476,6 +481,7 @@ Basics
 - OpenGL is a **procedural** (function-based, not object-oriented) **state machine** comprising a larger number of variables defined within a given OpenGL state (named *OpenGL context*; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts as long as it is not modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set)
 - so the **currently processed element** (ex: a vertex) **inherits (implicitly) the current settings of the context** (ex: color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply when performing a rendering operation (specifying all these parameters would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards (being "implicitly inherited"), until possibly being reassigned in some future
 - OpenGL respects a **client/server execution model**: an application (a specific client, running on a CPU) issues commands to a rendering server (on the same host or not - see GLX; generally the server can be seen as running on a local graphic card), that executes them **sequentially and in-order**; as such, most of the calls performed by user programs are **asynchronous**: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like *Display Lists* allow to pipeline operations (as opposed to the default *immediate mode*), which are accumulated for processing at a later time
+- state variables are mostly server-side, yet some of them are client-side; in both cases, they can be gathered in *attribute groups*, which can be pushed on, and popped from, their respective server or client attribute stacks
 - OpenGL manages two types of data, handled by mostly different paths of its rendering pipeline yet that are ultimately integrated in the framebuffer through fragment-yielding rasterization:
 
   - geometric data (vertices, lines, and polygons)
@@ -513,7 +519,7 @@ Terms that are more or less specific to OpenGL:
 - ``Scissor Test``: an arbitrary screen-aligned rectangle outside of which fragments will be discarded.
 - ``Stencil Test``: conditionally discards a fragment based on the outcome of a selected comparison between the value in the stencil buffer and a reference value
 - ``Texel``: *Texture Element*
-
+- ``Vertex Array``: these in-memory client-side arrays may aggregate 6 types of data (vertex coordinates, RGBA colors, color indices, surface normals, texture coordinates, polygon edge flags), possibly interleaved; such arrays allow to reduce the number of calls to OpenGL functions, and also to share elements (ex: vertices pertaining to multiple faces should preferably be defined only once); in a non-networked setting, the GPU just dereferences the corresponding pointers
 
 Refer to the `description of the pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ for further details.
 
@@ -525,16 +531,79 @@ Referentials
 In 2D
 .....
 
-A convention, for example detailed in `this section <https://www.glprogramming.com/red/chapter02.html#name10>`_ of the Red book, it is consider that the ordinates increase when going from the *bottom of the viewport to its top*; then for example the lower-left corner is (0, 0), and the upper-right corner is (Width, Height).
+A popular convention, for example detailed in `this section <https://www.glprogramming.com/red/chapter02.html#name10>`_ of the Red book, is to consider that the ordinates increase when going from the *bottom of the viewport to its top*; then for example the on-screen lower-left corner of the OpenGL canvas is ``(0,0)``, and its upper-right corner is ``(Width,Height)``.
 
 As for us, we prefer the `MyriadGUI 2D conventions <https://myriad.esperide.org/#2d-referential>`_, in which ordinates increase when going from the *top of the viewport to its bottom*, as depicted in the following figure:
 
 :raw-html:`<center><img src="myriad-2D-referential.png" id="responsive-image-xsmall"></img></center>`
-:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.7]{myriad-2D-referential} \end{figure}`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.5]{myriad-2D-referential} \end{figure}`
+
+Such a setting can be obtained thanks to:
+
+.. code:: erlang
+
+ gl:matrixMode( ?GL_PROJECTION ),
+ gl:loadIdentity(),
+
+ % Like glu:ortho2D/4:
+ gl:ortho( _Left=0.0, _Right=float( CanvasWidth ),
+   _Bottom=float( CanvasHeight ), _Top=0.0, _Near=-1.0, _Far=1.0 )
+
+In this case, the viewport can be addressed like a **usual (2D) framebuffer** (like provided by any classical 2D backend such as SDL) obeying the coordinate system just described: if the width of the OpenGL canvas is 800 pixels and its height is 600 pixels, then its top-left on-screen corner is ``(0,0)`` and its bottom-right one is ``(799,599)``, and any pixel-level operation can be directly performed there "as usual". One may refer to ``gui_opengl_2D_test.erl`` for a full example thereof, in which line-based letters are drawn to demonstrate these conventions.
+
+Each time the OpenGL canvas is resized, this projection matrix will have to be updated, with the same procedure yet based on the new dimensions.
+
+Another option - still with axes respecting the MyriadGUI 2D conventions - is to operate this time based on **normalised, definition-independent coordinates**, ranging in ``[0.0, 1.0]``, like in:
+
+.. code:: erlang
+
+ gl:matrixMode( ?GL_PROJECTION ),
+ gl:loadIdentity(),
+
+ gl:ortho( _Left=0.0, _Right=1.0, _Bottom=1.0, _Top=0.0, _Near=-1.0,
+   _Far=1.0 )
+
+
+Using "stable", device-independent floats instead of integers directly accounting for pixels may be more convenient. For example a resizing of the viewport will then not require an update of the projection matrix. One may refer to ``gui_opengl_minimal_test.erl`` for a full example thereof.
+
 
 
 In 3D
 .....
+
+We will rely here as well on the MyriadGUI conventions, `this time for 3D <https://myriad.esperide.org/#3d-referential>`_ (not taking specifically time here):
+
+:raw-html:`<center><img src="myriad-space-time-referential.png" id="responsive-image-tiny"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{myriad-space-time-referential.png} \end{figure}`
+
+These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.
+
+
+A Tree of Referentials
+......................
+
+A given scene (a model) is made of a set of elements (ex: the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (ex: a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.
+
+The rendering objective requires to have ultimately one's scene transformed as a whole in eyes coordinates (to obtain coordinates along the 2D screen referential, along the X and Y axes - the Z one serving to sort out depth).
+
+For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same (scene-global) space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take the scene as a whole into account to jump into eye coordinates).
+
+As each individual type of model (ex: a bike model) is natively defined in an abstract, local referential of its own, each actual model instance (ex: the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (ex: bike A is at this absolute position and orientation in the scene global referential) or relatively to a series of parent referentials (ex: this character rides bike B - and thus is defined relatively to it, knowing that the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).
+
+So in the general case, referentials are nested (recursively defined relatively to their parent) and form a tree whose root corresponds to the referential of the overall scene.
+
+A series of model transformations has thus to be operated::
+
+ (model local referential Rm) -> (parent referential 1 Rp1) -> (...) -> (Rpn) -> (scene referential Rs)
+
+Once the **model** is expressed as a whole in the scene-global referential, the aforementioned next transformations have to be conducted : **view** and projection.
+
+In practice, all these operations are thanks to the multiplication of 4x4 homogeneous matrices.
+
+
+
+
+
 
 
 More Advanced Topics
