@@ -21,13 +21,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2021 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, December 17, 2021</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -68,82 +68,82 @@
 </table>
 <p>This script expects a settings file to be available as <tt class="docutils literal"><span class="pre">/etc/iptables.settings-Gateway.sh</span></tt> (this file is meant to be sourced, not executed).</p>
 <p>An example thereof:</p>
-<pre class="literal-block">
-# Local firewall settings.
+<pre class="code bash literal-block">
+<span class="c1"># Local firewall settings.
 #
 # Meant to be sourced by the iptables.rules-Gateway.sh script.
+</span>
+<span class="c1"># Where firewall-related outputs will be written:
+</span><span class="nv">log_file</span><span class="o">=</span>/root/.last-gateway-firewall-activation
 
-# Where firewall-related outputs will be written:
-log_file=/root/.last-gateway-firewall-activation
-
-# Local (LAN) interface, the one we trust:
+<span class="c1"># Local (LAN) interface, the one we trust:
 #lan_if=eth1
-lan_if=enp2s0
+</span><span class="nv">lan_if</span><span class="o">=</span>enp2s0
 
-# Internet (WAN) interface, the one we distrust:
-
-# For PPP ADSL connections:
+<span class="c1"># Internet (WAN) interface, the one we distrust:
+</span>
+<span class="c1"># For PPP ADSL connections:
 #net_if=ppp0
-
-# For direct connection to a set-top (telecom) box from your provider:
+</span>
+<span class="c1"># For direct connection to a set-top (telecom) box from your provider:
 #net_if=eth0
-net_if=enp4s0
+</span><span class="nv">net_if</span><span class="o">=</span>enp4s0
 
-ban_file=&quot;/etc/ban-rules.iptables&quot;
+<span class="nv">ban_file</span><span class="o">=</span><span class="s2">&quot;/etc/ban-rules.iptables&quot;</span>
 
-# As the IPs banned through the ban file above are quite minimal:
-use_ban_rules=&quot;true&quot;
-#use_ban_rules=&quot;false&quot;
-
-# IP of a test client (to avoid too many logs, selecting only related events):
+<span class="c1"># As the IPs banned through the ban file above are quite minimal:
+</span><span class="nv">use_ban_rules</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
+<span class="c1">#use_ban_rules=&quot;false&quot;
+</span>
+<span class="c1"># IP of a test client (to avoid too many logs, selecting only related events):
 #test_client_ip=&quot;xxx&quot;
+</span>
+<span class="c1"># Enabled input TCP port range for traffic from LAN to gateway:
+</span><span class="nv">enable_unfiltered_tcp_range</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
 
-# Enabled input TCP port range for traffic from LAN to gateway:
-enable_unfiltered_tcp_range=&quot;true&quot;
+<span class="c1"># TCP unfiltered window (ex: for passive FTP and BEAM port ranges):
+</span><span class="nv">tcp_unfiltered_low_port</span><span class="o">=</span><span class="m">50000</span>
+<span class="nv">tcp_unfiltered_high_port</span><span class="o">=</span><span class="m">55000</span>
 
-# TCP unfiltered window (ex: for passive FTP and BEAM port ranges):
-tcp_unfiltered_low_port=50000
-tcp_unfiltered_high_port=55000
+<span class="c1"># Tells whether IPTV (TV on the Internet thanks to a box) should be allowed:
+</span><span class="nv">enable_iptv</span><span class="o">=</span><span class="nb">false</span>
 
-# Tells whether IPTV (TV on the Internet thanks to a box) should be allowed:
-enable_iptv=false
+<span class="c1"># Tells whether a SMTP server can be used:
+</span><span class="nv">enable_smtp</span><span class="o">=</span><span class="nb">false</span>
 
-# Tells whether a SMTP server can be used:
-enable_smtp=false
-
-# Typically a set-top box from one's ISP (defined as a possibly log match
+<span class="c1"># Typically a set-top box from one's ISP (defined as a possibly log match
 # criteria):
+</span>
+<span class="c1"># Classical example:
+</span><span class="nv">telecom_box</span><span class="o">=</span><span class="s2">&quot;192.168.0.254&quot;</span>
 
-# Classical example:
-telecom_box=&quot;192.168.0.254&quot;
-
-# DHT subsection, for P2P exchanges:
+<span class="c1"># DHT subsection, for P2P exchanges:
 # More infos: https://github.com/rakshasa/rtorrent/wiki/Using-DHT
+</span>
+<span class="nv">dht_udp_port</span><span class="o">=</span><span class="m">7881</span>
 
-dht_udp_port=7881
+<span class="c1">#use_dht=&quot;true&quot;
+</span><span class="nv">use_dht</span><span class="o">=</span><span class="s2">&quot;false&quot;</span>
 
-#use_dht=&quot;true&quot;
-use_dht=&quot;false&quot;
-
-# One may use a non-standard port:
+<span class="c1"># One may use a non-standard port:
 #ssh_port=22
-ssh_port=22320
+</span><span class="nv">ssh_port</span><span class="o">=</span><span class="m">22320</span>
 
-smtp_port=25
+<span class="nv">smtp_port</span><span class="o">=</span><span class="m">25</span>
 
-# SMTPS is obsolete:
-smtp_secure_port=465
+<span class="c1"># SMTPS is obsolete:
+</span><span class="nv">smtp_secure_port</span><span class="o">=</span><span class="m">465</span>
 
-# STARTTLS over SMTP is the proper way of securing SMTP:
-msa_port=587
+<span class="c1"># STARTTLS over SMTP is the proper way of securing SMTP:
+</span><span class="nv">msa_port</span><span class="o">=</span><span class="m">587</span>
 
-pop3_port=110
+<span class="nv">pop3_port</span><span class="o">=</span><span class="m">110</span>
 
-# POP3S:
-pop3_secure_port=995
+<span class="c1"># POP3S:
+</span><span class="nv">pop3_secure_port</span><span class="o">=</span><span class="m">995</span>
 
-imap_port=143
-imap_secure_port=993
+<span class="nv">imap_port</span><span class="o">=</span><span class="m">143</span>
+<span class="nv">imap_secure_port</span><span class="o">=</span><span class="m">993</span>
 </pre>
 <p>A script to configure iptables is best integrated to systemd, see the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.service">iptables.rules-Gateway.service</a> file for that (typically to be placed in <tt class="docutils literal">/etc/systemd/system</tt>). Then one may test with:</p>
 <pre class="code bash literal-block">

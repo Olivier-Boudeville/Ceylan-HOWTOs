@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
+<title>Ceylan-HOWTOs: About Documentation Generation</title>
+<link rel="stylesheet" href="pygments-default.css" type="text/css" />
+<link rel="stylesheet" href="howtos.css" type="text/css" />
+<link href="howtos-icon.png" rel="icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="document" id="documentation-generation">
+<span id="top"></span>
+<h1 class="title">Documentation Generation</h1>
+
+<p><span class="raw-html"><a name="howtos_top"></a></span></p>
+<p><span class="raw-html"><div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Documentation%20Generation">email us</a></p></div></span></p>
+<p><span class="raw-html"><center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img></span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2022-2022 Olivier Boudeville</td>
+</tr>
+<tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
+</tr>
+<tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
+</tr>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 12, 2022</td>
+</tr>
+</tbody>
+</table>
+<p><span class="raw-html"><a name="howtos_toc"></a></span></p>
+<div class="contents local topic" id="id1">
+<span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="#objective" id="id5">Objective</a></li>
+<li><a class="reference internal" href="#our-recommended-approach" id="id6">Our Recommended Approach</a></li>
+<li><a class="reference internal" href="#technical-details" id="id7">Technical Details</a><ul>
+<li><a class="reference internal" href="#rendering-mathematical-elements" id="id8">Rendering Mathematical Elements</a></li>
+<li><a class="reference internal" href="#title-hierarchy" id="id9">Title Hierarchy</a></li>
+<li><a class="reference internal" href="#multi-file-documents" id="id10">Multi-File Documents</a><ul>
+<li><a class="reference internal" href="#targeting-a-standalone-document" id="id11">Targeting a Standalone Document</a></li>
+<li><a class="reference internal" href="#targeting-interlinked-modular-documents" id="id12">Targeting Interlinked Modular Documents</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#inner-links" id="id13">Inner Links</a></li>
+<li><a class="reference internal" href="#validating-checking" id="id14">Validating / Checking</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><span class="raw-html"></center></span></p>
+<div class="section" id="objective">
+<h1><a class="toc-backref" href="#id5">Objective</a></h1>
+<p>We want to be able to generate, <strong>from a single source</strong>, at least two <strong>documentation formats</strong>:</p>
+<ul class="simple">
+<li>a set of <strong>interlinked static web pages</strong> (the most popular, flexible format)</li>
+<li>a single, <strong>standalone PDF file</strong> (convenient for offline reading, printing, etc.)</li>
+</ul>
+<p>The document source shall be expressed in a simple, non-limiting, high-level syntax; in practice a rather standard, lightweight markup language.</p>
+<p>All standard documentation elements shall be available (ex: title, tables, images, links, references, tables of content, etc.) and be customisable.</p>
+<p>The resulting documents shall be quickly and easily generated, with proper error report, and be beautiful and user-friendly (ex: with well-configured LaTeX, with appropriate CSS, icons and features like banners, with proper rendering of equations).</p>
+<p>Per-format overriding shall be possible (ex: to define different image sizes depending on web output or PDF one).</p>
+<p>The whole documentation process shall be powered only by free software solutions, easily automated (ex: <a class="reference external" href="Build.html">with Make</a>) and suitable for version control (ex: <a class="reference external" href="Git.html">with Git</a>).</p>
+</div>
+<div class="section" id="our-recommended-approach">
+<h1><a class="toc-backref" href="#id6">Our Recommended Approach</a></h1>
+<p>We chose to rely on the <a class="reference external" href="https://en.wikipedia.org/wiki/ReStructuredText">reStructuredText</a> syntax and tools, also known as RST, a part of the <a class="reference external" href="https://docutils.sourceforge.io/">Docutils</a> project. We did not specifically rely on elements related to Python or the Sphinx toolchain.</p>
+<p>We augmented reStructuredText with:</p>
+<ul class="simple">
+<li>a set of <strong>make-based defines and rules</strong> (automatic or explicit) that were aggregated in Ceylan-Myriad (see notably <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">GNUmakerules-docutils.inc</a> and the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/scripts/generate-docutils.sh">generate-docutils.sh</a> generation script); this mechanism is layer-friendly, in the sense that all layers defined (directly or not) on top of Myriad are able by default to re-use these elements and to customise them if needed</li>
+<li>a <strong>template</strong> on which we rely for most documents, featuring notably a standard table (to specify usual metadata such as organisation, contact information, abstract, versions, etc.), a table of contents, conventions in terms of <a class="reference internal" href="#title-hierarchy">title hierarchy</a> and, for the HTML output, a banner (a fixed, non-scrolling panel offering shortcuts, in the top-right corner of the page)</li>
+<li>a simple <strong>tag-based system</strong> to have the actual document markup (<tt class="docutils literal">*.rst</tt>) directly generated from a higher-level source one (<tt class="docutils literal">*.rst.template</tt>); in practice, if defined, only the latter element is edited by the user, and tags (such as <tt class="docutils literal">*_VERSION_TAG</tt>, <tt class="docutils literal">*_DATE_TAG</tt>, etc.) are automatically filled-in appropriately</li>
+</ul>
+<p>Of course this website, and many others that we created, rely on this approach; as an example, one may look at the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/DocGeneration.rst.template">sources of the current document</a>.</p>
+</div>
+<div class="section" id="technical-details">
+<h1><a class="toc-backref" href="#id7">Technical Details</a></h1>
+<div class="section" id="rendering-mathematical-elements">
+<span id="how-to-render-equations"></span><h2><a class="toc-backref" href="#id8">Rendering Mathematical Elements</a></h2>
+<p>With the RST toolchain, the PDF output, thanks to LaTeX, offers built-in high-quality rendering of mathematical elements such as equations, matrices, etc.</p>
+<p>By default, the HTML output does not benefit from LaTeX, and remains significantly less pleasing to the eye, and less readable.</p>
+<p>So we complement it by <a class="reference external" href="https://www.mathjax.org/">MathJax</a>, a neat open-source &quot;<em>JavaScript display engine for mathematics that works in all browsers</em>&quot;.</p>
+<p>It shall thus be installed once for all first. For example, on Arch Linux, as <tt class="docutils literal">root</tt>, it is sufficient to execute:</p>
+<pre class="code bash literal-block">
+$ pacman -Sy mathjax
+</pre>
+<p>Then, to enable the use of MathJax for a given website based on Ceylan-Myriad, run from its root (often a <tt class="docutils literal">doc</tt> directory):</p>
+<pre class="code bash literal-block">
+make create-mathjax-symlink
+</pre>
+<p>(this target is defined in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">GNUmakerules-docutils.inc</a>; it boils down to symlinking <tt class="docutils literal">/usr/share/mathjax</tt>)</p>
+<p>A few examples of resulting math-related outputs can be seen for example in <a class="reference external" href="https://myriad.esperide.org/#linear-conventions">this section</a>.</p>
+</div>
+<div class="section" id="title-hierarchy">
+<h2><a class="toc-backref" href="#id9">Title Hierarchy</a></h2>
+<p>It must be consistent: a given type of subtitle must always be placed at the same level in the title hierarchy.</p>
+<p>We rely on the markup conventions exposed in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/demo-for-css-testing.rst">this demonstration</a> file (created by David Goodger), whose <a class="reference external" href="https://raw.githubusercontent.com/Olivier-Boudeville/Ceylan-Myriad/master/doc/demo-for-css-testing.rst">source is here</a>.</p>
+<p>From the top-level title to the most nested ones:</p>
+<ul class="simple">
+<li><tt class="docutils literal">=</tt>'', on top and below the title (document title)</li>
+<li><tt class="docutils literal">-</tt>, on top and below the title (document subtitle)</li>
+<li><tt class="docutils literal">=</tt>, below the title (H1)</li>
+<li><tt class="docutils literal">-</tt>, below the title (H2)</li>
+<li><tt class="docutils literal">.</tt> , below the title (H3)</li>
+<li><tt class="docutils literal">_</tt>, below the title (H4)</li>
+<li><tt class="docutils literal">*</tt>, below the title (H5)</li>
+<li><tt class="docutils literal">:</tt>, below the title (H6)</li>
+<li><tt class="docutils literal">+</tt>, below the title (H7)</li>
+</ul>
+</div>
+<div class="section" id="multi-file-documents">
+<h2><a class="toc-backref" href="#id10">Multi-File Documents</a></h2>
+<div class="section" id="targeting-a-standalone-document">
+<h3><a class="toc-backref" href="#id11">Targeting a Standalone Document</a></h3>
+<p>Although they tend to be less convenient to edit, longer documents may be split in a <strong>set of RST source files</strong> (the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/doc">Myriad documentation</a> is an example of it; the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-WOOPER/tree/master/doc">WOOPER documentation</a> is an example of the opposite approach, based on a single source file).</p>
+</div>
+<div class="section" id="targeting-interlinked-modular-documents">
+<h3><a class="toc-backref" href="#id12">Targeting Interlinked Modular Documents</a></h3>
+<p>In some cases, at least for the HTML output, the need is not to produce a single, large, monolithic document, but a set of interlinked ones (<a class="reference external" href="http://howtos.esperide.org">the present HOWTO</a> is an example thereof) that can be browsed as separate pages.</p>
+<p>Then a convenient approach is to define different entry points for different output formats, like, for these HOWTOs, <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/Ceylan-HOWTOs-overview-english.rst.template">this one for the HTML output</a> and <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/Ceylan-HOWTOs-english.rst.template">this one for the PDF output</a>.</p>
+</div>
+</div>
+<div class="section" id="inner-links">
+<h2><a class="toc-backref" href="#id13">Inner Links</a></h2>
+<p>Defining any title (ex: the <tt class="docutils literal">&quot;Rendering Mathematical Elements&quot;</tt> one above) automatically introduces in turn a corresponding anchor, which, for the HTML output, can then be referenced from any page, for example as raw HTML (like <a class="reference external" href="DocGeneration.html#rendering-mathematical-elements">MyPage.html#rendering-mathematical-elements</a>, or directly from the current page as <a class="reference external" href="#rendering-mathematical-elements">#rendering-mathematical-elements</a>) or directly through RST in the document (ex: specified as <tt class="docutils literal">`Rendering Mathematical Elements`_</tt>, resulting in: <a class="reference internal" href="#rendering-mathematical-elements">Rendering Mathematical Elements</a>).</p>
+<p>Note the light transformation (spaces becoming dashes) of the specified name once a it is translated into a legit HTML anchor.</p>
+<p>Extra local anchors (ex: that could be named <tt class="docutils literal">&quot;how to render equations&quot;</tt>) can also be specified anywhere in the document (ex: just before the previously mentioned title, so that it can be designated with other words), thanks to:</p>
+<pre class="literal-block">
+.. _`how to render equations`:
+</pre>
+<p>It can then be referenced from the same page as <a class="reference external" href="#how-to-render-equations">#how-to-render-equations</a> or from another one as <a class="reference external" href="DocGeneration.html#how-to-render-equations">MyPage.html#how-to-render-equations</a>.</p>
+</div>
+<div class="section" id="validating-checking">
+<h2><a class="toc-backref" href="#id14">Validating / Checking</a></h2>
+<p>In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.</p>
+<p>Notably an online HTML page, or set of pages, can be verified by third-party tools like <a class="reference external" href="https://www.deadlinkchecker.com/">this one</a>, to detect dead links.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

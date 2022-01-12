@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 5, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, January 9, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -44,11 +44,12 @@
 <li><a class="reference internal" href="#interesting-packages" id="id11">Interesting Packages</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#quick-topics" id="id12">Quick Topics</a><ul>
-<li><a class="reference internal" href="#wine" id="id13">Wine</a></li>
+<li><a class="reference internal" href="#post-mortem-investigations" id="id12">Post-Mortem Investigations</a></li>
+<li><a class="reference internal" href="#quick-topics" id="id13">Quick Topics</a><ul>
+<li><a class="reference internal" href="#wine" id="id14">Wine</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="id14">See Also</a></li>
+<li><a class="reference internal" href="#see-also" id="id15">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -181,17 +182,86 @@ $ shutdown-local-host.sh --reboot
 </ul>
 </div>
 </div>
+<div class="section" id="post-mortem-investigations">
+<span id="core-dumps"></span><h1><a class="toc-backref" href="#id12">Post-Mortem Investigations</a></h1>
+<p>Sometimes a UNIX process crashes and, typically if one developed it, one wants to investigate the issue, based on a core dump produced by the operating system.</p>
+<p>This <a class="reference external" href="https://wiki.archlinux.org/title/Core_dump">Arch Linux article</a> will give all relevant details.</p>
+<p>In short, <tt class="docutils literal">coredumpctl list</tt> will list all known core dumps from oldest to most recent, such as in:</p>
+<pre class="code bash literal-block">
+$ coredumpctl list
+TIME                        PID   UID  GID SIG     COREFILE EXE                SIZE
+<span class="o">[</span>...<span class="o">]</span>
+Tue <span class="m">2021</span>-12-21 <span class="m">20</span>:53:02 CET <span class="m">73873</span> <span class="m">1007</span> <span class="m">988</span> SIGSEGV present  <span class="o">[</span>...<span class="o">]</span>/bin/beam.smp <span class="m">14</span>.6M
+</pre>
+<p>The last core dump produced may be studied directly, thanks to <tt class="docutils literal">coredumpctl debug</tt>, relying on <tt class="docutils literal">gdb</tt> to fetch much lower-level information:</p>
+<pre class="code bash literal-block">
+$ coredumpctl debug
+          PID: <span class="m">73873</span> <span class="o">(</span>beam.smp<span class="o">)</span>
+          UID: <span class="m">1007</span> <span class="o">(</span>xxx<span class="o">)</span>
+          GID: <span class="m">988</span> <span class="o">(</span>users<span class="o">)</span>
+       Signal: <span class="m">11</span> <span class="o">(</span>SEGV<span class="o">)</span>
+    Timestamp: Tue <span class="m">2021</span>-12-21 <span class="m">20</span>:53:01 CET <span class="o">(</span>38min ago<span class="o">)</span>
+ Command Line: /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp -W w -K <span class="nb">true</span> -A <span class="m">128</span> <span class="o">[</span>...<span class="o">]</span>
+   Executable: /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp
+Control Group: /user.slice/user-1007.slice/session-2.scope
+         Unit: session-2.scope
+        Slice: user-1007.slice
+      Session: <span class="m">2</span>
+    Owner UID: <span class="m">1007</span> <span class="o">(</span>xxx<span class="o">)</span>
+      Boot ID: f8abe9473f7e4fea8ba24944e35ce7d9
+   Machine ID: c9413a71e7b4498f831e2df7a08e5f33
+     Hostname: xxx
+      Storage: /var/lib/systemd/coredump/core.beam<span class="se">\x</span>2esmp.1007.f8abe9473f7e4fea8ba24944e35ce7d9.73873.1640116381000000.zst <span class="o">(</span>present<span class="o">)</span>
+    Disk Size: <span class="m">14</span>.6M
+      Message: Process <span class="m">73873</span> <span class="o">(</span>beam.smp<span class="o">)</span> of user <span class="m">1007</span> dumped core.
+
+               Found module /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp with build-id: 8cfbf76728dd7399444638f1ba124471181840e7
+               Found module /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/priv/erl_gl.so with build-id: 0b96532e586839d3da9afd6e5f23aa76346a0e45
+<span class="o">[</span>...<span class="o">]</span>
+   Stack trace of thread <span class="m">74039</span>:
+   <span class="c1">#0  0x00007f6e5461a74b __memmove_avx_unaligned_erms (libc.so.6 + 0x16374b)
+</span>   <span class="c1">#1  0x00007f6d8a204428 n/a (iris_dri.so + 0xd12428)
+</span>   <span class="c1">#2  0x00007f6d89733207 n/a (iris_dri.so + 0x241207)
+</span>   <span class="c1">#3  0x00007f6d89733c97 n/a (iris_dri.so + 0x241c97)
+</span>   <span class="c1">#4  0x00007f6d898d8b0d n/a (iris_dri.so + 0x3e6b0d)
+</span>   <span class="c1">#5  0x00007f6d898d8bf2 n/a (iris_dri.so + 0x3e6bf2)
+</span>   <span class="c1">#6  0x00007f6d8b2f241c n/a (/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/priv/erl_gl.so + 0x5b41c)
+</span><span class="o">[</span>New LWP <span class="m">74039</span><span class="o">]</span>
+<span class="o">[</span>New LWP <span class="m">73873</span><span class="o">]</span>
+<span class="o">[</span>...<span class="o">]</span>
+Core was generated by <span class="sb">`</span>/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp -<span class="err">'</span>.
+Program terminated with signal SIGSEGV, Segmentation fault.
+<span class="c1">#0  0x00007f6e5461a74b in __memmove_avx_unaligned_erms () from /usr/lib/libc.so.6
+</span><span class="o">[</span>Current thread is <span class="m">1</span> <span class="o">(</span>Thread 0x7f6d900aa640 <span class="o">(</span>LWP <span class="m">74039</span><span class="o">))]</span>
+</pre>
+<p>Then:</p>
+<pre class="code literal-block">
+(gdb) bt
+[...]
+#0  0x00007f6e5461a74b in __memmove_avx_unaligned_erms () at /usr/lib/libc.so.6
+#1  0x00007f6d8a204428 in  () at /usr/lib/dri/iris_dri.so
+#2  0x00007f6d89733207 in  () at /usr/lib/dri/iris_dri.so
+#3  0x00007f6d89733c97 in  () at /usr/lib/dri/iris_dri.so
+#4  0x00007f6d898d8b0d in  () at /usr/lib/dri/iris_dri.so
+#5  0x00007f6d898d8bf2 in  () at /usr/lib/dri/iris_dri.so
+#6  0x00007f6d8b2f241c in ecb_glTexImage2D(ErlNifEnv*, ErlNifPid*, ERL_NIF_TERM*) (env=0x5642f62bdea0, self=0x5642f665e148, argv=0x5642f665e168) at gen/gl_nif.cpp:2844
+[...]
+#29 0x00007f6d92967188 in wxe_main_loop(void*) (_unused=&lt;optimized out&gt;) at wxe_main.cpp:138
+</pre>
+<p>(this example was an Erlang wx/OpenGL-oriented crash)</p>
+<p>From there, <a class="reference external" href="https://sourceware.org/gdb/current/onlinedocs/gdb/">standard gdb-fu</a> shall be sufficient to give much insight. Once done, use <tt class="docutils literal">q</tt> to quit.</p>
+</div>
 <div class="section" id="quick-topics">
-<h1><a class="toc-backref" href="#id12">Quick Topics</a></h1>
+<h1><a class="toc-backref" href="#id13">Quick Topics</a></h1>
 <div class="section" id="wine">
-<h2><a class="toc-backref" href="#id13">Wine</a></h2>
+<h2><a class="toc-backref" href="#id14">Wine</a></h2>
 <p>Install it, once <a class="reference internal" href="#enabling-multilib">enabling multilib</a> has been done, with: <tt class="docutils literal">pacman <span class="pre">-S</span> wine</tt>.</p>
 <p>When run, this may lead <tt class="docutils literal"><span class="pre">wine-mono</span></tt> to be auto-installed.</p>
 <p>The pseudo-Windows filesystem is then located mostly in <tt class="docutils literal"><span class="pre">~/.wine/drive_c</span></tt>.</p>
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#id14">See Also</a></h1>
+<h1><a class="toc-backref" href="#id15">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>

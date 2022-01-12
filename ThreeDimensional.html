@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 5, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -61,16 +61,17 @@
 </li>
 <li><a class="reference internal" href="#opengl-corner" id="id41">OpenGL Corner</a><ul>
 <li><a class="reference internal" href="#conventions" id="id42">Conventions</a></li>
-<li><a class="reference internal" href="#more-advanced-topics" id="id43">More Advanced Topics</a></li>
-<li><a class="reference internal" href="#sources-of-information" id="id44">Sources of Information</a></li>
+<li><a class="reference internal" href="#referentials" id="id43">Referentials</a></li>
+<li><a class="reference internal" href="#more-advanced-topics" id="id44">More Advanced Topics</a></li>
+<li><a class="reference internal" href="#sources-of-information" id="id45">Sources of Information</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#operating-system-support-for-3d" id="id45">Operating System Support for 3D</a><ul>
-<li><a class="reference internal" href="#testing" id="id46">Testing</a></li>
-<li><a class="reference internal" href="#id22" id="id47">Troubleshooting</a></li>
+<li><a class="reference internal" href="#operating-system-support-for-3d" id="id46">Operating System Support for 3D</a><ul>
+<li><a class="reference internal" href="#testing" id="id47">Testing</a></li>
+<li><a class="reference internal" href="#id22" id="id48">Troubleshooting</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#mini-glossary" id="id48">Mini-Glossary</a></li>
+<li><a class="reference internal" href="#d-related-mini-glossary" id="id49">3D-Related Mini-Glossary</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -130,7 +131,7 @@
 </div>
 <div class="section" id="troubleshooting">
 <h3>Troubleshooting</h3>
-<p>The log files are stored in <tt class="docutils literal">.config/unity3d</tt>:</p>
+<p>The log files are stored in <tt class="docutils literal"><span class="pre">~/.config/unity3d</span></tt>:</p>
 <ul class="simple">
 <li>Unity Editor: <tt class="docutils literal">Editor.log</tt> (the most interesting one)</li>
 <li>Unity Package Manager: <tt class="docutils literal">upm.log</tt></li>
@@ -336,23 +337,31 @@ $ ln -s libdraco.so libextern_draco.so
 <h1><a class="toc-backref" href="#id41">OpenGL Corner</a></h1>
 <div class="section" id="conventions">
 <h2><a class="toc-backref" href="#id42">Conventions</a></h2>
+<p>Code snippets will corresponds to the OpenGL API as it is exposed in Erlang. This translates easily in the vanilla C GL implementation for example.</p>
+<p>Referenced tests will be <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a> ones, typically located <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/test/user-interface/graphical">here</a>.</p>
 <div class="section" id="basics">
 <h3>Basics</h3>
 <ul class="simple">
-<li>OpenGL is a <strong>software interface to graphics hardware</strong>, i.e. an API of around 150 functions</li>
-<li>OpenGL concentrates on <strong>hardware-independent 2D/3D rendering</strong>; no commands for performing windowing tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the window system</li>
+<li>OpenGL is a <strong>software interface to graphics hardware</strong>, i.e. an API of around 150 functions (version 1.1)</li>
+<li>OpenGL concentrates on <strong>hardware-independent 2D/3D rendering</strong>; no commands for performing window-related tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the windowing system</li>
 <li>OpenGL offers only <strong>low-level primitives</strong> organised through a <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id57691">pipeline</a> in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such OpenGL is a building-block for higher-level engines (ex: like <a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a>)</li>
-<li>OpenGL is a <strong>procedural</strong> (function-based, not object-oriented) <strong>state machine</strong> comprising a larger number of variables defined within a given OpenGL state (named <em>OpenGL context</em>; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts until it is modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set)</li>
-<li>so the <strong>currently processed element</strong> (ex: a vertex) <strong>inherits (implicitly) the current settings of the context</strong> (ex: color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply when performing an operation (specifying them would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards, until possibly being reassigned in some future</li>
-<li>OpenGL respects a <strong>client/server execution model</strong>: an application (the client, running on a CPU) issues commands to the server (on the same host or not - see GLX, typically running on a graphic card), that executes them <strong>sequentially and in-order</strong>; as such most of the calls performed by user programs are <strong>asynchronous</strong>: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like <em>Display Lists</em> allow to pipeline operations (as opposed to the default <em>immediate mode</em>), which are accumulated for processing at a later time</li>
-<li>OpenGL manages two types of data, handled by mostly different paths of its rendering pipeline yet are ultimately integrated in the framebuffer through fragment-yielding rasterization:<ul>
+<li>OpenGL is a <strong>procedural</strong> (function-based, not object-oriented) <strong>state machine</strong> comprising a larger number of variables defined within a given OpenGL state (named <em>OpenGL context</em>; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts as long as it is not modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set)</li>
+<li>so the <strong>currently processed element</strong> (ex: a vertex) <strong>inherits (implicitly) the current settings of the context</strong> (ex: color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply when performing a rendering operation (specifying all these parameters would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards (being &quot;implicitly inherited&quot;), until possibly being reassigned in some future</li>
+<li>OpenGL respects a <strong>client/server execution model</strong>: an application (a specific client, running on a CPU) issues commands to a rendering server (on the same host or not - see GLX; generally the server can be seen as running on a local graphic card), that executes them <strong>sequentially and in-order</strong>; as such, most of the calls performed by user programs are <strong>asynchronous</strong>: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like <em>Display Lists</em> allow to pipeline operations (as opposed to the default <em>immediate mode</em>), which are accumulated for processing at a later time</li>
+<li>state variables are mostly server-side, yet some of them are client-side; in both cases, they can be gathered in <em>attribute groups</em>, which can be pushed on, and popped from, their respective server or client attribute stacks</li>
+<li>OpenGL manages two types of data, handled by mostly different paths of its rendering pipeline yet that are ultimately integrated in the framebuffer through fragment-yielding rasterization:<ul>
 <li>geometric data (vertices, lines, and polygons)</li>
 <li>pixel data (pixels, images, and bitmaps)</li>
 </ul>
 </li>
-<li>Vertices and normals are transformed by the <strong>modelview</strong> and <strong>projection</strong> matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; texture coordinates are transformed by the <strong>texture</strong> matrix</li>
-<li>Textures may reside in the main, general-purpose, client, CPU-side memory (large and slow to access for the rendering) and/or in any auxiliary, dedicated, server GPU-side memory (more constrained hence prioritized thanks to <em>texture objects</em>, and high-performance, rendering-wise)</li>
-<li>OpenGL can operate on three mutually exclusive modes: <em>rendering</em> (the default, most common one, discussed here), <em>selection</em> (to determine, based on stacks of user-specified &quot;names&quot;, which primitives would be drawn into some region of a window) and <em>feedback</em> (to determine the primitives that would be rasterized is fed back to the application)</li>
+<li>vertices and normals are transformed by the <strong>modelview</strong> and <strong>projection</strong> matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; texture coordinates are transformed by the <strong>texture</strong> matrix</li>
+<li>textures may reside in the main, general-purpose, client, <strong>CPU-side memory</strong> (large and slow to access for the rendering) and/or in any auxiliary, dedicated, server-side <strong>GPU memory</strong> (more constrained, hence prioritized thanks to <em>texture objects</em>; and high-performance, rendering-wise)</li>
+<li>OpenGL can operate on three mutually exclusive <strong>modes</strong>:<ul>
+<li><em>rendering</em>: the default, most common one, discussed here</li>
+<li><em>selection</em>: determines, based on stacks of user-specified &quot;names&quot;, which primitives would be drawn into some region of a window</li>
+<li><em>feedback</em>: allows to captures the primitives generated by the vertex processing step(s) in order to resubmit this data multiple times</li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="mini-opengl-glossary">
@@ -364,7 +373,7 @@ $ ln -s libdraco.so libextern_draco.so
 <li><tt class="docutils literal">Display list</tt>: a group of OpenGL commands that has been stored for subsequent execution, so that it can be sent and processed more efficiently by the graphic card</li>
 <li>(pixel) <tt class="docutils literal">fragment</tt>: two-dimensional description of elements (point, line segment, or polygon) produced by the rasterization step, before being stored as pixels in the frame buffer; also defined as: &quot;a point and its associated information&quot;</li>
 <li><tt class="docutils literal">Evaluator</tt>: the part of the pipeline to perform polynomial mapping (basis functions) and transform higher-level primitives (such as NURBS) into actual ones (vertices, normals, texture coordinates and colors)</li>
-<li><tt class="docutils literal">Frame buffer</tt>: the &quot;server-side&quot; pixel buffer, filled, after rasterization took place, by combinations (notably blending) of the selected fragments; it is actually made of a set of logical buffers of bitplanes: the color (itself comprising multiple buffers), depth (for hidden-surface removal), stencil, and accumulation buffers</li>
+<li><tt class="docutils literal">Frame buffer</tt>: the &quot;server-side&quot; pixel buffer, filled, after rasterization took place, by combinations (notably blending) of the selected fragments; it is actually made of a set of logical buffers of bitplanes: the color (itself comprising multiple buffers), depth (for hidden-surface removal), accumulation, and stencil buffers</li>
 <li><tt class="docutils literal">GL</tt>: <em>Graphics Library</em> (also a shorthand for <em>OpenGL</em>)</li>
 <li><tt class="docutils literal">GLU</tt>: <em>OpenGL Utility Library</em>, a standard part of every OpenGL implementation, providing auxiliary features (ex:image scaling, automatic mipmapping, setting up matrices for specific viewing orientations and projections, performing polygon tessellation, rendering surfaces, supporting quadrics routines that create spheres, cylinders, cones, etc.); see <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id24847">this page</a> for more information</li>
 <li><tt class="docutils literal">GLUT</tt>, <em>OpenGL Utility Toolkit</em>, a window system-independent toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, nowadays is less used</li>
@@ -376,12 +385,64 @@ $ ln -s libdraco.so libextern_draco.so
 <li><tt class="docutils literal">Scissor Test</tt>: an arbitrary screen-aligned rectangle outside of which fragments will be discarded.</li>
 <li><tt class="docutils literal">Stencil Test</tt>: conditionally discards a fragment based on the outcome of a selected comparison between the value in the stencil buffer and a reference value</li>
 <li><tt class="docutils literal">Texel</tt>: <em>Texture Element</em></li>
+<li><tt class="docutils literal">Vertex Array</tt>: these in-memory client-side arrays may aggregate 6 types of data (vertex coordinates, RGBA colors, color indices, surface normals, texture coordinates, polygon edge flags), possibly interleaved; such arrays allow to reduce the number of calls to OpenGL functions, and also to share elements (ex: vertices pertaining to multiple faces should preferably be defined only once); in a non-networked setting, the GPU just dereferences the corresponding pointers</li>
 </ul>
 <p>Refer to the <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id57691">description of the pipeline</a> for further details.</p>
 </div>
 </div>
+<div class="section" id="referentials">
+<h2><a class="toc-backref" href="#id43">Referentials</a></h2>
+<div class="section" id="in-2d">
+<h3>In 2D</h3>
+<p>A popular convention, for example detailed in <a class="reference external" href="https://www.glprogramming.com/red/chapter02.html#name10">this section</a> of the Red book, is to consider that the ordinates increase when going from the <em>bottom of the viewport to its top</em>; then for example the on-screen lower-left corner of the OpenGL canvas is <tt class="docutils literal">(0,0)</tt>, and its upper-right corner is <tt class="docutils literal">(Width,Height)</tt>.</p>
+<p>As for us, we prefer the <a class="reference external" href="https://myriad.esperide.org/#2d-referential">MyriadGUI 2D conventions</a>, in which ordinates increase when going from the <em>top of the viewport to its bottom</em>, as depicted in the following figure:</p>
+<p><span class="raw-html"><center><img src="myriad-2D-referential.png" id="responsive-image-xsmall"></img></center></span>
+</p>
+<p>Such a setting can be obtained thanks to:</p>
+<pre class="code erlang literal-block">
+<span class="nn">gl</span><span class="p">:</span><span class="nf">matrixMode</span><span class="p">(</span><span class="w"> </span><span class="o">?</span><span class="nv">GL_PROJECTION</span><span class="w"> </span><span class="p">),</span><span class="w">
+</span><span class="nn">gl</span><span class="p">:</span><span class="nf">loadIdentity</span><span class="p">(),</span><span class="w">
+
+</span><span class="c">% Like glu:ortho2D/4:</span><span class="w">
+</span><span class="nn">gl</span><span class="p">:</span><span class="nf">ortho</span><span class="p">(</span><span class="w"> </span><span class="p">_</span><span class="nv">Left</span><span class="o">=</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Right</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="w"> </span><span class="nv">CanvasWidth</span><span class="w"> </span><span class="p">),</span><span class="w">
+  </span><span class="p">_</span><span class="nv">Bottom</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="w"> </span><span class="nv">CanvasHeight</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="p">_</span><span class="nv">Top</span><span class="o">=</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Near</span><span class="o">=-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Far</span><span class="o">=</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="p">)</span>
+</pre>
+<p>In this case, the viewport can be addressed like a <strong>usual (2D) framebuffer</strong> (like provided by any classical 2D backend such as SDL) obeying the coordinate system just described: if the width of the OpenGL canvas is 800 pixels and its height is 600 pixels, then its top-left on-screen corner is <tt class="docutils literal">(0,0)</tt> and its bottom-right one is <tt class="docutils literal">(799,599)</tt>, and any pixel-level operation can be directly performed there &quot;as usual&quot;. One may refer to <tt class="docutils literal">gui_opengl_2D_test.erl</tt> for a full example thereof, in which line-based letters are drawn to demonstrate these conventions.</p>
+<p>Each time the OpenGL canvas is resized, this projection matrix will have to be updated, with the same procedure yet based on the new dimensions.</p>
+<p>Another option - still with axes respecting the MyriadGUI 2D conventions - is to operate this time based on <strong>normalised, definition-independent coordinates</strong>, ranging in <tt class="docutils literal">[0.0, 1.0]</tt>, like in:</p>
+<pre class="code erlang literal-block">
+<span class="nn">gl</span><span class="p">:</span><span class="nf">matrixMode</span><span class="p">(</span><span class="w"> </span><span class="o">?</span><span class="nv">GL_PROJECTION</span><span class="w"> </span><span class="p">),</span><span class="w">
+</span><span class="nn">gl</span><span class="p">:</span><span class="nf">loadIdentity</span><span class="p">(),</span><span class="w">
+
+</span><span class="nn">gl</span><span class="p">:</span><span class="nf">ortho</span><span class="p">(</span><span class="w"> </span><span class="p">_</span><span class="nv">Left</span><span class="o">=</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Right</span><span class="o">=</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Bottom</span><span class="o">=</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Top</span><span class="o">=</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Near</span><span class="o">=-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="p">_</span><span class="nv">Far</span><span class="o">=</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="p">)</span>
+</pre>
+<p>Using &quot;stable&quot;, device-independent floats instead of integers directly accounting for pixels may be more convenient. For example a resizing of the viewport will then not require an update of the projection matrix. One may refer to <tt class="docutils literal">gui_opengl_minimal_test.erl</tt> for a full example thereof.</p>
+</div>
+<div class="section" id="in-3d">
+<h3>In 3D</h3>
+<p>We will rely here as well on the MyriadGUI conventions, <a class="reference external" href="https://myriad.esperide.org/#3d-referential">this time for 3D</a> (not taking specifically time here):</p>
+<p><span class="raw-html"><center><img src="myriad-space-time-referential.png" id="responsive-image-tiny"></img></center></span>
+</p>
+<p>These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.</p>
+</div>
+<div class="section" id="a-tree-of-referentials">
+<h3>A Tree of Referentials</h3>
+<p>A given scene (a model) is made of a set of elements (ex: the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (ex: a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.</p>
+<p>The rendering objective requires to have ultimately one's scene transformed as a whole in eyes coordinates (to obtain coordinates along the 2D screen referential, along the X and Y axes - the Z one serving to sort out depth).</p>
+<p>For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same (scene-global) space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take the scene as a whole into account to jump into eye coordinates).</p>
+<p>As each individual type of model (ex: a bike model) is natively defined in an abstract, local referential of its own, each actual model instance (ex: the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (ex: bike A is at this absolute position and orientation in the scene global referential) or relatively to a series of parent referentials (ex: this character rides bike B - and thus is defined relatively to it, knowing that the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).</p>
+<p>So in the general case, referentials are nested (recursively defined relatively to their parent) and form a tree whose root corresponds to the referential of the overall scene.</p>
+<p>A series of model transformations has thus to be operated:</p>
+<pre class="literal-block">
+(model local referential Rm) -&gt; (parent referential 1 Rp1) -&gt; (...) -&gt; (Rpn) -&gt; (scene referential Rs)
+</pre>
+<p>Once the <strong>model</strong> is expressed as a whole in the scene-global referential, the aforementioned next transformations have to be conducted : <strong>view</strong> and projection.</p>
+<p>In practice, all these operations are thanks to the multiplication of 4x4 homogeneous matrices.</p>
+</div>
+</div>
 <div class="section" id="more-advanced-topics">
-<h2><a class="toc-backref" href="#id43">More Advanced Topics</a></h2>
+<h2><a class="toc-backref" href="#id44">More Advanced Topics</a></h2>
 <div class="section" id="shadows">
 <h3>Shadows</h3>
 <p>Determining the shadow of an arbitrary object on an arbitrary plane (representing typically the ground - or other objects) from an arbitrary light source (possibly at infinity) corresponds to performing a specific <strong>projection</strong>. For that, a relevant 4x4 (based on homogeneous coordinates) matrix (singular, i.e. non-invertible matrix) can be defined.</p>
@@ -390,7 +451,7 @@ $ ln -s libdraco.so libextern_draco.so
 </div>
 </div>
 <div class="section" id="sources-of-information">
-<h2><a class="toc-backref" href="#id44">Sources of Information</a></h2>
+<h2><a class="toc-backref" href="#id45">Sources of Information</a></h2>
 <p>Two very well-written books, strongly recommended, that are still perfectly relevant despite their old age (circa 1996):</p>
 <ul class="simple">
 <li><em>The Official Guide to Learning OpenGL</em>: the <a class="reference external" href="https://www.glprogramming.com/red/index.html">OpenGL Red book</a></li>
@@ -404,35 +465,35 @@ $ ln -s libdraco.so libextern_draco.so
 </div>
 </div>
 <div class="section" id="operating-system-support-for-3d">
-<span id="os-support"></span><h1><a class="toc-backref" href="#id45">Operating System Support for 3D</a></h1>
+<span id="os-support"></span><h1><a class="toc-backref" href="#id46">Operating System Support for 3D</a></h1>
 <p>Benefiting from a proper 2D/3D hardware acceleration on GNU/Linux is unfortunately not always straightforward, and sometimes brittle.</p>
 <div class="section" id="testing">
-<h2><a class="toc-backref" href="#id46">Testing</a></h2>
+<h2><a class="toc-backref" href="#id47">Testing</a></h2>
 <p>First, one may check whether such acceleration is already available by running, from the command-line, the <tt class="docutils literal">glxinfo</tt> executable (to be obtained on Arch Linux thanks to the <tt class="docutils literal"><span class="pre">mesa-utils</span></tt> package), and hope to see, among the many displayed lines, <tt class="docutils literal">direct rendering: Yes</tt>.</p>
 <p>One may also run our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/display-opengl-information.sh">display-opengl-information.sh</a> script to report relevant information.</p>
 <p>A final validation might be to run the <tt class="docutils literal">glxgears</tt> executable (still obtained through the <tt class="docutils literal"><span class="pre">mesa-utils</span></tt> package), and to ensure that a window appears, showing three gears properly rotating.</p>
 </div>
 <div class="section" id="id22">
-<h2><a class="toc-backref" href="#id47">Troubleshooting</a></h2>
+<h2><a class="toc-backref" href="#id48">Troubleshooting</a></h2>
 <p>If it is not the case (no direct rendering, or a GLX error being returned - typically involving any <tt class="docutils literal">X Error of failed request:&nbsp; BadValue</tt> for a <tt class="docutils literal">X_GLXCreateNewContext</tt>), one should investigate one's configuration (with <tt class="docutils literal">lspci | grep VGA</tt>, <tt class="docutils literal">lsmod</tt>, etc.), update one's video driver on par with the current kernel, reboot, sacrifice a chicken, etc.</p>
 <p>If using a NVidia graphic card, consider reading this <a class="reference external" href="https://wiki.archlinux.org/title/NVIDIA">Arch Linux wiki page</a> first.</p>
 <p>In our case, installation could be done with <tt class="docutils literal">pacman <span class="pre">-Sy</span> nvidia <span class="pre">nvidia-utils</span></tt> but requested a reboot.</p>
 <p>Despite package dependencies and a not-so-successful attempt of using DKMS in order to link kernel updates with graphic controller updates, too often a proper 3D support was lost, either from the boot or afterwards. Refer to our <a class="reference external" href="GNULinux.html#software-update">software update section</a> for hints in order to secure the durable use of proper drivers.</p>
 </div>
 </div>
-<div class="section" id="mini-glossary">
-<h1><a class="toc-backref" href="#id48">Mini-Glossary</a></h1>
+<div class="section" id="d-related-mini-glossary">
+<h1><a class="toc-backref" href="#id49">3D-Related Mini-Glossary</a></h1>
 <ul class="simple">
-<li><strong>HDRP</strong>: <em>High Definition Render Pipeline</em>, a <a class="reference external" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition&#64;13.1/manual/index.html">high-fidelity scriptable render pipeline</a>, made by Unity to target modern (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)</li>
-<li><strong>IK</strong>: <em>Inverse Kinematics</em>, the <strong>computation of intermediary joint parameters</strong> so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. to retain so that the hand is ultimately correctly placed on the chair (<a class="reference external" href="https://en.wikipedia.org/wiki/Inverse_kinematics">more information</a>)</li>
+<li><strong>HDRP</strong>: <em>High Definition Render Pipeline</em>, a <a class="reference external" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition&#64;13.1/manual/index.html">high-fidelity scriptable render pipeline</a>, made by Unity to target <strong>modern</strong> (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)</li>
+<li><strong>IK</strong>: <em>Inverse Kinematics</em>, the <strong>computation of intermediary joint parameters</strong> so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. that may be retained so that the hand is ultimately correctly placed on the chair (<a class="reference external" href="https://en.wikipedia.org/wiki/Inverse_kinematics">more information</a>)</li>
 <li><strong>Material</strong>: controls the optical properties of an object, i.e. how a 3D object appears on the screen, that is: the color of each point of the object (generally thanks to multiple texture maps, like diffusion, normal, specular, glow, etc.) and how reflective or dull its surface appears; designates, with OpenGL, a set of coefficients that define <strong>how the lighting model interacts with the surface</strong>; in particular, ambient, diffuse, and specular coefficients for each color component (R,G,B) are defined and applied to a surface and effectively multiplied by the amount of light of each kind/color that strikes the surface; a final emmissivity coefficient is then added to each color component so that objects can also be light emitters</li>
-<li><strong>NURBS</strong>: <em>Non-Uniform Rational B-Spline</em>, a mathematical model using <a class="reference external" href="https://en.wikipedia.org/wiki/B-spline">basis splines</a> (B-splines) that is commonly used in computer graphics for representing curves and surfaces, whose shape is determined by control points (<a class="reference external" href="https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline">more information</a>)</li>
-<li><strong>PBR</strong>: <em>Physically-Based Rendering</em> designates approaches to render images in a way that <strong>models the flow of light in the real world</strong>, for example thanks to photogrammetry; many PBR pipelines aim to achieve photorealism; in practice this often relies on the micro-facet theory, with specific materials (generally based on texture maps) and shaders (is also called PBS, for <em>Physically-Based Shading</em>); PBR is slowly becoming the standard for all materials</li>
+<li><strong>NURBS</strong>: <em>Non-Uniform Rational B-Spline</em>, a mathematical model using <a class="reference external" href="https://en.wikipedia.org/wiki/B-spline">basis splines</a> (B-splines) that is commonly used in computer graphics for representing <strong>curves and surfaces</strong>, whose shape is determined by control points (<a class="reference external" href="https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline">more information</a>)</li>
+<li><strong>PBR</strong>: <em>Physically-Based Rendering</em> designates approaches to render images in a way that <strong>models the flow of light in the real world</strong>, for example thanks to photogrammetry; many PBR pipelines aim to achieve photorealism; in practice they often rely on the <strong>micro-facet theory</strong>, with specific materials (generally based on texture maps) and shaders (is also called PBS, for <em>Physically-Based Shading</em>); PBR is slowly becoming the standard for all materials</li>
 <li><strong>PSD</strong>: <em>Photoshop Document</em>, a <a class="reference external" href="https://docs.fileformat.com/image/psd/">proprietary format for graphics</a> with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to <a class="reference external" href="https://www.gimp.org/">Gimp</a>, <a class="reference external" href="https://krita.org">Krita</a>, etc.) often used to store textures that may still be edited as templates by the user - provided they are using Photoshop as well; however, at least to some extent, <a class="reference external" href="https://wiki.gimp.org/wiki/PSD_support">Gimp is able to edit PSD files</a> and <a class="reference external" href="https://docs.krita.org/en/general_concepts/file_formats/file_psd.html">Krita too</a></li>
-<li><strong>Rigging</strong> (or <em>Skeletal Animation</em>) consists in controlling the deformation of a mesh (a.k.a. a <em>skin</em>, the surface of a body) of an articulated object (typically a character) <strong>based on a virtual inner armature</strong> (a hierarchical set of interconnected parts, called <em>bones</em>, and collectively forming the skeleton or <em>rig</em>) in order to animate that mesh (<a class="reference external" href="https://en.wikipedia.org/wiki/Skeletal_animation">more information</a>)</li>
-<li><strong>Textures</strong>: bitmaps (images) used to skin 3D objects, by defining the color of each point on the surface of the object in terms of texture coordinates; besides such 2D textures, 1D, 3D and 4D ones exist</li>
-<li><strong>Texture Atlas</strong>: a texture containing a <strong>set of separate, elementary graphic elements</strong>, meant to be extracted thanks to texture coordinates, akin to a sprite sheet; doing so is useful to reduce the overhead that would be induced by the management of many smaller textures (<a class="reference external" href="https://en.wikipedia.org/wiki/Texture_atlas">more information</a>)</li>
-<li><strong>URP</strong>: <em>Universal Render Pipeline</em>, a prebuilt <a class="reference external" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal&#64;13.1/manual/">scriptable render pipeline</a>, made by Unity that implements workflows across a range of platforms, from mobile to high-end consoles and PC (so URP is the low-end counterpart of HDRP)</li>
+<li><strong>Rigging</strong> (or <em>Skeletal Animation</em>) consists in <strong>controlling the deformation of a mesh</strong> (a.k.a. a <em>skin</em>, the surface of a body) of an articulated object (typically a character) <strong>based on a virtual inner armature</strong> (a hierarchical set of interconnected parts, called <em>bones</em>, and collectively forming the skeleton or <em>rig</em>) in order to animate that mesh (<a class="reference external" href="https://en.wikipedia.org/wiki/Skeletal_animation">more information</a>)</li>
+<li><strong>Textures</strong>: bitmaps (images) used to <strong>skin 3D objects</strong>, by defining the color of each point on the surface of the object in terms of texture coordinates; besides such 2D textures, 1D, 3D and 4D ones exist</li>
+<li><strong>Texture Atlas</strong>: a texture (an image) containing a <strong>set of separate, elementary graphic elements</strong>, meant to be extracted thanks to texture coordinates, akin to a sprite sheet; doing so is useful to reduce the overhead that would be induced by the management of many smaller textures (<a class="reference external" href="https://en.wikipedia.org/wiki/Texture_atlas">more information</a>)</li>
+<li><strong>URP</strong>: <em>Universal Render Pipeline</em>, a prebuilt <a class="reference external" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal&#64;13.1/manual/">scriptable render pipeline</a>, made by Unity that implements workflows across a range of platforms, from mobile to high-end consoles and PC (in practice URP is the low-end counterpart of HDRP)</li>
 </ul>
 <p>See also the Wikipedia's <a class="reference external" href="https://en.wikipedia.org/wiki/Glossary_of_computer_graphics">glossary of computer graphics</a>.</p>
 </div>
