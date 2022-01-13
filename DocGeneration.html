@@ -92,7 +92,8 @@ $ pacman -Sy mathjax
 <pre class="code bash literal-block">
 make create-mathjax-symlink
 </pre>
-<p>(this target is defined in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">GNUmakerules-docutils.inc</a>; it boils down to symlinking <tt class="docutils literal">/usr/share/mathjax</tt>)</p>
+<p>(this target is defined in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">GNUmakerules-docutils.inc</a>; it boils down to symlinking <tt class="docutils literal">/usr/share/mathjax</tt>; see also the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/GNUmakefile">HOWTOs corresponding makefile</a> to properly manage this dependency afterwards, notably when deploying web content)</p>
+<p>The list of <a class="reference external" href="http://docs.mathjax.org/en/latest/input/tex/macros/index.html">TeX/LaTeX commands</a> supported by MathJax may be of use.</p>
 <p>A few examples of resulting math-related outputs can be seen for example in <a class="reference external" href="https://myriad.esperide.org/#linear-conventions">this section</a>.</p>
 </div>
 <div class="section" id="title-hierarchy">

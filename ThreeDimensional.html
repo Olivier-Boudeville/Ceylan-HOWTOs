@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
 <title>Ceylan-HOWTOs: About 3D</title>
+<script type="text/javascript" src="mathjax/tex-mml-chtml.js?config=TeX-AMS_CHTML"></script>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
 <link href="howtos-icon.png" rel="icon">
@@ -28,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 12, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, January 13, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -438,7 +439,120 @@ $ ln -s libdraco.so libextern_draco.so
 (model local referential Rm) -&gt; (parent referential 1 Rp1) -&gt; (...) -&gt; (Rpn) -&gt; (scene referential Rs)
 </pre>
 <p>Once the <strong>model</strong> is expressed as a whole in the scene-global referential, the aforementioned next transformations have to be conducted : <strong>view</strong> and projection.</p>
-<p>In practice, all these operations are thanks to the multiplication of 4x4 homogeneous matrices.</p>
+<p>In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations, which thus include the transformation of one referential into another. Their product can be computed once, and then applying a vector (ex: corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all modelview transformations and even the projection as well.</p>
+<p>More precisely, an homogeneous 4x4 matrix is in the form of:</p>
+<div class="math">
+\begin{equation*}
+M = \begin{bmatrix}
+       r_{11} &amp; r_{12} &amp; r_{13} &amp; t_1 \\
+       r_{21} &amp; r_{22} &amp; r_{23} &amp; t_2 \\
+       r_{31} &amp; r_{32} &amp; r_{33} &amp; t_3 \\
+         0 &amp;   0 &amp;   0 &amp;  1 \\
+    \end{bmatrix}
+\end{equation*}
+</div>
+<p>It can be interpreted as a matrix comprising two blocks of interest, <span class="math">\(R\)</span> and <span class="math">\(\vec{T}\)</span>:</p>
+<div class="math">
+\begin{equation*}
+P_{1\rightarrow2}
+    = \begin{bmatrix}
+       R &amp; \vec{T} \\
+       0 &amp;  1      \\
+      \end{bmatrix}
+\end{equation*}
+</div>
+<p>with:</p>
+<ul class="simple">
+<li><span class="math">\(\matrix{R}\)</span>, which accounts for a 3D rotation submatrix:</li>
+</ul>
+<div class="math">
+\begin{equation*}
+R = \begin{bmatrix}
+       r_{11} &amp; r_{12} &amp; r_{13} \\
+       r_{21} &amp; r_{22} &amp; r_{23} \\
+       r_{31} &amp; r_{32} &amp; r_{33} \\
+    \end{bmatrix}
+\end{equation*}
+</div>
+<ul class="simple">
+<li><span class="math">\(\vec{T}\)</span>, which accounts for a 3D translation vector:</li>
+</ul>
+<p><span class="math">\(\vec{T} = \begin{bmatrix} t1 \\ t2 \\ t3 \end{bmatrix}\)</span></p>
+<p>Applying a (4x4 homogeneous) point <span class="math">\(P = \begin{Bmatrix} x \\ y \\ z \\ 1 \end{Bmatrix}\)</span> to <span class="math">\(M\)</span> yields <span class="math">\(P' = M.P\)</span> where <span class="math">\(P'\)</span> corresponds to <cite>P</cite> once it has been (1) rotated by <span class="math">\(\matrix{R}\)</span> and then (2) translated by <span class="math">\(\vec{T}\)</span> (order matters).</p>
+</div>
+<div class="section" id="change-of-referentials">
+<h3>Change of Referentials</h3>
+<p>Let's consider now:</p>
+<p><span class="raw-html"><center><img src="change-of-referential.png" id="responsive-image-small"></img></center></span>
+</p>
+<ul class="simple">
+<li>two referentials (defined as orthonormal bases), <span class="math">\(R_1\)</span> and <span class="math">\(R_2\)</span>; <span class="math">\(R_2\)</span> may for example be defined relatively to <span class="math">\(R_1\)</span>; for a given point or vector <span class="math">\(U\)</span>, <span class="math">\(U_1\)</span> will designate its coordinates in <span class="math">\(R_1\)</span> (and <span class="math">\(U_2\)</span> its coordinates in <span class="math">\(R_2\)</span>)</li>
+<li><span class="math">\(P_{2\rightarrow1}\)</span> the (homogeneous 4x4) <a class="reference external" href="https://en.wikipedia.org/wiki/Change_of_basis">transition matrix</a> from <span class="math">\(R_2\)</span> to <span class="math">\(R_1\)</span>, specified first by blocks then by coordinates as:</li>
+</ul>
+<div class="math">
+\begin{equation*}
+P_{2\rightarrow1}
+    = \begin{bmatrix}
+       R  &amp; \vec{T} \\
+       0  &amp;       1 \\
+      \end{bmatrix}
+\end{equation*}
+</div>
+<div class="math">
+\begin{equation*}
+    = \begin{bmatrix}
+       r_{11} &amp; r_{12} &amp; r_{13} &amp; t_1 \\
+       r_{21} &amp; r_{22} &amp; r_{23} &amp; t_2 \\
+       r_{31} &amp; r_{32} &amp; r_{33} &amp; t_3 \\
+         0 &amp;   0 &amp;   0 &amp;  1 \\
+    \end{bmatrix}
+\end{equation*}
+</div>
+<ul class="simple">
+<li>any (4D) point <span class="math">\(P\)</span>, whose coordinates are <span class="math">\(P_1\)</span> in <span class="math">\(R_1\)</span>, and <span class="math">\(P_2\)</span> in <span class="math">\(R_2\)</span></li>
+</ul>
+<p>The objective is to determine <span class="math">\(P_{2\rightarrow1}\)</span>, i.e. <span class="math">\(R\)</span> and <span class="math">\(\vec{T}\)</span>.</p>
+<p>By definition of a transition matrix, for any point <span class="math">\(P\)</span>, we have: <span class="math">\(P_1 = P_{2\rightarrow1}.P_2 \qquad (1)\)</span></p>
+<p>Let's study <span class="math">\(P_{2\rightarrow1}\)</span> by first choosing a point <span class="math">\(P\)</span> equal to the origin of <span class="math">\(R_2\)</span> (shown as <tt class="docutils literal">Ob</tt> in the figure).</p>
+<p>By design, in homogeneous coordinates, <span class="math">\(P_2 = Ob_2 = \begin{Bmatrix} 0 \\ 0 \\ 0 \\ 1 \end{Bmatrix}\)</span> and applying it on <span class="math">\((1)\)</span> gives us: <span class="math">\(P_1 = Ob_1 = \begin{Bmatrix} t1 \\ t2 \\ t3 \\ 1 \end{Bmatrix}\)</span>.</p>
+<p>So if <span class="math">\(Ob_1 = \begin{Bmatrix} XOb_1 \\ YOb_1 \\ ZOb_1 \\ 1 \end{Bmatrix}\)</span>, we have: <span class="math">\(\vec{T} = \vec{T_{2\rightarrow1}} = \begin{bmatrix} XOb_1 \\ YOb_1 \\ ZOb_1 \end{bmatrix}\)</span>.</p>
+<p>Let's now determine the <span class="math">\(r_{xy}\)</span> coordinates.</p>
+<p>Let <span class="math">\(R_{2\rightarrow1}\)</span> be the (3x3) rotation matrix transforming any vector expressed in <span class="math">\(R_2\)</span> in its representation in <span class="math">\(R_1\)</span>: for any (3D) vector <span class="math">\(\vec{V}\)</span>, we have <span class="math">\(\vec{V_1} = R_{2\rightarrow1}.\vec{V_2}  \qquad (2)\)</span></p>
+<p>(we are dealing with vectors, not points, hence the origins are not involved here).</p>
+<p>By choosing <span class="math">\(\vec{V}\)</span> equal to the <span class="math">\(\vec{Ib}\)</span> (abscissa) axis of <span class="math">\(R_2\)</span> (shown as <tt class="docutils literal">Ib</tt> in the figure), we have <span class="math">\(\vec{Ib_1} = R_{2\rightarrow1}.\vec{Ib_2}\)</span></p>
+<p>Knowing that by design <span class="math">\(\vec{Ib_2} = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}\)</span>, <span class="math">\((2)\)</span> gives us:</p>
+<div class="math">
+\begin{equation*}
+\vec{Ib_1} = \begin{bmatrix} r_{11} \\ r_{21} \\ r_{31} \end{bmatrix}
+          = \begin{bmatrix} XIb_{1} \\ YIb_{1} \\ ZIb_{1} \end{bmatrix}
+\end{equation*}
+</div>
+<p>So the first column of the <span class="math">\(R\)</span> matrix is <span class="math">\(\vec{Ib_1}\)</span> , i.e. the first axis of <span class="math">\(R_2\)</span> as expressed in <span class="math">\(R_1\)</span>.</p>
+<p>Using in the same way the two other axes of <span class="math">\(R_2\)</span> (shown as <tt class="docutils literal">Jb</tt> and <tt class="docutils literal">Kb</tt> in the figure), we see that:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>So finally the transition matrix from <span class="math">\(R_2\)</span> to <span class="math">\(R_1\)</span> is:</p>
+<div class="math">
+\begin{equation*}
+P_{2\rightarrow1}
+   = \begin{bmatrix}
+      R_{2\rightarrow1}  &amp; \vec{T_{2\rightarrow1}} \\
+      0  &amp;       1 \\
+     \end{bmatrix}
+   = \begin{bmatrix}
+      XIb_{1} &amp; XJb_{1} &amp; XKb_{1} &amp; XOb_1 \\
+      YIb_{1} &amp; YJb_{1} &amp; YKb_{1} &amp; YOb_1 \\
+      ZIb_{1} &amp; ZJb_{1} &amp; ZKb_{1} &amp; ZOb_1 \\
+            0 &amp;       0 &amp;       0 &amp;     1 \\
+   \end{bmatrix}
+\end{equation*}
+</div>
+<p>where:</p>
+<ul class="last simple">
+<li><span class="math">\(R_{2\rightarrow1}\)</span> is the 3x3 rotation matrix converting vectors of <span class="math">\(R_2\)</span> in <span class="math">\(R_1\)</span>, i.e. whose columns are the axes of <span class="math">\(R_2\)</span> expressed in <span class="math">\(R_1\)</span></li>
+<li><span class="math">\(\vec{T_{1\rightarrow2}} = Ob_1\)</span> is the 3D vector of the coordinates of the origin of <span class="math">\(R_2\)</span> as expressed in <span class="math">\(R_1\)</span></li>
+</ul>
+</div>
 </div>
 </div>
 <div class="section" id="more-advanced-topics">
