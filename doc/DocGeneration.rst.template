@@ -107,7 +107,9 @@ Then, to enable the use of MathJax for a given website based on Ceylan-Myriad, r
  make create-mathjax-symlink
 
 
-(this target is defined in `GNUmakerules-docutils.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc>`_; it boils down to symlinking ``/usr/share/mathjax``)
+(this target is defined in `GNUmakerules-docutils.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc>`_; it boils down to symlinking ``/usr/share/mathjax``; see also the `HOWTOs corresponding makefile <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/GNUmakefile>`_ to properly manage this dependency afterwards, notably when deploying web content)
+
+The list of `TeX/LaTeX commands <http://docs.mathjax.org/en/latest/input/tex/macros/index.html>`_ supported by MathJax may be of use.
 
 A few examples of resulting math-related outputs can be seen for example in `this section <https://myriad.esperide.org/#linear-conventions>`_.
 
