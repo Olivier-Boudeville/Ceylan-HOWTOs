@@ -598,11 +598,137 @@ A series of model transformations has thus to be operated::
 
 Once the **model** is expressed as a whole in the scene-global referential, the aforementioned next transformations have to be conducted : **view** and projection.
 
-In practice, all these operations are thanks to the multiplication of 4x4 homogeneous matrices.
+In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations, which thus include the transformation of one referential into another. Their product can be computed once, and then applying a vector (ex: corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all modelview transformations and even the projection as well.
+
+More precisely, an homogeneous 4x4 matrix is in the form of:
+
+.. math::
+ M = \begin{bmatrix}
+		r_{11} & r_{12} & r_{13} & t_1 \\
+		r_{21} & r_{22} & r_{23} & t_2 \\
+		r_{31} & r_{32} & r_{33} & t_3 \\
+		  0 &   0 &   0 &  1 \\
+	 \end{bmatrix}
+
+It can be interpreted as a matrix comprising two blocks of interest, :math:`R` and :math:`\vec{T}`:
+
+.. math::
+ P_{1\rightarrow2}
+	 = \begin{bmatrix}
+		R & \vec{T} \\
+		0 &  1      \\
+	   \end{bmatrix}
+
+with:
+
+
+- :math:`\matrix{R}`, which accounts for a 3D rotation submatrix:
+
+.. math::
+ R = \begin{bmatrix}
+		r_{11} & r_{12} & r_{13} \\
+		r_{21} & r_{22} & r_{23} \\
+		r_{31} & r_{32} & r_{33} \\
+	 \end{bmatrix}
+
+- :math:`\vec{T}`, which accounts for a 3D translation vector:
+
+:math:`\vec{T} = \begin{bmatrix} t1 \\ t2 \\ t3 \end{bmatrix}`
+
+Applying a (4x4 homogeneous) point :math:`P = \begin{Bmatrix} x \\ y \\ z \\ 1 \end{Bmatrix}` to :math:`M` yields :math:`P' = M.P` where :math:`P'` corresponds to `P` once it has been (1) rotated by :math:`\matrix{R}` and then (2) translated by :math:`\vec{T}` (order matters).
 
 
 
+Change of Referentials
+......................
 
+Let's consider now:
+
+:raw-html:`<center><img src="change-of-referential.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.7]{change-of-referential.png} \end{figure}`
+
+
+- two referentials (defined as orthonormal bases), :math:`R_1` and :math:`R_2`; :math:`R_2` may for example be defined relatively to :math:`R_1`; for a given point or vector :math:`U`, :math:`U_1` will designate its coordinates in :math:`R_1` (and :math:`U_2` its coordinates in :math:`R_2`)
+- :math:`P_{2\rightarrow1}` the (homogeneous 4x4) `transition matrix <https://en.wikipedia.org/wiki/Change_of_basis>`_ from :math:`R_2` to :math:`R_1`, specified first by blocks then by coordinates as:
+
+.. math::
+ P_{2\rightarrow1}
+	 = \begin{bmatrix}
+		R  & \vec{T} \\
+		0  &       1 \\
+	   \end{bmatrix}
+
+	 = \begin{bmatrix}
+		r_{11} & r_{12} & r_{13} & t_1 \\
+		r_{21} & r_{22} & r_{23} & t_2 \\
+		r_{31} & r_{32} & r_{33} & t_3 \\
+		  0 &   0 &   0 &  1 \\
+	 \end{bmatrix}
+
+- any (4D) point :math:`P`, whose coordinates are :math:`P_1` in :math:`R_1`, and :math:`P_2` in :math:`R_2`
+
+The objective is to determine :math:`P_{2\rightarrow1}`, i.e. :math:`R` and :math:`\vec{T}`.
+
+By definition of a transition matrix, for any point :math:`P`, we have: :math:`P_1 = P_{2\rightarrow1}.P_2 \qquad (1)`
+
+Let's study :math:`P_{2\rightarrow1}` by first choosing a point :math:`P` equal to the origin of :math:`R_2` (shown as ``Ob`` in the figure).
+
+By design, in homogeneous coordinates, :math:`P_2 = Ob_2 = \begin{Bmatrix} 0 \\ 0 \\ 0 \\ 1 \end{Bmatrix}` and applying it on :math:`(1)` gives us: :math:`P_1 = Ob_1 = \begin{Bmatrix} t1 \\ t2 \\ t3 \\ 1 \end{Bmatrix}`.
+
+So if :math:`Ob_1 = \begin{Bmatrix} XOb_1 \\ YOb_1 \\ ZOb_1 \\ 1 \end{Bmatrix}`, we have: :math:`\vec{T} = \vec{T_{2\rightarrow1}} = \begin{bmatrix} XOb_1 \\ YOb_1 \\ ZOb_1 \end{bmatrix}`.
+
+Let's now determine the :math:`r_{xy}` coordinates.
+
+Let :math:`R_{2\rightarrow1}` be the (3x3) rotation matrix transforming any vector expressed in :math:`R_2` in its representation in :math:`R_1`: for any (3D) vector :math:`\vec{V}`, we have :math:`\vec{V_1} = R_{2\rightarrow1}.\vec{V_2}  \qquad (2)`
+
+(we are dealing with vectors, not points, hence the origins are not involved here).
+
+By choosing :math:`\vec{V}` equal to the :math:`\vec{Ib}` (abscissa) axis of :math:`R_2` (shown as ``Ib`` in the figure), we have :math:`\vec{Ib_1} = R_{2\rightarrow1}.\vec{Ib_2}`
+
+Knowing that by design :math:`\vec{Ib_2} = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}`, :math:`(2)` gives us:
+
+.. math::
+
+ \vec{Ib_1} = \begin{bmatrix} r_{11} \\ r_{21} \\ r_{31} \end{bmatrix}
+		   = \begin{bmatrix} XIb_{1} \\ YIb_{1} \\ ZIb_{1} \end{bmatrix}
+
+So the first column of the :math:`R` matrix is :math:`\vec{Ib_1}` , i.e. the first axis of :math:`R_2` as expressed in :math:`R_1`.
+
+Using in the same way the two other axes of :math:`R_2` (shown as ``Jb`` and ``Kb`` in the figure), we see that:
+
+.. math:
+
+ R = R_{2\rightarrow1}
+
+   = \begin{bmatrix}
+		XIb_{1} & XJb_{1} & XKb_{1} & t_1 \\
+		YIb_{1} & YJb_{1} & YKb_{1} & t_2 \\
+		ZIb_{1} & ZJb_{1} & ZKb_{1} & t_3 \\
+		  0 &   0 &   0 &  1 \\
+	 \end{bmatrix}
+
+
+.. Note::
+
+ So finally the transition matrix from :math:`R_2` to :math:`R_1` is:
+
+ .. math::
+  P_{2\rightarrow1}
+	 = \begin{bmatrix}
+		R_{2\rightarrow1}  & \vec{T_{2\rightarrow1}} \\
+		0  &       1 \\
+	   \end{bmatrix}
+	 = \begin{bmatrix}
+		XIb_{1} & XJb_{1} & XKb_{1} & XOb_1 \\
+		YIb_{1} & YJb_{1} & YKb_{1} & YOb_1 \\
+		ZIb_{1} & ZJb_{1} & ZKb_{1} & ZOb_1 \\
+			  0 &       0 &       0 &     1 \\
+	 \end{bmatrix}
+
+ where:
+
+ - :math:`R_{2\rightarrow1}` is the 3x3 rotation matrix converting vectors of :math:`R_2` in :math:`R_1`, i.e. whose columns are the axes of :math:`R_2` expressed in :math:`R_1`
+ - :math:`\vec{T_{1\rightarrow2}} = Ob_1` is the 3D vector of the coordinates of the origin of :math:`R_2` as expressed in :math:`R_1`
 
 
 
