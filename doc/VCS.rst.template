@@ -76,11 +76,11 @@ The ones to which we try to stick are:
 Basic Operations
 ----------------
 
-- **creating a branch** from the current one (the current ``HEAD``) and **switching to it** (performing its checkout, while inheriting any local changes):
+- **managing branches**:
 
-.. code:: bash
+  - to create a branch deriving from the current one (the current ``HEAD``) and switching to it (performing its checkout, while inheriting any local changes): ``git co -b my_new_branch``
 
- $ git co -b my_new_branch
+  - to delete a local branch: ``git branch -d my_branch``
 
 - **managing tags**:
 
