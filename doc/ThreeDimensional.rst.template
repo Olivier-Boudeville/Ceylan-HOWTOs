@@ -719,16 +719,18 @@ Using in the same way the two other axes of :math:`R_2` (shown as ``Jb`` and ``K
 		0  &       1 \\
 	   \end{bmatrix}
 	 = \begin{bmatrix}
-		XIb_{1} & XJb_{1} & XKb_{1} & XOb_1 \\
-		YIb_{1} & YJb_{1} & YKb_{1} & YOb_1 \\
-		ZIb_{1} & ZJb_{1} & ZKb_{1} & ZOb_1 \\
-			  0 &       0 &       0 &     1 \\
-	 \end{bmatrix}
+		XIb_1 & XJb_1 & XKb_1 & XOb_1 \\
+		YIb_1 & YJb_1 & YKb_1 & YOb_1 \\
+		ZIb_1 & ZJb_1 & ZKb_1 & ZOb_1 \\
+			0 &     0 &     0 &     1 \\
+	   \end{bmatrix}
 
  where:
 
  - :math:`R_{2\rightarrow1}` is the 3x3 rotation matrix converting vectors of :math:`R_2` in :math:`R_1`, i.e. whose columns are the axes of :math:`R_2` expressed in :math:`R_1`
  - :math:`\vec{T_{1\rightarrow2}} = Ob_1` is the 3D vector of the coordinates of the origin of :math:`R_2` as expressed in :math:`R_1`
+
+ This also corresponds to a matrix obtained by describing the :math:`R_2` referential in :math:`R_1`, by listing first the three (4D) vector axes of :math:`R_2` then its (4D) origin, i.e. :math:`P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} && \vec{Jb_1} && \vec{Kb_1} && Ob_1 \end{bmatrix}`.
 
 
 
