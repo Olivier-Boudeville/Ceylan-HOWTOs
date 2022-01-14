@@ -69,6 +69,36 @@ The ones to which we try to stick are:
 - the language used shall be uniform (ex: only English)
 - a commit message shall describe synthetically the modifications operated on the corresponding new filesystem snapshot; such a message, preferably in English, should always start with a capital letter and end with a dot; ex: "*Fixed the computation of angles.*"
 - the file formats shall be, as much as possible, homogeneous, notably for text files with regard to the line terminators; either only UNIX conventions (only ``LF``; preferred), or only Windows ones (``CRLF``); use ``dos2unix`` whenever necessary, possibly automated through a Git hook
+- abbreviations are convenient (ex: ``br`` for branch, ``co`` for ``checkout``, etc.); they can be defined in one's ``~/.gitconfig``
+
+
+
+Basic Operations
+----------------
+
+- **creating a branch** from the current one (the current ``HEAD``) and **switching to it** (performing its checkout, while inheriting any local changes):
+
+.. code:: bash
+
+ $ git co -b my_new_branch
+
+- **managing tags**:
+
+  - to list (local) tags: ``git tag``
+  - to have information about an already-existing tag: ``git show my_tag``
+  - to set a new annotated tag: ``git tag -a foobar-version-2.4.0 -m "Release of the version 2.4.0 of Foobar."``; prefer naming tags differently from branches (ex: ``foobar-version-2.4.0`` rather than ``foobar-2.4.0``) to spare ambiguities to Git
+  - a set tag must be specifically pushed on a remote, for example: ``git push origin my_tag``; all tags can be pushed with ``git push --tags`` (the remote can be implied)
+  - to delete a tag that was not pushed: ``git tag --delete my_tag``
+
+- **determining whether a file is in VCS**, knowing that due to ``.gitignore`` rules, ``update-index --skip-worktree``, etc. it is not always obvious:
+
+.. code:: bash
+
+ # Target file is tracked iff is listed by:
+ $ git ls-files | grep my_file
+
+ # Or, in order to trigger an error if this target file is not tracked:
+ git ls-files --error-unmatch my_file
 
 
 
@@ -303,6 +333,7 @@ Translations
 From English to French:
 
 - ``repository`` -> ``dépôt``
+- ``to checkout`` -> ``extraire``
 - ``to commit`` -> ``valider``
 - ``a commit`` -> ``validation``
 - ``in VCS`` -> ``en GCL`` (Gestion de Configuration Logicielle)
