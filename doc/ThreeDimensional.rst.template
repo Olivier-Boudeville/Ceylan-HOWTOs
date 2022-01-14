@@ -210,6 +210,10 @@ File Formats
 They are designed to store 3D content (scenes, nodes, vertices, normals, meshes, textures, materials, animations, skins, cameras, lights, etc.).
 
 
+
+glTF
+....
+
 We prefer to rely on the open, well-specified, modern `glTF 2.0 format <https://en.wikipedia.org/wiki/GlTF>`_ in order to perform import/export operations.
 
 It comes in two forms:
@@ -218,14 +222,30 @@ It comes in two forms:
 
 - or as ``*.glb`` when binary; this is the most compact form, and the one that we recommend especially
 
-See also the `glTF 2.0 quick reference guide <https://www.khronos.org/files/gltf20-reference-guide.pdf>`_ and the `related section of Godot <https://docs.godotengine.org/en/stable/getting_started/workflow/assets/importing_scenes.html>`_.
+See also the `glTF 2.0 quick reference guide <https://www.khronos.org/files/gltf20-reference-guide.pdf>`_, the `related section of Godot <https://docs.godotengine.org/en/stable/getting_started/workflow/assets/importing_scenes.html>`_ and `this standard viewer of predefined glTF samples <https://github.khronos.org/glTF-Sample-Viewer-Release/>`_.
 
+This (generic) `online glTF viewer <https://gltf-viewer.donmccurdy.com/>`_ proved lightweight and convenient notably because it displays errors, warnings and information regarding the glTF data that it decodes.
+
+
+
+Collada
+.......
 
 The second best choice that we see is `Collada <https://en.wikipedia.org/wiki/COLLADA>`_ (``*.dae`` files), an XML-based counterpart (open as well, yet older and with less validating facilities) to glTF.
 
-Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ <https://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ files and thus may have to be converted (typically to glTF), which is never a riskless task. FBX comes in two flavours: text-based (ASCII) or binary, see `this retro-specification <https://code.blender.org/2013/08/fbx-binary-file-format-specification/>`_ for more information.
 
 .. comment Wings3D https://github.com/bjorng/wings/blob/master/plugins_src/import_export/wpc_collada.erl)
+
+
+
+FBX, OBJ, etc.
+..............
+
+Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ <https://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ files and thus may have to be converted (typically to glTF), which is never a riskless task. FBX comes in two flavours: text-based (ASCII) or binary, see `this retro-specification <https://code.blender.org/2013/08/fbx-binary-file-format-specification/>`_ for more information.
+
+
+In General
+..........
 
 Refer to `blender import`_ in order to handle the most common 3D file formats, and the next section about conversions.
 
