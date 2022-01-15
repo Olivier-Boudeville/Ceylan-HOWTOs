@@ -486,7 +486,7 @@ OpenGL Corner
 Conventions
 -----------
 
-Code snippets will corresponds to the OpenGL API as it is exposed in Erlang. This translates easily in the vanilla C GL implementation for example.
+Code snippets will corresponds to the OpenGL/GLU APIs as they are exposed in Erlang. These translate easily in the vanilla C GL/GLU implementations for example.
 
 Referenced tests will be `Ceylan-Myriad <http://myriad.esperide.org>`_ ones, typically located `here <https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/test/user-interface/graphical>`_.
 
@@ -599,28 +599,66 @@ We will rely here as well on the MyriadGUI conventions, `this time for 3D <https
 These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.
 
 
+
 A Tree of Referentials
 ......................
 
-A given scene (a model) is made of a set of elements (ex: the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (ex: a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.
+In the general case, either in 2D or (more often of interest here) in 3D, a given scene (a model) is made of a set of elements (ex: the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (ex: a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.
 
-The rendering objective requires to have ultimately one's scene transformed as a whole in eyes coordinates (to obtain coordinates along the 2D screen referential, along the X and Y axes - the Z one serving to sort out depth).
+The rendering objective requires to have ultimately one's scene transformed as a whole in eyes coordinates (to obtain coordinates along the aforementioned 2D screen referential, along the X and Y axes - the Z one serving to sort out depth, as per our conventions).
 
-For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same (scene-global) space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take the scene as a whole into account to jump into eye coordinates).
+For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same (scene-global) space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take into account the scene as a whole, to transform it to eye coordinates).
 
-As each individual type of model (ex: a bike model) is natively defined in an abstract, local referential of its own, each actual model instance (ex: the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (ex: bike A is at this absolute position and orientation in the scene global referential) or relatively to a series of parent referentials (ex: this character rides bike B - and thus is defined relatively to it, knowing that the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).
+As each individual type of model (ex: a bike model) is natively defined in an abstract, local referential (an orthonormal basis) of its own, each actual model instance (ex: the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (ex: bike A is at this absolute position and orientation in the scene global referential) or relatively to a *series* of parent referentials (ex: this character rides bike B - and thus is defined relatively to it, knowing that the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).
 
-So in the general case, referentials are nested (recursively defined relatively to their parent) and form a tree whose root corresponds to the referential of the overall scene.
+So in the general case, referentials are nested (recursively defined relatively to their parent) and form a tree [#]_ whose root corresponds to the referential of the overall scene, like in:
 
-A series of model transformations has thus to be operated::
+:raw-html:`<center><img src="referential-tree.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{referential-tree.png} \end{figure}`
 
- (model local referential Rm) -> (parent referential 1 Rp1) -> (...) -> (Rpn) -> (scene referential Rs)
 
-Once the **model** is expressed as a whole in the scene-global referential, the aforementioned next transformations have to be conducted : **view** and projection.
+.. [#] This is actually named a *scene graph* rather than a *scene tree*, as if we consider the leaves of that "tree" to contain actual geometries (ex: of an abstract bike), as soon as a given geometry is instantiated more than once (ex: if having 2 of such bikes in the scene), this geometry will have multiple parents and thus the corresponding scene will be a graph.
+
+	   As for us, we consider *referential trees* (no geometry involved) - a given 3D object being possibly associated to (1) a referential and (2) a geometry (independently).
+
+
+A series of model transformations has thus to be operated in order to express all models in the scene referential::
+
+ (local referential of model Rf) -> (parent referential Rd) -> (...) -> (Ra) -> (scene referential Rs)
+
+For example the hand of a character may be defined in :math:`R_h`, itself defined relatively to its associated forearm in :math:`R_f` up to the overall referential :math:`R_a` of that character, defined relatively to the referential of the whole scene, :math:`R_s`. This referential may have no explicit parent defined, meaning implicitly that it is defined in the canonical, global referential.
+
+Once the **model** is expressed as a whole in the scene-global referential, the next transformations have to be conducted : **view** and projection. The view transformation involves at least an extra referential, the one of the camera in charge of the rendering, which is :math:`R_c`, possibly defined relatively to :math:`R_s`.
+
+So a geometry (ex: a part of the hand, defined in :math:`R_f`) has been transformed upward in the referential tree in order to be expressed in the common, "global" scene referential :math:`R_s`, before being transformed last in the camera one, :math:`R_c`.
+
 
 In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations, which thus include the transformation of one referential into another. Their product can be computed once, and then applying a vector (ex: corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all modelview transformations and even the projection as well.
 
-More precisely, an homogeneous 4x4 matrix is in the form of:
+Noting :math:`P_{a{\rightarrow}b}` the transition matrix transforming a vector :math:`\vec{V_a}` expressed in :math:`R_a` into its representation :math:`\vec{V_b}` in :math:`R_b`, we have:
+
+.. math::
+
+  \vec{V_b} = P_{a{\rightarrow}b}.\vec{V_a}
+
+
+Thus, to express the geometry of said hand (natively defined in :math:`R_h`) in camera space (hence in :math:`R_c`), the following composition of referential changes [#]_ shall be applied:
+
+.. math::
+
+  P_{h{\rightarrow}c} = P_{s{\rightarrow}c}.P_{a{\rightarrow}s}.P_{f{\rightarrow}a}.P_{h{\rightarrow}f}.
+
+
+.. [#] Thus transformation matrices, knowing that the product of such matrices is in turn a transformation matrix.
+
+So a whole series of transformations can be done by applying a single matrix - whose coordinates are now to be determined.
+
+
+Computing Transition Matrices
+.............................
+
+
+For that, let's consider an homogeneous 4x4 matrix is in the form of:
 
 .. math::
  M = \begin{bmatrix}
@@ -657,10 +695,6 @@ with:
 
 Applying a (4x4 homogeneous) point :math:`P = \begin{Bmatrix} x \\ y \\ z \\ 1 \end{Bmatrix}` to :math:`M` yields :math:`P' = M.P` where :math:`P'` corresponds to `P` once it has been (1) rotated by :math:`\matrix{R}` and then (2) translated by :math:`\vec{T}` (order matters).
 
-
-
-Change of Referentials
-......................
 
 Let's consider now:
 
@@ -716,15 +750,14 @@ So the first column of the :math:`R` matrix is :math:`\vec{Ib_1}` , i.e. the fir
 
 Using in the same way the two other axes of :math:`R_2` (shown as ``Jb`` and ``Kb`` in the figure), we see that:
 
-.. math:
+.. math::
 
  R = R_{2\rightarrow1}
 
    = \begin{bmatrix}
-		XIb_{1} & XJb_{1} & XKb_{1} & t_1 \\
-		YIb_{1} & YJb_{1} & YKb_{1} & t_2 \\
-		ZIb_{1} & ZJb_{1} & ZKb_{1} & t_3 \\
-		  0 &   0 &   0 &  1 \\
+		XIb_{1} & XJb_{1} & XKb_{1} \\
+		YIb_{1} & YJb_{1} & YKb_{1} \\
+		ZIb_{1} & ZJb_{1} & ZKb_{1} \\
 	 \end{bmatrix}
 
 
@@ -751,6 +784,21 @@ Using in the same way the two other axes of :math:`R_2` (shown as ``Jb`` and ``K
  - :math:`\vec{T_{1\rightarrow2}} = Ob_1` is the 3D vector of the coordinates of the origin of :math:`R_2` as expressed in :math:`R_1`
 
  This also corresponds to a matrix obtained by describing the :math:`R_2` referential in :math:`R_1`, by listing first the three (4D) vector axes of :math:`R_2` then its (4D) origin, i.e. :math:`P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} && \vec{Jb_1} && \vec{Kb_1} && Ob_1 \end{bmatrix}`.
+
+
+As a result, from the definition of a tree of referentials, we are able to compute the transition matrix transforming the representation of a vector expressed in any of them to its representation in any of the other referentials.
+
+For that, like in the case of the scene-to-camera transformation, transition matrices may have to be inversed, knowing that :math:`(P_{2\rightarrow1})^{-1} = P_{1\rightarrow2}` (since by definition :math:`P_{2\rightarrow1}.P_{1\rightarrow2} = Id`).
+
+A special case of interest is, for the sake of rendering, to transform, through that tree, a local referential in which a geometry is defined into the one of the camera, defining where it is positioned and aimed [#]_; in OpenGL parlance, this corresponds to the *modelview* matrix (for "modelling and viewing transformations") that we designate here as :math:`M_{mv}` and which corresponds to :math:`P_{local{\rightarrow}camera}`.
+
+.. [#] ``gluLookAt`` can define such a viewing transformation matrix, when given (1) the position of the camera, (2) a point at which it shall look, and (3) a vector specifying its up direction (i.e. where is the upward direction for the camera - as otherwise all directions orthogonal to its line of sight defined by (1) and (2) could be chosen).
+
+
+
+Taking into account the last rendering step, the *projection* (comprising clipping, projection division and viewport transformation), which can be implemented as well thanks to a 4x4 matrix designated here as :math:`M_p`, we see that a single combined overall matrix :math:`M_o = M_p.M_{mv}` is sufficient [#]_ to convey in one go all transformations that shall be applied to a given geometry for its rendering.
+
+.. [#] In practice, for more flexibility, in OpenGL the management of viewport, or the projection and the model-view transformations are managed separately (for example, respectively, with: ``glViewport``, ``glMatrixMode(GL_MODELVIEW)`` and ``glMatrixMode(GL_PROJECTION)``).
 
 
 
@@ -782,7 +830,7 @@ Other elements of interest:
 
 - FAQ for `OpenGL <https://www.khronos.org/opengl/wiki/FAQ>`_ and `GLUT <https://www.opengl.org/resources/libraries/glut/faq/>`_
 - About `OpenGL Performance <https://www.khronos.org/opengl/wiki/Performance>`_
-
+- any textbook on linear algebra
 
 
 .. _`os-support`:
