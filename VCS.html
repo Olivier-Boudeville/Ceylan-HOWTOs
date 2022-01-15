@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 12, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, January 14, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -39,31 +39,32 @@
 <li><a class="reference internal" href="#overview" id="id7">Overview</a></li>
 <li><a class="reference internal" href="#git-usage" id="id8">Git Usage</a><ul>
 <li><a class="reference internal" href="#recommended-general-conventions" id="id9">Recommended General Conventions</a></li>
-<li><a class="reference internal" href="#managing-branches" id="id10">Managing Branches</a><ul>
-<li><a class="reference internal" href="#merge-versus-rebase" id="id11">Merge versus Rebase</a></li>
-<li><a class="reference internal" href="#direct-merge" id="id12">Direct Merge</a></li>
+<li><a class="reference internal" href="#basic-operations" id="id10">Basic Operations</a></li>
+<li><a class="reference internal" href="#managing-branches" id="id11">Managing Branches</a><ul>
+<li><a class="reference internal" href="#merge-versus-rebase" id="id12">Merge versus Rebase</a></li>
+<li><a class="reference internal" href="#direct-merge" id="id13">Direct Merge</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#common-procedures" id="id13">Common Procedures</a><ul>
-<li><a class="reference internal" href="#overcoming-auto-signed-ssl-certificate-issues" id="id14">Overcoming auto-signed SSL certificate issues</a></li>
-<li><a class="reference internal" href="#setting-the-right-metadata-for-the-next-commits" id="id15">Setting the right metadata for the next commits</a></li>
-<li><a class="reference internal" href="#performing-operation-on-remotes-with-no-systematic-authentication" id="id16">Performing operation on remotes with no systematic authentication</a></li>
-<li><a class="reference internal" href="#creating-an-empty-branch" id="id17">Creating an empty branch</a></li>
-<li><a class="reference internal" href="#listing-differences-with-prior-versions-of-a-file" id="id18">Listing differences with prior versions of a file</a></li>
-<li><a class="reference internal" href="#preventing-the-commit-of-a-file-in-vcs-that-is-often-locally-modified" id="id19">Preventing the commit of a file in VCS that is often locally modified</a></li>
-<li><a class="reference internal" href="#reducing-the-size-of-a-repository" id="id20">Reducing the size of a repository</a></li>
+<li><a class="reference internal" href="#common-procedures" id="id14">Common Procedures</a><ul>
+<li><a class="reference internal" href="#overcoming-auto-signed-ssl-certificate-issues" id="id15">Overcoming auto-signed SSL certificate issues</a></li>
+<li><a class="reference internal" href="#setting-the-right-metadata-for-the-next-commits" id="id16">Setting the right metadata for the next commits</a></li>
+<li><a class="reference internal" href="#performing-operation-on-remotes-with-no-systematic-authentication" id="id17">Performing operation on remotes with no systematic authentication</a></li>
+<li><a class="reference internal" href="#creating-an-empty-branch" id="id18">Creating an empty branch</a></li>
+<li><a class="reference internal" href="#listing-differences-with-prior-versions-of-a-file" id="id19">Listing differences with prior versions of a file</a></li>
+<li><a class="reference internal" href="#preventing-the-commit-of-a-file-in-vcs-that-is-often-locally-modified" id="id20">Preventing the commit of a file in VCS that is often locally modified</a></li>
+<li><a class="reference internal" href="#reducing-the-size-of-a-repository" id="id21">Reducing the size of a repository</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tools" id="id21">Tools</a><ul>
-<li><a class="reference internal" href="#on-most-platforms" id="id22">On Most Platforms</a></li>
-<li><a class="reference internal" href="#on-windows" id="id23">On Windows</a></li>
+<li><a class="reference internal" href="#tools" id="id22">Tools</a><ul>
+<li><a class="reference internal" href="#on-most-platforms" id="id23">On Most Platforms</a></li>
+<li><a class="reference internal" href="#on-windows" id="id24">On Windows</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inner-workings" id="id24">Inner Workings</a></li>
-<li><a class="reference internal" href="#translations" id="id25">Translations</a></li>
-<li><a class="reference internal" href="#documentation" id="id26">Documentation</a></li>
+<li><a class="reference internal" href="#inner-workings" id="id25">Inner Workings</a></li>
+<li><a class="reference internal" href="#translations" id="id26">Translations</a></li>
+<li><a class="reference internal" href="#documentation" id="id27">Documentation</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -84,13 +85,40 @@
 <li>the language used shall be uniform (ex: only English)</li>
 <li>a commit message shall describe synthetically the modifications operated on the corresponding new filesystem snapshot; such a message, preferably in English, should always start with a capital letter and end with a dot; ex: &quot;<em>Fixed the computation of angles.</em>&quot;</li>
 <li>the file formats shall be, as much as possible, homogeneous, notably for text files with regard to the line terminators; either only UNIX conventions (only <tt class="docutils literal">LF</tt>; preferred), or only Windows ones (<tt class="docutils literal">CRLF</tt>); use <tt class="docutils literal">dos2unix</tt> whenever necessary, possibly automated through a Git hook</li>
+<li>abbreviations are convenient (ex: <tt class="docutils literal">br</tt> for branch, <tt class="docutils literal">co</tt> for <tt class="docutils literal">checkout</tt>, etc.); they can be defined in one's <tt class="docutils literal"><span class="pre">~/.gitconfig</span></tt></li>
 </ul>
 </div>
+<div class="section" id="basic-operations">
+<h2><a class="toc-backref" href="#id10">Basic Operations</a></h2>
+<ul class="simple">
+<li><strong>managing branches</strong>:<ul>
+<li>to create a branch deriving from the current one (the current <tt class="docutils literal">HEAD</tt>) and switching to it (performing its checkout, while inheriting any local changes): <tt class="docutils literal">git co <span class="pre">-b</span> my_new_branch</tt></li>
+<li>to delete a local branch: <tt class="docutils literal">git branch <span class="pre">-d</span> my_branch</tt></li>
+</ul>
+</li>
+<li><strong>managing tags</strong>:<ul>
+<li>to list (local) tags: <tt class="docutils literal">git tag</tt></li>
+<li>to have information about an already-existing tag: <tt class="docutils literal">git show my_tag</tt></li>
+<li>to set a new annotated tag: <tt class="docutils literal">git tag <span class="pre">-a</span> <span class="pre">foobar-version-2.4.0</span> <span class="pre">-m</span> &quot;Release of the version 2.4.0 of Foobar.&quot;</tt>; prefer naming tags differently from branches (ex: <tt class="docutils literal"><span class="pre">foobar-version-2.4.0</span></tt> rather than <tt class="docutils literal"><span class="pre">foobar-2.4.0</span></tt>) to spare ambiguities to Git</li>
+<li>a set tag must be specifically pushed on a remote, for example: <tt class="docutils literal">git push origin my_tag</tt>; all tags can be pushed with <tt class="docutils literal">git push <span class="pre">--tags</span></tt> (the remote can be implied)</li>
+<li>to delete a tag that was not pushed: <tt class="docutils literal">git tag <span class="pre">--delete</span> my_tag</tt></li>
+</ul>
+</li>
+<li><strong>determining whether a file is in VCS</strong>, knowing that due to <tt class="docutils literal">.gitignore</tt> rules, <tt class="docutils literal"><span class="pre">update-index</span> <span class="pre">--skip-worktree</span></tt>, etc. it is not always obvious:</li>
+</ul>
+<pre class="code bash literal-block">
+<span class="c1"># Target file is tracked iff is listed by:
+</span>$ git ls-files <span class="p">|</span> grep my_file
+
+<span class="c1"># Or, in order to trigger an error if this target file is not tracked:
+</span>git ls-files --error-unmatch my_file
+</pre>
+</div>
 <div class="section" id="managing-branches">
-<h2><a class="toc-backref" href="#id10">Managing Branches</a></h2>
+<h2><a class="toc-backref" href="#id11">Managing Branches</a></h2>
 <p>Creating branches allows to separate threads of work (while preserving their lineage) and progress concurrently. Yet often their content will have to converge ultimately; depending on the intent, two use cases can be considered, resulting in different Git uses.</p>
 <div class="section" id="merge-versus-rebase">
-<h3><a class="toc-backref" href="#id11">Merge versus Rebase</a></h3>
+<h3><a class="toc-backref" href="#id12">Merge versus Rebase</a></h3>
 <p>Here one may want:</p>
 <ul class="simple">
 <li>either to <strong>integrate back a development branch</strong> (ex: <tt class="docutils literal"><span class="pre">my-feature</span></tt>) <strong>in a shared, parent one</strong> (ex: <tt class="docutils literal">master</tt>): then one shall prefer using <tt class="docutils literal">merge</tt>, in order to keep separate histories and not affect the past one of the shared branch</li>
@@ -110,7 +138,7 @@ $ git checkout B
 <p>More information: <a class="reference external" href="https://www.atlassian.com/en/git/tutorials/merging-vs-rebasing">[1]</a> or, in French: <a class="reference external" href="http://codeur-pro.fr/difference-entre-git-merge-et-git-rebase/">[2]</a>, <a class="reference external" href="https://meritis.fr/git-rebase-vs-git-merge-quelles-differences/">[3]</a>, <a class="reference external" href="http://blog.fclement.info/git-merge-et-git-rebase-les-eternels-incompris">[4]</a>.</p>
 </div>
 <div class="section" id="direct-merge">
-<h3><a class="toc-backref" href="#id12">Direct Merge</a></h3>
+<h3><a class="toc-backref" href="#id13">Direct Merge</a></h3>
 <p>Sometimes, one may want to directly transfer the changes of a derivate branch B in a parent branch A. When one knows for sure that the versions in B shall be preferred in all cases to their counterparts in A (note that a classical merge is already fully able to manage fast-forwards), one may use:</p>
 <pre class="code bash literal-block">
 $ git checkout A
@@ -120,9 +148,9 @@ $ git merge -X theirs B
 </div>
 </div>
 <div class="section" id="common-procedures">
-<h2><a class="toc-backref" href="#id13">Common Procedures</a></h2>
+<h2><a class="toc-backref" href="#id14">Common Procedures</a></h2>
 <div class="section" id="overcoming-auto-signed-ssl-certificate-issues">
-<h3><a class="toc-backref" href="#id14">Overcoming auto-signed SSL certificate issues</a></h3>
+<h3><a class="toc-backref" href="#id15">Overcoming auto-signed SSL certificate issues</a></h3>
 <p>To avoid, typically in a company internal setting, errors like:</p>
 <pre class="code bash literal-block">
 Cloning into <span class="s1">'XXX'</span>...
@@ -139,7 +167,7 @@ $ git config http.sslVerify <span class="nb">false</span>
 </pre>
 </div>
 <div class="section" id="setting-the-right-metadata-for-the-next-commits">
-<h3><a class="toc-backref" href="#id15">Setting the right metadata for the next commits</a></h3>
+<h3><a class="toc-backref" href="#id16">Setting the right metadata for the next commits</a></h3>
 <p>Doing so prevent from having to amend commits a posteriori.</p>
 <p>If these information apply for all projects:</p>
 <pre class="code bash literal-block">
@@ -154,11 +182,11 @@ $ git config user.email john.doe&#64;foobar.org
 <p>Also <tt class="docutils literal">git config <span class="pre">--global</span> <span class="pre">--edit</span></tt> may be of use (beware to trigger a <tt class="docutils literal">vi</tt> by accident...).</p>
 </div>
 <div class="section" id="performing-operation-on-remotes-with-no-systematic-authentication">
-<h3><a class="toc-backref" href="#id16">Performing operation on remotes with no systematic authentication</a></h3>
+<h3><a class="toc-backref" href="#id17">Performing operation on remotes with no systematic authentication</a></h3>
 <p>Using a SSH key pair, hence with its public key declared on said remote, is a relevant approach, safer than from example using a <tt class="docutils literal"><span class="pre">~/.netrc</span></tt> file.</p>
 </div>
 <div class="section" id="creating-an-empty-branch">
-<h3><a class="toc-backref" href="#id17">Creating an empty branch</a></h3>
+<h3><a class="toc-backref" href="#id18">Creating an empty branch</a></h3>
 <p>Rather than creating it from a pre-existing branch and removing all inherited content, prefer:</p>
 <pre class="code bash literal-block">
 $ git checkout --orphan my_new_branch
@@ -166,11 +194,11 @@ $ git checkout --orphan my_new_branch
 <p>(typically useful for GitHub Pages branches)</p>
 </div>
 <div class="section" id="listing-differences-with-prior-versions-of-a-file">
-<h3><a class="toc-backref" href="#id18">Listing differences with prior versions of a file</a></h3>
+<h3><a class="toc-backref" href="#id19">Listing differences with prior versions of a file</a></h3>
 <p>In order to list the differences of a given file with the previous commits (precisely: of a set of pathspecs), one may use our <tt class="docutils literal"><span class="pre">dif-prev.sh</span></tt> script, which by default reports the differences with the last committed version. With the <tt class="docutils literal"><span class="pre">--all</span></tt> option, it lists all differences, until the first addition of this file.</p>
 </div>
 <div class="section" id="preventing-the-commit-of-a-file-in-vcs-that-is-often-locally-modified">
-<h3><a class="toc-backref" href="#id19">Preventing the commit of a file in VCS that is often locally modified</a></h3>
+<h3><a class="toc-backref" href="#id20">Preventing the commit of a file in VCS that is often locally modified</a></h3>
 <p>One should use <a class="reference external" href="https://stackoverflow.com/questions/1753070/how-do-i-configure-git-to-ignore-some-files-locally">this method</a>:</p>
 <pre class="code bash literal-block">
 $ git update-index --skip-worktree &lt;file-list&gt;
@@ -181,7 +209,7 @@ $ git update-index --no-skip-worktree &lt;file-list&gt;
 </pre>
 </div>
 <div class="section" id="reducing-the-size-of-a-repository">
-<h3><a class="toc-backref" href="#id20">Reducing the size of a repository</a></h3>
+<h3><a class="toc-backref" href="#id21">Reducing the size of a repository</a></h3>
 <p>One may use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-largest-vcs-blobs.sh">list-largest-vcs-blobs.sh</a> script to detect any larger files that should not be in VCS (ex: should a colleague have committed by mistake a third-party archive, or unexpected data such as CSV files).</p>
 <p>Then install <a class="reference external" href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a>:</p>
 <pre class="code bash literal-block">
@@ -206,14 +234,14 @@ $ git push
 </div>
 </div>
 <div class="section" id="tools">
-<h1><a class="toc-backref" href="#id21">Tools</a></h1>
+<h1><a class="toc-backref" href="#id22">Tools</a></h1>
 <div class="section" id="on-most-platforms">
-<h2><a class="toc-backref" href="#id22">On Most Platforms</a></h2>
+<h2><a class="toc-backref" href="#id23">On Most Platforms</a></h2>
 <p>At least on UNIX, the command-line Git client (<tt class="docutils literal">git</tt>) is certainly the best tool. In difficult situations, graphical tools such as <tt class="docutils literal">gitk</tt> may be of help.</p>
 <p>See also our Ceylan-Hull section about <a class="reference external" href="https://hull.esperide.org/#for-version-control-system-vcs">VCS-related scripts</a>.</p>
 </div>
 <div class="section" id="on-windows">
-<h2><a class="toc-backref" href="#id23">On Windows</a></h2>
+<h2><a class="toc-backref" href="#id24">On Windows</a></h2>
 <p>Tools like <a class="reference external" href="https://tortoisegit.org/">TortoiseGit</a> may foster a view on the usage of Git that is a bit particular, conflating concepts or introducing extra ones (ex: a <tt class="docutils literal">sync</tt> command). Apparently also at least some pulls did not reintroduce files just removed from the working directory.</p>
 <p>More generally, cloning on a Windows host an UNIX-originating repository comprising symbolic links may induce oddities (ex: a symlink named <tt class="docutils literal">S</tt> pointing to <tt class="docutils literal">Foobar</tt> resulting, on a Windows clone, in a file named <tt class="docutils literal">S</tt> whose content is, literally, the text <tt class="docutils literal">&quot;Foobar&quot;</tt>, instead of the expected content of the <tt class="docutils literal">Foobar</tt> file).</p>
 <p>Another option is to use Visual Studio Code (<tt class="docutils literal">vscode</tt>), which supports natively Git (provided that the command-line version is already installed). One may select <tt class="docutils literal">View <span class="pre">-&gt;</span> SCM</tt> (or <tt class="docutils literal"><span class="pre">Ctrl-Shift-G</span></tt>) for that. Clicking on the &quot;VCS&quot; icon (three rings links by two curves; the third from the top) displays a contextual view offering various associated operations (here based on Git).</p>
@@ -221,17 +249,18 @@ $ git push
 </div>
 </div>
 <div class="section" id="inner-workings">
-<h1><a class="toc-backref" href="#id24">Inner Workings</a></h1>
+<h1><a class="toc-backref" href="#id25">Inner Workings</a></h1>
 <p>Git stores internally every version of every file separately (not as a diff with a parent version) as a blob (an opaque binary content) identified by its (SHA1) hash.</p>
 <p>A commit is the identifier of a tree representing the filesystem of interest at a given moment (snapshot). This tree references the files through their SHA1, similarly to a <a class="reference external" href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree</a>.</p>
 <p>A branch is thus nothing but a pointer on a given commit, and <tt class="docutils literal">HEAD</tt> designates the current branch. Git stores natively only blobs, trees and commits.</p>
 <p>The reported differences in the content of a file or a tree are thus only recreated (established dynamically) by Git commands, they are not natively tracked.</p>
 </div>
 <div class="section" id="translations">
-<h1><a class="toc-backref" href="#id25">Translations</a></h1>
+<h1><a class="toc-backref" href="#id26">Translations</a></h1>
 <p>From English to French:</p>
 <ul class="simple">
 <li><tt class="docutils literal">repository</tt> -&gt; <tt class="docutils literal">dépôt</tt></li>
+<li><tt class="docutils literal">to checkout</tt> -&gt; <tt class="docutils literal">extraire</tt></li>
 <li><tt class="docutils literal">to commit</tt> -&gt; <tt class="docutils literal">valider</tt></li>
 <li><tt class="docutils literal">a commit</tt> -&gt; <tt class="docutils literal">validation</tt></li>
 <li><tt class="docutils literal">in VCS</tt> -&gt; <tt class="docutils literal">en GCL</tt> (Gestion de Configuration Logicielle)</li>
@@ -243,7 +272,7 @@ $ git push
 </ul>
 </div>
 <div class="section" id="documentation">
-<h1><a class="toc-backref" href="#id26">Documentation</a></h1>
+<h1><a class="toc-backref" href="#id27">Documentation</a></h1>
 <p>Many pointers exist, doing a great job in unveiling how Git is to be used.</p>
 <p>In English, <a class="reference external" href="https://git-scm.com/book/en/v2">Pro GIT</a> is surely a reference.</p>
 <p>In French:</p>
