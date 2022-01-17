@@ -177,3 +177,13 @@ Validating / Checking
 In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.
 
 Notably an online HTML page, or set of pages, can be verified by third-party tools like `this one <https://www.deadlinkchecker.com/>`_, to detect dead links.
+
+
+
+Miscellaneous
+=============
+
+To transform PDF files, one may use the ``pdftk`` tool:
+
+- to concatenate PDFs: ``pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf``
+- to split all pages of a PDF in as many individual files (named ``pg_0001.pdf``, ``pg_0002.pdf``, etc.): ``pdftk document.pdf burst``
