@@ -58,21 +58,21 @@ Let's Start with some Shameless Advertisement for Erlang and the BEAM VM
 Taken from `this presentation <https://erlangforums.com/t/erlang-101-processes-parallelization/594>`_:
 
 .. Hint::
- What makes Elixir StackOverflow’s #4 most-loved language?
+ *What makes Elixir StackOverflow’s #4 most-loved language?*
 
- What makes Erlang and Elixir StackOverflow’s #3 and #4 best-paid languages?
+ *What makes Erlang and Elixir StackOverflow’s #3 and #4 best-paid languages?*
 
- How did WhatsApp scale to billions of users with just dozens of Erlang engineers?
+ *How did WhatsApp scale to billions of users with just dozens of Erlang engineers?*
 
- What’s so special about Erlang that it powers CouchDB and RabbitMQ?
+ *What’s so special about Erlang that it powers CouchDB and RabbitMQ?*
 
- Why are multi-billion-dollar corporations like Bet365 and Klarna built on Erlang?
+ *Why are multi-billion-dollar corporations like Bet365 and Klarna built on Erlang?*
 
- Why do PepsiCo, Cars.com, Change.org, Boston’s MBTA, and Discord all rely on Elixir?
+ *Why do PepsiCo, Cars.com, Change.org, Boston’s MBTA, and Discord all rely on Elixir?*
 
- Why was Elixir chosen to power a bank?
+ *Why was Elixir chosen to power a bank?*
 
- Why does Cisco ship 2 million Erlang devices each year? Why is Erlang used to control 90% of Internet traffic?
+ *Why does Cisco ship 2 million Erlang devices each year? Why is Erlang used to control 90% of Internet traffic?*
 
 
 
@@ -107,6 +107,15 @@ Once installed, ensure that ``~/Software/Erlang/Erlang-current-install/bin/`` is
 Then enter ``CTRL-C`` twice in order to come back to the (UNIX) shell.
 
 Congratulations, you have a functional Erlang now!
+
+
+To check from the command-line the version of an Erlang install:
+
+.. code:: bash
+
+ $ erl -eval '{ok, Version} = file:read_file(filename:join([code:root_dir(), "releases", erlang:system_info(otp_release), "OTP_VERSION"])), io:fwrite(Version), halt().' -noshell
+ 24.2
+
 
 
 
