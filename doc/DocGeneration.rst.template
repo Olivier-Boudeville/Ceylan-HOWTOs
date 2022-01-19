@@ -183,7 +183,48 @@ Notably an online HTML page, or set of pages, can be verified by third-party too
 Miscellaneous
 =============
 
-To transform PDF files, one may use the ``pdftk`` tool:
+
+Conversion between Markup Formats
+---------------------------------
+
+`Pandoc <https://pandoc.org/>`_ is the tool of choice for such operations, as it often yields good results.
+
+For example, in order to convert a page written in Mediawiki syntax, whose source content has been pasted in a ``old-content-in-mediawiki.txt`` file, into one that be specified in a GitLab wiki (hence in GFM markup, for *GitLab Flavored Markdown*) from a converted content, to be written in a ``converted-content.gfm`` file, one may use:
+
+.. code:: bash
+
+ $ pandoc old-content-in-mediawiki.txt --from=mediawiki --to=gfm --standalone -o converted-content.gfm
+
+ # Or, for older versions of pandoc not supporting a gfm writer:
+ $ pandoc old-content-in-mediawiki.txt --from=mediawiki --to=markdown_github --standalone -o converted-content.gfm
+
+
+Then the content in ``converted-content.gfm`` file can be pasted in the target GitLab wiki page.
+
+The lists of the input and output formats supported by Pandoc and of their corresponding command-line options is specified `here <https://pandoc.org/MANUAL.html#general-options>`_.
+
+These options are also returned by: ``pandoc --list-input-formats`` and ``pandoc --list-output-formats`` (or, for older versions of pandoc, thanks to ``pandoc --help``).
+
+An input file may not be encoded in UTF-8, which can result in::
+
+ pandoc: Cannot decode byte '\xe9': Data.Text.Internal.Encoding.Fusion.streamUtf8: Invalid UTF-8 stream
+
+In this case, the actual encoding shall be determined, for example with::
+
+ $ file input.html
+ input.html: HTML document, ISO-8859 text
+
+
+Then the encoding may be changed before calling pandoc, for example like::
+
+ $ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_github --standalone -o output.gfm
+
+
+
+Transformation of PDF files
+---------------------------
+
+For that, one may use the ``pdftk`` tool:
 
 - to concatenate PDFs: ``pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf``
 - to split all pages of a PDF in as many individual files (named ``pg_0001.pdf``, ``pg_0002.pdf``, etc.): ``pdftk document.pdf burst``
