@@ -509,6 +509,29 @@ Basics
 
 - vertices and normals are transformed by the **modelview** and **projection** matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; texture coordinates are transformed by the **texture** matrix
 - textures may reside in the main, general-purpose, client, **CPU-side memory** (large and slow to access for the rendering) and/or in any auxiliary, dedicated, server-side **GPU memory** (more constrained, hence prioritized thanks to *texture objects*; and high-performance, rendering-wise)
+- OpenGL has to apply any kind of transformation, linear (ex: rotation, scaling) or not (ex: translation, perspective) to geometries, for example in order to perform referential changes or rendering; each of these transformations can be represented as a 4x4 `homogeneous matrix <https://en.wikipedia.org/wiki/Homogeneous_coordinates>`_, with floating-point (homogeneous) coordinates; a series of transformations can then simply be represented as a single of such matrices, corresponding to the product of the involved transformation matrices
+- while this will not change anything regarding the actual OpenGL library and the computations that it performs, the conventions adopted by the OpenGL *documentation* regarding matrices are the following ones:
+
+  - their `in-memory representation <https://www.opengl.org//archives/resources/faq/technical/transformations.htm>`_ is `column-major order <https://en.wikipedia.org/wiki/Row-_and_column-major_order>`_ (even if it is unusual, at least in C), meaning that it enumerates their coordinates first per column rather than per row (and for them a vector is a *row* of coordinates), whereas tools following the row-major counterpart order, `like Myriad <http://myriad.esperide.org/#matrix-conventions>`_ do the opposite (and vectors are *columns* of coordinates); more clearly, a matrix like :math:`M = \begin{bmatrix} a11 & a12 & ... & a1n \\ a21 & a22 & ... & a2n \\ ... & ... & ... & ... \\ am1 & am2 & ... & amn \\ \end{bmatrix}`
+
+	- will be stored with row-major conventions (ex: Myriad) as: ``[ [a11, a12, ... a1n], [a21, a22, ... a2n], ..., [am1, am2, ... amn] ]``
+	- whereas, with the conventions discussed, OpenGL will expect it to be stored in-memory in this order: ``a11, a21, ..., am1, a21, a22, ..., am2, ..., a1n, a2n, ..., amn``, i.e. as the transpose of the previous matrix
+
+  - these `OpenGL storage conventions <http://steve.hollasch.net/cgindex/math/matrix/column-vec.html>`_ do not tell how matrices are to be multiplied (knowing of course that the matrix product is not commutative); if following the aforementioned OpenGL *documentation* conventions, one should consider that OpenGL relies on the usual multiplication order, that is *post-multiplication*, i.e. multiplication on the right; this means that, if applying on a given matrix :math:`M` a transformation :math:`O` (ex: rotation, translation, scaling, etc.) represented by a matrix :math:`M_O`, the resulting matrix will be :math:`M' = M.M_O` (and not :math:`M' = M_O.M`); a series of operations :math:`O_1`, then :math:`O_2`, ..., then :math:`O_n` will therefore translate to a matrix :math:`M' = M_{O1}.M_{O2}.[...].M_{On}`; applying a vector :math:`\vec{V}` to a  matrix :math:`M` will result in :math:`\vec{V'} = M.\vec{V}`
+
+  - so when an OpenGL program performs calls like first for a rotation (r), then for a scaling (s) and finally for a translation (t):
+
+  .. code:: C
+
+	glRotatef(90, 0, 1, 0);
+	glScalef(1, 10, 1);
+	glTranslatef(5,10,5);
+
+
+  the current matrix :math:`M` ends up being multiplied (on the right) by :math:`M' = M_r.M_s.M_t`; when applied to a vector :math:`\vec{V}`, still multiplying on the right results in :math:`\vec{V'} = M.\vec{V} = M.M_r.M_s.M_t.\vec{V}'`; so the input vector :math:`\vec{V}` is first translated, then the result is scaled, then rotated, then transformed by the previous matrix :math:`M`; as a result: **operations happen in the opposite order of their specification as calls**; said differently: one shall specify the calls corresponding to one's target series of transformations *backwards*
+
+  - considering that the OpenGL storage is done in a surprising column-major order was actually a trick so that OpenGL could rely on the (modern, math-originating) vector-as-column convention while being still compliant with its GL ancestor - which relied on the (now unusual) vector-as-row convention and on *pre-multiplication* (where we would have :math:`M' = M_O.M`); indeed, knowing that, when transposing matrices, :math:`(A.B)^\top = B^\top.A^\top`, one may consider that OpenGL actually always operates on transpose elements, and thus that: (1) matrices are actually specified in row-order and (2) they are multiplied on the left (ex: :math:`M' = M_t.M_s.M_r.M`); note that switching convention does not affect at all the computations, and that the same operations are always performed in reverse call order
+
 - OpenGL can operate on three mutually exclusive **modes**:
 
   - *rendering*: the default, most common one, discussed here
@@ -829,6 +852,7 @@ Two very well-written books, strongly recommended, that are still perfectly rele
 Other elements of interest:
 
 - FAQ for `OpenGL <https://www.khronos.org/opengl/wiki/FAQ>`_ and `GLUT <https://www.opengl.org/resources/libraries/glut/faq/>`_
+- the (archived) `OpenGL FAQ and Troubleshooting Guide <https://www.opengl.org/archives/resources/faq/technical/>`_, containing much valuable information, including regarding `transformations <https://www.opengl.org/archives/resources/faq/technical/transformations.htm>`_
 - About `OpenGL Performance <https://www.khronos.org/opengl/wiki/Performance>`_
 - any textbook on linear algebra
 
