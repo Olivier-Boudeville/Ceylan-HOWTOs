@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 12, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, January 19, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -48,6 +48,11 @@
 </li>
 <li><a class="reference internal" href="#inner-links" id="id13">Inner Links</a></li>
 <li><a class="reference internal" href="#validating-checking" id="id14">Validating / Checking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#miscellaneous" id="id15">Miscellaneous</a><ul>
+<li><a class="reference internal" href="#conversion-between-markup-formats" id="id16">Conversion between Markup Formats</a></li>
+<li><a class="reference internal" href="#transformation-of-pdf-files" id="id17">Transformation of PDF files</a></li>
 </ul>
 </li>
 </ul>
@@ -139,6 +144,44 @@ make create-mathjax-symlink
 <h2><a class="toc-backref" href="#id14">Validating / Checking</a></h2>
 <p>In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.</p>
 <p>Notably an online HTML page, or set of pages, can be verified by third-party tools like <a class="reference external" href="https://www.deadlinkchecker.com/">this one</a>, to detect dead links.</p>
+</div>
+</div>
+<div class="section" id="miscellaneous">
+<h1><a class="toc-backref" href="#id15">Miscellaneous</a></h1>
+<div class="section" id="conversion-between-markup-formats">
+<h2><a class="toc-backref" href="#id16">Conversion between Markup Formats</a></h2>
+<p><a class="reference external" href="https://pandoc.org/">Pandoc</a> is the tool of choice for such operations, as it often yields good results.</p>
+<p>For example, in order to convert a page written in Mediawiki syntax, whose source content has been pasted in a <tt class="docutils literal"><span class="pre">old-content-in-mediawiki.txt</span></tt> file, into one that be specified in a GitLab wiki (hence in GFM markup, for <em>GitLab Flavored Markdown</em>) from a converted content, to be written in a <tt class="docutils literal"><span class="pre">converted-content.gfm</span></tt> file, one may use:</p>
+<pre class="code bash literal-block">
+$ pandoc old-content-in-mediawiki.txt --from<span class="o">=</span>mediawiki --to<span class="o">=</span>gfm --standalone -o converted-content.gfm
+
+<span class="c1"># Or, for older versions of pandoc not supporting a gfm writer:
+</span>$ pandoc old-content-in-mediawiki.txt --from<span class="o">=</span>mediawiki --to<span class="o">=</span>markdown_github --standalone -o converted-content.gfm
+</pre>
+<p>Then the content in <tt class="docutils literal"><span class="pre">converted-content.gfm</span></tt> file can be pasted in the target GitLab wiki page.</p>
+<p>The lists of the input and output formats supported by Pandoc and of their corresponding command-line options is specified <a class="reference external" href="https://pandoc.org/MANUAL.html#general-options">here</a>.</p>
+<p>These options are also returned by: <tt class="docutils literal">pandoc <span class="pre">--list-input-formats</span></tt> and <tt class="docutils literal">pandoc <span class="pre">--list-output-formats</span></tt> (or, for older versions of pandoc, thanks to <tt class="docutils literal">pandoc <span class="pre">--help</span></tt>).</p>
+<p>An input file may not be encoded in UTF-8, which can result in:</p>
+<pre class="literal-block">
+pandoc: Cannot decode byte '\xe9': Data.Text.Internal.Encoding.Fusion.streamUtf8: Invalid UTF-8 stream
+</pre>
+<p>In this case, the actual encoding shall be determined, for example with:</p>
+<pre class="literal-block">
+$ file input.html
+input.html: HTML document, ISO-8859 text
+</pre>
+<p>Then the encoding may be changed before calling pandoc, for example like:</p>
+<pre class="literal-block">
+$ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_github --standalone -o output.gfm
+</pre>
+</div>
+<div class="section" id="transformation-of-pdf-files">
+<h2><a class="toc-backref" href="#id17">Transformation of PDF files</a></h2>
+<p>For that, one may use the <tt class="docutils literal">pdftk</tt> tool:</p>
+<ul class="simple">
+<li>to concatenate PDFs: <tt class="docutils literal">pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf</tt></li>
+<li>to split all pages of a PDF in as many individual files (named <tt class="docutils literal">pg_0001.pdf</tt>, <tt class="docutils literal">pg_0002.pdf</tt>, etc.): <tt class="docutils literal">pdftk document.pdf burst</tt></li>
+</ul>
 </div>
 </div>
 </div>

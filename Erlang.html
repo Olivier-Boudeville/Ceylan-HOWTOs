@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, January 9, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, January 18, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -70,14 +70,14 @@
 <p>Taken from <a class="reference external" href="https://erlangforums.com/t/erlang-101-processes-parallelization/594">this presentation</a>:</p>
 <div class="admonition hint">
 <p class="first admonition-title">Hint</p>
-<p>What makes Elixir StackOverflow’s #4 most-loved language?</p>
-<p>What makes Erlang and Elixir StackOverflow’s #3 and #4 best-paid languages?</p>
-<p>How did WhatsApp scale to billions of users with just dozens of Erlang engineers?</p>
-<p>What’s so special about Erlang that it powers CouchDB and RabbitMQ?</p>
-<p>Why are multi-billion-dollar corporations like Bet365 and Klarna built on Erlang?</p>
-<p>Why do PepsiCo, Cars.com, Change.org, Boston’s MBTA, and Discord all rely on Elixir?</p>
-<p>Why was Elixir chosen to power a bank?</p>
-<p class="last">Why does Cisco ship 2 million Erlang devices each year? Why is Erlang used to control 90% of Internet traffic?</p>
+<p><em>What makes Elixir StackOverflow’s #4 most-loved language?</em></p>
+<p><em>What makes Erlang and Elixir StackOverflow’s #3 and #4 best-paid languages?</em></p>
+<p><em>How did WhatsApp scale to billions of users with just dozens of Erlang engineers?</em></p>
+<p><em>What’s so special about Erlang that it powers CouchDB and RabbitMQ?</em></p>
+<p><em>Why are multi-billion-dollar corporations like Bet365 and Klarna built on Erlang?</em></p>
+<p><em>Why do PepsiCo, Cars.com, Change.org, Boston’s MBTA, and Discord all rely on Elixir?</em></p>
+<p><em>Why was Elixir chosen to power a bank?</em></p>
+<p class="last"><em>Why does Cisco ship 2 million Erlang devices each year? Why is Erlang used to control 90% of Internet traffic?</em></p>
 </div>
 </div>
 <div class="section" id="installation">
@@ -100,6 +100,11 @@ Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
 </pre>
 <p>Then enter <tt class="docutils literal"><span class="pre">CTRL-C</span></tt> twice in order to come back to the (UNIX) shell.</p>
 <p>Congratulations, you have a functional Erlang now!</p>
+<p>To check from the command-line the version of an Erlang install:</p>
+<pre class="code bash literal-block">
+$ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root_dir(), &quot;releases&quot;, erlang:system_info(otp_release), &quot;OTP_VERSION&quot;]) ), io:fwrite(V), halt().'</span> -noshell
+<span class="m">24</span>.2
+</pre>
 </div>
 <div class="section" id="ceylan-s-language-use">
 <h1><a class="toc-backref" href="#id12">Ceylan's Language Use</a></h1>
