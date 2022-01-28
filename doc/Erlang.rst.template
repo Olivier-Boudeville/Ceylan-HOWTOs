@@ -322,11 +322,11 @@ Erlang Resources
 
 - in addition to the module index mentioned in the `Erlang Installation`_ section, using the `online search <https://erlang.org/doc/search/>`_ and/or `Erldocs <https://erldocs.com/>`_ may also be convenient
 
-- the Erlang `community <https://www.erlang.org/community>`_ is known to be pleasant and welcoming to newcomers; one may visit the `Erlang forums <https://erlangforums.com/>`_, which complement the `erlang-questions <https://erlang.org/pipermail/erlang-questions/>`_ mailing list
+- the Erlang `community <https://www.erlang.org/community>`_ is known to be pleasant and welcoming to newcomers; one may visit the `Erlang forums <https://erlangforums.com/>`_, which complement the `erlang-questions <https://erlang.org/pipermail/erlang-questions/>`_ mailing list (use `this mirror <https://groups.google.com/g/erlang-programming>`_ in order to search through the past messages of this list)
 
-- for those who are interested in parse transforms (the Erlang way of doing metaprogramming), the `section about The Abstract Format <https://www.erlang.org/doc/apps/erts/absform.html>`_ is esential (despite not being well known)
+- for those who are interested in parse transforms (the Erlang way of doing metaprogramming), the `section about The Abstract Format <https://www.erlang.org/doc/apps/erts/absform.html>`_ is essential (despite not being well known)
 
-- to better understand the inner working of the VM: `The Erlang Runtime System <https://blog.stenmans.org/theBeamBook/>`_, a.k.a. "the BEAM book", by Erik Stenman
+- to better understand the inner workings of the VM: `The Erlang Runtime System <https://blog.stenmans.org/theBeamBook/>`_, a.k.a. "the BEAM book", by Erik Stenman
 
 - `BEAM Wisdoms <http://beam-wisdoms.clau.se/en/latest>`_, by Dmytro Lytovchenko
 
