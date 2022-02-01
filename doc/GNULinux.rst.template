@@ -178,12 +178,14 @@ Package-related Commands
 
 - to get information about a package (installed or not): ``pacman -Si MY_PACKAGE``
 - to list all packages explicitly installed and not required as dependencies: ``pacman -Qet``
-- to determine which package installed a specified file: ``pkgfile SOME_FILE`` [#]_
+- to determine which package installed a specified file:
 
-.. [#] ``pkgfile`` itself must have been installed beforehand, with ``pacman -S pkgfile``, and be updated, with ``pkgfile --update`` (still as root).
+  - on Arch: ``pkgfile SOME_FILE``; ``pkgfile`` itself must have been installed beforehand, with ``pacman -S pkgfile``, and be updated, with ``pkgfile --update`` (still as root)
+  - on Debian: ``apt-file search SOME_FILE`` after a similar initial install thanks to: ``sudo apt-get install apt-file && sudo apt-file update``
+  - for many distros, one may rely on the `command-not-found website <https://command-not-found.com/>`_
 
 
-See `this page <https://wiki.archlinux.org/title/Pacman/Tips_and_tricks>`_ for many more commands.
+See `this page <https://wiki.archlinux.org/title/Pacman/Tips_and_tricks>`_ for many more Arch-related commands.
 
 
 

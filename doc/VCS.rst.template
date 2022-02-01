@@ -255,6 +255,16 @@ The opposite operation is:
 
 
 
+Listing the files managed in VCS from the current directory
+...........................................................
+
+
+Use ``git ls-files`` to determine the files that are already managed in VCS, recursively from the current directory.
+
+To list the untracked files (i.e. the files *not* in VCS), use ``git ls-files --others``.
+
+
+
 Reducing the size of a repository
 .................................
 
