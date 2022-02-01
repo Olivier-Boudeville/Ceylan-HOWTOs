@@ -16,7 +16,7 @@ endif
 
 
 # The uniquely-defined version of this layer, for all uses:
-HOWTOS_VERSION := 0.0.1
+HOWTOS_VERSION := 0.0.2
 
 
 # PROJECT_VERSION should be defined on a per-project basis.

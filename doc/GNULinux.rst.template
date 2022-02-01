@@ -291,8 +291,8 @@ Quick Topics
 ============
 
 
-Wine
-----
+Installing Wine
+---------------
 
 Install it, once `enabling multilib`_ has been done, with: ``pacman -S wine``.
 
@@ -309,6 +309,25 @@ This happens regularly, symptom being: ``File /var/cache/pacman/pkg/xxx.pkg.tar.
 
 Solution: ``pacman -S archlinux-keyring`` is at least often enough. Otherwise ``pacman-key --populate archlinux``, or changing mirror might help.
 
+
+
+Adding a Locale
+---------------
+
+On some hosts, issues in terms of a lacking locales may be reported, like in the following::
+
+ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+
+This can be fixed by uncommenting the corresponding locale (``en_US.UTF-8`` here) in ``/etc/locale.gen``, and then regenerating the system locales by running (as root) ``locale-gen``:
+
+.. code:: bash
+
+ $ locale-gen
+ Generating locales (this might take a while)...
+  en_US.UTF-8... done
+  fr_FR.UTF-8... done
+  fr_FR.ISO-8859-15@euro... done
+ Generation complete.
 
 
 

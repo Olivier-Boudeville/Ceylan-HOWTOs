@@ -45,6 +45,9 @@
 The latest version of this documentation is to be found at the `official Ceylan-HOWTOs website <http://howtos.esperide.org>`_ (``http://howtos.esperide.org``).
 
 
+.. Note:: This PDF document includes cross-references between HOWTOs, yet these links make sense only in the context of `its HTML counterpart <http://howtos.esperide.org>`_.
+
+
 
 :raw-latex:`\pagebreak`
 
@@ -72,6 +75,12 @@ The latest version of this documentation is to be found at the `official Ceylan-
 :raw-latex:`\pagebreak`
 
 .. include:: ThreeDimensional.rst
+
+
+
+.. commment Not ready yet:  :raw-latex:`\pagebreak`
+
+.. commment Not ready yet: .. include:: OnlineInteractiveMultimedia.rst
 
 
 

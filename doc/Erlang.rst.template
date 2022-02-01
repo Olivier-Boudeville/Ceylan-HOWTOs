@@ -313,6 +313,22 @@ Both of them allow to read the intermediate representations involved when compil
 
 
 
+Micro-Cheat Sheet
+=================
+
+To avoid having to perform a lookup in the documentation:
+
+- Erlang indices start at ``1``, except the ones of the ``array`` module that are zero-based
+- for tuples of unknown number of elements:
+
+  - setting an element is to be done with ``setelement(positive_index(), tuple(), term()) -> tuple()``
+  - extracting an element is to be done with ``element(positive_index(), tuple()) -> term()``
+
+(no need for the ``erlang`` module to be explicitly specified, as both functions are auto-imported)
+
+
+
+
 Erlang Resources
 ================
 
