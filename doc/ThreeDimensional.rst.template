@@ -623,7 +623,7 @@ Two kinds of projections are considered: orthographic and perspective.
 
 
 Orthographic Projections
-************************
+________________________
 
 Their viewing volume is a parallelepiped, precisely a rectangular cuboid.
 
@@ -631,7 +631,7 @@ With them parallel lines remain parallel; see ``gl:ortho/6`` and ``glu:ortho2D/4
 
 
 Perspective Projections
-***********************
+_______________________
 
 Their viewing volume is a truncated pyramid.
 
