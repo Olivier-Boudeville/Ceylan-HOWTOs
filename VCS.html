@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, January 14, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, February 2, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -52,19 +52,20 @@
 <li><a class="reference internal" href="#creating-an-empty-branch" id="id18">Creating an empty branch</a></li>
 <li><a class="reference internal" href="#listing-differences-with-prior-versions-of-a-file" id="id19">Listing differences with prior versions of a file</a></li>
 <li><a class="reference internal" href="#preventing-the-commit-of-a-file-in-vcs-that-is-often-locally-modified" id="id20">Preventing the commit of a file in VCS that is often locally modified</a></li>
-<li><a class="reference internal" href="#reducing-the-size-of-a-repository" id="id21">Reducing the size of a repository</a></li>
+<li><a class="reference internal" href="#listing-the-files-managed-in-vcs-from-the-current-directory" id="id21">Listing the files managed in VCS from the current directory</a></li>
+<li><a class="reference internal" href="#reducing-the-size-of-a-repository" id="id22">Reducing the size of a repository</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tools" id="id22">Tools</a><ul>
-<li><a class="reference internal" href="#on-most-platforms" id="id23">On Most Platforms</a></li>
-<li><a class="reference internal" href="#on-windows" id="id24">On Windows</a></li>
+<li><a class="reference internal" href="#tools" id="id23">Tools</a><ul>
+<li><a class="reference internal" href="#on-most-platforms" id="id24">On Most Platforms</a></li>
+<li><a class="reference internal" href="#on-windows" id="id25">On Windows</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inner-workings" id="id25">Inner Workings</a></li>
-<li><a class="reference internal" href="#translations" id="id26">Translations</a></li>
-<li><a class="reference internal" href="#documentation" id="id27">Documentation</a></li>
+<li><a class="reference internal" href="#inner-workings" id="id26">Inner Workings</a></li>
+<li><a class="reference internal" href="#translations" id="id27">Translations</a></li>
+<li><a class="reference internal" href="#documentation" id="id28">Documentation</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -208,8 +209,13 @@ $ git update-index --skip-worktree &lt;file-list&gt;
 $ git update-index --no-skip-worktree &lt;file-list&gt;
 </pre>
 </div>
+<div class="section" id="listing-the-files-managed-in-vcs-from-the-current-directory">
+<h3><a class="toc-backref" href="#id21">Listing the files managed in VCS from the current directory</a></h3>
+<p>Use <tt class="docutils literal">git <span class="pre">ls-files</span></tt> to determine the files that are already managed in VCS, recursively from the current directory.</p>
+<p>To list the untracked files (i.e. the files <em>not</em> in VCS), use <tt class="docutils literal">git <span class="pre">ls-files</span> <span class="pre">--others</span></tt>.</p>
+</div>
 <div class="section" id="reducing-the-size-of-a-repository">
-<h3><a class="toc-backref" href="#id21">Reducing the size of a repository</a></h3>
+<h3><a class="toc-backref" href="#id22">Reducing the size of a repository</a></h3>
 <p>One may use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-largest-vcs-blobs.sh">list-largest-vcs-blobs.sh</a> script to detect any larger files that should not be in VCS (ex: should a colleague have committed by mistake a third-party archive, or unexpected data such as CSV files).</p>
 <p>Then install <a class="reference external" href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a>:</p>
 <pre class="code bash literal-block">
@@ -234,14 +240,14 @@ $ git push
 </div>
 </div>
 <div class="section" id="tools">
-<h1><a class="toc-backref" href="#id22">Tools</a></h1>
+<h1><a class="toc-backref" href="#id23">Tools</a></h1>
 <div class="section" id="on-most-platforms">
-<h2><a class="toc-backref" href="#id23">On Most Platforms</a></h2>
+<h2><a class="toc-backref" href="#id24">On Most Platforms</a></h2>
 <p>At least on UNIX, the command-line Git client (<tt class="docutils literal">git</tt>) is certainly the best tool. In difficult situations, graphical tools such as <tt class="docutils literal">gitk</tt> may be of help.</p>
 <p>See also our Ceylan-Hull section about <a class="reference external" href="https://hull.esperide.org/#for-version-control-system-vcs">VCS-related scripts</a>.</p>
 </div>
 <div class="section" id="on-windows">
-<h2><a class="toc-backref" href="#id24">On Windows</a></h2>
+<h2><a class="toc-backref" href="#id25">On Windows</a></h2>
 <p>Tools like <a class="reference external" href="https://tortoisegit.org/">TortoiseGit</a> may foster a view on the usage of Git that is a bit particular, conflating concepts or introducing extra ones (ex: a <tt class="docutils literal">sync</tt> command). Apparently also at least some pulls did not reintroduce files just removed from the working directory.</p>
 <p>More generally, cloning on a Windows host an UNIX-originating repository comprising symbolic links may induce oddities (ex: a symlink named <tt class="docutils literal">S</tt> pointing to <tt class="docutils literal">Foobar</tt> resulting, on a Windows clone, in a file named <tt class="docutils literal">S</tt> whose content is, literally, the text <tt class="docutils literal">&quot;Foobar&quot;</tt>, instead of the expected content of the <tt class="docutils literal">Foobar</tt> file).</p>
 <p>Another option is to use Visual Studio Code (<tt class="docutils literal">vscode</tt>), which supports natively Git (provided that the command-line version is already installed). One may select <tt class="docutils literal">View <span class="pre">-&gt;</span> SCM</tt> (or <tt class="docutils literal"><span class="pre">Ctrl-Shift-G</span></tt>) for that. Clicking on the &quot;VCS&quot; icon (three rings links by two curves; the third from the top) displays a contextual view offering various associated operations (here based on Git).</p>
@@ -249,14 +255,14 @@ $ git push
 </div>
 </div>
 <div class="section" id="inner-workings">
-<h1><a class="toc-backref" href="#id25">Inner Workings</a></h1>
+<h1><a class="toc-backref" href="#id26">Inner Workings</a></h1>
 <p>Git stores internally every version of every file separately (not as a diff with a parent version) as a blob (an opaque binary content) identified by its (SHA1) hash.</p>
 <p>A commit is the identifier of a tree representing the filesystem of interest at a given moment (snapshot). This tree references the files through their SHA1, similarly to a <a class="reference external" href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree</a>.</p>
 <p>A branch is thus nothing but a pointer on a given commit, and <tt class="docutils literal">HEAD</tt> designates the current branch. Git stores natively only blobs, trees and commits.</p>
 <p>The reported differences in the content of a file or a tree are thus only recreated (established dynamically) by Git commands, they are not natively tracked.</p>
 </div>
 <div class="section" id="translations">
-<h1><a class="toc-backref" href="#id26">Translations</a></h1>
+<h1><a class="toc-backref" href="#id27">Translations</a></h1>
 <p>From English to French:</p>
 <ul class="simple">
 <li><tt class="docutils literal">repository</tt> -&gt; <tt class="docutils literal">dépôt</tt></li>
@@ -272,7 +278,7 @@ $ git push
 </ul>
 </div>
 <div class="section" id="documentation">
-<h1><a class="toc-backref" href="#id27">Documentation</a></h1>
+<h1><a class="toc-backref" href="#id28">Documentation</a></h1>
 <p>Many pointers exist, doing a great job in unveiling how Git is to be used.</p>
 <p>In English, <a class="reference external" href="https://git-scm.com/book/en/v2">Pro GIT</a> is surely a reference.</p>
 <p>In French:</p>

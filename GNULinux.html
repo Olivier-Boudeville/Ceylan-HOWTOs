@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, January 9, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, February 2, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -36,17 +36,19 @@
 <div class="contents local topic" id="id1">
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#overview" id="id6">Overview</a></li>
-<li><a class="reference internal" href="#software-update" id="id7">Software Update</a></li>
-<li><a class="reference internal" href="#package-management" id="id8">Package Management</a><ul>
-<li><a class="reference internal" href="#configuration" id="id9">Configuration</a></li>
-<li><a class="reference internal" href="#package-related-commands" id="id10">Package-related Commands</a></li>
-<li><a class="reference internal" href="#interesting-packages" id="id11">Interesting Packages</a></li>
+<li><a class="reference internal" href="#overview" id="id4">Overview</a></li>
+<li><a class="reference internal" href="#software-update" id="id5">Software Update</a></li>
+<li><a class="reference internal" href="#package-management" id="id6">Package Management</a><ul>
+<li><a class="reference internal" href="#configuration" id="id7">Configuration</a></li>
+<li><a class="reference internal" href="#package-related-commands" id="id8">Package-related Commands</a></li>
+<li><a class="reference internal" href="#interesting-packages" id="id9">Interesting Packages</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#post-mortem-investigations" id="id12">Post-Mortem Investigations</a></li>
-<li><a class="reference internal" href="#quick-topics" id="id13">Quick Topics</a><ul>
-<li><a class="reference internal" href="#wine" id="id14">Wine</a></li>
+<li><a class="reference internal" href="#post-mortem-investigations" id="id10">Post-Mortem Investigations</a></li>
+<li><a class="reference internal" href="#quick-topics" id="id11">Quick Topics</a><ul>
+<li><a class="reference internal" href="#installing-wine" id="id12">Installing Wine</a></li>
+<li><a class="reference internal" href="#invalid-pgp-signatures-in-packages" id="id13">Invalid PGP Signatures in Packages</a></li>
+<li><a class="reference internal" href="#adding-a-locale" id="id14">Adding a Locale</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#see-also" id="id15">See Also</a></li>
@@ -54,14 +56,14 @@
 </div>
 <p><span class="raw-html"></center></span></p>
 <div class="section" id="overview">
-<h1><a class="toc-backref" href="#id6">Overview</a></h1>
+<h1><a class="toc-backref" href="#id4">Overview</a></h1>
 <p>GNU/Linux is our operating system of choice, for many reasons: it is in free software, it is efficient, trustable, reliable and controllable, its mode of operation does not change much over time so any time invested on it is well spent.</p>
 <p>Over the years we tried many distributions, including Ubuntu, Debian, Gentoo, Mint.</p>
 <p>Our personal all-time favorite is clearly <a class="reference external" href="https://en.wikipedia.org/wiki/Arch_Linux">Arch Linux</a>, because it leaves much control to its end user (not attempting to hide details that have to be mastered anyway), it is a &quot;clean&quot; one, driven by a skilled and knowledgeable community, and also because it is a rolling distribution: it updates constantly its packages <em>without needing to regularly upgrade the whole system</em>, which would jeopardise it in the same movement (global system updates rarely complete successfully and tend to be postponed because of the many problems they trigger; we found preferable to deal with issues incrementally on a live system - rather than on one that may fail to reboot properly).</p>
 <p>It ends up with a very stable, hassle-free distribution, with cutting-edge packages and higher uptimes (several months without needing to reboot), which is desirable for server-like usages.</p>
 </div>
 <div class="section" id="software-update">
-<h1><a class="toc-backref" href="#id7">Software Update</a></h1>
+<h1><a class="toc-backref" href="#id5">Software Update</a></h1>
 <p>The setup that we use is to perform <strong>automatic nightly updates</strong>. For that we use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-distro.sh">update-distro.sh</a> script, run through root's crontab as:</p>
 <pre class="code bash literal-block">
 $ crontab -l
@@ -142,9 +144,9 @@ $ shutdown-local-host.sh --reboot
 <p>The kernel packages, and possibly driver-related ones, will then only be properly updated before the host is rebooted.</p>
 </div>
 <div class="section" id="package-management">
-<h1><a class="toc-backref" href="#id8">Package Management</a></h1>
+<h1><a class="toc-backref" href="#id6">Package Management</a></h1>
 <div class="section" id="configuration">
-<h2><a class="toc-backref" href="#id9">Configuration</a></h2>
+<h2><a class="toc-backref" href="#id7">Configuration</a></h2>
 <p id="enabling-multilib">One may enable the <a class="reference external" href="https://wiki.archlinux.org/title/Official_repositories#multilib">multilib</a> repository, which is useful to run 32-bit software on 64-bit hardware. This is useful for example if needing <tt class="docutils literal">wine</tt>, knowing that its build from the AUR may fail.</p>
 <p>To enable multilib, uncomment in <tt class="docutils literal">/etc/pacman.conf</tt>:</p>
 <pre class="code bash literal-block">
@@ -154,22 +156,21 @@ $ shutdown-local-host.sh --reboot
 <p>then upgrade your system with <tt class="docutils literal">pacman <span class="pre">-Syu</span></tt>.</p>
 </div>
 <div class="section" id="package-related-commands">
-<h2><a class="toc-backref" href="#id10">Package-related Commands</a></h2>
+<h2><a class="toc-backref" href="#id8">Package-related Commands</a></h2>
 <ul class="simple">
 <li>to get information about a package (installed or not): <tt class="docutils literal">pacman <span class="pre">-Si</span> MY_PACKAGE</tt></li>
 <li>to list all packages explicitly installed and not required as dependencies: <tt class="docutils literal">pacman <span class="pre">-Qet</span></tt></li>
-<li>to determine which package installed a specified file: <tt class="docutils literal">pkgfile SOME_FILE</tt> <a class="footnote-reference" href="#id5" id="id4">[2]</a></li>
+<li>to determine which package installed a specified file:<ul>
+<li>on Arch: <tt class="docutils literal">pkgfile SOME_FILE</tt>; <tt class="docutils literal">pkgfile</tt> itself must have been installed beforehand, with <tt class="docutils literal">pacman <span class="pre">-S</span> pkgfile</tt>, and be updated, with <tt class="docutils literal">pkgfile <span class="pre">--update</span></tt> (still as root)</li>
+<li>on Debian: <tt class="docutils literal"><span class="pre">apt-file</span> search SOME_FILE</tt> after a similar initial install thanks to: <tt class="docutils literal">sudo <span class="pre">apt-get</span> install <span class="pre">apt-file</span> &amp;&amp; sudo <span class="pre">apt-file</span> update</tt></li>
+<li>for many distros, one may rely on the <a class="reference external" href="https://command-not-found.com/">command-not-found website</a></li>
 </ul>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[2]</a></td><td><tt class="docutils literal">pkgfile</tt> itself must have been installed beforehand, with <tt class="docutils literal">pacman <span class="pre">-S</span> pkgfile</tt>, and be updated, with <tt class="docutils literal">pkgfile <span class="pre">--update</span></tt> (still as root).</td></tr>
-</tbody>
-</table>
-<p>See <a class="reference external" href="https://wiki.archlinux.org/title/Pacman/Tips_and_tricks">this page</a> for many more commands.</p>
+</li>
+</ul>
+<p>See <a class="reference external" href="https://wiki.archlinux.org/title/Pacman/Tips_and_tricks">this page</a> for many more Arch-related commands.</p>
 </div>
 <div class="section" id="interesting-packages">
-<h2><a class="toc-backref" href="#id11">Interesting Packages</a></h2>
+<h2><a class="toc-backref" href="#id9">Interesting Packages</a></h2>
 <p>They might be lesser known:</p>
 <ul class="simple">
 <li><tt class="docutils literal">cpulimit</tt>: the way of limiting CPU usage of a given process, for example to avoid overheat (<tt class="docutils literal">nice</tt> just defines respective process priorities)</li>
@@ -183,7 +184,7 @@ $ shutdown-local-host.sh --reboot
 </div>
 </div>
 <div class="section" id="post-mortem-investigations">
-<span id="core-dumps"></span><h1><a class="toc-backref" href="#id12">Post-Mortem Investigations</a></h1>
+<span id="core-dumps"></span><h1><a class="toc-backref" href="#id10">Post-Mortem Investigations</a></h1>
 <p>Sometimes a UNIX process crashes and, typically if one developed it, one wants to investigate the issue, based on a core dump produced by the operating system.</p>
 <p>This <a class="reference external" href="https://wiki.archlinux.org/title/Core_dump">Arch Linux article</a> will give all relevant details.</p>
 <p>In short, <tt class="docutils literal">coredumpctl list</tt> will list all known core dumps from oldest to most recent, such as in:</p>
@@ -252,12 +253,33 @@ Program terminated with signal SIGSEGV, Segmentation fault.
 <p>From there, <a class="reference external" href="https://sourceware.org/gdb/current/onlinedocs/gdb/">standard gdb-fu</a> shall be sufficient to give much insight. Once done, use <tt class="docutils literal">q</tt> to quit.</p>
 </div>
 <div class="section" id="quick-topics">
-<h1><a class="toc-backref" href="#id13">Quick Topics</a></h1>
-<div class="section" id="wine">
-<h2><a class="toc-backref" href="#id14">Wine</a></h2>
+<h1><a class="toc-backref" href="#id11">Quick Topics</a></h1>
+<div class="section" id="installing-wine">
+<h2><a class="toc-backref" href="#id12">Installing Wine</a></h2>
 <p>Install it, once <a class="reference internal" href="#enabling-multilib">enabling multilib</a> has been done, with: <tt class="docutils literal">pacman <span class="pre">-S</span> wine</tt>.</p>
 <p>When run, this may lead <tt class="docutils literal"><span class="pre">wine-mono</span></tt> to be auto-installed.</p>
 <p>The pseudo-Windows filesystem is then located mostly in <tt class="docutils literal"><span class="pre">~/.wine/drive_c</span></tt>.</p>
+</div>
+<div class="section" id="invalid-pgp-signatures-in-packages">
+<h2><a class="toc-backref" href="#id13">Invalid PGP Signatures in Packages</a></h2>
+<p>This happens regularly, symptom being: <tt class="docutils literal">File /var/cache/pacman/pkg/xxx.pkg.tar.zst is corrupted (invalid or corrupted package (PGP signature))</tt>.</p>
+<p>Solution: <tt class="docutils literal">pacman <span class="pre">-S</span> <span class="pre">archlinux-keyring</span></tt> is at least often enough. Otherwise <tt class="docutils literal"><span class="pre">pacman-key</span> <span class="pre">--populate</span> archlinux</tt>, or changing mirror might help.</p>
+</div>
+<div class="section" id="adding-a-locale">
+<h2><a class="toc-backref" href="#id14">Adding a Locale</a></h2>
+<p>On some hosts, issues in terms of a lacking locales may be reported, like in the following:</p>
+<pre class="literal-block">
+bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+</pre>
+<p>This can be fixed by uncommenting the corresponding locale (<tt class="docutils literal"><span class="pre">en_US.UTF-8</span></tt> here) in <tt class="docutils literal">/etc/locale.gen</tt>, and then regenerating the system locales by running (as root) <tt class="docutils literal"><span class="pre">locale-gen</span></tt>:</p>
+<pre class="code bash literal-block">
+$ locale-gen
+Generating locales <span class="o">(</span>this might take a <span class="k">while</span><span class="o">)</span>...
+ en_US.UTF-8... <span class="k">done</span>
+ fr_FR.UTF-8... <span class="k">done</span>
+ fr_FR.ISO-8859-15&#64;euro... <span class="k">done</span>
+Generation complete.
+</pre>
 </div>
 </div>
 <div class="section" id="see-also">
