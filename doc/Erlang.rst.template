@@ -321,11 +321,17 @@ To avoid having to perform a lookup in the documentation:
 - Erlang indices start at ``1``, except the ones of the ``array`` module that are zero-based
 - for tuples of unknown number of elements:
 
-  - setting an element is to be done with ``setelement(positive_index(), tuple(), term()) -> tuple()``
-  - extracting an element is to be done with ``element(positive_index(), tuple()) -> term()``
+  - **setting** an element is to be done with ``setelement(positive_index(), tuple(), term()) -> tuple()``
+  - **extracting** an element is to be done with ``element(positive_index(), tuple()) -> term()``
+  - **adding** an element at a given index (ex: to append a record tag) is to be done with ``erlang:insert_element(positive_index(), tuple(), term()) -> tuple()``
 
-(no need for the ``erlang`` module to be explicitly specified, as both functions are auto-imported)
+  - **removing** an element at a given index (ex: to chop a record tag) is to be done with ``erlang:delete_element(positive_index(), tuple()) -> tuple()``
 
+(no need for the ``erlang`` module to be explicitly specified for the first two functions, as both are auto-imported)
+
+- the two tables (test/others) of the `BIFs supported in guards expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions>`_
+
+- `operator precedence <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_
 
 
 
