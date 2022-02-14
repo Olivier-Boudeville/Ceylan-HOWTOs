@@ -473,6 +473,13 @@ Then the log message will become:
 
 
 
+The Compressonator
+==================
+
+The `Compressonator <https://gpuopen.com/compressonator/>`_ is an AMD tool (as a GUI, a command-line executable and a SDK) designed to compress textures (ex: in DXT1, DXT3 or DXT5 formats; typically resulting in a ``.dds`` extension) and generate mipmaps ahead of time, so that it does not have to be done at runtime.
+
+
+
 F3D
 ===
 
@@ -491,13 +498,24 @@ OpenGL Corner
 Conventions
 ===========
 
+Refer to our `Mini OpenGL Glossary`_ for most of the terms used in these sections.
+
 Code snippets will corresponds to the OpenGL/GLU APIs as they are exposed in Erlang, in the `gl <https://www.erlang.org/doc/man/gl.html>`_ and `glu <https://www.erlang.org/doc/man/glu.html>`_ modules respectively.
 
 These translate easily for instance in the vanilla C GL/GLU implementations. As an example, `gl:ortho/6 <https://www.erlang.org/doc/man/gl.html#ortho-6>`_ (``6`` designating here the arity of that function, i.e. the number of the arguments that it takes) corresponds to its C counterpart, `glOrtho <https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glOrtho.xml>`_.
 
-The reference pages for OpenGL (in version 2.1) can be `browsed here <https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/>`_.
+The reference pages for OpenGL (in version 4.x) can be `browsed here <https://www.khronos.org/registry/OpenGL-Refpages/gl4/>`_.
+
+Note that initially the information here related to older versions of OpenGL (1.1, 2.1, etc.; see `history <https://www.khronos.org/opengl/wiki/History_of_OpenGL>`_) that relied on a fixed pipeline (no shader support) - whereas, starting from OpenGL 3.0, many of the corresponding features were designated as deprecated, and actually removed in 3.1. However, thanks to the *compatibility context* (whose support is not mandatory - but that all major implementations of OpenGL provide), these features can still be used.
+
+Yet nowadays relying on at least OpenGL 3 core context (not using the compatibility context) would be preferable (source: `this thread <https://erlangforums.com/t/no-gl-get-1/1035>`_). Still better options would be OpenGL 4 Core or OpenGL ES 2+, or libraries on top of `Vulkan <https://en.wikipedia.org/wiki/Vulkan>`_, like `wgpu <https://github.com/gfx-rs/wgpu>`_. Specific libraries also exist for rendering for the web and for mobile, like `WebGPU <https://www.w3.org/TR/webgpu/>`_.
+
+As of 2022, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (ex: skipping intermediate changes in 3.2).
+
+For more general-purpose computations (as opposed to rendering operations) to be offset to a GPU/GPGU, one may rely on `OpenCL <https://en.wikipedia.org/wiki/OpenCL>`_ instead.
 
 The mentioned tests will be `Ceylan-Myriad <http://myriad.esperide.org>`_ ones, typically located `here <https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/test/user-interface/graphical>`_.
+
 
 
 
@@ -679,6 +697,7 @@ Terms that are more or less specific to OpenGL:
 - ``Accumulation buffer``: a buffer that may be used for scene antialiasing; the scene is rendered several times, each time jittered less than one pixel, and the images are accumulated and then averaged
 - ``Alpha Test``: to reject fragments based on their alpha coordinate; useful to reduce the number of fragments rendered through transparent surfaces
 - ``Context``: a rendering context corresponds to the OpenGL state and the connection between OpenGL and the system; in order to perform rendering, a suitable context must be current (i.e. bound, active for the OpenGL commands); it is possible to have multiple rendering contexts share buffer data and textures, which is specially useful when the application use multiple threads for updating data into the memory of the graphics card
+- ``DDS``: a file format suitable for texture compression that can be directly read by the GPU
 - ``Display list``: a series of OpenGL commands, identified by an integer, to be stored (server-side) for subsequent execution; it is defined so that it can be sent and processed more efficiently, and probably multiple times, by the graphic card (compared to doing the same in immediate mode)
 - (pixel) ``fragment``: two-dimensional description of elements (point, line segment, or polygon) produced by the rasterization step, before being stored as pixels in the frame buffer; also defined as: "a point and its associated information"; a fragment translates to a pixel after a process involving in turn: texture mapping, fog effect, antialiasing, tests (scissor, alpha, stencil, depth), blending, dithering, and logical operations on fragments (and, or, xor, not, etc.)
 - ``Evaluator``: the part of the pipeline to perform polynomial mapping (basis functions) and transform higher-level primitives (such as NURBS) into actual ones (vertices, normals, texture coordinates and colors)
@@ -687,14 +706,22 @@ Terms that are more or less specific to OpenGL:
 - ``GLU``: *OpenGL Utility Library*, a standard part of every OpenGL implementation, providing auxiliary features (ex:image scaling, automatic mipmapping, setting up matrices for specific viewing orientations and projections, performing polygon tessellation, rendering surfaces, supporting quadrics routines that create spheres, cylinders, cones, etc.); see `this page <https://www.glprogramming.com/blue/ch02.html#id24847>`_ for more information
 - ``GLUT``, *OpenGL Utility Toolkit*, a window system-independent toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, nowadays is less used
 - ``GLX``: the X extension of the OpenGL interface, i.e. a solution to integrate OpenGL to X servers; see `this page <https://www.glprogramming.com/blue/ch02.html#id86751>`_ for more information
+- ``GLSL``: `OpenGL Shading Language <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>`_, a C-like language with which the transformation and fragment shading stages of the pipeline can be programmed; introduced in OpenGL 2.0
+- ``OpenCL``: `Open Computing Language <https://en.wikipedia.org/wiki/OpenCL>`_, a framework for writing programs that execute across heterogeneous platforms: central processing units (CPUs), graphics processing units (GPUs), digital signal processors (DSPs), field-programmable gate arrays (FPGAs) and other processors or hardware accelerators; in practice OpenCL defines programming languages, deriving from C and C++, for these devices, and APIs to control the platform and execute programs on the compute devices; OpenGL defines a standard interface for parallel computing using task- and data-based parallelism
+- ``OpenGL ES``: `OpenGL for Embedded Systems <https://en.wikipedia.org/wiki/OpenGL_ES>`_ is a subset of the OpenGL API, designed for embedded systems (like smartphones, tablet computers, video game consoles and PDAs)
 - ``Pixel``: *Picture Element*
 - ``Primitive``: points, lines, polygons, images, and bitmaps
 - (geometric) ``Primitives``: they are (exactly) points, lines, and polygons
 - ``Rasterization``: the process by which a primitive is converted to a two-dimensional image
 - ``Scissor Test``: an arbitrary screen-aligned rectangle outside of which fragments will be discarded; useful to clear or update only a part of the viewport
+- ``Shader``: a user-defined program providing the code for some programmable stages of the rendering pipeline; they can also be used in a slightly more limited form for general, on-GPU computation (`source <https://www.khronos.org/opengl/wiki/Shader>`_)
 - ``Stencil Test``: conditionally discards a fragment based on the outcome of a selected comparison between the value in the stencil buffer and a reference value; useful to perform non-rectangular clipping
 - ``Texel``: *Texture Element* ; it corresponds to a ``(s,t)`` pair of coordinates in ``[0,1]`` designating a point in a texture
 - ``Vertex Array``: these in-memory client-side arrays may aggregate 6 types of data (vertex coordinates, RGBA colors, color indices, surface normals, texture coordinates, polygon edge flags), possibly interleaved; such arrays allow to reduce the number of calls to OpenGL functions, and also to share elements (ex: vertices pertaining to multiple faces should preferably be defined only once); in a non-networked setting, the GPU just dereferences the corresponding pointers
+- ``Vulkan``: a low-overhead, cross-platform API, open standard for 3D graphics and computing; it is intended to offer higher performance and more balanced CPU and GPU usage than the OpenGL or Direct3D 11 APIs; it is lower-level than OpenGL, and not backwards compatible with it (`source <https://en.wikipedia.org/wiki/Vulkan>`_)
+- ``VAO``: a (GLSL) *Vertex Array Object* (OpenGL 4.x), able to store multiple VBOs ; `more information <http://www.swiftless.com/tutorials/opengl4/4-opengl-4-vao.html>`_
+- ``VBO``: a (GLSL) *Vertex Buffer object*
+
 
 Refer to the `description of the pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ for further details.
 
@@ -735,8 +762,7 @@ Another option - still with axes respecting the MyriadGUI 2D conventions - is to
  gl:matrixMode( ?GL_PROJECTION ),
  gl:loadIdentity(),
 
- gl:ortho( _Left=0.0, _Right=1.0, _Bottom=1.0, _Top=0.0, _Near=-1.0,
-   _Far=1.0 )
+ gl:ortho( _Left=0.0, _Right=1.0, _Bottom=1.0, _Top=0.0, _Near=-1.0, _Far=1.0 )
 
 
 Using "stable", device-independent floats instead of integers directly accounting for pixels may be more convenient. For example a resizing of the viewport will then not require an update of the projection matrix. One may refer to ``gui_opengl_minimal_test.erl`` for a full example thereof.
@@ -960,6 +986,78 @@ Taking into account the last rendering step, the *projection* (comprising clippi
 
 
 
+Shaders
+=======
+
+
+A Programmable Pipeline
+-----------------------
+
+Shaders are the basic rendering building blocks of applications using modern OpenGL (ex: 3.x/4.0).
+
+Such an application will indeed program its own shaders, instead of calling functions like ``glBegin()/glEnd()``, as it was done with OpenGL 1.x-2.x and its fixed-pipeline immediate mode.
+
+This mode of operation, albeit more complex, offers more control and enables increased performances.
+
+
+Six Types of GLSL Shaders
+-------------------------
+
+Shaders are written in the **GLSL** language, i.e. the `OpenGL Shading Language <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>`_.
+
+They are portions of C-like code that can be inserted in the rendering pipeline implemented by the OpenGL driver of a GPU card. Six different kinds of shaders can be defined, depending on the processing step that they implement and on their purpose: vertex, tessellation for control or for evaluation, geometry, fragment or compute shaders.
+
+Except this last type (compute shader), all types are mostly dedicated to *rendering*. If wanting to perform on one's GPU more general-purpose processing, `OpenCL <https://en.wikipedia.org/wiki/OpenCL>`_ shall be preferred to GLSL.
+
+
+Runtime Build
+-------------
+
+Shaders are compiled at (application) runtime [#]_ (to target exactly the actual hardware), then linked and attached to a separate program running on the GPU. This is fairly low-level, black-box direct programming, in sharp contrast with the reliance on APIs that used to be the norm with OpenGL 1.x.
+
+.. [#] So each shader is built each time the application is started, and the operation may fail (ex: with ``0(40) : error C1503: undefined variable "foobar"``).
+
+
+Communicating with Shaders
+--------------------------
+
+Of course the application must have a way to supply information to its shaders (the other way round is less usual, except for compute shaders).
+
+This can be done thanks to user-defined attributes, whose layout, based on indices, must match on either side; for example, with ``layout(location = 0) in vec3 input_vertex;``, a vertex shader will expect a (single) vector of 3 coordinates to be found at index 0 as input; the application will need to specify a corresponding *Vertex Buffer Object* (VBO).
+
+As for output, for example a fragment shader must return the color that it computed; ``out vec3 my_color;`` declares that, and the shader code may be as simple as returning a constant color in all cases, like in:
+
+.. code:: glsl
+
+ #version 330 core
+ out vec3 my_color;
+
+ void main()
+ {
+	// Same color returned for all fragments:
+	my_color = vec3(0.05, 0.2, 0.67);
+ }
+
+
+If a given program is linked with two shaders, a vertex one and a fragment one, the former one will probably have to pass its outputs as inputs of the latter one; this requires as many variables defined on either sides, with relevant out/in specifications, and a matching name and type; for example the vertex shader will declare ``out vec3 my_Color;`` whereas the fragment shader will declare ``in vec3 my_Color;``.
+
+
+In practice, each homogeneous chunk of data to be sent to the GPU (vertices, normals, colors) is stored in an array corresponding to a VBO, itself stored in a *Vertex Array Object* (VAO).
+
+Named user-defined attributes may also be declared, so that a shader can access variables prepared by the application.
+
+Finally, depending on the type of a shader, some predefined variables may be defined (ex: for a vertex shader, ``gl_Position`` is a predefined vec4 output corresponding to the clip-space output position of the current vertex).
+
+
+Managing Spatial Transformations
+--------------------------------
+
+Modern OpenGL (and GLU) implementations basically dropped the direct matrix support (the so-called immediate mode does not exist anymore, except in a compatibility context). So no more calls to ``glTranslate``, ``glRotate``, ``glLoadIdentity`` or ``gluPerspective`` shall be done; now the application has to compute such matrices (for model, view, texture, normal, projection, etc.) by itself (on the CPU), as inputs to its GLSL shaders.
+
+For that, applications may use dedicated, separate libraries, such as, in C/C++, GLM, i.e. `OpenGL Mathematics <https://github.com/g-truc/glm>`_ (Myriad's `linear support <http://myriad.esperide.org/#spatial-support>`_ aims to provide, in Erlang, a relevant subset of these operations).
+
+
+
 More Advanced Topics
 ====================
 
@@ -980,10 +1078,16 @@ Sources of Information
 
 The reference pages for the various versions of OpenGL are `available on the Khronos official website <https://www.khronos.org/registry/OpenGL-Refpages/>`_.
 
-Two very well-written books, strongly recommended, that are still perfectly relevant despite their old age (circa 1996):
+Two very well-written books, strongly recommended, that are still relevant for 3D graphics despite their old age (circa 1996; for OpenGL 1.1):
 
 - *The Official Guide to Learning OpenGL*: the `OpenGL Red book <https://www.glprogramming.com/red/index.html>`_
 - *The OpenGL Reference Manual*: the `OpenGL Blue book <https://www.glprogramming.com/blue/index.html>`_
+
+More modern tutorials (applying to OpenGL 3.3 and later) are:
+
+- `Swiftless OpenGL 4 Tutorials <http://www.swiftless.com/opengl4tuts.html>`_
+- `Opengl-tutorial <http://www.opengl-tutorial.org/>`_
+- `Learn OpenGL <https://learnopengl.com/>`_
 
 
 Other elements of interest:
