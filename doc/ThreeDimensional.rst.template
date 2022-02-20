@@ -418,9 +418,20 @@ We recommend the use our `Blender scripts <http://hull.esperide.org#blender>`_ i
 Wings3D
 =======
 
-`Wings3D <https://en.wikipedia.org/wiki/Wings_3D>`_ is a nice, Erlang-based, free software subdivision modeler.
+`Wings3D <https://en.wikipedia.org/wiki/Wings_3D>`_ is a nice, Erlang-based, free software, advanced subdivision *modeler* [#]_, available for Windows, Linux, and Mac OS X. Wings3D relies on OpenGL.
 
-It can be installed on Arch Linux, from the AUR, as ``wings3d``.
+.. [#] As opposed to *renderer*; yet Wings3D integrates an OpenCL renderer as well, deriving from `LuxCoreRender <https://luxcorerender.org/>`_, an open-source Physically Based Renderer (it simulates the flow of light according to physical equations, thus producing realistic images of photographic quality).
+
+It can be installed on Arch Linux, from the AUR, as ``wings3d``; one can also rely on our `Wings3D scripts <https://hull.esperide.org/#wings3d>`_ in order to install and/or execute it.
+
+We prefer using the `Blender-like camera navigation conventions <#blender-conventions>`_, which can be set in Wings3D by selecting ``Edit -> Preferences -> Camera -> Camera Mode`` to ``Blender``.
+
+
+See also:
+
+- its `official website <http://www.wings3d.com/>`_
+- its `development project <https://github.com/dgud/wings>`_
+- its `build instructions for UNIX-like systems <https://github.com/dgud/wings/blob/master/BUILD.unix>`_
 
 
 
@@ -510,9 +521,9 @@ Note that initially the information here related to older versions of OpenGL (1.
 
 Yet nowadays relying on at least OpenGL 3 core context (not using the compatibility context) would be preferable (source: `this thread <https://erlangforums.com/t/no-gl-get-1/1035>`_). Still better options would be OpenGL 4 Core or OpenGL ES 2+, or libraries on top of `Vulkan <https://en.wikipedia.org/wiki/Vulkan>`_, like `wgpu <https://github.com/gfx-rs/wgpu>`_. Specific libraries also exist for rendering for the web and for mobile, like `WebGPU <https://www.w3.org/TR/webgpu/>`_.
 
-As of 2022, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (ex: skipping intermediate changes in 3.2).
+As of 2022, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (ex: skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum we target is the Core Profile of OpenGL 3.3, which introduced most features that still apply.
 
-For more general-purpose computations (as opposed to rendering operations) to be offset to a GPU/GPGU, one may rely on `OpenCL <https://en.wikipedia.org/wiki/OpenCL>`_ instead.
+For more general-purpose computations (as opposed to rendering operations) to be offset to a GPU/GPGU, one may rely on `OpenCL <Erlang.html#opencl>`_ instead.
 
 The mentioned tests will be `Ceylan-Myriad <http://myriad.esperide.org>`_ ones, typically located `here <https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/test/user-interface/graphical>`_.
 
@@ -522,7 +533,8 @@ The mentioned tests will be `Ceylan-Myriad <http://myriad.esperide.org>`_ ones, 
 Basics
 ------
 
-- OpenGL is a **software interface to graphics hardware**, i.e. an API of around 150 functions (version 1.1)
+- OpenGL is a **software interface to graphics hardware**, i.e. the *specification* of an API 'of around 150 functions in its older version 1.1), developed and maintained by the `Khronos Group <https://www.khronos.org/>`_
+- a video card will run an *implementation* of that specification, generally developed by the manufacturer of that card; a good rule of thumb is to always update one's video card drivers to its **latest stable version**, as OpenGL implementations are constantly improved (bug-fixing) and updated (with regard to newer OpenGL versions)
 - OpenGL concentrates on **hardware-independent 2D/3D rendering**; no commands for performing window-related tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the windowing system
 - OpenGL offers only **low-level primitives** organised through a `pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such OpenGL is a building-block for higher-level engines (ex: like Godot_)
 - OpenGL is a **procedural** (function-based, not object-oriented) **state machine** comprising a larger number of variables defined within a given OpenGL state (named *OpenGL context*; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts as long as it is not modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set)
@@ -706,8 +718,8 @@ Terms that are more or less specific to OpenGL:
 - ``GLU``: *OpenGL Utility Library*, a standard part of every OpenGL implementation, providing auxiliary features (ex:image scaling, automatic mipmapping, setting up matrices for specific viewing orientations and projections, performing polygon tessellation, rendering surfaces, supporting quadrics routines that create spheres, cylinders, cones, etc.); see `this page <https://www.glprogramming.com/blue/ch02.html#id24847>`_ for more information
 - ``GLUT``, *OpenGL Utility Toolkit*, a window system-independent toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, nowadays is less used
 - ``GLX``: the X extension of the OpenGL interface, i.e. a solution to integrate OpenGL to X servers; see `this page <https://www.glprogramming.com/blue/ch02.html#id86751>`_ for more information
-- ``GLSL``: `OpenGL Shading Language <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>`_, a C-like language with which the transformation and fragment shading stages of the pipeline can be programmed; introduced in OpenGL 2.0
-- ``OpenCL``: `Open Computing Language <https://en.wikipedia.org/wiki/OpenCL>`_, a framework for writing programs that execute across heterogeneous platforms: central processing units (CPUs), graphics processing units (GPUs), digital signal processors (DSPs), field-programmable gate arrays (FPGAs) and other processors or hardware accelerators; in practice OpenCL defines programming languages, deriving from C and C++, for these devices, and APIs to control the platform and execute programs on the compute devices; OpenGL defines a standard interface for parallel computing using task- and data-based parallelism
+- ``GLSL``: `OpenGL Shading Language <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>`_, a C-like language with which the transformation and fragment shading stages of the pipeline can be programmed; introduced in OpenGL 2.0; see `our GLSL section <#glsl>`_
+- ``OpenCL``: `Open Computing Language <https://en.wikipedia.org/wiki/OpenCL>`_, a framework for writing programs that execute across heterogeneous platforms: central processing units (CPUs), graphics processing units (GPUs), digital signal processors (DSPs), field-programmable gate arrays (FPGAs) and other processors or hardware accelerators; in practice OpenCL defines programming languages, deriving from C and C++, for these devices, and APIs to control the platform and execute programs on the compute devices; OpenGL defines a standard interface for parallel computing using task- and data-based parallelism; see also `our Erlang-related section <Erlang.html#opencl>`_
 - ``OpenGL ES``: `OpenGL for Embedded Systems <https://en.wikipedia.org/wiki/OpenGL_ES>`_ is a subset of the OpenGL API, designed for embedded systems (like smartphones, tablet computers, video game consoles and PDAs)
 - ``Pixel``: *Picture Element*
 - ``Primitive``: points, lines, polygons, images, and bitmaps
@@ -1010,12 +1022,17 @@ They are portions of C-like code that can be inserted in the rendering pipeline 
 Except this last type (compute shader), all types are mostly dedicated to *rendering*. If wanting to perform on one's GPU more general-purpose processing, `OpenCL <https://en.wikipedia.org/wiki/OpenCL>`_ shall be preferred to GLSL.
 
 
+
 Runtime Build
 -------------
 
 Shaders are compiled at (application) runtime [#]_ (to target exactly the actual hardware), then linked and attached to a separate program running on the GPU. This is fairly low-level, black-box direct programming, in sharp contrast with the reliance on APIs that used to be the norm with OpenGL 1.x.
 
 .. [#] So each shader is built each time the application is started, and the operation may fail (ex: with ``0(40) : error C1503: undefined variable "foobar"``).
+
+
+Yet offline compilers exist as well, as well as debuggers (like the NVIDIA NsightShader Debugger).
+
 
 
 Communicating with Shaders
@@ -1041,12 +1058,41 @@ As for output, for example a fragment shader must return the color that it compu
 
 If a given program is linked with two shaders, a vertex one and a fragment one, the former one will probably have to pass its outputs as inputs of the latter one; this requires as many variables defined on either sides, with relevant out/in specifications, and a matching name and type; for example the vertex shader will declare ``out vec3 my_Color;`` whereas the fragment shader will declare ``in vec3 my_Color;``.
 
+Instead of relying on user-defined attributes, an alternate way of passing information that may change relatively infrequently is to use *uniform variables*, thanks to:
 
-In practice, each homogeneous chunk of data to be sent to the GPU (vertices, normals, colors) is stored in an array corresponding to a VBO, itself stored in a *Vertex Array Object* (VAO).
+- the ``uniform`` qualifier on the shader-side, like in ``uniform mat4 MyMatrix;``
+
+- a ``glGetUniformLocation`` call on the application-side, to create a location associated to a name (ex: ``MyMatrix``), and to associate it to a given value, like in:
+
+.. code:: glsl
+
+ mat4 someMatrix = [...];
+
+ GLuint location = glGetUniformLocation(programId, "MyMatrix");
+
+ if( location >= 0 )
+ {
+	// A single matrix (1), not to transpose (GL_FALSE):
+	glUniformMatrix4fv(location, 1, GL_FALSE, &someMatrix[0][0]);
+	[...]
+
+
+
+From the point of view of a shader, these named input variables may be initialised when declared, but then are read-only; these variables are global, in the sense that they are common to all the shaders linked to a given program.
 
 Named user-defined attributes may also be declared, so that a shader can access variables prepared by the application.
 
+In practice, each homogeneous chunk of data to be sent to the GPU (vertices, normals, colors) is stored in an array corresponding to a VBO, itself stored in a *Vertex Array Object* (VAO). So a VAO may gather vertex data and colour data in separate VBOs, and store them on the graphics card for any later use (as opposed to streaming vertices through to the graphics card when they become needed).A VAO is only meant to hold one array of vertices and each other VBO is for per-vertex attributes.
+
+
 Finally, depending on the type of a shader, some predefined variables may be defined (ex: for a vertex shader, ``gl_Position`` is a predefined vec4 output corresponding to the clip-space output position of the current vertex).
+
+
+Examples of Shaders
+-------------------
+
+See the `ones of Wings3D <https://github.com/dgud/wings/tree/master/shaders>`_ (in GLSL "1.2" apparently, presumably for maximum backward compatibility; note that some elements are OpenCL ones).
+
 
 
 Managing Spatial Transformations
@@ -1085,13 +1131,15 @@ Two very well-written books, strongly recommended, that are still relevant for 3
 
 More modern tutorials (applying to OpenGL 3.3 and later) are:
 
-- `Swiftless OpenGL 4 Tutorials <http://www.swiftless.com/opengl4tuts.html>`_
 - `Opengl-tutorial <http://www.opengl-tutorial.org/>`_
 - `Learn OpenGL <https://learnopengl.com/>`_
+
+.. Not good enough? `Swiftless OpenGL 4 Tutorials <http://www.swiftless.com/opengl4tuts.html>`_
 
 
 Other elements of interest:
 
+- the `OpenGL 3.3 Specification (Core Profile) <https://www.opengl.org/registry/doc/glspec33.core.20100311.withchanges.pdf>`_ (the 425-page reference PDF)
 - FAQ for `OpenGL <https://www.khronos.org/opengl/wiki/FAQ>`_ and `GLUT <https://www.opengl.org/resources/libraries/glut/faq/>`_
 - the (archived) `OpenGL FAQ and Troubleshooting Guide <https://www.opengl.org/archives/resources/faq/technical/>`_, containing much valuable information, including regarding `transformations <https://www.opengl.org/archives/resources/faq/technical/transformations.htm>`_
 - About `OpenGL Performance <https://www.khronos.org/opengl/wiki/Performance>`_
@@ -1131,6 +1179,28 @@ If using a NVidia graphic card, consider reading this `Arch Linux wiki page <htt
 In our case, installation could be done with ``pacman -Sy nvidia nvidia-utils`` but requested a reboot.
 
 Despite package dependencies and a not-so-successful attempt of using DKMS in order to link kernel updates with graphic controller updates, too often a proper 3D support was lost, either from the boot or afterwards. Refer to our `software update section <GNULinux.html#software-update>`_ for hints in order to secure the durable use of proper drivers.
+
+
+
+------------
+Minor Topics
+------------
+
+
+Camera Navigation Conventions
+=============================
+
+Multiple tools introduced conventions in order to navigate, with mouse and keyboard, in a 3D world.
+
+.. _`Blender conventions`:
+
+We prefer the way Blender manages the observer viewpoint (current camera), as `described here <https://docs.blender.org/manual/en/latest/editors/3dview/navigate/navigation.html>`_; notably, supposing a three-button mouse with a scrollwheel:
+
+- ``orbit the view around the currently selected object`` (or ``Tumble``) by holding the middle button down and moving the mouse
+- ``pan`` (moving the view up, down, left and right) by holding down Shift and the middle button, and moving the mouse
+- ``zoom in/out`` with the scrollwheel; a variation of it, ``Dolly``, can be obtained by holding down Ctrl and the middle button, and moving the mouse
+
+
 
 
 

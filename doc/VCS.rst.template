@@ -229,7 +229,6 @@ Rather than creating it from a pre-existing branch and removing all inherited co
 
 
 
-
 Listing differences with prior versions of a file
 .................................................
 
@@ -295,6 +294,23 @@ The repository may be then cleaned up (ex: from large, unnecessary CSV files) in
  $ git push
 
 Then all developers shall be requested to perform a new clone and to check the fetched content (ex: with regard to the content of the last branch in which they committed).
+
+
+
+Fixing LF vs CRLF End of Line Problems
+......................................
+
+Use `Git Attributes <https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes>`_ to specify proper files and paths attributes.
+
+One may define a ``.gitattributes`` file for example with ``*.js eol=lf``, ``* text=auto``, or:
+
+.. code:: bash
+
+ # No CRLF conversion for DOS/Windows batch files.
+ # They should be stored with the CRLF line terminators.
+ #
+ *.bat -crlf
+
 
 
 

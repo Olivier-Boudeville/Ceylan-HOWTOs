@@ -333,6 +333,35 @@ This can be fixed by uncommenting the corresponding locale (``en_US.UTF-8`` here
 
 
 
+Shortcuts
+---------
+
+Listing here the main keyboard shortcuts of interest for a few base tools.
+
+
+For ``less``
+============
+
+Mix of ``vi`` / ``more`` conventions, in order to:
+
+- **forward-search** for the N-th line containing the pattern (N defaults to 1): ``/pattern``; use ``?/pattern`` to **backward-search**
+- **repeat previous search**: ``n``:
+- **invoke an editor** on the current file being viewed: ``v``
+- **go to next file**: ``:n``; for the **previous** one: ``:p``
+- **help**: ``h``
+- **quit**: ``q``
+
+
+For ``mplayer``
+===============
+
+- **pause/unpause** the current playback: ``<space>``
+- **decrease the volume**: ``/``; to **increase** it: ``*``
+- **go backward/forward** in the current playback: ``left`` and ``right arrow`` keys
+- **jump to next playback**: ``<Enter>`` or ``<Escape>``
+- **stop** all playbacks: ``<CTRL-C>``
+
+
 See Also
 ========
 
