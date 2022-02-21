@@ -124,7 +124,7 @@ We rely on the markup conventions exposed in `this demonstration <https://github
 
 From the top-level title to the most nested ones:
 
-- ``=``'', on top and below the title (document title)
+- ``=``, on top and below the title (document title)
 - ``-``, on top and below the title (document subtitle)
 - ``=``, below the title (H1)
 - ``-``, below the title (H2)
@@ -133,6 +133,20 @@ From the top-level title to the most nested ones:
 - ``*``, below the title (H5)
 - ``:``, below the title (H6)
 - ``+``, below the title (H7)
+
+
+
+Image Sizes
+-----------
+
+Responsive images, i.e. images that automatically adjust to fit the size of the screen, can be used. They are then defined for example thanks to:
+
+.. code:: html
+
+ <img src="foobar.png" id="responsive-image-large"></img>
+
+
+Various standard sizes have been defined, all prefixed with ``responsive-image-``; from the biggest (95%) to the smallest (10%), as defined for example in `myriad.css <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/myriad.css>`_, they are: ``full``, ``large``, ``intermediate``, ``medium``, ``reduced``, ``small``, ``tiny``, ``xsmall``.
 
 
 
