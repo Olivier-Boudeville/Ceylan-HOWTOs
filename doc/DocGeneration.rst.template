@@ -215,6 +215,16 @@ For example, in order to convert a page written in Mediawiki syntax, whose sourc
 
 Then the content in ``converted-content.gfm`` file can be pasted in the target GitLab wiki page.
 
+Another example is the conversion of a GitLab wiki page into a RST document (ex: then for a PDF generation):
+
+.. code:: bash
+
+ $ pandoc my-gitlab-wiki-extract.gfm --from=gfm --to=rst --standalone -o my-converted-content.rst
+
+ # Or, for older versions of pandoc not supporting a gfm reader:
+ $ pandoc my-gitlab-wiki-extract.gfm --from=markdown_github --to=rst --standalone -o my-converted-content.rst
+
+
 The lists of the input and output formats supported by Pandoc and of their corresponding command-line options is specified `here <https://pandoc.org/MANUAL.html#general-options>`_.
 
 These options are also returned by: ``pandoc --list-input-formats`` and ``pandoc --list-output-formats`` (or, for older versions of pandoc, thanks to ``pandoc --help``).
