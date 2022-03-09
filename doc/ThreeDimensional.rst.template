@@ -521,7 +521,7 @@ Note that initially the information here related to older versions of OpenGL (1.
 
 Yet nowadays relying on at least OpenGL 3 core context (not using the compatibility context) would be preferable (source: `this thread <https://erlangforums.com/t/no-gl-get-1/1035>`_). Still better options would be OpenGL 4 Core or OpenGL ES 2+, or libraries on top of `Vulkan <https://en.wikipedia.org/wiki/Vulkan>`_, like `wgpu <https://github.com/gfx-rs/wgpu>`_. Specific libraries also exist for rendering for the web and for mobile, like `WebGPU <https://www.w3.org/TR/webgpu/>`_.
 
-As of 2022, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (ex: skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum we target is the Core Profile of OpenGL 3.3, which introduced most features that still apply.
+As of 2022, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (ex: skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum that we target is the Core Profile of OpenGL 3.3, which is "modern OpenGL" and introduced most features that still apply (and will halt on error if any deprecated functionality is used).
 
 For more general-purpose computations (as opposed to rendering operations) to be offset to a GPU/GPGU, one may rely on `OpenCL <Erlang.html#opencl>`_ instead.
 
@@ -701,6 +701,18 @@ In order to switch from (OpenGL) Y-up conventions to Z-up ones, another option i
 For example, if we want that this camera sees, in (Z-up) MyriadGUI referential, a point ``P`` at coordinates :math:`P_{zup}=\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}` (thus a point in its Y axis), its coordinates in the base OpenGL (Y-up) referential must be :math:`P_{yup} = P_{zup{\rightarrow}yup}.P_{zup} = \begin{bmatrix} 0 \\ 0 \\ -1 \end{bmatrix}` ; refer to the `Computing Transition Matrices`_ section for more information.
 
 
+
+Hints
+-----
+
+- a frequent pattern is, for some type of OpenGL element (let's name it ``Foo``; it could designate for example ``Texture``), first ``glGenObject(1, &fooId);`` is used, then ``glBindObject(GL_SOME_TARGET, objectId);``
+
+  - it must be understood that ``glGenObject`` is the actual creator of a new (blank) instance of ``Foo``, whose address is kept by OpenGL behind the scenes; the user program is only to access this instance through an additional level of indirection, its (GL) identifier
+  - as for ``glBindObject``, its role is to register the ``Foo`` pointer corresponding to the specified identifier ``fooId`` in the C-like struct that corresponds to the current context (i.e. the current state of OpenGL), in the field designated here by ``GL_SOME_TARGET``, like in: ``current_gl_context->gl_some_target = foo_pointer_for(fooId)``
+  - once bound, this ``Foo`` instance can be accessed implicitly (through the current context) by calls such as ``glSetFooOption(GL_SOME_TARGET, GL_OPTION_FOO_WIDTH,  800);`` (where neither its identifier nor any pointer for it is specified); once done this instance can be unbound with ``glBindObject(GL_SOME_TARGET, 0);``; rebinding that identifier later will restore the corresponding options; as a result, several instances can be created, corresponding to as many sets of predefined options, and when a given one shall apply it just has to be bound
+
+
+
 Mini OpenGL Glossary
 --------------------
 
@@ -730,6 +742,7 @@ Terms that are more or less specific to OpenGL:
 - ``Stencil Test``: conditionally discards a fragment based on the outcome of a selected comparison between the value in the stencil buffer and a reference value; useful to perform non-rectangular clipping
 - ``Texel``: *Texture Element* ; it corresponds to a ``(s,t)`` pair of coordinates in ``[0,1]`` designating a point in a texture
 - ``Vertex Array``: these in-memory client-side arrays may aggregate 6 types of data (vertex coordinates, RGBA colors, color indices, surface normals, texture coordinates, polygon edge flags), possibly interleaved; such arrays allow to reduce the number of calls to OpenGL functions, and also to share elements (ex: vertices pertaining to multiple faces should preferably be defined only once); in a non-networked setting, the GPU just dereferences the corresponding pointers
+- ``Viewport``: the (rectangular) part (defined based on its lower left corner and its width and height, in pixels) within the current window in which OpenGL is to perform its rendering; so multiple viewports may be used in turn in order to offer multiple, composite views of the scene of interest in a given window; the ultimately processed 2D coordinates in OpenGL are both in ``[-1.0, 1.0]`` before they are finally mapped to the current viewport dimensions (ex: abscissa in ``[0,800]``, ordinate in ``[0,600]``, in pixels)
 - ``Vulkan``: a low-overhead, cross-platform API, open standard for 3D graphics and computing; it is intended to offer higher performance and more balanced CPU and GPU usage than the OpenGL or Direct3D 11 APIs; it is lower-level than OpenGL, and not backwards compatible with it (`source <https://en.wikipedia.org/wiki/Vulkan>`_)
 - ``VAO``: a (GLSL) *Vertex Array Object* (OpenGL 4.x), able to store multiple VBOs ; `more information <http://www.swiftless.com/tutorials/opengl4/4-opengl-4-vao.html>`_
 - ``VBO``: a (GLSL) *Vertex Buffer object*
@@ -1122,7 +1135,7 @@ Refer to `this page <https://www.glprogramming.com/red/chapter14.html#name15>`_ 
 Sources of Information
 ======================
 
-The reference pages for the various versions of OpenGL are `available on the Khronos official website <https://www.khronos.org/registry/OpenGL-Refpages/>`_.
+The reference pages for the various versions of OpenGL are `available on the Khronos official OpenGL Registry <https://www.khronos.org/registry/OpenGL-Refpages/>`_.
 
 Two very well-written books, strongly recommended, that are still relevant for 3D graphics despite their old age (circa 1996; for OpenGL 1.1):
 
