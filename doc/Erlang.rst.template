@@ -366,6 +366,37 @@ This may indicate that for example ``libwx_gtk2u_core-3.0.so.0.5.0`` is actually
 
 
 
+Proper Naming
+-------------
+
+
+Variable Shorthands
+...................
+
+Usually the following conventions apply:
+
+- the *head* and *tail* of a list are designated as ``H`` and ``T``, like in: ``L = [H|T]``
+- ``Acc`` means *accumulator*, in a tail-recursive function
+- ``K`` designates a *key*, and ``V`` designates its associated *value*
+- a list of elements is designated by a plural variable name, usually suffixed with ``s``, like in: ``Ints``, ``Xs``, ``Cars``
+
+
+Function Pairs
+..............
+
+To better denote reciprocal operations, following namings for functions may be used:
+
+- for services:
+
+  - activation: ``start`` / ``stop``
+  - setup: ``init`` / ``terminate``
+
+- for instances:
+
+  - life-cycle: ``new`` / ``delete``
+  - construction/destruction: ``create`` / ``destruct`` (ex: avoid ``destroy`` there)
+
+
 
 Micro-Cheat Sheet
 =================
@@ -385,7 +416,7 @@ To avoid having to perform a lookup in the documentation:
 
 - refer to the `escape sequences <https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences>`_, typically in order to specify characters like "space" (``$\s``); ``$char`` is the notation to designate the ASCII value or Unicode code-point of the character ``char`` (ex: ``$A``)
 
-- see the `operator precedence <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_
+- see the always handy `operator precedence <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_ and the various ways to `handle exceptions with try/catch <https://www.erlang.org/doc/reference_manual/expressions.html#try>`_
 
 - in **guard expressions**:
 
