@@ -340,7 +340,7 @@ Listing here the main keyboard shortcuts of interest for a few base tools.
 
 
 For ``less``
-============
+____________
 
 Mix of ``vi`` / ``more`` conventions, in order to:
 
@@ -353,7 +353,7 @@ Mix of ``vi`` / ``more`` conventions, in order to:
 
 
 For ``mplayer``
-===============
+_______________
 
 - **pause/unpause** the current playback: ``<space>``
 - **decrease the volume**: ``/``; to **increase** it: ``*``
