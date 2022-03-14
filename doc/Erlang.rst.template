@@ -329,8 +329,14 @@ Short Hints
 ===========
 
 
-Conditional Module Availability
--------------------------------
+Dealing with Conditional Availability
+-------------------------------------
+
+
+Regarding modules, and from the command-line
+............................................
+
+Depending on how Erlang was built in a given environment, some modules may or may not be available.
 
 A way of determining availability and/or version of a module (ex: ``wx``, ``cl``, ``crypto``) from the command-line:
 
@@ -352,6 +358,28 @@ A corresponding in-makefile test, taken from Wings3D:
 	# Add it if not found:
 	DEPS=cl
  endif
+
+
+
+Regarding language features, from code
+......................................
+
+Some features appeared in later Erlang versions, and may be conditionally enabled.
+
+For example:
+
+.. code:: erlang
+
+ FullSpawnOpts = case erlang:system_info( version ) >= "8.1" of
+
+	true ->
+		[ { message_queue_data, off_heap } | BaseSpawnOpts ];
+
+	false ->
+		BaseSpawnOpts
+
+ end,
+ [...]
 
 
 
@@ -429,9 +457,24 @@ To avoid having to perform a lookup in the documentation:
 
   - do not use ``and`` and ``or``, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in ``(A =:= B) and (C =:= D)``) and, more importantly, they do not short-circuit, i.e. in ``E = A and B``, B will be evaluated even if A is already known as false (so is E), and in ``E = A or B``, B will be evaluated even if A is already known as true (so is E)
 
-  - prefer ``andalso`` and ``orelse``, which are *control* operators; they short-circuit (and whose precedence is high enough to spare the need of extra parentheses)
+  - prefer ``andalso`` and ``orelse``, which are *control* operators; they short-circuit, and their precedence is high enough to spare the need of extra parentheses
 
   - so ``case (A =:= B) and (C =:= D) of`` shall become ``case A =:= B andalso C =:= D of``
+  - a common pattern is to use ``andalso`` to replace a longer expression like:
+
+.. code:: erlang
+
+  case BOOLEAN_EXPR of
+
+	  true ->
+		  DO_SOMETHING;
+
+	  false ->
+		  ok
+
+  end
+
+with the equivalent (provided ``BOOLEAN_EXPR`` evaluates to either ``true`` or ``false`` - otherwise a ``bad argument`` exception will be thrown) yet shorter: ``BOOLEAN_EXPR andalso DO_SOMETHING``
 
 
 Some of these elements come from the `Wings3D coding guidelines <https://github.com/dgud/wings/blob/master/CodingGuidelines>`_.
