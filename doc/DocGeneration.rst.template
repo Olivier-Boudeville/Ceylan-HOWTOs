@@ -225,6 +225,14 @@ Another example is the conversion of a GitLab wiki page into a RST document (ex:
  $ pandoc my-gitlab-wiki-extract.gfm --from=markdown_github --to=rst --standalone -o my-converted-content.rst
 
 
+Finally, if really needing to generate a Word document, an example may be:
+
+.. code:: bash
+
+ $ pandoc my-document.rst --from=rst --to=docx -o my-converted-document.docx
+
+
+
 The lists of the input and output formats supported by Pandoc and of their corresponding command-line options is specified `here <https://pandoc.org/MANUAL.html#general-options>`_.
 
 These options are also returned by: ``pandoc --list-input-formats`` and ``pandoc --list-output-formats`` (or, for older versions of pandoc, thanks to ``pandoc --help``).
@@ -252,3 +260,21 @@ For that, one may use the ``pdftk`` tool:
 
 - to concatenate PDFs: ``pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf``
 - to split all pages of a PDF in as many individual files (named ``pg_0001.pdf``, ``pg_0002.pdf``, etc.): ``pdftk document.pdf burst``
+
+
+
+Image Transformations
+---------------------
+
+One may rely on:
+
+- `GIMP <https://www.gimp.org/>`_ (*GNU Image Manipulation Program*; corresponding, on Arch, to the ``gimp`` package)
+- or on command-line `ImageMagick <https://imagemagick.org>`_ (on Arch, the ``imagemagick`` package, which provides notably the ``convert`` and ``display`` executables)
+
+
+To invert/negate an image (swap colors with their complementary ones):
+
+.. code:: bash
+
+ $ convert source.png -negate target.png
+
