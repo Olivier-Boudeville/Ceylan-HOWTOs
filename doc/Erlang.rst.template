@@ -164,6 +164,154 @@ About Security
 
 
 
+OTP Guidelines
+==============
+
+
+The ``.app`` Specification
+--------------------------
+
+For an overall application named ``Foobar``, we recommend defining in ``conf/foobar.app.src`` an application specification template that, once properly filled regarding the version of  that application and the modules that it comprises (possibly automatically done thanks to the `Ceylan-Myriad <http://myriad.esperide.org>`_ logic), will result in an actual application specification file, ``foobar.app``.
+
+Such a file is necessary in all cases, to generate an OTP application (otherwise with `rebar3 <http://rebar3.org/>`_ nothing will be built), an OTP release (otherwise the application dependencies will not be reachable), and probably an `hex <https://hex.pm/>`_ package as well.
+
+This specification content is to end up in various places:
+
+- in ``ebin/foobar.app``
+- if using rebar3, in the OTP build tree (by default: ``./_build/lib/foobar/ebin/foobar.app``)
+- with ``src/foobar.app.src`` being a symbolic link pointing to ``ebin/foobar.app`` (probably at least for hex)
+
+
+Starting OTP Applications
+-------------------------
+
+For an OTP *active* application of interest - that is one that provides an actual service, i.e. running processes, as opposed to a mere *library* application, which provides only code - such a specification defines, among other elements, which module will be used to start this application. We recommend to name this module according to the target application and to suffix it with ``_app``, like in:
+
+.. code:: erlang
+
+ {application, foobar, [
+	 [...]
+	 {mod, {foobar_app, [hello]}},
+	 [...]
+
+
+This implies that once a user code will call ``application:start(foobar)``, then ``foobar_app:start(_Type=normal, _Args=[hello])`` will be called in turn.
+
+This ``start/2`` function, together with its ``stop/1`` reciprocal, are the functions listed by the OTP (active) ``application`` behaviour; at least for clarity, it is better that ``foobar_app.erl`` comprises ``-behaviour(application).``
+
+
+Pre-Launch Functions
+-------------------
+
+The previous OTP callbacks may be called by specific-purpose launching code; we tend to define an ``exec/0`` function for that: then, with the Myriad make system, executing on the command-line ``make foobar_exec`` results in ``foobar_app:exec/0`` to be called.
+
+Having such a pre-launch function is useful when having to set specific information beforehand (see ``application:set_env/{1,2}``) and/or when starting by oneself applications (ex: see ``otp_utils:start_applications/2``).
+
+In any case this should result in ``foobar_app:start/2`` to be called at application startup, a function whose purpose is generally to spawn the root supervisor of this application.
+
+
+OTP Supervisors
+---------------
+
+We recommend for that to define a ``foobar_sup:start_link/0`` function (it is an user-level API, so any name and arity can be used). This ``foobar_sup`` module is meant to implement the ``supervisor`` behaviour (to be declared with ``-behaviour(supervisor).``), which in practice requires an ``init/1`` function to be defined.
+
+So this results, in ``foobar_sup``, in a code akin to:
+
+.. code:: erlang
+
+ -spec start_link() -> supervisor:startlink_ret().
+ start_link() ->
+	% This will result in calling init/1 next:
+	supervisor:start_link( _Registration={ local, my_foobar_main_sup },
+						   _Mod=?MODULE, _Args=[] ).
+
+ -spec init( list() ) -> { 'ok', { supervisor:sup_flags(), [ child_spec() ] } }.
+ init( _Args=[] ) ->
+	[...]
+	{ ok, { SupSettings, ChildSpecs } }.
+
+
+Declaring Worker Processes
+--------------------------
+
+Our ``otp_utils`` module may help a bit defining proper restart strategies and child specifications, i.e. the information regarding the workers that will be supervised, here, by this root supervisor.
+
+For example it could be:
+
+.. code:: erlang
+
+ init( _Args=[] ) ->
+	[...]
+	SupSettings = otp_utils:get_supervisor_settings(
+					_RestartStrategy=one_for_one, ExecTarget ),
+	% Always restarted in production:
+	RestartSettings = otp_utils:get_restart_setting( ExecTarget ),
+	WorkerShutdownDuration =
+		otp_utils:get_maximum_shutdown_duration( ExecTarget ),
+	% First child, the main Foobar worker process:
+	MainWorkerChild = #{
+		id => foobar_main_worker_id,
+		start => { _Mod=foobar, _Fun=start_link,
+				   _MainWorkerArgs=[ A, B, C ] },
+		restart => RestartSettings,
+		shutdown => WorkerShutdownDuration,
+		type => worker,
+		modules => [ foobar ] },
+	ChildSpecs = [ MainWorkerChild ],
+	{ ok, { SupSettings, ChildSpecs } }.
+
+
+
+Implementing Worker Processes
+-----------------------------
+
+Such a worker, which can be any Erlang process (implementing an OTP behaviour, like ``gen_server``, or not) will thus be spawned here through a call to the ``foobar:start_link/3`` function (another user-defined API) made by this supervisor. This is a mere *call* (an ``apply/3``), not a spawn of a child process based on that function.
+
+Therefore the called function is expected to *create* the worker process by itself, like, in the ``foobar`` module:
+
+.. code:: erlang
+
+ start_link( A, B ,C ) ->
+	[...]
+	{ ok, proc_lib:start_link( ?MODULE, _Func=init,
+		_Args=[ U, V ], _Timeout=infinity, SpawnOpts ) }.
+
+Here thus the spawned worker will start by executing ``foobar:init/2``, a function not expected to return, often trapping EXIT signals (``process_flag( trap_exit, true )``), setting system flags and, once properly initialised, notifying its supervisor that it is up and running (ex: ``proc_lib:init_ack( _Return=self() )``) before usually entering a tail-recursive loop.
+
+
+Terminating Workers
+-------------------
+
+Depending on the ``shutdown`` entry of its child specification, on application stop that worker may be terminated by different ways. We tend to prefer specifying a maximum shutdown duration: then the worker will be sent by its supervisor first a ``shutdown`` EXIT message, that this worker may handle, typically in its main loop:
+
+.. code:: erlang
+
+ receive
+	[...]
+
+	{ 'EXIT', _SupervisorPid, shutdown } ->
+	   % Just stop.
+	   [...]
+
+
+If the worker fails to stop (on time, or at all) and properly terminate, it will then be brutally killed by its supervisor.
+
+
+Extra Information
+-----------------
+
+One may refer to;
+
+- `Ceylan-Myriad <http://myriad.esperide.org>`_ as an example of OTP Library Application
+- `Ceylan-WOOPER <http://wooper.esperide.org>`_ or `Ceylan-Traces <http://traces.esperide.org>`_ as examples of OTP Active Applications
+- `US-Web <http://us-web.esperide.org>`_ as an example of most of these supervisor principles
+
+
+Let's note also that supervisors may be nested (they may have for children workers and/or other supervisors), and that, thanks to the `supervisor_bridge <https://www.erlang.org/doc/man/supervisor_bridge.html>`_ module, non-OTP elements can act as supervisors (ex: `WOOPER <http://wooper.esperide.org>`_ instances; see `traces_bridge_sup <https://github.com/Olivier-Boudeville/Ceylan-Traces/blob/master/src/traces_bridge_sup.erl>`_ for an example thereof).
+
+
+
+
 More Advanced Topics
 ====================
 
