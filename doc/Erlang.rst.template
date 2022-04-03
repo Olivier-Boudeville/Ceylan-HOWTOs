@@ -231,6 +231,9 @@ So this results, in ``foobar_sup``, in a code akin to:
 	{ ok, { SupSettings, ChildSpecs } }.
 
 
+Let's note that supervisors may be nested (they may have for children workers and/or other supervisors).
+
+
 Declaring Worker Processes
 --------------------------
 
@@ -297,17 +300,27 @@ Depending on the ``shutdown`` entry of its child specification, on application s
 If the worker fails to stop (on time, or at all) and properly terminate, it will then be brutally killed by its supervisor.
 
 
+
+Supervisor Bridges
+------------------
+
+Non-OTP processes (ex: `WOOPER <http://wooper.esperide.org>`_ instances) can act as supervisors thanks to the `supervisor_bridge <https://www.erlang.org/doc/man/supervisor_bridge.html>`_ module.
+
+Such a process shall implement the ``supervisor_bridge`` behaviour, namely ``init/1`` and ``terminate/2``. If the former function spawns a process, the latter shall ensure that this process terminates in a synchronous manner, otherwise race conditions may happen.
+
+See `traces_bridge_sup <https://github.com/Olivier-Boudeville/Ceylan-Traces/blob/master/src/traces_bridge_sup.erl>`_ for an example thereof.
+
+
+
 Extra Information
 -----------------
 
 One may refer to;
 
-- `Ceylan-Myriad <http://myriad.esperide.org>`_ as an example of OTP Library Application
-- `Ceylan-WOOPER <http://wooper.esperide.org>`_ or `Ceylan-Traces <http://traces.esperide.org>`_ as examples of OTP Active Applications
+- `Ceylan-Myriad <http://myriad.esperide.org>`_ as an example of OTP *Library* Application
+- `Ceylan-WOOPER <http://wooper.esperide.org>`_ or `Ceylan-Traces <http://traces.esperide.org>`_ as examples of OTP *Active* Applications
 - `US-Web <http://us-web.esperide.org>`_ as an example of most of these supervisor principles
 
-
-Let's note also that supervisors may be nested (they may have for children workers and/or other supervisors), and that, thanks to the `supervisor_bridge <https://www.erlang.org/doc/man/supervisor_bridge.html>`_ module, non-OTP elements can act as supervisors (ex: `WOOPER <http://wooper.esperide.org>`_ instances; see `traces_bridge_sup <https://github.com/Olivier-Boudeville/Ceylan-Traces/blob/master/src/traces_bridge_sup.erl>`_ for an example thereof).
 
 
 
@@ -590,6 +603,7 @@ To avoid having to perform a lookup in the documentation:
 
 (no need for the ``erlang`` module to be explicitly specified for the first two functions, as both are auto-imported)
 
+- the lesser-known `"--" list subtraction <https://www.erlang.org/doc/reference_manual/expressions.html#list-operationslist>`_ operator returns a list that is a copy of the first argument where, for each element in the second argument, the first occurrence of this element (if any) is removed
 - refer to the `escape sequences <https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences>`_, typically in order to specify characters like "space" (``$\s``); ``$char`` is the notation to designate the ASCII value or Unicode code-point of the character ``char`` (ex: ``$A``)
 
 - see the always handy `operator precedence <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_ and the various ways to `handle exceptions with try/catch <https://www.erlang.org/doc/reference_manual/expressions.html#try>`_
@@ -605,10 +619,10 @@ To avoid having to perform a lookup in the documentation:
 
   - do not use ``and`` and ``or``, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in ``(A =:= B) and (C =:= D)``) and, more importantly, they do not short-circuit, i.e. in ``E = A and B``, B will be evaluated even if A is already known as false (so is E), and in ``E = A or B``, B will be evaluated even if A is already known as true (so is E)
 
-  - prefer ``andalso`` and ``orelse``, which are *control* operators; they short-circuit, and their precedence is high enough to spare the need of extra parentheses
+  - prefer ``andalso`` and ``orelse``, which are *control* operators; they short-circuit, and their precedence is `low enough <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_ to spare the need of extra parentheses
 
   - so ``case (A =:= B) and (C =:= D) of`` shall become ``case A =:= B andalso C =:= D of``
-  - a common pattern is to use ``andalso`` to replace a longer expression like:
+  - a common pattern is to use ``andalso`` in order *to evaluate a target expression iff a boolean expression is true*, to replace a longer expression like:
 
 .. code:: erlang
 
@@ -622,10 +636,26 @@ To avoid having to perform a lookup in the documentation:
 
   end
 
-with the equivalent (provided ``BOOLEAN_EXPR`` evaluates to either ``true`` or ``false`` - otherwise a ``bad argument`` exception will be thrown) yet shorter: ``BOOLEAN_EXPR andalso DO_SOMETHING``
+with the equivalent (provided ``BOOLEAN_EXPR`` evaluates to either ``true`` or ``false`` - otherwise a ``bad argument`` exception will be thrown) yet shorter: ``BOOLEAN_EXPR andalso DO_SOMETHING``; for example: ``[...], OSName =:= linux andalso fix_for_linux(), [...]``
+
+Similarly, ``orelse`` can be used *to evaluate a target expression iff a boolean expression is false*, to replace a longer expression like:
+
+.. code:: erlang
+
+  case BOOLEAN_EXPR of
+
+	  true ->
+		  ok;
+
+	  false ->
+		  DO_SOMETHING;
+
+  end
+
+with: ``BOOLEAN_EXPR orelse DO_SOMETHING``; for example: ``[...], file_utils:exists("/etc/passwd") orelse throw(no_password_file), [...]``
 
 
-Some of these elements come from the `Wings3D coding guidelines <https://github.com/dgud/wings/blob/master/CodingGuidelines>`_.
+Some of these elements are adapted from the `Wings3D coding guidelines <https://github.com/dgud/wings/blob/master/CodingGuidelines>`_.
 
 
 
@@ -646,3 +676,5 @@ Erlang Resources
 
 - `BEAM Wisdoms <http://beam-wisdoms.clau.se/en/latest>`_, by Dmytro Lytovchenko
 
+
+:raw-html:`<a name="howtos_bottom"></a>`
