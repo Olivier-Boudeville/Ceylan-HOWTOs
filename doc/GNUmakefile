@@ -4,7 +4,7 @@ HOWTOS_TOP = ..
 # structure (autonomous yet interlinked HTML pages vs a single standalone PDF).
 
 
-# For HTML; includes "overview":
+# For HTML; includes "overview", as it gathers multiple autonomous pages:
 DOC_BASE_NAME := Ceylan-HOWTOs-overview-english
 
 OVERALL_DOCUMENT_SOURCE := $(DOC_BASE_NAME).rst
@@ -22,21 +22,25 @@ PDF_TARGET := Ceylan-HOWTOs-english.pdf
 DOC_GENERATED_FILES := $(HOWTO_HTML_FILES) $(HTML_TARGET) $(PDF_TARGET)
 
 
-# Only the source files of actual HOWTOs:
-HOWTO_TEMPLATES = $(filter-out $(OTHER_TEMPLATES),$(wildcard *.rst.template))
-
-OTHER_TEMPLATES = $(SYMLINKS) $(OVERALL_DOCUMENTS)
-
-# Just introduced for convenience:
-SYMLINKS = Ceylan-HOWTOs-top-level-html.rst.template \
-		   Ceylan-HOWTOs-top-level-pdf.rst.template
-
 # For the main HTML/PDF documents of interest:
 OVERALL_DOCUMENTS = Ceylan-HOWTOs-overview-english.rst.template         \
 					Ceylan-HOWTOs-english.rst.template
 
-HOWTO_RST_FILES = $(patsubst %.rst.template,%.rst,$(HOWTO_TEMPLATES))
-HOWTO_HTML_FILES = $(patsubst %.rst.template,%.html,$(HOWTO_TEMPLATES))
+
+# Just introduced for convenience/readibility:
+SYMLINKS = Ceylan-HOWTOs-top-level-html.rst.template \
+		   Ceylan-HOWTOs-top-level-pdf.rst.template
+
+
+# All templates containing actual content:
+OTHER_TEMPLATES = $(SYMLINKS) $(OVERALL_DOCUMENTS)
+
+# Only the source files of actual HOWTOs (not top-level ones):
+HOWTO_ACTUAL_TEMPLATES = $(filter-out $(OTHER_TEMPLATES),$(wildcard *.rst.template))
+
+
+HOWTO_RST_FILES = $(patsubst %.rst.template,%.rst,$(HOWTO_ACTUAL_TEMPLATES))
+HOWTO_HTML_FILES = $(patsubst %.rst.template,%.html,$(HOWTO_ACTUAL_TEMPLATES))
 
 
 PROJECT_CSS := pygments-default.css,howtos.css
@@ -61,13 +65,11 @@ all:
 
 doc: html pdf
 
-doc:
-
 
 # The HTML version just links to the HOWTOs pages, the PDF includes them:
 
 html: $(HOWTO_HTML_FILES) $(HTML_TARGET)
-	@echo "  The HTML content for HOWTOs is available at: file://$$(pwd)/Ceylan-HOWTOs-overview-english.html"
+	@echo "  The HTML content for HOWTOs is available at: file://$$(pwd)/$(DOC_BASE_NAME).html"
 
 
 pdf: $(HOWTO_RST_FILES) $(PDF_TARGET)
@@ -76,6 +78,12 @@ pdf: $(HOWTO_RST_FILES) $(PDF_TARGET)
 # This link does not need to be in version control:
 create-links:
 	@/bin/ln -sf $(CURRENT_HOWTOS_HTML) index.html
+
+
+clone-mirror:
+	@ echo "  Creating a separate repository in $(GITHUB_PAGES_BASE)"
+	@cd ../../ && git clone https://github.com/Olivier-Boudeville/Ceylan-Howtos.git $(GITHUB_PAGES_BASE) && cd $(GITHUB_PAGES_BASE) && git checkout -b gh-pages
+	@echo "Please remove all initial content in that selected 'gh-pages' branch."
 
 
 
@@ -105,7 +113,7 @@ info: info-howtos info-web
 
 
 info-howtos:
-	@echo "HOWTO_TEMPLATES = $(HOWTO_TEMPLATES)"
+	@echo "HOWTO_ACTUAL_TEMPLATES = $(HOWTO_ACTUAL_TEMPLATES)"
 	@echo "HOWTO_RST_FILES = $(HOWTO_RST_FILES)"
 	@echo "HOWTO_HTML_FILES = $(HOWTO_HTML_FILES)"
 	@echo "DOC_GENERATED_FILES = $(DOC_GENERATED_FILES)"
