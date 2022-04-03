@@ -352,6 +352,7 @@ Mix of ``vi`` / ``more`` conventions, in order to:
 - **quit**: ``q``
 
 
+
 For ``mplayer``
 ...............
 
@@ -360,6 +361,9 @@ For ``mplayer``
 - **go backward/forward** in the current playback: ``left`` and ``right arrow`` keys
 - **jump to next playback**: ``<Enter>`` or ``<Escape>``
 - **stop** all playbacks: ``<CTRL-C>``
+- **display durations**: ``o`` to toggle OSD (*On-Screen Display*), i.e. elapsed, elapsed / total, etc.
+- **take a screenshot**: ``s`` (notably if using our `v <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/v>`_ script, as the ``-vf screenshot`` command-line option must have been specified); then a ``shot0001.png`` file will be silently created in the directory whence mplayer was launched, next screenshot will be ``shot0002.png``, etc.
+
 
 
 
@@ -372,3 +376,5 @@ One may refer to our other mini-HOWTO regarding:
 - `Cybersecurity <Cybersecurity.html>`_
 
 The Ceylan-Hull section `system-related section <https://hull.esperide.org/#system-related>`_ might also be of interest.
+
+:raw-html:`<a name="howtos_bottom"></a>`
