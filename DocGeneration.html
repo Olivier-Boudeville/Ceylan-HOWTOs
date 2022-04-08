@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, April 3, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 8, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -36,33 +36,38 @@
 <div class="contents local topic" id="id1">
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#objective" id="id7">Objective</a></li>
-<li><a class="reference internal" href="#our-recommended-approach" id="id8">Our Recommended Approach</a></li>
-<li><a class="reference internal" href="#technical-details" id="id9">Technical Details</a><ul>
-<li><a class="reference internal" href="#rendering-mathematical-elements" id="id10">Rendering Mathematical Elements</a></li>
-<li><a class="reference internal" href="#title-hierarchy" id="id11">Title Hierarchy</a></li>
-<li><a class="reference internal" href="#image-sizes" id="id12">Image Sizes</a></li>
-<li><a class="reference internal" href="#multi-file-documents" id="id13">Multi-File Documents</a><ul>
-<li><a class="reference internal" href="#targeting-a-standalone-document" id="id14">Targeting a Standalone Document</a></li>
-<li><a class="reference internal" href="#targeting-interlinked-modular-documents" id="id15">Targeting Interlinked Modular Documents</a></li>
+<li><a class="reference internal" href="#objective" id="id11">Objective</a></li>
+<li><a class="reference internal" href="#our-recommended-approach" id="id12">Our Recommended Approach</a></li>
+<li><a class="reference internal" href="#technical-details" id="id13">Technical Details</a><ul>
+<li><a class="reference internal" href="#rendering-mathematical-elements" id="id14">Rendering Mathematical Elements</a></li>
+<li><a class="reference internal" href="#title-hierarchy" id="id15">Title Hierarchy</a></li>
+<li><a class="reference internal" href="#image-sizes" id="id16">Image Sizes</a></li>
+<li><a class="reference internal" href="#multi-file-documents" id="id17">Multi-File Documents</a><ul>
+<li><a class="reference internal" href="#targeting-a-standalone-document" id="id18">Targeting a Standalone Document</a></li>
+<li><a class="reference internal" href="#targeting-interlinked-modular-documents" id="id19">Targeting Interlinked Modular Documents</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inner-links" id="id16">Inner Links</a></li>
-<li><a class="reference internal" href="#validating-checking" id="id17">Validating / Checking</a></li>
-<li><a class="reference internal" href="#pointing-to-a-specific-moment-in-a-linked-video" id="id18">Pointing to a Specific Moment in a Linked Video</a></li>
+<li><a class="reference internal" href="#inner-links" id="id20">Inner Links</a></li>
+<li><a class="reference internal" href="#validating-checking" id="id21">Validating / Checking</a></li>
+<li><a class="reference internal" href="#pointing-to-a-specific-moment-in-a-linked-video" id="id22">Pointing to a Specific Moment in a Linked Video</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#miscellaneous" id="id19">Miscellaneous</a><ul>
-<li><a class="reference internal" href="#conversion-between-markup-formats" id="id20">Conversion between Markup Formats</a></li>
-<li><a class="reference internal" href="#transformation-of-pdf-files" id="id21">Transformation of PDF files</a></li>
-<li><a class="reference internal" href="#image-transformations" id="id22">Image Transformations</a></li>
+<li><a class="reference internal" href="#miscellaneous" id="id23">Miscellaneous</a><ul>
+<li><a class="reference internal" href="#conversion-between-markup-formats" id="id24">Conversion between Markup Formats</a></li>
+<li><a class="reference internal" href="#transformation-of-pdf-files" id="id25">Transformation of PDF files</a></li>
+<li><a class="reference internal" href="#image-transformations" id="id26">Image Transformations</a></li>
+<li><a class="reference internal" href="#uml-diagrams" id="id27">UML Diagrams</a><ul>
+<li><a class="reference internal" href="#quick-uml-cheat-sheet" id="id28">Quick UML Cheat Sheet</a></li>
+<li><a class="reference internal" href="#tooling" id="id29">Tooling</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
 <div class="section" id="objective">
-<h1><a class="toc-backref" href="#id7">Objective</a></h1>
+<h1><a class="toc-backref" href="#id11">Objective</a></h1>
 <p>We want to be able to generate, <strong>from a single source</strong>, at least two <strong>documentation formats</strong>:</p>
 <ul class="simple">
 <li>a set of <strong>interlinked static web pages</strong> (the most popular, flexible format)</li>
@@ -75,7 +80,7 @@
 <p>The whole documentation process shall be powered only by free software solutions, easily automated (ex: <a class="reference external" href="Build.html">with Make</a>) and suitable for version control (ex: <a class="reference external" href="Git.html">with Git</a>).</p>
 </div>
 <div class="section" id="our-recommended-approach">
-<h1><a class="toc-backref" href="#id8">Our Recommended Approach</a></h1>
+<h1><a class="toc-backref" href="#id12">Our Recommended Approach</a></h1>
 <p>We chose to rely on the <a class="reference external" href="https://en.wikipedia.org/wiki/ReStructuredText">reStructuredText</a> syntax and tools, also known as RST, a part of the <a class="reference external" href="https://docutils.sourceforge.io/">Docutils</a> project. We did not specifically rely on elements related to Python or the Sphinx toolchain.</p>
 <p>We augmented reStructuredText with:</p>
 <ul class="simple">
@@ -86,9 +91,9 @@
 <p>Of course this website, and many others that we created, rely on this approach; as an example, one may look at the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/DocGeneration.rst.template">sources of the current document</a>.</p>
 </div>
 <div class="section" id="technical-details">
-<h1><a class="toc-backref" href="#id9">Technical Details</a></h1>
+<h1><a class="toc-backref" href="#id13">Technical Details</a></h1>
 <div class="section" id="rendering-mathematical-elements">
-<span id="how-to-render-equations"></span><h2><a class="toc-backref" href="#id10">Rendering Mathematical Elements</a></h2>
+<span id="how-to-render-equations"></span><h2><a class="toc-backref" href="#id14">Rendering Mathematical Elements</a></h2>
 <p>With the RST toolchain, the PDF output, thanks to LaTeX, offers built-in high-quality rendering of mathematical elements such as equations, matrices, etc.</p>
 <p>By default, the HTML output does not benefit from LaTeX, and remains significantly less pleasing to the eye, and less readable.</p>
 <p>So we complement it by <a class="reference external" href="https://www.mathjax.org/">MathJax</a>, a neat open-source &quot;<em>JavaScript display engine for mathematics that works in all browsers</em>&quot;.</p>
@@ -105,7 +110,7 @@ make create-mathjax-symlink
 <p>A few examples of resulting math-related outputs can be seen for example in <a class="reference external" href="https://myriad.esperide.org/#linear-conventions">this section</a>.</p>
 </div>
 <div class="section" id="title-hierarchy">
-<h2><a class="toc-backref" href="#id11">Title Hierarchy</a></h2>
+<h2><a class="toc-backref" href="#id15">Title Hierarchy</a></h2>
 <p>It must be consistent: a given type of subtitle must always be placed at the same level in the title hierarchy.</p>
 <p>We rely on the markup conventions exposed in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/demo-for-css-testing.rst">this demonstration</a> file (created by David Goodger), whose <a class="reference external" href="https://raw.githubusercontent.com/Olivier-Boudeville/Ceylan-Myriad/master/doc/demo-for-css-testing.rst">source is here</a>.</p>
 <p>From the top-level title to the most nested ones:</p>
@@ -122,7 +127,7 @@ make create-mathjax-symlink
 </ul>
 </div>
 <div class="section" id="image-sizes">
-<h2><a class="toc-backref" href="#id12">Image Sizes</a></h2>
+<h2><a class="toc-backref" href="#id16">Image Sizes</a></h2>
 <p>Responsive images, i.e. images that automatically adjust to fit the size of the screen, can be used. They are then defined for example thanks to:</p>
 <pre class="code html literal-block">
 <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;foobar.png&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;responsive-image-large&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">img</span><span class="p">&gt;</span>
@@ -130,19 +135,19 @@ make create-mathjax-symlink
 <p>Various standard sizes have been defined, all prefixed with <tt class="docutils literal"><span class="pre">responsive-image-</span></tt>; from the biggest (95%) to the smallest (10%), as defined for example in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/myriad.css">myriad.css</a>, they are: <tt class="docutils literal">full</tt>, <tt class="docutils literal">large</tt>, <tt class="docutils literal">intermediate</tt>, <tt class="docutils literal">medium</tt>, <tt class="docutils literal">reduced</tt>, <tt class="docutils literal">small</tt>, <tt class="docutils literal">tiny</tt>, <tt class="docutils literal">xsmall</tt>.</p>
 </div>
 <div class="section" id="multi-file-documents">
-<h2><a class="toc-backref" href="#id13">Multi-File Documents</a></h2>
+<h2><a class="toc-backref" href="#id17">Multi-File Documents</a></h2>
 <div class="section" id="targeting-a-standalone-document">
-<h3><a class="toc-backref" href="#id14">Targeting a Standalone Document</a></h3>
+<h3><a class="toc-backref" href="#id18">Targeting a Standalone Document</a></h3>
 <p>Although they tend to be less convenient to edit, longer documents may be split in a <strong>set of RST source files</strong> (the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/doc">Myriad documentation</a> is an example of it; the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-WOOPER/tree/master/doc">WOOPER documentation</a> is an example of the opposite approach, based on a single source file).</p>
 </div>
 <div class="section" id="targeting-interlinked-modular-documents">
-<h3><a class="toc-backref" href="#id15">Targeting Interlinked Modular Documents</a></h3>
+<h3><a class="toc-backref" href="#id19">Targeting Interlinked Modular Documents</a></h3>
 <p>In some cases, at least for the HTML output, the need is not to produce a single, large, monolithic document, but a set of interlinked ones (<a class="reference external" href="http://howtos.esperide.org">the present HOWTO</a> is an example thereof) that can be browsed as separate pages.</p>
 <p>Then a convenient approach is to define different entry points for different output formats, like, for these HOWTOs, <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/Ceylan-HOWTOs-overview-english.rst.template">this one for the HTML output</a> and <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/Ceylan-HOWTOs-english.rst.template">this one for the PDF output</a>.</p>
 </div>
 </div>
 <div class="section" id="inner-links">
-<h2><a class="toc-backref" href="#id16">Inner Links</a></h2>
+<h2><a class="toc-backref" href="#id20">Inner Links</a></h2>
 <p>Defining any title (ex: the <tt class="docutils literal">&quot;Rendering Mathematical Elements&quot;</tt> one above) automatically introduces in turn a corresponding anchor, which, for the HTML output, can then be referenced from any page, for example as raw HTML (like <a class="reference external" href="DocGeneration.html#rendering-mathematical-elements">MyPage.html#rendering-mathematical-elements</a>, or directly from the current page as <a class="reference external" href="#rendering-mathematical-elements">#rendering-mathematical-elements</a>) or directly through RST in the document (ex: specified as <tt class="docutils literal">`Rendering Mathematical Elements`_</tt>, resulting in: <a class="reference internal" href="#rendering-mathematical-elements">Rendering Mathematical Elements</a>).</p>
 <p>Note the light transformation (spaces becoming dashes) of the specified name once a it is translated into a legit HTML anchor.</p>
 <p>Extra local anchors (ex: that could be named <tt class="docutils literal">&quot;how to render equations&quot;</tt>) can also be specified anywhere in the document (ex: just before the previously mentioned title, so that it can be designated with other words), thanks to:</p>
@@ -152,12 +157,12 @@ make create-mathjax-symlink
 <p>It can then be referenced from the same page as <a class="reference external" href="#how-to-render-equations">#how-to-render-equations</a> or from another one as <a class="reference external" href="DocGeneration.html#how-to-render-equations">MyPage.html#how-to-render-equations</a>.</p>
 </div>
 <div class="section" id="validating-checking">
-<h2><a class="toc-backref" href="#id17">Validating / Checking</a></h2>
+<h2><a class="toc-backref" href="#id21">Validating / Checking</a></h2>
 <p>In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.</p>
 <p>Notably an online HTML page, or set of pages, can be verified by third-party tools like <a class="reference external" href="https://www.deadlinkchecker.com/">this one</a>, to detect dead links.</p>
 </div>
 <div class="section" id="pointing-to-a-specific-moment-in-a-linked-video">
-<h2><a class="toc-backref" href="#id18">Pointing to a Specific Moment in a Linked Video</a></h2>
+<h2><a class="toc-backref" href="#id22">Pointing to a Specific Moment in a Linked Video</a></h2>
 <p>It is as simple as designating, in an HTML link, the targeted second by suffixing the URL video filename with <tt class="docutils literal">#t=DURATION_IN_SECONDS</tt>, like in <tt class="docutils literal"><span class="pre">some-video.mp4#t=1473</span></tt> <a class="footnote-reference" href="#id6" id="id5">[1]</a>.</p>
 <table class="docutils footnote" frame="void" id="id6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -168,9 +173,9 @@ make create-mathjax-symlink
 </div>
 </div>
 <div class="section" id="miscellaneous">
-<h1><a class="toc-backref" href="#id19">Miscellaneous</a></h1>
+<h1><a class="toc-backref" href="#id23">Miscellaneous</a></h1>
 <div class="section" id="conversion-between-markup-formats">
-<h2><a class="toc-backref" href="#id20">Conversion between Markup Formats</a></h2>
+<h2><a class="toc-backref" href="#id24">Conversion between Markup Formats</a></h2>
 <p><a class="reference external" href="https://pandoc.org/">Pandoc</a> is the tool of choice for such operations, as it often yields good results.</p>
 <p>For example, in order to convert a page written in Mediawiki syntax, whose source content has been pasted in a <tt class="docutils literal"><span class="pre">old-content-in-mediawiki.txt</span></tt> file, into one that be specified in a GitLab wiki (hence in GFM markup, for <em>GitLab Flavored Markdown</em>) from a converted content, to be written in a <tt class="docutils literal"><span class="pre">converted-content.gfm</span></tt> file, one may use:</p>
 <pre class="code bash literal-block">
@@ -208,7 +213,7 @@ $ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_git
 </pre>
 </div>
 <div class="section" id="transformation-of-pdf-files">
-<h2><a class="toc-backref" href="#id21">Transformation of PDF files</a></h2>
+<h2><a class="toc-backref" href="#id25">Transformation of PDF files</a></h2>
 <p>For that, one may use the <tt class="docutils literal">pdftk</tt> tool:</p>
 <ul class="simple">
 <li>to concatenate PDFs: <tt class="docutils literal">pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf</tt></li>
@@ -216,7 +221,7 @@ $ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_git
 </ul>
 </div>
 <div class="section" id="image-transformations">
-<h2><a class="toc-backref" href="#id22">Image Transformations</a></h2>
+<h2><a class="toc-backref" href="#id26">Image Transformations</a></h2>
 <p>One may rely on:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://www.gimp.org/">GIMP</a> (<em>GNU Image Manipulation Program</em>; corresponding, on Arch, to the <tt class="docutils literal">gimp</tt> package)</li>
@@ -226,7 +231,79 @@ $ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_git
 <pre class="code bash literal-block">
 $ convert source.png -negate target.png
 </pre>
+</div>
+<div class="section" id="uml-diagrams">
+<h2><a class="toc-backref" href="#id27">UML Diagrams</a></h2>
+<p>If <a class="reference external" href="https://en.wikipedia.org/wiki/Systems_Modeling_Language">SysML</a> can also be of interest, we focus here on <a class="reference external" href="https://en.wikipedia.org/wiki/Class_diagram">UML2 class diagrams</a> (one of the 14 types of diagrams provided by UML2).</p>
+<div class="section" id="quick-uml-cheat-sheet">
+<h3><a class="toc-backref" href="#id28">Quick UML Cheat Sheet</a></h3>
+<div class="section" id="multiplicities">
+<h4>Multiplicities</h4>
+<p>A <strong>multiplicity</strong> is a definition of <em>cardinality</em> (i.e. number of elements) of some collection of elements.</p>
+<p>It can be set for attributes, operations, and associations in a class diagram, and for associations in a use case diagram. The multiplicity is an indication of how many objects may participate in the given relationship.</p>
+<p>It is defined as an inclusive interval based on non-negative integers, with <tt class="docutils literal">*</tt> denoting an unlimited upper bound (not, for example, <tt class="docutils literal">n</tt>).</p>
+<p>Most common multiplies are:</p>
+<ul class="simple">
+<li>no instance or one instance: <tt class="docutils literal"><span class="pre">0..1</span></tt></li>
+<li>any number of instances, including zero: <tt class="docutils literal">*</tt> (shorthand for <tt class="docutils literal"><span class="pre">0..*</span></tt>)</li>
+<li>exactly k instances: <tt class="docutils literal">k</tt> (so, if k=5, <tt class="docutils literal">5</tt>)</li>
+<li>at least M instances: <tt class="docutils literal"><span class="pre">M..*</span></tt> (<tt class="docutils literal"><span class="pre">2..*</span></tt>)</li>
+<li>at least M instances, but no more than N (hence bounds included): <tt class="docutils literal"><span class="pre">M..N</span></tt> (e.g. <tt class="docutils literal"><span class="pre">3..5</span></tt>)</li>
+</ul>
+<p>For associations, the default multiplicity is automatically is <tt class="docutils literal"><span class="pre">0..1</span></tt>, while new attributes and operations have a default multiplicity of <tt class="docutils literal">1</tt>.</p>
+</div>
+<div class="section" id="association">
+<h4>Association</h4>
+<p>An <strong>association</strong> is a relation between two classes (<em>binary association</em>) or more (<em>N-ary association</em>) that describes structural relationships between their instances.</p>
+<p>For example a polygon may be defined from at least 3 vertices that it would reference, whereas a point may take part to any number of polygones (including none):</p>
+<p><span class="raw-html"><center><img src="uml_association_diagram.png" id="responsive-image-small"></img></center></span>
+</p>
+<p>(see the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_association_diagram.graph">sources</a> of this diagram)</p>
+<p>The <strong>multiplicity</strong> of an endpoint denotes the number of instances of the corresponding class that may take part to this association. For example, at least 3 points are needed to form a polygon, whereas any number of polygons can include a given point.</p>
+<p>In UML the <strong>direction</strong> of the association is easily ambiguous (here we have to rely on external knwoledge to determine whether a polygon is composed of points, of if a point is composed of polygons). Adding a chevron (like <tt class="docutils literal">&gt;</tt> or <tt class="docutils literal">&lt;</tt>, e.g. <tt class="docutils literal">&quot;references &gt;&quot;</tt> ; ideally this should be a small solid triangle) to the text is not a good solution either, as the layout may place the respective endpoints in any relative position. Adding an arrow to the end of the line segment cannot be done either, as it would denote the <em>navigability</em> of the association instead.</p>
+</div>
+<div class="section" id="aggregation">
+<h4>Aggregation</h4>
+<p>An <strong>aggregation</strong> is a specific association that denotes that an instance of a class (ex: <tt class="docutils literal">Library</tt>) is to loosely contain instances of another class (ex: <tt class="docutils literal">Book</tt>), in the sense that the lifecycle of the contained classes is not strongly dependent on the one of the container (ex: books will still exist even if the library is dismantled).</p>
+<p>Here a library may contain any number of books (possibly none), and a given book belongs to at most one library.</p>
+<p><span class="raw-html"><center><img src="uml_aggregation_diagram.png" id="responsive-image-small"></img></center></span>
+</p>
+<p>(see the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_aggregation_diagram.graph">sources</a> of this diagram)</p>
+</div>
+<div class="section" id="composition">
+<h4>Composition</h4>
+<p>A <strong>composition</strong> is a specific association that denotes that an instance of a class (ex: <tt class="docutils literal">HumanBeing</tt>) is to own instances of another class (ex: <tt class="docutils literal">Leg</tt>), in the sense that the lifecycle of the contained classes fully depends on the one of the container (here, if a human being dies, his/her legs will not exist anymore either).</p>
+<p>Here a human being has exactly 2 legs, and any given leg belongs to exactly one human being (therefore this model does not account for one-legged persons).</p>
+<p><span class="raw-html"><center><img src="uml_composition_diagram.png" id="responsive-image-small"></img></center></span>
+</p>
+<p>(see the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_composition_diagram.png">sources</a> of this diagram)</p>
+</div>
+<div class="section" id="inheritance">
+<h4>Inheritance</h4>
+<p>An <strong>inheritance</strong> relationship is a specific association that denotes that a class (ex: <tt class="docutils literal">HumanBeing</tt>) is a specific case of a more general one (ex: <tt class="docutils literal">Animal</tt>), and thus that an instance of the first one is also an instance of the second one (&quot;is-a&quot; relationship).</p>
+<p>Here a human being is a specific animal.</p>
+<p><span class="raw-html"><center><img src="uml_inheritance_diagram.png" id="responsive-image-small"></img></center></span>
+</p>
+<p>(see the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_inheritance_diagram.graph">sources</a> of this diagram)</p>
+</div>
+</div>
+<div class="section" id="tooling">
+<h3><a class="toc-backref" href="#id29">Tooling</a></h3>
+<p>In a design phase, one may prefer lightweight tools like <a class="reference external" href="https://graphviz.org/">Graphviz</a>, <a class="reference external" href="https://plantuml.com/">PlantUML</a> or even <a class="reference external" href="https://en.wikipedia.org/wiki/Dia_(software)">Dia</a>.</p>
+<p>As long as the architecture of a framework is not stabilised, having one's tool determine by itself the layout of the rendering (rather than having to place manually one's graphical components) is surely preferable.</p>
+<p>For that we use Graphviz, with <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">our own build conventions</a>.</p>
+<p>For example, supposing <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/uml_class_diagram_example.graph">this diagram example</a>, i.e. a source file named <tt class="docutils literal">uml_class_diagram_example.graph</tt>:</p>
+<pre class="code bash literal-block">
+$ make uml_class_diagram_example.png
+<span class="c1"># or, to force a regeneration and a displaying of the result:
+</span>$ make clean uml_class_diagram_example.png <span class="nv">VIEW_GRAPH</span><span class="o">=</span><span class="nb">true</span>
+</pre>
+<p>This example results in the following diagram:</p>
+<p><span class="raw-html"><center><img src="uml_class_diagram_example.png" id="responsive-image-small"></img></center></span>
+</p>
+<p>(see the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_class_diagram_example.graph">sources</a> of this diagram)</p>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
+</div>
 </div>
 </div>
 </div>

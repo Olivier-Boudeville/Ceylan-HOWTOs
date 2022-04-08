@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, April 3, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 8, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -99,36 +99,35 @@
 <li><a class="reference internal" href="#referentials" id="id89">Referentials</a><ul>
 <li><a class="reference internal" href="#referentials-in-2d" id="id90">Referentials In 2D</a></li>
 <li><a class="reference internal" href="#referentials-in-3d" id="id91">Referentials In 3D</a></li>
-<li><a class="reference internal" href="#a-tree-of-referentials" id="id92">A Tree of Referentials</a></li>
-<li><a class="reference internal" href="#computing-transition-matrices" id="id93">Computing Transition Matrices</a></li>
+<li><a class="reference internal" href="#computing-transition-matrices" id="id92">Computing Transition Matrices</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#shaders" id="id94">Shaders</a><ul>
-<li><a class="reference internal" href="#a-programmable-pipeline" id="id95">A Programmable Pipeline</a></li>
-<li><a class="reference internal" href="#six-types-of-glsl-shaders" id="id96">Six Types of GLSL Shaders</a></li>
-<li><a class="reference internal" href="#runtime-build" id="id97">Runtime Build</a></li>
-<li><a class="reference internal" href="#communicating-with-shaders" id="id98">Communicating with Shaders</a></li>
-<li><a class="reference internal" href="#examples-of-shaders" id="id99">Examples of Shaders</a></li>
-<li><a class="reference internal" href="#managing-spatial-transformations" id="id100">Managing Spatial Transformations</a></li>
+<li><a class="reference internal" href="#shaders" id="id93">Shaders</a><ul>
+<li><a class="reference internal" href="#a-programmable-pipeline" id="id94">A Programmable Pipeline</a></li>
+<li><a class="reference internal" href="#six-types-of-glsl-shaders" id="id95">Six Types of GLSL Shaders</a></li>
+<li><a class="reference internal" href="#runtime-build" id="id96">Runtime Build</a></li>
+<li><a class="reference internal" href="#communicating-with-shaders" id="id97">Communicating with Shaders</a></li>
+<li><a class="reference internal" href="#examples-of-shaders" id="id98">Examples of Shaders</a></li>
+<li><a class="reference internal" href="#managing-spatial-transformations" id="id99">Managing Spatial Transformations</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#more-advanced-topics" id="id101">More Advanced Topics</a><ul>
-<li><a class="reference internal" href="#shadows" id="id102">Shadows</a></li>
+<li><a class="reference internal" href="#more-advanced-topics" id="id100">More Advanced Topics</a><ul>
+<li><a class="reference internal" href="#shadows" id="id101">Shadows</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sources-of-information" id="id103">Sources of Information</a></li>
+<li><a class="reference internal" href="#sources-of-information" id="id102">Sources of Information</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#operating-system-support-for-3d" id="id104">Operating System Support for 3D</a><ul>
-<li><a class="reference internal" href="#testing" id="id105">Testing</a></li>
-<li><a class="reference internal" href="#id45" id="id106">Troubleshooting</a></li>
+<li><a class="reference internal" href="#operating-system-support-for-3d" id="id103">Operating System Support for 3D</a><ul>
+<li><a class="reference internal" href="#testing" id="id104">Testing</a></li>
+<li><a class="reference internal" href="#id45" id="id105">Troubleshooting</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#minor-topics" id="id107">Minor Topics</a><ul>
-<li><a class="reference internal" href="#camera-navigation-conventions" id="id108">Camera Navigation Conventions</a></li>
+<li><a class="reference internal" href="#minor-topics" id="id106">Minor Topics</a><ul>
+<li><a class="reference internal" href="#camera-navigation-conventions" id="id107">Camera Navigation Conventions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#d-related-mini-glossary" id="id109">3D-Related Mini-Glossary</a></li>
+<li><a class="reference internal" href="#d-related-mini-glossary" id="id108">3D-Related Mini-Glossary</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -541,11 +540,11 @@ $ ln -s libdraco.so libextern_draco.so
 <p>Their viewing volume is a truncated pyramid.</p>
 <p>They are defined based on a field of view and an aspect ratio; see <tt class="docutils literal">gl:frustum/6</tt> and <tt class="docutils literal">glu:perspective/4</tt>.</p>
 </div>
-</div>
 <div class="section" id="viewport-transformations">
-<h4>Viewport Transformations</h4>
+<h5>Viewport Transformations</h5>
 <p>As for the viewport, it is generally defined with <tt class="docutils literal">gl:viewport/4</tt> so that its size corresponds to the widget in which rendering will take place.</p>
 <p>To avoid distortion, its aspect ratio must be the same as the one of the projection transformation.</p>
+</div>
 </div>
 </div>
 <div class="section" id="camera">
@@ -647,9 +646,8 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <p><span class="raw-html"><center><img src="myriad-space-time-referential.png" id="responsive-image-tiny"></img></center></span>
 </p>
 <p>These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.</p>
-</div>
 <div class="section" id="a-tree-of-referentials">
-<h3><a class="toc-backref" href="#id92">A Tree of Referentials</a></h3>
+<h4>A Tree of Referentials</h4>
 <p>In the general case, either in 2D or (more often of interest here) in 3D, a given scene (a model) is made of a set of elements (ex: the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (ex: a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.</p>
 <p>The rendering objective requires to have ultimately one's scene transformed as a whole in eyes coordinates (to obtain coordinates along the aforementioned 2D screen referential, along the X and Y axes - the Z one serving to sort out depth, as per our conventions).</p>
 <p>For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same (scene-global) space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take into account the scene as a whole, to transform it to eye coordinates).</p>
@@ -693,8 +691,9 @@ P_{h{\rightarrow}c} = P_{s{\rightarrow}c}.P_{a{\rightarrow}s}.P_{f{\rightarrow}a
 </table>
 <p>So a whole series of transformations can be done by applying a single matrix - whose coordinates are now to be determined.</p>
 </div>
+</div>
 <div class="section" id="computing-transition-matrices">
-<h3><a class="toc-backref" href="#id93">Computing Transition Matrices</a></h3>
+<h3><a class="toc-backref" href="#id92">Computing Transition Matrices</a></h3>
 <p>For that, let's consider an homogeneous 4x4 matrix is in the form of:</p>
 <div class="math">
 \begin{equation*}
@@ -839,21 +838,21 @@ P_{2\rightarrow1}
 </div>
 </div>
 <div class="section" id="shaders">
-<h2><a class="toc-backref" href="#id94">Shaders</a></h2>
+<h2><a class="toc-backref" href="#id93">Shaders</a></h2>
 <div class="section" id="a-programmable-pipeline">
-<h3><a class="toc-backref" href="#id95">A Programmable Pipeline</a></h3>
+<h3><a class="toc-backref" href="#id94">A Programmable Pipeline</a></h3>
 <p>Shaders are the basic rendering building blocks of applications using modern OpenGL (ex: 3.x/4.0).</p>
 <p>Such an application will indeed program its own shaders, instead of calling functions like <tt class="docutils literal"><span class="pre">glBegin()/glEnd()</span></tt>, as it was done with OpenGL 1.x-2.x and its fixed-pipeline immediate mode.</p>
 <p>This mode of operation, albeit more complex, offers more control and enables increased performances.</p>
 </div>
 <div class="section" id="six-types-of-glsl-shaders">
-<h3><a class="toc-backref" href="#id96">Six Types of GLSL Shaders</a></h3>
+<h3><a class="toc-backref" href="#id95">Six Types of GLSL Shaders</a></h3>
 <p>Shaders are written in the <strong>GLSL</strong> language, i.e. the <a class="reference external" href="https://en.wikipedia.org/wiki/OpenGL_Shading_Language">OpenGL Shading Language</a>.</p>
 <p>They are portions of C-like code that can be inserted in the rendering pipeline implemented by the OpenGL driver of a GPU card. Six different kinds of shaders can be defined, depending on the processing step that they implement and on their purpose: vertex, tessellation for control or for evaluation, geometry, fragment or compute shaders.</p>
 <p>Except this last type (compute shader), all types are mostly dedicated to <em>rendering</em>. If wanting to perform on one's GPU more general-purpose processing, <a class="reference external" href="https://en.wikipedia.org/wiki/OpenCL">OpenCL</a> shall be preferred to GLSL.</p>
 </div>
 <div class="section" id="runtime-build">
-<h3><a class="toc-backref" href="#id97">Runtime Build</a></h3>
+<h3><a class="toc-backref" href="#id96">Runtime Build</a></h3>
 <p>Shaders are compiled at (application) runtime <a class="footnote-reference" href="#id42" id="id41">[8]</a> (to target exactly the actual hardware), then linked and attached to a separate program running on the GPU. This is fairly low-level, black-box direct programming, in sharp contrast with the reliance on APIs that used to be the norm with OpenGL 1.x.</p>
 <table class="docutils footnote" frame="void" id="id42" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -864,7 +863,7 @@ P_{2\rightarrow1}
 <p>Yet offline compilers exist as well, as well as debuggers (like the NVIDIA NsightShader Debugger).</p>
 </div>
 <div class="section" id="communicating-with-shaders">
-<h3><a class="toc-backref" href="#id98">Communicating with Shaders</a></h3>
+<h3><a class="toc-backref" href="#id97">Communicating with Shaders</a></h3>
 <p>Of course the application must have a way to supply information to its shaders (the other way round is less usual, except for compute shaders).</p>
 <p>This can be done thanks to user-defined attributes, whose layout, based on indices, must match on either side; for example, with <tt class="docutils literal">layout(location = 0) in vec3 input_vertex;</tt>, a vertex shader will expect a (single) vector of 3 coordinates to be found at index 0 as input; the application will need to specify a corresponding <em>Vertex Buffer Object</em> (VBO).</p>
 <p>As for output, for example a fragment shader must return the color that it computed; <tt class="docutils literal">out vec3 my_color;</tt> declares that, and the shader code may be as simple as returning a constant color in all cases, like in:</p>
@@ -901,26 +900,26 @@ P_{2\rightarrow1}
 <p>Finally, depending on the type of a shader, some predefined variables may be defined (ex: for a vertex shader, <tt class="docutils literal">gl_Position</tt> is a predefined vec4 output corresponding to the clip-space output position of the current vertex).</p>
 </div>
 <div class="section" id="examples-of-shaders">
-<h3><a class="toc-backref" href="#id99">Examples of Shaders</a></h3>
+<h3><a class="toc-backref" href="#id98">Examples of Shaders</a></h3>
 <p>See the <a class="reference external" href="https://github.com/dgud/wings/tree/master/shaders">ones of Wings3D</a> (in GLSL &quot;1.2&quot; apparently, presumably for maximum backward compatibility; note that some elements are OpenCL ones).</p>
 </div>
 <div class="section" id="managing-spatial-transformations">
-<h3><a class="toc-backref" href="#id100">Managing Spatial Transformations</a></h3>
+<h3><a class="toc-backref" href="#id99">Managing Spatial Transformations</a></h3>
 <p>Modern OpenGL (and GLU) implementations basically dropped the direct matrix support (the so-called immediate mode does not exist anymore, except in a compatibility context). So no more calls to <tt class="docutils literal">glTranslate</tt>, <tt class="docutils literal">glRotate</tt>, <tt class="docutils literal">glLoadIdentity</tt> or <tt class="docutils literal">gluPerspective</tt> shall be done; now the application has to compute such matrices (for model, view, texture, normal, projection, etc.) by itself (on the CPU), as inputs to its GLSL shaders.</p>
 <p>For that, applications may use dedicated, separate libraries, such as, in C/C++, GLM, i.e. <a class="reference external" href="https://github.com/g-truc/glm">OpenGL Mathematics</a> (Myriad's <a class="reference external" href="http://myriad.esperide.org/#spatial-support">linear support</a> aims to provide, in Erlang, a relevant subset of these operations).</p>
 </div>
 </div>
 <div class="section" id="more-advanced-topics">
-<h2><a class="toc-backref" href="#id101">More Advanced Topics</a></h2>
+<h2><a class="toc-backref" href="#id100">More Advanced Topics</a></h2>
 <div class="section" id="shadows">
-<h3><a class="toc-backref" href="#id102">Shadows</a></h3>
+<h3><a class="toc-backref" href="#id101">Shadows</a></h3>
 <p>Determining the shadow of an arbitrary object on an arbitrary plane (representing typically the ground - or other objects) from an arbitrary light source (possibly at infinity) corresponds to performing a specific <strong>projection</strong>. For that, a relevant 4x4 (based on homogeneous coordinates) matrix (singular, i.e. non-invertible matrix) can be defined.</p>
 <p>This matrix can be multiplied with the top of the model-view matrix stack, before drawing the object of interest in the shadow color (a shade of black generally).</p>
 <p>Refer to <a class="reference external" href="https://www.glprogramming.com/red/chapter14.html#name15">this page</a> for more information.</p>
 </div>
 </div>
 <div class="section" id="sources-of-information">
-<h2><a class="toc-backref" href="#id103">Sources of Information</a></h2>
+<h2><a class="toc-backref" href="#id102">Sources of Information</a></h2>
 <p>The reference pages for the various versions of OpenGL are <a class="reference external" href="https://www.khronos.org/registry/OpenGL-Refpages/">available on the Khronos official OpenGL Registry</a>.</p>
 <p>Two very well-written books, strongly recommended, that are still relevant for 3D graphics despite their old age (circa 1996; for OpenGL 1.1):</p>
 <ul class="simple">
@@ -946,16 +945,16 @@ P_{2\rightarrow1}
 </div>
 </div>
 <div class="section" id="operating-system-support-for-3d">
-<span id="os-support"></span><h1><a class="toc-backref" href="#id104">Operating System Support for 3D</a></h1>
+<span id="os-support"></span><h1><a class="toc-backref" href="#id103">Operating System Support for 3D</a></h1>
 <p>Benefiting from a proper 2D/3D hardware acceleration on GNU/Linux is unfortunately not always straightforward, and sometimes brittle.</p>
 <div class="section" id="testing">
-<h2><a class="toc-backref" href="#id105">Testing</a></h2>
+<h2><a class="toc-backref" href="#id104">Testing</a></h2>
 <p>First, one may check whether such acceleration is already available by running, from the command-line, the <tt class="docutils literal">glxinfo</tt> executable (to be obtained on Arch Linux thanks to the <tt class="docutils literal"><span class="pre">mesa-utils</span></tt> package), and hope to see, among the many displayed lines, <tt class="docutils literal">direct rendering: Yes</tt>.</p>
 <p>One may also run our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/display-opengl-information.sh">display-opengl-information.sh</a> script to report relevant information.</p>
 <p>A final validation might be to run the <tt class="docutils literal">glxgears</tt> executable (still obtained through the <tt class="docutils literal"><span class="pre">mesa-utils</span></tt> package), and to ensure that a window appears, showing three gears properly rotating.</p>
 </div>
 <div class="section" id="id45">
-<h2><a class="toc-backref" href="#id106">Troubleshooting</a></h2>
+<h2><a class="toc-backref" href="#id105">Troubleshooting</a></h2>
 <p>If it is not the case (no direct rendering, or a GLX error being returned - typically involving any <tt class="docutils literal">X Error of failed request:&nbsp; BadValue</tt> for a <tt class="docutils literal">X_GLXCreateNewContext</tt>), one should investigate one's configuration (with <tt class="docutils literal">lspci | grep VGA</tt>, <tt class="docutils literal">lsmod</tt>, etc.), update one's video driver on par with the current kernel, reboot, sacrifice a chicken, etc.</p>
 <p>If using a NVidia graphic card, consider reading this <a class="reference external" href="https://wiki.archlinux.org/title/NVIDIA">Arch Linux wiki page</a> first.</p>
 <p>In our case, installation could be done with <tt class="docutils literal">pacman <span class="pre">-Sy</span> nvidia <span class="pre">nvidia-utils</span></tt> but requested a reboot.</p>
@@ -963,9 +962,9 @@ P_{2\rightarrow1}
 </div>
 </div>
 <div class="section" id="minor-topics">
-<h1><a class="toc-backref" href="#id107">Minor Topics</a></h1>
+<h1><a class="toc-backref" href="#id106">Minor Topics</a></h1>
 <div class="section" id="camera-navigation-conventions">
-<h2><a class="toc-backref" href="#id108">Camera Navigation Conventions</a></h2>
+<h2><a class="toc-backref" href="#id107">Camera Navigation Conventions</a></h2>
 <p>Multiple tools introduced conventions in order to navigate, with mouse and keyboard, in a 3D world.</p>
 <p id="blender-conventions">We prefer the way Blender manages the observer viewpoint (current camera), as <a class="reference external" href="https://docs.blender.org/manual/en/latest/editors/3dview/navigate/navigation.html">described here</a>; notably, supposing a three-button mouse with a scrollwheel:</p>
 <ul class="simple">
@@ -976,7 +975,7 @@ P_{2\rightarrow1}
 </div>
 </div>
 <div class="section" id="d-related-mini-glossary">
-<h1><a class="toc-backref" href="#id109">3D-Related Mini-Glossary</a></h1>
+<h1><a class="toc-backref" href="#id108">3D-Related Mini-Glossary</a></h1>
 <ul class="simple">
 <li><strong>HDRP</strong>: <em>High Definition Render Pipeline</em>, a <a class="reference external" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition&#64;13.1/manual/index.html">high-fidelity scriptable render pipeline</a>, made by Unity to target <strong>modern</strong> (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)</li>
 <li><strong>IK</strong>: <em>Inverse Kinematics</em>, the <strong>computation of intermediary joint parameters</strong> so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. that may be retained so that the hand is ultimately correctly placed on the chair (<a class="reference external" href="https://en.wikipedia.org/wiki/Inverse_kinematics">more information</a>)</li>
