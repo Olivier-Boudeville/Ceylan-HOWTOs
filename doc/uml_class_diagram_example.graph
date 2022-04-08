@@ -13,7 +13,7 @@ digraph MyUMLClassDiagram {
 	node [fontname="Helvetica,Arial,sans-serif"]
 	edge [fontname="Helvetica,Arial,sans-serif" fontsize="11"]
 	labelloc="t"
-	label="UML Class diagram: Overall Example"
+	label="UML Class diagram: an overall example"
 	graph [splines=false]
 	color=black
 	node [shape=record style=filled fillcolor=gray95]
@@ -23,8 +23,8 @@ digraph MyUMLClassDiagram {
 
 	edge [arrowhead=diamond]
 
-	Dog -> Tail [taillabel="1" headlabel="2" ]
-	Cat -> Tail [taillabel="1 " headlabel="2 " ]
+	Tail -> Dog [taillabel=" 1" headlabel="1  " ]
+	Tail -> Cat [taillabel="1" headlabel="1" ]
 
 
 	/* Package section */
@@ -73,7 +73,7 @@ digraph MyUMLClassDiagram {
 
 	edge [arrowhead=none]
 
-	Alpha -> Beta [xlabel="is composed\nof" taillabel="* " headlabel="3..* "]
+	Alpha -> Beta [xlabel=" is composed\nof" taillabel="* " headlabel="3..* "]
 
 
 
