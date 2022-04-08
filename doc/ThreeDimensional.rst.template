@@ -4,9 +4,9 @@
 .. title:: Ceylan-HOWTOs: About 3D
 
 
-========
+--------
 About 3D
-========
+--------
 
 
 .. role:: raw-html(raw)
@@ -46,15 +46,14 @@ As usual, these information pertain to a GNU/Linux perspective.
 
 
 
----------------------------
 Cross-Platform Game Engines
----------------------------
+===========================
 
 The big three are Godot_, `Unreal Engine`_ and Unity3D_.
 
 
 Godot
-=====
+-----
 
 `Godot <https://en.wikipedia.org/wiki/Godot_(game_engine)>`_ is our personal favorite engine, notably because it is free software (`released under the very permissive MIT license <https://godotengine.org/license>`_).
 
@@ -65,13 +64,13 @@ Godot (version 3.4.1) will not be able to load FBX files that reference formats 
 
 
 Installation
-------------
+............
 
 On Arch Linux: ``pacman -Sy godot``.
 
 
 Use
----
+...
 
 Godot logs are stored per-project; ex: ``~/.local/share/godot/app_userdata/my-test-project/logs/godot.log``; past log files are kept once timestamped. They tend not to have interesting content.
 
@@ -80,7 +79,7 @@ A configuration tree lies in ``.config/godot``, a cache tree in ``~/.cache/godot
 
 
 Unreal Engine
-=============
+-------------
 
 Another contender is the `Unreal Engine <https://en.wikipedia.org/wiki/Unreal_Engine>`_, a C++ game engine developed by Epic Games; we have not used it yet.
 
@@ -90,7 +89,7 @@ See its `official website <https://www.unrealengine.com>`_ and its `marketplace 
 
 
 Assets
-------
+......
 
 Purchased assets may be used in one's own shipped products (`source <https://marketplacehelp.epicgames.com/s/article/How-can-I-use-the-products-I-ve-purchased-from-the-Marketplace-or-Learn-Tab?language=en_US>`_) and apparently at least usually no restrictive terms apply.
 
@@ -100,7 +99,7 @@ Assets not created by Epic Games can be used in other engines unless otherwise s
 
 
 Unity3D
-=======
+-------
 
 `Unity <https://en.wikipedia.org/wiki/Unity_(game_engine)>`_ is most probably the cross-platform game engine that is the most popular.
 
@@ -119,7 +118,7 @@ So, in legal terms, an asset could be bought in the Unity Asset Store and used i
 
 
 Installation
-------------
+............
 
 Unity shall now be obtained thanks to the Unity Hub.
 
@@ -134,21 +133,21 @@ Additional information: `Unity3D on Arch <https://wiki.archlinux.org/title/Unity
 
 
 Configuration
--------------
+.............
 
 Configuring Unity so that its interface (mouse, keyboard bindings) behave like, for example, the one of Blender, is not natively supported.
 
 
 
 Running Unity
--------------
+.............
 
 Just execute ``unityhub``, which requires signing up and activating a licence.
 
 
 
 Troubleshooting
----------------
+...............
 
 The log files are stored in ``~/.config/unity3d``:
 
@@ -168,7 +167,7 @@ In term of persistent state, beyond the project trees themselves, there are:
 
 
 Unity Assets
-------------
+............
 
 Once ordered through the Unity Asset Store, assets can be downloaded through the ``Window -> Package Manager`` menu, by replacing, in the top ``Packages`` drop-down, the ``In Project`` entry by the ``My Assets`` one. After having selected an asset, use the ``Download`` button at the bottom-right of the screen.
 
@@ -201,20 +200,19 @@ Meshes are typically in the `FBX <https://en.wikipedia.org/wiki/FBX>`_ (propriet
 
 
 
--------
 3D Data
--------
+=======
 
 
 File Formats
-============
+------------
 
 They are designed to store 3D content (scenes, nodes, vertices, normals, meshes, textures, materials, animations, skins, cameras, lights, etc.).
 
 
 
 glTF
-----
+....
 
 We prefer to rely on the open, well-specified, modern `glTF 2.0 format <https://en.wikipedia.org/wiki/GlTF>`_ in order to perform import/export operations.
 
@@ -231,7 +229,7 @@ This (generic) `online glTF viewer <https://gltf-viewer.donmccurdy.com/>`_ prove
 
 
 Collada
--------
+.......
 
 The second best choice that we see is `Collada <https://en.wikipedia.org/wiki/COLLADA>`_ (``*.dae`` files), an XML-based counterpart (open as well, yet older and with less validating facilities) to glTF.
 
@@ -241,13 +239,13 @@ The second best choice that we see is `Collada <https://en.wikipedia.org/wiki/CO
 
 
 FBX, OBJ, etc.
---------------
+..............
 
 Often, assets can be found as `FBX <https://en.wikipedia.org/wiki/FBX>`_ of `OBJ <https://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ files and thus may have to be converted (typically to glTF), which is never a riskless task. FBX comes in two flavours: text-based (ASCII) or binary, see `this retro-specification <https://code.blender.org/2013/08/fbx-binary-file-format-specification/>`_ for more information.
 
 
 In General
-----------
+..........
 
 Refer to `blender import`_ in order to handle the most common 3D file formats, and the next section about conversions.
 
@@ -274,13 +272,13 @@ This should list, among other elements, the paths that such a binary file is emb
 
 
 Conversions
-===========
+-----------
 
 Due to the larger number of 3D file formats and the role of commercial software, interoperability regarding 3D content is poor and depends on many versions (of tools and formats).
 
 
 Recommended Option: Relying on Blender
---------------------------------------
+......................................
 
 Using `blender import`_ is the primary solution that we see: a content, once imported in Blender, can be saved in any of the supported formats.
 
@@ -291,7 +289,7 @@ Yet this operation may fail, for example on "older" FBX files, whose FBX version
 
 
 Workaround #1: Using Autodesk FBX Converter
--------------------------------------------
+...........................................
 
 The simpler approach seems to download the (free) `Autodesk FBX Converter <https://images.autodesk.com/adsk/files/fbx20133_converter_win_x64.exe>`_ and to use `wine <GNULinux.html#wine>`_ to run it on GNU/Linux. Just install then this converter with: ``wine fbx20133_converter_win_x64.exe``.
 
@@ -318,7 +316,7 @@ Unfortunately, at least on one FBX sample taken from a Unity package, if the mes
 
 
 Workaround #2: Relying on Unity
--------------------------------
+...............................
 
 Here the principle is to import a content in Unity (the same could probably be done with Godot), and to export it from there.
 
@@ -332,7 +330,7 @@ Afterwards, in the ``GameObject`` menu, an ``Export to FBX`` option will be avai
 
 
 Samples
-=======
+-------
 
 Here are a few samples of 3D content (useful for testing):
 
@@ -345,7 +343,7 @@ Here are a few samples of 3D content (useful for testing):
 
 
 Asset Providers
-===============
+---------------
 
 Usually, for one's creation, much multimedia artwork has to be secured: typically graphical assets (ex: 2D/3D geometries, animations, textures) and/or audio ones (ex: music, sounds, speech syntheses, special effects).
 
@@ -390,13 +388,13 @@ Many asset providers organise interesting discount offers (at least -50% on a se
 
 
 
-------------------
+
 Modelling Software
-------------------
+==================
 
 
 Blender
-=======
+-------
 
 Blender is a very powerful `open-source 3D toolset <https://en.wikipedia.org/wiki/Blender_(software)>`_.
 
@@ -416,7 +414,7 @@ We recommend the use our `Blender scripts <http://hull.esperide.org#blender>`_ i
 
 
 Wings3D
-=======
+-------
 
 `Wings3D <https://en.wikipedia.org/wiki/Wings_3D>`_ is a nice, Erlang-based, free software, advanced subdivision *modeler* [#]_, available for Windows, Linux, and Mac OS X. Wings3D relies on OpenGL.
 
@@ -436,13 +434,13 @@ See also:
 
 
 
------------
+
 Other Tools
------------
+===========
 
 
 Draco
-=====
+-----
 
 `Draco <https://google.github.io/draco/>`_ is an open-source library for compressing and decompressing 3D geometric meshes and point clouds.
 
@@ -485,14 +483,14 @@ Then the log message will become:
 
 
 The Compressonator
-==================
+------------------
 
 The `Compressonator <https://gpuopen.com/compressonator/>`_ is an AMD tool (as a GUI, a command-line executable and a SDK) designed to compress textures (ex: in DXT1, DXT3 or DXT5 formats; typically resulting in a ``.dds`` extension) and generate mipmaps ahead of time, so that it does not have to be done at runtime.
 
 
 
 F3D
-===
+---
 
 `f3d <https://github.com/f3d-app/f3d>`_ (installable from the AUR) is a fast and minimalist VTK-based 3D viewer.
 
@@ -500,14 +498,12 @@ Such a viewer is especially interesting to investigate whether a tool failed to 
 
 
 
-
--------------
 OpenGL Corner
--------------
+=============
 
 
 Conventions
-===========
+-----------
 
 Refer to our `Mini OpenGL Glossary`_ for most of the terms used in these sections.
 
@@ -531,7 +527,7 @@ The mentioned tests will be `Ceylan-Myriad <http://myriad.esperide.org>`_ ones, 
 
 
 Basics
-------
+......
 
 - OpenGL is a **software interface to graphics hardware**, i.e. the *specification* of an API 'of around 150 functions in its older version 1.1), developed and maintained by the `Khronos Group <https://www.khronos.org/>`_
 - a video card will run an *implementation* of that specification, generally developed by the manufacturer of that card; a good rule of thumb is to always update one's video card drivers to its **latest stable version**, as OpenGL implementations are constantly improved (bug-fixing) and updated (with regard to newer OpenGL versions)
@@ -586,7 +582,7 @@ Basics
 
 
 Steps for OpenGL Rendering
---------------------------
+..........................
 
 The usual analogy to describe them is the process of **producing a photography**:
 
@@ -603,7 +599,7 @@ Finally, as mentioned, in OpenGL, operations are to be defined in reverse order.
 
 
 Transformations
----------------
+...............
 
 In this context, except notably the projections, most are invertible, and a composition of invertible transformations, in any combination and sequence, is itself invertible.
 
@@ -614,7 +610,7 @@ Referential transitions are discussed further in this document, in the `3D refer
 
 
 Translations / Rotations / Scalings / Shearings
-...............................................
+_______________________________________________
 
 - the inverse of a **translation** of a vector :math:`\vec{T}` is a translation of vector :math:`\vec{-T}`, thus: :math:`(Mt_\vec{T})^{-1} = Mt_{-\vec{T}}`
 
@@ -625,14 +621,14 @@ Translations / Rotations / Scalings / Shearings
 
 
 Reflections
-...........
+___________
 
 Symmetries with respect to an axis correspond to a scaling factor of :math:`-1` along this axis, and :math:`1` along the other axes.
 
 
 
 Affine Transformations
-......................
+______________________
 
 
 An `affine transformation <https://en.wikipedia.org/wiki/Affine_transformation>`_ designates all geometric transformations that preserve lines and parallelism (but not necessarily distances and angles).
@@ -643,7 +639,7 @@ For them :math:`f(\lambda.x+y) = \lambda.f(x) + f(y)`.
 
 
 Projections
-...........
+___________
 
 A projection defines 6 clipping planes (at least 6 additional ones can be defined).
 
@@ -652,16 +648,18 @@ A 3D plane is defined by 4 coordinates (ex: ``(a, b, c, d)``), and a point :math
 Two kinds of projections are considered: orthographic and perspective.
 
 
+
 Orthographic Projections
-________________________
+************************
 
 Their viewing volume is a parallelepiped, precisely a rectangular cuboid.
 
 With them parallel lines remain parallel; see ``gl:ortho/6`` and ``glu:ortho2D/4``.
 
 
+
 Perspective Projections
-_______________________
+***********************
 
 Their viewing volume is a truncated pyramid.
 
@@ -670,7 +668,7 @@ They are defined based on a field of view and an aspect ratio; see ``gl:frustum/
 
 
 Viewport Transformations
-........................
+************************
 
 As for the viewport, it is generally defined with ``gl:viewport/4`` so that its size corresponds to the widget in which rendering will take place.
 
@@ -678,7 +676,7 @@ To avoid distortion, its aspect ratio must be the same as the one of the project
 
 
 Camera
-------
+......
 
 The default model-view matrix is an identity; the camera is situated at the origin, points down the negative Z-axis, and has an up-vector of ``(0, 1, 0)``.
 
@@ -703,7 +701,7 @@ For example, if we want that this camera sees, in (Z-up) MyriadGUI referential, 
 
 
 Hints
------
+.....
 
 - a frequent pattern is, for some type of OpenGL element (let's name it ``Foo``; it could designate for example ``Texture``), first ``glGenObject(1, &fooId);`` is used, then ``glBindObject(GL_SOME_TARGET, objectId);``
 
@@ -714,7 +712,7 @@ Hints
 
 
 Mini OpenGL Glossary
---------------------
+....................
 
 Terms that are more or less specific to OpenGL:
 
@@ -752,11 +750,11 @@ Refer to the `description of the pipeline <https://www.glprogramming.com/blue/ch
 
 
 Referentials
-============
+------------
 
 
 Referentials In 2D
-------------------
+..................
 
 A popular convention, for example detailed in `this section <https://www.glprogramming.com/red/chapter02.html#name10>`_ of the Red book, is to consider that the ordinates increase when going from the *bottom of the viewport to its top*; then for example the on-screen lower-left corner of the OpenGL canvas is ``(0,0)``, and its upper-right corner is ``(Width,Height)``.
 
@@ -797,7 +795,7 @@ Using "stable", device-independent floats instead of integers directly accountin
 .. _`3D referentials`:
 
 Referentials In 3D
-------------------
+..................
 
 
 We will rely here as well on the MyriadGUI conventions, `this time for 3D <https://myriad.esperide.org/#3d-referential>`_ (not taking specifically time into account here):
@@ -810,7 +808,7 @@ These are thus Z-up conventions (the Z axis being vertical and designating altit
 
 
 A Tree of Referentials
-----------------------
+______________________
 
 In the general case, either in 2D or (more often of interest here) in 3D, a given scene (a model) is made of a set of elements (ex: the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (ex: a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.
 
@@ -864,7 +862,7 @@ So a whole series of transformations can be done by applying a single matrix - w
 
 
 Computing Transition Matrices
------------------------------
+.............................
 
 
 For that, let's consider an homogeneous 4x4 matrix is in the form of:
@@ -1012,11 +1010,11 @@ Taking into account the last rendering step, the *projection* (comprising clippi
 
 
 Shaders
-=======
+-------
 
 
 A Programmable Pipeline
------------------------
+.......................
 
 Shaders are the basic rendering building blocks of applications using modern OpenGL (ex: 3.x/4.0).
 
@@ -1026,7 +1024,7 @@ This mode of operation, albeit more complex, offers more control and enables inc
 
 
 Six Types of GLSL Shaders
--------------------------
+.........................
 
 Shaders are written in the **GLSL** language, i.e. the `OpenGL Shading Language <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>`_.
 
@@ -1037,7 +1035,7 @@ Except this last type (compute shader), all types are mostly dedicated to *rende
 
 
 Runtime Build
--------------
+.............
 
 Shaders are compiled at (application) runtime [#]_ (to target exactly the actual hardware), then linked and attached to a separate program running on the GPU. This is fairly low-level, black-box direct programming, in sharp contrast with the reliance on APIs that used to be the norm with OpenGL 1.x.
 
@@ -1049,7 +1047,7 @@ Yet offline compilers exist as well, as well as debuggers (like the NVIDIA Nsigh
 
 
 Communicating with Shaders
---------------------------
+..........................
 
 Of course the application must have a way to supply information to its shaders (the other way round is less usual, except for compute shaders).
 
@@ -1102,14 +1100,14 @@ Finally, depending on the type of a shader, some predefined variables may be def
 
 
 Examples of Shaders
--------------------
+...................
 
 See the `ones of Wings3D <https://github.com/dgud/wings/tree/master/shaders>`_ (in GLSL "1.2" apparently, presumably for maximum backward compatibility; note that some elements are OpenCL ones).
 
 
 
 Managing Spatial Transformations
---------------------------------
+................................
 
 Modern OpenGL (and GLU) implementations basically dropped the direct matrix support (the so-called immediate mode does not exist anymore, except in a compatibility context). So no more calls to ``glTranslate``, ``glRotate``, ``glLoadIdentity`` or ``gluPerspective`` shall be done; now the application has to compute such matrices (for model, view, texture, normal, projection, etc.) by itself (on the CPU), as inputs to its GLSL shaders.
 
@@ -1118,11 +1116,11 @@ For that, applications may use dedicated, separate libraries, such as, in C/C++,
 
 
 More Advanced Topics
-====================
+--------------------
 
 
 Shadows
--------
+.......
 
 Determining the shadow of an arbitrary object on an arbitrary plane (representing typically the ground - or other objects) from an arbitrary light source (possibly at infinity) corresponds to performing a specific **projection**. For that, a relevant 4x4 (based on homogeneous coordinates) matrix (singular, i.e. non-invertible matrix) can be defined.
 
@@ -1133,7 +1131,7 @@ Refer to `this page <https://www.glprogramming.com/red/chapter14.html#name15>`_ 
 
 
 Sources of Information
-======================
+----------------------
 
 The reference pages for the various versions of OpenGL are `available on the Khronos official OpenGL Registry <https://www.khronos.org/registry/OpenGL-Refpages/>`_.
 
@@ -1164,15 +1162,15 @@ Other elements of interest:
 
 .. _`os-support`:
 
--------------------------------
+
 Operating System Support for 3D
--------------------------------
+===============================
 
 Benefiting from a proper 2D/3D hardware acceleration on GNU/Linux is unfortunately not always straightforward, and sometimes brittle.
 
 
 Testing
-=======
+-------
 
 First, one may check whether such acceleration is already available by running, from the command-line, the ``glxinfo`` executable (to be obtained on Arch Linux thanks to the ``mesa-utils`` package), and hope to see, among the many displayed lines, ``direct rendering: Yes``.
 
@@ -1183,7 +1181,7 @@ A final validation might be to run the ``glxgears`` executable (still obtained t
 
 
 Troubleshooting
-===============
+---------------
 
 If it is not the case (no direct rendering, or a GLX error being returned - typically involving any ``X Error of failed request:  BadValue`` for a ``X_GLXCreateNewContext``), one should investigate one's configuration (with ``lspci | grep VGA``, ``lsmod``, etc.), update one's video driver on par with the current kernel, reboot, sacrifice a chicken, etc.
 
@@ -1195,13 +1193,13 @@ Despite package dependencies and a not-so-successful attempt of using DKMS in or
 
 
 
-------------
+
 Minor Topics
-------------
+============
 
 
 Camera Navigation Conventions
-=============================
+-----------------------------
 
 Multiple tools introduced conventions in order to navigate, with mouse and keyboard, in a 3D world.
 
@@ -1218,10 +1216,8 @@ We prefer the way Blender manages the observer viewpoint (current camera), as `d
 
 
 
-
-------------------------
 3D-Related Mini-Glossary
-------------------------
+========================
 
 - **HDRP**: *High Definition Render Pipeline*, a `high-fidelity scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@13.1/manual/index.html>`_, made by Unity to target **modern** (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)
 
