@@ -1,0 +1,188 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About Data Management
+
+
+---------------
+Data Management
+---------------
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Data%20Management">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2022-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Saturday, November 20, 2021
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 2
+
+
+:raw-html:`</center>`
+
+
+
+Overview
+========
+
+This section concentrates information about **data management**, including data formats.
+
+
+
+General-Purpose Data Format
+===========================
+
+
+Such a format is typically useful to hold configuration information.
+
+
+
+Language-Independent Data Format: JSON
+--------------------------------------
+
+We strongly prefer `JSON <https://en.wikipedia.org/wiki/JSON>`_ to, for example, `YAML <https://en.wikipedia.org/wiki/YAML>`_, due to the Python-style indentation on which the latter relies in order to indicate nesting.
+
+A JSON document is in plain-text and may contain:
+
+- basic types:
+
+  - Number: ``2`` or ``4.1``
+  - String: ``"I am a string"``
+  - Boolean: ``true`` or ``false``
+  - ``null``: to denote an empty value
+
+- attribute-value pairs (ex: ``"firstName": "John")``
+- "arrays" (ordered lists), ex: ``"myNumbers": ["12", "7", "4"]``
+- "objects" (collection of name-value pairs), ex:
+
+.. code:: json
+
+ {
+
+   "address": {
+	  "streetAddress": "21 2nd Street",
+	  "city": "New York"
+   }
+
+ }
+
+
+The order in arrays is expected to be preserved, but not the one of the elements in an object.
+
+Defining an element (ex: an attribute-value pair) more than once is allowed, and the last instance thereof will be the one kept.
+
+Ex:
+
+.. code::
+
+ {
+
+  "tcp_port": 8084,
+  "tcp_port": 8085,
+  [...]
+
+Here, once the document is parsed, ``tcp_port`` will be considered to ``8085``.
+
+
+
+Pretty-Printing
+...............
+
+
+On GNU/Linux, one may rely on ``jq``, a command-line JSON processor.
+
+Ex: ``jq . my_document.json``.
+
+
+
+Validating
+..........
+
+One may consider that a given document is a legit JSON one iff ``jq type`` reports a non-empty output.
+
+Example:
+
+.. code:: bash
+
+ $ jq type my_document.json
+ "object"
+
+
+
+Example
+.......
+
+
+A typical JSON document is:
+
+.. code:: json
+
+ {
+   "firstName": "John",
+   "__comment": "This is a comment!"
+   "lastName": "Smith",
+   "isAlive": true,
+   "age": 27,
+   "address": {
+	 "streetAddress": "21 2nd Street",
+	 "city": "New York",
+	 "state": "NY",
+	 "postalCode": "10021-3100"
+   },
+   "phoneNumbers": [
+	 {
+	   "type": "home",
+	   "number": "212 555-1234"
+	 },
+	 {
+	   "type": "office",
+	   "number": "646 555-4567"
+	 }
+   ],
+   "children": [],
+   "spouse": null
+ }
+
+
+
+Specifying comments
+...................
+
+With JSON, there is, on purpose, no built-in way to add comments.
+
+The sole solution/workaround is to add comments as specific fields, although they will end up as data like the other fields.
+
+We recommend to mark them specifically (ex: as ``__comment``) so that they should not interfere with the "real" data. As an example, see the second key of the previous JSON document.
+
+
+
+Erlang-Friendly Data Format: ETF
+--------------------------------
+
+Such a format is typically useful to hold configuration information in an Erlang context.
+
+We recommend the use of `ETF <http://myriad.esperide.org/#etf>`_ (the *Erlang Term Format*), that we find particularly useful and even more suitable than JSON (entry order preserved, comments supported, etc.).
+
+:raw-html:`<a name="howtos_bottom"></a>`
