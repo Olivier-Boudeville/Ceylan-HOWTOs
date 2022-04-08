@@ -1,0 +1,18 @@
+digraph UML_Class_diagram {
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif" fontsize="11"]
+	labelloc="t"
+	label="UML Class diagram: Aggregation Example"
+	graph [splines=false]
+	color=black
+	node [shape=record style=filled fillcolor=gray95]
+
+
+	/* Aggregation section */
+
+	edge [arrowhead=odiamond]
+
+	Book -> Library [taillabel="* " headlabel="0..1 " ]
+
+}

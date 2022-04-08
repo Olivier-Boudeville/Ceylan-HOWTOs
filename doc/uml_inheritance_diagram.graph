@@ -1,0 +1,18 @@
+digraph UML_Class_diagram {
+	fontname="Helvetica,Arial,sans-serif"
+	node [fontname="Helvetica,Arial,sans-serif"]
+	edge [fontname="Helvetica,Arial,sans-serif" fontsize="11"]
+	labelloc="t"
+	label="UML Class diagram: Inheritance Example"
+	graph [splines=false]
+	color=black
+	node [shape=record style=filled fillcolor=gray95]
+
+
+	/* Inheritance section */
+
+	edge [arrowhead=empty]
+
+	HumanBeing -> Animal
+
+}
