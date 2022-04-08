@@ -293,7 +293,9 @@ To invert/negate an image (swap colors with their complementary ones):
 UML Diagrams
 ------------
 
-We focus here on class diagrams.
+If `SysML <https://en.wikipedia.org/wiki/Systems_Modeling_Language>`_ can also be of interest, we focus here on `UML2 class diagrams <https://en.wikipedia.org/wiki/Class_diagram>`_ (one of the 14 types of diagrams provided by UML2).
+
+
 
 
 Quick UML Cheat Sheet
@@ -328,7 +330,7 @@ ___________
 
 An **association** is a relation between two classes (*binary association*) or more (*N-ary association*) that describes structural relationships between their instances.
 
-For example a polygon may be defined from at least 3 vertices, whereas a point may take part to any number of polygones (including none):
+For example a polygon may be defined from at least 3 vertices that it would reference, whereas a point may take part to any number of polygones (including none):
 
 :raw-html:`<center><img src="uml_association_diagram.png" id="responsive-image-small"></img></center>`
 :raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{uml_association_diagram.png} \end{figure}`
@@ -339,7 +341,7 @@ For example a polygon may be defined from at least 3 vertices, whereas a point m
 
 The **multiplicity** of an endpoint denotes the number of instances of the corresponding class that may take part to this association. For example, at least 3 points are needed to form a polygon, whereas any number of polygons can include a given point.
 
-In UML the **direction** of the association is easily ambiguous (here we have to rely on external knwoledge to determine whether a polygon is composed of points, of if a point is composed of polygons). Adding a chevron (like ``>`` or ``<``, e.g. ``"is composed of >"`` ; ideally this should be a small solid triangle) to the text is not a good solution either, as the layout may place the respective endpoints in any relative position. Adding an arrow to the end of the line segment cannot be done either, as it would denote the *navigability* of the association instead.
+In UML the **direction** of the association is easily ambiguous (here we have to rely on external knwoledge to determine whether a polygon is composed of points, of if a point is composed of polygons). Adding a chevron (like ``>`` or ``<``, e.g. ``"references >"`` ; ideally this should be a small solid triangle) to the text is not a good solution either, as the layout may place the respective endpoints in any relative position. Adding an arrow to the end of the line segment cannot be done either, as it would denote the *navigability* of the association instead.
 
 
 
@@ -401,7 +403,7 @@ For example, supposing `this diagram example <https://github.com/Olivier-Boudevi
 
 .. code:: bash
 
- $ make uml_class_diagram_example.graph
+ $ make uml_class_diagram_example.png
  # or, to force a regeneration and a displaying of the result:
  $ make clean uml_class_diagram_example.png VIEW_GRAPH=true
 

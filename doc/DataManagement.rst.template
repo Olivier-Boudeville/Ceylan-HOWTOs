@@ -95,15 +95,15 @@ Defining an element (ex: an attribute-value pair) more than once is allowed, and
 
 Ex:
 
-.. code::
+.. code:: json
 
  {
-
   "tcp_port": 8084,
   "tcp_port": 8085,
   [...]
+ }
 
-Here, once the document is parsed, ``tcp_port`` will be considered to ``8085``.
+Here, once the document is parsed, ``tcp_port`` will be considered equal to ``8085``.
 
 
 
@@ -135,13 +135,13 @@ Example
 .......
 
 
-A typical JSON document is:
+Regarding syntax, a `typical JSON document <https://en.wikipedia.org/wiki/JSON#Syntax>`_ is:
 
 .. code:: json
 
  {
    "firstName": "John",
-   "__comment": "This is a comment!"
+   "__comment": "This is a comment!",
    "lastName": "Smith",
    "isAlive": true,
    "age": 27,

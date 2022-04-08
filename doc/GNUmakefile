@@ -47,7 +47,7 @@ PROJECT_CSS := pygments-default.css,howtos.css
 
 PROJECT_ICON := howtos-icon.png
 
-ALL_DIAGRAMS := $(patsubst %.graph,%.png,$(wildcard *.graph))
+DIAGRAMS := $(patsubst %.graph,%.png,$(wildcard *.graph))
 
 
 # Read from the user's environment:
@@ -70,14 +70,14 @@ doc: html pdf
 
 # The HTML version just links to the HOWTOs pages, the PDF includes them:
 
-html: $(HOWTO_HTML_FILES) $(HTML_TARGET)
+html: diagrams $(HOWTO_HTML_FILES) $(HTML_TARGET)
 	@echo "  The HTML content for HOWTOs is available at: file://$$(pwd)/$(DOC_BASE_NAME).html"
 
 
-pdf: $(HOWTO_RST_FILES) $(PDF_TARGET)
+pdf: diagrams $(HOWTO_RST_FILES) $(PDF_TARGET)
 
 
-diagrams: $(ALL_DIAGRAMS)
+diagrams: $(DIAGRAMS)
 
 
 # This link does not need to be in version control:
