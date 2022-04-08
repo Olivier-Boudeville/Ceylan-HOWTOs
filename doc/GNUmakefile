@@ -47,13 +47,15 @@ PROJECT_CSS := pygments-default.css,howtos.css
 
 PROJECT_ICON := howtos-icon.png
 
+ALL_DIAGRAMS := $(patsubst %.graph,%.png,$(wildcard *.graph))
+
 
 # Read from the user's environment:
 GITHUB_PAGES_BASE := $(shell basename "$(HOWTOS_WEB_MIRROR_BRANCH)")
 
 
 
-.PHONY: doc all full-doc html pdf clone-mirror                      \
+.PHONY: doc all full-doc html pdf diagrams clone-mirror             \
 		export-doc export-to-official export-to-mirror              \
 		clean clean-doc clean-links info info-howtos info-web
 
@@ -73,6 +75,9 @@ html: $(HOWTO_HTML_FILES) $(HTML_TARGET)
 
 
 pdf: $(HOWTO_RST_FILES) $(PDF_TARGET)
+
+
+diagrams: $(ALL_DIAGRAMS)
 
 
 # This link does not need to be in version control:
