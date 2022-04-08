@@ -289,4 +289,129 @@ To invert/negate an image (swap colors with their complementary ones):
  $ convert source.png -negate target.png
 
 
+
+UML Diagrams
+------------
+
+We focus here on class diagrams.
+
+
+Quick UML Cheat Sheet
+.....................
+
+
+Multiplicities
+______________
+
+
+A **multiplicity** is a definition of *cardinality* (i.e. number of elements) of some collection of elements.
+
+It can be set for attributes, operations, and associations in a class diagram, and for associations in a use case diagram. The multiplicity is an indication of how many objects may participate in the given relationship.
+
+It is defined as an inclusive interval based on non-negative integers, with ``*`` denoting an unlimited upper bound (not, for example, ``n``).
+
+Most common multiplies are:
+
+- no instance or one instance: ``0..1``
+- any number of instances, including zero: ``*`` (shorthand for ``0..*``)
+- exactly k instances: ``k`` (so, if k=5, ``5``)
+- at least M instances: ``M..*`` (``2..*``)
+- at least M instances, but no more than N (hence bounds included): ``M..N`` (e.g. ``3..5``)
+
+For associations, the default multiplicity is automatically is ``0..1``, while new attributes and operations have a default multiplicity of ``1``.
+
+
+
+Association
+___________
+
+
+An **association** is a relation between two classes (*binary association*) or more (*N-ary association*) that describes structural relationships between their instances.
+
+For example a polygon may be defined from at least 3 vertices, whereas a point may take part to any number of polygones (including none):
+
+:raw-html:`<center><img src="uml_association_diagram.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{uml_association_diagram.png} \end{figure}`
+
+
+(see the `sources <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_association_diagram.graph>`_ of this diagram)
+
+
+The **multiplicity** of an endpoint denotes the number of instances of the corresponding class that may take part to this association. For example, at least 3 points are needed to form a polygon, whereas any number of polygons can include a given point.
+
+In UML the **direction** of the association is easily ambiguous (here we have to rely on external knwoledge to determine whether a polygon is composed of points, of if a point is composed of polygons). Adding a chevron (like ``>`` or ``<``, e.g. ``"is composed of >"`` ; ideally this should be a small solid triangle) to the text is not a good solution either, as the layout may place the respective endpoints in any relative position. Adding an arrow to the end of the line segment cannot be done either, as it would denote the *navigability* of the association instead.
+
+
+
+
+Aggregation
+___________
+
+
+An **aggregation** is a specific association that denotes that an instance of a class (ex: ``Library``) is to loosely contain instances of another class (ex: ``Book``), in the sense that the lifecycle of the contained classes is not strongly dependent on the one of the container (ex: books will still exist even if the library is dismantled).
+
+Here a library may contain any number of books (possibly none), and a given book belongs to at most one library.
+
+:raw-html:`<center><img src="uml_aggregation_diagram.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{uml_aggregation_diagram.png} \end{figure}`
+
+(see the `sources <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_aggregation_diagram.graph>`_ of this diagram)
+
+
+
+Composition
+___________
+
+A **composition** is a specific association that denotes that an instance of a class (ex: ``HumanBeing``) is to own instances of another class (ex: ``Leg``), in the sense that the lifecycle of the contained classes fully depends on the one of the container (here, if a human being dies, his/her legs will not exist anymore either).
+
+Here a human being has exactly 2 legs, and any given leg belongs to exactly one human being (therefore this model does not account for one-legged persons).
+
+:raw-html:`<center><img src="uml_composition_diagram.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{uml_composition_diagram.png} \end{figure}`
+
+(see the `sources <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_composition_diagram.png>`_ of this diagram)
+
+
+
+Inheritance
+___________
+
+An **inheritance** relationship is a specific association that denotes that a class (ex: ``HumanBeing``) is a specific case of a more general one (ex: ``Animal``), and thus that an instance of the first one is also an instance of the second one ("is-a" relationship).
+
+Here a human being is a specific animal.
+
+
+:raw-html:`<center><img src="uml_inheritance_diagram.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{uml_inheritance_diagram.png} \end{figure}`
+
+(see the `sources <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_inheritance_diagram.graph>`_ of this diagram)
+
+
+
+Tooling
+.......
+
+In a design phase, one may prefer lightweight tools like `Graphviz <https://graphviz.org/>`_, `PlantUML <https://plantuml.com/>`_ or even `Dia <https://en.wikipedia.org/wiki/Dia_(software)>`_.
+
+As long as the architecture of a framework is not stabilised, having one's tool determine by itself the layout of the rendering (rather than having to place manually one's graphical components) is surely preferable.
+
+For that we use Graphviz, with `our own build conventions <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc>`_.
+
+For example, supposing `this diagram example <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/uml_class_diagram_example.graph>`_, i.e. a source file named ``uml_class_diagram_example.graph``:
+
+.. code:: bash
+
+ $ make uml_class_diagram_example.graph
+ # or, to force a regeneration and a displaying of the result:
+ $ make clean uml_class_diagram_example.png VIEW_GRAPH=true
+
+
+This example results in the following diagram:
+
+:raw-html:`<center><img src="uml_class_diagram_example.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{uml_class_diagram_example.png} \end{figure}`
+
+(see the `sources <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_class_diagram_example.graph>`_ of this diagram)
+
+
 :raw-html:`<a name="howtos_bottom"></a>`

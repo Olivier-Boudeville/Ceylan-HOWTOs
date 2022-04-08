@@ -71,7 +71,8 @@ The current HOWTOs relate to the following topics:
 - `A bit of Cybersecurity <Cybersecurity.html>`_, regarding encryption, credentials, network, webservers, emails, etc.
 - `Build Tools <Build.html>`_, notably thanks to GNU make
 - `Version Control Systems <VCS.html>`_, i.e. now Git
-- `Documentation Generation <DocGeneration.html>`_, typically to generate HTML and PDF from markup
+- `Documentation Generation <DocGeneration.html>`_, typically to generate HTML and PDF from markup, transform PDF or images, or generate UML diagrams
+- `Data Management <DataManagement.html>`_, notably data formats
 
 :raw-html:`</div>`
 

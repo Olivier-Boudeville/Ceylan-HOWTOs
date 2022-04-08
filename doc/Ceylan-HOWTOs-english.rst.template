@@ -113,6 +113,12 @@ The latest version of this documentation is to be found at the `official Ceylan-
 
 
 
+:raw-latex:`\pagebreak`
+
+.. include:: DataManagement.rst
+
+
+
 -------------
 Please React!
 -------------
