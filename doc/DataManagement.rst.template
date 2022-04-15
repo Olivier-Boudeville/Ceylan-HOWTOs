@@ -54,15 +54,17 @@ This section concentrates information about **data management**, including data 
 General-Purpose Data Format
 ===========================
 
-
 Such a format is typically useful to hold configuration information.
 
+We prefer `JSON <https://en.wikipedia.org/wiki/JSON>`_ to, for example, `YAML <https://en.wikipedia.org/wiki/YAML>`_, due to the Python-style indentation on which the latter relies in order to indicate nesting.
 
 
-Language-Independent Data Format: JSON
---------------------------------------
+Language-Independent Data Formats
+---------------------------------
 
-We strongly prefer `JSON <https://en.wikipedia.org/wiki/JSON>`_ to, for example, `YAML <https://en.wikipedia.org/wiki/YAML>`_, due to the Python-style indentation on which the latter relies in order to indicate nesting.
+
+JSON
+....
 
 A JSON document is in plain-text and may contain:
 
@@ -108,7 +110,7 @@ Here, once the document is parsed, ``tcp_port`` will be considered equal to ``80
 
 
 Pretty-Printing
-...............
+_______________
 
 
 On GNU/Linux, one may rely on ``jq``, a command-line JSON processor.
@@ -118,7 +120,7 @@ Ex: ``jq . my_document.json``.
 
 
 Validating
-..........
+__________
 
 One may consider that a given document is a legit JSON one iff ``jq type`` reports a non-empty output.
 
@@ -132,8 +134,7 @@ Example:
 
 
 Example
-.......
-
+_______
 
 Regarding syntax, a `typical JSON document <https://en.wikipedia.org/wiki/JSON#Syntax>`_ is:
 
@@ -168,13 +169,28 @@ Regarding syntax, a `typical JSON document <https://en.wikipedia.org/wiki/JSON#S
 
 
 Specifying comments
-...................
+___________________
 
 With JSON, there is, on purpose, no built-in way to add comments.
 
 The sole solution/workaround is to add comments as specific fields, although they will end up as data like the other fields.
 
 We recommend to mark them specifically (ex: as ``__comment``) so that they should not interfere with the "real" data. As an example, see the second key of the previous JSON document.
+
+
+
+
+YAML
+....
+
+`YAML <https://yaml.org/>`_ is a data serialization language for all programming languages.
+
+We prefer the ``.yaml`` extension to the ``.yml`` one.
+
+No tabulation should be used for indentation, only spaces, and preferably a fixed amount of them; we used to prefer 4, now 2, since it allows to properly align the items listed with a dash (ex: "``- I am an item``").
+
+With Emacs, the `Yaml Mode <https://www.emacswiki.org/emacs/YamlMode>`_ may be of help.
+
 
 
 
