@@ -207,11 +207,11 @@ Also ``git config --global --edit`` may be of use (beware to trigger a ``vi`` by
 
 
 
-
 Performing operation on remotes with no systematic authentication
 .................................................................
 
 Using a SSH key pair, hence with its public key declared on said remote, is a relevant approach, safer than from example using a ``~/.netrc`` file.
+
 
 
 
@@ -310,6 +310,18 @@ One may define a ``.gitattributes`` file for example with ``*.js eol=lf``, ``* t
  # They should be stored with the CRLF line terminators.
  #
  *.bat -crlf
+
+
+
+Fixing a commit message
+.......................
+
+If no push was done, it is as simple as replacing the former message by a new one, like in:
+
+.. code:: bash
+
+ $ git commit --amend -m "This is a fixed commit message."
+
 
 
 
