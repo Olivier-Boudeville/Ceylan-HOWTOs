@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
+<title>Ceylan-HOWTOs: About Basic Tools</title>
+<link rel="stylesheet" href="pygments-default.css" type="text/css" />
+<link rel="stylesheet" href="howtos.css" type="text/css" />
+<link href="howtos-icon.png" rel="icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="document" id="about-basic-tools">
+<span id="top"></span>
+<h1 class="title">About Basic Tools</h1>
+
+<p><span class="raw-html"><a name="howtos_top"></a></span></p>
+<p><span class="raw-html"><div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20About%20Basic%20Tools">email us</a></p></div></span></p>
+<p><span class="raw-html"><center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img></span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2022-2022 Olivier Boudeville</td>
+</tr>
+<tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
+</tr>
+<tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, April 13, 2022</td>
+</tr>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, April 13, 2022</td>
+</tr>
+</tbody>
+</table>
+<p><span class="raw-html"><a name="howtos_toc"></a></span></p>
+<div class="contents local topic" id="id1">
+<span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="#emacs" id="id2">Emacs</a><ul>
+<li><a class="reference internal" href="#configuration" id="id3">Configuration</a></li>
+<li><a class="reference internal" href="#troubleshooting" id="id4">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><span class="raw-html"></center></span></p>
+<div class="section" id="emacs">
+<h1><a class="toc-backref" href="#id2">Emacs</a></h1>
+<p>Emacs is a free software, very versatile text editor that can be customised if not programmed in <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Introduction.html">Emacs Lisp</a> (Elisp).</p>
+<div class="section" id="configuration">
+<h2><a class="toc-backref" href="#id3">Configuration</a></h2>
+<p>We rely on <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">this init.el</a> configuration file, which itself relies on <tt class="docutils literal">straight.el</tt>, a replacement for <tt class="docutils literal">package.el</tt> (and thus not on <tt class="docutils literal"><span class="pre">use-package</span></tt>).</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2><a class="toc-backref" href="#id4">Troubleshooting</a></h2>
+<p>Sometimes strange errors may happen whereas nothing changed on one's Emacs configuration; this may be the sign that Emacs itself, or some of the packages that it uses, changed and led to a dysfunctional setup.</p>
+<p>To exonerate Emacs itself, once any instance thereof has been terminated:</p>
+<pre class="code bash literal-block">
+$ <span class="nb">cd</span> ~/.emacs.d
+$ mv straight straight-hidden
+</pre>
+<p>Then launching again Emacs shall lead to all required packages be downloaded and installed, possibly solving the problem at hand.</p>
+<p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
+</div>
+</div>
+</div>
+</body>
+</html>

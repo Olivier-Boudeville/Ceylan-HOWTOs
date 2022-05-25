@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 8, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, May 25, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -36,57 +36,58 @@
 <div class="contents local topic" id="id1">
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#overview" id="id13">Overview</a></li>
-<li><a class="reference internal" href="#let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm" id="id14">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></li>
-<li><a class="reference internal" href="#installation" id="id15">Installation</a></li>
-<li><a class="reference internal" href="#ceylan-s-language-use" id="id16">Ceylan's Language Use</a></li>
-<li><a class="reference internal" href="#using-the-shell" id="id17">Using the Shell</a></li>
-<li><a class="reference internal" href="#about-security" id="id18">About Security</a></li>
-<li><a class="reference internal" href="#otp-guidelines" id="id19">OTP Guidelines</a><ul>
-<li><a class="reference internal" href="#the-app-specification" id="id20">The <tt class="docutils literal">.app</tt> Specification</a></li>
-<li><a class="reference internal" href="#starting-otp-applications" id="id21">Starting OTP Applications</a></li>
-<li><a class="reference internal" href="#pre-launch-functions" id="id22">Pre-Launch Functions</a></li>
-<li><a class="reference internal" href="#otp-supervisors" id="id23">OTP Supervisors</a></li>
-<li><a class="reference internal" href="#declaring-worker-processes" id="id24">Declaring Worker Processes</a></li>
-<li><a class="reference internal" href="#implementing-worker-processes" id="id25">Implementing Worker Processes</a></li>
-<li><a class="reference internal" href="#terminating-workers" id="id26">Terminating Workers</a></li>
-<li><a class="reference internal" href="#supervisor-bridges" id="id27">Supervisor Bridges</a></li>
-<li><a class="reference internal" href="#extra-information" id="id28">Extra Information</a></li>
+<li><a class="reference internal" href="#overview" id="id21">Overview</a></li>
+<li><a class="reference internal" href="#let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm" id="id22">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></li>
+<li><a class="reference internal" href="#installation" id="id23">Installation</a></li>
+<li><a class="reference internal" href="#ceylan-s-language-use" id="id24">Ceylan's Language Use</a></li>
+<li><a class="reference internal" href="#using-the-shell" id="id25">Using the Shell</a></li>
+<li><a class="reference internal" href="#about-security" id="id26">About Security</a></li>
+<li><a class="reference internal" href="#otp-guidelines" id="id27">OTP Guidelines</a><ul>
+<li><a class="reference internal" href="#the-app-specification" id="id28">The <tt class="docutils literal">.app</tt> Specification</a></li>
+<li><a class="reference internal" href="#starting-otp-applications" id="id29">Starting OTP Applications</a></li>
+<li><a class="reference internal" href="#pre-launch-functions" id="id30">Pre-Launch Functions</a></li>
+<li><a class="reference internal" href="#otp-supervisors" id="id31">OTP Supervisors</a></li>
+<li><a class="reference internal" href="#declaring-worker-processes" id="id32">Declaring Worker Processes</a></li>
+<li><a class="reference internal" href="#implementing-worker-processes" id="id33">Implementing Worker Processes</a></li>
+<li><a class="reference internal" href="#terminating-workers" id="id34">Terminating Workers</a></li>
+<li><a class="reference internal" href="#supervisor-bridges" id="id35">Supervisor Bridges</a></li>
+<li><a class="reference internal" href="#extra-information" id="id36">Extra Information</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#more-advanced-topics" id="id29">More Advanced Topics</a><ul>
-<li><a class="reference internal" href="#metaprogramming" id="id30">Metaprogramming</a></li>
-<li><a class="reference internal" href="#improper-lists" id="id31">Improper Lists</a></li>
-<li><a class="reference internal" href="#opencl" id="id32">OpenCL</a></li>
-<li><a class="reference internal" href="#post-mortem-investigations" id="id33">Post-Mortem Investigations</a></li>
+<li><a class="reference internal" href="#more-advanced-topics" id="id37">More Advanced Topics</a><ul>
+<li><a class="reference internal" href="#metaprogramming" id="id38">Metaprogramming</a></li>
+<li><a class="reference internal" href="#improper-lists" id="id39">Improper Lists</a></li>
+<li><a class="reference internal" href="#opencl" id="id40">OpenCL</a></li>
+<li><a class="reference internal" href="#post-mortem-investigations" id="id41">Post-Mortem Investigations</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#language-bindings" id="id34">Language Bindings</a></li>
-<li><a class="reference internal" href="#language-implementation" id="id35">Language Implementation</a><ul>
-<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="id36">Message-Passing: Copying vs Sharing</a></li>
-<li><a class="reference internal" href="#just-in-time-compilation" id="id37">Just-in-Time Compilation</a></li>
-<li><a class="reference internal" href="#static-typing" id="id38">Static Typing</a></li>
-<li><a class="reference internal" href="#intermediate-languages" id="id39">Intermediate Languages</a></li>
+<li><a class="reference internal" href="#language-bindings" id="id42">Language Bindings</a></li>
+<li><a class="reference internal" href="#language-implementation" id="id43">Language Implementation</a><ul>
+<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="id44">Message-Passing: Copying vs Sharing</a></li>
+<li><a class="reference internal" href="#just-in-time-compilation" id="id45">Just-in-Time Compilation</a></li>
+<li><a class="reference internal" href="#static-typing" id="id46">Static Typing</a></li>
+<li><a class="reference internal" href="#intermediate-languages" id="id47">Intermediate Languages</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#short-hints" id="id40">Short Hints</a><ul>
-<li><a class="reference internal" href="#dealing-with-conditional-availability" id="id41">Dealing with Conditional Availability</a></li>
-<li><a class="reference internal" href="#runtime-library-version" id="id42">Runtime Library Version</a></li>
-<li><a class="reference internal" href="#proper-naming" id="id43">Proper Naming</a></li>
+<li><a class="reference internal" href="#short-hints" id="id48">Short Hints</a><ul>
+<li><a class="reference internal" href="#dealing-with-conditional-availability" id="id49">Dealing with Conditional Availability</a></li>
+<li><a class="reference internal" href="#runtime-library-version" id="id50">Runtime Library Version</a></li>
+<li><a class="reference internal" href="#proper-naming" id="id51">Proper Naming</a></li>
+<li><a class="reference internal" href="#using-wx" id="id52">Using wx</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#micro-cheat-sheet" id="id44">Micro-Cheat Sheet</a></li>
-<li><a class="reference internal" href="#erlang-resources" id="id45">Erlang Resources</a></li>
+<li><a class="reference internal" href="#micro-cheat-sheet" id="id53">Micro-Cheat Sheet</a></li>
+<li><a class="reference internal" href="#erlang-resources" id="id54">Erlang Resources</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
 <div class="section" id="overview">
-<h1><a class="toc-backref" href="#id13">Overview</a></h1>
+<h1><a class="toc-backref" href="#id21">Overview</a></h1>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Erlang_(programming_language)">Erlang</a>  is a concurrent, functional programming language available as free software; see <a class="reference external" href="https://www.erlang.org/">its official website</a> for more details.</p>
 <p>Erlang is dynamically typed, and is executed by the <a class="reference external" href="https://en.wikipedia.org/wiki/BEAM_(Erlang_virtual_machine)">BEAM virtual machine</a>. This VM (<em>Virtual Machine</em>) operates on bytecodes and can perform Just-In-Time compilation. It powers also <a class="reference external" href="https://github.com/llaisdy/beam_languages">other related languages</a>, such as Elixir and LFE.</p>
 </div>
 <div class="section" id="let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm">
-<h1><a class="toc-backref" href="#id14">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></h1>
+<h1><a class="toc-backref" href="#id22">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></h1>
 <p>Taken from <a class="reference external" href="https://erlangforums.com/t/erlang-101-processes-parallelization/594">this presentation</a>:</p>
 <div class="admonition hint">
 <p class="first admonition-title">Hint</p>
@@ -101,7 +102,7 @@
 </div>
 </div>
 <div class="section" id="installation">
-<span id="erlang-installation"></span><h1><a class="toc-backref" href="#id15">Installation</a></h1>
+<span id="erlang-installation"></span><h1><a class="toc-backref" href="#id23">Installation</a></h1>
 <p>Erlang can be installed thanks to the various options listed in <a class="reference external" href="https://www.erlang.org/downloads">these guidelines</a>.</p>
 <p>Building Erlang from the sources of its latest stable version is certainly the best approach; for more control we prefer relying on our <a class="reference external" href="https://myriad.esperide.org/#software-prerequisites">custom procedure</a>.</p>
 <p>For a development activity, we recommend also specifying the following options to our <tt class="docutils literal"><span class="pre">conf/install-erlang.sh</span></tt> script:</p>
@@ -127,7 +128,7 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 </pre>
 </div>
 <div class="section" id="ceylan-s-language-use">
-<h1><a class="toc-backref" href="#id16">Ceylan's Language Use</a></h1>
+<h1><a class="toc-backref" href="#id24">Ceylan's Language Use</a></h1>
 <p>Ceylan users shall note that most of our related developments (namely <a class="reference external" href="http://myriad.esperide.org">Myriad</a>, <a class="reference external" href="http://wooper.esperide.org">WOOPER</a>, <a class="reference external" href="http://traces.esperide.org">Traces</a>, <a class="reference external" href="http://leec.esperide.org">LEEC</a>, <a class="reference external" href="http://seaplus.esperide.org">Seaplus</a>, <a class="reference external" href="http://mobile.esperide.org">Mobile</a>, <a class="reference external" href="http://us-common.esperide.org">US-Common</a>, <a class="reference external" href="http://us-web.esperide.org">US-Web</a> and <a class="reference external" href="http://us-main.esperide.org">US-Main</a>) depart significantly from the general conventions observed by most Erlang applications:</p>
 <ul class="simple">
 <li>notably because of their reliance on parse transforms, by default they rely on our own build system based on <a class="reference external" href="Build.html#gnu-make">GNU make</a> (rather than on <a class="reference external" href="https://www.rebar3.org/">rebar3</a>)</li>
@@ -135,7 +136,7 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 </ul>
 </div>
 <div class="section" id="using-the-shell">
-<h1><a class="toc-backref" href="#id17">Using the Shell</a></h1>
+<h1><a class="toc-backref" href="#id25">Using the Shell</a></h1>
 <p>If it is as simple to run <tt class="docutils literal">erl</tt>, we prefer, with Ceylan settings, running <tt class="docutils literal">make shell</tt> in order to benefit from a well-initialized VM (notably with the full code path of the current layer and the ones below).</p>
 <p>Refer then to the <a class="reference external" href="https://www.erlang.org/doc/man/shell.html#shell-commands">shell commands</a>, notably for:</p>
 <ul class="simple">
@@ -148,7 +149,7 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 <p>See also the <a class="reference external" href="https://www.erlang.org/doc/man/shell.html#jcl-mode">JCL mode</a> (for <em>Job Control Language</em>) to connect and interact with other Erlang nodes.</p>
 </div>
 <div class="section" id="about-security">
-<h1><a class="toc-backref" href="#id18">About Security</a></h1>
+<h1><a class="toc-backref" href="#id26">About Security</a></h1>
 <ul class="simple">
 <li>one should not encrypt messages directly with a key pair (ex: with RSA, only messages up to around 200 bytes long can be encrypted):  one should encrypt only a <em>symmetric key</em> (generated by a cryptographically-safe random algorithm) that is then used to encrypt one's message(s); ensure an Encrypt-Then-Authenticate scheme to prevent padding oracle attacks (and a secure-compare algorithm for the <em>Message Authentication Code</em> verification to prevent timing attacks); using <a class="reference external" href="https://doc.libsodium.org/">libsodium</a> should make mistakes using the standard crypto primitives less error-prone; see the <a class="reference external" href="https://github.com/jlouis/enacl">enacl</a> Erlang binding for that; for more information, refer to <a class="reference external" href="https://erlangforums.com/t/cannot-encrypt-a-long-binary-using-public-key-encrypt-private-2/724">the corresponding thread</a></li>
 <li>relevant sources of information:<ul>
@@ -163,9 +164,9 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 </ul>
 </div>
 <div class="section" id="otp-guidelines">
-<h1><a class="toc-backref" href="#id19">OTP Guidelines</a></h1>
+<h1><a class="toc-backref" href="#id27">OTP Guidelines</a></h1>
 <div class="section" id="the-app-specification">
-<h2><a class="toc-backref" href="#id20">The <tt class="docutils literal">.app</tt> Specification</a></h2>
+<h2><a class="toc-backref" href="#id28">The <tt class="docutils literal">.app</tt> Specification</a></h2>
 <p>For an overall application named <tt class="docutils literal">Foobar</tt>, we recommend defining in <tt class="docutils literal">conf/foobar.app.src</tt> an application specification template that, once properly filled regarding the version of  that application and the modules that it comprises (possibly automatically done thanks to the <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a> logic), will result in an actual application specification file, <tt class="docutils literal">foobar.app</tt>.</p>
 <p>Such a file is necessary in all cases, to generate an OTP application (otherwise with <a class="reference external" href="http://rebar3.org/">rebar3</a> nothing will be built), an OTP release (otherwise the application dependencies will not be reachable), and probably an <a class="reference external" href="https://hex.pm/">hex</a> package as well.</p>
 <p>This specification content is to end up in various places:</p>
@@ -176,7 +177,7 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 </ul>
 </div>
 <div class="section" id="starting-otp-applications">
-<h2><a class="toc-backref" href="#id21">Starting OTP Applications</a></h2>
+<h2><a class="toc-backref" href="#id29">Starting OTP Applications</a></h2>
 <p>For an OTP <em>active</em> application of interest - that is one that provides an actual service, i.e. running processes, as opposed to a mere <em>library</em> application, which provides only code - such a specification defines, among other elements, which module will be used to start this application. We recommend to name this module according to the target application and to suffix it with <tt class="docutils literal">_app</tt>, like in:</p>
 <pre class="code erlang literal-block">
 <span class="p">{</span><span class="n">application</span><span class="p">,</span><span class="w"> </span><span class="n">foobar</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -188,88 +189,97 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 <p>This <tt class="docutils literal">start/2</tt> function, together with its <tt class="docutils literal">stop/1</tt> reciprocal, are the functions listed by the OTP (active) <tt class="docutils literal">application</tt> behaviour; at least for clarity, it is better that <tt class="docutils literal">foobar_app.erl</tt> comprises <tt class="docutils literal"><span class="pre">-behaviour(application).</span></tt></p>
 </div>
 <div class="section" id="pre-launch-functions">
-<h2><a class="toc-backref" href="#id22">Pre-Launch Functions</a></h2>
+<h2><a class="toc-backref" href="#id30">Pre-Launch Functions</a></h2>
 <p>The previous OTP callbacks may be called by specific-purpose launching code; we tend to define an <tt class="docutils literal">exec/0</tt> function for that: then, with the Myriad make system, executing on the command-line <tt class="docutils literal">make foobar_exec</tt> results in <tt class="docutils literal">foobar_app:exec/0</tt> to be called.</p>
 <p>Having such a pre-launch function is useful when having to set specific information beforehand (see <tt class="docutils literal"><span class="pre">application:set_env/{1,2}</span></tt>) and/or when starting by oneself applications (ex: see <tt class="docutils literal">otp_utils:start_applications/2</tt>).</p>
 <p>In any case this should result in <tt class="docutils literal">foobar_app:start/2</tt> to be called at application startup, a function whose purpose is generally to spawn the root supervisor of this application.</p>
 </div>
 <div class="section" id="otp-supervisors">
-<h2><a class="toc-backref" href="#id23">OTP Supervisors</a></h2>
-<p>We recommend for that to define a <tt class="docutils literal">foobar_sup:start_link/0</tt> function (it is an user-level API, so any name and arity can be used). This <tt class="docutils literal">foobar_sup</tt> module is meant to implement the <tt class="docutils literal">supervisor</tt> behaviour (to be declared with <tt class="docutils literal"><span class="pre">-behaviour(supervisor).</span></tt>), which in practice requires an <tt class="docutils literal">init/1</tt> function to be defined.</p>
+<h2><a class="toc-backref" href="#id31">OTP Supervisors</a></h2>
+<p>The purpose of supervisors is to ease the development of fault-tolerant applications by building hierarchical process structures called <em>supervision trees</em>.</p>
+<p>For that, supervisors are to monitor their children, that may be workers (typically implementing the <tt class="docutils literal">gen_{event,server,statem}</tt> behaviour) and/or other supervisors (they can thus be nested).</p>
+<p>We recommend to define a <tt class="docutils literal">foobar_sup:start_link/0</tt> function (it is an user-level API, so any name and arity can be used). This <tt class="docutils literal">foobar_sup</tt> module is meant to implement the <tt class="docutils literal">supervisor</tt> behaviour (to be declared with <tt class="docutils literal"><span class="pre">-behaviour(supervisor).</span></tt>), which in practice requires an <tt class="docutils literal">init/1</tt> function to be defined.</p>
 <p>So this results, in <tt class="docutils literal">foobar_sup</tt>, in a code akin to:</p>
 <pre class="code erlang literal-block">
 <span class="p">-</span><span class="ni">spec</span><span class="w"> </span><span class="n">start_link</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nn">supervisor</span><span class="p">:</span><span class="nf">startlink_ret</span><span class="p">().</span><span class="w">
 </span><span class="nf">start_link</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
    </span><span class="c">% This will result in calling init/1 next:</span><span class="w">
-   </span><span class="nn">supervisor</span><span class="p">:</span><span class="nf">start_link</span><span class="p">(</span><span class="w"> </span><span class="p">_</span><span class="nv">Registration</span><span class="o">=</span><span class="p">{</span><span class="w"> </span><span class="n">local</span><span class="p">,</span><span class="w"> </span><span class="n">my_foobar_main_sup</span><span class="w"> </span><span class="p">},</span><span class="w">
-                          </span><span class="p">_</span><span class="nv">Mod</span><span class="o">=?</span><span class="nv">MODULE</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Args</span><span class="o">=</span><span class="p">[]</span><span class="w"> </span><span class="p">).</span><span class="w">
+   </span><span class="nn">supervisor</span><span class="p">:</span><span class="nf">start_link</span><span class="p">(</span><span class="w"> </span><span class="p">_</span><span class="nv">Registration</span><span class="o">=</span><span class="p">{</span><span class="n">local</span><span class="p">,</span><span class="w"> </span><span class="n">my_foobar_main_sup</span><span class="p">},</span><span class="w">
+                          </span><span class="p">_</span><span class="nv">Mod</span><span class="o">=?</span><span class="nv">MODULE</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Args</span><span class="o">=</span><span class="p">[]).</span><span class="w">
 
-</span><span class="p">-</span><span class="ni">spec</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="w"> </span><span class="n">list</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">'ok'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nn">supervisor</span><span class="p">:</span><span class="nf">sup_flags</span><span class="p">(),</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">child_spec</span><span class="p">()</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}.</span><span class="w">
-</span><span class="nf">init</span><span class="p">(</span><span class="w"> </span><span class="p">_</span><span class="nv">Args</span><span class="o">=</span><span class="p">[]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+</span><span class="p">-</span><span class="ni">spec</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="n">list</span><span class="p">())</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="n">'ok'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nn">supervisor</span><span class="p">:</span><span class="nf">sup_flags</span><span class="p">(),</span><span class="w"> </span><span class="p">[</span><span class="n">child_spec</span><span class="p">()]}}.</span><span class="w">
+</span><span class="nf">init</span><span class="p">(_</span><span class="nv">Args</span><span class="o">=</span><span class="p">[])</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
    </span><span class="p">[...]</span><span class="w">
-   </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nv">SupSettings</span><span class="p">,</span><span class="w"> </span><span class="nv">ChildSpecs</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}.</span>
+   </span><span class="p">{</span><span class="n">ok</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nv">SupSettings</span><span class="p">,</span><span class="w"> </span><span class="nv">ChildSpecs</span><span class="p">}}.</span>
 </pre>
-<p>Let's note that supervisors may be nested (they may have for children workers and/or other supervisors).</p>
 </div>
 <div class="section" id="declaring-worker-processes">
-<h2><a class="toc-backref" href="#id24">Declaring Worker Processes</a></h2>
+<h2><a class="toc-backref" href="#id32">Declaring Worker Processes</a></h2>
 <p>Our <tt class="docutils literal">otp_utils</tt> module may help a bit defining proper restart strategies and child specifications, i.e. the information regarding the workers that will be supervised, here, by this root supervisor.</p>
 <p>For example it could be:</p>
 <pre class="code erlang literal-block">
-<span class="nf">init</span><span class="p">(</span><span class="w"> </span><span class="p">_</span><span class="nv">Args</span><span class="o">=</span><span class="p">[]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+<span class="nf">init</span><span class="p">(_</span><span class="nv">Args</span><span class="o">=</span><span class="p">[])</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
    </span><span class="p">[...]</span><span class="w">
    </span><span class="nv">SupSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">otp_utils</span><span class="p">:</span><span class="nf">get_supervisor_settings</span><span class="p">(</span><span class="w">
-                   </span><span class="p">_</span><span class="nv">RestartStrategy</span><span class="o">=</span><span class="n">one_for_one</span><span class="p">,</span><span class="w"> </span><span class="nv">ExecTarget</span><span class="w"> </span><span class="p">),</span><span class="w">
+                   </span><span class="p">_</span><span class="nv">RestartStrategy</span><span class="o">=</span><span class="n">one_for_one</span><span class="p">,</span><span class="w"> </span><span class="nv">ExecTarget</span><span class="p">),</span><span class="w">
    </span><span class="c">% Always restarted in production:</span><span class="w">
-   </span><span class="nv">RestartSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">otp_utils</span><span class="p">:</span><span class="nf">get_restart_setting</span><span class="p">(</span><span class="w"> </span><span class="nv">ExecTarget</span><span class="w"> </span><span class="p">),</span><span class="w">
+   </span><span class="nv">RestartSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">otp_utils</span><span class="p">:</span><span class="nf">get_restart_setting</span><span class="p">(</span><span class="nv">ExecTarget</span><span class="p">),</span><span class="w">
    </span><span class="nv">WorkerShutdownDuration</span><span class="w"> </span><span class="o">=</span><span class="w">
-       </span><span class="nn">otp_utils</span><span class="p">:</span><span class="nf">get_maximum_shutdown_duration</span><span class="p">(</span><span class="w"> </span><span class="nv">ExecTarget</span><span class="w"> </span><span class="p">),</span><span class="w">
+       </span><span class="nn">otp_utils</span><span class="p">:</span><span class="nf">get_maximum_shutdown_duration</span><span class="p">(</span><span class="nv">ExecTarget</span><span class="p">),</span><span class="w">
    </span><span class="c">% First child, the main Foobar worker process:</span><span class="w">
    </span><span class="nv">MainWorkerChild</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">#{</span><span class="w">
        </span><span class="n">id</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">foobar_main_worker_id</span><span class="p">,</span><span class="w">
-       </span><span class="n">start</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">_</span><span class="nv">Mod</span><span class="o">=</span><span class="n">foobar</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Fun</span><span class="o">=</span><span class="n">start_link</span><span class="p">,</span><span class="w">
-                  </span><span class="p">_</span><span class="nv">MainWorkerArgs</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="nv">A</span><span class="p">,</span><span class="w"> </span><span class="nv">B</span><span class="p">,</span><span class="w"> </span><span class="nv">C</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w">
+       </span><span class="n">start</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{_</span><span class="nv">Mod</span><span class="o">=</span><span class="n">foobar</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Fun</span><span class="o">=</span><span class="n">start_link</span><span class="p">,</span><span class="w">
+                 </span><span class="p">_</span><span class="nv">MainWorkerArgs</span><span class="o">=</span><span class="p">[</span><span class="nv">A</span><span class="p">,</span><span class="w"> </span><span class="nv">B</span><span class="p">,</span><span class="w"> </span><span class="nv">C</span><span class="p">]},</span><span class="w">
        </span><span class="n">restart</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nv">RestartSettings</span><span class="p">,</span><span class="w">
        </span><span class="n">shutdown</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nv">WorkerShutdownDuration</span><span class="p">,</span><span class="w">
        </span><span class="n">type</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">worker</span><span class="p">,</span><span class="w">
-       </span><span class="n">modules</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">foobar</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w">
-   </span><span class="nv">ChildSpecs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="nv">MainWorkerChild</span><span class="w"> </span><span class="p">],</span><span class="w">
-   </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nv">SupSettings</span><span class="p">,</span><span class="w"> </span><span class="nv">ChildSpecs</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}.</span>
+       </span><span class="n">modules</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">foobar</span><span class="p">]</span><span class="w"> </span><span class="p">},</span><span class="w">
+   </span><span class="nv">ChildSpecs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">MainWorkerChild</span><span class="p">],</span><span class="w">
+   </span><span class="p">{</span><span class="n">ok</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nv">SupSettings</span><span class="p">,</span><span class="w"> </span><span class="nv">ChildSpecs</span><span class="p">}}.</span>
 </pre>
+<p>Children are created synchronously and in the order of their specification.</p>
+<p>So if <tt class="docutils literal"><span class="pre">ChildSpecs=[A,</span> B, C]</tt>, then a child according to the A spec is first created, then, once it is over (either its <tt class="docutils literal">init/1</tt> finished successfully, or it called <tt class="docutils literal"><span class="pre">proc_lib:init_ack/{1,2}</span></tt> <a class="footnote-reference" href="#id5" id="id4">[3]</a> and then continued its own initialisation concurrently), a child according to the B spec is created, then once done a child according to the C spec.</p>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td>Typically: <tt class="docutils literal"><span class="pre">proc_lib:init_ack(self())</span></tt>.</td></tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="implementing-worker-processes">
-<h2><a class="toc-backref" href="#id25">Implementing Worker Processes</a></h2>
+<h2><a class="toc-backref" href="#id33">Implementing Worker Processes</a></h2>
 <p>Such a worker, which can be any Erlang process (implementing an OTP behaviour, like <tt class="docutils literal">gen_server</tt>, or not) will thus be spawned here through a call to the <tt class="docutils literal">foobar:start_link/3</tt> function (another user-defined API) made by this supervisor. This is a mere <em>call</em> (an <tt class="docutils literal">apply/3</tt>), not a spawn of a child process based on that function.</p>
 <p>Therefore the called function is expected to <em>create</em> the worker process by itself, like, in the <tt class="docutils literal">foobar</tt> module:</p>
 <pre class="code erlang literal-block">
-<span class="nf">start_link</span><span class="p">(</span><span class="w"> </span><span class="nv">A</span><span class="p">,</span><span class="w"> </span><span class="nv">B</span><span class="w"> </span><span class="p">,</span><span class="nv">C</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+<span class="nf">start_link</span><span class="p">(</span><span class="nv">A</span><span class="p">,</span><span class="w"> </span><span class="nv">B</span><span class="w"> </span><span class="p">,</span><span class="nv">C</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
    </span><span class="p">[...]</span><span class="w">
-   </span><span class="p">{</span><span class="w"> </span><span class="n">ok</span><span class="p">,</span><span class="w"> </span><span class="nn">proc_lib</span><span class="p">:</span><span class="nf">start_link</span><span class="p">(</span><span class="w"> </span><span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Func</span><span class="o">=</span><span class="n">init</span><span class="p">,</span><span class="w">
-       </span><span class="p">_</span><span class="nv">Args</span><span class="o">=</span><span class="p">[</span><span class="w"> </span><span class="nv">U</span><span class="p">,</span><span class="w"> </span><span class="nv">V</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">_</span><span class="nv">Timeout</span><span class="o">=</span><span class="n">infinity</span><span class="p">,</span><span class="w"> </span><span class="nv">SpawnOpts</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">}.</span>
+   </span><span class="p">{</span><span class="n">ok</span><span class="p">,</span><span class="w"> </span><span class="nn">proc_lib</span><span class="p">:</span><span class="nf">start_link</span><span class="p">(</span><span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Func</span><span class="o">=</span><span class="n">init</span><span class="p">,</span><span class="w">
+       </span><span class="p">_</span><span class="nv">Args</span><span class="o">=</span><span class="p">[</span><span class="nv">U</span><span class="p">,</span><span class="w"> </span><span class="nv">V</span><span class="p">],</span><span class="w"> </span><span class="p">_</span><span class="nv">Timeout</span><span class="o">=</span><span class="n">infinity</span><span class="p">,</span><span class="w"> </span><span class="nv">SpawnOpts</span><span class="p">)}.</span>
 </pre>
-<p>Here thus the spawned worker will start by executing <tt class="docutils literal">foobar:init/2</tt>, a function not expected to return, often trapping EXIT signals (<tt class="docutils literal">process_flag( trap_exit, true )</tt>), setting system flags and, once properly initialised, notifying its supervisor that it is up and running (ex: <tt class="docutils literal">proc_lib:init_ack( _Return=self() )</tt>) before usually entering a tail-recursive loop.</p>
+<p>Here thus the spawned worker will start by executing <tt class="docutils literal">foobar:init/2</tt>, a function not expected to return, often trapping EXIT signals (<tt class="docutils literal">process_flag(trap_exit, true)</tt>), setting system flags and, once properly initialised, notifying its supervisor that it is up and running (ex: <tt class="docutils literal"><span class="pre">proc_lib:init_ack(_Return=self())</span></tt>) before usually entering a tail-recursive loop.</p>
 </div>
 <div class="section" id="terminating-workers">
-<h2><a class="toc-backref" href="#id26">Terminating Workers</a></h2>
+<h2><a class="toc-backref" href="#id34">Terminating Workers</a></h2>
 <p>Depending on the <tt class="docutils literal">shutdown</tt> entry of its child specification, on application stop that worker may be terminated by different ways. We tend to prefer specifying a maximum shutdown duration: then the worker will be sent by its supervisor first a <tt class="docutils literal">shutdown</tt> EXIT message, that this worker may handle, typically in its main loop:</p>
 <pre class="code erlang literal-block">
 <span class="k">receive</span><span class="w">
    </span><span class="p">[...]</span><span class="w">
 
-   </span><span class="p">{</span><span class="w"> </span><span class="n">'EXIT'</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">SupervisorPid</span><span class="p">,</span><span class="w"> </span><span class="n">shutdown</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+   </span><span class="p">{</span><span class="n">'EXIT'</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">SupervisorPid</span><span class="p">,</span><span class="w"> </span><span class="n">shutdown</span><span class="p">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
       </span><span class="c">% Just stop.</span><span class="w">
       </span><span class="p">[...]</span>
 </pre>
 <p>If the worker fails to stop (on time, or at all) and properly terminate, it will then be brutally killed by its supervisor.</p>
 </div>
 <div class="section" id="supervisor-bridges">
-<h2><a class="toc-backref" href="#id27">Supervisor Bridges</a></h2>
+<h2><a class="toc-backref" href="#id35">Supervisor Bridges</a></h2>
 <p>Non-OTP processes (ex: <a class="reference external" href="http://wooper.esperide.org">WOOPER</a> instances) can act as supervisors thanks to the <a class="reference external" href="https://www.erlang.org/doc/man/supervisor_bridge.html">supervisor_bridge</a> module.</p>
 <p>Such a process shall implement the <tt class="docutils literal">supervisor_bridge</tt> behaviour, namely <tt class="docutils literal">init/1</tt> and <tt class="docutils literal">terminate/2</tt>. If the former function spawns a process, the latter shall ensure that this process terminates in a synchronous manner, otherwise race conditions may happen.</p>
 <p>See <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Traces/blob/master/src/traces_bridge_sup.erl">traces_bridge_sup</a> for an example thereof.</p>
 </div>
 <div class="section" id="extra-information">
-<h2><a class="toc-backref" href="#id28">Extra Information</a></h2>
+<h2><a class="toc-backref" href="#id36">Extra Information</a></h2>
 <p>One may refer to;</p>
 <ul class="simple">
 <li><a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a> as an example of OTP <em>Library</em> Application</li>
@@ -279,9 +289,9 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 </div>
 </div>
 <div class="section" id="more-advanced-topics">
-<h1><a class="toc-backref" href="#id29">More Advanced Topics</a></h1>
+<h1><a class="toc-backref" href="#id37">More Advanced Topics</a></h1>
 <div class="section" id="metaprogramming">
-<h2><a class="toc-backref" href="#id30">Metaprogramming</a></h2>
+<h2><a class="toc-backref" href="#id38">Metaprogramming</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Metaprogramming">Metaprogramming</a> is to be done in Erlang through <strong>parse transforms</strong>, which are user-defined modules that transform an AST (for <em>Abstract Syntax Trees</em>, an Erlang term that represents actual code; see the <a class="reference external" href="https://www.erlang.org/doc/apps/erts/absform.html">Abstract Format</a> for more details) into another AST that is fed afterwards to the compiler.</p>
 <p>See also:</p>
 <ul class="simple">
@@ -290,7 +300,7 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 </ul>
 </div>
 <div class="section" id="improper-lists">
-<h2><a class="toc-backref" href="#id31">Improper Lists</a></h2>
+<h2><a class="toc-backref" href="#id39">Improper Lists</a></h2>
 <p>A proper list is created from the empty one (<tt class="docutils literal">[]</tt>, also known as &quot;nil&quot;) by appending (with the <tt class="docutils literal">|</tt> operator, a.k.a. &quot;cons&quot;) elements in turn; for example <tt class="docutils literal">[1,2]</tt> is actually <tt class="docutils literal">[1 | [2 | <span class="pre">[]]]</span></tt>.</p>
 <p>However, instead of enriching a list from the empty one, one <em>can</em> start a list with any other term than <tt class="docutils literal">[]</tt>, for example <tt class="docutils literal">my_atom</tt>. Then, instead of <tt class="docutils literal"><span class="pre">[2|[]]</span></tt>, <tt class="docutils literal">[2|my_atom]</tt> may be specified and will be indeed a list - albeit an improper one.</p>
 <p>Many recursive functions expect proper lists, and will fail (typically with a function clause) if given an improper list to process (ex: <tt class="docutils literal">lists:flatten/1</tt>).</p>
@@ -319,22 +329,22 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 <p>Everyone shall decide on whether relying on improper lists is a trick, a hack or a technique to prohibit.</p>
 </div>
 <div class="section" id="opencl">
-<h2><a class="toc-backref" href="#id32">OpenCL</a></h2>
+<h2><a class="toc-backref" href="#id40">OpenCL</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/OpenCL">Open Computing Language</a> is a standard interface designed to program many processing architectures, such as CPUs, GPUs, DSPs, FPGAs.</p>
 <p>OpenCL is notably a way of using one's GPU to perform more general-purpose processing than typically the rendering operations allowed by <a class="reference external" href="ThreeDimensional.html#glsl">GLSL</a> (even compared to its compute shaders).</p>
 <p>In Erlang, the <a class="reference external" href="https://github.com/tonyrog/cl">cl binding</a> is available for that.</p>
 <p>A notable user thereof is <a class="reference external" href="ThreeDimensional.html#wings3d">Wing3D</a>; one may refer to the <tt class="docutils literal">*.cl</tt> files in <a class="reference external" href="https://github.com/dgud/wings/tree/master/shaders">this directory</a>, but also to its optional build integration as a source of inspiration, and to <a class="reference external" href="https://github.com/dgud/wings/blob/master/src/wings_cl.erl">wings_cl.erl</a>.</p>
 </div>
 <div class="section" id="post-mortem-investigations">
-<h2><a class="toc-backref" href="#id33">Post-Mortem Investigations</a></h2>
+<h2><a class="toc-backref" href="#id41">Post-Mortem Investigations</a></h2>
 <p>Erlang programs may fail, and this may result in mere (Erlang-level) crashes (the VM detects an error, and reports information about it, possibly in the form of a crash dump) or (sometimes, quite infrequently though) in more brutal, lower-level core dumps (the VM crashes as a whole, like any faulty program run by the operating system); this last case happens typically when relying on faulty <a class="reference external" href="https://www.erlang.org/doc/tutorial/nif.html">NIFs</a>.</p>
 <div class="section" id="erlang-crash-dumps">
 <h3>Erlang Crash Dumps</h3>
-<p>If experiencing &quot;only&quot; an Erlang-level crash, a <tt class="docutils literal">erl_crash.dump</tt> file is produced in the directory whence the executable (generally <tt class="docutils literal">erl</tt>) was launched. The best way to study it is to use the <tt class="docutils literal">cdv</tt> (refer to <a class="reference external" href="https://www.erlang.org/doc/apps/observer/crashdump_ug.html">crashdump viewer</a>) tool, available, from the Erlang installation, as <tt class="docutils literal">lib/erlang/cdv</tt> <a class="footnote-reference" href="#id11" id="id10">[3]</a>.</p>
-<table class="docutils footnote" frame="void" id="id11" rules="none">
+<p>If experiencing &quot;only&quot; an Erlang-level crash, a <tt class="docutils literal">erl_crash.dump</tt> file is produced in the directory whence the executable (generally <tt class="docutils literal">erl</tt>) was launched. The best way to study it is to use the <tt class="docutils literal">cdv</tt> (refer to <a class="reference external" href="https://www.erlang.org/doc/apps/observer/crashdump_ug.html">crashdump viewer</a>) tool, available, from the Erlang installation, as <tt class="docutils literal">lib/erlang/cdv</tt> <a class="footnote-reference" href="#id13" id="id12">[4]</a>.</p>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id10">[3]</a></td><td>Hence, according to the Ceylan-Myriad conventions, in <tt class="docutils literal"><span class="pre">~/Software/Erlang/Erlang-current-install/lib/erlang/cdv</span></tt>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id12">[4]</a></td><td>Hence, according to the Ceylan-Myriad conventions, in <tt class="docutils literal"><span class="pre">~/Software/Erlang/Erlang-current-install/lib/erlang/cdv</span></tt>.</td></tr>
 </tbody>
 </table>
 <p>Using this debug tool is as easy as:</p>
@@ -351,7 +361,7 @@ $ cdv erl_crash.dump
 </div>
 </div>
 <div class="section" id="language-bindings">
-<h1><a class="toc-backref" href="#id34">Language Bindings</a></h1>
+<h1><a class="toc-backref" href="#id42">Language Bindings</a></h1>
 <p>The two main approaches in order to integrate third-party code to Erlang are to:</p>
 <ul class="simple">
 <li>interact with it as if it was another Erlang node; we defined <a class="reference external" href="http://seaplus.esperide.org">Ceylan-Seaplus</a> for that purpose</li>
@@ -359,33 +369,33 @@ $ cdv erl_crash.dump
 </ul>
 </div>
 <div class="section" id="language-implementation">
-<h1><a class="toc-backref" href="#id35">Language Implementation</a></h1>
+<h1><a class="toc-backref" href="#id43">Language Implementation</a></h1>
 <div class="section" id="message-passing-copying-vs-sharing">
-<h2><a class="toc-backref" href="#id36">Message-Passing: Copying vs Sharing</a></h2>
+<h2><a class="toc-backref" href="#id44">Message-Passing: Copying vs Sharing</a></h2>
 <p>Knowing that, in functional languages such as Erlang, terms (&quot;variables&quot;) are immutable, why could not they be shared between local processes when sent through messages, instead of being copied in the heap of each of them, as it is actually the case with the Erlang VM?</p>
 <p>The reason lies in the fact that, beyond the constness of these terms, their life-cycle has also to be managed. If they are copied, each process can very easily perform its (concurrent, autonomous) garbage collections. On the contrary, if terms were shared, then reference counting would be needed to deallocate them properly (neither too soon nor never at all), which, in a concurrent context, is bound to require locks.</p>
 <p>So a trade-off between memory (due to data duplication) and processing (due to lock contention) has to be found and at least for most terms (excepted larger binaries), the sweet spot consists in sacrificing a bit of memory in favour of a lesser CPU load. Solutions like <a class="reference external" href="https://www.erlang.org/doc/man/persistent_term.html">persistent_term</a> may address situations where more specific needs arise.</p>
 </div>
 <div class="section" id="just-in-time-compilation">
-<span id="jit"></span><h2><a class="toc-backref" href="#id37">Just-in-Time Compilation</a></h2>
+<span id="jit"></span><h2><a class="toc-backref" href="#id45">Just-in-Time Compilation</a></h2>
 <p>This long-awaited feature, named <em>BeamAsm</em> and whose rationale and history have been detailed in <a class="reference external" href="https://www.erlang.org/blog/the-road-to-the-jit/">these articles</a>, has been introduced in Erlang 24 and shall transparently lead to increased performances for most applications.</p>
 </div>
 <div class="section" id="static-typing">
-<h2><a class="toc-backref" href="#id38">Static Typing</a></h2>
+<h2><a class="toc-backref" href="#id46">Static Typing</a></h2>
 <p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> exist.</p>
 <p>A few <a class="reference external" href="https://github.com/llaisdy/beam_languages#statically-typed-languages">statically-typed languages</a> can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).</p>
 <p>In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports <a class="reference internal" href="#jit">JIT</a>).</p>
 </div>
 <div class="section" id="intermediate-languages">
-<h2><a class="toc-backref" href="#id39">Intermediate Languages</a></h2>
+<h2><a class="toc-backref" href="#id47">Intermediate Languages</a></h2>
 <p>To better discover the inner workings of the Erlang compilation, one may look at the <a class="reference external" href="http://tryerl.seriyps.ru/">eplaypen online demo</a> (whose project is <a class="reference external" href="https://github.com/seriyps/eplaypen">here</a>) and/or at the <a class="reference external" href="https://godbolt.org/">Compiler Explorer</a> (which supports the Erlang language among others).</p>
 <p>Both of them allow to read the intermediate representations involved when compiling Erlang code (BEAM stage, erl_scan, preprocessed sources, abstract code, Core Erlang, Static Single Assignment form, BEAM VM assembler opcodes, x86-64 assembler generated by the JIT, etc.).</p>
 </div>
 </div>
 <div class="section" id="short-hints">
-<h1><a class="toc-backref" href="#id40">Short Hints</a></h1>
+<h1><a class="toc-backref" href="#id48">Short Hints</a></h1>
 <div class="section" id="dealing-with-conditional-availability">
-<h2><a class="toc-backref" href="#id41">Dealing with Conditional Availability</a></h2>
+<h2><a class="toc-backref" href="#id49">Dealing with Conditional Availability</a></h2>
 <div class="section" id="regarding-modules-and-from-the-command-line">
 <h3>Regarding modules, and from the command-line</h3>
 <p>Depending on how Erlang was built in a given environment, some modules may or may not be available.</p>
@@ -412,10 +422,10 @@ non_existing
 <p>Some features appeared in later Erlang versions, and may be conditionally enabled.</p>
 <p>For example:</p>
 <pre class="code erlang literal-block">
-<span class="nv">FullSpawnOpts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="nn">erlang</span><span class="p">:</span><span class="nb">system_info</span><span class="p">(</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="s">&quot;8.1&quot;</span><span class="w"> </span><span class="k">of</span><span class="w">
+<span class="nv">FullSpawnOpts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="nn">erlang</span><span class="p">:</span><span class="nb">system_info</span><span class="p">(</span><span class="n">version</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="s">&quot;8.1&quot;</span><span class="w"> </span><span class="k">of</span><span class="w">
 
    </span><span class="n">true</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
-       </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">message_queue_data</span><span class="p">,</span><span class="w"> </span><span class="n">off_heap</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">BaseSpawnOpts</span><span class="w"> </span><span class="p">];</span><span class="w">
+       </span><span class="p">[{</span><span class="n">message_queue_data</span><span class="p">,</span><span class="w"> </span><span class="n">off_heap</span><span class="p">}|</span><span class="nv">BaseSpawnOpts</span><span class="p">];</span><span class="w">
 
    </span><span class="n">false</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
        </span><span class="nv">BaseSpawnOpts</span><span class="w">
@@ -426,13 +436,13 @@ non_existing
 </div>
 </div>
 <div class="section" id="runtime-library-version">
-<h2><a class="toc-backref" href="#id42">Runtime Library Version</a></h2>
+<h2><a class="toc-backref" href="#id50">Runtime Library Version</a></h2>
 <p>To know <strong>which version of a library</strong> (here, wxWidgets) a given Erlang install is using (if any), one may run an Erlang shell (<tt class="docutils literal">erl</tt>), collect the PID of this (UNIX) process (ex: <tt class="docutils literal">ps <span class="pre">-edf</span> | grep beam</tt>), then trigger a use of that library (ex: for <tt class="docutils literal">wx</tt>, execute <tt class="docutils literal"><span class="pre">wx:demo().</span></tt>) in order to force its dynamic binding.</p>
 <p>Then determine its name, for example thanks to <tt class="docutils literal">pmap ${BEAM_PID} | grep libwx</tt>).</p>
 <p>This may indicate that for example <tt class="docutils literal"><span class="pre">libwx_gtk2u_core-3.0.so.0.5.0</span></tt> is actually used.</p>
 </div>
 <div class="section" id="proper-naming">
-<h2><a class="toc-backref" href="#id43">Proper Naming</a></h2>
+<h2><a class="toc-backref" href="#id51">Proper Naming</a></h2>
 <div class="section" id="variable-shorthands">
 <h3>Variable Shorthands</h3>
 <p>Usually the following conventions apply:</p>
@@ -460,9 +470,54 @@ non_existing
 </ul>
 </div>
 </div>
+<div class="section" id="using-wx">
+<h2><a class="toc-backref" href="#id52">Using wx</a></h2>
+<p><a class="reference external" href="https://www.erlang.org/doc/man/wx.html">wx</a> is now <a class="footnote-reference" href="#id16" id="id15">[5]</a> the standard Erlang way of programming one's graphical user interface; it is a binding to the <a class="reference external" href="http://www.wxwidgets.org/">wxWidgets</a> library.</p>
+<table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id15">[5]</a></td><td><tt class="docutils literal">wx</tt> replaced <a class="reference external" href="https://www.erlang.org/docs/18/man/gs.html">gs</a>. To shelter already-developed graphical applications from any future change of backend, we developed <a class="reference external" href="https://myriad.esperide.org/#graphical-user-interface-gui">MyriadGUI</a>, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.</td></tr>
+</tbody>
+</table>
+<p>Here are some very general wx-related information that may be of help when programming GUIs with this backend:</p>
+<ul class="simple">
+<li>in wxWidgets parlance, &quot;window&quot; designates any kind of widget (not only frame-like elements)</li>
+<li>if receiving errors about <tt class="docutils literal"><span class="pre">{badarg,&quot;This&quot;}</span></tt>, like in:</li>
+</ul>
+<pre class="code erlang literal-block">
+<span class="p">{</span><span class="n">'_wxe_error_'</span><span class="p">,</span><span class="mi">710</span><span class="p">,{</span><span class="n">wxDC</span><span class="p">,</span><span class="n">setPen</span><span class="p">,</span><span class="mi">2</span><span class="p">},{</span><span class="n">badarg</span><span class="p">,</span><span class="s">&quot;This&quot;</span><span class="p">}}</span>
+</pre>
+<p>it is probably the sign that the user code attempted to perform an operation on an already-deallocated wx object; the corresponding life-cycle management might be error-prone, as some deallocations are implicit, others are explicit, and in a concurrent context race conditions easily happen</p>
+<ul class="simple">
+<li>if creating, from a wx-using process, another one, this one should set a relevant environment first (see <tt class="docutils literal">wx:set_env/1</tt>) before using wx functions</li>
+<li>the way wx/wxWidgets manage events is not always simple; notably:<ul>
+<li>by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will <em>not</em> be propagated anymore, preventing the built-in wx event handlers to operate (ex: to properly manage resizings); to restore their activation, <tt class="docutils literal">skip</tt> (to be understood here as &quot;propagate event&quot; - however counter-intuitive it may seem) shall be set to <tt class="docutils literal">true</tt> (either by passing a corresponding option when connecting, or by calling <tt class="docutils literal">wxEvent:skip/2</tt> with <tt class="docutils literal">skip</tt> set to <tt class="docutils literal">true</tt> from one's event handler) <a class="footnote-reference" href="#id19" id="id17">[6]</a></li>
+<li>when a process connects to the emitter of a given type of events (ex: <tt class="docutils literal">close_window</tt> for a given frame), this process is to receive corresponding messages and then perform any kind of operation; however these operations cannot be synchronous (they are non-blocking: the process does not send to anyone any notification that it finished handling that event), and thus, if <tt class="docutils literal">skip</tt> is <tt class="docutils literal">true</tt> (that is, if event propagation is enabled), any other associated event handler(s) will be triggered concurrently to the processing of these event messages; this may be a problem for example if a controller listens to the <tt class="docutils literal">close_window</tt> event emitted by a main frame in order to perform a proper termination: the basic, built-in event handlers will by default be triggered whereas the controller teardown may be still in progress, and this may result in errors (ex: OpenGL ones, like <tt class="docutils literal"><span class="pre">{{{badarg,&quot;This&quot;},{wxGLCanvas,swapBuffers,1}},...</span></tt> because the built-in close handlers already deallocated the OpenGL context); a proper design is to ensure that <tt class="docutils literal">skip</tt> remains set to false so that propagation of such events is disabled: then only the user code is in charge of closing the application, at its own pace <a class="footnote-reference" href="#id20" id="id18">[7]</a></li>
+</ul>
+</li>
+</ul>
+<table class="docutils footnote" frame="void" id="id19" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id17">[6]</a></td><td>MyriadGUI took the opposite convention: by default, events do propagate - unless <tt class="docutils literal">trap_event</tt> is explicitly enabled.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id20" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id18">[7]</a></td><td>This means that MyriadGUI users should specify <tt class="docutils literal">trap_event</tt> to disable any extra other handlers of such events.</td></tr>
+</tbody>
+</table>
+<p>Extra information resources about <tt class="docutils literal">wx</tt> (besides the documentation of its modules):</p>
+<ul class="simple">
+<li>wxErlang: <a class="reference external" href="https://arifishaq.files.wordpress.com/2017/12/wxerlang-getting-started.pdf">Getting started</a> and <a class="reference external" href="https://arifishaq.files.wordpress.com/2018/04/wxerlang-speeding-up.pdf">Speeding up</a>, by Arif Ishaq</li>
+<li>Doug Edmunds' <a class="reference external" href="http://wxerlang.dougedmunds.com/">wxerlang workups</a></li>
+<li><a class="reference external" href="https://www.wxwidgets.org/">wxWidgets itself</a></li>
+</ul>
+</div>
 </div>
 <div class="section" id="micro-cheat-sheet">
-<h1><a class="toc-backref" href="#id44">Micro-Cheat Sheet</a></h1>
+<h1><a class="toc-backref" href="#id53">Micro-Cheat Sheet</a></h1>
 <p>To avoid having to perform a lookup in the documentation:</p>
 <ul class="simple">
 <li>Erlang indices start at <tt class="docutils literal">1</tt>, except the ones of the <tt class="docutils literal">array</tt> module that are zero-based</li>
@@ -522,7 +577,7 @@ non_existing
 <p>Some of these elements are adapted from the <a class="reference external" href="https://github.com/dgud/wings/blob/master/CodingGuidelines">Wings3D coding guidelines</a>.</p>
 </div>
 <div class="section" id="erlang-resources">
-<h1><a class="toc-backref" href="#id45">Erlang Resources</a></h1>
+<h1><a class="toc-backref" href="#id54">Erlang Resources</a></h1>
 <ul class="simple">
 <li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
 <li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well; one may also check the <a class="reference external" href="https://exercism.org/tracks/erlang">Erlang track</a> on Exercism</li>

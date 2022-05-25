@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 8, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, May 14, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -36,25 +36,27 @@
 <div class="contents local topic" id="id1">
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#overview" id="id2">Overview</a></li>
-<li><a class="reference internal" href="#general-purpose-data-format" id="id3">General-Purpose Data Format</a><ul>
-<li><a class="reference internal" href="#language-independent-data-format-json" id="id4">Language-Independent Data Format: JSON</a></li>
-<li><a class="reference internal" href="#erlang-friendly-data-format-etf" id="id5">Erlang-Friendly Data Format: ETF</a></li>
+<li><a class="reference internal" href="#overview" id="id5">Overview</a></li>
+<li><a class="reference internal" href="#general-purpose-data-format" id="id6">General-Purpose Data Format</a><ul>
+<li><a class="reference internal" href="#language-independent-data-formats" id="id7">Language-Independent Data Formats</a></li>
+<li><a class="reference internal" href="#erlang-friendly-data-format-etf" id="id8">Erlang-Friendly Data Format: ETF</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
 <div class="section" id="overview">
-<h1><a class="toc-backref" href="#id2">Overview</a></h1>
+<h1><a class="toc-backref" href="#id5">Overview</a></h1>
 <p>This section concentrates information about <strong>data management</strong>, including data formats.</p>
 </div>
 <div class="section" id="general-purpose-data-format">
-<h1><a class="toc-backref" href="#id3">General-Purpose Data Format</a></h1>
+<h1><a class="toc-backref" href="#id6">General-Purpose Data Format</a></h1>
 <p>Such a format is typically useful to hold configuration information.</p>
-<div class="section" id="language-independent-data-format-json">
-<h2><a class="toc-backref" href="#id4">Language-Independent Data Format: JSON</a></h2>
-<p>We strongly prefer <a class="reference external" href="https://en.wikipedia.org/wiki/JSON">JSON</a> to, for example, <a class="reference external" href="https://en.wikipedia.org/wiki/YAML">YAML</a>, due to the Python-style indentation on which the latter relies in order to indicate nesting.</p>
+<p>We prefer <a class="reference external" href="https://en.wikipedia.org/wiki/JSON">JSON</a> to, for example, <a class="reference external" href="https://en.wikipedia.org/wiki/YAML">YAML</a>, due to the Python-style indentation on which the latter relies in order to indicate nesting.</p>
+<div class="section" id="language-independent-data-formats">
+<h2><a class="toc-backref" href="#id7">Language-Independent Data Formats</a></h2>
+<div class="section" id="id2">
+<h3>JSON</h3>
 <p>A JSON document is in plain-text and may contain:</p>
 <ul class="simple">
 <li>basic types:<ul>
@@ -90,12 +92,12 @@
 </pre>
 <p>Here, once the document is parsed, <tt class="docutils literal">tcp_port</tt> will be considered equal to <tt class="docutils literal">8085</tt>.</p>
 <div class="section" id="pretty-printing">
-<h3>Pretty-Printing</h3>
+<h4>Pretty-Printing</h4>
 <p>On GNU/Linux, one may rely on <tt class="docutils literal">jq</tt>, a command-line JSON processor.</p>
 <p>Ex: <tt class="docutils literal">jq . my_document.json</tt>.</p>
 </div>
 <div class="section" id="validating">
-<h3>Validating</h3>
+<h4>Validating</h4>
 <p>One may consider that a given document is a legit JSON one iff <tt class="docutils literal">jq type</tt> reports a non-empty output.</p>
 <p>Example:</p>
 <pre class="code bash literal-block">
@@ -104,7 +106,7 @@ $ jq <span class="nb">type</span> my_document.json
 </pre>
 </div>
 <div class="section" id="example">
-<h3>Example</h3>
+<h4>Example</h4>
 <p>Regarding syntax, a <a class="reference external" href="https://en.wikipedia.org/wiki/JSON#Syntax">typical JSON document</a> is:</p>
 <pre class="code json literal-block">
 <span class="p">{</span><span class="w">
@@ -135,14 +137,22 @@ $ jq <span class="nb">type</span> my_document.json
 </pre>
 </div>
 <div class="section" id="specifying-comments">
-<h3>Specifying comments</h3>
+<h4>Specifying comments</h4>
 <p>With JSON, there is, on purpose, no built-in way to add comments.</p>
 <p>The sole solution/workaround is to add comments as specific fields, although they will end up as data like the other fields.</p>
 <p>We recommend to mark them specifically (ex: as <tt class="docutils literal">__comment</tt>) so that they should not interfere with the &quot;real&quot; data. As an example, see the second key of the previous JSON document.</p>
 </div>
 </div>
+<div class="section" id="id3">
+<h3>YAML</h3>
+<p><a class="reference external" href="https://yaml.org/">YAML</a> is a data serialization language for all programming languages.</p>
+<p>We prefer the <tt class="docutils literal">.yaml</tt> extension to the <tt class="docutils literal">.yml</tt> one.</p>
+<p>No tabulation should be used for indentation, only spaces, and preferably a fixed amount of them; we used to prefer 4, now 2, since it allows to properly align the items listed with a dash (ex: &quot;<tt class="docutils literal">- I am an item</tt>&quot;).</p>
+<p>With Emacs, the <a class="reference external" href="https://www.emacswiki.org/emacs/YamlMode">Yaml Mode</a> may be of help.</p>
+</div>
+</div>
 <div class="section" id="erlang-friendly-data-format-etf">
-<h2><a class="toc-backref" href="#id5">Erlang-Friendly Data Format: ETF</a></h2>
+<h2><a class="toc-backref" href="#id8">Erlang-Friendly Data Format: ETF</a></h2>
 <p>Such a format is typically useful to hold configuration information in an Erlang context.</p>
 <p>We recommend the use of <a class="reference external" href="http://myriad.esperide.org/#etf">ETF</a> (the <em>Erlang Term Format</em>), that we find particularly useful and even more suitable than JSON (entry order preserved, comments supported, etc.).</p>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>

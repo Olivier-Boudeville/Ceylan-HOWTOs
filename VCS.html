@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 8, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, May 14, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -55,18 +55,19 @@
 <li><a class="reference internal" href="#listing-the-files-managed-in-vcs-from-the-current-directory" id="id21">Listing the files managed in VCS from the current directory</a></li>
 <li><a class="reference internal" href="#reducing-the-size-of-a-repository" id="id22">Reducing the size of a repository</a></li>
 <li><a class="reference internal" href="#fixing-lf-vs-crlf-end-of-line-problems" id="id23">Fixing LF vs CRLF End of Line Problems</a></li>
+<li><a class="reference internal" href="#fixing-a-commit-message" id="id24">Fixing a commit message</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tools" id="id24">Tools</a><ul>
-<li><a class="reference internal" href="#on-most-platforms" id="id25">On Most Platforms</a></li>
-<li><a class="reference internal" href="#on-windows" id="id26">On Windows</a></li>
+<li><a class="reference internal" href="#tools" id="id25">Tools</a><ul>
+<li><a class="reference internal" href="#on-most-platforms" id="id26">On Most Platforms</a></li>
+<li><a class="reference internal" href="#on-windows" id="id27">On Windows</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inner-workings" id="id27">Inner Workings</a></li>
-<li><a class="reference internal" href="#translations" id="id28">Translations</a></li>
-<li><a class="reference internal" href="#documentation" id="id29">Documentation</a></li>
+<li><a class="reference internal" href="#inner-workings" id="id28">Inner Workings</a></li>
+<li><a class="reference internal" href="#translations" id="id29">Translations</a></li>
+<li><a class="reference internal" href="#documentation" id="id30">Documentation</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -249,17 +250,24 @@ $ git push
 </span>*.bat -crlf
 </pre>
 </div>
+<div class="section" id="fixing-a-commit-message">
+<h3><a class="toc-backref" href="#id24">Fixing a commit message</a></h3>
+<p>If no push was done, it is as simple as replacing the former message by a new one, like in:</p>
+<pre class="code bash literal-block">
+$ git commit --amend -m <span class="s2">&quot;This is a fixed commit message.&quot;</span>
+</pre>
+</div>
 </div>
 </div>
 <div class="section" id="tools">
-<h1><a class="toc-backref" href="#id24">Tools</a></h1>
+<h1><a class="toc-backref" href="#id25">Tools</a></h1>
 <div class="section" id="on-most-platforms">
-<h2><a class="toc-backref" href="#id25">On Most Platforms</a></h2>
+<h2><a class="toc-backref" href="#id26">On Most Platforms</a></h2>
 <p>At least on UNIX, the command-line Git client (<tt class="docutils literal">git</tt>) is certainly the best tool. In difficult situations, graphical tools such as <tt class="docutils literal">gitk</tt> may be of help.</p>
 <p>See also our Ceylan-Hull section about <a class="reference external" href="https://hull.esperide.org/#for-version-control-system-vcs">VCS-related scripts</a>.</p>
 </div>
 <div class="section" id="on-windows">
-<h2><a class="toc-backref" href="#id26">On Windows</a></h2>
+<h2><a class="toc-backref" href="#id27">On Windows</a></h2>
 <p>Tools like <a class="reference external" href="https://tortoisegit.org/">TortoiseGit</a> may foster a view on the usage of Git that is a bit particular, conflating concepts or introducing extra ones (ex: a <tt class="docutils literal">sync</tt> command). Apparently also at least some pulls did not reintroduce files just removed from the working directory.</p>
 <p>More generally, cloning on a Windows host an UNIX-originating repository comprising symbolic links may induce oddities (ex: a symlink named <tt class="docutils literal">S</tt> pointing to <tt class="docutils literal">Foobar</tt> resulting, on a Windows clone, in a file named <tt class="docutils literal">S</tt> whose content is, literally, the text <tt class="docutils literal">&quot;Foobar&quot;</tt>, instead of the expected content of the <tt class="docutils literal">Foobar</tt> file).</p>
 <p>Another option is to use Visual Studio Code (<tt class="docutils literal">vscode</tt>), which supports natively Git (provided that the command-line version is already installed). One may select <tt class="docutils literal">View <span class="pre">-&gt;</span> SCM</tt> (or <tt class="docutils literal"><span class="pre">Ctrl-Shift-G</span></tt>) for that. Clicking on the &quot;VCS&quot; icon (three rings links by two curves; the third from the top) displays a contextual view offering various associated operations (here based on Git).</p>
@@ -267,14 +275,14 @@ $ git push
 </div>
 </div>
 <div class="section" id="inner-workings">
-<h1><a class="toc-backref" href="#id27">Inner Workings</a></h1>
+<h1><a class="toc-backref" href="#id28">Inner Workings</a></h1>
 <p>Git stores internally every version of every file separately (not as a diff with a parent version) as a blob (an opaque binary content) identified by its (SHA1) hash.</p>
 <p>A commit is the identifier of a tree representing the filesystem of interest at a given moment (snapshot). This tree references the files through their SHA1, similarly to a <a class="reference external" href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree</a>.</p>
 <p>A branch is thus nothing but a pointer on a given commit, and <tt class="docutils literal">HEAD</tt> designates the current branch. Git stores natively only blobs, trees and commits.</p>
 <p>The reported differences in the content of a file or a tree are thus only recreated (established dynamically) by Git commands, they are not natively tracked.</p>
 </div>
 <div class="section" id="translations">
-<h1><a class="toc-backref" href="#id28">Translations</a></h1>
+<h1><a class="toc-backref" href="#id29">Translations</a></h1>
 <p>From English to French:</p>
 <ul class="simple">
 <li><tt class="docutils literal">repository</tt> -&gt; <tt class="docutils literal">dépôt</tt></li>
@@ -290,7 +298,7 @@ $ git push
 </ul>
 </div>
 <div class="section" id="documentation">
-<h1><a class="toc-backref" href="#id29">Documentation</a></h1>
+<h1><a class="toc-backref" href="#id30">Documentation</a></h1>
 <p>Many pointers exist, doing a great job in unveiling how Git is to be used.</p>
 <p>In English, <a class="reference external" href="https://git-scm.com/book/en/v2">Pro GIT</a> is surely a reference.</p>
 <p>In French:</p>
