@@ -993,7 +993,7 @@ Often, transformations have to be used both ways, like in the case of a scene-to
 
 An option to determine :math:`P_{1\rightarrow2}` from :math:`P_{2\rightarrow1}` could be to compute its inverse directly, as :math:`P_{1\rightarrow2} = (P_{2\rightarrow1})^{-1}`, yet :math:`P_{1\rightarrow2}` may be determined in a simpler manner.
 
-Indeed, for a given point :math:`P`, whose representation is :math:`P_1` in :math:`R_1` and :math:`P_2` in :math:`R_2`, we obtain :math:`P_1 =  P_{2\rightarrow1}.P_2` by - through the way (4x4) matrices are multiplied - first applying a (3x3) rotation :math:`Rot_3` to :math:`P_2` and then a (3D) translation :math:`T_r`: :math:`P_1 = Rot_3.P_2 + T_r` (leaving out the fourth homogeneous coordinate); therefore :math:`P_2 = (Rot_3)^{-1}.(P_1 - T_r)`. Knowing that the inverse of an orthogonal matrix is its transpose, and that rotation matrices are orthogonal, :math:`(Rot_3)^{-1} = (Rot_3)^\top`, and thus :math:`P_2 = (Rot_3)^\top.(P_1 - T_r) = (Rot_3)^\top.P_1 - (Rot_3)^\top.T_r)`. So if:
+Indeed, for a given point :math:`P`, whose representation is :math:`P_1` in :math:`R_1` and :math:`P_2` in :math:`R_2`, we obtain :math:`P_1 =  P_{2\rightarrow1}.P_2` by - through the way (4x4) matrices are multiplied - first applying a (3x3) rotation :math:`Rot_3` to :math:`P_2` and then a (3D) translation :math:`T_r`: :math:`P_1 = Rot_3.P_2 + T_r` (in 3D; thus leaving out any fourth homogeneous coordinate); therefore :math:`P_2 = (Rot_3)^{-1}.(P_1 - T_r)`. Knowing that the inverse of an orthogonal matrix is its transpose, and that rotation matrices are orthogonal, :math:`(Rot_3)^{-1} = (Rot_3)^\top`, and thus :math:`P_2 = (Rot_3)^\top.(P_1 - T_r) = (Rot_3)^\top.P_1 - (Rot_3)^\top.T_r)`. So if:
 
 .. math::
 
