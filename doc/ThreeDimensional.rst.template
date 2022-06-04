@@ -967,16 +967,13 @@ Using in the same way the two other axes of :math:`R_2` (shown as ``Jb`` and ``K
 		ZIb_{1} & ZJb_{1} & ZKb_{1} \\
 	 \end{bmatrix}
 
+So the transition matrix from :math:`R_2` to :math:`R_1` is:
 
-.. Note::
-
- So finally the transition matrix from :math:`R_2` to :math:`R_1` is:
-
- .. math::
-  P_{2\rightarrow1}
+.. math::
+ P_{2\rightarrow1}
 	 = \begin{bmatrix}
 		R_{2\rightarrow1}  & \vec{T_{2\rightarrow1}} \\
-		0  &       1 \\
+		0                  &                       1 \\
 	   \end{bmatrix}
 	 = \begin{bmatrix}
 		XIb_1 & XJb_1 & XKb_1 & XOb_1 \\
@@ -985,17 +982,87 @@ Using in the same way the two other axes of :math:`R_2` (shown as ``Jb`` and ``K
 			0 &     0 &     0 &     1 \\
 	   \end{bmatrix}
 
+where:
+
+- :math:`R_{2\rightarrow1}` is the 3x3 rotation matrix converting vectors of :math:`R_2` in :math:`R_1`, i.e. whose columns are the axes of :math:`R_2` expressed in :math:`R_1`
+- :math:`\vec{T_{2\rightarrow1}} = Ob_1` is the 3D vector of the coordinates of the origin of :math:`R_2` as expressed in :math:`R_1`
+
+This also corresponds to a matrix obtained by describing the :math:`R_2` referential in :math:`R_1`, by listing first the three (4D) vector axes of :math:`R_2` then its (4D) origin, i.e. :math:`P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} && \vec{Jb_1} && \vec{Kb_1} && Ob_1 \end{bmatrix}`.
+
+Often, transformations have to be used both ways, like in the case of a scene-to-camera transformation; as a consequence, transition matrices may have to be inversed, knowing that :math:`(P_{2\rightarrow1})^{-1} = P_{1\rightarrow2}` (since by definition :math:`P_{2\rightarrow1}.P_{1\rightarrow2} = Id`).
+
+An option to determine :math:`P_{1\rightarrow2}` from :math:`P_{2\rightarrow1}` could be to compute its inverse directly, as :math:`P_{1\rightarrow2} = (P_{2\rightarrow1})^{-1}`, yet :math:`P_{1\rightarrow2}` may be determined in a simpler manner.
+
+Indeed, for a given point :math:`P`, whose representation is :math:`P_1` in :math:`R_1` and :math:`P_2` in :math:`R_2`, we obtain :math:`P_1 =  P_{2\rightarrow1}.P_2` by - through the way (4x4) matrices are multiplied - first applying a (3x3) rotation :math:`Rot_3` to :math:`P_2` and then a (3D) translation :math:`T_r`: :math:`P_1 = Rot_3.P_2 + T_r` (leaving out the fourth homogeneous coordinate); therefore :math:`P_2 = (Rot_3)^{-1}.(P_1 - T_r)`. Knowing that the inverse of an orthogonal matrix is its transpose, and that rotation matrices are orthogonal, :math:`(Rot_3)^{-1} = (Rot_3)^\top`, and thus :math:`P_2 = (Rot_3)^\top.(P_1 - T_r) = (Rot_3)^\top.P_1 - (Rot_3)^\top.T_r)`. So if:
+
+.. math::
+
+ P_{2\rightarrow1}
+	 = \begin{bmatrix}
+		R_{2\rightarrow1}  & \vec{T_{2\rightarrow1}} \\
+		0                  &                       1 \\
+	   \end{bmatrix}
+
+then:
+
+.. math::
+
+ P_{1\rightarrow2}
+	 = \begin{bmatrix}
+		(R_{2\rightarrow1})^\top  & -(R_{2\rightarrow1})^\top.\vec{T_{2\rightarrow1}} \\
+		0                         &                                                 1 \\
+	   \end{bmatrix}
+	 = \begin{bmatrix}
+		XIb_1 & YIb_1 & ZIb_1 & -(XIb_1.XOb_1 + YIb_1.YOb_1 + ZIb_1.ZOb_1) \\
+		XJb_1 & YJb_1 & ZJb_1 & -(XJb_1.XOb_1 + YJb_1.YOb_1 + ZJb_1.ZOb_1) \\
+		XKb_1 & YKb_1 & ZKb_1 & -(XKb_1.XOb_1 + YKb_1.YOb_1 + ZKb_1.ZOb_1) \\
+			0 &     0 &     0 &                                          1 \\
+	   \end{bmatrix}
+
+
+.. _`summary`:
+
+.. Note::
+
+ So, in a nutshell, the transition matrix from a referential :math:`R_\alpha` to a referential :math:`R_\beta` is:
+
+ .. math::
+  P_{\alpha\rightarrow\beta}
+	 = \begin{bmatrix}
+		Rot_{\alpha\rightarrow\beta}  & \vec{Tr_{\alpha\rightarrow\beta}} \\
+		0                             &                                 1 \\
+	   \end{bmatrix}
+	 = \begin{bmatrix}
+		XIb_\beta & XJb_\beta & XKb_\beta & XOb_\beta \\
+		YIb_\beta & YJb_\beta & YKb_\beta & YOb_\beta \\
+		ZIb_\beta & ZJb_\beta & ZKb_\beta & ZOb_\beta \\
+				0 &         0 &         0 &        1  \\
+	   \end{bmatrix}
+
  where:
 
- - :math:`R_{2\rightarrow1}` is the 3x3 rotation matrix converting vectors of :math:`R_2` in :math:`R_1`, i.e. whose columns are the axes of :math:`R_2` expressed in :math:`R_1`
- - :math:`\vec{T_{1\rightarrow2}} = Ob_1` is the 3D vector of the coordinates of the origin of :math:`R_2` as expressed in :math:`R_1`
+ - :math:`Rot_{\alpha\rightarrow\beta}` is the 3x3 rotation matrix converting vectors of :math:`R_\alpha` in :math:`R_\beta`, i.e. whose columns are the axes of :math:`R_\alpha` expressed in :math:`R_\beta`
+ - :math:`\vec{Tr_{\alpha\rightarrow\beta}} = Ob_\beta` is the 3D vector of the coordinates of the origin of :math:`R_\alpha` as expressed in :math:`R_\beta`
 
- This also corresponds to a matrix obtained by describing the :math:`R_2` referential in :math:`R_1`, by listing first the three (4D) vector axes of :math:`R_2` then its (4D) origin, i.e. :math:`P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} && \vec{Jb_1} && \vec{Kb_1} && Ob_1 \end{bmatrix}`.
+ This also corresponds to a matrix obtained by describing the :math:`R_\alpha` referential in :math:`R_\beta`, by listing first the three (4D) vector axes of :math:`R_\alpha` then its (4D) origin, i.e. :math:`P_{\alpha\rightarrow\beta} = \begin{bmatrix} \vec{Ib_\beta} && \vec{Jb_\beta} && \vec{Kb_\beta} && Ob_\beta \end{bmatrix}`.
+
+ Its reciprocal (inverse transformation) is then:
+
+ .. math::
+  P_{\beta\rightarrow\alpha}
+	 = \begin{bmatrix}
+		(Rot_{\alpha\rightarrow\beta})^\top  & -(Rot_{\alpha\rightarrow\beta})^\top.\vec{Tr_{\alpha\rightarrow\beta}} \\
+									  0  &                                                                1 \\
+	   \end{bmatrix}
+	 = \begin{bmatrix}
+		XIb_\beta & YIb_\beta & ZIb_\beta & -(XIb_\beta.XOb_\beta + YIb_\beta.YOb_\beta + ZIb_\beta.ZOb_\beta) \\
+		XJb_\beta & YJb_\beta & ZJb_\beta & -(XJb_\beta.XOb_\beta + YJb_\beta.YOb_\beta + ZJb_\beta.ZOb_\beta) \\
+		XKb_\beta & YKb_\beta & ZKb_\beta & -(XKb_\beta.XOb_\beta + YKb_\beta.YOb_\beta + ZKb_\beta.ZOb_\beta) \\
+			0 &     0 &     0 &                                          1 \\
+	   \end{bmatrix}
 
 
 As a result, from the definition of a tree of referentials, we are able to compute the transition matrix transforming the representation of a vector expressed in any of them to its representation in any of the other referentials.
-
-For that, like in the case of the scene-to-camera transformation, transition matrices may have to be inversed, knowing that :math:`(P_{2\rightarrow1})^{-1} = P_{1\rightarrow2}` (since by definition :math:`P_{2\rightarrow1}.P_{1\rightarrow2} = Id`).
 
 A special case of interest is, for the sake of rendering, to transform, through that tree, a local referential in which a geometry is defined into the one of the camera, defining where it is positioned and aimed [#]_; in OpenGL parlance, this corresponds to the *model-view* matrix (for "modelling and viewing transformations") that we designate here as :math:`M_{mv}` and which corresponds to :math:`P_{local{\rightarrow}camera}`.
 
