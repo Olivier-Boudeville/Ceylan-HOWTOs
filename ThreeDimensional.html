@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, June 2, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, June 4, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -794,33 +794,98 @@ R = R_{2\rightarrow1}
     \end{bmatrix}
 \end{equation*}
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>So finally the transition matrix from <span class="math">\(R_2\)</span> to <span class="math">\(R_1\)</span> is:</p>
+<p>So the transition matrix from <span class="math">\(R_2\)</span> to <span class="math">\(R_1\)</span> is:</p>
 <div class="math">
 \begin{equation*}
 P_{2\rightarrow1}
-   = \begin{bmatrix}
-      R_{2\rightarrow1}  &amp; \vec{T_{2\rightarrow1}} \\
-      0  &amp;       1 \\
-     \end{bmatrix}
-   = \begin{bmatrix}
-      XIb_1 &amp; XJb_1 &amp; XKb_1 &amp; XOb_1 \\
-      YIb_1 &amp; YJb_1 &amp; YKb_1 &amp; YOb_1 \\
-      ZIb_1 &amp; ZJb_1 &amp; ZKb_1 &amp; ZOb_1 \\
-          0 &amp;     0 &amp;     0 &amp;     1 \\
-     \end{bmatrix}
+    = \begin{bmatrix}
+       R_{2\rightarrow1}  &amp; \vec{T_{2\rightarrow1}} \\
+       0                  &amp;                       1 \\
+      \end{bmatrix}
+    = \begin{bmatrix}
+       XIb_1 &amp; XJb_1 &amp; XKb_1 &amp; XOb_1 \\
+       YIb_1 &amp; YJb_1 &amp; YKb_1 &amp; YOb_1 \\
+       ZIb_1 &amp; ZJb_1 &amp; ZKb_1 &amp; ZOb_1 \\
+           0 &amp;     0 &amp;     0 &amp;     1 \\
+      \end{bmatrix}
 \end{equation*}
 </div>
 <p>where:</p>
 <ul class="simple">
 <li><span class="math">\(R_{2\rightarrow1}\)</span> is the 3x3 rotation matrix converting vectors of <span class="math">\(R_2\)</span> in <span class="math">\(R_1\)</span>, i.e. whose columns are the axes of <span class="math">\(R_2\)</span> expressed in <span class="math">\(R_1\)</span></li>
-<li><span class="math">\(\vec{T_{1\rightarrow2}} = Ob_1\)</span> is the 3D vector of the coordinates of the origin of <span class="math">\(R_2\)</span> as expressed in <span class="math">\(R_1\)</span></li>
+<li><span class="math">\(\vec{T_{2\rightarrow1}} = Ob_1\)</span> is the 3D vector of the coordinates of the origin of <span class="math">\(R_2\)</span> as expressed in <span class="math">\(R_1\)</span></li>
 </ul>
-<p class="last">This also corresponds to a matrix obtained by describing the <span class="math">\(R_2\)</span> referential in <span class="math">\(R_1\)</span>, by listing first the three (4D) vector axes of <span class="math">\(R_2\)</span> then its (4D) origin, i.e. <span class="math">\(P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} &amp;&amp; \vec{Jb_1} &amp;&amp; \vec{Kb_1} &amp;&amp; Ob_1 \end{bmatrix}\)</span>.</p>
+<p>This also corresponds to a matrix obtained by describing the <span class="math">\(R_2\)</span> referential in <span class="math">\(R_1\)</span>, by listing first the three (4D) vector axes of <span class="math">\(R_2\)</span> then its (4D) origin, i.e. <span class="math">\(P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} &amp;&amp; \vec{Jb_1} &amp;&amp; \vec{Kb_1} &amp;&amp; Ob_1 \end{bmatrix}\)</span>.</p>
+<p>Often, transformations have to be used both ways, like in the case of a scene-to-camera transformation; as a consequence, transition matrices may have to be inversed, knowing that <span class="math">\((P_{2\rightarrow1})^{-1} = P_{1\rightarrow2}\)</span> (since by definition <span class="math">\(P_{2\rightarrow1}.P_{1\rightarrow2} = Id\)</span>).</p>
+<p>An option to determine <span class="math">\(P_{1\rightarrow2}\)</span> from <span class="math">\(P_{2\rightarrow1}\)</span> could be to compute its inverse directly, as <span class="math">\(P_{1\rightarrow2} = (P_{2\rightarrow1})^{-1}\)</span>, yet <span class="math">\(P_{1\rightarrow2}\)</span> may be determined in a simpler manner.</p>
+<p>Indeed, for a given point <span class="math">\(P\)</span>, whose representation is <span class="math">\(P_1\)</span> in <span class="math">\(R_1\)</span> and <span class="math">\(P_2\)</span> in <span class="math">\(R_2\)</span>, we obtain <span class="math">\(P_1 =  P_{2\rightarrow1}.P_2\)</span> by - through the way (4x4) matrices are multiplied - first applying a (3x3) rotation <span class="math">\(Rot_3\)</span> to <span class="math">\(P_2\)</span> and then a (3D) translation <span class="math">\(T_r\)</span>: <span class="math">\(P_1 = Rot_3.P_2 + T_r\)</span> (in 3D; thus leaving out any fourth homogeneous coordinate); therefore <span class="math">\(P_2 = (Rot_3)^{-1}.(P_1 - T_r)\)</span>. Knowing that the inverse of an orthogonal matrix is its transpose, and that rotation matrices are orthogonal, <span class="math">\((Rot_3)^{-1} = (Rot_3)^\top\)</span>, and thus <span class="math">\(P_2 = (Rot_3)^\top.(P_1 - T_r) = (Rot_3)^\top.P_1 - (Rot_3)^\top.T_r)\)</span>. So if:</p>
+<div class="math">
+\begin{equation*}
+P_{2\rightarrow1}
+    = \begin{bmatrix}
+       R_{2\rightarrow1}  &amp; \vec{T_{2\rightarrow1}} \\
+       0                  &amp;                       1 \\
+      \end{bmatrix}
+\end{equation*}
+</div>
+<p>then:</p>
+<div class="math">
+\begin{equation*}
+P_{1\rightarrow2}
+    = \begin{bmatrix}
+       (R_{2\rightarrow1})^\top  &amp; -(R_{2\rightarrow1})^\top.\vec{T_{2\rightarrow1}} \\
+       0                         &amp;                                                 1 \\
+      \end{bmatrix}
+    = \begin{bmatrix}
+       XIb_1 &amp; YIb_1 &amp; ZIb_1 &amp; -(XIb_1.XOb_1 + YIb_1.YOb_1 + ZIb_1.ZOb_1) \\
+       XJb_1 &amp; YJb_1 &amp; ZJb_1 &amp; -(XJb_1.XOb_1 + YJb_1.YOb_1 + ZJb_1.ZOb_1) \\
+       XKb_1 &amp; YKb_1 &amp; ZKb_1 &amp; -(XKb_1.XOb_1 + YKb_1.YOb_1 + ZKb_1.ZOb_1) \\
+           0 &amp;     0 &amp;     0 &amp;                                          1 \\
+      \end{bmatrix}
+\end{equation*}
+</div>
+<div class="admonition note" id="summary">
+<p class="first admonition-title">Note</p>
+<p>So, in a nutshell, the transition matrix from a referential <span class="math">\(R_\alpha\)</span> to a referential <span class="math">\(R_\beta\)</span> is:</p>
+<div class="math">
+\begin{equation*}
+P_{\alpha\rightarrow\beta}
+   = \begin{bmatrix}
+      Rot_{\alpha\rightarrow\beta}  &amp; \vec{Tr_{\alpha\rightarrow\beta}} \\
+      0                             &amp;                                 1 \\
+     \end{bmatrix}
+   = \begin{bmatrix}
+      XIb_\beta &amp; XJb_\beta &amp; XKb_\beta &amp; XOb_\beta \\
+      YIb_\beta &amp; YJb_\beta &amp; YKb_\beta &amp; YOb_\beta \\
+      ZIb_\beta &amp; ZJb_\beta &amp; ZKb_\beta &amp; ZOb_\beta \\
+              0 &amp;         0 &amp;         0 &amp;        1  \\
+     \end{bmatrix}
+\end{equation*}
+</div>
+<p>where:</p>
+<ul class="simple">
+<li><span class="math">\(Rot_{\alpha\rightarrow\beta}\)</span> is the 3x3 rotation matrix converting vectors of <span class="math">\(R_\alpha\)</span> in <span class="math">\(R_\beta\)</span>, i.e. whose columns are the axes of <span class="math">\(R_\alpha\)</span> expressed in <span class="math">\(R_\beta\)</span></li>
+<li><span class="math">\(\vec{Tr_{\alpha\rightarrow\beta}} = Ob_\beta\)</span> is the 3D vector of the coordinates of the origin of <span class="math">\(R_\alpha\)</span> as expressed in <span class="math">\(R_\beta\)</span></li>
+</ul>
+<p>This also corresponds to a matrix obtained by describing the <span class="math">\(R_\alpha\)</span> referential in <span class="math">\(R_\beta\)</span>, by listing first the three (4D) vector axes of <span class="math">\(R_\alpha\)</span> then its (4D) origin, i.e. <span class="math">\(P_{\alpha\rightarrow\beta} = \begin{bmatrix} \vec{Ib_\beta} &amp;&amp; \vec{Jb_\beta} &amp;&amp; \vec{Kb_\beta} &amp;&amp; Ob_\beta \end{bmatrix}\)</span>.</p>
+<p>Its reciprocal (inverse transformation) is then:</p>
+<div class="last math">
+\begin{equation*}
+P_{\beta\rightarrow\alpha}
+   = \begin{bmatrix}
+      (Rot_{\alpha\rightarrow\beta})^\top  &amp; -(Rot_{\alpha\rightarrow\beta})^\top.\vec{Tr_{\alpha\rightarrow\beta}} \\
+                                    0  &amp;                                                                1 \\
+     \end{bmatrix}
+   = \begin{bmatrix}
+      XIb_\beta &amp; YIb_\beta &amp; ZIb_\beta &amp; -(XIb_\beta.XOb_\beta + YIb_\beta.YOb_\beta + ZIb_\beta.ZOb_\beta) \\
+      XJb_\beta &amp; YJb_\beta &amp; ZJb_\beta &amp; -(XJb_\beta.XOb_\beta + YJb_\beta.YOb_\beta + ZJb_\beta.ZOb_\beta) \\
+      XKb_\beta &amp; YKb_\beta &amp; ZKb_\beta &amp; -(XKb_\beta.XOb_\beta + YKb_\beta.YOb_\beta + ZKb_\beta.ZOb_\beta) \\
+          0 &amp;     0 &amp;     0 &amp;                                          1 \\
+     \end{bmatrix}
+\end{equation*}
+</div>
 </div>
 <p>As a result, from the definition of a tree of referentials, we are able to compute the transition matrix transforming the representation of a vector expressed in any of them to its representation in any of the other referentials.</p>
-<p>For that, like in the case of the scene-to-camera transformation, transition matrices may have to be inversed, knowing that <span class="math">\((P_{2\rightarrow1})^{-1} = P_{1\rightarrow2}\)</span> (since by definition <span class="math">\(P_{2\rightarrow1}.P_{1\rightarrow2} = Id\)</span>).</p>
 <p>A special case of interest is, for the sake of rendering, to transform, through that tree, a local referential in which a geometry is defined into the one of the camera, defining where it is positioned and aimed <a class="footnote-reference" href="#footnote-6" id="footnote-reference-6">[6]</a>; in OpenGL parlance, this corresponds to the <em>model-view</em> matrix (for &quot;modelling and viewing transformations&quot;) that we designate here as <span class="math">\(M_{mv}\)</span> and which corresponds to <span class="math">\(P_{local{\rightarrow}camera}\)</span>.</p>
 <table class="docutils footnote" frame="void" id="footnote-6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
