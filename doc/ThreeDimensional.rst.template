@@ -513,11 +513,11 @@ These translate easily for instance in the vanilla C GL/GLU implementations. As 
 
 The reference pages for OpenGL (in version 4.x) can be `browsed here <https://www.khronos.org/registry/OpenGL-Refpages/gl4/>`_.
 
-Note that initially the information here related to older versions of OpenGL (1.1, 2.1, etc.; see `history <https://www.khronos.org/opengl/wiki/History_of_OpenGL>`_) that relied on a fixed pipeline (no shader support) - whereas, starting from OpenGL 3.0, many of the corresponding features were designated as deprecated, and actually removed in 3.1. However, thanks to the *compatibility context* (whose support is not mandatory - but that all major implementations of OpenGL provide), these features can still be used.
+Note that initially the information here related to older versions of OpenGL (1.1, 2.1, etc.; see `history <https://www.khronos.org/opengl/wiki/History_of_OpenGL>`_) that relied on a fixed pipeline (no shader support) - whereas, starting from OpenGL 3.0, many of the corresponding features were marked as deprecated, and actually removed in 3.1. However, thanks to the *compatibility context* (whose support is not mandatory - but that all major implementations of OpenGL provide), these features can still be used.
 
-Yet nowadays relying on at least OpenGL 3 core context (not using the compatibility context) would be preferable (source: `this thread <https://erlangforums.com/t/no-gl-get-1/1035>`_). Still better options would be OpenGL 4 Core or OpenGL ES 2+, or libraries on top of `Vulkan <https://en.wikipedia.org/wiki/Vulkan>`_, like `wgpu <https://github.com/gfx-rs/wgpu>`_. Specific libraries also exist for rendering for the web and for mobile, like `WebGPU <https://www.w3.org/TR/webgpu/>`_.
+Yet nowadays relying on at least OpenGL 3 *core* context (not using the compatibility context) would be preferable (source: `this thread <https://erlangforums.com/t/no-gl-get-1/1035>`_). Still better options would be to rely on OpenGL 4 Core or OpenGL ES 2+, or libraries on top of `Vulkan <https://en.wikipedia.org/wiki/Vulkan>`_, like `wgpu <https://github.com/gfx-rs/wgpu>`_. Specific libraries also exist for rendering for the web and for mobile, like `WebGPU <https://www.w3.org/TR/webgpu/>`_.
 
-As of 2022, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (ex: skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum that we target is the Core Profile of OpenGL 3.3, which is "modern OpenGL" and introduced most features that still apply (and will halt on error if any deprecated functionality is used).
+As of 2022, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (ex: skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum that we target is the **Core Profile of OpenGL 3.3**, which is "modern OpenGL" and introduced most features that still apply (and will halt on error if any deprecated functionality is used).
 
 For more general-purpose computations (as opposed to rendering operations) to be offset to a GPU/GPGU, one may rely on `OpenCL <Erlang.html#opencl>`_ instead.
 
@@ -529,21 +529,21 @@ The mentioned tests will be `Ceylan-Myriad <http://myriad.esperide.org>`_ ones, 
 Basics
 ......
 
-- OpenGL is a **software interface to graphics hardware**, i.e. the *specification* of an API 'of around 150 functions in its older version 1.1), developed and maintained by the `Khronos Group <https://www.khronos.org/>`_
+- OpenGL is a **software interface to graphics hardware**, i.e. the *specification* of an API (of around 150 functions in its older version 1.1), developed and maintained by the `Khronos Group <https://www.khronos.org/>`_
 - a video card will run an *implementation* of that specification, generally developed by the manufacturer of that card; a good rule of thumb is to always update one's video card drivers to its **latest stable version**, as OpenGL implementations are constantly improved (bug-fixing) and updated (with regard to newer OpenGL versions)
 - OpenGL concentrates on **hardware-independent 2D/3D rendering**; no commands for performing window-related tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the windowing system
-- OpenGL offers only **low-level primitives** organised through a `pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such OpenGL is a building-block for higher-level engines (ex: like Godot_)
+- OpenGL offers only **low-level primitives** organised through a `pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such, OpenGL is a building-block for higher-level engines (ex: like Godot_)
 - OpenGL is a **procedural** (function-based, not object-oriented) **state machine** comprising a larger number of variables defined within a given OpenGL state (named *OpenGL context*; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts as long as it is not modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set)
-- so the **currently processed element** (ex: a vertex) **inherits (implicitly) the current settings of the context** (ex: color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply when performing a rendering operation (specifying all these parameters would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards (being "implicitly inherited"), until possibly being reassigned in some future
-- OpenGL respects a **client/server execution model**: an application (a specific client, running on a CPU) issues commands to a rendering server (on the same host or not - see GLX; generally the server can be seen as running on a local graphic card), that executes them **sequentially and in-order**; as such, most of the calls performed by user programs are **asynchronous**: through OpenGL they are triggered by the program and return almost immediately, whereas they have not been executed yet; they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like *Display Lists* allow to pipeline operations (as opposed to the default *immediate mode*), which are accumulated for processing at a later time
+- so the **currently processed element** (ex: a vertex) **inherits (implicitly) the current settings of the context** (ex: color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply when performing a rendering operation (specifying all these parameters would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards (being "implicitly inherited"), until possibly being reassigned in some later point in time
+- OpenGL respects a **client/server execution model**: an application (a specific client, running on a CPU) issues commands to a rendering server (on the same host or not - see GLX; generally the server can be seen as running on a local graphic card), that executes them **sequentially and in-order**; as such, most of the calls performed by user programs are **asynchronous**: they are triggered by the program through OpenGL, and return almost immediately, whereas they have not been executed yet; they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like *Display Lists* allow to pipeline operations (as opposed to the default *immediate mode*), which are accumulated for processing at a later time, as fast as the graphic card can process them
 - state variables are mostly server-side, yet some of them are client-side; in both cases, they can be gathered in *attribute groups*, which can be pushed on, and popped from, their respective server or client attribute stacks
-- OpenGL manages two types of data, handled by mostly different paths of its rendering pipeline yet that are ultimately integrated in the framebuffer through fragment-yielding rasterization:
+- OpenGL manages two types of data, handled by mostly different paths of its rendering pipeline, yet that are ultimately integrated in the framebuffer through fragment-yielding rasterization:
 
   - geometric data (vertices, lines, and polygons)
   - pixel data (pixels, images, and bitmaps)
 
 - vertices and normals are transformed by the **model-view** and **projection** matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; texture coordinates are transformed by the **texture** matrix
-- textures may reside in the main, general-purpose, client, **CPU-side memory** (large and slow to access for the rendering) and/or in any auxiliary, dedicated, server-side **GPU memory** (more constrained, hence prioritized thanks to *texture objects*; and high-performance, rendering-wise)
+- textures may reside in the main, general-purpose, client, **CPU-side memory** (large and slow to access for the rendering) and/or in any auxiliary, dedicated, server-side **GPU memory** (more constrained, hence prioritized thanks to *texture objects*; and, rendering-wise, of significantly higher-performance)
 - OpenGL has to apply any kind of transformation, linear (ex: rotation, scaling) or not (ex: translation, perspective) to geometries, for example in order to perform referential changes or rendering; each of these transformations can be represented as a 4x4 `homogeneous matrix <https://en.wikipedia.org/wiki/Homogeneous_coordinates>`_, with floating-point (homogeneous) coordinates [#]_; a series of transformations can then simply be represented as a single of such matrices, corresponding to the product of the involved transformation matrices
 
 
@@ -553,12 +553,12 @@ Basics
 
 - while this will not change anything regarding the actual OpenGL library and the computations that it performs, the conventions adopted by the OpenGL *documentation* regarding matrices are the following ones:
 
-  - their `in-memory representation <https://www.opengl.org//archives/resources/faq/technical/transformations.htm>`_ is `column-major order <https://en.wikipedia.org/wiki/Row-_and_column-major_order>`_ (even if it is unusual, at least in C; this corresponds to Fortran-like conventions), meaning that it enumerates their coordinates first per column rather than per row (and for them a vector is a *row* of coordinates), whereas tools following the row-major counterpart order, `like Myriad <http://myriad.esperide.org/#matrix-conventions>`_ do the opposite (and vectors are *columns* of coordinates); more clearly, a matrix like :math:`M = \begin{bmatrix} a11 & a12 & ... & a1n \\ a21 & a22 & ... & a2n \\ ... & ... & ... & ... \\ am1 & am2 & ... & amn \\ \end{bmatrix}`
+  - their `in-memory representation <https://www.opengl.org//archives/resources/faq/technical/transformations.htm>`_ is `column-major order <https://en.wikipedia.org/wiki/Row-_and_column-major_order>`_ (even if it is unusual, at least in C; this corresponds to Fortran-like conventions), meaning that it enumerates their coordinates first per column rather than per row (and for them a vector is a *row* of coordinates), whereas tools following the row-major counterpart order, `including Myriad <http://myriad.esperide.org/#matrix-conventions>`_ (precisely: MyriadGUI), do the opposite (and vectors are *columns* of coordinates); more clearly, a matrix like :math:`M = \begin{bmatrix} a11 & a12 & ... & a1n \\ a21 & a22 & ... & a2n \\ ... & ... & ... & ... \\ am1 & am2 & ... & amn \\ \end{bmatrix}`
 
 	- will be stored with row-major conventions (ex: Myriad) as: ``[ [a11, a12, ... a1n], [a21, a22, ... a2n], ..., [am1, am2, ... amn] ]``
 	- whereas, with the conventions discussed, OpenGL will expect it to be stored in-memory in this order: ``a11, a21, ..., am1, a21, a22, ..., am2, ..., a1n, a2n, ..., amn``, i.e. as the transpose of the previous matrix
 
-  - these `OpenGL storage conventions <http://steve.hollasch.net/cgindex/math/matrix/column-vec.html>`_ do not tell how matrices are to be multiplied (knowing of course that the matrix product is not commutative); if following the aforementioned OpenGL *documentation* conventions, one should consider that OpenGL relies on the usual multiplication order, that is **post-multiplication**, i.e. *multiplication on the right*; this means that, if applying on a given matrix :math:`M` a transformation :math:`O` (ex: rotation, translation, scaling, etc.) represented by a matrix :math:`M_O`, the resulting matrix will be :math:`M' = M.M_O` (and not :math:`M' = M_O.M`); a series of operations :math:`O_1`, then :math:`O_2`, ..., then :math:`O_n` will therefore translate to a matrix :math:`M' = M_{O1}.M_{O2}.[...].M_{On}`; applying a vector :math:`\vec{V}` to a  matrix :math:`M` will result in :math:`\vec{V'} = M.\vec{V}`
+  - these `OpenGL storage conventions <http://steve.hollasch.net/cgindex/math/matrix/column-vec.html>`_ do not tell how matrices are to be multiplied (knowing of course that the matrix product is not commutative); if following the aforementioned OpenGL *documentation* conventions, one should consider that OpenGL relies on the usual multiplication order, that is **post-multiplication**, i.e. *multiplication on the right*; this means that, if applying on a given matrix :math:`M` a transformation :math:`O` (ex: rotation, translation, scaling, etc.) represented by a matrix :math:`M_O`, the resulting matrix will be :math:`M' = M.M_O` (and not :math:`M' = M_O.M`); a series of operations :math:`O_1`, then :math:`O_2`, ..., then :math:`O_n` will therefore correspond to a matrix :math:`M' = M_{O1}.M_{O2}.[...].M_{On}`; applying a vector :math:`\vec{V}` to a  matrix :math:`M` will result in :math:`\vec{V'} = M.\vec{V}`
 
   - so when an OpenGL program performs calls like first for a rotation (r), then for a scaling (s) and finally for a translation (t):
 
@@ -592,9 +592,9 @@ The usual analogy to describe them is the process of **producing a photography**
 4. the snapshots that it takes can be further adapted before being printed, for example in terms of scaling (*viewport transformations*, with screen coordinates)
 
 
-One can see that the first two steps are reciprocal; for example, moving all objects in a direction or moving the camera in the opposite one is basically the same operation. These two operations, being the two sides of the same coin, can thus be managed by a single matrix, the *model-view* one.
+One can see that the first two steps are reciprocal; for example, moving all objects in a direction or moving the camera in the opposite direction is basically the same operation. These two operations, being the two sides of the same coin, can thus be managed by a single matrix, the *model-view* one.
 
-Finally, as mentioned, in OpenGL, operations are to be defined in reverse order. If naming :math:`M_s` the matrix implementing a given step S, the previous process would be implemented by an overall matrix :math:`M = M_4.M_3.M_2.M_1`, so that applying a vector :math:`\vec{V}` to :math:`M` results in :math:`\vec{V'} = M.\vec{V} = M_4.M_3.M_2.M_1.\vec{V} = M_4.(M_3.(M_2.(M_1.\vec{V})))`.
+Finally, as mentioned in the section about storage conventions, in OpenGL, operations are to be defined in reverse order. If naming :math:`M_s` the matrix implementing a given step S, the previous process would be implemented by an overall matrix, based on the previous bullet numbers: :math:`M = M_4.M_3.M_2.M_1`, so that applying a vector :math:`\vec{V}` to :math:`M` results in :math:`\vec{V'} = M.\vec{V} = M_4.M_3.M_2.M_1.\vec{V} = M_4.(M_3.(M_2.(M_1.\vec{V})))`.
 
 
 
@@ -641,9 +641,9 @@ For them :math:`f(\lambda.x+y) = \lambda.f(x) + f(y)`.
 Projections
 ___________
 
-A projection defines 6 clipping planes (at least 6 additional ones can be defined).
+A projection defines 6 clipping planes (and at least 6 additional ones can be defined).
 
-A 3D plane is defined by 4 coordinates (ex: ``(a, b, c, d)``), and a point :math:`P = \begin{pmatrix} x \\ y \\ z \end{pmatrix}` will belong to such a plane iff :math:`a.x + b.y + c.z + d = 0`.
+A 3D plane is defined by including a given (3D) point and comprising all vectors orthogonal to a given vector; it can be defined thanks to 4 coordinates (ex: ``(a, b, c, d)``); and a point :math:`P = \begin{pmatrix} x \\ y \\ z \end{pmatrix}` will belong to such a plane iff :math:`a.x + b.y + c.z + d = 0`.
 
 Two kinds of projections are considered: orthographic and perspective.
 
@@ -654,7 +654,7 @@ Orthographic Projections
 
 Their viewing volume is a parallelepiped, precisely a rectangular cuboid.
 
-With them parallel lines remain parallel; see ``gl:ortho/6`` and ``glu:ortho2D/4``.
+With such projections, parallel lines remain parallel; see ``gl:ortho/6`` and ``glu:ortho2D/4``.
 
 
 
@@ -670,7 +670,7 @@ They are defined based on a field of view and an aspect ratio; see ``gl:frustum/
 Viewport Transformations
 ************************
 
-As for the viewport, it is generally defined with ``gl:viewport/4`` so that its size corresponds to the widget in which rendering will take place.
+As for the viewport, it is generally defined with ``gl:viewport/4`` so that its size corresponds to the widget in which the rendering is to take place.
 
 To avoid distortion, its aspect ratio must be the same as the one of the projection transformation.
 
@@ -678,11 +678,11 @@ To avoid distortion, its aspect ratio must be the same as the one of the project
 Camera
 ......
 
-The default model-view matrix is an identity; the camera is situated at the origin, points down the negative Z-axis, and has an up-vector of ``(0, 1, 0)``.
+The default model-view matrix is an identity; the camera (or eye) is located at the origin, points down the negative Z-axis, and has an up-vector of ``(0, 1, 0)``.
 
-With Z-up conventions (like in MyriadGUI ones), this corresponds to a camera pointing downward.
+With Z-up conventions (like in Myriad ones), this corresponds to a camera pointing downward.
 
-Calling ``glu:lookAt/9`` allows to set arbitrarily one's camera (or eye) position and orientation.
+Calling ``glu:lookAt/9`` allows to set arbitrarily one's camera position and orientation.
 
 In order to switch from (OpenGL) Y-up conventions to Z-up ones, another option is to rotate the initial (identity) model-view matrix along the X axis of an angle of :math:`-\pi/2`, or to (post-)multiply the model-view matrix with:
 
@@ -703,11 +703,11 @@ For example, if we want that this camera sees, in (Z-up) MyriadGUI referential, 
 Hints
 .....
 
-- a frequent pattern is, for some type of OpenGL element (let's name it ``Foo``; it could designate for example ``Texture``), first ``glGenObject(1, &fooId);`` is used, then ``glBindObject(GL_SOME_TARGET, objectId);``
+- a frequent pattern is, for some type of OpenGL element (let's name it ``Foo``; it could designate for example ``Texture``), first ``glGenObject(1, &fooId);`` is used, then ``glBindObject(GL_SOME_TARGET, fooId);``
 
-  - it must be understood that ``glGenObject`` is the actual creator of a new (blank) instance of ``Foo``, whose address is kept by OpenGL behind the scenes; the user program is only to access this instance through an additional level of indirection, its (GL) identifier
+  - it must be understood that ``glGenObject`` is the actual creator of a new (blank) instance of ``Foo``, whose address is kept by OpenGL behind the scenes; the user program is only to access this instance through an additional level of indirection, its (GL) identifier (``fooId`` here)
   - as for ``glBindObject``, its role is to register the ``Foo`` pointer corresponding to the specified identifier ``fooId`` in the C-like struct that corresponds to the current context (i.e. the current state of OpenGL), in the field designated here by ``GL_SOME_TARGET``, like in: ``current_gl_context->gl_some_target = foo_pointer_for(fooId)``
-  - once bound, this ``Foo`` instance can be accessed implicitly (through the current context) by calls such as ``glSetFooOption(GL_SOME_TARGET, GL_OPTION_FOO_WIDTH,  800);`` (where neither its identifier nor any pointer for it is specified); once done this instance can be unbound with ``glBindObject(GL_SOME_TARGET, 0);``; rebinding that identifier later will restore the corresponding options; as a result, several instances can be created, corresponding to as many sets of predefined options, and when a given one shall apply it just has to be bound
+  - once bound, this ``Foo`` instance can be accessed implicitly (through the current context) by calls such as ``glSetFooOption(GL_SOME_TARGET, GL_OPTION_FOO_WIDTH,  800);`` (where neither its identifier nor any pointer for it is specified); once done, this instance can be unbound with ``glBindObject(GL_SOME_TARGET, 0);``; rebinding that identifier later will restore the corresponding options; as a result, several instances can be created, corresponding to as many sets of predefined options, and when a given one shall apply, it just has to be bound
 
 
 
@@ -718,15 +718,15 @@ Terms that are more or less specific to OpenGL:
 
 - ``Accumulation buffer``: a buffer that may be used for scene antialiasing; the scene is rendered several times, each time jittered less than one pixel, and the images are accumulated and then averaged
 - ``Alpha Test``: to reject fragments based on their alpha coordinate; useful to reduce the number of fragments rendered through transparent surfaces
-- ``Context``: a rendering context corresponds to the OpenGL state and the connection between OpenGL and the system; in order to perform rendering, a suitable context must be current (i.e. bound, active for the OpenGL commands); it is possible to have multiple rendering contexts share buffer data and textures, which is specially useful when the application use multiple threads for updating data into the memory of the graphics card
+- ``Context``: a rendering context corresponds to the OpenGL state and the connection between OpenGL and the system; in order to perform rendering, a suitable context must be current (i.e. bound, active for the OpenGL commands); it is possible to have multiple rendering contexts share buffer data and textures, which is specially useful when the application uses multiple threads for updating data into the memory of the graphics card
 - ``DDS``: a file format suitable for texture compression that can be directly read by the GPU
-- ``Display list``: a series of OpenGL commands, identified by an integer, to be stored (server-side) for subsequent execution; it is defined so that it can be sent and processed more efficiently, and probably multiple times, by the graphic card (compared to doing the same in immediate mode)
+- ``Display list``: a series of OpenGL commands, identified by an integer, to be stored, server-side, for subsequent execution; it is defined so that it can be sent and processed more efficiently, and probably multiple times, by the graphic card (compared to doing the same in immediate mode)
 - (pixel) ``fragment``: two-dimensional description of elements (point, line segment, or polygon) produced by the rasterization step, before being stored as pixels in the frame buffer; also defined as: "a point and its associated information"; a fragment translates to a pixel after a process involving in turn: texture mapping, fog effect, antialiasing, tests (scissor, alpha, stencil, depth), blending, dithering, and logical operations on fragments (and, or, xor, not, etc.)
 - ``Evaluator``: the part of the pipeline to perform polynomial mapping (basis functions) and transform higher-level primitives (such as NURBS) into actual ones (vertices, normals, texture coordinates and colors)
 - ``Frame buffer``: the "server-side" pixel buffer, filled, after rasterization took place, by combinations (notably blending) of the selected fragments; it is actually made of a set of logical buffers of bitplanes: the color (itself comprising multiple buffers), depth (for hidden-surface removal), accumulation, and stencil buffers
-- ``GL``: *Graphics Library* (also a shorthand for *OpenGL*)
-- ``GLU``: *OpenGL Utility Library*, a standard part of every OpenGL implementation, providing auxiliary features (ex:image scaling, automatic mipmapping, setting up matrices for specific viewing orientations and projections, performing polygon tessellation, rendering surfaces, supporting quadrics routines that create spheres, cylinders, cones, etc.); see `this page <https://www.glprogramming.com/blue/ch02.html#id24847>`_ for more information
-- ``GLUT``, *OpenGL Utility Toolkit*, a window system-independent toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, nowadays is less used
+- ``GL``: *Graphics Library* (also a shorthand for *OpenGL*, which is an open implementation thereof)
+- ``GLU``: *OpenGL Utility Library*, a standard part of every OpenGL implementation, providing auxiliary features (ex: image scaling, automatic mipmapping, setting up matrices for specific viewing orientations and projections, performing polygon tessellation, rendering surfaces, supporting quadrics routines that create spheres, cylinders, cones, etc.); see `this page <https://www.glprogramming.com/blue/ch02.html#id24847>`_ for more information
+- ``GLUT``, *OpenGL Utility Toolkit*, a system-independent window toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, it is less used nowadays
 - ``GLX``: the X extension of the OpenGL interface, i.e. a solution to integrate OpenGL to X servers; see `this page <https://www.glprogramming.com/blue/ch02.html#id86751>`_ for more information
 - ``GLSL``: `OpenGL Shading Language <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>`_, a C-like language with which the transformation and fragment shading stages of the pipeline can be programmed; introduced in OpenGL 2.0; see `our GLSL section <#glsl>`_
 - ``OpenCL``: `Open Computing Language <https://en.wikipedia.org/wiki/OpenCL>`_, a framework for writing programs that execute across heterogeneous platforms: central processing units (CPUs), graphics processing units (GPUs), digital signal processors (DSPs), field-programmable gate arrays (FPGAs) and other processors or hardware accelerators; in practice OpenCL defines programming languages, deriving from C and C++, for these devices, and APIs to control the platform and execute programs on the compute devices; OpenGL defines a standard interface for parallel computing using task- and data-based parallelism; see also `our Erlang-related section <Erlang.html#opencl>`_
@@ -743,7 +743,7 @@ Terms that are more or less specific to OpenGL:
 - ``Viewport``: the (rectangular) part (defined based on its lower left corner and its width and height, in pixels) within the current window in which OpenGL is to perform its rendering; so multiple viewports may be used in turn in order to offer multiple, composite views of the scene of interest in a given window; the ultimately processed 2D coordinates in OpenGL are both in ``[-1.0, 1.0]`` before they are finally mapped to the current viewport dimensions (ex: abscissa in ``[0,800]``, ordinate in ``[0,600]``, in pixels)
 - ``Vulkan``: a low-overhead, cross-platform API, open standard for 3D graphics and computing; it is intended to offer higher performance and more balanced CPU and GPU usage than the OpenGL or Direct3D 11 APIs; it is lower-level than OpenGL, and not backwards compatible with it (`source <https://en.wikipedia.org/wiki/Vulkan>`_)
 - ``VAO``: a (GLSL) *Vertex Array Object* (OpenGL 4.x), able to store multiple VBOs ; `more information <http://www.swiftless.com/tutorials/opengl4/4-opengl-4-vao.html>`_
-- ``VBO``: a (GLSL) *Vertex Buffer object*
+- ``VBO``: a (GLSL) *Vertex Buffer Object*
 
 
 Refer to the `description of the pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ for further details.
@@ -763,29 +763,29 @@ As for us, we prefer the `MyriadGUI 2D conventions <https://myriad.esperide.org/
 :raw-html:`<center><img src="myriad-2D-referential.png" id="responsive-image-xsmall"></img></center>`
 :raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.5]{myriad-2D-referential} \end{figure}`
 
-Such a setting can be obtained thanks to:
+Such a setting can be obtained thanks to (with Erlang conventions):
 
 .. code:: erlang
 
- gl:matrixMode( ?GL_PROJECTION ),
+ gl:matrixMode(?GL_PROJECTION),
  gl:loadIdentity(),
 
  % Like glu:ortho2D/4:
- gl:ortho( _Left=0.0, _Right=float( CanvasWidth ),
-   _Bottom=float( CanvasHeight ), _Top=0.0, _Near=-1.0, _Far=1.0 )
+ gl:ortho(_Left=0.0, _Right=float(CanvasWidth),
+   _Bottom=float(CanvasHeight), _Top=0.0, _Near=-1.0, _Far=1.0)
 
-In this case, the viewport can be addressed like a **usual (2D) framebuffer** (like provided by any classical 2D backend such as SDL) obeying the coordinate system just described: if the width of the OpenGL canvas is 800 pixels and its height is 600 pixels, then its top-left on-screen corner is ``(0,0)`` and its bottom-right one is ``(799,599)``, and any pixel-level operation can be directly performed there "as usual". One may refer to ``gui_opengl_2D_test.erl`` for a full example thereof, in which line-based letters are drawn to demonstrate these conventions.
+In this case, the viewport can be addressed like a **usual (2D) framebuffer** (like provided by any classical 2D backend such as SDL) obeying the coordinate system just described: if the width of the OpenGL canvas is 800 pixels and its height is 600 pixels, then its top-left on-screen corner is ``(0,0)`` and its bottom-right one is ``(799,599)``, and any pixel-level operation can be directly performed there "as usual". One may refer, in Myriad, to ``gui_opengl_2D_test.erl`` for a full example thereof, in which line-based letters are drawn to demonstrate these conventions.
 
-Each time the OpenGL canvas is resized, this projection matrix will have to be updated, with the same procedure yet based on the new dimensions.
+Each time the OpenGL canvas is resized, this projection matrix will have to be updated, with the same procedure, yet based on the new dimensions.
 
-Another option - still with axes respecting the MyriadGUI 2D conventions - is to operate this time based on **normalised, definition-independent coordinates**, ranging in ``[0.0, 1.0]``, like in:
+Another option - still with axes respecting the Myriad 2D conventions - is to operate this time based on **normalised, definition-independent coordinates**, ranging in ``[0.0, 1.0]``, like in:
 
 .. code:: erlang
 
- gl:matrixMode( ?GL_PROJECTION ),
+ gl:matrixMode(?GL_PROJECTION),
  gl:loadIdentity(),
 
- gl:ortho( _Left=0.0, _Right=1.0, _Bottom=1.0, _Top=0.0, _Near=-1.0, _Far=1.0 )
+ gl:ortho(_Left=0.0, _Right=1.0, _Bottom=1.0, _Top=0.0, _Near=-1.0, _Far=1.0)
 
 
 Using "stable", device-independent floats instead of integers directly accounting for pixels may be more convenient. For example a resizing of the viewport will then not require an update of the projection matrix. One may refer to ``gui_opengl_minimal_test.erl`` for a full example thereof.
@@ -798,7 +798,7 @@ Referentials In 3D
 ..................
 
 
-We will rely here as well on the MyriadGUI conventions, `this time for 3D <https://myriad.esperide.org/#3d-referential>`_ (not taking specifically time into account here):
+We will rely here as well on the Myriad conventions, `this time for 3D <https://myriad.esperide.org/#3d-referential>`_ (not taking specifically time into account here):
 
 :raw-html:`<center><img src="myriad-space-time-referential.png" id="responsive-image-tiny"></img></center>`
 :raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{myriad-space-time-referential.png} \end{figure}`
@@ -818,7 +818,7 @@ For that, a prerequisite is to have the target scene correctly composed, with al
 
 As each individual type of model (ex: a bike model) is natively defined in an abstract, local referential (an orthonormal basis) of its own, each actual model instance (ex: the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (ex: bike A is at this absolute position and orientation in the scene global referential) or relatively to a *series* of parent referentials (ex: this character rides bike B - and thus is defined relatively to it, knowing that the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).
 
-So in the general case, referentials are nested (recursively defined relatively to their parent) and form a tree [#]_ whose root corresponds to the referential of the overall scene, like in:
+So in the general case, referentials are nested (recursively defined relatively to their parent) and form a tree [#]_ whose root corresponds to the (possibly absolute) referential of the overall scene, like in:
 
 :raw-html:`<center><img src="referential-tree.png" id="responsive-image-small"></img></center>`
 :raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{referential-tree.png} \end{figure}`
@@ -831,7 +831,7 @@ So in the general case, referentials are nested (recursively defined relatively 
 
 A series of model transformations has thus to be operated in order to express all models in the scene referential::
 
- (local referential of model Rf) -> (parent referential Rd) -> (...) -> (Ra) -> (scene referential Rs)
+ (local referential of model Rh) -> (parent referential Rf) -> (parent referential Ra) -> (scene referential Rs)
 
 For example the hand of a character may be defined in :math:`R_h`, itself defined relatively to its associated forearm in :math:`R_f` up to the overall referential :math:`R_a` of that character, defined relatively to the referential of the whole scene, :math:`R_s`. This referential may have no explicit parent defined, meaning implicitly that it is defined in the canonical, global referential.
 
@@ -858,7 +858,7 @@ Thus, to express the geometry of said hand (natively defined in :math:`R_h`) in 
 
 .. [#] Thus transformation matrices, knowing that the product of such matrices is in turn a transformation matrix.
 
-So a whole series of transformations can be done by applying a single matrix - whose coordinates are now to be determined.
+So a whole series of transformations can be done by applying a single matrix - whose coordinates are determined now.
 
 
 Computing Transition Matrices
@@ -878,11 +878,11 @@ For that, let's consider an homogeneous 4x4 matrix is in the form of:
 It can be interpreted as a matrix comprising two blocks of interest, :math:`R` and :math:`\vec{T}`:
 
 .. math::
- P_{1\rightarrow2}
-	 = \begin{bmatrix}
-		R & \vec{T} \\
-		0 &  1      \\
-	   \end{bmatrix}
+ M = P_{1\rightarrow2}
+	   = \begin{bmatrix}
+		  R & \vec{T} \\
+		  0 &  1      \\
+		 \end{bmatrix}
 
 with:
 
@@ -967,16 +967,13 @@ Using in the same way the two other axes of :math:`R_2` (shown as ``Jb`` and ``K
 		ZIb_{1} & ZJb_{1} & ZKb_{1} \\
 	 \end{bmatrix}
 
+So the transition matrix from :math:`R_2` to :math:`R_1` is:
 
-.. Note::
-
- So finally the transition matrix from :math:`R_2` to :math:`R_1` is:
-
- .. math::
-  P_{2\rightarrow1}
+.. math::
+ P_{2\rightarrow1}
 	 = \begin{bmatrix}
 		R_{2\rightarrow1}  & \vec{T_{2\rightarrow1}} \\
-		0  &       1 \\
+		0                  &                       1 \\
 	   \end{bmatrix}
 	 = \begin{bmatrix}
 		XIb_1 & XJb_1 & XKb_1 & XOb_1 \\
@@ -985,17 +982,87 @@ Using in the same way the two other axes of :math:`R_2` (shown as ``Jb`` and ``K
 			0 &     0 &     0 &     1 \\
 	   \end{bmatrix}
 
+where:
+
+- :math:`R_{2\rightarrow1}` is the 3x3 rotation matrix converting vectors of :math:`R_2` in :math:`R_1`, i.e. whose columns are the axes of :math:`R_2` expressed in :math:`R_1`
+- :math:`\vec{T_{2\rightarrow1}} = Ob_1` is the 3D vector of the coordinates of the origin of :math:`R_2` as expressed in :math:`R_1`
+
+This also corresponds to a matrix obtained by describing the :math:`R_2` referential in :math:`R_1`, by listing first the three (4D) vector axes of :math:`R_2` then its (4D) origin, i.e. :math:`P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} && \vec{Jb_1} && \vec{Kb_1} && Ob_1 \end{bmatrix}`.
+
+Often, transformations have to be used both ways, like in the case of a scene-to-camera transformation; as a consequence, transition matrices may have to be inversed, knowing that :math:`(P_{2\rightarrow1})^{-1} = P_{1\rightarrow2}` (since by definition :math:`P_{2\rightarrow1}.P_{1\rightarrow2} = Id`).
+
+An option to determine :math:`P_{1\rightarrow2}` from :math:`P_{2\rightarrow1}` could be to compute its inverse directly, as :math:`P_{1\rightarrow2} = (P_{2\rightarrow1})^{-1}`, yet :math:`P_{1\rightarrow2}` may be determined in a simpler manner.
+
+Indeed, for a given point :math:`P`, whose representation is :math:`P_1` in :math:`R_1` and :math:`P_2` in :math:`R_2`, we obtain :math:`P_1 =  P_{2\rightarrow1}.P_2` by - through the way (4x4) matrices are multiplied - first applying a (3x3) rotation :math:`Rot_3` to :math:`P_2` and then a (3D) translation :math:`T_r`: :math:`P_1 = Rot_3.P_2 + T_r` (in 3D; thus leaving out any fourth homogeneous coordinate); therefore :math:`P_2 = (Rot_3)^{-1}.(P_1 - T_r)`. Knowing that the inverse of an orthogonal matrix is its transpose, and that rotation matrices are orthogonal, :math:`(Rot_3)^{-1} = (Rot_3)^\top`, and thus :math:`P_2 = (Rot_3)^\top.(P_1 - T_r) = (Rot_3)^\top.P_1 - (Rot_3)^\top.T_r)`. So if:
+
+.. math::
+
+ P_{2\rightarrow1}
+	 = \begin{bmatrix}
+		R_{2\rightarrow1}  & \vec{T_{2\rightarrow1}} \\
+		0                  &                       1 \\
+	   \end{bmatrix}
+
+then:
+
+.. math::
+
+ P_{1\rightarrow2}
+	 = \begin{bmatrix}
+		(R_{2\rightarrow1})^\top  & -(R_{2\rightarrow1})^\top.\vec{T_{2\rightarrow1}} \\
+		0                         &                                                 1 \\
+	   \end{bmatrix}
+	 = \begin{bmatrix}
+		XIb_1 & YIb_1 & ZIb_1 & -(XIb_1.XOb_1 + YIb_1.YOb_1 + ZIb_1.ZOb_1) \\
+		XJb_1 & YJb_1 & ZJb_1 & -(XJb_1.XOb_1 + YJb_1.YOb_1 + ZJb_1.ZOb_1) \\
+		XKb_1 & YKb_1 & ZKb_1 & -(XKb_1.XOb_1 + YKb_1.YOb_1 + ZKb_1.ZOb_1) \\
+			0 &     0 &     0 &                                          1 \\
+	   \end{bmatrix}
+
+
+.. _`summary`:
+
+.. Note::
+
+ So, in a nutshell, the transition matrix from a referential :math:`R_\alpha` to a referential :math:`R_\beta` is:
+
+ .. math::
+  P_{\alpha\rightarrow\beta}
+	 = \begin{bmatrix}
+		Rot_{\alpha\rightarrow\beta}  & \vec{Tr_{\alpha\rightarrow\beta}} \\
+		0                             &                                 1 \\
+	   \end{bmatrix}
+	 = \begin{bmatrix}
+		XIb_\beta & XJb_\beta & XKb_\beta & XOb_\beta \\
+		YIb_\beta & YJb_\beta & YKb_\beta & YOb_\beta \\
+		ZIb_\beta & ZJb_\beta & ZKb_\beta & ZOb_\beta \\
+				0 &         0 &         0 &        1  \\
+	   \end{bmatrix}
+
  where:
 
- - :math:`R_{2\rightarrow1}` is the 3x3 rotation matrix converting vectors of :math:`R_2` in :math:`R_1`, i.e. whose columns are the axes of :math:`R_2` expressed in :math:`R_1`
- - :math:`\vec{T_{1\rightarrow2}} = Ob_1` is the 3D vector of the coordinates of the origin of :math:`R_2` as expressed in :math:`R_1`
+ - :math:`Rot_{\alpha\rightarrow\beta}` is the 3x3 rotation matrix converting vectors of :math:`R_\alpha` in :math:`R_\beta`, i.e. whose columns are the axes of :math:`R_\alpha` expressed in :math:`R_\beta`
+ - :math:`\vec{Tr_{\alpha\rightarrow\beta}} = Ob_\beta` is the 3D vector of the coordinates of the origin of :math:`R_\alpha` as expressed in :math:`R_\beta`
 
- This also corresponds to a matrix obtained by describing the :math:`R_2` referential in :math:`R_1`, by listing first the three (4D) vector axes of :math:`R_2` then its (4D) origin, i.e. :math:`P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} && \vec{Jb_1} && \vec{Kb_1} && Ob_1 \end{bmatrix}`.
+ This also corresponds to a matrix obtained by describing the :math:`R_\alpha` referential in :math:`R_\beta`, by listing first the three (4D) vector axes of :math:`R_\alpha` then its (4D) origin, i.e. :math:`P_{\alpha\rightarrow\beta} = \begin{bmatrix} \vec{Ib_\beta} && \vec{Jb_\beta} && \vec{Kb_\beta} && Ob_\beta \end{bmatrix}`.
+
+ Its reciprocal (inverse transformation) is then:
+
+ .. math::
+  P_{\beta\rightarrow\alpha}
+	 = \begin{bmatrix}
+		(Rot_{\alpha\rightarrow\beta})^\top  & -(Rot_{\alpha\rightarrow\beta})^\top.\vec{Tr_{\alpha\rightarrow\beta}} \\
+									  0  &                                                                1 \\
+	   \end{bmatrix}
+	 = \begin{bmatrix}
+		XIb_\beta & YIb_\beta & ZIb_\beta & -(XIb_\beta.XOb_\beta + YIb_\beta.YOb_\beta + ZIb_\beta.ZOb_\beta) \\
+		XJb_\beta & YJb_\beta & ZJb_\beta & -(XJb_\beta.XOb_\beta + YJb_\beta.YOb_\beta + ZJb_\beta.ZOb_\beta) \\
+		XKb_\beta & YKb_\beta & ZKb_\beta & -(XKb_\beta.XOb_\beta + YKb_\beta.YOb_\beta + ZKb_\beta.ZOb_\beta) \\
+			0 &     0 &     0 &                                          1 \\
+	   \end{bmatrix}
 
 
 As a result, from the definition of a tree of referentials, we are able to compute the transition matrix transforming the representation of a vector expressed in any of them to its representation in any of the other referentials.
-
-For that, like in the case of the scene-to-camera transformation, transition matrices may have to be inversed, knowing that :math:`(P_{2\rightarrow1})^{-1} = P_{1\rightarrow2}` (since by definition :math:`P_{2\rightarrow1}.P_{1\rightarrow2} = Id`).
 
 A special case of interest is, for the sake of rendering, to transform, through that tree, a local referential in which a geometry is defined into the one of the camera, defining where it is positioned and aimed [#]_; in OpenGL parlance, this corresponds to the *model-view* matrix (for "modelling and viewing transformations") that we designate here as :math:`M_{mv}` and which corresponds to :math:`P_{local{\rightarrow}camera}`.
 
@@ -1003,7 +1070,7 @@ A special case of interest is, for the sake of rendering, to transform, through 
 
 
 
-Taking into account the last rendering step, the *projection* (comprising clipping, projection division and viewport transformation), which can be implemented as well thanks to a 4x4 matrix designated here as :math:`M_p`, we see that a single combined overall matrix :math:`M_o = M_p.M_{mv}` is sufficient [#]_ to convey in one go all transformations that shall be applied to a given geometry for its rendering.
+Taking into account the last rendering step, the *projection* (comprising clipping, projection division and viewport transformation), which can be implemented as well thanks to a 4x4 (non-invertible) matrix designated here as :math:`M_p`, we see that a single combined overall matrix :math:`M_o = M_p.M_{mv}` is sufficient [#]_ to convey in one go all transformations that shall be applied to a given geometry for its rendering.
 
 .. [#] In practice, for more flexibility, in OpenGL the management of the viewport, of the projection and of the model-view transformations is done separately (for example, respectively, with: ``glViewport``, ``glMatrixMode(GL_MODEL-VIEW)`` and ``glMatrixMode(GL_PROJECTION)``; so there is a matrix stack corresponding to ``GL_MODEL-VIEW`` and another one to ``GL_PROJECTION``).
 
@@ -1081,7 +1148,7 @@ Instead of relying on user-defined attributes, an alternate way of passing infor
 
  GLuint location = glGetUniformLocation(programId, "MyMatrix");
 
- if( location >= 0 )
+ if (location >= 0)
  {
 	// A single matrix (1), not to transpose (GL_FALSE):
 	glUniformMatrix4fv(location, 1, GL_FALSE, &someMatrix[0][0]);
@@ -1093,7 +1160,7 @@ From the point of view of a shader, these named input variables may be initialis
 
 Named user-defined attributes may also be declared, so that a shader can access variables prepared by the application.
 
-In practice, each homogeneous chunk of data to be sent to the GPU (vertices, normals, colors) is stored in an array corresponding to a VBO, itself stored in a *Vertex Array Object* (VAO). So a VAO may gather vertex data and colour data in separate VBOs, and store them on the graphics card for any later use (as opposed to streaming vertices through to the graphics card when they become needed).A VAO is only meant to hold one array of vertices and each other VBO is for per-vertex attributes.
+In practice, each homogeneous chunk of data to be sent from the CPU-space to the GPU-space (vertices, normals, colors) is stored in an array corresponding to a *Vertex Buffer Object* (VBO), itself stored in a *Vertex Array Object* (VAO). So a VAO may gather vertex data and colour data in separate VBOs, and store them on the graphics card for any later use (as opposed to streaming vertices through to the graphics card when they become needed). A VAO is only meant to hold one (VBO) array of vertices, each other VBO being then for per-vertex attributes.
 
 
 Finally, depending on the type of a shader, some predefined variables may be defined (ex: for a vertex shader, ``gl_Position`` is a predefined vec4 output corresponding to the clip-space output position of the current vertex).
@@ -1102,7 +1169,7 @@ Finally, depending on the type of a shader, some predefined variables may be def
 Examples of Shaders
 ...................
 
-See the `ones of Wings3D <https://github.com/dgud/wings/tree/master/shaders>`_ (in GLSL "1.2" apparently, presumably for maximum backward compatibility; note that some elements are OpenCL ones).
+See the `ones of Wings3D <https://github.com/dgud/wings/tree/master/shaders>`_ (in GLSL "1.2" apparently, presumably for maximum backward compatibility; note that some elements, with the ``*.cl`` extension, are OpenCL ones).
 
 
 
@@ -1172,7 +1239,7 @@ Benefiting from a proper 2D/3D hardware acceleration on GNU/Linux is unfortunate
 Testing
 -------
 
-First, one may check whether such acceleration is already available by running, from the command-line, the ``glxinfo`` executable (to be obtained on Arch Linux thanks to the ``mesa-utils`` package), and hope to see, among the many displayed lines, ``direct rendering: Yes``.
+First, one may check whether such acceleration is already available by running, from the command-line and as the current, non-priviledged user, the ``glxinfo`` executable (to be obtained on Arch Linux thanks to the ``mesa-utils`` package), and hope to see, among the many displayed lines, ``direct rendering: Yes``.
 
 One may also run our `display-opengl-information.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/display-opengl-information.sh>`_ script to report relevant information.
 
@@ -1235,9 +1302,9 @@ We prefer the way Blender manages the observer viewpoint (current camera), as `d
 
 - **Textures**: bitmaps (images) used to **skin 3D objects**, by defining the color of each point on the surface of the object in terms of texture coordinates; besides such 2D textures, 1D, 3D and 4D ones exist
 
-- **Texture Atlas**: a texture (an image) containing a **set of separate, elementary graphic elements**, meant to be extracted thanks to texture coordinates, akin to a sprite sheet; doing so is useful to reduce the overhead that would be induced by the management of many smaller textures (`more information <https://en.wikipedia.org/wiki/Texture_atlas>`_)
+- **Texture Atlas**: a texture (an image) containing a **set of separate, elementary graphic elements**, meant to be extracted based on texture coordinates, akin to a sprite sheet; doing so is useful to reduce the overhead that would be induced by the management of many smaller textures (`more information <https://en.wikipedia.org/wiki/Texture_atlas>`_)
 
-- **URP**: *Universal Render Pipeline*, a prebuilt `scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/>`_, made by Unity that implements workflows across a range of platforms, from mobile to high-end consoles and PC (in practice URP is the low-end counterpart of HDRP)
+- **URP**: *Universal Render Pipeline*, a prebuilt `scriptable render pipeline <https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@13.1/manual/>`_, made by Unity, which implements workflows across a range of platforms, from mobile to high-end consoles and PC (in practice URP is the low-end counterpart of HDRP)
 
 
 See also the Wikipedia's `glossary of computer graphics <https://en.wikipedia.org/wiki/Glossary_of_computer_graphics>`_.

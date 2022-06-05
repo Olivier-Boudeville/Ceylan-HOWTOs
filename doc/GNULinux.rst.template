@@ -333,6 +333,46 @@ This can be fixed by uncommenting the corresponding locale (``en_US.UTF-8`` here
  Generation complete.
 
 
+Applying a XFCE4 configuration to a different user
+--------------------------------------------------
+
+The objective is to duplicate the configuration of the ``user_a`` desktop to the ``user_b`` one, for example if ``user_b`` is used to test an untrusted application.
+
+A key point is to ensure that at least ``user_b`` has no ongoing graphical session (otherwise any new configuration may be overwritten with an older one at logout).
+
+Then, typically as root:
+
+.. code:: bash
+
+ $ rm -rf /home/user_b/.config/{xfce4,Thunar} /home/user_b/.local/share/xfce4
+ $ cp -rf /home/user_a/.config/{xfce4,Thunar} /home/user_b/.config
+ $ cp -rf /home/user_a/.local/share/xfce4 /home/user_b/.local/share
+ $ chmod -R /home/user_b/{.config,.local} user_b:users
+
+Then a key point is to fully reset XFCE4. Unlogging and/or ``killall -HUP xfdesktop`` may not be sufficient. As a last resort, rebooting shall work.
+
+Selecting a per-user wallpaper may be of help.
+
+
+Emacs
+-----
+
+Our `init.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el>`_, that may be stored in ``~/.emacs.d/``, currently relies on `straight.el <https://github.com/radian-software/straight.el>`_.
+
+Sometimes problems arise due to older packages, this may be solved by removing the ``~/.emacs.d/straight`` directory, relaunching Emacs and waiting for all related clones to be downloaded again.
+
+
+
+Other Settings
+--------------
+
+See our `preferences <https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a>`_ for `Startpage <https://www.startpage.com>`_; it can be set as homepage.
+
+
+
+
+
+
 
 Shortcuts
 ---------

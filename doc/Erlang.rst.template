@@ -717,6 +717,16 @@ Similarly, ``orelse`` can be used *to evaluate a target expression iff a boolean
 
 with: ``BOOLEAN_EXPR orelse DO_SOMETHING``; for example: ``[...], file_utils:exists("/etc/passwd") orelse throw(no_password_file), [...]``
 
+In both ``andalso / orelse`` cases, the ``DO_SOMETHING`` branch may be a single expression, or a sequence thereof (i.e. a body), in which case a ``begin/end`` block may be of use, like in:
+
+.. code:: erlang
+
+  file_utils:exists("/etc/passwd") orelse
+	begin
+		trace_utils:notice("No /etc/password found."),
+		throw(no_password_file)
+	end
+
 
 Some of these elements are adapted from the `Wings3D coding guidelines <https://github.com/dgud/wings/blob/master/CodingGuidelines>`_.
 
