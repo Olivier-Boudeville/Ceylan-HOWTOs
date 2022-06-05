@@ -210,10 +210,15 @@ Having such a pre-launch function is useful when having to set specific informat
 In any case this should result in ``foobar_app:start/2`` to be called at application startup, a function whose purpose is generally to spawn the root supervisor of this application.
 
 
+
 OTP Supervisors
 ---------------
 
-We recommend for that to define a ``foobar_sup:start_link/0`` function (it is an user-level API, so any name and arity can be used). This ``foobar_sup`` module is meant to implement the ``supervisor`` behaviour (to be declared with ``-behaviour(supervisor).``), which in practice requires an ``init/1`` function to be defined.
+The purpose of supervisors is to ease the development of fault-tolerant applications by building hierarchical process structures called *supervision trees*.
+
+For that, supervisors are to monitor their children, that may be workers (typically implementing the ``gen_{event,server,statem}`` behaviour) and/or other supervisors (they can thus be nested).
+
+We recommend to define a ``foobar_sup:start_link/0`` function (it is an user-level API, so any name and arity can be used). This ``foobar_sup`` module is meant to implement the ``supervisor`` behaviour (to be declared with ``-behaviour(supervisor).``), which in practice requires an ``init/1`` function to be defined.
 
 So this results, in ``foobar_sup``, in a code akin to:
 
@@ -222,16 +227,15 @@ So this results, in ``foobar_sup``, in a code akin to:
  -spec start_link() -> supervisor:startlink_ret().
  start_link() ->
 	% This will result in calling init/1 next:
-	supervisor:start_link( _Registration={ local, my_foobar_main_sup },
-						   _Mod=?MODULE, _Args=[] ).
+	supervisor:start_link( _Registration={local, my_foobar_main_sup},
+						   _Mod=?MODULE, _Args=[]).
 
- -spec init( list() ) -> { 'ok', { supervisor:sup_flags(), [ child_spec() ] } }.
- init( _Args=[] ) ->
+ -spec init(list()) -> {'ok', {supervisor:sup_flags(), [child_spec()]}}.
+ init(_Args=[]) ->
 	[...]
-	{ ok, { SupSettings, ChildSpecs } }.
+	{ok, {SupSettings, ChildSpecs}}.
 
 
-Let's note that supervisors may be nested (they may have for children workers and/or other supervisors).
 
 
 Declaring Worker Processes
@@ -243,25 +247,32 @@ For example it could be:
 
 .. code:: erlang
 
- init( _Args=[] ) ->
+ init(_Args=[]) ->
 	[...]
 	SupSettings = otp_utils:get_supervisor_settings(
-					_RestartStrategy=one_for_one, ExecTarget ),
+					_RestartStrategy=one_for_one, ExecTarget),
 	% Always restarted in production:
-	RestartSettings = otp_utils:get_restart_setting( ExecTarget ),
+	RestartSettings = otp_utils:get_restart_setting(ExecTarget),
 	WorkerShutdownDuration =
-		otp_utils:get_maximum_shutdown_duration( ExecTarget ),
+		otp_utils:get_maximum_shutdown_duration(ExecTarget),
 	% First child, the main Foobar worker process:
 	MainWorkerChild = #{
 		id => foobar_main_worker_id,
-		start => { _Mod=foobar, _Fun=start_link,
-				   _MainWorkerArgs=[ A, B, C ] },
+		start => {_Mod=foobar, _Fun=start_link,
+				  _MainWorkerArgs=[A, B, C]},
 		restart => RestartSettings,
 		shutdown => WorkerShutdownDuration,
 		type => worker,
-		modules => [ foobar ] },
-	ChildSpecs = [ MainWorkerChild ],
-	{ ok, { SupSettings, ChildSpecs } }.
+		modules => [foobar] },
+	ChildSpecs = [MainWorkerChild],
+	{ok, {SupSettings, ChildSpecs}}.
+
+
+Children are created synchronously and in the order of their specification.
+
+So if ``ChildSpecs=[A, B, C]``, then a child according to the A spec is first created, then, once it is over (either its ``init/1`` finished successfully, or it called ``proc_lib:init_ack/{1,2}`` [#]_ and then continued its own initialisation concurrently), a child according to the B spec is created, then once done a child according to the C spec.
+
+.. [#] Typically: ``proc_lib:init_ack(self())``.
 
 
 
@@ -274,12 +285,13 @@ Therefore the called function is expected to *create* the worker process by itse
 
 .. code:: erlang
 
- start_link( A, B ,C ) ->
+ start_link(A, B ,C) ->
 	[...]
-	{ ok, proc_lib:start_link( ?MODULE, _Func=init,
-		_Args=[ U, V ], _Timeout=infinity, SpawnOpts ) }.
+	{ok, proc_lib:start_link(?MODULE, _Func=init,
+		_Args=[U, V], _Timeout=infinity, SpawnOpts)}.
 
-Here thus the spawned worker will start by executing ``foobar:init/2``, a function not expected to return, often trapping EXIT signals (``process_flag( trap_exit, true )``), setting system flags and, once properly initialised, notifying its supervisor that it is up and running (ex: ``proc_lib:init_ack( _Return=self() )``) before usually entering a tail-recursive loop.
+Here thus the spawned worker will start by executing ``foobar:init/2``, a function not expected to return, often trapping EXIT signals (``process_flag(trap_exit, true)``), setting system flags and, once properly initialised, notifying its supervisor that it is up and running (ex: ``proc_lib:init_ack(_Return=self())``) before usually entering a tail-recursive loop.
+
 
 
 Terminating Workers
@@ -292,7 +304,7 @@ Depending on the ``shutdown`` entry of its child specification, on application s
  receive
 	[...]
 
-	{ 'EXIT', _SupervisorPid, shutdown } ->
+	{'EXIT', _SupervisorPid, shutdown} ->
 	   % Just stop.
 	   [...]
 
@@ -531,10 +543,10 @@ For example:
 
 .. code:: erlang
 
- FullSpawnOpts = case erlang:system_info( version ) >= "8.1" of
+ FullSpawnOpts = case erlang:system_info(version) >= "8.1" of
 
 	true ->
-		[ { message_queue_data, off_heap } | BaseSpawnOpts ];
+		[{message_queue_data, off_heap}|BaseSpawnOpts];
 
 	false ->
 		BaseSpawnOpts
@@ -585,6 +597,57 @@ To better denote reciprocal operations, following namings for functions may be u
   - life-cycle: ``new`` / ``delete``
   - construction/destruction: ``create`` / ``destruct`` (ex: avoid ``destroy`` there)
 
+
+Using wx
+--------
+
+`wx <https://www.erlang.org/doc/man/wx.html>`_ is now [#]_ the standard Erlang way of programming one's graphical user interface; it is a binding to the `wxWidgets <http://www.wxwidgets.org/>`_ library.
+
+.. [#] ``wx`` replaced `gs <https://www.erlang.org/docs/18/man/gs.html>`_. To shelter already-developed graphical applications from any future change of backend, we developed `MyriadGUI <https://myriad.esperide.org/#graphical-user-interface-gui>`_, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.
+
+Here are some very general wx-related information that may be of help when programming GUIs with this backend:
+
+- in wxWidgets parlance, "window" designates any kind of widget (not only frame-like elements)
+
+- if receiving errors about ``{badarg,"This"}``, like in:
+
+.. code:: erlang
+
+ {'_wxe_error_',710,{wxDC,setPen,2},{badarg,"This"}}
+
+it is probably the sign that the user code attempted to perform an operation on an already-deallocated wx object; the corresponding life-cycle management might be error-prone, as some deallocations are implicit, others are explicit, and in a concurrent context race conditions easily happen
+
+- if creating, from a wx-using process, another one, this one should set a relevant environment first (see ``wx:set_env/1``) before using wx functions
+
+- the `way wx/wxWidgets manage event propagation <https://docs.wxwidgets.org/3.1/overview_events.html#overview_events_propagation>`_ is complex; here are some elements:
+
+  - for each actual event happening, wx creates an instance of `wxEvent <https://docs.wxwidgets.org/3.1/classwx_event.html>`_ (a direct, abstract child class of ``wxObject``), which itself is specialised into many event classes that are more concrete
+
+  - among them, they are so-called *command events*, which originate from a variety of simple controls and correspond to the `wxCommandEvent <https://docs.wxwidgets.org/3.1/classwx_command_event.html>`_ mother class; by default only these command events are set to propagate, i.e. only them will be transmitted to the event handler of the parent widget if the current one does not process them by itself ("did not connect to them")
+
+  - by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will *not* be propagated anymore, possibly preventing the built-in wx event handlers to operate (ex: to properly manage resizings); to restore their activation, ``skip`` (to be understood here as "propagate event" - however counter-intuitive it may seem) shall be set to ``true`` (either by passing a corresponding option when connecting, or by calling ``wxEvent:skip/2`` with ``skip`` set to ``true`` from one's event handler) [#]_
+
+  - when a process connects to the emitter of a given type of events (ex: ``close_window`` for a given frame), this process is to receive corresponding messages and then perform any kind of operation; however these operations cannot be synchronous (they are non-blocking: the process does not send to anyone any notification that it finished handling that event), and thus, if ``skip`` is ``true`` (that is, if event propagation is enabled), any other associated event handler(s) will be triggered concurrently to the processing of these event messages; this may be a problem for example if a controller listens to the ``close_window`` event emitted by a main frame in order to perform a proper termination: the basic, built-in event handlers will then by default be triggered whereas the controller teardown may be still in progress, and this may result in errors (ex: OpenGL ones, like ``{{{badarg,"This"},{wxGLCanvas,swapBuffers,1}},...`` because the built-in close handlers already deallocated the OpenGL context); a proper design is to ensure that ``skip`` remains set to false so that propagation of such events is disabled in these cases: then only the user code is in charge of closing the application, at its own pace [#]_
+
+
+.. [#] MyriadGUI took a different convention: whether an event will propagate by default depends on its type, knowing that most of the types are to propagate. Yet the user can override these default behaviours, by specifying either the ``trap_event`` or the ``propagate_event`` subscription option, or by calling either the ``trap_event/1`` or the ``propagate_event/1`` function.
+
+.. [#] This is why MyriadGUI applies per-event type defaults, thus possibly trapping events; in this case, if the built-in backend mechanisms would still be of use, they can be triggered by calling the ``propagate_event/1`` function from the user-defined handler, only once all its prerequisite operations have been performed (this is thus a way of restoring sequential operations).
+
+
+.. comment: we experienced segmentation faults in some cases (ex: when calling there ``wxFrame:new()`` - whereas calling ``wxFrame:new(wx:null(), ?wxID_ANY, "Hello")`` would work correctly; no ``wxWindow`` could be created either as a wxWidgets assertion would fail, because a non-NULL parent was needed)
+
+- in terms of sizing, the dimensions of a parent widget prevail: its child widgets have to adapt (typically with sizers); if wanting instead that the size of a child dictates the one of its parent, the size of the client area of the parent should be set to the best size of its child, or its ``fit/1`` method shall be called
+
+Extra information resources about ``wx`` (besides the documentation of its modules):
+
+- wxErlang: `Getting started <https://arifishaq.files.wordpress.com/2017/12/wxerlang-getting-started.pdf>`_ and `Speeding up <https://arifishaq.files.wordpress.com/2018/04/wxerlang-speeding-up.pdf>`_, by Arif Ishaq
+
+- Doug Edmunds' `wxerlang workups <http://wxerlang.dougedmunds.com/>`_
+
+- `wxWidgets itself <https://www.wxwidgets.org/>`_
+
+.. comment 404: - http://www.idiom.com/~turner/wxtut/wxwidgets.html
 
 
 Micro-Cheat Sheet
