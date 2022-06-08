@@ -131,6 +131,11 @@ In practice, in order to transfer the changes of a branch A in a branch B:
 
 How such a last ``rebase`` of branch A in branch B is done? The bifurcation point of B compared to A is moved from its initial position to the current head of A, on which all changes recorded in B are applied; the resulting history of B looks like if these changes had been directly performed from the version of A designated in this rebase, and thus B can be then directly fast-forwarded to its tip, which comprises both the changes synchronised from A and, then, the ones specifically introduced in B.
 
+Then, to update the remote with these post-rebase commits, ``git push --force`` shall be used [#]_.
+
+.. [#] Rather than just performing just a push, having it fail, pulling, and ending up with duplicates of the changes. Should this happen, rewind these changes, for example with: ``git reset --hard <full_hash_of_commit_to_reset_to>``.
+
+
 More information: `[1] <https://www.atlassian.com/en/git/tutorials/merging-vs-rebasing>`_ or, in French: `[2] <http://codeur-pro.fr/difference-entre-git-merge-et-git-rebase/>`_, `[3] <https://meritis.fr/git-rebase-vs-git-merge-quelles-differences/>`_, `[4] <http://blog.fclement.info/git-merge-et-git-rebase-les-eternels-incompris>`_.
 
 
@@ -143,11 +148,22 @@ Sometimes, one may want to directly transfer the changes of a derivate branch B 
 .. code:: bash
 
  $ git checkout A
- $ git merge -Xtheirs B
+ $ git merge -X theirs B
 
 No conflict should arise (`source <https://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours>`_).
 
-The same is possible with ``rebase``; for example: ``git rebase -Xtheirs B``.
+The same is possible with ``rebase``; for example: ``git rebase -X theirs B``.
+
+Note that ``-X`` a *strategy* option, whereas ``-s`` would be a *merge strategy* option.
+
+Using here ``ours`` rather than ``theirs`` :
+
+- ``-X ours`` uses "our" version of a change *only when there is a conflict*
+- whereas ``-s ours`` ignores the content of the other branch entirely (in all cases), and use "our" version instead
+
+
+Another way of forcing the content of a branch B to be the same as the one of a branch A is, while B is checked-out, to execute: ``git reset --hard A``.
+
 
 
 Common Procedures
