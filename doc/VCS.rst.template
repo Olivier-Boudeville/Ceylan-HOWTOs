@@ -135,18 +135,19 @@ More information: `[1] <https://www.atlassian.com/en/git/tutorials/merging-vs-re
 
 
 
-Direct Merge
-............
+Directly Transferring Changes
+.............................
 
 Sometimes, one may want to directly transfer the changes of a derivate branch B in a parent branch A. When one knows for sure that the versions in B shall be preferred in all cases to their counterparts in A (note that a classical merge is already fully able to manage fast-forwards), one may use:
 
 .. code:: bash
 
  $ git checkout A
- $ git merge -X theirs B
+ $ git merge -Xtheirs B
 
 No conflict should arise (`source <https://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours>`_).
 
+The same is possible with ``rebase``; for example: ``git rebase -Xtheirs B``.
 
 
 Common Procedures
