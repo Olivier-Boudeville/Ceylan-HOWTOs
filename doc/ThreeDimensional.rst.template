@@ -83,7 +83,13 @@ Unreal Engine
 
 Another contender is the `Unreal Engine <https://en.wikipedia.org/wiki/Unreal_Engine>`_, a C++ game engine developed by Epic Games; we have not used it yet.
 
-Its `licence <https://www.unrealengine.com/en-US/faq>`_ is meant to induce costs only when making large-enough profits.
+The Unreal Engine 5 brings new features that may be of interest, including a `fully dynamic global illumination and reflection system <https://docs.unrealengine.com/5.0/en-US/lumen-global-illumination-and-reflections-in-unreal-engine/>`_ (Lumen, not requiring baked lightmaps anymore), a `virtualized geometry system <https://docs.unrealengine.com/5.0/en-US/nanite-virtualized-geometry-in-unreal-engine/>`_ (Nanite, simplifying detailed geometries on the fly) and a `quality 2D/3D asset library <https://www.unrealengine.com/en-US/features/quixel-megascans>`_ (the Quixel Megascans library, obtained from real-world scans).
+
+Unreal does not offer a scripting language anymore, user developments have to be done `in C++ <https://docs.unrealengine.com/5.0/en-US/unreal-engine-programming-and-scripting/>`_ (beyond *Blueprints Visual Scripting*).
+
+Its `licence <https://www.unrealengine.com/en-US/faq>`_ is meant to induce costs only when making large-enough profits; more precisely, a *5% royalty is due only if you are distributing an off-the-shelf product that incorporates Unreal Engine code (such as a game) and the lifetime gross revenue from that product exceeds $1 million USD* (the first $1 million remaining royalty-exempt); in case of large success, it may be a costlier licence than Unity.
+
+With an Unreal user account, the sources of the engine (in its latest stable version, 5) `can be examined on Github <https://www.unrealengine.com/en-US/ue-on-github>`_ (so it is open source, yet not free software).
 
 See its `official website <https://www.unrealengine.com>`_ and its `marketplace <https://www.unrealengine.com/marketplace/en-US/store>`_.
 
@@ -103,7 +109,7 @@ Unity3D
 
 `Unity <https://en.wikipedia.org/wiki/Unity_(game_engine)>`_ is most probably the cross-platform game engine that is the most popular.
 
-Regarding the licensing of the engine, `various plans <https://store.unity.com/#plans-individual>`_ apply, depending notably on whether one subscribes as an individual or a team, and on one's profile, revenue and funding.
+Regarding the licensing of the engine, `various plans <https://store.unity.com/#plans-individual>`_ apply, depending notably on whether one subscribes as an individual or a team, and on one's profile, revenue and funding; the general idea is not taking royalties, but **flat**, per seat yearly fees increasing with the organisation "size" (typically in the $400-$1800 range, per seat).
 
 See its `official website <https://unity.com/>`_ and its `asset store <https://assetstore.unity.com/>`_.
 
