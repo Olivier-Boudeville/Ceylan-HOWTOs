@@ -553,9 +553,9 @@ Basics
 - OpenGL has to apply any kind of transformation, linear (ex: rotation, scaling) or not (ex: translation, perspective) to geometries, for example in order to perform referential changes or rendering; each of these transformations can be represented as a 4x4 `homogeneous matrix <https://en.wikipedia.org/wiki/Homogeneous_coordinates>`_, with floating-point (homogeneous) coordinates [#]_; a series of transformations can then simply be represented as a single of such matrices, corresponding to the product of the involved transformation matrices
 
 
-.. [#] So a 3D point is specified based on 4 coordinates: :math:`P = \begin{pmatrix} x \\ y \\ z \\ w \end{pmatrix}`, with ``w`` being usually equal to ``1.0`` (otherwise the point can be normalised by dividing each of its coordinates by ``w``, provided of course ``w`` is not null).
+.. [#] So a 3D point is specified based on 4 coordinates: :math:`P = \begin{pmatrix} x \\ y \\ z \\ w \end{pmatrix}`, with ``w`` being usually equal to ``1.0`` (otherwise the point can be normalised by dividing each of its coordinates by ``w``, provided of course ``w`` is not null - otherwise these coordinates do not specify a point but a direction).
 
-	   If ``w`` is null, then these coordinates do not specify a point but a direction.
+	   Thus summing (like vectors) two 4D points actually returns their mid-point (center of segment), as ``w`` will be normalised: :math:`P1 + P2 = \begin{pmatrix} x1 \\ y1 \\ z1 \\ 1.0 \end{pmatrix} + \begin{pmatrix} x2 \\ y2 \\ z2 \\ 1.0 \end{pmatrix} = \begin{pmatrix} x1+x2 \\ y1+y1 \\ z1+z2 \\ 2.0 \end{pmatrix} = \begin{pmatrix} (x1+x2)/2.0 \\ (y1+y2)/2.0 \\ (z1+z2)/2.0 \\ 1.0 \end{pmatrix}`
 
 - while this will not change anything regarding the actual OpenGL library and the computations that it performs, the conventions adopted by the OpenGL *documentation* regarding matrices are the following ones:
 
@@ -709,11 +709,15 @@ For example, if we want that this camera sees, in (Z-up) MyriadGUI referential, 
 Hints
 .....
 
-- a frequent pattern is, for some type of OpenGL element (let's name it ``Foo``; it could designate for example ``Texture``), first ``glGenObject(1, &fooId);`` is used, then ``glBindObject(GL_SOME_TARGET, fooId);``
+.. _`gl bindings`:
 
-  - it must be understood that ``glGenObject`` is the actual creator of a new (blank) instance of ``Foo``, whose address is kept by OpenGL behind the scenes; the user program is only to access this instance through an additional level of indirection, its (GL) identifier (``fooId`` here)
-  - as for ``glBindObject``, its role is to register the ``Foo`` pointer corresponding to the specified identifier ``fooId`` in the C-like struct that corresponds to the current context (i.e. the current state of OpenGL), in the field designated here by ``GL_SOME_TARGET``, like in: ``current_gl_context->gl_some_target = foo_pointer_for(fooId)``
-  - once bound, this ``Foo`` instance can be accessed implicitly (through the current context) by calls such as ``glSetFooOption(GL_SOME_TARGET, GL_OPTION_FOO_WIDTH,  800);`` (where neither its identifier nor any pointer for it is specified); once done, this instance can be unbound with ``glBindObject(GL_SOME_TARGET, 0);``; rebinding that identifier later will restore the corresponding options; as a result, several instances can be created, corresponding to as many sets of predefined options, and when a given one shall apply, it just has to be bound
+- a frequent pattern is, for some type of OpenGL element (let's name it ``Foo``; it could designate for example ``Texture``, ``Buffer`` or ``VertexArray``) is: first ``glGenObjects(1, &fooId);`` (note the plural) is used, then ``glBindObject(GL_SOME_TARGET, fooId);``
+
+  - it must be understood that ``glGenObjects`` is the actual creator of (at least) one new (blank) instance of ``Foo``, whose address is kept by OpenGL behind the scenes; the user program will be able to access this instance only once bound thanks to an additional level of indirection, its (GL) identifier (``fooId`` here)
+  - as for ``glBindObject``, its role is to register the ``Foo`` pointer corresponding to the specified identifier ``fooId`` in the C-like struct that corresponds to the current context (i.e. the current state of OpenGL), in the field designated here by ``GL_SOME_TARGET``, like in: ``current_gl_context->gl_some_target = foo_pointer_for(fooId)``; this operation is thus mostly an assignment
+  - once bound, this ``Foo`` instance can be accessed implicitly (through the current context) by calls such as ``glSetFooOption(GL_SOME_TARGET, GL_OPTION_FOO_WIDTH, 800);`` (where neither its identifier nor any pointer for it is specified); once done, this instance can be unbound with ``glBindObject(GL_SOME_TARGET, 0);``; rebinding that identifier later will restore the corresponding options; as a result, several instances can be created, corresponding to as many sets of predefined options, and when a given one shall apply, it just has to be bound
+
+- in OpenGL, the **alpha** coordinate encodes **opacity**; thus 1.0 means fully opaque, whereas 0.0 means fully transparent
 
 
 
@@ -748,8 +752,8 @@ Terms that are more or less specific to OpenGL:
 - ``Vertex Array``: these in-memory client-side arrays may aggregate 6 types of data (vertex coordinates, RGBA colors, color indices, surface normals, texture coordinates, polygon edge flags), possibly interleaved; such arrays allow to reduce the number of calls to OpenGL functions, and also to share elements (ex: vertices pertaining to multiple faces should preferably be defined only once); in a non-networked setting, the GPU just dereferences the corresponding pointers
 - ``Viewport``: the (rectangular) part (defined based on its lower left corner and its width and height, in pixels) within the current window in which OpenGL is to perform its rendering; so multiple viewports may be used in turn in order to offer multiple, composite views of the scene of interest in a given window; the ultimately processed 2D coordinates in OpenGL are both in ``[-1.0, 1.0]`` before they are finally mapped to the current viewport dimensions (ex: abscissa in ``[0,800]``, ordinate in ``[0,600]``, in pixels)
 - ``Vulkan``: a low-overhead, cross-platform API, open standard for 3D graphics and computing; it is intended to offer higher performance and more balanced CPU and GPU usage than the OpenGL or Direct3D 11 APIs; it is lower-level than OpenGL, and not backwards compatible with it (`source <https://en.wikipedia.org/wiki/Vulkan>`_)
-- ``VAO``: a (GLSL) *Vertex Array Object* (OpenGL 4.x), able to store multiple VBOs ; `more information <http://www.swiftless.com/tutorials/opengl4/4-opengl-4-vao.html>`_
-- ``VBO``: a (GLSL) *Vertex Buffer Object*
+- ``VAO``: a (GLSL) *Vertex Array Object* (OpenGL 4.x), able to store multiple VBOs (up to one for vertices, the others for per-vertex attributes); a VAO corresponds to an homogeneous chunk of data, sent from the CPU-space in order to be stored in the GPU-space; `more information <http://www.swiftless.com/tutorials/opengl4/4-opengl-4-vao.html>`_
+- ``VBO``: a (GLSL) *Vertex Buffer Object*, a buffer storing a piece of information (vertex coordinates, or normal, or colors, or texture coordinates, etc.) for each element of a series of vertices; `more information <https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object>`_
 
 
 Refer to the `description of the pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ for further details.
@@ -1082,8 +1086,37 @@ Taking into account the last rendering step, the *projection* (comprising clippi
 
 
 
+Main Matrices
+-------------
+
+These matrices account for the main processing steps of a rendering.
+
+Three types of referentials can be considered:
+
+- **world** referential: the absolute, overall referential where 3D scenes are to be assembled
+- **local** referential: a referential in which a given model is defined (generally located at its origin)
+- **camera** referential: a referential where a camera is at the origin, looking down on the negative Z axis
+
+The **clip space** can also be considered; this is the post-projection space, where the view frustum is transformed into a cube, centered in the origin, and going from -1 to 1 in every axis.
+
+
+The transformations between referentials can be represented by 4×4 transition matrices:
+
+- **model matrix** (:math:`M_M`): to transform from local to world referential
+- **view matrix** (:math:`M_V`): to transform from world to camera referential
+- **projection matrix** (:math:`M_P`): to transform from camera referential to clip space
+
+Finally, two composite matrices are especially useful (note the aforementioned reverse multiplication order) and are typically passed through uniform variables in shaders:
+
+- ModelView: :math:`M_{MV} = M_V.M_M`
+- ModelViewProj: :math:`M_{MVP} = M_P.M_{MV} =  M_P.M_V.M_M`
+
+
 Shaders
 -------
+
+They are in-depth covered in `the Khronos wiki <https://www.khronos.org/opengl/wiki/Shader>`_.
+
 
 
 A Programmable Pipeline
@@ -1094,6 +1127,17 @@ Shaders are the basic rendering building blocks of applications using modern Ope
 Such an application will indeed program its own shaders, instead of calling functions like ``glBegin()/glEnd()``, as it was done with OpenGL 1.x-2.x and its fixed-pipeline immediate mode.
 
 This mode of operation, albeit more complex, offers more control and enables increased performances.
+
+
+Parallelism in the Pipeline
+...........................
+
+The key is to write programs that can be executed in a *Single Instruction, Multiple Data* (SIMD) setting, in order to take advantage of the vectorization typically supported by GPUs.
+
+A goal is to avoid conditional branching based on values that may differ from a shader invocation to another (see `this explanation <https://www.khronos.org/opengl/wiki/Shader#Execution_model_and_divergence>`_).
+
+If having to take into account two dynamically-uniform (i.e. non-statically predictable, yet having the same value for very shader invocation within that group) branches performing simple computations, it is likely that the compiler will generate code evaluating both expressions, until dropping the result of the one finally not happening.
+
 
 
 Six Types of GLSL Shaders
@@ -1119,14 +1163,16 @@ Yet offline compilers exist as well, as well as debuggers (like the NVIDIA Nsigh
 
 
 
-Communicating with Shaders
-..........................
+Implementing a Shader
+.....................
 
-Of course the application must have a way to supply information to its shaders (the other way round is less usual, except for compute shaders).
+A shader is quite similar to a C program, yet based on `a specific, core language <https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)>`_ that enables the definition of relevant data types and functions.
 
-This can be done thanks to user-defined attributes, whose layout, based on indices, must match on either side; for example, with ``layout(location = 0) in vec3 input_vertex;``, a vertex shader will expect a (single) vector of 3 coordinates to be found at index 0 as input; the application will need to specify a corresponding *Vertex Buffer Object* (VBO).
+Data types are usually based on elementary types (``float``, ``double``, ``bool``, ``int`` and ``uint``), and composed in larger structures, like ``{vec,mat}{2,3,4}``, ``mat2x3``, arrays and structures, possibly ``const``; see `this page <https://www.lighthouse3d.com/tutorials/glsl-tutorial/data-types/>`_ for further details.
 
-As for output, for example a fragment shader must return the color that it computed; ``out vec3 my_color;`` declares that, and the shader code may be as simple as returning a constant color in all cases, like in:
+Similarly, `control flow statements and (non-recursive) functions <https://www.lighthouse3d.com/tutorials/glsl-tutorial/statements-and-functions/>`_ can be used; every shader must have a ``main`` function, and can define other auxiliary functions as well, in a way similar to a C program. Function parameters may have the ``in`` (which is the default), ``out`` or ``inout`` qualifiers specified. Additionally a function may return a result, thanks to ``return``.
+
+So, regarding output, for example a fragment shader must return the color that it computed; ``out vec3 my_color;`` declares this; and the shader code may be as simple as returning a constant color in all cases, like in:
 
 .. code:: glsl
 
@@ -1140,13 +1186,84 @@ As for output, for example a fragment shader must return the color that it compu
  }
 
 
-If a given program is linked with two shaders, a vertex one and a fragment one, the former one will probably have to pass its outputs as inputs of the latter one; this requires as many variables defined on either sides, with relevant out/in specifications, and a matching name and type; for example the vertex shader will declare ``out vec3 my_Color;`` whereas the fragment shader will declare ``in vec3 my_Color;``.
 
-Instead of relying on user-defined attributes, an alternate way of passing information that may change relatively infrequently is to use *uniform variables*, thanks to:
+
+Communicating with Shaders
+..........................
+
+Of course the application must have a way of supplying information to its shaders (the other way round does not really happen, except for compute shaders), and a given shader must be able to pass information to (only) any next shader in the pipeline.
+
+Two options exist for shaders to have inputs and outputs, from/to the CPU and/or `other shaders <https://www.lighthouse3d.com/tutorials/glsl-tutorial/inter-shader-communication/>`_:
+
+- basically each shader is fed with a stream of vertices [#]_ with associated data, named **vertex attributes**; they are either *user-defined* or *built-in* (each type of shader having its own set of built-in input attributes)
+- global, read-only data can also be defined, as **uniform** variables
+
+.. [#] Then the user-defined *primitives*, applied later in the pipeline, will allow OpenGL to interpret such a series of vertices in terms of a sequence of triangles, or points, or lines, etc.
+
+These communication options are discussed more in-depth next.
+
+
+Vertex Attributes
+_________________
+
+
+Defining Attributes
+*******************
+
+A vertex attribute, whether user-defined or built-in, may store any kind of data - notably positions, texture coordinates and normals.
+
+Either a given attribute is a single, *standalone* one (then a unique value will be read and will apply to all vertices), or is *per-vertex*, in which case it is read from a buffer, each element of it being bound accordingly when its associated vertex is processed by the shader. Such arrays are either used in-order, or according to any indices defined (then themselves defined thanks to an array as well) [#]_.
+
+.. [#] This is the preferred method, as it prevents vertex duplication, and allows to process each of them once: there is a vertex cache that stores the outputs of the last processed vertices, so that if a vertex is mentioned multiple times (ex: being included in a triangle fan or strip), the corresponding output may be directly re-used (provided it is still in the cache) instead of having to be computed again.
+
+Said differently, for each attribute used by a shader, either a single value or an array thereof must be specified.
+
+
+Referencing Attributes
+**********************
+
+In order that attributes can be referenced from at least one shader, they must be matched:
+
+- by *name*: then they must bear exactly the same name in the main program and in the shaders using them, knowing that any name beginning with ``gl_`` is reserved
+- or by *location*: their common location is specified, and a per-shader variable name is associated - which is more flexible
+- or by *block*, like for the uniform variables, discussed below
+
+In the two last cases, the layout of variables must match on either side (ex: main program/shader); for example, with "``layout(location = 0) in vec3 input_vertex;``" in its code, a vertex shader will expect a (single) vector of 3 (floating-point) coordinates (``vec3``) to be found at index 0 (``location = 0``) as input (``in``); the application will need to specify a corresponding *Vertex Buffer Object* (VBO) for that.
+
+
+So that they can be fetched for a given vertex, attributes have to be appropriately located in buffers. For each attribute, either the developer defines, prior to linking, a specific location (as an index starting at zero) with ``glBindAttribLocation``, or he lets OpenGL choose it, and queries it afterwards, with ``glGetAttribLocation``; refer to `this page <https://www.lighthouse3d.com/tutorials/glsl-tutorial/attribute-variables/>`_ for further details.
+
+If a given program is linked with two shaders, a vertex one and a fragment one, the former one will probably have to pass its outputs as inputs of the latter one; this requires as many variables defined on either side, with relevant out/in specifications, and a matching name and type; for example the vertex shader may declare ``out vec3 my_Color;`` whereas the fragment shader will declare ``in vec3 my_Color;``.
+
+
+Providing Attribute Data : VAO and VBO
+**************************************
+
+Vertex data is provided thanks to a (single current) `Vertex Array Object <https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object>`_ (VAO).
+
+A VAO references (rather than storing directly) the format of the vertex data, as well as the buffers (VBOs, see below) holding that data.
+
+A vertex attribute is identified by a number (in ``[0;GL_MAX_VERTEX_ATTRIBS-1]``), and by default is accessed as a single value (as opposed to as an array).
+
+A `Vertex Buffer Object <https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object>`_ (VBO) is a data array, typically referenced by a VAO. A VBO defines its internal structure and where the corresponding data can be found.
+
+So, in practice, each homogeneous chunk of data to be sent from the CPU-space to the GPU-space (vertices, normals, colors) is stored in an array corresponding to a *Vertex Buffer Object* (VBO), itself stored in a *Vertex Array Object* (VAO). A VAO may gather vertex data and colour data in separate VBOs, and store them on the graphics card for any later use (as opposed to streaming vertices through to the graphics card when they become needed). A VAO is only meant to hold one (VBO) array of vertices, each other VBO being used then for per-vertex attributes.
+
+
+Uniform Variables are Read-Only and Global
+__________________________________________
+
+Instead of relying on attributes, an alternate way of passing information, provided that it may change relatively infrequently, is to use *uniform variables*, which behave, for a shader and in the course of a draw call, as read-only, constant global variables for all vertices (hence their *uniform* naming). Any shader can access every uniform variable (they are globzl), as long as it declares that variable.
+
+Examples of uniform variables could be the position of a light, transformation matrices, fog settings, variables such as gravity and speed, etc.
+
+Uniform variables may be defined individually, or be grouped in `named blocks <https://www.lighthouse3d.com/tutorials/glsl-tutorial/uniform-blocks/>`_, for a more effective data setup (to share uniform variables between programs) and transfer from the application to the shader (setting multiple values at once).
+
+Uniform variables are declared at the program-level (as opposed to a per-vertex level) thanks to:
 
 - the ``uniform`` qualifier on the shader-side, like in ``uniform mat4 MyMatrix;``
 
-- a ``glGetUniformLocation`` call on the application-side, to create a location associated to a name (ex: ``MyMatrix``), and to associate it to a given value, like in:
+- a ``glGetUniformLocation`` call on the application-side, to create a location associated to a name (ex: "``MyMatrix``"), and to associate it to a given value, like in:
 
 .. code:: glsl
 
@@ -1156,26 +1273,33 @@ Instead of relying on user-defined attributes, an alternate way of passing infor
 
  if (location >= 0)
  {
-	// A single matrix (1), not to transpose (GL_FALSE):
+	// Defining a single matrix (1), not to transpose (GL_FALSE):
 	glUniformMatrix4fv(location, 1, GL_FALSE, &someMatrix[0][0]);
 	[...]
 
+Individual variables may be used as uniform, as well as arrays and structs.
+
+From the point of view of a shader, these named input variables may be initialised when declared, but then are read-only; otherwise the application may choose to set them.
 
 
-From the point of view of a shader, these named input variables may be initialised when declared, but then are read-only; these variables are global, in the sense that they are common to all the shaders linked to a given program.
 
-Named user-defined attributes may also be declared, so that a shader can access variables prepared by the application.
+Built-in Variables are Defined by Each Shader Type
+__________________________________________________
 
-In practice, each homogeneous chunk of data to be sent from the CPU-space to the GPU-space (vertices, normals, colors) is stored in an array corresponding to a *Vertex Buffer Object* (VBO), itself stored in a *Vertex Array Object* (VAO). So a VAO may gather vertex data and colour data in separate VBOs, and store them on the graphics card for any later use (as opposed to streaming vertices through to the graphics card when they become needed). A VAO is only meant to hold one (VBO) array of vertices, each other VBO being then for per-vertex attributes.
+Finally, depending on the type of a shader, some predefined, built-in variables ("intrinsic attributes") may be set; they are `specified here <https://www.khronos.org/opengl/wiki/Built-in_Variable_(GLSL)>`_.
 
+For example, for a vertex shader, following output variables are predefined:
 
-Finally, depending on the type of a shader, some predefined variables may be defined (ex: for a vertex shader, ``gl_Position`` is a predefined vec4 output corresponding to the clip-space output position of the current vertex).
+- ``vec4 gl_Position`` corresponding to the clip-space (homogeneous) position of the output vertex
+- ``float gl_PointSize``
+- ``float gl_ClipDistance[]``
+
 
 
 Examples of Shaders
 ...................
 
-See the `ones of Wings3D <https://github.com/dgud/wings/tree/master/shaders>`_ (in GLSL "1.2" apparently, presumably for maximum backward compatibility; note that some elements, with the ``*.cl`` extension, are OpenCL ones).
+See the `ones of Wings3D <https://github.com/dgud/wings/tree/master/shaders>`_ (in GLSL "1.2" apparently, presumably for maximum backward compatibility; note that some elements, with the ``*.cl`` extension, are OpenCL ones), or `these ones <https://www.lighthouse3d.com/tutorials/glsl-tutorial/geometry-shader-examples/>`_.
 
 
 
@@ -1186,6 +1310,16 @@ Modern OpenGL (and GLU) implementations basically dropped the direct matrix supp
 
 For that, applications may use dedicated, separate libraries, such as, in C/C++, GLM, i.e. `OpenGL Mathematics <https://github.com/g-truc/glm>`_ (Myriad's `linear support <http://myriad.esperide.org/#spatial-support>`_ aims to provide, in Erlang, a relevant subset of these operations).
 
+The `matrices that correspond to the transformations <https://en.wikibooks.org/wiki/GLSL_Programming/Applying_Matrix_Transformations>`_ to be applied are then typically shared with the shaders thanks to uniform variables.
+
+This is especially the case for the vertex shader, in charge of `transforming coordinates expressed in a local referential into screen coordinates <https://en.wikibooks.org/wiki/GLSL_Programming/Vertex_Transformations>`_.
+
+More precisely, the modeling (object-space to absolute, world-space), viewing (world-space to camera-space) and projection transformation (camera-space to clip-space) are applied in the vertex shader, whereas the final perspective division and the viewport transformation are applied in the fixed-function stage after the vertex shader.
+
+So a vertex shader is usually given two 4x4 homogeneous, uniform matrices:
+
+- a modelview matrix, combining modeling and viewing, to transform object-space to camera-space in one go
+- a projection matrix
 
 
 More Advanced Topics
@@ -1217,6 +1351,7 @@ More modern tutorials (applying to OpenGL 3.3 and later) are:
 
 - `Opengl-tutorial <http://www.opengl-tutorial.org/>`_
 - `Learn OpenGL <https://learnopengl.com/>`_
+- regarding GLSL shaders: `lighthouse3d <https://www.lighthouse3d.com/tutorials/glsl-tutorial/>`_
 
 .. Not good enough? `Swiftless OpenGL 4 Tutorials <http://www.swiftless.com/opengl4tuts.html>`_
 
