@@ -137,7 +137,8 @@ If it is as simple to run ``erl``, we prefer, with Ceylan settings, running ``ma
 Refer then to the `shell commands <https://www.erlang.org/doc/man/shell.html#shell-commands>`_, notably for:
 
 - ``f/1``, used as ``f(X).`` in order to *forget* a variable ``X``, i.e. to remove the binding of this variable and be able to (re)assign it afterwards
-- ``c/1``, used as ``c(my_module)``, to compile (if necessary) and (re)load that module, purging any old version of it; convenient to reload also specially-built BEAMs (ex: based on parse transforms) that have been compiled behind the scene
+- ``l/1`` (apparently undocumented), used as ``l(my_module)``, to (re)load that module, purging any old version of it; convenient to reload also specially-built BEAMs (ex: based on parse transforms) that may have been compiled behind the scene
+- ``c/1``, used as ``c(my_module)``, to compile (if necessary) and (re)load that module, purging any old version of it
 - ``rr/{1,2,3}`` (ex: used as ``rr(Path).``) to *read records* and have them available on the shell; for example, to be able to use the records defined by xmerl:
 
 .. code:: erlang
