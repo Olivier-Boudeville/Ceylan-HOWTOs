@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <title>Ceylan-HOWTOs: About Basic Tools</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -33,26 +33,26 @@
 </tbody>
 </table>
 <p><span class="raw-html"><a name="howtos_toc"></a></span></p>
-<div class="contents local topic" id="id1">
+<div class="contents local topic" id="topic-1">
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="#emacs" id="id2">Emacs</a><ul>
-<li><a class="reference internal" href="#configuration" id="id3">Configuration</a></li>
-<li><a class="reference internal" href="#troubleshooting" id="id4">Troubleshooting</a></li>
+<li><a class="reference internal" href="#emacs" id="toc-entry-1">Emacs</a><ul>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#troubleshooting" id="toc-entry-3">Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
 <div class="section" id="emacs">
-<h1><a class="toc-backref" href="#id2">Emacs</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-1">Emacs</a></h1>
 <p>Emacs is a free software, very versatile text editor that can be customised if not programmed in <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Introduction.html">Emacs Lisp</a> (Elisp).</p>
 <div class="section" id="configuration">
-<h2><a class="toc-backref" href="#id3">Configuration</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-2">Configuration</a></h2>
 <p>We rely on <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">this init.el</a> configuration file, which itself relies on <tt class="docutils literal">straight.el</tt>, a replacement for <tt class="docutils literal">package.el</tt> (and thus not on <tt class="docutils literal"><span class="pre">use-package</span></tt>).</p>
 </div>
 <div class="section" id="troubleshooting">
-<h2><a class="toc-backref" href="#id4">Troubleshooting</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-3">Troubleshooting</a></h2>
 <p>Sometimes strange errors may happen whereas nothing changed on one's Emacs configuration; this may be the sign that Emacs itself, or some of the packages that it uses, changed and led to a dysfunctional setup.</p>
 <p>To exonerate Emacs itself, once any instance thereof has been terminated:</p>
 <pre class="code bash literal-block">

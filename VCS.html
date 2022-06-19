@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, June 2, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, June 13, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -42,7 +42,7 @@
 <li><a class="reference internal" href="#basic-operations" id="toc-entry-4">Basic Operations</a></li>
 <li><a class="reference internal" href="#managing-branches" id="toc-entry-5">Managing Branches</a><ul>
 <li><a class="reference internal" href="#merge-versus-rebase" id="toc-entry-6">Merge versus Rebase</a></li>
-<li><a class="reference internal" href="#direct-merge" id="toc-entry-7">Direct Merge</a></li>
+<li><a class="reference internal" href="#directly-transferring-changes" id="toc-entry-7">Directly Transferring Changes</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#common-procedures" id="toc-entry-8">Common Procedures</a><ul>
@@ -138,16 +138,31 @@ $ git checkout B
 </span>$ git rebase A <span class="c1"># or: git pull -rebase A</span>
 </pre>
 <p>How such a last <tt class="docutils literal">rebase</tt> of branch A in branch B is done? The bifurcation point of B compared to A is moved from its initial position to the current head of A, on which all changes recorded in B are applied; the resulting history of B looks like if these changes had been directly performed from the version of A designated in this rebase, and thus B can be then directly fast-forwarded to its tip, which comprises both the changes synchronised from A and, then, the ones specifically introduced in B.</p>
+<p>Then, to update the remote with these post-rebase commits, <tt class="docutils literal">git push <span class="pre">--force</span></tt> shall be used <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>.</p>
+<table class="docutils footnote" frame="void" id="footnote-1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-1">[1]</a></td><td>Rather than just performing just a push, having it fail, pulling, and ending up with duplicates of the changes. Should this happen, rewind these changes, for example with: <tt class="docutils literal">git reset <span class="pre">--hard</span> &lt;full_hash_of_commit_to_reset_to&gt;</tt>.</td></tr>
+</tbody>
+</table>
 <p>More information: <a class="reference external" href="https://www.atlassian.com/en/git/tutorials/merging-vs-rebasing">[1]</a> or, in French: <a class="reference external" href="http://codeur-pro.fr/difference-entre-git-merge-et-git-rebase/">[2]</a>, <a class="reference external" href="https://meritis.fr/git-rebase-vs-git-merge-quelles-differences/">[3]</a>, <a class="reference external" href="http://blog.fclement.info/git-merge-et-git-rebase-les-eternels-incompris">[4]</a>.</p>
 </div>
-<div class="section" id="direct-merge">
-<h3><a class="toc-backref" href="#toc-entry-7">Direct Merge</a></h3>
+<div class="section" id="directly-transferring-changes">
+<h3><a class="toc-backref" href="#toc-entry-7">Directly Transferring Changes</a></h3>
 <p>Sometimes, one may want to directly transfer the changes of a derivate branch B in a parent branch A. When one knows for sure that the versions in B shall be preferred in all cases to their counterparts in A (note that a classical merge is already fully able to manage fast-forwards), one may use:</p>
 <pre class="code bash literal-block">
 $ git checkout A
 $ git merge -X theirs B
 </pre>
 <p>No conflict should arise (<a class="reference external" href="https://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours">source</a>).</p>
+<p>The same is possible with <tt class="docutils literal">rebase</tt>; for example: <tt class="docutils literal">git rebase <span class="pre">-X</span> theirs B</tt>.</p>
+<p>Note that <tt class="docutils literal"><span class="pre">-X</span></tt> a <em>strategy</em> option, whereas <tt class="docutils literal"><span class="pre">-s</span></tt> would be a <em>merge strategy</em> option.</p>
+<p>Using here <tt class="docutils literal">ours</tt> rather than <tt class="docutils literal">theirs</tt> :</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">-X</span> ours</tt> uses &quot;our&quot; version of a change <em>only when there is a conflict</em></li>
+<li>whereas <tt class="docutils literal"><span class="pre">-s</span> ours</tt> ignores the content of the other branch entirely (in all cases), and use &quot;our&quot; version instead</li>
+</ul>
+<p>Another way of forcing the content of a branch B to be the same as the one of a branch A is, while B is checked-out, to execute: <tt class="docutils literal">git reset <span class="pre">--hard</span> A</tt>.</p>
 </div>
 </div>
 <div class="section" id="common-procedures">
