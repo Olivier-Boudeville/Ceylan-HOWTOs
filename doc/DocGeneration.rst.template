@@ -266,10 +266,12 @@ Then the encoding may be changed before calling pandoc, for example like::
 Transformation of PDF files
 ---------------------------
 
-For that, one may use the ``pdftk`` tool:
+For that, one may use the ``pdftk`` tool, possibly with the ``convert`` one, which comes from `ImageMagick <http://www.imagemagick.org/>`_ (typically available thanks to a ``imagemagick`` package):
 
-- to concatenate PDFs: ``pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf``
-- to split all pages of a PDF in as many individual files (named ``pg_0001.pdf``, ``pg_0002.pdf``, etc.): ``pdftk document.pdf burst``
+- to **split all pages of a PDF** in as many individual files (named ``pg_0001.pdf``, ``pg_0002.pdf``, etc.): ``pdftk document.pdf burst``
+- to **convert a PDF file** (typically a single page) into a **PNG** one (typically in order to edit the PNG with The Gimp afterwards): ``convert pg_000x.pdf pg_000x.png``
+- to convert (possibly back) a **PNG file to a PDF** one: ``convert pg_000x-modified.png pg_000x-modified.pdf``
+- to **concatenate PDFs**: ``pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf``
 
 
 
