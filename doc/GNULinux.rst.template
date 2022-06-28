@@ -205,10 +205,64 @@ They might be lesser known:
 
 
 
+
+.. _`systemd`:
+
+
+Systemd-related Hints
+=====================
+
+*Systemd* is the current reference system and service manager for GNU/Linux. It is in charge of configuring, launching, monitoring, controlling, etc. all the software services running on a given host.
+
+
+Systemd Commands
+----------------
+
+- **listing** the units:
+
+  - managed by systemd: ``systemctl list-units [PATTERN]``
+  - installed (as files): ``systemctl list-unit-files [PATTERN]`` or ``tree /etc/systemd/system``
+
+- **getting runtime status information** about units: ``systemctl status [PATTERN]``
+
+- **controlling** units: ``systemctl start|stop|restart [PATTERN]``
+
+- **reloading**:
+
+  - a service-specific configuration of a unit: ``systemctl reload [PATTERN]`` (ex: requesting Apache to reload its own httpd.conf file)
+
+  - the systemd configuration file of a unit: ``systemctl daemon-reload [PATTERN]`` (ex: reloading the ``apache.service`` systemd unit file)
+
+- **enabling/disabling** for good units (while not starting/stopping them): ``systemctl enable|disable [PATTERN]``
+
+
+
+Systemd Journal
+---------------
+
+In order to query the contents of the systemd journal (as written by ``systemd-journald.service``), the ``journalctl`` command may be used.
+
+To consult the journal:
+
+- from:
+
+  - the oldest entry collected: ``journalctl``
+  - last boot: ``journalctl -b``
+  - the most recent journal entries, listing them to current end, and:
+
+	- stopping there: ``journalctl -e``
+	- continuously printing the new entries as they are added: ``journalctl -f`` (or ``--follow``)
+
+- for a given unit ``my_unit`` (see `Systemd Commands`_ for selection): ``journalctl -u my_unit``
+
+- showing ``COUNT`` lines: add ``-n COUNT`` (default: 10)
+
+
+
 .. _`core dumps`:
 
-Post-Mortem Investigations
-==========================
+Process-related Post-Mortem Investigations
+==========================================
 
 Sometimes a UNIX process crashes and, typically if one developed it, one wants to investigate the issue, based on a core dump produced by the operating system.
 
@@ -290,6 +344,72 @@ From there, `standard gdb-fu <https://sourceware.org/gdb/current/onlinedocs/gdb/
 
 
 
+Filesystem-related Issues
+=========================
+
+Word of wisdom: perform backups. Regularly. Safely stored.
+
+
+Target is busy
+--------------
+
+Umounting may fail with ``umount: /var/foobar: target is busy``. Finding the culprit can be done with:
+
+.. code:: bash
+
+ $ lsof /var/foobar
+COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF     NODE NAME
+bash    275648 root  cwd    DIR  254,1    20480 45236687 /var/foobar/www/Foo
+
+
+
+
+Failed I/O Operations
+---------------------
+
+Some operations (even a ``touch`` done by ``root``) may fail, reporting ``Read-only file system``; ``systemd-fsck`` may also report ``Structure needs cleaning``.
+
+Check with ``mount`` that a given filesystem/partition is (still) in the expected state:
+
+.. code:: bash
+
+ # For example:
+ /dev/mapper/foobar on /var/foobar type ext4 (rw,relatime,data=ordered)
+
+ # may have become:
+ /dev/mapper/foobar on /var/foobar type ext4 (ro,relatime,errors=continue,data=ordered)
+
+
+Best option here is to unmount, make a sector-level backup of the disk, and then check it. Probably that the disk already failed and you will have to resort to revert to a former backup.
+
+
+
+Checking a Disk
+---------------
+
+This can be done with ``e2fsck`` once the filesystem is unmounted, like in: ``e2fsck -cDp /dev/mapper/foobar``, with:
+
+- ``-c``: use ``badblocks`` to do a read-only scan of the device
+- ``-D``: optimize directories in the filesystem
+- ``-p``: automatically repair ("preen") the file system
+
+If having errors like::
+
+ e2fsck: Input/output error while trying to open /dev/mapper/foobar``
+
+or::
+
+ The superblock could not be read or does not describe a valid
+ ext2/ext3/ext4 filesystem [...]
+
+
+then, unless you are trying to check an encrypted partition (ex: not having cryptsetup-opened a LUKS one) or a superblock copy is enough, prospects are grim.
+
+Try for example ``fdisk`` / ``gdisk`` / ``cgdisk``, ``parted``, ``smartctl --all -T verypermissive``, ``badblocks -o ~/scan-result.txt -sv`` (for which errors are counted as NumberOfReadErrors / NumberOfWriteErrors / NumberOfCorruptionErrors) - yet your disk is maybe already unrecoverable.
+
+
+
+
 Quick Topics
 ============
 
@@ -333,6 +453,7 @@ This can be fixed by uncommenting the corresponding locale (``en_US.UTF-8`` here
  Generation complete.
 
 
+
 Applying a XFCE4 configuration to a different user
 --------------------------------------------------
 
@@ -367,8 +488,6 @@ Other Settings
 --------------
 
 See our `preferences <https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a>`_ for `Startpage <https://www.startpage.com>`_; it can be set as homepage.
-
-
 
 
 
