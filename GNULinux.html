@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, June 6, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, June 27, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -44,18 +44,29 @@
 <li><a class="reference internal" href="#interesting-packages" id="toc-entry-6">Interesting Packages</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#post-mortem-investigations" id="toc-entry-7">Post-Mortem Investigations</a></li>
-<li><a class="reference internal" href="#quick-topics" id="toc-entry-8">Quick Topics</a><ul>
-<li><a class="reference internal" href="#installing-wine" id="toc-entry-9">Installing Wine</a></li>
-<li><a class="reference internal" href="#invalid-pgp-signatures-in-packages" id="toc-entry-10">Invalid PGP Signatures in Packages</a></li>
-<li><a class="reference internal" href="#adding-a-locale" id="toc-entry-11">Adding a Locale</a></li>
-<li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-12">Applying a XFCE4 configuration to a different user</a></li>
-<li><a class="reference internal" href="#emacs" id="toc-entry-13">Emacs</a></li>
-<li><a class="reference internal" href="#other-settings" id="toc-entry-14">Other Settings</a></li>
-<li><a class="reference internal" href="#shortcuts" id="toc-entry-15">Shortcuts</a></li>
+<li><a class="reference internal" href="#systemd-related-hints" id="toc-entry-7">Systemd-related Hints</a><ul>
+<li><a class="reference internal" href="#systemd-commands" id="toc-entry-8">Systemd Commands</a></li>
+<li><a class="reference internal" href="#systemd-journal" id="toc-entry-9">Systemd Journal</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-16">See Also</a></li>
+<li><a class="reference internal" href="#process-related-post-mortem-investigations" id="toc-entry-10">Process-related Post-Mortem Investigations</a></li>
+<li><a class="reference internal" href="#filesystem-related-issues" id="toc-entry-11">Filesystem-related Issues</a><ul>
+<li><a class="reference internal" href="#target-is-busy" id="toc-entry-12">Target is busy</a></li>
+<li><a class="reference internal" href="#failed-i-o-operations" id="toc-entry-13">Failed I/O Operations</a></li>
+<li><a class="reference internal" href="#checking-a-disk" id="toc-entry-14">Checking a Disk</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#quick-topics" id="toc-entry-15">Quick Topics</a><ul>
+<li><a class="reference internal" href="#installing-wine" id="toc-entry-16">Installing Wine</a></li>
+<li><a class="reference internal" href="#invalid-pgp-signatures-in-packages" id="toc-entry-17">Invalid PGP Signatures in Packages</a></li>
+<li><a class="reference internal" href="#adding-a-locale" id="toc-entry-18">Adding a Locale</a></li>
+<li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-19">Applying a XFCE4 configuration to a different user</a></li>
+<li><a class="reference internal" href="#emacs" id="toc-entry-20">Emacs</a></li>
+<li><a class="reference internal" href="#other-settings" id="toc-entry-21">Other Settings</a></li>
+<li><a class="reference internal" href="#shortcuts" id="toc-entry-22">Shortcuts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-23">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -187,8 +198,49 @@ $ shutdown-local-host.sh --reboot
 </ul>
 </div>
 </div>
-<div class="section" id="post-mortem-investigations">
-<span id="core-dumps"></span><h1><a class="toc-backref" href="#toc-entry-7">Post-Mortem Investigations</a></h1>
+<div class="section" id="systemd-related-hints">
+<span id="systemd"></span><h1><a class="toc-backref" href="#toc-entry-7">Systemd-related Hints</a></h1>
+<p><em>Systemd</em> is the current reference system and service manager for GNU/Linux. It is in charge of configuring, launching, monitoring, controlling, etc. all the software services running on a given host.</p>
+<div class="section" id="systemd-commands">
+<h2><a class="toc-backref" href="#toc-entry-8">Systemd Commands</a></h2>
+<ul class="simple">
+<li><strong>listing</strong> the units:<ul>
+<li>managed by systemd: <tt class="docutils literal">systemctl <span class="pre">list-units</span> [PATTERN]</tt></li>
+<li>installed (as files): <tt class="docutils literal">systemctl <span class="pre">list-unit-files</span> [PATTERN]</tt> or <tt class="docutils literal">tree /etc/systemd/system</tt></li>
+</ul>
+</li>
+<li><strong>getting runtime status information</strong> about units: <tt class="docutils literal">systemctl status [PATTERN]</tt></li>
+<li><strong>controlling</strong> units: <tt class="docutils literal">systemctl start|stop|restart [PATTERN]</tt></li>
+<li><strong>reloading</strong>:<ul>
+<li>a service-specific configuration of a unit: <tt class="docutils literal">systemctl reload [PATTERN]</tt> (ex: requesting Apache to reload its own httpd.conf file)</li>
+<li>the systemd configuration file of a unit: <tt class="docutils literal">systemctl <span class="pre">daemon-reload</span> [PATTERN]</tt> (ex: reloading the <tt class="docutils literal">apache.service</tt> systemd unit file)</li>
+</ul>
+</li>
+<li><strong>enabling/disabling</strong> for good units (while not starting/stopping them): <tt class="docutils literal">systemctl enable|disable [PATTERN]</tt></li>
+</ul>
+</div>
+<div class="section" id="systemd-journal">
+<h2><a class="toc-backref" href="#toc-entry-9">Systemd Journal</a></h2>
+<p>In order to query the contents of the systemd journal (as written by <tt class="docutils literal"><span class="pre">systemd-journald.service</span></tt>), the <tt class="docutils literal">journalctl</tt> command may be used.</p>
+<p>To consult the journal:</p>
+<ul class="simple">
+<li>from:<ul>
+<li>the oldest entry collected: <tt class="docutils literal">journalctl</tt></li>
+<li>last boot: <tt class="docutils literal">journalctl <span class="pre">-b</span></tt></li>
+<li>the most recent journal entries, listing them to current end, and:<ul>
+<li>stopping there: <tt class="docutils literal">journalctl <span class="pre">-e</span></tt></li>
+<li>continuously printing the new entries as they are added: <tt class="docutils literal">journalctl <span class="pre">-f</span></tt> (or <tt class="docutils literal"><span class="pre">--follow</span></tt>)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>for a given unit <tt class="docutils literal">my_unit</tt> (see <a class="reference internal" href="#systemd-commands">Systemd Commands</a> for selection): <tt class="docutils literal">journalctl <span class="pre">-u</span> my_unit</tt></li>
+<li>showing <tt class="docutils literal">COUNT</tt> lines: add <tt class="docutils literal"><span class="pre">-n</span> COUNT</tt> (default: 10)</li>
+</ul>
+</div>
+</div>
+<div class="section" id="process-related-post-mortem-investigations">
+<span id="core-dumps"></span><h1><a class="toc-backref" href="#toc-entry-10">Process-related Post-Mortem Investigations</a></h1>
 <p>Sometimes a UNIX process crashes and, typically if one developed it, one wants to investigate the issue, based on a core dump produced by the operating system.</p>
 <p>This <a class="reference external" href="https://wiki.archlinux.org/title/Core_dump">Arch Linux article</a> will give all relevant details.</p>
 <p>In short, <tt class="docutils literal">coredumpctl list</tt> will list all known core dumps from oldest to most recent, such as in:</p>
@@ -256,21 +308,67 @@ Program terminated with signal SIGSEGV, Segmentation fault.
 <p>(this example was an Erlang wx/OpenGL-oriented crash)</p>
 <p>From there, <a class="reference external" href="https://sourceware.org/gdb/current/onlinedocs/gdb/">standard gdb-fu</a> shall be sufficient to give much insight. Once done, use <tt class="docutils literal">q</tt> to quit.</p>
 </div>
+<div class="section" id="filesystem-related-issues">
+<h1><a class="toc-backref" href="#toc-entry-11">Filesystem-related Issues</a></h1>
+<p>Word of wisdom: perform backups. Regularly. Safely stored.</p>
+<div class="section" id="target-is-busy">
+<h2><a class="toc-backref" href="#toc-entry-12">Target is busy</a></h2>
+<p>Umounting may fail with <tt class="docutils literal">umount: /var/foobar: target is busy</tt>. Finding the culprit can be done with:</p>
+<pre class="code bash literal-block">
+$ lsof /var/foobar
+</pre>
+<p>COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF     NODE NAME
+bash    275648 root  cwd    DIR  254,1    20480 45236687 /var/foobar/www/Foo</p>
+</div>
+<div class="section" id="failed-i-o-operations">
+<h2><a class="toc-backref" href="#toc-entry-13">Failed I/O Operations</a></h2>
+<p>Some operations (even a <tt class="docutils literal">touch</tt> done by <tt class="docutils literal">root</tt>) may fail, reporting <tt class="docutils literal"><span class="pre">Read-only</span> file system</tt>; <tt class="docutils literal"><span class="pre">systemd-fsck</span></tt> may also report <tt class="docutils literal">Structure needs cleaning</tt>.</p>
+<p>Check with <tt class="docutils literal">mount</tt> that a given filesystem/partition is (still) in the expected state:</p>
+<pre class="code bash literal-block">
+<span class="c1"># For example:
+</span>/dev/mapper/foobar on /var/foobar <span class="nb">type</span> ext4 <span class="o">(</span>rw,relatime,data<span class="o">=</span>ordered<span class="o">)</span>
+
+<span class="c1"># may have become:
+</span>/dev/mapper/foobar on /var/foobar <span class="nb">type</span> ext4 <span class="o">(</span>ro,relatime,errors<span class="o">=</span><span class="k">continue</span>,data<span class="o">=</span>ordered<span class="o">)</span>
+</pre>
+<p>Best option here is to unmount, make a sector-level backup of the disk, and then check it. Probably that the disk already failed and you will have to resort to revert to a former backup.</p>
+</div>
+<div class="section" id="checking-a-disk">
+<h2><a class="toc-backref" href="#toc-entry-14">Checking a Disk</a></h2>
+<p>This can be done with <tt class="docutils literal">e2fsck</tt> once the filesystem is unmounted, like in: <tt class="docutils literal">e2fsck <span class="pre">-cDp</span> /dev/mapper/foobar</tt>, with:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">-c</span></tt>: use <tt class="docutils literal">badblocks</tt> to do a read-only scan of the device</li>
+<li><tt class="docutils literal"><span class="pre">-D</span></tt>: optimize directories in the filesystem</li>
+<li><tt class="docutils literal"><span class="pre">-p</span></tt>: automatically repair (&quot;preen&quot;) the file system</li>
+</ul>
+<p>If having errors like:</p>
+<pre class="literal-block">
+e2fsck: Input/output error while trying to open /dev/mapper/foobar``
+</pre>
+<p>or:</p>
+<pre class="literal-block">
+The superblock could not be read or does not describe a valid
+ext2/ext3/ext4 filesystem [...]
+</pre>
+<p>then, unless you are trying to check an encrypted partition (ex: not having cryptsetup-opened a LUKS one) or a superblock copy is enough, prospects are grim.</p>
+<p>Try for example <tt class="docutils literal">fdisk</tt> / <tt class="docutils literal">gdisk</tt> / <tt class="docutils literal">cgdisk</tt>, <tt class="docutils literal">parted</tt>, <tt class="docutils literal">smartctl <span class="pre">--all</span> <span class="pre">-T</span> verypermissive</tt>, <tt class="docutils literal">badblocks <span class="pre">-o</span> <span class="pre">~/scan-result.txt</span> <span class="pre">-sv</span></tt> (for which errors are counted as NumberOfReadErrors / NumberOfWriteErrors / NumberOfCorruptionErrors) - yet your disk is maybe already unrecoverable.</p>
+</div>
+</div>
 <div class="section" id="quick-topics">
-<h1><a class="toc-backref" href="#toc-entry-8">Quick Topics</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-15">Quick Topics</a></h1>
 <div class="section" id="installing-wine">
-<h2><a class="toc-backref" href="#toc-entry-9">Installing Wine</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-16">Installing Wine</a></h2>
 <p>Install it, once <a class="reference internal" href="#enabling-multilib">enabling multilib</a> has been done, with: <tt class="docutils literal">pacman <span class="pre">-S</span> wine</tt>.</p>
 <p>When run, this may lead <tt class="docutils literal"><span class="pre">wine-mono</span></tt> to be auto-installed.</p>
 <p>The pseudo-Windows filesystem is then located mostly in <tt class="docutils literal"><span class="pre">~/.wine/drive_c</span></tt>.</p>
 </div>
 <div class="section" id="invalid-pgp-signatures-in-packages">
-<h2><a class="toc-backref" href="#toc-entry-10">Invalid PGP Signatures in Packages</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-17">Invalid PGP Signatures in Packages</a></h2>
 <p>This happens regularly, symptom being: <tt class="docutils literal">File /var/cache/pacman/pkg/xxx.pkg.tar.zst is corrupted (invalid or corrupted package (PGP signature))</tt>.</p>
 <p>Solution: <tt class="docutils literal">pacman <span class="pre">-S</span> <span class="pre">archlinux-keyring</span></tt> is at least often enough. Otherwise <tt class="docutils literal"><span class="pre">pacman-key</span> <span class="pre">--populate</span> archlinux</tt>, or changing mirror might help.</p>
 </div>
 <div class="section" id="adding-a-locale">
-<h2><a class="toc-backref" href="#toc-entry-11">Adding a Locale</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-18">Adding a Locale</a></h2>
 <p>On some hosts, issues in terms of a lacking locales may be reported, like in the following:</p>
 <pre class="literal-block">
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
@@ -286,7 +384,7 @@ Generation complete.
 </pre>
 </div>
 <div class="section" id="applying-a-xfce4-configuration-to-a-different-user">
-<h2><a class="toc-backref" href="#toc-entry-12">Applying a XFCE4 configuration to a different user</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-19">Applying a XFCE4 configuration to a different user</a></h2>
 <p>The objective is to duplicate the configuration of the <tt class="docutils literal">user_a</tt> desktop to the <tt class="docutils literal">user_b</tt> one, for example if <tt class="docutils literal">user_b</tt> is used to test an untrusted application.</p>
 <p>A key point is to ensure that at least <tt class="docutils literal">user_b</tt> has no ongoing graphical session (otherwise any new configuration may be overwritten with an older one at logout).</p>
 <p>Then, typically as root:</p>
@@ -300,16 +398,16 @@ $ chmod -R /home/user_b/<span class="o">{</span>.config,.local<span class="o">}<
 <p>Selecting a per-user wallpaper may be of help.</p>
 </div>
 <div class="section" id="emacs">
-<h2><a class="toc-backref" href="#toc-entry-13">Emacs</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-20">Emacs</a></h2>
 <p>Our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">init.el</a>, that may be stored in <tt class="docutils literal"><span class="pre">~/.emacs.d/</span></tt>, currently relies on <a class="reference external" href="https://github.com/radian-software/straight.el">straight.el</a>.</p>
 <p>Sometimes problems arise due to older packages, this may be solved by removing the <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt> directory, relaunching Emacs and waiting for all related clones to be downloaded again.</p>
 </div>
 <div class="section" id="other-settings">
-<h2><a class="toc-backref" href="#toc-entry-14">Other Settings</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-21">Other Settings</a></h2>
 <p>See our <a class="reference external" href="https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a">preferences</a> for <a class="reference external" href="https://www.startpage.com">Startpage</a>; it can be set as homepage.</p>
 </div>
 <div class="section" id="shortcuts">
-<h2><a class="toc-backref" href="#toc-entry-15">Shortcuts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-22">Shortcuts</a></h2>
 <p>Listing here the main keyboard shortcuts of interest for a few base tools.</p>
 <div class="section" id="for-less">
 <h3>For <tt class="docutils literal">less</tt></h3>
@@ -338,7 +436,7 @@ $ chmod -R /home/user_b/<span class="o">{</span>.config,.local<span class="o">}<
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-16">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-23">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>
