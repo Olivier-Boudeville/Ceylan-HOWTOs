@@ -78,7 +78,14 @@ Basic Operations
 
 - **managing branches**:
 
-  - to create a branch deriving from the current one (the current ``HEAD``) and switching to it (performing its checkout, while inheriting any local changes): ``git co -b my_new_branch``
+  - **creating** branches is done thanks to the ``checkout`` command, often abbreviated as ``co`` here
+  - to create a branch deriving from the current one (the current ``HEAD``) and switching to it at the same time (performing its co, while inheriting any local changes): ``git co -b my_new_branch``
+  - to `create a local branch corresponding to a remote one <https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches>`_ (let's suppose it is named ``some_branch``), assuming that a remote server (ex: ``my_remote``, possibly ``origin``) has already been declared (ex: ``git remote add my_remote URL``):
+
+	- first step is to update the remote-tracking branches with ``git fetch my_remote``, then to create the target local branch tracking that remote (upstream) one with: ``git co -b some_branch my_remote/some_branch`` (also switching to it here)
+	- a shortcut is to use ``git co --track my_remote/some_branch`` instead
+	- even shorter, if the name of the target local branch name does not exist yet and matches exactly matches a name on only one remote, ``git co some_branch`` will suffice
+
 
   - to delete a local branch: ``git branch -d my_branch``
 
@@ -120,7 +127,7 @@ In practice, in order to transfer the changes of a branch A in a branch B:
 
 .. code:: bash
 
- $ git checkout B
+ $ git co B
 
  # Either first case (integrate development A in master B):
  $ git merge A # or: git pull A
