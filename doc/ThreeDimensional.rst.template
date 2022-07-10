@@ -1376,6 +1376,8 @@ Operating System Support for 3D
 
 Benefiting from a proper 2D/3D hardware acceleration on GNU/Linux is unfortunately not always straightforward, and sometimes brittle.
 
+The very first step is to **update's one's video drivers to their latest, official stable version** according to your OS/distribution of choice (even if it implies using closed-source binaries...) and check that they are in use (probably reboot then).
+
 
 Testing
 -------
