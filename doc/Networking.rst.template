@@ -225,6 +225,7 @@ Network Troubleshooting
 A few pieces of advice/information:
 
 - be familiar with ``ip link``, ``ip addr`` and ``ip route`` (generally used in that order), and ``tcpdump`` for the worst cases
+- to review *host-local* open ports and sockets, use ``ss`` (for *socket statistics*, replacement of ``netstat``; ex: ``ss --inet --listening -p``) or ``nmap`` for remote testing
 - nowadays, many devices change their MAC address regularly, like smartphones do
 - one may rely on ``netctl``, and create as many profiles as found useful
 - regularly inspect network-related messages (ex: with ``journalctl -kf``) to detect anomalies such as ``IPv4: martian source 192.168.0.49``

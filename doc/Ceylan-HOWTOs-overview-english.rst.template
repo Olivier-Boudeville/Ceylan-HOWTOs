@@ -72,7 +72,7 @@ The current HOWTOs relate to the following topics:
 - `Build Tools <Build.html>`_, notably thanks to GNU make
 - `Version Control Systems <VCS.html>`_, i.e. now Git
 - `Documentation Generation <DocGeneration.html>`_, typically to generate HTML and PDF from markup, transform PDF or images, or generate UML diagrams
-- `Data Management <DataManagement.html>`_, notably data formats
+- `Data Management <DataManagement.html>`_, notably data formats and data processing tools
 
 :raw-html:`</div>`
 

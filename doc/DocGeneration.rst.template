@@ -111,7 +111,39 @@ Then, to enable the use of MathJax for a given website based on Ceylan-Myriad, r
 
 The list of `TeX/LaTeX commands <http://docs.mathjax.org/en/latest/input/tex/macros/index.html>`_ supported by MathJax may be of use.
 
-A few examples of resulting math-related outputs can be seen for example in `this section <https://myriad.esperide.org/#linear-conventions>`_.
+
+This allows to define inline mathematical elements, like :math:`P = \begin{pmatrix} 10 \\ 45\end{pmatrix}` (obtained with ``P = \\begin{pmatrix} 10 \\\\ 45\\end{pmatrix}``) or standalone ones, like:
+
+.. math::
+ M = \begin{bmatrix}
+		a11 & a12 & ... & a1n \\
+		a21 & a22 & ... & a2n \\
+		... & ... & ... & ... \\
+		am1 & am2 & ... & amn \\
+	 \end{bmatrix}
+
+obtained thanks to::
+
+ M = \begin{bmatrix}
+		a11 & a12 & ... & a1n \\
+		a21 & a22 & ... & a2n \\
+		... & ... & ... & ... \\
+		am1 & am2 & ... & amn \\
+	 \end{bmatrix}
+
+For :math:`\phi: \mathbb{R} \rightarrow ]0,1[` (i.e. ``\phi: \mathbb{R} \rightarrow ]0,1[``), we may have :math:`P_e = \phi(m+\phi^{-1}(P_n))` is ``P_e = \phi(m+\phi^{-1}(P_n))``.
+
+If :math:`\phi(x) = e^{x}/(1+e^{x})` (translating to ``\phi(x) = e^{x}/(1+e^{x})``), then:
+
+.. math::
+
+ P_e = \frac{P_n.e^{m}}{1 + P_n.(e^{m}-1)}
+
+
+(translating to ``P_e = \frac{P_n.e^{m}}{1 + P_n.(e^{m}-1)}``)
+
+
+A few other examples of resulting math-related outputs can be seen in `this section <https://myriad.esperide.org/#linear-conventions>`_.
 
 
 
@@ -185,6 +217,17 @@ It can then be referenced from the same page as `#how-to-render-equations <#how-
 
 
 
+Commenting
+----------
+
+To comment-out a block of text, just add ``..`` at the beginning of a line, then, from the next line, put that block, indented of at least one space.
+
+All lines of a block shall start with the same whitespace. So, whenever a given block to comment is not left-justified (at least one of its lines starts with a different offset), prefer having all lines of such a block be indented of (at least) 4 spaces (i.e. a tabulation).
+
+Otherwise, if using a single space to indent, as soon as a line of the block is to start with 3 spaces, whitespace-cleanup operations will combine them with the first one to form a tabulation (4 spaces in a row), and all lines of the commented block will not start with the same whitespaces, resulting, from the point of view of RST tools, in an invalid block.
+
+
+
 Validating / Checking
 ---------------------
 
@@ -251,13 +294,17 @@ An input file may not be encoded in UTF-8, which can result in::
 
  pandoc: Cannot decode byte '\xe9': Data.Text.Internal.Encoding.Fusion.streamUtf8: Invalid UTF-8 stream
 
-In this case, the actual encoding shall be determined, for example with::
+In this case, the actual encoding shall be determined, for example with:
+
+.. code:: bash
 
  $ file input.html
  input.html: HTML document, ISO-8859 text
 
 
-Then the encoding may be changed before calling pandoc, for example like::
+Then the encoding may be changed before calling pandoc, for example like:
+
+.. code:: bash
 
  $ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_github --standalone -o output.gfm
 
@@ -289,6 +336,10 @@ To invert/negate an image (swap colors with their complementary ones):
 .. code:: bash
 
  $ convert source.png -negate target.png
+
+
+See also the Myriad's automatic rules, which generate ``X-negated.png`` from ``X.png`` thanks to: ``make X-negated.png``.
+
 
 
 
