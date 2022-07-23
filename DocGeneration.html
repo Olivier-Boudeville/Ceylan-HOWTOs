@@ -3,8 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Documentation Generation</title>
+<script type="text/javascript" src="mathjax/tex-mml-chtml.js?config=TeX-AMS_CHTML"></script>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
 <link href="howtos-icon.png" rel="icon">
@@ -28,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, June 28, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, July 23, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -48,17 +49,18 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#inner-links" id="toc-entry-10">Inner Links</a></li>
-<li><a class="reference internal" href="#validating-checking" id="toc-entry-11">Validating / Checking</a></li>
-<li><a class="reference internal" href="#pointing-to-a-specific-moment-in-a-linked-video" id="toc-entry-12">Pointing to a Specific Moment in a Linked Video</a></li>
+<li><a class="reference internal" href="#commenting" id="toc-entry-11">Commenting</a></li>
+<li><a class="reference internal" href="#validating-checking" id="toc-entry-12">Validating / Checking</a></li>
+<li><a class="reference internal" href="#pointing-to-a-specific-moment-in-a-linked-video" id="toc-entry-13">Pointing to a Specific Moment in a Linked Video</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#miscellaneous" id="toc-entry-13">Miscellaneous</a><ul>
-<li><a class="reference internal" href="#conversion-between-markup-formats" id="toc-entry-14">Conversion between Markup Formats</a></li>
-<li><a class="reference internal" href="#transformation-of-pdf-files" id="toc-entry-15">Transformation of PDF files</a></li>
-<li><a class="reference internal" href="#image-transformations" id="toc-entry-16">Image Transformations</a></li>
-<li><a class="reference internal" href="#uml-diagrams" id="toc-entry-17">UML Diagrams</a><ul>
-<li><a class="reference internal" href="#quick-uml-cheat-sheet" id="toc-entry-18">Quick UML Cheat Sheet</a></li>
-<li><a class="reference internal" href="#tooling" id="toc-entry-19">Tooling</a></li>
+<li><a class="reference internal" href="#miscellaneous" id="toc-entry-14">Miscellaneous</a><ul>
+<li><a class="reference internal" href="#conversion-between-markup-formats" id="toc-entry-15">Conversion between Markup Formats</a></li>
+<li><a class="reference internal" href="#transformation-of-pdf-files" id="toc-entry-16">Transformation of PDF files</a></li>
+<li><a class="reference internal" href="#image-transformations" id="toc-entry-17">Image Transformations</a></li>
+<li><a class="reference internal" href="#uml-diagrams" id="toc-entry-18">UML Diagrams</a><ul>
+<li><a class="reference internal" href="#quick-uml-cheat-sheet" id="toc-entry-19">Quick UML Cheat Sheet</a></li>
+<li><a class="reference internal" href="#tooling" id="toc-entry-20">Tooling</a></li>
 </ul>
 </li>
 </ul>
@@ -107,7 +109,35 @@ make create-mathjax-symlink
 </pre>
 <p>(this target is defined in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">GNUmakerules-docutils.inc</a>; it boils down to symlinking <tt class="docutils literal">/usr/share/mathjax</tt>; see also the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/GNUmakefile">HOWTOs corresponding makefile</a> to properly manage this dependency afterwards, notably when deploying web content)</p>
 <p>The list of <a class="reference external" href="http://docs.mathjax.org/en/latest/input/tex/macros/index.html">TeX/LaTeX commands</a> supported by MathJax may be of use.</p>
-<p>A few examples of resulting math-related outputs can be seen for example in <a class="reference external" href="https://myriad.esperide.org/#linear-conventions">this section</a>.</p>
+<p>This allows to define inline mathematical elements, like <span class="math">\(P = \begin{pmatrix} 10 \\ 45\end{pmatrix}\)</span> (obtained with <tt class="docutils literal">P = \\begin{pmatrix} 10 <span class="pre">\\\\</span> <span class="pre">45\\end{pmatrix}</span></tt>) or standalone ones, like:</p>
+<div class="math">
+\begin{equation*}
+M = \begin{bmatrix}
+       a11 &amp; a12 &amp; ... &amp; a1n \\
+       a21 &amp; a22 &amp; ... &amp; a2n \\
+       ... &amp; ... &amp; ... &amp; ... \\
+       am1 &amp; am2 &amp; ... &amp; amn \\
+    \end{bmatrix}
+\end{equation*}
+</div>
+<p>obtained thanks to:</p>
+<pre class="literal-block">
+M = \begin{bmatrix}
+       a11 &amp; a12 &amp; ... &amp; a1n \\
+       a21 &amp; a22 &amp; ... &amp; a2n \\
+       ... &amp; ... &amp; ... &amp; ... \\
+       am1 &amp; am2 &amp; ... &amp; amn \\
+    \end{bmatrix}
+</pre>
+<p>For <span class="math">\(\phi: \mathbb{R} \rightarrow ]0,1[\)</span> (i.e. <tt class="docutils literal">\phi: \mathbb{R} \rightarrow ]0,1[</tt>), we may have <span class="math">\(P_e = \phi(m+\phi^{-1}(P_n))\)</span> is <tt class="docutils literal">P_e = <span class="pre">\phi(m+\phi^{-1}(P_n))</span></tt>.</p>
+<p>If <span class="math">\(\phi(x) = e^{x}/(1+e^{x})\)</span> (translating to <tt class="docutils literal">\phi(x) = <span class="pre">e^{x}/(1+e^{x})</span></tt>), then:</p>
+<div class="math">
+\begin{equation*}
+P_e = \frac{P_n.e^{m}}{1 + P_n.(e^{m}-1)}
+\end{equation*}
+</div>
+<p>(translating to <tt class="docutils literal">P_e = <span class="pre">\frac{P_n.e^{m}}{1</span> + <span class="pre">P_n.(e^{m}-1)}</span></tt>)</p>
+<p>A few other examples of resulting math-related outputs can be seen in <a class="reference external" href="https://myriad.esperide.org/#linear-conventions">this section</a>.</p>
 </div>
 <div class="section" id="title-hierarchy">
 <h2><a class="toc-backref" href="#toc-entry-5">Title Hierarchy</a></h2>
@@ -156,13 +186,19 @@ make create-mathjax-symlink
 </pre>
 <p>It can then be referenced from the same page as <a class="reference external" href="#how-to-render-equations">#how-to-render-equations</a> or from another one as <a class="reference external" href="DocGeneration.html#how-to-render-equations">MyPage.html#how-to-render-equations</a>.</p>
 </div>
+<div class="section" id="commenting">
+<h2><a class="toc-backref" href="#toc-entry-11">Commenting</a></h2>
+<p>To comment-out a block of text, just add <tt class="docutils literal">..</tt> at the beginning of a line, then, from the next line, put that block, indented of at least one space.</p>
+<p>All lines of a block shall start with the same whitespace. So, whenever a given block to comment is not left-justified (at least one of its lines starts with a different offset), prefer having all lines of such a block be indented of (at least) 4 spaces (i.e. a tabulation).</p>
+<p>Otherwise, if using a single space to indent, as soon as a line of the block is to start with 3 spaces, whitespace-cleanup operations will combine them with the first one to form a tabulation (4 spaces in a row), and all lines of the commented block will not start with the same whitespaces, resulting, from the point of view of RST tools, in an invalid block.</p>
+</div>
 <div class="section" id="validating-checking">
-<h2><a class="toc-backref" href="#toc-entry-11">Validating / Checking</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-12">Validating / Checking</a></h2>
 <p>In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.</p>
 <p>Notably an online HTML page, or set of pages, can be verified by third-party tools like <a class="reference external" href="https://www.deadlinkchecker.com/">this one</a>, to detect dead links.</p>
 </div>
 <div class="section" id="pointing-to-a-specific-moment-in-a-linked-video">
-<h2><a class="toc-backref" href="#toc-entry-12">Pointing to a Specific Moment in a Linked Video</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-13">Pointing to a Specific Moment in a Linked Video</a></h2>
 <p>It is as simple as designating, in an HTML link, the targeted second by suffixing the URL video filename with <tt class="docutils literal">#t=DURATION_IN_SECONDS</tt>, like in <tt class="docutils literal"><span class="pre">some-video.mp4#t=1473</span></tt> <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>.</p>
 <table class="docutils footnote" frame="void" id="footnote-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -173,9 +209,9 @@ make create-mathjax-symlink
 </div>
 </div>
 <div class="section" id="miscellaneous">
-<h1><a class="toc-backref" href="#toc-entry-13">Miscellaneous</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-14">Miscellaneous</a></h1>
 <div class="section" id="conversion-between-markup-formats">
-<h2><a class="toc-backref" href="#toc-entry-14">Conversion between Markup Formats</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-15">Conversion between Markup Formats</a></h2>
 <p><a class="reference external" href="https://pandoc.org/">Pandoc</a> is the tool of choice for such operations, as it often yields good results.</p>
 <p>For example, in order to convert a page written in Mediawiki syntax, whose source content has been pasted in a <tt class="docutils literal"><span class="pre">old-content-in-mediawiki.txt</span></tt> file, into one that be specified in a GitLab wiki (hence in GFM markup, for <em>GitLab Flavored Markdown</em>) from a converted content, to be written in a <tt class="docutils literal"><span class="pre">converted-content.gfm</span></tt> file, one may use:</p>
 <pre class="code bash literal-block">
@@ -203,17 +239,17 @@ $ pandoc my-document.rst --from<span class="o">=</span>rst --to<span class="o">=
 pandoc: Cannot decode byte '\xe9': Data.Text.Internal.Encoding.Fusion.streamUtf8: Invalid UTF-8 stream
 </pre>
 <p>In this case, the actual encoding shall be determined, for example with:</p>
-<pre class="literal-block">
+<pre class="code bash literal-block">
 $ file input.html
 input.html: HTML document, ISO-8859 text
 </pre>
 <p>Then the encoding may be changed before calling pandoc, for example like:</p>
-<pre class="literal-block">
-$ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_github --standalone -o output.gfm
+<pre class="code bash literal-block">
+$ iconv -f ISO-8859-1 -t utf-8 input.html <span class="p">|</span> pandoc --from<span class="o">=</span>html --to<span class="o">=</span>markdown_github --standalone -o output.gfm
 </pre>
 </div>
 <div class="section" id="transformation-of-pdf-files">
-<h2><a class="toc-backref" href="#toc-entry-15">Transformation of PDF files</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-16">Transformation of PDF files</a></h2>
 <p>For that, one may use the <tt class="docutils literal">pdftk</tt> tool, possibly with the <tt class="docutils literal">convert</tt> one, which comes from <a class="reference external" href="http://www.imagemagick.org/">ImageMagick</a> (typically available thanks to a <tt class="docutils literal">imagemagick</tt> package):</p>
 <ul class="simple">
 <li>to <strong>split all pages of a PDF</strong> in as many individual files (named <tt class="docutils literal">pg_0001.pdf</tt>, <tt class="docutils literal">pg_0002.pdf</tt>, etc.): <tt class="docutils literal">pdftk document.pdf burst</tt></li>
@@ -223,7 +259,7 @@ $ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_git
 </ul>
 </div>
 <div class="section" id="image-transformations">
-<h2><a class="toc-backref" href="#toc-entry-16">Image Transformations</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-17">Image Transformations</a></h2>
 <p>One may rely on:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://www.gimp.org/">GIMP</a> (<em>GNU Image Manipulation Program</em>; corresponding, on Arch, to the <tt class="docutils literal">gimp</tt> package)</li>
@@ -233,12 +269,13 @@ $ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_git
 <pre class="code bash literal-block">
 $ convert source.png -negate target.png
 </pre>
+<p>See also the Myriad's automatic rules, which generate <tt class="docutils literal"><span class="pre">X-negated.png</span></tt> from <tt class="docutils literal">X.png</tt> thanks to: <tt class="docutils literal">make <span class="pre">X-negated.png</span></tt>.</p>
 </div>
 <div class="section" id="uml-diagrams">
-<h2><a class="toc-backref" href="#toc-entry-17">UML Diagrams</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-18">UML Diagrams</a></h2>
 <p>If <a class="reference external" href="https://en.wikipedia.org/wiki/Systems_Modeling_Language">SysML</a> can also be of interest, we focus here on <a class="reference external" href="https://en.wikipedia.org/wiki/Class_diagram">UML2 class diagrams</a> (one of the 14 types of diagrams provided by UML2).</p>
 <div class="section" id="quick-uml-cheat-sheet">
-<h3><a class="toc-backref" href="#toc-entry-18">Quick UML Cheat Sheet</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-19">Quick UML Cheat Sheet</a></h3>
 <div class="section" id="multiplicities">
 <h4>Multiplicities</h4>
 <p>A <strong>multiplicity</strong> is a definition of <em>cardinality</em> (i.e. number of elements) of some collection of elements.</p>
@@ -290,7 +327,7 @@ $ convert source.png -negate target.png
 </div>
 </div>
 <div class="section" id="tooling">
-<h3><a class="toc-backref" href="#toc-entry-19">Tooling</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-20">Tooling</a></h3>
 <p>In a design phase, one may prefer lightweight tools like <a class="reference external" href="https://graphviz.org/">Graphviz</a>, <a class="reference external" href="https://plantuml.com/">PlantUML</a> or even <a class="reference external" href="https://en.wikipedia.org/wiki/Dia_(software)">Dia</a>.</p>
 <p>As long as the architecture of a framework is not stabilised, having one's tool determine by itself the layout of the rendering (rather than having to place manually one's graphical components) is surely preferable.</p>
 <p>For that we use Graphviz, with <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">our own build conventions</a>.</p>

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Network Management</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -27,7 +27,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 8, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, July 23, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -189,6 +189,7 @@ $ iptables -A INPUT -i lan.foobar -j LOG --log-prefix <span class="s2">&quot;[VL
 <p>A few pieces of advice/information:</p>
 <ul class="simple">
 <li>be familiar with <tt class="docutils literal">ip link</tt>, <tt class="docutils literal">ip addr</tt> and <tt class="docutils literal">ip route</tt> (generally used in that order), and <tt class="docutils literal">tcpdump</tt> for the worst cases</li>
+<li>to review <em>host-local</em> open ports and sockets, use <tt class="docutils literal">ss</tt> (for <em>socket statistics</em>, replacement of <tt class="docutils literal">netstat</tt>; ex: <tt class="docutils literal">ss <span class="pre">--inet</span> <span class="pre">--listening</span> <span class="pre">-p</span></tt>) or <tt class="docutils literal">nmap</tt> for remote testing</li>
 <li>nowadays, many devices change their MAC address regularly, like smartphones do</li>
 <li>one may rely on <tt class="docutils literal">netctl</tt>, and create as many profiles as found useful</li>
 <li>regularly inspect network-related messages (ex: with <tt class="docutils literal">journalctl <span class="pre">-kf</span></tt>) to detect anomalies such as <tt class="docutils literal">IPv4: martian source 192.168.0.49</tt></li>

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About GNU/Linux</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, June 27, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, July 23, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -181,6 +181,7 @@ $ shutdown-local-host.sh --reboot
 <li>for many distros, one may rely on the <a class="reference external" href="https://command-not-found.com/">command-not-found website</a></li>
 </ul>
 </li>
+<li>to determine which package owns (would install) specified file(s): <tt class="docutils literal">pacman <span class="pre">-Qo</span> FILES</tt></li>
 </ul>
 <p>See <a class="reference external" href="https://wiki.archlinux.org/title/Pacman/Tips_and_tricks">this page</a> for many more Arch-related commands.</p>
 </div>
@@ -401,6 +402,14 @@ $ chmod -R /home/user_b/<span class="o">{</span>.config,.local<span class="o">}<
 <h2><a class="toc-backref" href="#toc-entry-20">Emacs</a></h2>
 <p>Our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">init.el</a>, that may be stored in <tt class="docutils literal"><span class="pre">~/.emacs.d/</span></tt>, currently relies on <a class="reference external" href="https://github.com/radian-software/straight.el">straight.el</a>.</p>
 <p>Sometimes problems arise due to older packages, this may be solved by removing the <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt> directory, relaunching Emacs and waiting for all related clones to be downloaded again.</p>
+<p>Useful commands to trigger with <tt class="docutils literal"><span class="pre">Meta-x</span></tt>:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">replace-string</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">query-replace</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kill-rectangle</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Ctrl-g</span></tt> to abort the current entry in the minibuffer</li>
+</ul>
+<p>Also: <tt class="docutils literal"><span class="pre">Ctrl-U</span> then <span class="pre">Alt-!</span></tt>: enter a shell command, whose output will be pasted at the current cursor position.</p>
 </div>
 <div class="section" id="other-settings">
 <h2><a class="toc-backref" href="#toc-entry-21">Other Settings</a></h2>
