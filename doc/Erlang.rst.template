@@ -736,6 +736,15 @@ In both ``andalso / orelse`` cases, the ``DO_SOMETHING`` branch may be a single 
 
 Similarly, taking into account the aforementioned precedences, ``Count =:= ExpectedCount orelse throw({invalid_count, Count})`` will perform the expected check.
 
+Be wary of not having `precedences wrong <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_, lest bugs are introduced like the one in:
+
+.. code:: erlang
+
+ MaybeListenerPid =:= undefined orelse
+	MaybeListenerPid ! {onDeserialisation, [self(), FinalUserData]}
+
+(``orelse`` having more priority than ``!``, parentheses shall be added, otherwise, if having a PID, the message will actually be sent to any process that would be registered as ``true``)
+
 
 Some of these elements have been adapted from the `Wings3D coding guidelines <https://github.com/dgud/wings/blob/master/CodingGuidelines>`_.
 
