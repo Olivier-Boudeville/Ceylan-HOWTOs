@@ -66,6 +66,10 @@ The whole documentation process shall be powered only by free software solutions
 Our Recommended Approach
 ========================
 
+
+Principle
+---------
+
 We chose to rely on the `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_ syntax and tools, also known as RST, a part of the `Docutils <https://docutils.sourceforge.io/>`_ project. We did not specifically rely on elements related to Python or the Sphinx toolchain.
 
 We augmented reStructuredText with:
@@ -78,14 +82,14 @@ Of course this website, and many others that we created, rely on this approach; 
 
 
 
-Technical Details
-=================
+Specific Topics
+---------------
 
 
 .. _`how to render equations`:
 
 Rendering Mathematical Elements
--------------------------------
+...............................
 
 With the RST toolchain, the PDF output, thanks to LaTeX, offers built-in high-quality rendering of mathematical elements such as equations, matrices, etc.
 
@@ -104,7 +108,7 @@ Then, to enable the use of MathJax for a given website based on Ceylan-Myriad, r
 
 .. code:: bash
 
- make create-mathjax-symlink
+ $ make create-mathjax-symlink
 
 
 (this target is defined in `GNUmakerules-docutils.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc>`_; it boils down to symlinking ``/usr/share/mathjax``; see also the `HOWTOs corresponding makefile <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/GNUmakefile>`_ to properly manage this dependency afterwards, notably when deploying web content)
@@ -148,7 +152,7 @@ A few other examples of resulting math-related outputs can be seen in `this sect
 
 
 Title Hierarchy
----------------
+...............
 
 It must be consistent: a given type of subtitle must always be placed at the same level in the title hierarchy.
 
@@ -169,7 +173,7 @@ From the top-level title to the most nested ones:
 
 
 Image Sizes
------------
+...........
 
 Responsive images, i.e. images that automatically adjust to fit the size of the screen, can be used. They are then defined for example thanks to:
 
@@ -183,17 +187,17 @@ Various standard sizes have been defined, all prefixed with ``responsive-image-`
 
 
 Multi-File Documents
---------------------
+....................
 
 
 Targeting a Standalone Document
-...............................
+_______________________________
 
 Although they tend to be less convenient to edit, longer documents may be split in a **set of RST source files** (the `Myriad documentation <https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/doc>`_ is an example of it; the `WOOPER documentation <https://github.com/Olivier-Boudeville/Ceylan-WOOPER/tree/master/doc>`_ is an example of the opposite approach, based on a single source file).
 
 
 Targeting Interlinked Modular Documents
-.......................................
+_______________________________________
 
 In some cases, at least for the HTML output, the need is not to produce a single, large, monolithic document, but a set of interlinked ones (`the present HOWTO <http://howtos.esperide.org>`_ is an example thereof) that can be browsed as separate pages.
 
@@ -202,7 +206,7 @@ Then a convenient approach is to define different entry points for different out
 
 
 Inner Links
------------
+...........
 
 Defining any title (ex: the ``"Rendering Mathematical Elements"`` one above) automatically introduces in turn a corresponding anchor, which, for the HTML output, can then be referenced from any page, for example as raw HTML (like `MyPage.html#rendering-mathematical-elements <DocGeneration.html#rendering-mathematical-elements>`_, or directly from the current page as `#rendering-mathematical-elements <#rendering-mathematical-elements>`_) or directly through RST in the document (ex: specified as ```Rendering Mathematical Elements`_``, resulting in: `Rendering Mathematical Elements`_).
 
@@ -215,21 +219,43 @@ Extra local anchors (ex: that could be named ``"how to render equations"``) can 
 
 It can then be referenced from the same page as `#how-to-render-equations <#how-to-render-equations>`_ or from another one as `MyPage.html#how-to-render-equations <DocGeneration.html#how-to-render-equations>`_.
 
+Note that titles and hypertext links introduce local links as well, so one's inner links may clash with them (resulting in ``(ERROR/3) Duplicate target name [...]``); the best option is generally to phrase these inner links differently.
 
 
 Commenting
-----------
+..........
 
-To comment-out a block of text, just add ``..`` at the beginning of a line, then, from the next line, put that block, indented of at least one space.
-
-All lines of a block shall start with the same whitespace. So, whenever a given block to comment is not left-justified (at least one of its lines starts with a different offset), prefer having all lines of such a block be indented of (at least) 4 spaces (i.e. a tabulation).
-
-Otherwise, if using a single space to indent, as soon as a line of the block is to start with 3 spaces, whitespace-cleanup operations will combine them with the first one to form a tabulation (4 spaces in a row), and all lines of the commented block will not start with the same whitespaces, resulting, from the point of view of RST tools, in an invalid block.
+To comment-out a block of text, just add ``..`` at the beginning of a line, then, from the next line, put that block, indented of at least one space; this must be a legit block (see `Defining Blocks`_).
 
 
 
-Validating / Checking
----------------------
+Defining Blocks
+...............
+
+All lines of a block shall start with the same whitespace. So, whenever a given block is not left-justified (at least one of its lines starts with a different offset), prefer having all lines of such a block be indented of (at least) 4 spaces (i.e. a tabulation).
+
+Otherwise, if using a single space to indent, as soon as a line of the block is to start with 3 spaces, whitespace-cleanup operations will combine them with the first one to form a tabulation (4 spaces in a row), and all lines of the commented block will not start with the same whitespaces, which could result, from the point of view of RST tools, in an invalid block.
+
+Before a code block (e.g. introduced with ``.. code:: erlang``), a single colon should be used, not two of them. For example:
+
+.. code::
+
+   This algorithm can be:
+
+   .. code:: erlang
+	  [...]
+
+
+
+
+Miscellaneous
+=============
+
+These hints apply more generically than only with a RST toolchain.
+
+
+Validating / Checking HTML Content
+----------------------------------
 
 In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.
 
@@ -243,12 +269,6 @@ Pointing to a Specific Moment in a Linked Video
 It is as simple as designating, in an HTML link, the targeted second by suffixing the URL video filename with ``#t=DURATION_IN_SECONDS``, like in ``some-video.mp4#t=1473`` [#]_.
 
 .. [#] With ``mplayer``, use the ``o`` hotkey to display elapsed durations.
-
-
-
-
-Miscellaneous
-=============
 
 
 Conversion between Markup Formats
