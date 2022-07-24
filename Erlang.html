@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, July 20, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, July 24, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -592,6 +592,12 @@ non_existing
   </span><span class="k">end</span>
 </pre>
 <p>Similarly, taking into account the aforementioned precedences, <tt class="docutils literal">Count =:= ExpectedCount orelse <span class="pre">throw({invalid_count,</span> Count})</tt> will perform the expected check.</p>
+<p>Be wary of not having <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">precedences wrong</a>, lest bugs are introduced like the one in:</p>
+<pre class="code erlang literal-block">
+<span class="nv">MaybeListenerPid</span><span class="w"> </span><span class="o">=:=</span><span class="w"> </span><span class="n">undefined</span><span class="w"> </span><span class="ow">orelse</span><span class="w">
+   </span><span class="nv">MaybeListenerPid</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="n">onDeserialisation</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">self</span><span class="p">(),</span><span class="w"> </span><span class="nv">FinalUserData</span><span class="p">]}</span>
+</pre>
+<p>(<tt class="docutils literal">orelse</tt> having more priority than <tt class="docutils literal">!</tt>, parentheses shall be added, otherwise, if having a PID, the message will actually be sent to any process that would be registered as <tt class="docutils literal">true</tt>)</p>
 <p>Some of these elements have been adapted from the <a class="reference external" href="https://github.com/dgud/wings/blob/master/CodingGuidelines">Wings3D coding guidelines</a>.</p>
 </div>
 <div class="section" id="erlang-resources">
