@@ -331,11 +331,11 @@ One may rely on:
 - or on command-line `ImageMagick <https://imagemagick.org>`_ (on Arch, the ``imagemagick`` package, which provides notably the ``convert`` and ``display`` executables)
 
 
-To invert/negate an image (swap colors with their complementary ones):
+To invert/negate an image (swap colors with their complementary ones, while preserving alpha coordinates):
 
 .. code:: bash
 
- $ convert source.png -negate target.png
+ $ convert source.png -channel RGB -negate target.png
 
 
 See also the Myriad's automatic rules, which generate ``X-negated.png`` from ``X.png`` thanks to: ``make X-negated.png``.
@@ -468,5 +468,13 @@ This example results in the following diagram:
 
 (see the `sources <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/tree/master/doc/uml_class_diagram_example.graph>`_ of this diagram)
 
+
+
+Using Additional Fonts
+----------------------
+
+One may use websites like `Dafont <https://www.dafont.com>`_ in order to select, based on appearance and licence, a given TTF font.
+
+At least on Arch, it is sufficient to copy the corresponding downloaded TTF file (as root) in ``/usr/share/fonts/`` so that tools like The Gimp support it right afterwards (ex: no need to run ``fc-cache`` beforehand).
 
 :raw-html:`<a name="howtos_bottom"></a>`
