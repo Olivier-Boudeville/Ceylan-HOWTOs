@@ -47,7 +47,7 @@ Data Management
 Overview
 ========
 
-This section concentrates information about **data management**, including data formats.
+This section concentrates information about **data management**, including data **formats** and data **processing tools**.
 
 
 
@@ -200,5 +200,238 @@ Erlang-Friendly Data Format: ETF
 Such a format is typically useful to hold configuration information in an Erlang context.
 
 We recommend the use of `ETF <http://myriad.esperide.org/#etf>`_ (the *Erlang Term Format*), that we find particularly useful and even more suitable than JSON (entry order preserved, comments supported, etc.).
+
+
+
+
+
+.. _`data tools`:
+
+
+Data-related Processing Tools
+=============================
+
+Whenever needing to perform **numerical operations** on data, we recommend the use of `Scilab <https://www.scilab.org/>`_  or `GNU Octave <https://www.gnu.org/software/octave/>`_, which are the two major open-source alternatives to `MATLAB <https://en.wikipedia.org/wiki/MATLAB>`_.
+
+As such, the three of them support mostly the same syntax (even if Scilab puts less emphasis on syntactic compatibility with MATLAB than Octave does).
+
+From now on, the specific tool being used among the two MATLAB alternatives will not be specifically mentioned (mentioning "the tool" instead). We tried both alternatives and had more issues (build/installation, proper display) with Scilab, so we mostly used Octave.
+
+
+
+Common Hints About Scilab and Octave
+------------------------------------
+
+
+Syntax
+......
+
+Putting a semicolon at the end of statement prevents the console from printing the corresponding value (answer, variable assignment, etc.).
+
+
+
+Array-based Functions
+.....................
+
+Many functions are defined so that they can be called also with *arrays* of parameters, instead of just standalone values. For that, a dot/period-based syntax has been introduced so that each element of an input vector is applied to the function in turn. A key understanding is that such a dot applies not to variables but to operators; for example ``2*x.^2+1`` shall not be read as ``2*(x.)^2+1`` but as ``2*x(.^)2+1``.
+
+As an example, a :math:`\phi` function can be defined [#]_ as :math:`\phi(x) = e^{x}/(1+e^{x})`:
+
+.. code:: matlab
+
+ function retval = phi (x)
+  retval = exp(x)./(1+exp(x));
+ endfunction
+
+.. [#] Note that, for basic operation like additions, the ``.+`` operator has been deprecated in favor of just ``+``.
+
+Then this function can be called either with a standalone value:
+
+.. code:: matlab
+
+ phi(1)
+ ans = 0.7311
+
+or with an array thereof (a vector):
+
+.. code:: matlab
+
+ phi([1,2])
+ ans =
+   0.7311   0.8808
+
+
+
+Outputs
+.......
+
+Beware to the lower-precision of textual outputs, which may be misleading (ex: use ``format long`` with Octave to request 15 significant figures).
+
+
+
+Script Files
+............
+
+Rather than being directly interpreted (ex: from a pasted text), a series of statements can be gathered in a script file (a bit different from a function file [#]_) that can be loaded and executed afterwards.
+
+.. [#] A so-called "function file" is one that starts with a function definition and that must only be called from a "script file".
+
+
+Their conventional extension in ``m`` (ex: ``foobar.m``), due to the MATLAB legacy.
+
+Avoid dashes in the script filenames, as it may be interpreted as ``minus``; prefer underscores (ex: ``phi_exp.m`` rather than ``phi-exp.m``).
+
+
+An example of script, named ``phi_exp.m``:
+
+.. code:: matlab
+
+ # An initial comment prevents Octave from thinking that this
+ # is a function file:
+ 1;
+
+ # The function name can be freely chosen, it does not have to
+ # correspond to the script filename:
+ #
+ function retval = phi_exp (x)
+	retval = exp(x) ./ (1+exp(x))
+ endfunction
+
+ xs = -10:10
+ ys = phi_exp(xs)
+
+ plot(xs,ys)
+
+ title ("A function phi to map values V to a probability-suitable ]0,1[ interval")
+ ylabel ("\phi(V")
+ xlabel ("V")
+ grid on
+
+
+Provided that such a script is located in a well-known directory of the tool (typically its working directory), it can be executed simply by entering its filename without extension; for example:
+
+.. code:: matlab
+
+ octave:1> phi_exp
+ warning: function 'phi_exp' defined within script file 'xxx/phi_exp.m'
+ xs =
+  -10   -9   -8   [...]
+
+
+Then a script can be run from the command-line; for example:
+
+.. code:: bash
+
+ $ octave --eval phi_exp.m --persist
+ # OR
+ $ octave phi_exp.m
+
+
+Using Scilab
+------------
+
+Scilab may be best obtained, on Arch Linux, from the AUR (ex: ``yay -Sy scilab``) by selecting the ``scilab-bin`` option (relying then on prebuilt binaries); it can then be run with: ``scilab``.
+
+Note that the copy/paste behaviour is not consistent with the usual UNIX/X11 one, and that tabulation can be used for auto-completion.
+
+
+
+Defining a Function
+...................
+
+Let's suppose we want to define :math:`my\_func: x \rightarrow 2.x^{2}+1`.
+
+For that, in Scilab's shell, enter:
+
+.. code:: scilab
+
+ --> function [y] = my_func(x)
+   > y = 2*x^2+1
+   > endfunction
+
+
+Then:
+
+.. code:: scilab
+
+ --> my_func(5)
+  ans  =
+	51.
+
+
+
+Plotting a Function
+...................
+
+Let's define the support of our function, here computed from 0 to 10 with 50 values: ``my_xs = linspace(0, 10, 50)``. Then just execute ``plot(my_xs, my_func)``.
+
+We experienced rendering issues that prevented a proper display of plots.
+
+
+
+
+
+
+Using Octave
+------------
+
+`Octave <https://octave.org/>`_ can be installed on Arch Linux with ``pacman -Sy octave``; extra packages may be needed (ex: ``octave-quaternion``, available in the AUR).
+
+
+The command-line version can be run as ``octave``. Typing ``quit`` at the prompt allows to exit.
+
+The GUI version can be launched with ``octave --force-gui``.
+
+
+
+Defining a Function
+...................
+
+As already seen, so that it can operate on single values or arrays, a :math:`\phi(x) = e^{x}/(1+e^{x})` function can be defined as:
+
+.. code:: octave
+
+ function retval = phi (x)
+   retval = exp(x)./(1+exp(x))
+ endfunction
+
+
+
+
+
+Plotting a Function
+...................
+
+We consider first a function of a single variable.
+
+Let ``my_xs = 0:0.2:10`` define the support / display range of our function; then:
+
+.. code:: octave
+
+ my_ys = my_func(my_xs)
+ plot(my_xs, my_ys)
+
+
+A key point is to understand that, for all plots (``plot``, ``mesh``, ``surf``, etc.), the last element to be specified is *not* the function to which the previous elements are to be applied, but directly the final values to plot.
+
+Extra display settings can be added afterwards:
+
+.. code:: octave
+
+ title ("This is my title")
+ ylabel ("My ordinate label")
+ xlabel ("My abscissa label")
+ grid on
+
+
+This results in:
+
+:raw-html:`<center><img src="octave-basic-plot.png" id="responsive-image-medium"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.7]{octave-basic-plot} \end{figure}`
+
+
+The image can be saved either by using the ``Save As`` GUI menu and typically selecting PNG, or directly from the console/scripts thanks to the following command: ``print("my_plot.png", "-dpng")``.
+
+
 
 :raw-html:`<a name="howtos_bottom"></a>`

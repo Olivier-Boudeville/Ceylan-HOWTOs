@@ -39,7 +39,6 @@ Using the GNU/Linux Operating System
   :local:
   :depth: 2
 
-
 :raw-html:`</center>`
 
 
@@ -184,7 +183,7 @@ Package-related Commands
   - on Arch: ``pkgfile SOME_FILE``; ``pkgfile`` itself must have been installed beforehand, with ``pacman -S pkgfile``, and be updated, with ``pkgfile --update`` (still as root)
   - on Debian: ``apt-file search SOME_FILE`` after a similar initial install thanks to: ``sudo apt-get install apt-file && sudo apt-file update``
   - for many distros, one may rely on the `command-not-found website <https://command-not-found.com/>`_
-
+- to determine which package owns (would install) specified file(s): ``pacman -Qo FILES``
 
 See `this page <https://wiki.archlinux.org/title/Pacman/Tips_and_tricks>`_ for many more Arch-related commands.
 
@@ -475,6 +474,7 @@ Then a key point is to fully reset XFCE4. Unlogging and/or ``killall -HUP xfdesk
 Selecting a per-user wallpaper may be of help.
 
 
+
 Emacs
 -----
 
@@ -499,6 +499,15 @@ Troubleshooting
 ...............
 
 Sometimes problems arise due to older packages, this may be solved by removing the ``~/.emacs.d/straight`` directory, relaunching Emacs and waiting for all related clones to be downloaded again.
+
+Useful commands to trigger with ``Meta-x``:
+
+- ``replace-string``
+- ``query-replace``
+- ``kill-rectangle``
+- ``Ctrl-g`` to abort the current entry in the minibuffer
+
+Also: ``Ctrl-U then Alt-!``: enter a shell command, whose output will be pasted at the current cursor position.
 
 
 

@@ -138,6 +138,7 @@ Refer then to the `shell commands <https://www.erlang.org/doc/man/shell.html#she
 
 - ``f/1``, used as ``f(X).`` in order to *forget* a variable ``X``, i.e. to remove the binding of this variable and be able to (re)assign it afterwards
 - ``l/1`` (apparently undocumented), used as ``l(my_module)``, to (re)load that module, purging any old version of it; convenient to reload also specially-built BEAMs (ex: based on parse transforms) that may have been compiled behind the scene
+- ``rl/1`` is *not* "reload (module)" (use ``l/1`` for that), it is "record list" (it prints selected record definitions)
 - ``c/1``, used as ``c(my_module)``, to compile (if necessary) and (re)load that module, purging any old version of it
 - ``rr/{1,2,3}`` (ex: used as ``rr(Path).``) to *read records* and have them available on the shell; for example, to be able to use the records defined by xmerl:
 
@@ -576,7 +577,7 @@ Proper Naming
 Variable Shorthands
 ...................
 
-Usually the following conventions apply:
+Usually we apply the following conventions:
 
 - the *head* and *tail* of a list are designated as ``H`` and ``T``, like in: ``L = [H|T]``
 - ``Acc`` means *accumulator*, in a tail-recursive function
@@ -658,6 +659,7 @@ Micro-Cheat Sheet
 To avoid having to perform a lookup in the documentation:
 
 - Erlang indices start at ``1``, except the ones of the ``array`` module that are zero-based
+
 - for tuples of unknown number of elements:
 
   - **setting** an element is to be done with ``setelement(positive_index(), tuple(), term()) -> tuple()``
@@ -667,6 +669,8 @@ To avoid having to perform a lookup in the documentation:
   - **removing** an element at a given index (ex: to chop a record tag) is to be done with ``erlang:delete_element(positive_index(), tuple()) -> tuple()``
 
 (no need for the ``erlang`` module to be explicitly specified for the first two functions, as both are auto-imported)
+
+- when converting a float to a string, to set the precision (the number of digits after the decimal point) to ``P``, use: ``"~.Pf"``; for example, if ``P=5``, we have: ``"0.33333" = io_lib:format("~.5f", [1/3]).``
 
 - the lesser-known `"--" list subtraction <https://www.erlang.org/doc/reference_manual/expressions.html#list-operationslist>`_ operator returns a list that is a copy of the first argument where, for each element in the second argument, the first occurrence of this element (if any) is removed
 - refer to the `escape sequences <https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences>`_, typically in order to specify characters like "space" (``$\s``); ``$char`` is the notation to designate the ASCII value or Unicode code-point of the character ``char`` (ex: ``$A``)
@@ -731,6 +735,15 @@ In both ``andalso / orelse`` cases, the ``DO_SOMETHING`` branch may be a single 
 
 
 Similarly, taking into account the aforementioned precedences, ``Count =:= ExpectedCount orelse throw({invalid_count, Count})`` will perform the expected check.
+
+Be wary of not having `precedences wrong <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_, lest bugs are introduced like the one in:
+
+.. code:: erlang
+
+ MaybeListenerPid =:= undefined orelse
+	MaybeListenerPid ! {onDeserialisation, [self(), FinalUserData]}
+
+(``orelse`` having more priority than ``!``, parentheses shall be added, otherwise, if having a PID, the message will actually be sent to any process that would be registered as ``true``)
 
 
 Some of these elements have been adapted from the `Wings3D coding guidelines <https://github.com/dgud/wings/blob/master/CodingGuidelines>`_.
