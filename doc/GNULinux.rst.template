@@ -478,9 +478,29 @@ Selecting a per-user wallpaper may be of help.
 Emacs
 -----
 
+
+Configuration
+.............
+
 Our `init.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el>`_, that may be stored in ``~/.emacs.d/``, currently relies on `straight.el <https://github.com/radian-software/straight.el>`_.
 
+
+Hints
+.....
+
+
+- to tune the font size:
+
+  - temporarily: use ``C-x C-+`` to increase, ``C-x C--`` to decrease (or press Shift then click the first mouse button to select a relevant option)
+  - permanently:
+
+
+Troubleshooting
+...............
+
 Sometimes problems arise due to older packages, this may be solved by removing the ``~/.emacs.d/straight`` directory, relaunching Emacs and waiting for all related clones to be downloaded again.
+
+
 
 
 
