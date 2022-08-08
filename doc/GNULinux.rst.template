@@ -475,9 +475,12 @@ Selecting a per-user wallpaper may be of help.
 
 
 
+
 Emacs
 -----
 
+
+.. _`Emacs configuration`:
 
 Configuration
 .............
@@ -492,24 +495,23 @@ Hints
 - to tune the font size:
 
   - temporarily: use ``C-x C-+`` to increase, ``C-x C--`` to decrease (or press Shift then click the first mouse button to select a relevant option)
-  - permanently:
+  - permanently: one may add in one's `Emacs configuration`_ file for example: ``(set-face-attribute 'default nil :height 100)``
 
+- to insert in the current buffer the output of a shell command: ``Ctrl-U then Alt-!``: enter that shell command, whose output will be pasted at the current cursor position
+- to sort alphabetically the selected region: ``Meta-x sort-lines``
 
-Troubleshooting
-...............
-
-Sometimes problems arise due to older packages, this may be solved by removing the ``~/.emacs.d/straight`` directory, relaunching Emacs and waiting for all related clones to be downloaded again.
-
-Useful commands to trigger with ``Meta-x``:
+Other useful commands to trigger with ``Meta-x``:
 
 - ``replace-string``
 - ``query-replace``
 - ``kill-rectangle``
 - ``Ctrl-g`` to abort the current entry in the minibuffer
 
-Also: ``Ctrl-U then Alt-!``: enter a shell command, whose output will be pasted at the current cursor position.
 
+Troubleshooting
+...............
 
+Sometimes problems arise due to older packages, this may be solved by removing the ``~/.emacs.d/straight`` directory, relaunching Emacs and waiting for all related clones to be downloaded again.
 
 
 
