@@ -653,6 +653,7 @@ Extra information resources about ``wx`` (besides the documentation of its modul
 .. comment 404: - http://www.idiom.com/~turner/wxtut/wxwidgets.html
 
 
+
 Micro-Cheat Sheet
 =================
 
@@ -669,6 +670,12 @@ To avoid having to perform a lookup in the documentation:
   - **removing** an element at a given index (ex: to chop a record tag) is to be done with ``erlang:delete_element(positive_index(), tuple()) -> tuple()``
 
 (no need for the ``erlang`` module to be explicitly specified for the first two functions, as both are auto-imported)
+
+- for ``maps``: refer to `map expressions <https://www.erlang.org/doc/reference_manual/expressions.html#map_expressions>`_, the `maps module <https://www.erlang.org/doc/man/maps.html>`_ and the corresponding part of the `efficiency guide <https://www.erlang.org/doc/efficiency_guide/maps.html>`_; in short:
+
+  - creating/updating maps is ``EmptyMap = #{}``, ``NewMFromScratch = #{K1 => V1, K2 => V2}`` or ``UpdatedM = M#{K1 => V1, K2 => V2}``
+  - updating the value associated to an already-existing key ``K`` is ``ModM = M#{K := V}``
+  - matching is ``#{K1 := V1, K2 := V2} = M`` where the ``K*`` are `guard expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard_expressions>`_ and the ``V*`` can be any pattern
 
 - when converting a float to a string, to set the precision (the number of digits after the decimal point) to ``P``, use: ``"~.Pf"``; for example, if ``P=5``, we have: ``"0.33333" = io_lib:format("~.5f", [1/3]).``
 
