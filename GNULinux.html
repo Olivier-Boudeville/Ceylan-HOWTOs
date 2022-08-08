@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, July 23, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, August 6, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -400,16 +400,33 @@ $ chmod -R /home/user_b/<span class="o">{</span>.config,.local<span class="o">}<
 </div>
 <div class="section" id="emacs">
 <h2><a class="toc-backref" href="#toc-entry-20">Emacs</a></h2>
+<div class="section" id="configuration-1">
+<span id="emacs-configuration"></span><h3>Configuration</h3>
 <p>Our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">init.el</a>, that may be stored in <tt class="docutils literal"><span class="pre">~/.emacs.d/</span></tt>, currently relies on <a class="reference external" href="https://github.com/radian-software/straight.el">straight.el</a>.</p>
-<p>Sometimes problems arise due to older packages, this may be solved by removing the <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt> directory, relaunching Emacs and waiting for all related clones to be downloaded again.</p>
-<p>Useful commands to trigger with <tt class="docutils literal"><span class="pre">Meta-x</span></tt>:</p>
+</div>
+<div class="section" id="hints">
+<h3>Hints</h3>
+<ul class="simple">
+<li>to tune the font size:<ul>
+<li>temporarily: use <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-+</span></tt> to increase, <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> to decrease (or press Shift then click the first mouse button to select a relevant option)</li>
+<li>permanently: one may add in one's <a class="reference internal" href="#emacs-configuration">Emacs configuration</a> file for example: <tt class="docutils literal"><span class="pre">(set-face-attribute</span> 'default nil :height 100)</tt></li>
+</ul>
+</li>
+<li>to insert in the current buffer the output of a shell command: <tt class="docutils literal"><span class="pre">Ctrl-U</span> then <span class="pre">Alt-!</span></tt>: enter that shell command, whose output will be pasted at the current cursor position</li>
+<li>to sort alphabetically the selected region: <tt class="docutils literal"><span class="pre">Meta-x</span> <span class="pre">sort-lines</span></tt></li>
+</ul>
+<p>Other useful commands to trigger with <tt class="docutils literal"><span class="pre">Meta-x</span></tt>:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">replace-string</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">query-replace</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">kill-rectangle</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">Ctrl-g</span></tt> to abort the current entry in the minibuffer</li>
 </ul>
-<p>Also: <tt class="docutils literal"><span class="pre">Ctrl-U</span> then <span class="pre">Alt-!</span></tt>: enter a shell command, whose output will be pasted at the current cursor position.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h3>Troubleshooting</h3>
+<p>Sometimes problems arise due to older packages, this may be solved by removing the <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt> directory, relaunching Emacs and waiting for all related clones to be downloaded again.</p>
+</div>
 </div>
 <div class="section" id="other-settings">
 <h2><a class="toc-backref" href="#toc-entry-21">Other Settings</a></h2>
