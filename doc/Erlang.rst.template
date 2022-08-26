@@ -485,12 +485,19 @@ This long-awaited feature, named *BeamAsm* and whose rationale and history have 
 Static Typing
 -------------
 
-Static type checking can be performed on Erlang code; the usual course of action is to use `Dialyzer <https://www.erlang.org/doc/man/dialyzer.html>`_ - albeit other solutions like `Gradualizer <https://github.com/josefs/Gradualizer>`_ exist.
+Static type checking can be performed on Erlang code; the usual course of action is to use `Dialyzer <https://www.erlang.org/doc/man/dialyzer.html>`_ - albeit other solutions like `Gradualizer <https://github.com/josefs/Gradualizer>`_ exist, and are mostly complementary (see also `1 <https://learnyousomeerlang.com/types-or-lack-thereof#for-type-junkies>`_ and `2 <https://learnyousomeerlang.com/dialyzer>`_).
+
+
+More precisely:
+
+- Dialyzer is a discrepancy analyzer that aims **to prove the presence of type-induced runtime crashes** (it may not be able to detect all type problems, yet "is never wrong"); Dialyzer does not use type specifications to guide the analysis: first it infers type information, and then only, if requested, it checks that information against the type specifications; so Dialyzer may operate with or without type specifications
+- whereas Gradualizer is a more conventional type system, based on the theory of gradual typing, that aims **to prove the absence of such crashes**; Gradualyzer depends intimately on type specifications: by default, without them, no static typing happens
 
 A few `statically-typed languages <https://github.com/llaisdy/beam_languages#statically-typed-languages>`_ can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).
 
 In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports JIT_).
 
+Beyond mere code, the messages exchanges between processes could also be typed and checked.
 
 
 Intermediate Languages
