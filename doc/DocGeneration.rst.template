@@ -115,6 +115,8 @@ Then, to enable the use of MathJax for a given website based on Ceylan-Myriad, r
 
 The list of `TeX/LaTeX commands <http://docs.mathjax.org/en/latest/input/tex/macros/index.html>`_ supported by MathJax may be of use.
 
+Each LaTeX command may either be specified directly inline, in the text (with ``:math:`LATEX_CMD```) or in a block indented after a ``.. math::`` directive.
+
 
 This allows to define inline mathematical elements, like :math:`P = \begin{pmatrix} 10 \\ 45\end{pmatrix}` (obtained with ``P = \\begin{pmatrix} 10 \\\\ 45\\end{pmatrix}``) or standalone ones, like:
 
