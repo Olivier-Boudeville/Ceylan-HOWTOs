@@ -498,6 +498,9 @@ Hints
   - permanently: one may add in one's `Emacs configuration`_ file for example: ``(set-face-attribute 'default nil :height 100)``
 
 - to insert in the current buffer the output of a shell command: ``Ctrl-U then Alt-!``: enter that shell command, whose output will be pasted at the current cursor position
+
+- to prefix all lines of the selected region: ``Ctr-X then r then t``, then type the prefix then type Enter
+
 - to sort alphabetically the selected region: ``Meta-x sort-lines``
 
 Other useful commands to trigger with ``Meta-x``:
