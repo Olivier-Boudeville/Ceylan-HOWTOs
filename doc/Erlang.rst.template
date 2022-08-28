@@ -139,7 +139,7 @@ Refer then to the `shell commands <https://www.erlang.org/doc/man/shell.html#she
 - ``f/1``, used as ``f(X).`` in order to *forget* a variable ``X``, i.e. to remove the binding of this variable and be able to (re)assign it afterwards
 - ``l/1`` (apparently undocumented), used as ``l(my_module)``, to (re)load that module, purging any old version of it; convenient to reload also specially-built BEAMs (ex: based on parse transforms) that may have been compiled behind the scene
 - ``rl/1`` is *not* "reload (module)" (use ``l/1`` for that), it is "record list" (it prints selected record definitions)
-- ``c/1``, used as ``c(my_module)``, to compile (if necessary) and (re)load that module, purging any old version of it
+- ``c/1``, used as ``c(my_module)``, to compile (if necessary) *and* (re)load that module, purging any old version of it
 - ``rr/{1,2,3}`` (ex: used as ``rr(Path).``) to *read records* and have them available on the shell; for example, to be able to use the records defined by xmerl:
 
 .. code:: erlang
@@ -485,7 +485,7 @@ This long-awaited feature, named *BeamAsm* and whose rationale and history have 
 Static Typing
 -------------
 
-Static type checking can be performed on Erlang code; the usual course of action is to use `Dialyzer <https://www.erlang.org/doc/man/dialyzer.html>`_ - albeit other solutions like `Gradualizer <https://github.com/josefs/Gradualizer>`_ exist.
+Static type checking can be performed on Erlang code; the usual course of action is to use `Dialyzer <https://www.erlang.org/doc/man/dialyzer.html>`_ - albeit other solutions like `Gradualizer <https://github.com/josefs/Gradualizer>`_ and `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_ exist.
 
 A few `statically-typed languages <https://github.com/llaisdy/beam_languages#statically-typed-languages>`_ can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).
 
