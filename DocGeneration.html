@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, July 24, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, August 30, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -112,6 +112,7 @@ $ make create-mathjax-symlink
 </pre>
 <p>(this target is defined in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">GNUmakerules-docutils.inc</a>; it boils down to symlinking <tt class="docutils literal">/usr/share/mathjax</tt>; see also the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/GNUmakefile">HOWTOs corresponding makefile</a> to properly manage this dependency afterwards, notably when deploying web content)</p>
 <p>The list of <a class="reference external" href="http://docs.mathjax.org/en/latest/input/tex/macros/index.html">TeX/LaTeX commands</a> supported by MathJax may be of use.</p>
+<p>Each LaTeX command may either be specified directly inline, in the text (with <tt class="docutils literal"><span class="pre">:math:`LATEX_CMD`</span></tt>) or in a block indented after a <tt class="docutils literal">.. math::</tt> directive.</p>
 <p>This allows to define inline mathematical elements, like <span class="math">\(P = \begin{pmatrix} 10 \\ 45\end{pmatrix}\)</span> (obtained with <tt class="docutils literal">P = \\begin{pmatrix} 10 <span class="pre">\\\\</span> <span class="pre">45\\end{pmatrix}</span></tt>) or standalone ones, like:</p>
 <div class="math">
 \begin{equation*}
