@@ -139,7 +139,7 @@ Refer then to the `shell commands <https://www.erlang.org/doc/man/shell.html#she
 - ``f/1``, used as ``f(X).`` in order to *forget* a variable ``X``, i.e. to remove the binding of this variable and be able to (re)assign it afterwards
 - ``l/1`` (apparently undocumented), used as ``l(my_module)``, to (re)load that module, purging any old version of it; convenient to reload also specially-built BEAMs (ex: based on parse transforms) that may have been compiled behind the scene
 - ``rl/1`` is *not* "reload (module)" (use ``l/1`` for that), it is "record list" (it prints selected record definitions)
-- ``c/1``, used as ``c(my_module)``, to compile (if necessary) and (re)load that module, purging any old version of it
+- ``c/1``, used as ``c(my_module)``, to compile (if necessary) *and* (re)load that module, purging any old version of it
 - ``rr/{1,2,3}`` (ex: used as ``rr(Path).``) to *read records* and have them available on the shell; for example, to be able to use the records defined by xmerl:
 
 .. code:: erlang
@@ -485,19 +485,30 @@ This long-awaited feature, named *BeamAsm* and whose rationale and history have 
 Static Typing
 -------------
 
-Static type checking can be performed on Erlang code; the usual course of action is to use `Dialyzer <https://www.erlang.org/doc/man/dialyzer.html>`_ - albeit other solutions like `Gradualizer <https://github.com/josefs/Gradualizer>`_ exist, and are mostly complementary (see also `1 <https://learnyousomeerlang.com/types-or-lack-thereof#for-type-junkies>`_ and `2 <https://learnyousomeerlang.com/dialyzer>`_).
-
+Static type checking can be performed on Erlang code; the usual course of action is to use `Dialyzer <https://www.erlang.org/doc/man/dialyzer.html>`_ - albeit other solutions like `Gradualizer <https://github.com/josefs/Gradualizer>`_ (and also `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_) exist, and are mostly complementary (see also `1 <https://learnyousomeerlang.com/types-or-lack-thereof#for-type-junkies>`_ and `2 <https://learnyousomeerlang.com/dialyzer>`_).
 
 More precisely:
 
 - Dialyzer is a discrepancy analyzer that aims **to prove the presence of type-induced runtime crashes** (it may not be able to detect all type problems, yet "is never wrong"); Dialyzer does not use type specifications to guide the analysis: first it infers type information, and then only, if requested, it checks that information against the type specifications; so Dialyzer may operate with or without type specifications
-- whereas Gradualizer is a more conventional type system, based on the theory of gradual typing, that aims **to prove the absence of such crashes**; Gradualyzer depends intimately on type specifications: by default, without them, no static typing happens
+- whereas tools like Gradualizer and eqWAlizer are more conventional type system, based on the theory of gradual typing, that aim **to prove the absence of such crashes**; notably Gradualyzer depends intimately on type specifications: by default, without them, no static typing happens
 
-A few `statically-typed languages <https://github.com/llaisdy/beam_languages#statically-typed-languages>`_ can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).
+Also a few `statically-typed languages <https://github.com/llaisdy/beam_languages#statically-typed-languages>`_ can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).
 
 In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports JIT_).
 
-Beyond mere code, the messages exchanges between processes could also be typed and checked.
+Beyond mere code, the messages exchanges between processes could also be typed and checked. Version upgrades could also benefit from it.
+
+
+
+Software Robustness
+-------------------
+
+Type correctness is essential, yet of course it does not guarantee that a program is correct and relevant. Other approaches, like the **checking** of other properties (notably concurrency, see `Concuerror <https://github.com/parapluu/Concuerror>`_) can be very useful.
+
+Beyond checking, **testing** is also an invaluable help for bug-fixing. Various tools may help, including `QuickCheck <http://www.quviq.com/products/erlang-quickcheck/>`_.
+
+Finally, not all errors can be anticipated, from network outages, hardware failures to human factor. An effective last line of defence is to rely on (this time at runtime) **supervision mechanisms** in order to detect any kind of faults (bound to happen, whether expected or not), and overcome them. The OTP framework is an excellent example of such system, much useful to reach higher levels of robustness, including the well-known nine nines - that is an availability of 99.9999999%.
+
 
 
 Intermediate Languages

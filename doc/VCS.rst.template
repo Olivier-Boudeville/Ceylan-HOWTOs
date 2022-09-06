@@ -121,6 +121,8 @@ Basic Operations
  # version and the current one:
  $ git show COMMIT_ID path/to/the/target/file
 
+- listing the **files modified by a given commit**: ``git show --name-only MY_COMMIT_ID``
+
 
 
 Managing Branches
