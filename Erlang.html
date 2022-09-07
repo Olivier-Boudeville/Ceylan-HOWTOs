@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, August 30, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, September 7, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -66,18 +66,19 @@
 <li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="toc-entry-24">Message-Passing: Copying vs Sharing</a></li>
 <li><a class="reference internal" href="#just-in-time-compilation" id="toc-entry-25">Just-in-Time Compilation</a></li>
 <li><a class="reference internal" href="#static-typing" id="toc-entry-26">Static Typing</a></li>
-<li><a class="reference internal" href="#intermediate-languages" id="toc-entry-27">Intermediate Languages</a></li>
+<li><a class="reference internal" href="#software-robustness" id="toc-entry-27">Software Robustness</a></li>
+<li><a class="reference internal" href="#intermediate-languages" id="toc-entry-28">Intermediate Languages</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#short-hints" id="toc-entry-28">Short Hints</a><ul>
-<li><a class="reference internal" href="#dealing-with-conditional-availability" id="toc-entry-29">Dealing with Conditional Availability</a></li>
-<li><a class="reference internal" href="#runtime-library-version" id="toc-entry-30">Runtime Library Version</a></li>
-<li><a class="reference internal" href="#proper-naming" id="toc-entry-31">Proper Naming</a></li>
-<li><a class="reference internal" href="#using-wx" id="toc-entry-32">Using wx</a></li>
+<li><a class="reference internal" href="#short-hints" id="toc-entry-29">Short Hints</a><ul>
+<li><a class="reference internal" href="#dealing-with-conditional-availability" id="toc-entry-30">Dealing with Conditional Availability</a></li>
+<li><a class="reference internal" href="#runtime-library-version" id="toc-entry-31">Runtime Library Version</a></li>
+<li><a class="reference internal" href="#proper-naming" id="toc-entry-32">Proper Naming</a></li>
+<li><a class="reference internal" href="#using-wx" id="toc-entry-33">Using wx</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-33">Micro-Cheat Sheet</a></li>
-<li><a class="reference internal" href="#erlang-resources" id="toc-entry-34">Erlang Resources</a></li>
+<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-34">Micro-Cheat Sheet</a></li>
+<li><a class="reference internal" href="#erlang-resources" id="toc-entry-35">Erlang Resources</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -385,20 +386,32 @@ $ cdv erl_crash.dump
 </div>
 <div class="section" id="static-typing">
 <h2><a class="toc-backref" href="#toc-entry-26">Static Typing</a></h2>
-<p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> and <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a> exist.</p>
-<p>A few <a class="reference external" href="https://github.com/llaisdy/beam_languages#statically-typed-languages">statically-typed languages</a> can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).</p>
+<p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> (and also <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a>) exist, and are mostly complementary (see also <a class="reference external" href="https://learnyousomeerlang.com/types-or-lack-thereof#for-type-junkies">1</a> and <a class="reference external" href="https://learnyousomeerlang.com/dialyzer">2</a>).</p>
+<p>More precisely:</p>
+<ul class="simple">
+<li>Dialyzer is a discrepancy analyzer that aims <strong>to prove the presence of type-induced runtime crashes</strong> (it may not be able to detect all type problems, yet &quot;is never wrong&quot;); Dialyzer does not use type specifications to guide the analysis: first it infers type information, and then only, if requested, it checks that information against the type specifications; so Dialyzer may operate with or without type specifications</li>
+<li>whereas tools like Gradualizer and eqWAlizer are more conventional type system, based on the theory of gradual typing, that aim <strong>to prove the absence of such crashes</strong>; notably Gradualyzer depends intimately on type specifications: by default, without them, no static typing happens</li>
+</ul>
+<p>Also a few <a class="reference external" href="https://github.com/llaisdy/beam_languages#statically-typed-languages">statically-typed languages</a> can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).</p>
 <p>In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports <a class="reference internal" href="#jit">JIT</a>).</p>
+<p>Beyond mere code, the messages exchanges between processes could also be typed and checked. Version upgrades could also benefit from it.</p>
+</div>
+<div class="section" id="software-robustness">
+<h2><a class="toc-backref" href="#toc-entry-27">Software Robustness</a></h2>
+<p>Type correctness is essential, yet of course it does not guarantee that a program is correct and relevant. Other approaches, like the <strong>checking</strong> of other properties (notably concurrency, see <a class="reference external" href="https://github.com/parapluu/Concuerror">Concuerror</a>) can be very useful.</p>
+<p>Beyond checking, <strong>testing</strong> is also an invaluable help for bug-fixing. Various tools may help, including <a class="reference external" href="http://www.quviq.com/products/erlang-quickcheck/">QuickCheck</a>.</p>
+<p>Finally, not all errors can be anticipated, from network outages, hardware failures to human factor. An effective last line of defence is to rely on (this time at runtime) <strong>supervision mechanisms</strong> in order to detect any kind of faults (bound to happen, whether expected or not), and overcome them. The OTP framework is an excellent example of such system, much useful to reach higher levels of robustness, including the well-known nine nines - that is an availability of 99.9999999%.</p>
 </div>
 <div class="section" id="intermediate-languages">
-<h2><a class="toc-backref" href="#toc-entry-27">Intermediate Languages</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-28">Intermediate Languages</a></h2>
 <p>To better discover the inner workings of the Erlang compilation, one may look at the <a class="reference external" href="http://tryerl.seriyps.ru/">eplaypen online demo</a> (whose project is <a class="reference external" href="https://github.com/seriyps/eplaypen">here</a>) and/or at the <a class="reference external" href="https://godbolt.org/">Compiler Explorer</a> (which supports the Erlang language among others).</p>
 <p>Both of them allow to read the intermediate representations involved when compiling Erlang code (BEAM stage, erl_scan, preprocessed sources, abstract code, Core Erlang, Static Single Assignment form, BEAM VM assembler opcodes, x86-64 assembler generated by the JIT, etc.).</p>
 </div>
 </div>
 <div class="section" id="short-hints">
-<h1><a class="toc-backref" href="#toc-entry-28">Short Hints</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-29">Short Hints</a></h1>
 <div class="section" id="dealing-with-conditional-availability">
-<h2><a class="toc-backref" href="#toc-entry-29">Dealing with Conditional Availability</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-30">Dealing with Conditional Availability</a></h2>
 <div class="section" id="regarding-modules-and-from-the-command-line">
 <h3>Regarding modules, and from the command-line</h3>
 <p>Depending on how Erlang was built in a given environment, some modules may or may not be available.</p>
@@ -439,13 +452,13 @@ non_existing
 </div>
 </div>
 <div class="section" id="runtime-library-version">
-<h2><a class="toc-backref" href="#toc-entry-30">Runtime Library Version</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-31">Runtime Library Version</a></h2>
 <p>To know <strong>which version of a library</strong> (here, wxWidgets) a given Erlang install is using (if any), one may run an Erlang shell (<tt class="docutils literal">erl</tt>), collect the PID of this (UNIX) process (ex: <tt class="docutils literal">ps <span class="pre">-edf</span> | grep beam</tt>), then trigger a use of that library (ex: for <tt class="docutils literal">wx</tt>, execute <tt class="docutils literal"><span class="pre">wx:demo().</span></tt>) in order to force its dynamic binding.</p>
 <p>Then determine its name, for example thanks to <tt class="docutils literal">pmap ${BEAM_PID} | grep libwx</tt>).</p>
 <p>This may indicate that for example <tt class="docutils literal"><span class="pre">libwx_gtk2u_core-3.0.so.0.5.0</span></tt> is actually used.</p>
 </div>
 <div class="section" id="proper-naming">
-<h2><a class="toc-backref" href="#toc-entry-31">Proper Naming</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-32">Proper Naming</a></h2>
 <div class="section" id="variable-shorthands">
 <h3>Variable Shorthands</h3>
 <p>Usually we apply the following conventions:</p>
@@ -474,7 +487,7 @@ non_existing
 </div>
 </div>
 <div class="section" id="using-wx">
-<h2><a class="toc-backref" href="#toc-entry-32">Using wx</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-33">Using wx</a></h2>
 <p><a class="reference external" href="https://www.erlang.org/doc/man/wx.html">wx</a> is now <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[5]</a> the standard Erlang way of programming one's graphical user interface; it is a binding to the <a class="reference external" href="http://www.wxwidgets.org/">wxWidgets</a> library.</p>
 <table class="docutils footnote" frame="void" id="footnote-3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -525,7 +538,7 @@ non_existing
 </div>
 </div>
 <div class="section" id="micro-cheat-sheet">
-<h1><a class="toc-backref" href="#toc-entry-33">Micro-Cheat Sheet</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-34">Micro-Cheat Sheet</a></h1>
 <p>To avoid having to perform a lookup in the documentation:</p>
 <ul class="simple">
 <li>Erlang indices start at <tt class="docutils literal">1</tt>, except the ones of the <tt class="docutils literal">array</tt> module that are zero-based</li>
@@ -607,7 +620,7 @@ non_existing
 <p>Some of these elements have been adapted from the <a class="reference external" href="https://github.com/dgud/wings/blob/master/CodingGuidelines">Wings3D coding guidelines</a>.</p>
 </div>
 <div class="section" id="erlang-resources">
-<h1><a class="toc-backref" href="#toc-entry-34">Erlang Resources</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-35">Erlang Resources</a></h1>
 <ul class="simple">
 <li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
 <li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well; one may also check the <a class="reference external" href="https://exercism.org/tracks/erlang">Erlang track</a> on Exercism</li>
