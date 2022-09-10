@@ -265,7 +265,7 @@ Rather than creating it from a pre-existing branch and removing all inherited co
  $ git checkout --orphan my_new_branch
 
 
-(typically useful for GitHub Pages branches)
+(typically useful for GitHub Pages branches; may then be followed by some adds and ``git commit --allow-empty -m "Initial website."``)
 
 
 
