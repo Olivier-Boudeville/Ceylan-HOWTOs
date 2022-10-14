@@ -713,8 +713,7 @@ To avoid having to perform a lookup in the documentation:
 
   - do not use ``and`` and ``or``, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in ``(A =:= B) and (C =:= D)``) and, more importantly, they do not short-circuit, i.e. in ``E = A and B``, B will be evaluated even if A is already known as false (so is E), and in ``E = A or B``, B will be evaluated even if A is already known as true (so is E)
 
-  - prefer ``andalso`` and ``orelse``, which are *control* operators; they short-circuit, and their precedence is `low enough <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_ to spare the need of extra parentheses
-
+  - prefer ``andalso`` and ``orelse``, which are *control* operators; they short-circuit, and their precedence is `low enough <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_ to spare the need of extra parentheses [#]_
   - so ``case (A =:= B) and (C =:= D) of`` shall become ``case A =:= B andalso C =:= D of``
   - a common pattern is to use ``andalso`` in order *to evaluate a target expression iff a boolean expression is true*, to replace a longer expression like:
 
@@ -729,6 +728,11 @@ To avoid having to perform a lookup in the documentation:
 		  ok
 
   end
+
+.. [#] Note that it is *not* the case of the ``and`` and ``or`` operators, whose precedence is higher than, notably, the comparison operators.
+
+	   For example a clause defined as ``f(I) when is_integer(I) and I >= 0 -> ...``  will never be triggered as it is interpreted as ``f(I) when (is_integer(I) and I) >= 0 -> ...``, and the ``and`` guard will always fail as I is an integer here, not a boolean. So such a clause should be defined as the (correct) ``f(I) when is_integer(I) andalso I >= 0 -> ...`` instead.
+
 
 with the equivalent (provided ``BOOLEAN_EXPR`` evaluates to either ``true`` or ``false`` - otherwise a ``bad argument`` exception will be thrown) yet shorter: ``BOOLEAN_EXPR andalso DO_SOMETHING``; for example: ``[...], OSName =:= linux andalso fix_for_linux(), [...]``
 
