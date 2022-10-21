@@ -503,6 +503,8 @@ Hints
 
 - to sort alphabetically the selected region: ``Meta-x sort-lines``
 
+- to go to the matching delimiter (parenthesis, bracket, end of word, etc.): to go forward, use ``C-M-f``, and to go backward use ``C-M-b``
+
 Other useful commands to trigger with ``Meta-x``:
 
 - ``replace-string``
