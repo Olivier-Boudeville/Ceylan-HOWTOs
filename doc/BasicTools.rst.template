@@ -1,0 +1,73 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About Basic Tools
+
+-----------------
+About Basic Tools
+-----------------
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20About%20Basic%20Tools">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2022-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Wednesday, April 13, 2022
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 2
+
+
+:raw-html:`</center>`
+
+
+
+Emacs
+=====
+
+Emacs is a free software, very versatile text editor that can be customised if not programmed in `Emacs Lisp <https://www.gnu.org/software/emacs/manual/html_node/elisp/Introduction.html>`_ (Elisp).
+
+
+Configuration
+-------------
+
+We rely on `this init.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el>`_ configuration file, which itself relies on ``straight.el``, a replacement for ``package.el`` (and thus not on ``use-package``).
+
+
+Troubleshooting
+---------------
+
+Sometimes strange errors may happen whereas nothing changed on one's Emacs configuration; this may be the sign that Emacs itself, or some of the packages that it uses, changed and led to a dysfunctional setup.
+
+To exonerate Emacs itself, once any instance thereof has been terminated:
+
+.. code:: bash
+
+ $ cd ~/.emacs.d
+ $ mv straight straight-hidden
+
+Then launching again Emacs shall lead to all required packages be downloaded and installed, possibly solving the problem at hand.
+
+
+:raw-html:`<a name="howtos_bottom"></a>`
