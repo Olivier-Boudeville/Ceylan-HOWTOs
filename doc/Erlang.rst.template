@@ -453,8 +453,8 @@ Language Bindings
 
 The two main approaches in order to integrate third-party code to Erlang are to:
 
-- interact with it as if it was another Erlang node; we defined `Ceylan-Seaplus <http://seaplus.esperide.org>`_ for that purpose
-- directly link the current Erlang VM to this code, through `NIF <https://www.erlang.org/doc/tutorial/nif.html>`_; it can be done manually, or may be automatised thanks to `nifty <https://github.com/parapluu/nifty>`_; this can be especially useful for larger APIs (ex: `SDL <https://www.libsdl.org/>`_)
+- interact with it as if it was another Erlang node; we defined `Ceylan-Seaplus <http://seaplus.esperide.org>`_ for that purpose, to simplify the binding of C code; other libraries provide link to various languages
+- directly link the current Erlang VM to this code, through `NIF <https://www.erlang.org/doc/tutorial/nif.html>`_; for C, it can be done manually, or may be automatised thanks to `nifty <https://github.com/parapluu/nifty>`_; this can be especially useful for larger APIs (ex: `SDL <https://www.libsdl.org/>`_); `rustler <https://docs.rs/rustler/latest/rustler/pub>`_ allows to write NIFs in safe Rust code
 
 
 
