@@ -454,7 +454,10 @@ Language Bindings
 The two main approaches in order to integrate third-party code to Erlang are to:
 
 - interact with it as if it was another Erlang node; we defined `Ceylan-Seaplus <http://seaplus.esperide.org>`_ for that purpose, to simplify the binding of C code; other libraries provide link to various languages
-- directly link the current Erlang VM to this code, through `NIF <https://www.erlang.org/doc/tutorial/nif.html>`_; for C, it can be done manually, or may be automatised thanks to `nifty <https://github.com/parapluu/nifty>`_; this can be especially useful for larger APIs (ex: `SDL <https://www.libsdl.org/>`_); `rustler <https://docs.rs/rustler/latest/rustler/pub>`_ allows to write NIFs in safe Rust code
+
+.. _`nif`:
+
+- directly link the current Erlang VM to this code, through `NIF <https://www.erlang.org/doc/tutorial/nif.html>`_; for C, it can be done manually, or may be automatised thanks to `nifty <https://github.com/parapluu/nifty>`_, which is an *Erlang NIF Wrapper Generator*; this can be especially useful for larger APIs (ex: `SDL <https://www.libsdl.org/>`_); see also `rusterl <https://docs.rs/rustler/latest/rustler/pub>`_, which allows to write NIFs in safe Rust code
 
 
 
@@ -617,6 +620,61 @@ To better denote reciprocal operations, following namings for functions may be u
 
   - life-cycle: ``new`` / ``delete``
   - construction/destruction: ``create`` / ``destruct`` (ex: avoid ``destroy`` there)
+
+
+
+Formatting Erlang Code
+----------------------
+
+Various tools are able to format Erlang code, see `this page <https://github.com/WhatsApp/erlfmt/blob/main/doc/ErlangFormatterComparison.md>`_ for a comparison thereof.
+
+With ``rebar3_format``
+......................
+
+For projects already relying on rebar, one may use `rebar3_format <https://github.com/AdRoll/rebar3_format>`_ (as a plugin [#]_) that way:
+
+.. code:: shell
+
+ $ cd ~/Software
+ $ git clone https://github.com/AdRoll/rebar3_format.git
+ $ cd rebar3_format
+ $ ERL_FLAGS="-enable-feature all" rebar3 format
+
+.. [#] Note that ``rebar3_format`` cannot be used as an escript (so no ``ERL_FLAGS="-enable-feature all" rebar3 as release escriptize`` shall be issued).
+
+Then ``{project_plugins, [rebar3_format]}`` shall be added to the project's ``rebar.config``.
+
+
+
+With ``erlfmt``
+...............
+
+Another tool is `erlfmt <https://github.com/WhatsApp/erlfmt>`_, which can be installed that way:
+
+.. code:: shell
+
+ $ cd ~/Software
+ $ git clone https://github.com/WhatsApp/erlfmt
+ $ cd erlfmt
+ $ rebar3 as release escriptize
+
+And then ``~/Software/erlfmt/_build/release/bin`` can be added to one's ``PATH``.
+
+Indeed ``erlfmt`` can be used as a rebar plugin or as a standalone escript - which we find useful, especially for projects whose build is not rebar-based.
+
+Running it to reformat in-place source files is then as simple as:
+
+.. code:: shell
+
+ $ erlfmt --write foo.hrl bar.erl
+
+
+
+Features
+--------
+
+Experimental features (such as ``maybe`` in Erlang 25) of the **compiler** (once Erlang has been built, they are *potentially available*) may have to be specifically *enabled* at runtime, like in ``ERL_FLAGS="-enable-feature all" rebar3 as release escriptize``.
+
 
 
 Using wx
