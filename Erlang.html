@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, September 7, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, November 11, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -74,11 +74,13 @@
 <li><a class="reference internal" href="#dealing-with-conditional-availability" id="toc-entry-30">Dealing with Conditional Availability</a></li>
 <li><a class="reference internal" href="#runtime-library-version" id="toc-entry-31">Runtime Library Version</a></li>
 <li><a class="reference internal" href="#proper-naming" id="toc-entry-32">Proper Naming</a></li>
-<li><a class="reference internal" href="#using-wx" id="toc-entry-33">Using wx</a></li>
+<li><a class="reference internal" href="#formatting-erlang-code" id="toc-entry-33">Formatting Erlang Code</a></li>
+<li><a class="reference internal" href="#features" id="toc-entry-34">Features</a></li>
+<li><a class="reference internal" href="#using-wx" id="toc-entry-35">Using wx</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-34">Micro-Cheat Sheet</a></li>
-<li><a class="reference internal" href="#erlang-resources" id="toc-entry-35">Erlang Resources</a></li>
+<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-36">Micro-Cheat Sheet</a></li>
+<li><a class="reference internal" href="#erlang-resources" id="toc-entry-37">Erlang Resources</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -368,8 +370,10 @@ $ cdv erl_crash.dump
 <h1><a class="toc-backref" href="#toc-entry-22">Language Bindings</a></h1>
 <p>The two main approaches in order to integrate third-party code to Erlang are to:</p>
 <ul class="simple">
-<li>interact with it as if it was another Erlang node; we defined <a class="reference external" href="http://seaplus.esperide.org">Ceylan-Seaplus</a> for that purpose</li>
-<li>directly link the current Erlang VM to this code, through <a class="reference external" href="https://www.erlang.org/doc/tutorial/nif.html">NIF</a>; it can be done manually, or may be automatised thanks to <a class="reference external" href="https://github.com/parapluu/nifty">nifty</a>; this can be especially useful for larger APIs (ex: <a class="reference external" href="https://www.libsdl.org/">SDL</a>)</li>
+<li>interact with it as if it was another Erlang node; we defined <a class="reference external" href="http://seaplus.esperide.org">Ceylan-Seaplus</a> for that purpose, to simplify the binding of C code; other libraries provide link to various languages</li>
+</ul>
+<ul class="simple" id="nif">
+<li>directly link the current Erlang VM to this code, through <a class="reference external" href="https://www.erlang.org/doc/tutorial/nif.html">NIF</a>; for C, it can be done manually, or may be automatised thanks to <a class="reference external" href="https://github.com/parapluu/nifty">nifty</a>, which is an <em>Erlang NIF Wrapper Generator</em>; this can be especially useful for larger APIs (ex: <a class="reference external" href="https://www.libsdl.org/">SDL</a>); see also <a class="reference external" href="https://docs.rs/rustler/latest/rustler/pub">rusterl</a>, which allows to write NIFs in safe Rust code</li>
 </ul>
 </div>
 <div class="section" id="language-implementation">
@@ -486,13 +490,54 @@ non_existing
 </ul>
 </div>
 </div>
-<div class="section" id="using-wx">
-<h2><a class="toc-backref" href="#toc-entry-33">Using wx</a></h2>
-<p><a class="reference external" href="https://www.erlang.org/doc/man/wx.html">wx</a> is now <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[5]</a> the standard Erlang way of programming one's graphical user interface; it is a binding to the <a class="reference external" href="http://www.wxwidgets.org/">wxWidgets</a> library.</p>
+<div class="section" id="formatting-erlang-code">
+<h2><a class="toc-backref" href="#toc-entry-33">Formatting Erlang Code</a></h2>
+<p>Various tools are able to format Erlang code, see <a class="reference external" href="https://github.com/WhatsApp/erlfmt/blob/main/doc/ErlangFormatterComparison.md">this page</a> for a comparison thereof.</p>
+<div class="section" id="with-rebar3-format">
+<h3>With <tt class="docutils literal">rebar3_format</tt></h3>
+<p>For projects already relying on rebar, one may use <a class="reference external" href="https://github.com/AdRoll/rebar3_format">rebar3_format</a> (as a plugin <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[5]</a>) that way:</p>
+<pre class="code shell literal-block">
+$ <span class="nb">cd</span> ~/Software
+$ git clone https://github.com/AdRoll/rebar3_format.git
+$ <span class="nb">cd</span> rebar3_format
+$ <span class="nv">ERL_FLAGS</span><span class="o">=</span><span class="s2">&quot;-enable-feature all&quot;</span> rebar3 format
+</pre>
 <table class="docutils footnote" frame="void" id="footnote-3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-3">[5]</a></td><td><tt class="docutils literal">wx</tt> replaced <a class="reference external" href="https://www.erlang.org/docs/18/man/gs.html">gs</a>. To shelter already-developed graphical applications from any future change of backend, we developed <a class="reference external" href="https://myriad.esperide.org/#graphical-user-interface-gui">MyriadGUI</a>, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-3">[5]</a></td><td>Note that <tt class="docutils literal">rebar3_format</tt> cannot be used as an escript (so no <tt class="docutils literal"><span class="pre">ERL_FLAGS=&quot;-enable-feature</span> all&quot; rebar3 as release escriptize</tt> shall be issued).</td></tr>
+</tbody>
+</table>
+<p>Then <tt class="docutils literal">{project_plugins, [rebar3_format]}</tt> shall be added to the project's <tt class="docutils literal">rebar.config</tt>.</p>
+</div>
+<div class="section" id="with-erlfmt">
+<h3>With <tt class="docutils literal">erlfmt</tt></h3>
+<p>Another tool is <a class="reference external" href="https://github.com/WhatsApp/erlfmt">erlfmt</a>, which can be installed that way:</p>
+<pre class="code shell literal-block">
+$ <span class="nb">cd</span> ~/Software
+$ git clone https://github.com/WhatsApp/erlfmt
+$ <span class="nb">cd</span> erlfmt
+$ rebar3 as release escriptize
+</pre>
+<p>And then <tt class="docutils literal">~/Software/erlfmt/_build/release/bin</tt> can be added to one's <tt class="docutils literal">PATH</tt>.</p>
+<p>Indeed <tt class="docutils literal">erlfmt</tt> can be used as a rebar plugin or as a standalone escript - which we find useful, especially for projects whose build is not rebar-based.</p>
+<p>Running it to reformat in-place source files is then as simple as:</p>
+<pre class="code shell literal-block">
+$ erlfmt --write foo.hrl bar.erl
+</pre>
+</div>
+</div>
+<div class="section" id="features">
+<h2><a class="toc-backref" href="#toc-entry-34">Features</a></h2>
+<p>Experimental features (such as <tt class="docutils literal">maybe</tt> in Erlang 25) of the <strong>compiler</strong> (once Erlang has been built, they are <em>potentially available</em>) may have to be specifically <em>enabled</em> at runtime, like in <tt class="docutils literal"><span class="pre">ERL_FLAGS=&quot;-enable-feature</span> all&quot; rebar3 as release escriptize</tt>.</p>
+</div>
+<div class="section" id="using-wx">
+<h2><a class="toc-backref" href="#toc-entry-35">Using wx</a></h2>
+<p><a class="reference external" href="https://www.erlang.org/doc/man/wx.html">wx</a> is now <a class="footnote-reference" href="#footnote-4" id="footnote-reference-4">[6]</a> the standard Erlang way of programming one's graphical user interface; it is a binding to the <a class="reference external" href="http://www.wxwidgets.org/">wxWidgets</a> library.</p>
+<table class="docutils footnote" frame="void" id="footnote-4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-4">[6]</a></td><td><tt class="docutils literal">wx</tt> replaced <a class="reference external" href="https://www.erlang.org/docs/18/man/gs.html">gs</a>. To shelter already-developed graphical applications from any future change of backend, we developed <a class="reference external" href="https://myriad.esperide.org/#graphical-user-interface-gui">MyriadGUI</a>, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.</td></tr>
 </tbody>
 </table>
 <p>Here are some very general wx-related information that may be of help when programming GUIs with this backend:</p>
@@ -509,21 +554,21 @@ non_existing
 <li>the <a class="reference external" href="https://docs.wxwidgets.org/3.1/overview_events.html#overview_events_propagation">way wx/wxWidgets manage event propagation</a> is complex; here are some elements:<ul>
 <li>for each actual event happening, wx creates an instance of <a class="reference external" href="https://docs.wxwidgets.org/3.1/classwx_event.html">wxEvent</a> (a direct, abstract child class of <tt class="docutils literal">wxObject</tt>), which itself is specialised into many event classes that are more concrete</li>
 <li>among them, they are so-called <em>command events</em>, which originate from a variety of simple controls and correspond to the <a class="reference external" href="https://docs.wxwidgets.org/3.1/classwx_command_event.html">wxCommandEvent</a> mother class; by default only these command events are set to propagate, i.e. only them will be transmitted to the event handler of the parent widget if the current one does not process them by itself (&quot;did not connect to them&quot;)</li>
-<li>by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will <em>not</em> be propagated anymore, possibly preventing the built-in wx event handlers to operate (ex: to properly manage resizings); to restore their activation, <tt class="docutils literal">skip</tt> (to be understood here as &quot;propagate event&quot; - however counter-intuitive it may seem) shall be set to <tt class="docutils literal">true</tt> (either by passing a corresponding option when connecting, or by calling <tt class="docutils literal">wxEvent:skip/2</tt> with <tt class="docutils literal">skip</tt> set to <tt class="docutils literal">true</tt> from one's event handler) <a class="footnote-reference" href="#footnote-4" id="footnote-reference-4">[6]</a></li>
-<li>when a process connects to the emitter of a given type of events (ex: <tt class="docutils literal">close_window</tt> for a given frame), this process is to receive corresponding messages and then perform any kind of operation; however these operations cannot be synchronous (they are non-blocking: the process does not send to anyone any notification that it finished handling that event), and thus, if <tt class="docutils literal">skip</tt> is <tt class="docutils literal">true</tt> (that is, if event propagation is enabled), any other associated event handler(s) will be triggered concurrently to the processing of these event messages; this may be a problem for example if a controller listens to the <tt class="docutils literal">close_window</tt> event emitted by a main frame in order to perform a proper termination: the basic, built-in event handlers will then by default be triggered whereas the controller teardown may be still in progress, and this may result in errors (ex: OpenGL ones, like <tt class="docutils literal"><span class="pre">{{{badarg,&quot;This&quot;},{wxGLCanvas,swapBuffers,1}},...</span></tt> because the built-in close handlers already deallocated the OpenGL context); a proper design is to ensure that <tt class="docutils literal">skip</tt> remains set to false so that propagation of such events is disabled in these cases: then only the user code is in charge of closing the application, at its own pace <a class="footnote-reference" href="#footnote-5" id="footnote-reference-5">[7]</a></li>
+<li>by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will <em>not</em> be propagated anymore, possibly preventing the built-in wx event handlers to operate (ex: to properly manage resizings); to restore their activation, <tt class="docutils literal">skip</tt> (to be understood here as &quot;propagate event&quot; - however counter-intuitive it may seem) shall be set to <tt class="docutils literal">true</tt> (either by passing a corresponding option when connecting, or by calling <tt class="docutils literal">wxEvent:skip/2</tt> with <tt class="docutils literal">skip</tt> set to <tt class="docutils literal">true</tt> from one's event handler) <a class="footnote-reference" href="#footnote-5" id="footnote-reference-5">[7]</a></li>
+<li>when a process connects to the emitter of a given type of events (ex: <tt class="docutils literal">close_window</tt> for a given frame), this process is to receive corresponding messages and then perform any kind of operation; however these operations cannot be synchronous (they are non-blocking: the process does not send to anyone any notification that it finished handling that event), and thus, if <tt class="docutils literal">skip</tt> is <tt class="docutils literal">true</tt> (that is, if event propagation is enabled), any other associated event handler(s) will be triggered concurrently to the processing of these event messages; this may be a problem for example if a controller listens to the <tt class="docutils literal">close_window</tt> event emitted by a main frame in order to perform a proper termination: the basic, built-in event handlers will then by default be triggered whereas the controller teardown may be still in progress, and this may result in errors (ex: OpenGL ones, like <tt class="docutils literal"><span class="pre">{{{badarg,&quot;This&quot;},{wxGLCanvas,swapBuffers,1}},...</span></tt> because the built-in close handlers already deallocated the OpenGL context); a proper design is to ensure that <tt class="docutils literal">skip</tt> remains set to false so that propagation of such events is disabled in these cases: then only the user code is in charge of closing the application, at its own pace <a class="footnote-reference" href="#footnote-6" id="footnote-reference-6">[8]</a></li>
 </ul>
 </li>
 </ul>
-<table class="docutils footnote" frame="void" id="footnote-4" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-4">[6]</a></td><td>MyriadGUI took a different convention: whether an event will propagate by default depends on its type, knowing that most of the types are to propagate. Yet the user can override these default behaviours, by specifying either the <tt class="docutils literal">trap_event</tt> or the <tt class="docutils literal">propagate_event</tt> subscription option, or by calling either the <tt class="docutils literal">trap_event/1</tt> or the <tt class="docutils literal">propagate_event/1</tt> function.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="footnote-5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-5">[7]</a></td><td>This is why MyriadGUI applies per-event type defaults, thus possibly trapping events; in this case, if the built-in backend mechanisms would still be of use, they can be triggered by calling the <tt class="docutils literal">propagate_event/1</tt> function from the user-defined handler, only once all its prerequisite operations have been performed (this is thus a way of restoring sequential operations).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-5">[7]</a></td><td>MyriadGUI took a different convention: whether an event will propagate by default depends on its type, knowing that most of the types are to propagate. Yet the user can override these default behaviours, by specifying either the <tt class="docutils literal">trap_event</tt> or the <tt class="docutils literal">propagate_event</tt> subscription option, or by calling either the <tt class="docutils literal">trap_event/1</tt> or the <tt class="docutils literal">propagate_event/1</tt> function.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="footnote-6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-6">[8]</a></td><td>This is why MyriadGUI applies per-event type defaults, thus possibly trapping events; in this case, if the built-in backend mechanisms would still be of use, they can be triggered by calling the <tt class="docutils literal">propagate_event/1</tt> function from the user-defined handler, only once all its prerequisite operations have been performed (this is thus a way of restoring sequential operations).</td></tr>
 </tbody>
 </table>
 <ul class="simple">
@@ -538,7 +583,7 @@ non_existing
 </div>
 </div>
 <div class="section" id="micro-cheat-sheet">
-<h1><a class="toc-backref" href="#toc-entry-34">Micro-Cheat Sheet</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-36">Micro-Cheat Sheet</a></h1>
 <p>To avoid having to perform a lookup in the documentation:</p>
 <ul class="simple">
 <li>Erlang indices start at <tt class="docutils literal">1</tt>, except the ones of the <tt class="docutils literal">array</tt> module that are zero-based</li>
@@ -571,7 +616,7 @@ non_existing
 </li>
 <li>in boolean expressions <strong>outside of guards</strong>:<ul>
 <li>do not use <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt>, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in <tt class="docutils literal">(A =:= B) and (C =:= D)</tt>) and, more importantly, they do not short-circuit, i.e. in <tt class="docutils literal">E = A and B</tt>, B will be evaluated even if A is already known as false (so is E), and in <tt class="docutils literal">E = A or B</tt>, B will be evaluated even if A is already known as true (so is E)</li>
-<li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses</li>
+<li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[9]</a></li>
 <li>so <tt class="docutils literal">case (A =:= B) and (C =:= D) of</tt> shall become <tt class="docutils literal">case A =:= B andalso C =:= D of</tt></li>
 <li>a common pattern is to use <tt class="docutils literal">andalso</tt> in order <em>to evaluate a target expression iff a boolean expression is true</em>, to replace a longer expression like:</li>
 </ul>
@@ -588,6 +633,14 @@ non_existing
 
 </span><span class="k">end</span>
 </pre>
+<table class="docutils footnote" frame="void" id="footnote-7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-7">[9]</a></td><td><p class="first">Note that it is <em>not</em> the case of the <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt> operators, whose precedence is higher than, notably, the comparison operators.</p>
+<p class="last">For example a clause defined as <tt class="docutils literal">f(I) when is_integer(I) and I &gt;= 0 <span class="pre">-&gt;</span> ...</tt>  will never be triggered as it is interpreted as <tt class="docutils literal">f(I) when (is_integer(I) and I) &gt;= 0 <span class="pre">-&gt;</span> ...</tt>, and the <tt class="docutils literal">and</tt> guard will always fail as I is an integer here, not a boolean. So such a clause should be defined as the (correct) <tt class="docutils literal">f(I) when is_integer(I) andalso I &gt;= 0 <span class="pre">-&gt;</span> ...</tt> instead.</p>
+</td></tr>
+</tbody>
+</table>
 <p>with the equivalent (provided <tt class="docutils literal">BOOLEAN_EXPR</tt> evaluates to either <tt class="docutils literal">true</tt> or <tt class="docutils literal">false</tt> - otherwise a <tt class="docutils literal">bad argument</tt> exception will be thrown) yet shorter: <tt class="docutils literal">BOOLEAN_EXPR andalso DO_SOMETHING</tt>; for example: <tt class="docutils literal"><span class="pre">[...],</span> OSName =:= linux andalso <span class="pre">fix_for_linux(),</span> <span class="pre">[...]</span></tt></p>
 <p>Similarly, <tt class="docutils literal">orelse</tt> can be used <em>to evaluate a target expression iff a boolean expression is false</em>, to replace a longer expression like:</p>
 <pre class="code erlang literal-block">
@@ -620,7 +673,7 @@ non_existing
 <p>Some of these elements have been adapted from the <a class="reference external" href="https://github.com/dgud/wings/blob/master/CodingGuidelines">Wings3D coding guidelines</a>.</p>
 </div>
 <div class="section" id="erlang-resources">
-<h1><a class="toc-backref" href="#toc-entry-35">Erlang Resources</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-37">Erlang Resources</a></h1>
 <ul class="simple">
 <li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
 <li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well; one may also check the <a class="reference external" href="https://exercism.org/tracks/erlang">Erlang track</a> on Exercism</li>
