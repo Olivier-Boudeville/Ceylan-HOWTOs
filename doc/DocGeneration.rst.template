@@ -97,7 +97,13 @@ By default, the HTML output does not benefit from LaTeX, and remains significant
 
 So we complement it by `MathJax <https://www.mathjax.org/>`_, a neat open-source "*JavaScript display engine for mathematics that works in all browsers*".
 
-It shall thus be installed once for all first. For example, on Arch Linux, as ``root``, it is sufficient to execute:
+It shall thus be installed once for all first.
+
+
+Basic, Less-than-Satisfactory, Installation Approach
+____________________________________________________
+
+For example, on Arch Linux, as ``root``, it is sufficient to execute:
 
 .. code:: bash
 
@@ -112,6 +118,22 @@ Then, to enable the use of MathJax for a given website based on Ceylan-Myriad, r
 
 
 (this target is defined in `GNUmakerules-docutils.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc>`_; it boils down to symlinking ``/usr/share/mathjax``; see also the `HOWTOs corresponding makefile <https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/GNUmakefile>`_ to properly manage this dependency afterwards, notably when deploying web content)
+
+Yet, depending on settings and conventions, updating MathJax in a web root may lead to permission errors; in that case the next approach shall be favored.
+
+
+
+Better, Webroot-compliant Installation Approach
+_______________________________________________
+
+Just install MathJax directly in your user account (e.g. in ``~/Software/mathjax``), follow the guidelines in the `Fixing Permissions in Third-Party Content to Integrate in a Web Root`_ section, and add symlinks to the result in all documentation trees requiring MathJax.
+
+For that, rather than installing MathJax by oneself (as we found its website rather unclear about how to install it when not in a Node.JS context) or possibly taking inspiration from `this PKGBUILD <https://github.com/archlinux/svntogit-community/blob/packages/mathjax/trunk/PKGBUILD>`_, the simplest way is to install it from one's package manager (e.g. ``pacman -Sy mathjax``) and to copy the result in one's account: ``cp -r /usr/share/mathjax ~/Software/``, before fixing permissions there. This local copy shall be just regularly updated.
+
+
+
+Usage
+*****
 
 The list of `TeX/LaTeX commands <http://docs.mathjax.org/en/latest/input/tex/macros/index.html>`_ supported by MathJax may be of use.
 
@@ -150,6 +172,8 @@ If :math:`\phi(x) = e^{x}/(1+e^{x})` (translating to ``\phi(x) = e^{x}/(1+e^{x})
 
 
 A few other examples of resulting math-related outputs can be seen in `this section <https://myriad.esperide.org/#linear-conventions>`_.
+
+See the next section for a proper use of MathJax in webservers.
 
 
 
@@ -262,6 +286,18 @@ Validating / Checking HTML Content
 In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.
 
 Notably an online HTML page, or set of pages, can be verified by third-party tools like `this one <https://www.deadlinkchecker.com/>`_, to detect dead links.
+
+
+Fixing Permissions in Third-Party Content to Integrate in a Web Root
+--------------------------------------------------------------------
+
+The objective is to ensure that a filesystem tree can be transferred as a whole without permission errors to a given server more than once, whereas the destination user and group (typically specialised and restricted on a server) differ from the source ones.
+
+It is indeed often necessary to fix permissions in a third-party tree before it is transferred to a server (e.g. MathJax being copied through ``scp`` in a web root); otherwise the next transfers will stumble on the initial, inadequate group rights, typically preventing them to be overwritten by a process belonging to a different user yet being in the same group, like ``700`` instead of ``770`` - resulting in ``Permission denied`` errors.
+
+For that we recommend executing our `fix-www-metadata.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/fix-www-metadata.sh>`_ script in the *source* root prior to transfer it to a webroot of choice. This typically applies to MathJax (see the `Rendering Mathematical Elements`_ section), which therefore should not be installed in the system tree thanks to a package manager (as our script will alter its permissions) but in the user account (e.g. as ``~/Software/mathjax``).
+
+So typically this script shall be symlinked in each third-party root of interest, and be executed there at each update thereof.
 
 
 
