@@ -254,6 +254,36 @@ Using a SSH key pair, hence with its public key declared on said remote, is a re
 
 
 
+Updating One's Fork from its Upstream
+.....................................
+
+So you forked a repository (let's say it is in ``https://github.com/some_project/some_repo.git``) and made progress - yet in the meantime the upstream repository may also have been updated, and you want to integrate these changes in yours.
+
+First step is to ensure that this repository (designated here as ``upstream`` for convenience) is locally known:
+
+.. code:: bash
+
+ $ git remote add upstream https://github.com/some_project/some_repo.git
+
+
+Then, from a fully-committed clone of your fork (let's suppose we are using the ``main`` branch in all repositories):
+
+.. code:: bash
+
+ $ git fetch upstream
+
+ # More appropriate than a merge:
+ $ git rebase upstream/main
+
+ # Repeatedly, as long as conflicts are found:
+ $ git rebase --continue
+
+ # Forced, as otherwise the current branch will deemed to be behind our remote:
+ # (hopefully your branch at origin is not protected by a hook; otherwise:
+ # 'git checkout -b some_branch', etc.)
+
+ $ git push -f origin main
+
 
 Creating an empty branch
 ........................
