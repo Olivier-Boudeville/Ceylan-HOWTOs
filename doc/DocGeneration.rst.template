@@ -128,7 +128,8 @@ _______________________________________________
 
 Just install MathJax directly in your user account (e.g. in ``~/Software/mathjax``), follow the guidelines in the `Fixing Permissions in Third-Party Content to Integrate in a Web Root`_ section, and add symlinks to the result in all documentation trees requiring MathJax.
 
-For that, rather than installing MathJax by oneself (as we found its website rather unclear about how to install it when not in a Node.JS context) or possibly taking inspiration from `this PKGBUILD <https://github.com/archlinux/svntogit-community/blob/packages/mathjax/trunk/PKGBUILD>`_, the simplest way is to install it from one's package manager (e.g. ``pacman -Sy mathjax``) and to copy the result in one's account: ``cp -r /usr/share/mathjax ~/Software/``, before fixing permissions there. This local copy shall be just regularly updated.
+For that, rather than installing MathJax by oneself (as we found its website rather unclear about how to install it when not in a Node.JS context) or possibly taking inspiration from `this PKGBUILD <https://github.com/archlinux/svntogit-community/blob/packages/mathjax/trunk/PKGBUILD>`_, the simplest way is to install it from one's package manager (e.g.
+``pacman -Sy mathjax``) and to copy the result in one's account: ``cp -r /usr/share/mathjax ~/Software/``, before fixing permissions there. This local copy shall just be regularly updated.
 
 
 
