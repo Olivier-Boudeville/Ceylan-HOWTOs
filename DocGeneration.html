@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, September 10, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, December 1, 2022</td>
 </tr>
 </tbody>
 </table>
@@ -54,16 +54,17 @@
 </li>
 <li><a class="reference internal" href="#miscellaneous" id="toc-entry-12">Miscellaneous</a><ul>
 <li><a class="reference internal" href="#validating-checking-html-content" id="toc-entry-13">Validating / Checking HTML Content</a></li>
-<li><a class="reference internal" href="#pointing-to-a-specific-moment-in-a-linked-video" id="toc-entry-14">Pointing to a Specific Moment in a Linked Video</a></li>
-<li><a class="reference internal" href="#conversion-between-markup-formats" id="toc-entry-15">Conversion between Markup Formats</a></li>
-<li><a class="reference internal" href="#transformation-of-pdf-files" id="toc-entry-16">Transformation of PDF files</a></li>
-<li><a class="reference internal" href="#image-transformations" id="toc-entry-17">Image Transformations</a></li>
-<li><a class="reference internal" href="#uml-diagrams" id="toc-entry-18">UML Diagrams</a><ul>
-<li><a class="reference internal" href="#quick-uml-cheat-sheet" id="toc-entry-19">Quick UML Cheat Sheet</a></li>
-<li><a class="reference internal" href="#tooling" id="toc-entry-20">Tooling</a></li>
+<li><a class="reference internal" href="#fixing-permissions-in-third-party-content-to-integrate-in-a-web-root" id="toc-entry-14">Fixing Permissions in Third-Party Content to Integrate in a Web Root</a></li>
+<li><a class="reference internal" href="#pointing-to-a-specific-moment-in-a-linked-video" id="toc-entry-15">Pointing to a Specific Moment in a Linked Video</a></li>
+<li><a class="reference internal" href="#conversion-between-markup-formats" id="toc-entry-16">Conversion between Markup Formats</a></li>
+<li><a class="reference internal" href="#transformation-of-pdf-files" id="toc-entry-17">Transformation of PDF files</a></li>
+<li><a class="reference internal" href="#image-transformations" id="toc-entry-18">Image Transformations</a></li>
+<li><a class="reference internal" href="#uml-diagrams" id="toc-entry-19">UML Diagrams</a><ul>
+<li><a class="reference internal" href="#quick-uml-cheat-sheet" id="toc-entry-20">Quick UML Cheat Sheet</a></li>
+<li><a class="reference internal" href="#tooling" id="toc-entry-21">Tooling</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#using-additional-fonts" id="toc-entry-21">Using Additional Fonts</a></li>
+<li><a class="reference internal" href="#using-additional-fonts" id="toc-entry-22">Using Additional Fonts</a></li>
 </ul>
 </li>
 </ul>
@@ -102,7 +103,10 @@
 <p>With the RST toolchain, the PDF output, thanks to LaTeX, offers built-in high-quality rendering of mathematical elements such as equations, matrices, etc.</p>
 <p>By default, the HTML output does not benefit from LaTeX, and remains significantly less pleasing to the eye, and less readable.</p>
 <p>So we complement it by <a class="reference external" href="https://www.mathjax.org/">MathJax</a>, a neat open-source &quot;<em>JavaScript display engine for mathematics that works in all browsers</em>&quot;.</p>
-<p>It shall thus be installed once for all first. For example, on Arch Linux, as <tt class="docutils literal">root</tt>, it is sufficient to execute:</p>
+<p>It shall thus be installed once for all first.</p>
+<div class="section" id="basic-less-than-satisfactory-installation-approach">
+<h4>Basic, Less-than-Satisfactory, Installation Approach</h4>
+<p>For example, on Arch Linux, as <tt class="docutils literal">root</tt>, it is sufficient to execute:</p>
 <pre class="code bash literal-block">
 $ pacman -Sy mathjax
 </pre>
@@ -111,6 +115,15 @@ $ pacman -Sy mathjax
 $ make create-mathjax-symlink
 </pre>
 <p>(this target is defined in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">GNUmakerules-docutils.inc</a>; it boils down to symlinking <tt class="docutils literal">/usr/share/mathjax</tt>; see also the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/GNUmakefile">HOWTOs corresponding makefile</a> to properly manage this dependency afterwards, notably when deploying web content)</p>
+<p>Yet, depending on settings and conventions, updating MathJax in a web root may lead to permission errors; in that case the next approach shall be favored.</p>
+</div>
+<div class="section" id="better-webroot-compliant-installation-approach">
+<h4>Better, Webroot-compliant Installation Approach</h4>
+<p>Just install MathJax directly in your user account (e.g. in <tt class="docutils literal">~/Software/mathjax</tt>), follow the guidelines in the <a class="reference internal" href="#fixing-permissions-in-third-party-content-to-integrate-in-a-web-root">Fixing Permissions in Third-Party Content to Integrate in a Web Root</a> section, and add symlinks to the result in all documentation trees requiring MathJax.</p>
+<p>For that, rather than installing MathJax by oneself (as we found its website rather unclear about how to install it when not in a Node.JS context) or possibly taking inspiration from <a class="reference external" href="https://github.com/archlinux/svntogit-community/blob/packages/mathjax/trunk/PKGBUILD">this PKGBUILD</a>, the simplest way is to install it from one's package manager (e.g.
+<tt class="docutils literal">pacman <span class="pre">-Sy</span> mathjax</tt>) and to copy the result in one's account: <tt class="docutils literal">cp <span class="pre">-r</span> /usr/share/mathjax ~/Software/</tt>, before fixing permissions there. This local copy shall just be regularly updated.</p>
+<div class="section" id="usage">
+<h5>Usage</h5>
 <p>The list of <a class="reference external" href="http://docs.mathjax.org/en/latest/input/tex/macros/index.html">TeX/LaTeX commands</a> supported by MathJax may be of use.</p>
 <p>Each LaTeX command may either be specified directly inline, in the text (with <tt class="docutils literal"><span class="pre">:math:`LATEX_CMD`</span></tt>) or in a block indented after a <tt class="docutils literal">.. math::</tt> directive.</p>
 <p>This allows to define inline mathematical elements, like <span class="math">\(P = \begin{pmatrix} 10 \\ 45\end{pmatrix}\)</span> (obtained with <tt class="docutils literal">P = \\begin{pmatrix} 10 <span class="pre">\\\\</span> <span class="pre">45\\end{pmatrix}</span></tt>) or standalone ones, like:</p>
@@ -142,6 +155,9 @@ P_e = \frac{P_n.e^{m}}{1 + P_n.(e^{m}-1)}
 </div>
 <p>(translating to <tt class="docutils literal">P_e = <span class="pre">\frac{P_n.e^{m}}{1</span> + <span class="pre">P_n.(e^{m}-1)}</span></tt>)</p>
 <p>A few other examples of resulting math-related outputs can be seen in <a class="reference external" href="https://myriad.esperide.org/#linear-conventions">this section</a>.</p>
+<p>See the next section for a proper use of MathJax in webservers.</p>
+</div>
+</div>
 </div>
 <div class="section" id="title-hierarchy">
 <h3><a class="toc-backref" href="#toc-entry-6">Title Hierarchy</a></h3>
@@ -217,8 +233,15 @@ This algorithm can be:
 <p>In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.</p>
 <p>Notably an online HTML page, or set of pages, can be verified by third-party tools like <a class="reference external" href="https://www.deadlinkchecker.com/">this one</a>, to detect dead links.</p>
 </div>
+<div class="section" id="fixing-permissions-in-third-party-content-to-integrate-in-a-web-root">
+<h2><a class="toc-backref" href="#toc-entry-14">Fixing Permissions in Third-Party Content to Integrate in a Web Root</a></h2>
+<p>The objective is to ensure that a filesystem tree can be transferred as a whole without permission errors to a given server more than once, whereas the destination user and group (typically specialised and restricted on a server) differ from the source ones.</p>
+<p>It is indeed often necessary to fix permissions in a third-party tree before it is transferred to a server (e.g. MathJax being copied through <tt class="docutils literal">scp</tt> in a web root); otherwise the next transfers will stumble on the initial, inadequate group rights, typically preventing them to be overwritten by a process belonging to a different user yet being in the same group, like <tt class="docutils literal">700</tt> instead of <tt class="docutils literal">770</tt> - resulting in <tt class="docutils literal">Permission denied</tt> errors.</p>
+<p>For that we recommend executing our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/fix-www-metadata.sh">fix-www-metadata.sh</a> script in the <em>source</em> root prior to transfer it to a webroot of choice. This typically applies to MathJax (see the <a class="reference internal" href="#rendering-mathematical-elements">Rendering Mathematical Elements</a> section), which therefore should not be installed in the system tree thanks to a package manager (as our script will alter its permissions) but in the user account (e.g. as <tt class="docutils literal">~/Software/mathjax</tt>).</p>
+<p>So typically this script shall be symlinked in each third-party root of interest, and be executed there at each update thereof.</p>
+</div>
 <div class="section" id="pointing-to-a-specific-moment-in-a-linked-video">
-<h2><a class="toc-backref" href="#toc-entry-14">Pointing to a Specific Moment in a Linked Video</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-15">Pointing to a Specific Moment in a Linked Video</a></h2>
 <p>It is as simple as designating, in an HTML link, the targeted second by suffixing the URL video filename with <tt class="docutils literal">#t=DURATION_IN_SECONDS</tt>, like in <tt class="docutils literal"><span class="pre">some-video.mp4#t=1473</span></tt> <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>.</p>
 <table class="docutils footnote" frame="void" id="footnote-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -228,7 +251,7 @@ This algorithm can be:
 </table>
 </div>
 <div class="section" id="conversion-between-markup-formats">
-<h2><a class="toc-backref" href="#toc-entry-15">Conversion between Markup Formats</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-16">Conversion between Markup Formats</a></h2>
 <p><a class="reference external" href="https://pandoc.org/">Pandoc</a> is the tool of choice for such operations, as it often yields good results.</p>
 <p>For example, in order to convert a page written in Mediawiki syntax, whose source content has been pasted in a <tt class="docutils literal"><span class="pre">old-content-in-mediawiki.txt</span></tt> file, into one that be specified in a GitLab wiki (hence in GFM markup, for <em>GitLab Flavored Markdown</em>) from a converted content, to be written in a <tt class="docutils literal"><span class="pre">converted-content.gfm</span></tt> file, one may use:</p>
 <pre class="code bash literal-block">
@@ -266,7 +289,7 @@ $ iconv -f ISO-8859-1 -t utf-8 input.html <span class="p">|</span> pandoc --from
 </pre>
 </div>
 <div class="section" id="transformation-of-pdf-files">
-<h2><a class="toc-backref" href="#toc-entry-16">Transformation of PDF files</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-17">Transformation of PDF files</a></h2>
 <p>For that, one may use the <tt class="docutils literal">pdftk</tt> tool, possibly with the <tt class="docutils literal">convert</tt> one, which comes from <a class="reference external" href="http://www.imagemagick.org/">ImageMagick</a> (typically available thanks to a <tt class="docutils literal">imagemagick</tt> package):</p>
 <ul class="simple">
 <li>to <strong>split all pages of a PDF</strong> in as many individual files (named <tt class="docutils literal">pg_0001.pdf</tt>, <tt class="docutils literal">pg_0002.pdf</tt>, etc.): <tt class="docutils literal">pdftk document.pdf burst</tt></li>
@@ -276,7 +299,7 @@ $ iconv -f ISO-8859-1 -t utf-8 input.html <span class="p">|</span> pandoc --from
 </ul>
 </div>
 <div class="section" id="image-transformations">
-<h2><a class="toc-backref" href="#toc-entry-17">Image Transformations</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-18">Image Transformations</a></h2>
 <p>One may rely on:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://www.gimp.org/">GIMP</a> (<em>GNU Image Manipulation Program</em>; corresponding, on Arch, to the <tt class="docutils literal">gimp</tt> package)</li>
@@ -289,10 +312,10 @@ $ convert source.png -channel RGB -negate target.png
 <p>See also the Myriad's automatic rules, which generate <tt class="docutils literal"><span class="pre">X-negated.png</span></tt> from <tt class="docutils literal">X.png</tt> thanks to: <tt class="docutils literal">make <span class="pre">X-negated.png</span></tt>.</p>
 </div>
 <div class="section" id="uml-diagrams">
-<h2><a class="toc-backref" href="#toc-entry-18">UML Diagrams</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-19">UML Diagrams</a></h2>
 <p>If <a class="reference external" href="https://en.wikipedia.org/wiki/Systems_Modeling_Language">SysML</a> can also be of interest, we focus here on <a class="reference external" href="https://en.wikipedia.org/wiki/Class_diagram">UML2 class diagrams</a> (one of the 14 types of diagrams provided by UML2).</p>
 <div class="section" id="quick-uml-cheat-sheet">
-<h3><a class="toc-backref" href="#toc-entry-19">Quick UML Cheat Sheet</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-20">Quick UML Cheat Sheet</a></h3>
 <div class="section" id="multiplicities">
 <h4>Multiplicities</h4>
 <p>A <strong>multiplicity</strong> is a definition of <em>cardinality</em> (i.e. number of elements) of some collection of elements.</p>
@@ -344,7 +367,7 @@ $ convert source.png -channel RGB -negate target.png
 </div>
 </div>
 <div class="section" id="tooling">
-<h3><a class="toc-backref" href="#toc-entry-20">Tooling</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-21">Tooling</a></h3>
 <p>In a design phase, one may prefer lightweight tools like <a class="reference external" href="https://graphviz.org/">Graphviz</a>, <a class="reference external" href="https://plantuml.com/">PlantUML</a> or even <a class="reference external" href="https://en.wikipedia.org/wiki/Dia_(software)">Dia</a>.</p>
 <p>As long as the architecture of a framework is not stabilised, having one's tool determine by itself the layout of the rendering (rather than having to place manually one's graphical components) is surely preferable.</p>
 <p>For that we use Graphviz, with <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">our own build conventions</a>.</p>
@@ -361,7 +384,7 @@ $ make uml_class_diagram_example.png
 </div>
 </div>
 <div class="section" id="using-additional-fonts">
-<h2><a class="toc-backref" href="#toc-entry-21">Using Additional Fonts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-22">Using Additional Fonts</a></h2>
 <p>One may use websites like <a class="reference external" href="https://www.dafont.com">Dafont</a> in order to select, based on appearance and licence, a given TTF font.</p>
 <p>At least on Arch, it is sufficient to copy the corresponding downloaded TTF file (as root) in <tt class="docutils literal">/usr/share/fonts/</tt> so that tools like The Gimp support it right afterwards (ex: no need to run <tt class="docutils literal"><span class="pre">fc-cache</span></tt> beforehand).</p>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
