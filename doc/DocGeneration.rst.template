@@ -294,11 +294,25 @@ Fixing Permissions in Third-Party Content to Integrate in a Web Root
 
 The objective is to ensure that a filesystem tree can be transferred as a whole without permission errors to a given server more than once, whereas the destination user and group (typically specialised and restricted on a server) differ from the source ones.
 
-It is indeed often necessary to fix permissions in a third-party tree before it is transferred to a server (e.g. MathJax being copied through ``scp`` in a web root); otherwise the next transfers will stumble on the initial, inadequate group rights, typically preventing them to be overwritten by a process belonging to a different user yet being in the same group, like ``700`` instead of ``770`` - resulting in ``Permission denied`` errors.
+It is indeed often necessary to fix permissions in a third-party tree before it is transferred to a server (e.g. MathJax being copied from a client host through ``scp`` in a web root on a given server); otherwise the next transfers will stumble on the initial, inadequate group rights, typically preventing them to be overwritten by a process belonging to a different user yet being in the same group, like ``700`` instead of ``770`` - resulting in ``Permission denied`` errors.
 
 For that we recommend executing our `fix-www-metadata.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/fix-www-metadata.sh>`_ script in the *source* root prior to transfer it to a webroot of choice. This typically applies to MathJax (see the `Rendering Mathematical Elements`_ section), which therefore should not be installed in the system tree thanks to a package manager (as our script will alter its permissions) but in the user account (e.g. as ``~/Software/mathjax``).
 
 So typically this script shall be symlinked in each third-party root of interest, and be executed there at each update thereof.
+
+However doing so does not solve all issues: the file entries created/updated by ``scp`` on the server will be owned by the user on the server implied by the ``scp`` command, for example ``stallone:users`` - not the desired ``web-srv-user:web-srv-group``. Of course the ``fix-www-metadata.sh`` script can be run (by root) on the server to correct that. Yet the next update of this webroot will fail again with ``Permission denied`` errors, as the groups are not expected to match anymore (we cannot overwrite with our client-side ``users`` group a remote directory whose permission is ``770`` that is owned by group ``web-srv-group``).
+
+A solution is to ensure that the source content bears already the target group. As ``scp`` relies on user/group IDs, not on names (e.g. on a numerical GID like ``1001``, not a name like ``users`` or ``web-srv-group``), the simplest solution is to determine the actual GID of the target group on the server (e.g. running, as root, ``grep web-srv-group /etc/group`` may tell us that the GID of ``web-srv-group`` is ``1002`` there) and to create *on the client* a group with the same GID (if ever possible - that is if there is not already another group happening to have be set to that GID) and to apply it to the source content to transfer, like in:
+
+.. code:: bash
+
+ # We are on the "client", source host, as root:
+ # (web-srv-group-of-target-server clearer than web-srv-group)
+ $ groupadd --gid 1002 web-srv-group-of-target-server
+ $ usermod -a -G web-srv-group-of-target-server stallone
+ $ chgrp -R web-srv-group-of-target-server /home/stallone/mathjax
+
+Then, afterwards, when the ``stallone`` user performs his ``scp`` repeatedly to transfer updated versions of his ``mathjax`` directory from the client to the server, he should be able to perform a flawless update of its files and directories.
 
 
 
