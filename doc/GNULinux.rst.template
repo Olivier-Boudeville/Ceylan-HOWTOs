@@ -520,6 +520,20 @@ Sometimes problems arise due to older packages, this may be solved by removing t
 
 
 
+E-mail Clients
+--------------
+
+Over time we were preferring `Evolution <https://help.gnome.org/users/evolution/stable/index.html>`_ to `Thunderbird <https://www.thunderbird.net/>`_, notably regarding its far better `OpenPGP <Cybersecurity.html#securing-thanks-to-openpgp>`_ support. Yet, at least for some IMAP servers (e.g. the ones of `Mailo <https://www.mailo.com/>`_), errors (like: ``Error copying messages: Error``) constantly happening (despite many attempts of configuration changes) and being reported ruined its use for us, so we switched back to Thunderbird.
+
+.. editing, in ``Preferences``, the corresponding ``Mail Account`` so that its ``Receiving Options`` (notably its ``Advanced Options``) are safer (e.g. no concurrent connections) may avoid errors (like: ``Error copying messages: Error``) constantly happening and being reported.
+
+- for Thunderbird: we recommend using the `DKIM Verifier <https://addons.thunderbird.net/en-us/thunderbird/addon/dkim-verifier/>`_ add-on, that we found much useful to better detect spoofing attempts
+- for Evolution: on Arch Linux, consider installing the ``evolution-bogofilter`` and/or ``evolution-spamassassin`` packages, otherwise spams (junk mails) do not seem to be managed properly (or at all)
+
+See also Ceylan-Hull's `email.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/email.sh/>`_ and `archive-emails.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/archive-emails.sh>`_ scripts.
+
+
+
 Other Settings
 --------------
 
