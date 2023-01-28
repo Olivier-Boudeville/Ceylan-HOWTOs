@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2023 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, November 11, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 28, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -62,11 +62,12 @@
 <li><a class="reference internal" href="#adding-a-locale" id="toc-entry-18">Adding a Locale</a></li>
 <li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-19">Applying a XFCE4 configuration to a different user</a></li>
 <li><a class="reference internal" href="#emacs" id="toc-entry-20">Emacs</a></li>
-<li><a class="reference internal" href="#other-settings" id="toc-entry-21">Other Settings</a></li>
-<li><a class="reference internal" href="#shortcuts" id="toc-entry-22">Shortcuts</a></li>
+<li><a class="reference internal" href="#e-mail-clients" id="toc-entry-21">E-mail Clients</a></li>
+<li><a class="reference internal" href="#other-settings" id="toc-entry-22">Other Settings</a></li>
+<li><a class="reference internal" href="#shortcuts" id="toc-entry-23">Shortcuts</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-23">See Also</a></li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-24">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -81,9 +82,9 @@
 <h1><a class="toc-backref" href="#toc-entry-2">Software Update</a></h1>
 <p>The setup that we use is to perform <strong>automatic nightly updates</strong>. For that we use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-distro.sh">update-distro.sh</a> script, run through root's crontab as:</p>
 <pre class="code bash literal-block">
-$ crontab -l
-<span class="c1"># Each day at 5:17 AM, update the distro:
-</span><span class="m">17</span>  <span class="m">05</span>   *   *  * /usr/local/bin/update-distro.sh -q
+$<span class="w"> </span>crontab<span class="w"> </span>-l<span class="w">
+</span><span class="c1"># Each day at 5:17 AM, update the distro:
+</span><span class="m">17</span><span class="w">  </span><span class="m">05</span><span class="w">   </span>*<span class="w">   </span>*<span class="w">  </span>*<span class="w"> </span>/usr/local/bin/update-distro.sh<span class="w"> </span>-q
 </pre>
 <p>As a result, all packages, libraries, executables, etc. are transparently updated, for the best.</p>
 <p>However, for a proper management of modules <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>, the kernel-related packages shall be special-cased; otherwise after the first kernel update no more modules can be loaded (they will expect to link to that latest installed kernel version, not to the older one being running).</p>
@@ -144,17 +145,17 @@ usbnet
 </pre>
 <p>This is not sufficient though (ex: one cannot anticipate all modules needed after a while); disabling the <em>automatic</em> updates of kernels is also key to reduce issues; this can be done by specifying in <tt class="docutils literal">/etc/pacman.conf</tt>:</p>
 <pre class="code bash literal-block">
-<span class="nv">IgnorePkg</span> <span class="o">=</span> linux linux-headers
+<span class="nv">IgnorePkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>linux<span class="w"> </span>linux-headers
 </pre>
 <p>LTS (<em>Long Term Support</em>) kernels are intentionally <em>not</em> listed here, as we prefer having them regularly updated in order to minimise the risk that the base and LTS kernels belong to too close versions (as then a problem in terms of hardware support is more likely to arise at the same time with both).</p>
 <p>At least users of NVidia graphic cards may also list there their drivers, as apparently an hardware acceleration supported at boot may be lost after some time, presumably because of an update of its drivers (knowing that the update of the kernel itself was already disabled in that case) - so, if appropriate, better be safe than sorry:</p>
 <pre class="code bash literal-block">
-<span class="nv">IgnorePkg</span> <span class="o">=</span> linux linux-headers nvidia nvidia-utils
+<span class="nv">IgnorePkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>linux<span class="w"> </span>linux-headers<span class="w"> </span>nvidia<span class="w"> </span>nvidia-utils
 </pre>
 <p>See also our section about <a class="reference external" href="ThreeDimensional.html#os-support">operating system support for 3D</a>.</p>
 <p>Updating all packages but kernel-related ones is fine, but of course the latters shall still be also updated appropriately. The best moment for that is just prior to rebooting (knowing that your Linux box never crashes, isn't it?), so for that we use (as root) our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/shutdown-local-host.sh">shutdown-local-host.sh</a> script, like in:</p>
 <pre class="code bash literal-block">
-$ shutdown-local-host.sh --reboot
+$<span class="w"> </span>shutdown-local-host.sh<span class="w"> </span>--reboot
 </pre>
 <p>The kernel packages, and possibly driver-related ones, will then only be properly updated before the host is rebooted.</p>
 </div>
@@ -165,8 +166,8 @@ $ shutdown-local-host.sh --reboot
 <p id="enabling-multilib">One may enable the <a class="reference external" href="https://wiki.archlinux.org/title/Official_repositories#multilib">multilib</a> repository, which is useful to run 32-bit software on 64-bit hardware. This is useful for example if needing <tt class="docutils literal">wine</tt>, knowing that its build from the AUR may fail.</p>
 <p>To enable multilib, uncomment in <tt class="docutils literal">/etc/pacman.conf</tt>:</p>
 <pre class="code bash literal-block">
-<span class="o">[</span>multilib<span class="o">]</span>
-<span class="nv">Include</span> <span class="o">=</span> /etc/pacman.d/mirrorlist
+<span class="o">[</span>multilib<span class="o">]</span><span class="w">
+</span><span class="nv">Include</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/etc/pacman.d/mirrorlist
 </pre>
 <p>then upgrade your system with <tt class="docutils literal">pacman <span class="pre">-Syu</span></tt>.</p>
 </div>
@@ -246,51 +247,51 @@ $ shutdown-local-host.sh --reboot
 <p>This <a class="reference external" href="https://wiki.archlinux.org/title/Core_dump">Arch Linux article</a> will give all relevant details.</p>
 <p>In short, <tt class="docutils literal">coredumpctl list</tt> will list all known core dumps from oldest to most recent, such as in:</p>
 <pre class="code bash literal-block">
-$ coredumpctl list
-TIME                        PID   UID  GID SIG     COREFILE EXE                SIZE
-<span class="o">[</span>...<span class="o">]</span>
-Tue <span class="m">2021</span>-12-21 <span class="m">20</span>:53:02 CET <span class="m">73873</span> <span class="m">1007</span> <span class="m">988</span> SIGSEGV present  <span class="o">[</span>...<span class="o">]</span>/bin/beam.smp <span class="m">14</span>.6M
+$<span class="w"> </span>coredumpctl<span class="w"> </span>list<span class="w">
+</span>TIME<span class="w">                        </span>PID<span class="w">   </span>UID<span class="w">  </span>GID<span class="w"> </span>SIG<span class="w">     </span>COREFILE<span class="w"> </span>EXE<span class="w">                </span>SIZE<span class="w">
+</span><span class="o">[</span>...<span class="o">]</span><span class="w">
+</span>Tue<span class="w"> </span><span class="m">2021</span>-12-21<span class="w"> </span><span class="m">20</span>:53:02<span class="w"> </span>CET<span class="w"> </span><span class="m">73873</span><span class="w"> </span><span class="m">1007</span><span class="w"> </span><span class="m">988</span><span class="w"> </span>SIGSEGV<span class="w"> </span>present<span class="w">  </span><span class="o">[</span>...<span class="o">]</span>/bin/beam.smp<span class="w"> </span><span class="m">14</span>.6M
 </pre>
 <p>The last core dump produced may be studied directly, thanks to <tt class="docutils literal">coredumpctl debug</tt>, relying on <tt class="docutils literal">gdb</tt> to fetch much lower-level information:</p>
 <pre class="code bash literal-block">
-$ coredumpctl debug
-          PID: <span class="m">73873</span> <span class="o">(</span>beam.smp<span class="o">)</span>
-          UID: <span class="m">1007</span> <span class="o">(</span>xxx<span class="o">)</span>
-          GID: <span class="m">988</span> <span class="o">(</span>users<span class="o">)</span>
-       Signal: <span class="m">11</span> <span class="o">(</span>SEGV<span class="o">)</span>
-    Timestamp: Tue <span class="m">2021</span>-12-21 <span class="m">20</span>:53:01 CET <span class="o">(</span>38min ago<span class="o">)</span>
- Command Line: /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp -W w -K <span class="nb">true</span> -A <span class="m">128</span> <span class="o">[</span>...<span class="o">]</span>
-   Executable: /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp
-Control Group: /user.slice/user-1007.slice/session-2.scope
-         Unit: session-2.scope
-        Slice: user-1007.slice
-      Session: <span class="m">2</span>
-    Owner UID: <span class="m">1007</span> <span class="o">(</span>xxx<span class="o">)</span>
-      Boot ID: f8abe9473f7e4fea8ba24944e35ce7d9
-   Machine ID: c9413a71e7b4498f831e2df7a08e5f33
-     Hostname: xxx
-      Storage: /var/lib/systemd/coredump/core.beam<span class="se">\x</span>2esmp.1007.f8abe9473f7e4fea8ba24944e35ce7d9.73873.1640116381000000.zst <span class="o">(</span>present<span class="o">)</span>
-    Disk Size: <span class="m">14</span>.6M
-      Message: Process <span class="m">73873</span> <span class="o">(</span>beam.smp<span class="o">)</span> of user <span class="m">1007</span> dumped core.
+$<span class="w"> </span>coredumpctl<span class="w"> </span>debug<span class="w">
+          </span>PID:<span class="w"> </span><span class="m">73873</span><span class="w"> </span><span class="o">(</span>beam.smp<span class="o">)</span><span class="w">
+          </span>UID:<span class="w"> </span><span class="m">1007</span><span class="w"> </span><span class="o">(</span>xxx<span class="o">)</span><span class="w">
+          </span>GID:<span class="w"> </span><span class="m">988</span><span class="w"> </span><span class="o">(</span>users<span class="o">)</span><span class="w">
+       </span>Signal:<span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="o">(</span>SEGV<span class="o">)</span><span class="w">
+    </span>Timestamp:<span class="w"> </span>Tue<span class="w"> </span><span class="m">2021</span>-12-21<span class="w"> </span><span class="m">20</span>:53:01<span class="w"> </span>CET<span class="w"> </span><span class="o">(</span>38min<span class="w"> </span>ago<span class="o">)</span><span class="w">
+ </span>Command<span class="w"> </span>Line:<span class="w"> </span>/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp<span class="w"> </span>-W<span class="w"> </span>w<span class="w"> </span>-K<span class="w"> </span><span class="nb">true</span><span class="w"> </span>-A<span class="w"> </span><span class="m">128</span><span class="w"> </span><span class="o">[</span>...<span class="o">]</span><span class="w">
+   </span>Executable:<span class="w"> </span>/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp<span class="w">
+</span>Control<span class="w"> </span>Group:<span class="w"> </span>/user.slice/user-1007.slice/session-2.scope<span class="w">
+         </span>Unit:<span class="w"> </span>session-2.scope<span class="w">
+        </span>Slice:<span class="w"> </span>user-1007.slice<span class="w">
+      </span>Session:<span class="w"> </span><span class="m">2</span><span class="w">
+    </span>Owner<span class="w"> </span>UID:<span class="w"> </span><span class="m">1007</span><span class="w"> </span><span class="o">(</span>xxx<span class="o">)</span><span class="w">
+      </span>Boot<span class="w"> </span>ID:<span class="w"> </span>f8abe9473f7e4fea8ba24944e35ce7d9<span class="w">
+   </span>Machine<span class="w"> </span>ID:<span class="w"> </span>c9413a71e7b4498f831e2df7a08e5f33<span class="w">
+     </span>Hostname:<span class="w"> </span>xxx<span class="w">
+      </span>Storage:<span class="w"> </span>/var/lib/systemd/coredump/core.beam<span class="se">\x</span>2esmp.1007.f8abe9473f7e4fea8ba24944e35ce7d9.73873.1640116381000000.zst<span class="w"> </span><span class="o">(</span>present<span class="o">)</span><span class="w">
+    </span>Disk<span class="w"> </span>Size:<span class="w"> </span><span class="m">14</span>.6M<span class="w">
+      </span>Message:<span class="w"> </span>Process<span class="w"> </span><span class="m">73873</span><span class="w"> </span><span class="o">(</span>beam.smp<span class="o">)</span><span class="w"> </span>of<span class="w"> </span>user<span class="w"> </span><span class="m">1007</span><span class="w"> </span>dumped<span class="w"> </span>core.<span class="w">
 
-               Found module /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp with build-id: 8cfbf76728dd7399444638f1ba124471181840e7
-               Found module /home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/priv/erl_gl.so with build-id: 0b96532e586839d3da9afd6e5f23aa76346a0e45
-<span class="o">[</span>...<span class="o">]</span>
-   Stack trace of thread <span class="m">74039</span>:
-   <span class="c1">#0  0x00007f6e5461a74b __memmove_avx_unaligned_erms (libc.so.6 + 0x16374b)
-</span>   <span class="c1">#1  0x00007f6d8a204428 n/a (iris_dri.so + 0xd12428)
-</span>   <span class="c1">#2  0x00007f6d89733207 n/a (iris_dri.so + 0x241207)
-</span>   <span class="c1">#3  0x00007f6d89733c97 n/a (iris_dri.so + 0x241c97)
-</span>   <span class="c1">#4  0x00007f6d898d8b0d n/a (iris_dri.so + 0x3e6b0d)
-</span>   <span class="c1">#5  0x00007f6d898d8bf2 n/a (iris_dri.so + 0x3e6bf2)
-</span>   <span class="c1">#6  0x00007f6d8b2f241c n/a (/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/priv/erl_gl.so + 0x5b41c)
-</span><span class="o">[</span>New LWP <span class="m">74039</span><span class="o">]</span>
-<span class="o">[</span>New LWP <span class="m">73873</span><span class="o">]</span>
-<span class="o">[</span>...<span class="o">]</span>
-Core was generated by <span class="sb">`</span>/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp -<span class="err">'</span>.
-Program terminated with signal SIGSEGV, Segmentation fault.
-<span class="c1">#0  0x00007f6e5461a74b in __memmove_avx_unaligned_erms () from /usr/lib/libc.so.6
-</span><span class="o">[</span>Current thread is <span class="m">1</span> <span class="o">(</span>Thread 0x7f6d900aa640 <span class="o">(</span>LWP <span class="m">74039</span><span class="o">))]</span>
+               </span>Found<span class="w"> </span>module<span class="w"> </span>/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp<span class="w"> </span>with<span class="w"> </span>build-id:<span class="w"> </span>8cfbf76728dd7399444638f1ba124471181840e7<span class="w">
+               </span>Found<span class="w"> </span>module<span class="w"> </span>/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/priv/erl_gl.so<span class="w"> </span>with<span class="w"> </span>build-id:<span class="w"> </span>0b96532e586839d3da9afd6e5f23aa76346a0e45<span class="w">
+</span><span class="o">[</span>...<span class="o">]</span><span class="w">
+   </span>Stack<span class="w"> </span>trace<span class="w"> </span>of<span class="w"> </span>thread<span class="w"> </span><span class="m">74039</span>:<span class="w">
+   </span><span class="c1">#0  0x00007f6e5461a74b __memmove_avx_unaligned_erms (libc.so.6 + 0x16374b)
+</span><span class="w">   </span><span class="c1">#1  0x00007f6d8a204428 n/a (iris_dri.so + 0xd12428)
+</span><span class="w">   </span><span class="c1">#2  0x00007f6d89733207 n/a (iris_dri.so + 0x241207)
+</span><span class="w">   </span><span class="c1">#3  0x00007f6d89733c97 n/a (iris_dri.so + 0x241c97)
+</span><span class="w">   </span><span class="c1">#4  0x00007f6d898d8b0d n/a (iris_dri.so + 0x3e6b0d)
+</span><span class="w">   </span><span class="c1">#5  0x00007f6d898d8bf2 n/a (iris_dri.so + 0x3e6bf2)
+</span><span class="w">   </span><span class="c1">#6  0x00007f6d8b2f241c n/a (/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/priv/erl_gl.so + 0x5b41c)
+</span><span class="o">[</span>New<span class="w"> </span>LWP<span class="w"> </span><span class="m">74039</span><span class="o">]</span><span class="w">
+</span><span class="o">[</span>New<span class="w"> </span>LWP<span class="w"> </span><span class="m">73873</span><span class="o">]</span><span class="w">
+</span><span class="o">[</span>...<span class="o">]</span><span class="w">
+</span>Core<span class="w"> </span>was<span class="w"> </span>generated<span class="w"> </span>by<span class="w"> </span><span class="sb">`</span>/home/xxx/Software/Erlang/Erlang-24.2/lib/erlang/erts-12.2/bin/beam.smp<span class="w"> </span>-<span class="err">'</span>.<span class="w">
+</span>Program<span class="w"> </span>terminated<span class="w"> </span>with<span class="w"> </span>signal<span class="w"> </span>SIGSEGV,<span class="w"> </span>Segmentation<span class="w"> </span>fault.<span class="w">
+</span><span class="c1">#0  0x00007f6e5461a74b in __memmove_avx_unaligned_erms () from /usr/lib/libc.so.6
+</span><span class="o">[</span>Current<span class="w"> </span>thread<span class="w"> </span>is<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Thread<span class="w"> </span>0x7f6d900aa640<span class="w"> </span><span class="o">(</span>LWP<span class="w"> </span><span class="m">74039</span><span class="o">))]</span>
 </pre>
 <p>Then:</p>
 <pre class="code literal-block">
@@ -316,7 +317,7 @@ Program terminated with signal SIGSEGV, Segmentation fault.
 <h2><a class="toc-backref" href="#toc-entry-12">Target is busy</a></h2>
 <p>Umounting may fail with <tt class="docutils literal">umount: /var/foobar: target is busy</tt>. Finding the culprit can be done with:</p>
 <pre class="code bash literal-block">
-$ lsof /var/foobar
+$<span class="w"> </span>lsof<span class="w"> </span>/var/foobar
 </pre>
 <p>COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF     NODE NAME
 bash    275648 root  cwd    DIR  254,1    20480 45236687 /var/foobar/www/Foo</p>
@@ -327,10 +328,10 @@ bash    275648 root  cwd    DIR  254,1    20480 45236687 /var/foobar/www/Foo</p>
 <p>Check with <tt class="docutils literal">mount</tt> that a given filesystem/partition is (still) in the expected state:</p>
 <pre class="code bash literal-block">
 <span class="c1"># For example:
-</span>/dev/mapper/foobar on /var/foobar <span class="nb">type</span> ext4 <span class="o">(</span>rw,relatime,data<span class="o">=</span>ordered<span class="o">)</span>
+</span>/dev/mapper/foobar<span class="w"> </span>on<span class="w"> </span>/var/foobar<span class="w"> </span><span class="nb">type</span><span class="w"> </span>ext4<span class="w"> </span><span class="o">(</span>rw,relatime,data<span class="o">=</span>ordered<span class="o">)</span><span class="w">
 
-<span class="c1"># may have become:
-</span>/dev/mapper/foobar on /var/foobar <span class="nb">type</span> ext4 <span class="o">(</span>ro,relatime,errors<span class="o">=</span><span class="k">continue</span>,data<span class="o">=</span>ordered<span class="o">)</span>
+</span><span class="c1"># may have become:
+</span>/dev/mapper/foobar<span class="w"> </span>on<span class="w"> </span>/var/foobar<span class="w"> </span><span class="nb">type</span><span class="w"> </span>ext4<span class="w"> </span><span class="o">(</span>ro,relatime,errors<span class="o">=</span><span class="k">continue</span>,data<span class="o">=</span>ordered<span class="o">)</span>
 </pre>
 <p>Best option here is to unmount, make a sector-level backup of the disk, and then check it. Probably that the disk already failed and you will have to resort to revert to a former backup.</p>
 </div>
@@ -376,12 +377,12 @@ bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 </pre>
 <p>This can be fixed by uncommenting the corresponding locale (<tt class="docutils literal"><span class="pre">en_US.UTF-8</span></tt> here) in <tt class="docutils literal">/etc/locale.gen</tt>, and then regenerating the system locales by running (as root) <tt class="docutils literal"><span class="pre">locale-gen</span></tt>:</p>
 <pre class="code bash literal-block">
-$ locale-gen
-Generating locales <span class="o">(</span>this might take a <span class="k">while</span><span class="o">)</span>...
- en_US.UTF-8... <span class="k">done</span>
- fr_FR.UTF-8... <span class="k">done</span>
- fr_FR.ISO-8859-15&#64;euro... <span class="k">done</span>
-Generation complete.
+$<span class="w"> </span>locale-gen<span class="w">
+</span>Generating<span class="w"> </span>locales<span class="w"> </span><span class="o">(</span>this<span class="w"> </span>might<span class="w"> </span>take<span class="w"> </span>a<span class="w"> </span><span class="k">while</span><span class="o">)</span>...<span class="w">
+ </span>en_US.UTF-8...<span class="w"> </span><span class="k">done</span><span class="w">
+ </span>fr_FR.UTF-8...<span class="w"> </span><span class="k">done</span><span class="w">
+ </span>fr_FR.ISO-8859-15&#64;euro...<span class="w"> </span><span class="k">done</span><span class="w">
+</span>Generation<span class="w"> </span>complete.
 </pre>
 </div>
 <div class="section" id="applying-a-xfce4-configuration-to-a-different-user">
@@ -390,10 +391,10 @@ Generation complete.
 <p>A key point is to ensure that at least <tt class="docutils literal">user_b</tt> has no ongoing graphical session (otherwise any new configuration may be overwritten with an older one at logout).</p>
 <p>Then, typically as root:</p>
 <pre class="code bash literal-block">
-$ rm -rf /home/user_b/.config/<span class="o">{</span>xfce4,Thunar<span class="o">}</span> /home/user_b/.local/share/xfce4
-$ cp -rf /home/user_a/.config/<span class="o">{</span>xfce4,Thunar<span class="o">}</span> /home/user_b/.config
-$ cp -rf /home/user_a/.local/share/xfce4 /home/user_b/.local/share
-$ chmod -R /home/user_b/<span class="o">{</span>.config,.local<span class="o">}</span> user_b:users
+$<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/home/user_b/.config/<span class="o">{</span>xfce4,Thunar<span class="o">}</span><span class="w"> </span>/home/user_b/.local/share/xfce4<span class="w">
+</span>$<span class="w"> </span>cp<span class="w"> </span>-rf<span class="w"> </span>/home/user_a/.config/<span class="o">{</span>xfce4,Thunar<span class="o">}</span><span class="w"> </span>/home/user_b/.config<span class="w">
+</span>$<span class="w"> </span>cp<span class="w"> </span>-rf<span class="w"> </span>/home/user_a/.local/share/xfce4<span class="w"> </span>/home/user_b/.local/share<span class="w">
+</span>$<span class="w"> </span>chmod<span class="w"> </span>-R<span class="w"> </span>/home/user_b/<span class="o">{</span>.config,.local<span class="o">}</span><span class="w"> </span>user_b:users
 </pre>
 <p>Then a key point is to fully reset XFCE4. Unlogging and/or <tt class="docutils literal">killall <span class="pre">-HUP</span> xfdesktop</tt> may not be sufficient. As a last resort, rebooting shall work.</p>
 <p>Selecting a per-user wallpaper may be of help.</p>
@@ -430,12 +431,21 @@ $ chmod -R /home/user_b/<span class="o">{</span>.config,.local<span class="o">}<
 <p>Sometimes problems arise due to older packages, this may be solved by removing the <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt> directory, relaunching Emacs and waiting for all related clones to be downloaded again.</p>
 </div>
 </div>
+<div class="section" id="e-mail-clients">
+<h2><a class="toc-backref" href="#toc-entry-21">E-mail Clients</a></h2>
+<p>Over time we were preferring <a class="reference external" href="https://help.gnome.org/users/evolution/stable/index.html">Evolution</a> to <a class="reference external" href="https://www.thunderbird.net/">Thunderbird</a>, notably regarding its far better <a class="reference external" href="Cybersecurity.html#securing-thanks-to-openpgp">OpenPGP</a> support. Yet, at least for some IMAP servers (e.g. the ones of <a class="reference external" href="https://www.mailo.com/">Mailo</a>), errors (like: <tt class="docutils literal">Error copying messages: Error</tt>) constantly happening (despite many attempts of configuration changes) and being reported ruined its use for us, so we switched back to Thunderbird.</p>
+<ul class="simple">
+<li>for Thunderbird: we recommend using the <a class="reference external" href="https://addons.thunderbird.net/en-us/thunderbird/addon/dkim-verifier/">DKIM Verifier</a> add-on, that we found much useful to better detect spoofing attempts</li>
+<li>for Evolution: on Arch Linux, consider installing the <tt class="docutils literal"><span class="pre">evolution-bogofilter</span></tt> and/or <tt class="docutils literal"><span class="pre">evolution-spamassassin</span></tt> packages, otherwise spams (junk mails) do not seem to be managed properly (or at all)</li>
+</ul>
+<p>See also Ceylan-Hull's <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/email.sh/">email.sh</a> and <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/archive-emails.sh">archive-emails.sh</a> scripts.</p>
+</div>
 <div class="section" id="other-settings">
-<h2><a class="toc-backref" href="#toc-entry-21">Other Settings</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-22">Other Settings</a></h2>
 <p>See our <a class="reference external" href="https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a">preferences</a> for <a class="reference external" href="https://www.startpage.com">Startpage</a>; it can be set as homepage.</p>
 </div>
 <div class="section" id="shortcuts">
-<h2><a class="toc-backref" href="#toc-entry-22">Shortcuts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-23">Shortcuts</a></h2>
 <p>Listing here the main keyboard shortcuts of interest for a few base tools.</p>
 <div class="section" id="for-less">
 <h3>For <tt class="docutils literal">less</tt></h3>
@@ -464,7 +474,7 @@ $ chmod -R /home/user_b/<span class="o">{</span>.config,.local<span class="o">}<
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-23">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-24">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>

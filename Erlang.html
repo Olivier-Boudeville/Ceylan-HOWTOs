@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2023 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, November 11, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 21, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -75,7 +75,7 @@
 <li><a class="reference internal" href="#runtime-library-version" id="toc-entry-31">Runtime Library Version</a></li>
 <li><a class="reference internal" href="#proper-naming" id="toc-entry-32">Proper Naming</a></li>
 <li><a class="reference internal" href="#formatting-erlang-code" id="toc-entry-33">Formatting Erlang Code</a></li>
-<li><a class="reference internal" href="#features" id="toc-entry-34">Features</a></li>
+<li><a class="reference internal" href="#language-features" id="toc-entry-34">Language Features</a></li>
 <li><a class="reference internal" href="#using-wx" id="toc-entry-35">Using wx</a></li>
 </ul>
 </li>
@@ -116,18 +116,18 @@
 <p>Run <tt class="docutils literal"><span class="pre">./install-erlang.sh</span> <span class="pre">--help</span></tt> for more information.</p>
 <p>Once installed, ensure that <tt class="docutils literal"><span class="pre">~/Software/Erlang/Erlang-current-install/bin/</span></tt> is in your PATH (ex: by enriching your <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt> accordingly), so that you can run <tt class="docutils literal">erl</tt> (the Erlang interpreter) from any location, resulting a prompt like:</p>
 <pre class="code bash literal-block">
-$ erl
-Erlang/OTP <span class="m">24</span> <span class="o">[</span>erts-12.1.5<span class="o">]</span> <span class="o">[</span>source<span class="o">]</span> <span class="o">[</span><span class="m">64</span>-bit<span class="o">]</span> <span class="o">[</span>smp:8:8<span class="o">]</span> <span class="o">[</span>ds:8:8:10<span class="o">]</span> <span class="o">[</span>async-threads:1<span class="o">]</span> <span class="o">[</span>jit<span class="o">]</span>
+$<span class="w"> </span>erl<span class="w">
+</span>Erlang/OTP<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="o">[</span>erts-12.1.5<span class="o">]</span><span class="w"> </span><span class="o">[</span>source<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">64</span>-bit<span class="o">]</span><span class="w"> </span><span class="o">[</span>smp:8:8<span class="o">]</span><span class="w"> </span><span class="o">[</span>ds:8:8:10<span class="o">]</span><span class="w"> </span><span class="o">[</span>async-threads:1<span class="o">]</span><span class="w"> </span><span class="o">[</span>jit<span class="o">]</span><span class="w">
 
-Eshell V12.1.5  <span class="o">(</span>abort with ^G<span class="o">)</span>
-<span class="m">1</span>&gt;
+</span>Eshell<span class="w"> </span>V12.1.5<span class="w">  </span><span class="o">(</span>abort<span class="w"> </span>with<span class="w"> </span>^G<span class="o">)</span><span class="w">
+</span><span class="m">1</span>&gt;
 </pre>
 <p>Then enter <tt class="docutils literal"><span class="pre">CTRL-C</span></tt> twice in order to come back to the (UNIX) shell.</p>
 <p>Congratulations, you have a functional Erlang now!</p>
 <p>To check from the command-line the version of an Erlang install:</p>
 <pre class="code bash literal-block">
-$ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root_dir(), &quot;releases&quot;, erlang:system_info(otp_release), &quot;OTP_VERSION&quot;]) ), io:fwrite(V), halt().'</span> -noshell
-<span class="m">24</span>.2
+$<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span><span class="s1">'{ok, V} = file:read_file( filename:join([code:root_dir(), &quot;releases&quot;, erlang:system_info(otp_release), &quot;OTP_VERSION&quot;]) ), io:fwrite(V), halt().'</span><span class="w"> </span>-noshell<span class="w">
+</span><span class="m">24</span>.2
 </pre>
 </div>
 <div class="section" id="ceylan-s-language-use">
@@ -355,7 +355,7 @@ $ erl -eval <span class="s1">'{ok, V} = file:read_file( filename:join([code:root
 </table>
 <p>Using this debug tool is as easy as:</p>
 <pre class="code bash literal-block">
-$ cdv erl_crash.dump
+$<span class="w"> </span>cdv<span class="w"> </span>erl_crash.dump
 </pre>
 <p>Then, through the wx-based interface, a rather large number of Erlang-level information will be available (processes, ports, ETS tables, nodes, modules, memory, etc.) to better understand the context of this crash and hopefully diagnose its root cause.</p>
 </div>
@@ -421,20 +421,20 @@ $ cdv erl_crash.dump
 <p>Depending on how Erlang was built in a given environment, some modules may or may not be available.</p>
 <p>A way of determining availability and/or version of a module (ex: <tt class="docutils literal">wx</tt>, <tt class="docutils literal">cl</tt>, <tt class="docutils literal">crypto</tt>) from the command-line:</p>
 <pre class="code bash literal-block">
-$ erl -noshell -eval <span class="s1">'erlang:display(code:which(wx))'</span> -s erlang halt
-<span class="s2">&quot;/home/bond/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/ebin/wx.beam&quot;</span>
+$<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </span>-eval<span class="w"> </span><span class="s1">'erlang:display(code:which(wx))'</span><span class="w"> </span>-s<span class="w"> </span>erlang<span class="w"> </span>halt<span class="w">
+</span><span class="s2">&quot;/home/bond/Software/Erlang/Erlang-24.2/lib/erlang/lib/wx-2.1.1/ebin/wx.beam&quot;</span><span class="w">
 
-$ erl -noshell -eval <span class="s1">'erlang:display(code:which(cl))'</span> -s erlang halt
-non_existing
+</span>$<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </span>-eval<span class="w"> </span><span class="s1">'erlang:display(code:which(cl))'</span><span class="w"> </span>-s<span class="w"> </span>erlang<span class="w"> </span>halt<span class="w">
+</span>non_existing
 </pre>
 <p>A corresponding in-makefile test, taken from Wings3D:</p>
 <pre class="code makefile literal-block">
 <span class="c"># Check if OpenCL package is as external dependency:
-</span><span class="nv">CL_PATH</span> <span class="o">=</span> <span class="k">$(</span>shell <span class="k">$(</span>ERL<span class="k">)</span> -noshell -eval <span class="s1">'erlang:display(code:which(cl))'</span> -s erlang halt<span class="k">)</span>
-<span class="cp">ifneq (,$(findstring non_existing, $(CL_PATH)))
+</span><span class="nv">CL_PATH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">$(</span>shell<span class="w"> </span><span class="k">$(</span>ERL<span class="k">)</span><span class="w"> </span>-noshell<span class="w"> </span>-eval<span class="w"> </span><span class="s1">'erlang:display(code:which(cl))'</span><span class="w"> </span>-s<span class="w"> </span>erlang<span class="w"> </span>halt<span class="k">)</span><span class="w">
+</span><span class="cp">ifneq (,$(findstring non_existing, $(CL_PATH)))
 </span><span class="c">   # Add it if not found:
-</span>   <span class="nv">DEPS</span><span class="o">=</span>cl
-<span class="cp">endif</span>
+</span><span class="w">   </span><span class="nv">DEPS</span><span class="o">=</span>cl<span class="w">
+</span><span class="cp">endif</span>
 </pre>
 </div>
 <div class="section" id="regarding-language-features-from-code">
@@ -497,10 +497,10 @@ non_existing
 <h3>With <tt class="docutils literal">rebar3_format</tt></h3>
 <p>For projects already relying on rebar, one may use <a class="reference external" href="https://github.com/AdRoll/rebar3_format">rebar3_format</a> (as a plugin <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[5]</a>) that way:</p>
 <pre class="code shell literal-block">
-$ <span class="nb">cd</span> ~/Software
-$ git clone https://github.com/AdRoll/rebar3_format.git
-$ <span class="nb">cd</span> rebar3_format
-$ <span class="nv">ERL_FLAGS</span><span class="o">=</span><span class="s2">&quot;-enable-feature all&quot;</span> rebar3 format
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AdRoll/rebar3_format.git<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>rebar3_format<span class="w">
+</span>$<span class="w"> </span><span class="nv">ERL_FLAGS</span><span class="o">=</span><span class="s2">&quot;-enable-feature all&quot;</span><span class="w"> </span>rebar3<span class="w"> </span>format
 </pre>
 <table class="docutils footnote" frame="void" id="footnote-3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -514,21 +514,21 @@ $ <span class="nv">ERL_FLAGS</span><span class="o">=</span><span class="s2">&quo
 <h3>With <tt class="docutils literal">erlfmt</tt></h3>
 <p>Another tool is <a class="reference external" href="https://github.com/WhatsApp/erlfmt">erlfmt</a>, which can be installed that way:</p>
 <pre class="code shell literal-block">
-$ <span class="nb">cd</span> ~/Software
-$ git clone https://github.com/WhatsApp/erlfmt
-$ <span class="nb">cd</span> erlfmt
-$ rebar3 as release escriptize
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/WhatsApp/erlfmt<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>erlfmt<span class="w">
+</span>$<span class="w"> </span>rebar3<span class="w"> </span>as<span class="w"> </span>release<span class="w"> </span>escriptize
 </pre>
 <p>And then <tt class="docutils literal">~/Software/erlfmt/_build/release/bin</tt> can be added to one's <tt class="docutils literal">PATH</tt>.</p>
 <p>Indeed <tt class="docutils literal">erlfmt</tt> can be used as a rebar plugin or as a standalone escript - which we find useful, especially for projects whose build is not rebar-based.</p>
 <p>Running it to reformat in-place source files is then as simple as:</p>
 <pre class="code shell literal-block">
-$ erlfmt --write foo.hrl bar.erl
+$<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> </span>foo.hrl<span class="w"> </span>bar.erl
 </pre>
 </div>
 </div>
-<div class="section" id="features">
-<h2><a class="toc-backref" href="#toc-entry-34">Features</a></h2>
+<div class="section" id="language-features">
+<h2><a class="toc-backref" href="#toc-entry-34">Language Features</a></h2>
 <p>Experimental features (such as <tt class="docutils literal">maybe</tt> in Erlang 25) of the <strong>compiler</strong> (once Erlang has been built, they are <em>potentially available</em>) may have to be specifically <em>enabled</em> at runtime, like in <tt class="docutils literal"><span class="pre">ERL_FLAGS=&quot;-enable-feature</span> all&quot; rebar3 as release escriptize</tt>.</p>
 </div>
 <div class="section" id="using-wx">

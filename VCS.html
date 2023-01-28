@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2023 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, December 1, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 21, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -119,24 +119,24 @@
 </ul>
 <pre class="code bash literal-block">
 <span class="c1"># Target file is tracked iff is listed by:
-</span>$ git ls-files <span class="p">|</span> grep my_file
+</span>$<span class="w"> </span>git<span class="w"> </span>ls-files<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>my_file<span class="w">
 
-<span class="c1"># Or, in order to trigger an error if this target file is not tracked:
-</span>git ls-files --error-unmatch my_file
+</span><span class="c1"># Or, in order to trigger an error if this target file is not tracked:
+</span>git<span class="w"> </span>ls-files<span class="w"> </span>--error-unmatch<span class="w"> </span>my_file
 </pre>
 <ul class="simple">
 <li>getting the <strong>version of a file as it was at a given commit</strong>:</li>
 </ul>
 <pre class="code bash literal-block">
 <span class="c1"># Replaces the current version of that file by the designated one:
-</span>$ git checkout COMMIT_ID path/to/the/target/file
+</span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>COMMIT_ID<span class="w"> </span>path/to/the/target/file<span class="w">
 
-<span class="c1"># Outputs on the console the designated version:
-</span>$ git show COMMIT_ID:path/to/the/target/file
+</span><span class="c1"># Outputs on the console the designated version:
+</span>$<span class="w"> </span>git<span class="w"> </span>show<span class="w"> </span>COMMIT_ID:path/to/the/target/file<span class="w">
 
-<span class="c1"># Outputs on the console the diff between the designated
+</span><span class="c1"># Outputs on the console the diff between the designated
 # version and the current one:
-</span>$ git show COMMIT_ID path/to/the/target/file
+</span>$<span class="w"> </span>git<span class="w"> </span>show<span class="w"> </span>COMMIT_ID<span class="w"> </span>path/to/the/target/file
 </pre>
 <ul class="simple">
 <li>listing the <strong>files modified by a given commit</strong>: <tt class="docutils literal">git show <span class="pre">--name-only</span> MY_COMMIT_ID</tt></li>
@@ -154,13 +154,13 @@
 </ul>
 <p>In practice, in order to transfer the changes of a branch A in a branch B:</p>
 <pre class="code bash literal-block">
-$ git co B
+$<span class="w"> </span>git<span class="w"> </span>co<span class="w"> </span>B<span class="w">
 
-<span class="c1"># Either first case (integrate development A in master B):
-</span>$ git merge A <span class="c1"># or: git pull A
-</span>
-<span class="c1"># Or second one (resynchronise development B on master A):
-</span>$ git rebase A <span class="c1"># or: git pull -rebase A</span>
+</span><span class="c1"># Either first case (integrate development A in master B):
+</span>$<span class="w"> </span>git<span class="w"> </span>merge<span class="w"> </span>A<span class="w"> </span><span class="c1"># or: git pull A
+</span><span class="w">
+</span><span class="c1"># Or second one (resynchronise development B on master A):
+</span>$<span class="w"> </span>git<span class="w"> </span>rebase<span class="w"> </span>A<span class="w"> </span><span class="c1"># or: git pull -rebase A</span>
 </pre>
 <p>How such a last <tt class="docutils literal">rebase</tt> of branch A in branch B is done? The bifurcation point of B compared to A is moved from its initial position to the current head of A, on which all changes recorded in B are applied; the resulting history of B looks like if these changes had been directly performed from the version of A designated in this rebase, and thus B can be then directly fast-forwarded to its tip, which comprises both the changes synchronised from A and, then, the ones specifically introduced in B.</p>
 <p>Then, to update the remote with these post-rebase commits, <tt class="docutils literal">git push <span class="pre">--force-with-lease</span></tt> shall be used <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>.</p>
@@ -176,8 +176,8 @@ $ git co B
 <h3><a class="toc-backref" href="#toc-entry-7">Directly Transferring Changes</a></h3>
 <p>Sometimes, one may want to directly transfer the changes of a derivate branch B in a parent branch A. When one knows for sure that the versions in B shall be preferred in all cases to their counterparts in A (note that a classical merge is already fully able to manage fast-forwards), one may use:</p>
 <pre class="code bash literal-block">
-$ git checkout A
-$ git merge -X theirs B
+$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>A<span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>merge<span class="w"> </span>-X<span class="w"> </span>theirs<span class="w"> </span>B
 </pre>
 <p>No conflict should arise (<a class="reference external" href="https://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours">source</a>).</p>
 <p>The same is possible with <tt class="docutils literal">rebase</tt>; for example: <tt class="docutils literal">git rebase <span class="pre">-X</span> theirs B</tt>.</p>
@@ -196,17 +196,17 @@ $ git merge -X theirs B
 <h3><a class="toc-backref" href="#toc-entry-9">Overcoming auto-signed SSL certificate issues</a></h3>
 <p>To avoid, typically in a company internal setting, errors like:</p>
 <pre class="code bash literal-block">
-Cloning into <span class="s1">'XXX'</span>...
-fatal: unable to access <span class="s1">'https://foo.bar.org/XX/XXX/'</span>: SSL certificate problem: self signed certificate <span class="k">in</span> certificate chain
+Cloning<span class="w"> </span>into<span class="w"> </span><span class="s1">'XXX'</span>...<span class="w">
+</span>fatal:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>access<span class="w"> </span><span class="s1">'https://foo.bar.org/XX/XXX/'</span>:<span class="w"> </span>SSL<span class="w"> </span>certificate<span class="w"> </span>problem:<span class="w"> </span>self<span class="w"> </span>signed<span class="w"> </span>certificate<span class="w"> </span><span class="k">in</span><span class="w"> </span>certificate<span class="w"> </span>chain
 </pre>
 <p>the <tt class="docutils literal">http.sslVerify=false</tt> option may be used, even if it weakens the overall security.</p>
 <p>This is typically useful initially:</p>
 <pre class="code bash literal-block">
-$ git -c http.sslVerify<span class="o">=</span><span class="nb">false</span> clone https://foo.bar.org/XX/XXX
+$<span class="w"> </span>git<span class="w"> </span>-c<span class="w"> </span>http.sslVerify<span class="o">=</span><span class="nb">false</span><span class="w"> </span>clone<span class="w"> </span>https://foo.bar.org/XX/XXX
 </pre>
 <p>In order that the next operations (ex: future pushes) overcome too this problem for the current repository, use from within the current clone:</p>
 <pre class="code bash literal-block">
-$ git config http.sslVerify <span class="nb">false</span>
+$<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>http.sslVerify<span class="w"> </span><span class="nb">false</span>
 </pre>
 </div>
 <div class="section" id="setting-the-right-metadata-for-the-next-commits">
@@ -214,13 +214,13 @@ $ git config http.sslVerify <span class="nb">false</span>
 <p>Doing so prevent from having to amend commits a posteriori.</p>
 <p>If these information apply for all projects:</p>
 <pre class="code bash literal-block">
-$ git config --global user.name <span class="s2">&quot;John Doe&quot;</span>
-$ git config --global user.email john.doe&#64;foobar.org
+$<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;John Doe&quot;</span><span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span>john.doe&#64;foobar.org
 </pre>
 <p>Otherwise shall be done at least on a per-project basis with:</p>
 <pre class="code bash literal-block">
-$ git config user.name <span class="s2">&quot;John Doe&quot;</span>
-$ git config user.email john.doe&#64;foobar.org
+$<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;John Doe&quot;</span><span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>user.email<span class="w"> </span>john.doe&#64;foobar.org
 </pre>
 <p>Also <tt class="docutils literal">git config <span class="pre">--global</span> <span class="pre">--edit</span></tt> may be of use (beware to trigger a <tt class="docutils literal">vi</tt> by accident...).</p>
 </div>
@@ -233,30 +233,30 @@ $ git config user.email john.doe&#64;foobar.org
 <p>So you forked a repository (let's say it is in <tt class="docutils literal"><span class="pre">https://github.com/some_project/some_repo.git</span></tt>) and made progress - yet in the meantime the upstream repository may also have been updated, and you want to integrate these changes in yours.</p>
 <p>First step is to ensure that this repository (designated here as <tt class="docutils literal">upstream</tt> for convenience) is locally known:</p>
 <pre class="code bash literal-block">
-$ git remote add upstream https://github.com/some_project/some_repo.git
+$<span class="w"> </span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>https://github.com/some_project/some_repo.git
 </pre>
 <p>Then, from a fully-committed clone of your fork (let's suppose we are using the <tt class="docutils literal">main</tt> branch in all repositories):</p>
 <pre class="code bash literal-block">
-$ git fetch upstream
+$<span class="w"> </span>git<span class="w"> </span>fetch<span class="w"> </span>upstream<span class="w">
 
-<span class="c1"># More appropriate than a merge:
-</span>$ git rebase upstream/main
+</span><span class="c1"># More appropriate than a merge:
+</span>$<span class="w"> </span>git<span class="w"> </span>rebase<span class="w"> </span>upstream/main<span class="w">
 
-<span class="c1"># Repeatedly, as long as conflicts are found:
-</span>$ git rebase --continue
+</span><span class="c1"># Repeatedly, as long as conflicts are found:
+</span>$<span class="w"> </span>git<span class="w"> </span>rebase<span class="w"> </span>--continue<span class="w">
 
-<span class="c1"># Forced, as otherwise the current branch will deemed to be behind our remote:
+</span><span class="c1"># Forced, as otherwise the current branch will deemed to be behind our remote:
 # (hopefully your branch at origin is not protected by a hook; otherwise:
 # 'git checkout -b some_branch', etc.)
-</span>
-$ git push -f origin main
+</span><span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>-f<span class="w"> </span>origin<span class="w"> </span>main
 </pre>
 </div>
 <div class="section" id="creating-an-empty-branch">
 <h3><a class="toc-backref" href="#toc-entry-13">Creating an empty branch</a></h3>
 <p>Rather than creating it from a pre-existing branch and removing all inherited content, prefer:</p>
 <pre class="code bash literal-block">
-$ git checkout --orphan my_new_branch
+$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>--orphan<span class="w"> </span>my_new_branch
 </pre>
 <p>(typically useful for GitHub Pages branches; may then be followed by some adds and <tt class="docutils literal">git commit <span class="pre">--allow-empty</span> <span class="pre">-m</span> &quot;Initial website.&quot;</tt>)</p>
 </div>
@@ -268,11 +268,11 @@ $ git checkout --orphan my_new_branch
 <h3><a class="toc-backref" href="#toc-entry-15">Preventing the commit of a file in VCS that is often locally modified</a></h3>
 <p>One should use <a class="reference external" href="https://stackoverflow.com/questions/1753070/how-do-i-configure-git-to-ignore-some-files-locally">this method</a>:</p>
 <pre class="code bash literal-block">
-$ git update-index --skip-worktree &lt;file-list&gt;
+$<span class="w"> </span>git<span class="w"> </span>update-index<span class="w"> </span>--skip-worktree<span class="w"> </span>&lt;file-list&gt;
 </pre>
 <p>The opposite operation is:</p>
 <pre class="code bash literal-block">
-$ git update-index --no-skip-worktree &lt;file-list&gt;
+$<span class="w"> </span>git<span class="w"> </span>update-index<span class="w"> </span>--no-skip-worktree<span class="w"> </span>&lt;file-list&gt;
 </pre>
 </div>
 <div class="section" id="listing-the-files-managed-in-vcs-from-the-current-directory">
@@ -285,21 +285,21 @@ $ git update-index --no-skip-worktree &lt;file-list&gt;
 <p>One may use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-largest-vcs-blobs.sh">list-largest-vcs-blobs.sh</a> script to detect any larger files that should not be in VCS (ex: should a colleague have committed by mistake a third-party archive, or unexpected data such as CSV files).</p>
 <p>Then install <a class="reference external" href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a>:</p>
 <pre class="code bash literal-block">
-$ mkdir -p ~/Software/bfg-repo-cleaner/
-$ <span class="nb">cd</span> <span class="nv">$_</span>
-$ mv ~/bfg-1.14.0.jar .
-$ ln -s bfg-1.14.0.jar bfg.jar
-<span class="c1"># For example in ~/.bashrc:
-</span>$ <span class="nb">alias</span> <span class="nv">bfg</span><span class="o">=</span><span class="s2">&quot;java -jar ~/Software/bfg-repo-cleaner/bfg.jar&quot;</span>
+$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Software/bfg-repo-cleaner/<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$_</span><span class="w">
+</span>$<span class="w"> </span>mv<span class="w"> </span>~/bfg-1.14.0.jar<span class="w"> </span>.<span class="w">
+</span>$<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>bfg-1.14.0.jar<span class="w"> </span>bfg.jar<span class="w">
+</span><span class="c1"># For example in ~/.bashrc:
+</span>$<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nv">bfg</span><span class="o">=</span><span class="s2">&quot;java -jar ~/Software/bfg-repo-cleaner/bfg.jar&quot;</span>
 </pre>
 <p>All developers should be asked to commit their sources (git add + push), to archive their clone (ex: in a timestamped <tt class="docutils literal">.xz</tt> file like <tt class="docutils literal"><span class="pre">20220412-archive-clone-foobar.tar.xz</span></tt>), and to wait until notified that they can create a new clone.</p>
 <p>The repository may be then cleaned up (ex: from large, unnecessary CSV files) in isolation, with:</p>
 <pre class="code bash literal-block">
-$ git clone --mirror XXX/foobar.git
-$ bfg --delete-files <span class="s1">'*.csv'</span> foobar.git
-$ <span class="nb">cd</span> foobar
-$ git reflog expire --expire<span class="o">=</span>now --all <span class="o">&amp;&amp;</span> git gc --prune<span class="o">=</span>now --aggressive
-$ git push
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--mirror<span class="w"> </span>XXX/foobar.git<span class="w">
+</span>$<span class="w"> </span>bfg<span class="w"> </span>--delete-files<span class="w"> </span><span class="s1">'*.csv'</span><span class="w"> </span>foobar.git<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>foobar<span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>reflog<span class="w"> </span>expire<span class="w"> </span>--expire<span class="o">=</span>now<span class="w"> </span>--all<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>gc<span class="w"> </span>--prune<span class="o">=</span>now<span class="w"> </span>--aggressive<span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>push
 </pre>
 <p>Then all developers shall be requested to perform a new clone and to check the fetched content (ex: with regard to the content of the last branch in which they committed).</p>
 </div>
@@ -311,14 +311,14 @@ $ git push
 <span class="c1"># No CRLF conversion for DOS/Windows batch files.
 # They should be stored with the CRLF line terminators.
 #
-</span>*.bat -crlf
+</span>*.bat<span class="w"> </span>-crlf
 </pre>
 </div>
 <div class="section" id="fixing-a-commit-message">
 <h3><a class="toc-backref" href="#toc-entry-19">Fixing a commit message</a></h3>
 <p>If no push was done, it is as simple as replacing the former message by a new one, like in:</p>
 <pre class="code bash literal-block">
-$ git commit --amend -m <span class="s2">&quot;This is a fixed commit message.&quot;</span>
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>--amend<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;This is a fixed commit message.&quot;</span>
 </pre>
 </div>
 </div>

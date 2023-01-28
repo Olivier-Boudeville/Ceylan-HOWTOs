@@ -23,13 +23,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2023 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, September 10, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 21, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -214,7 +214,7 @@
 <p>Yet such Unity packages, once downloaded (whether or not they have been imported in projects afterwards) are files stored typically in the <tt class="docutils literal"><span class="pre">~/.local/share/unity3d/Asset</span> <span class="pre">Store-5.x</span></tt> directory and whose extension is <tt class="docutils literal">.unitypackage</tt>.</p>
 <p>Such files are actually <tt class="docutils literal">.tar.gz</tt> archives, and thus their content can be listed thanks to:</p>
 <pre class="code bash literal-block">
-$ tar tvzf Foobar.unitypackage
+$<span class="w"> </span>tar<span class="w"> </span>tvzf<span class="w"> </span>Foobar.unitypackage
 </pre>
 <p>Inside such archives, each individual package resource is located in a directory whose name is probably akin to the checksum of this resource (ex: <tt class="docutils literal">167e85f3d750117459ff6199b79166fd</tt>) <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>; such directory generally contains at least 3 files:</p>
 <ul class="simple">
@@ -265,12 +265,12 @@ $ tar tvzf Foobar.unitypackage
 <p>The <tt class="docutils literal">file</tt> command is able to report the version of at least some formats; for example:</p>
 <pre class="code bash literal-block">
 <span class="c1"># Means FBX 7.3:
-</span>$ file foobar.fbx
-foobar.fbx: Kaydara FBX model, version <span class="m">7300</span>
+</span>$<span class="w"> </span>file<span class="w"> </span>foobar.fbx<span class="w">
+</span>foobar.fbx:<span class="w"> </span>Kaydara<span class="w"> </span>FBX<span class="w"> </span>model,<span class="w"> </span>version<span class="w"> </span><span class="m">7300</span>
 </pre>
 <p>Too often, some tool will not be able to load a file and will fail to properly report why. When suspecting that a binary file (ex: a FBX one) references external content either missing or in an unsupported format (ex: PSD or TIFF?), one may peek at their content without any dedicated tool, directly from a terminal, like in:</p>
 <pre class="code bash literal-block">
-$ strings my_asset.fbx <span class="p">|</span> sort <span class="p">|</span> uniq <span class="p">|</span> grep <span class="s1">'\.'</span>
+$<span class="w"> </span>strings<span class="w"> </span>my_asset.fbx<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'\.'</span>
 </pre>
 <p>This should list, among other elements, the paths that such a binary file is embedding.</p>
 </div>
@@ -288,14 +288,14 @@ $ strings my_asset.fbx <span class="p">|</span> sort <span class="p">|</span> un
 <p>The simpler approach seems to download the (free) <a class="reference external" href="https://images.autodesk.com/adsk/files/fbx20133_converter_win_x64.exe">Autodesk FBX Converter</a> and to use <a class="reference external" href="GNULinux.html#wine">wine</a> to run it on GNU/Linux. Just install then this converter with: <tt class="docutils literal">wine fbx20133_converter_win_x64.exe</tt>.</p>
 <p>A convenient alias (based on default settings, typically to be put in one's <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt>) can then be defined to run it:</p>
 <pre class="code bash literal-block">
-$ <span class="nb">alias</span> fbx-converter-ui<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.wine/drive_c/Program\ Files/Autodesk/FBX/FBX\ Converter/2013.3/FBXConverterUI.exe 2&gt;/dev/null &amp;&quot;</span>
+$<span class="w"> </span><span class="nb">alias</span><span class="w"> </span>fbx-converter-ui<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.wine/drive_c/Program\ Files/Autodesk/FBX/FBX\ Converter/2013.3/FBXConverterUI.exe 2&gt;/dev/null &amp;&quot;</span>
 </pre>
 <p>Conversions may take place from, for example, FBX 6.1 (also: 3DS, DAE, DXF, OBJ) to a FBX version in: 2006, 2009, 2010, 2011, 2013 (i.e. 7.3 - of course the most interesting one here), but also DXF, OBJ and Collada, with various settings (embedded media, binary/ASCII mode, etc.).</p>
 <p>An even better option is to use directly the command-line tool <tt class="docutils literal">bin/FbxConverter.exe</tt>, which the previous user interface actually executes. Use its <tt class="docutils literal">/?</tt> option to get help, with interesting information.</p>
 <p>For example, to update a file in a presumably older FBX into a 7.3 one (that Blender can import):</p>
 <pre class="code bash literal-block">
-$ <span class="nb">cd</span> ~/.wine/drive_c/Program<span class="se">\ </span>Files/Autodesk/FBX/FBX<span class="se">\ </span>Converter/2013.3/bin
-$ FbxConverter.exe My-legacy.FBX newer.fbx /v /sffFBX /dffFBX /e /f201300
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/.wine/drive_c/Program<span class="se">\ </span>Files/Autodesk/FBX/FBX<span class="se">\ </span>Converter/2013.3/bin<span class="w">
+</span>$<span class="w"> </span>FbxConverter.exe<span class="w"> </span>My-legacy.FBX<span class="w"> </span>newer.fbx<span class="w"> </span>/v<span class="w"> </span>/sffFBX<span class="w"> </span>/dffFBX<span class="w"> </span>/e<span class="w"> </span>/f201300
 </pre>
 <p>We devised the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-fbx.sh">update-fbx.sh</a> script to automate such an in-place FBX update.</p>
 <p>Unfortunately, at least on one FBX sample taken from a Unity package, if the mesh could be imported in Blender, textures and materials were not (having checked <tt class="docutils literal">Embed media</tt> in the converter or not).</p>
@@ -396,23 +396,23 @@ $ FbxConverter.exe My-legacy.FBX newer.fbx /v /sffFBX /dffFBX /e /f201300
 <p>A <tt class="docutils literal">draco</tt> AUR package exists, and results notably in creating the <tt class="docutils literal">/usr/lib/libdraco.so</tt> shared library file.</p>
 <p>Even once this package is installed, when Blender exports a mesh, a message like the following is displayed:</p>
 <pre class="code bash literal-block">
-<span class="s1">'/usr/bin/3.0/python/lib/python3.10/site-packages/libextern_draco.so'</span> does
-not exist, draco mesh compression not available, please add it or create
-environment variable BLENDER_EXTERN_DRACO_LIBRARY_PATH pointing to the folder
+<span class="s1">'/usr/bin/3.0/python/lib/python3.10/site-packages/libextern_draco.so'</span><span class="w"> </span>does<span class="w">
+</span>not<span class="w"> </span>exist,<span class="w"> </span>draco<span class="w"> </span>mesh<span class="w"> </span>compression<span class="w"> </span>not<span class="w"> </span>available,<span class="w"> </span>please<span class="w"> </span>add<span class="w"> </span>it<span class="w"> </span>or<span class="w"> </span>create<span class="w">
+</span>environment<span class="w"> </span>variable<span class="w"> </span>BLENDER_EXTERN_DRACO_LIBRARY_PATH<span class="w"> </span>pointing<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>folder
 </pre>
 <p>Setting the environment prior to running Blender is necessary (and done by our <tt class="docutils literal"><span class="pre">blender-*.sh</span></tt> scripts:</p>
 <pre class="code bash literal-block">
-$ <span class="nb">export</span> <span class="nv">BLENDER_EXTERN_DRACO_LIBRARY_PATH</span><span class="o">=</span>/usr/lib
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">BLENDER_EXTERN_DRACO_LIBRARY_PATH</span><span class="o">=</span>/usr/lib
 </pre>
 <p>but not sufficient, as the built library does not bear the expected name.</p>
 <p>So, as root, one shall fix that once for all:</p>
 <pre class="code bash literal-block">
-$ <span class="nb">cd</span> /usr/lib
-$ ln -s libdraco.so libextern_draco.so
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/usr/lib<span class="w">
+</span>$<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>libdraco.so<span class="w"> </span>libextern_draco.so
 </pre>
 <p>Then the log message will become:</p>
 <pre class="code bash literal-block">
-<span class="s1">'/usr/lib/libextern_draco.so'</span> exists, draco mesh compression is available
+<span class="s1">'/usr/lib/libextern_draco.so'</span><span class="w"> </span>exists,<span class="w"> </span>draco<span class="w"> </span>mesh<span class="w"> </span>compression<span class="w"> </span>is<span class="w"> </span>available
 </pre>
 </div>
 <div class="section" id="the-compressonator">

@@ -21,13 +21,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2023 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, September 10, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 21, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -72,86 +72,86 @@
 <span class="c1"># Local firewall settings.
 #
 # Meant to be sourced by the iptables.rules-Gateway.sh script.
-</span>
-<span class="c1"># Where firewall-related outputs will be written:
-</span><span class="nv">log_file</span><span class="o">=</span>/root/.last-gateway-firewall-activation
+</span><span class="w">
+</span><span class="c1"># Where firewall-related outputs will be written:
+</span><span class="nv">log_file</span><span class="o">=</span>/root/.last-gateway-firewall-activation<span class="w">
 
-<span class="c1"># Local (LAN) interface, the one we trust:
+</span><span class="c1"># Local (LAN) interface, the one we trust:
 #lan_if=eth1
-</span><span class="nv">lan_if</span><span class="o">=</span>enp2s0
+</span><span class="nv">lan_if</span><span class="o">=</span>enp2s0<span class="w">
 
-<span class="c1"># Internet (WAN) interface, the one we distrust:
-</span>
-<span class="c1"># For PPP ADSL connections:
+</span><span class="c1"># Internet (WAN) interface, the one we distrust:
+</span><span class="w">
+</span><span class="c1"># For PPP ADSL connections:
 #net_if=ppp0
-</span>
-<span class="c1"># For direct connection to a set-top (telecom) box from your provider:
+</span><span class="w">
+</span><span class="c1"># For direct connection to a set-top (telecom) box from your provider:
 #net_if=eth0
-</span><span class="nv">net_if</span><span class="o">=</span>enp4s0
+</span><span class="nv">net_if</span><span class="o">=</span>enp4s0<span class="w">
 
-<span class="nv">ban_file</span><span class="o">=</span><span class="s2">&quot;/etc/ban-rules.iptables&quot;</span>
+</span><span class="nv">ban_file</span><span class="o">=</span><span class="s2">&quot;/etc/ban-rules.iptables&quot;</span><span class="w">
 
-<span class="c1"># As the IPs banned through the ban file above are quite minimal:
-</span><span class="nv">use_ban_rules</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
-<span class="c1">#use_ban_rules=&quot;false&quot;
-</span>
-<span class="c1"># IP of a test client (to avoid too many logs, selecting only related events):
+</span><span class="c1"># As the IPs banned through the ban file above are quite minimal:
+</span><span class="nv">use_ban_rules</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="w">
+</span><span class="c1">#use_ban_rules=&quot;false&quot;
+</span><span class="w">
+</span><span class="c1"># IP of a test client (to avoid too many logs, selecting only related events):
 #test_client_ip=&quot;xxx&quot;
-</span>
-<span class="c1"># Enabled input TCP port range for traffic from LAN to gateway:
-</span><span class="nv">enable_unfiltered_tcp_range</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
+</span><span class="w">
+</span><span class="c1"># Enabled input TCP port range for traffic from LAN to gateway:
+</span><span class="nv">enable_unfiltered_tcp_range</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="w">
 
-<span class="c1"># TCP unfiltered window (ex: for passive FTP and BEAM port ranges):
-</span><span class="nv">tcp_unfiltered_low_port</span><span class="o">=</span><span class="m">50000</span>
-<span class="nv">tcp_unfiltered_high_port</span><span class="o">=</span><span class="m">55000</span>
+</span><span class="c1"># TCP unfiltered window (ex: for passive FTP and BEAM port ranges):
+</span><span class="nv">tcp_unfiltered_low_port</span><span class="o">=</span><span class="m">50000</span><span class="w">
+</span><span class="nv">tcp_unfiltered_high_port</span><span class="o">=</span><span class="m">55000</span><span class="w">
 
-<span class="c1"># Tells whether IPTV (TV on the Internet thanks to a box) should be allowed:
-</span><span class="nv">enable_iptv</span><span class="o">=</span><span class="nb">false</span>
+</span><span class="c1"># Tells whether IPTV (TV on the Internet thanks to a box) should be allowed:
+</span><span class="nv">enable_iptv</span><span class="o">=</span><span class="nb">false</span><span class="w">
 
-<span class="c1"># Tells whether a SMTP server can be used:
-</span><span class="nv">enable_smtp</span><span class="o">=</span><span class="nb">false</span>
+</span><span class="c1"># Tells whether a SMTP server can be used:
+</span><span class="nv">enable_smtp</span><span class="o">=</span><span class="nb">false</span><span class="w">
 
-<span class="c1"># Typically a set-top box from one's ISP (defined as a possibly log match
+</span><span class="c1"># Typically a set-top box from one's ISP (defined as a possibly log match
 # criteria):
-</span>
-<span class="c1"># Classical example:
-</span><span class="nv">telecom_box</span><span class="o">=</span><span class="s2">&quot;192.168.0.254&quot;</span>
+</span><span class="w">
+</span><span class="c1"># Classical example:
+</span><span class="nv">telecom_box</span><span class="o">=</span><span class="s2">&quot;192.168.0.254&quot;</span><span class="w">
 
-<span class="c1"># DHT subsection, for P2P exchanges:
+</span><span class="c1"># DHT subsection, for P2P exchanges:
 # More infos: https://github.com/rakshasa/rtorrent/wiki/Using-DHT
-</span>
-<span class="nv">dht_udp_port</span><span class="o">=</span><span class="m">7881</span>
+</span><span class="w">
+</span><span class="nv">dht_udp_port</span><span class="o">=</span><span class="m">7881</span><span class="w">
 
-<span class="c1">#use_dht=&quot;true&quot;
-</span><span class="nv">use_dht</span><span class="o">=</span><span class="s2">&quot;false&quot;</span>
+</span><span class="c1">#use_dht=&quot;true&quot;
+</span><span class="nv">use_dht</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="w">
 
-<span class="c1"># One may use a non-standard port:
+</span><span class="c1"># One may use a non-standard port:
 #ssh_port=22
-</span><span class="nv">ssh_port</span><span class="o">=</span><span class="m">22320</span>
+</span><span class="nv">ssh_port</span><span class="o">=</span><span class="m">22320</span><span class="w">
 
-<span class="nv">smtp_port</span><span class="o">=</span><span class="m">25</span>
+</span><span class="nv">smtp_port</span><span class="o">=</span><span class="m">25</span><span class="w">
 
-<span class="c1"># SMTPS is obsolete:
-</span><span class="nv">smtp_secure_port</span><span class="o">=</span><span class="m">465</span>
+</span><span class="c1"># SMTPS is obsolete:
+</span><span class="nv">smtp_secure_port</span><span class="o">=</span><span class="m">465</span><span class="w">
 
-<span class="c1"># STARTTLS over SMTP is the proper way of securing SMTP:
-</span><span class="nv">msa_port</span><span class="o">=</span><span class="m">587</span>
+</span><span class="c1"># STARTTLS over SMTP is the proper way of securing SMTP:
+</span><span class="nv">msa_port</span><span class="o">=</span><span class="m">587</span><span class="w">
 
-<span class="nv">pop3_port</span><span class="o">=</span><span class="m">110</span>
+</span><span class="nv">pop3_port</span><span class="o">=</span><span class="m">110</span><span class="w">
 
-<span class="c1"># POP3S:
-</span><span class="nv">pop3_secure_port</span><span class="o">=</span><span class="m">995</span>
+</span><span class="c1"># POP3S:
+</span><span class="nv">pop3_secure_port</span><span class="o">=</span><span class="m">995</span><span class="w">
 
-<span class="nv">imap_port</span><span class="o">=</span><span class="m">143</span>
-<span class="nv">imap_secure_port</span><span class="o">=</span><span class="m">993</span>
+</span><span class="nv">imap_port</span><span class="o">=</span><span class="m">143</span><span class="w">
+</span><span class="nv">imap_secure_port</span><span class="o">=</span><span class="m">993</span>
 </pre>
 <p>A script to configure iptables is best integrated to systemd, see the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.service">iptables.rules-Gateway.service</a> file for that (typically to be placed in <tt class="docutils literal">/etc/systemd/system</tt>). Then one may test with:</p>
 <pre class="code bash literal-block">
-$ systemctl start iptables.rules-Gateway.service
+$<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>iptables.rules-Gateway.service
 </pre>
 <p>and enable it for good with:</p>
 <pre class="code bash literal-block">
-$ systemctl <span class="nb">enable</span> iptables.rules-Gateway.service
+$<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>iptables.rules-Gateway.service
 </pre>
 <p>Note that often these scripts are setup remotely, while being connected thanks to SSH from another host. Care must be taken in order not to lock oneself out of the target server, notably when updating rules (this happens quite easily). We advise to prefer the <tt class="docutils literal">restart</tt> option of our iptables script in order to reduce the risk of &quot;bricking&quot; one's server.</p>
 </div>
@@ -161,19 +161,19 @@ $ systemctl <span class="nb">enable</span> iptables.rules-Gateway.service
 <pre class="code bash literal-block">
 <span class="c1"># Deletes the first rule of the FORWARD chain (of the 'filter' table):
 # (note that all the next rules will bear a decremented number afterwards!)
-</span>$ iptables -D FORWARD <span class="m">1</span>
+</span>$<span class="w"> </span>iptables<span class="w"> </span>-D<span class="w"> </span>FORWARD<span class="w"> </span><span class="m">1</span>
 </pre>
 <p>Setting environment variables (either through files such as <tt class="docutils literal"><span class="pre">/etc/iptables.settings-Gateway.sh</span></tt> or directly in the shell) is less error-prone; ex:</p>
 <pre class="code bash literal-block">
-<span class="o">[</span>...<span class="o">]</span>
-$ <span class="nv">lan_if</span><span class="o">=</span>enp2s0
-$ <span class="nv">net_if</span><span class="o">=</span>enp4s0
-$ iptables -I FORWARD -i <span class="si">${</span><span class="nv">lan_if</span><span class="si">}</span> -o <span class="si">${</span><span class="nv">net_if</span><span class="si">}</span> -d <span class="si">${</span><span class="nv">telecom_box</span><span class="si">}</span> -j LOG
-$ journalctl -kf --grep<span class="o">=</span><span class="s2">&quot;IN=.*OUT=.*&quot;</span> <span class="p">|</span> grep -v <span class="s2">&quot;SRC=</span><span class="si">${</span><span class="nv">telecom_box</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="o">[</span>...<span class="o">]</span><span class="w">
+</span>$<span class="w"> </span><span class="nv">lan_if</span><span class="o">=</span>enp2s0<span class="w">
+</span>$<span class="w"> </span><span class="nv">net_if</span><span class="o">=</span>enp4s0<span class="w">
+</span>$<span class="w"> </span>iptables<span class="w"> </span>-I<span class="w"> </span>FORWARD<span class="w"> </span>-i<span class="w"> </span><span class="si">${</span><span class="nv">lan_if</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span><span class="si">${</span><span class="nv">net_if</span><span class="si">}</span><span class="w"> </span>-d<span class="w"> </span><span class="si">${</span><span class="nv">telecom_box</span><span class="si">}</span><span class="w"> </span>-j<span class="w"> </span>LOG<span class="w">
+</span>$<span class="w"> </span>journalctl<span class="w"> </span>-kf<span class="w"> </span>--grep<span class="o">=</span><span class="s2">&quot;IN=.*OUT=.*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;SRC=</span><span class="si">${</span><span class="nv">telecom_box</span><span class="si">}</span><span class="s2">&quot;</span>
 </pre>
 <p>To further match packets, one may specify log prefixes, like in:</p>
 <pre class="code bash literal-block">
-$ iptables -A INPUT -i lan.foobar -j LOG --log-prefix <span class="s2">&quot;[VLAN INP FOO]&quot;</span>
+$<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-i<span class="w"> </span>lan.foobar<span class="w"> </span>-j<span class="w"> </span>LOG<span class="w"> </span>--log-prefix<span class="w"> </span><span class="s2">&quot;[VLAN INP FOO]&quot;</span>
 </pre>
 <p>Note that the <tt class="docutils literal">LOG</tt> target does not intercept a packet, which thus continues to flow in the next rule(s). so log targets are better defined as first rules (and thus could be inserted lastly).</p>
 <p>As a reminder, for a given table (<tt class="docutils literal">filter</tt> by default), rules may be:</p>
@@ -200,11 +200,11 @@ $ iptables -A INPUT -i lan.foobar -j LOG --log-prefix <span class="s2">&quot;[VL
 <li>netmasks shall not be neglected, for example in routes:</li>
 </ul>
 <pre class="code bash literal-block">
-$ ip route add <span class="m">192</span>.168.0.0/16 dev enp4s0 scope link
-$ ip route
-default via <span class="m">192</span>.168.0.254 dev enp4s0 proto dhcp src <span class="m">192</span>.168.0.1 metric <span class="m">1002</span>
-<span class="m">10</span>.0.0.0/8 dev enp2s0 proto kernel scope link src <span class="m">10</span>.0.0.1
-<span class="m">192</span>.168.0.0/16 dev enp4s0 scope link
+$<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span><span class="m">192</span>.168.0.0/16<span class="w"> </span>dev<span class="w"> </span>enp4s0<span class="w"> </span>scope<span class="w"> </span>link<span class="w">
+</span>$<span class="w"> </span>ip<span class="w"> </span>route<span class="w">
+</span>default<span class="w"> </span>via<span class="w"> </span><span class="m">192</span>.168.0.254<span class="w"> </span>dev<span class="w"> </span>enp4s0<span class="w"> </span>proto<span class="w"> </span>dhcp<span class="w"> </span>src<span class="w"> </span><span class="m">192</span>.168.0.1<span class="w"> </span>metric<span class="w"> </span><span class="m">1002</span><span class="w">
+</span><span class="m">10</span>.0.0.0/8<span class="w"> </span>dev<span class="w"> </span>enp2s0<span class="w"> </span>proto<span class="w"> </span>kernel<span class="w"> </span>scope<span class="w"> </span>link<span class="w"> </span>src<span class="w"> </span><span class="m">10</span>.0.0.1<span class="w">
+</span><span class="m">192</span>.168.0.0/16<span class="w"> </span>dev<span class="w"> </span>enp4s0<span class="w"> </span>scope<span class="w"> </span>link
 </pre>
 <p>Here for example, in <tt class="docutils literal">192.168.0.0/16</tt>, <tt class="docutils literal">16</tt> corresponds to the length of <em>the network prefix</em>; the next 16 bits are left to designate hosts, whose addresses therefore range in <tt class="docutils literal"><span class="pre">192.168.[0..254].[1..254]</span></tt>. So <tt class="docutils literal">192.168.0.0/16</tt> includes the <tt class="docutils literal">192.168.27.0/24</tt> network, whereas <tt class="docutils literal">192.168.0.0/24</tt> would not.</p>
 <ul class="simple">

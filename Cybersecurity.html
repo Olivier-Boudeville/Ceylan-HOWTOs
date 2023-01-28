@@ -21,13 +21,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2022 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2023 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, September 10, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 21, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -40,16 +40,26 @@
 <li><a class="reference internal" href="#purpose" id="toc-entry-3">Purpose</a></li>
 <li><a class="reference internal" href="#technical-solution" id="toc-entry-4">Technical Solution</a><ul>
 <li><a class="reference internal" href="#obtaining-one-s-keys" id="toc-entry-5">Obtaining One's Keys</a></li>
-<li><a class="reference internal" href="#where-are-the-keys-and-how-to-backup-them" id="toc-entry-6">Where are the keys, and how to backup them?</a></li>
+<li><a class="reference internal" href="#where-are-the-keys-and-how-to-backup-them" id="toc-entry-6">Where are the Keys, and How to Backup Them?</a></li>
 <li><a class="reference internal" href="#how-can-public-keys-be-shared" id="toc-entry-7">How Can Public Keys be Shared?</a></li>
-<li><a class="reference internal" href="#what-can-be-done-with-these-keys" id="toc-entry-8">What can be done with these keys?</a></li>
+<li><a class="reference internal" href="#what-can-be-done-with-these-keys" id="toc-entry-8">What can be Done with these Keys?</a></li>
+<li><a class="reference internal" href="#updating-your-keys" id="toc-entry-9">Updating Your Keys</a></li>
+<li><a class="reference internal" href="#deleting-your-keys" id="toc-entry-10">Deleting Your Keys</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-corresponding-cheat-sheet" id="toc-entry-11">A Corresponding Cheat Sheet</a><ul>
+<li><a class="reference internal" href="#root-key" id="toc-entry-12">Root Key</a></li>
+<li><a class="reference internal" href="#subkeys" id="toc-entry-13">Subkeys</a></li>
+<li><a class="reference internal" href="#prepare-revocation" id="toc-entry-14">Prepare Revocation</a></li>
+<li><a class="reference internal" href="#finally" id="toc-entry-15">Finally</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#a-link-with-decentralized-identifiers" id="toc-entry-9">A Link With Decentralized Identifiers</a></li>
-<li><a class="reference internal" href="#hints" id="toc-entry-10">Hints</a></li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-11">See Also</a></li>
+<li><a class="reference internal" href="#a-link-with-decentralized-identifiers" id="toc-entry-16">A Link With Decentralized Identifiers</a></li>
+<li><a class="reference internal" href="#hints" id="toc-entry-17">Hints</a></li>
+<li><a class="reference internal" href="#obtaining-my-current-public-key" id="toc-entry-18">Obtaining my Current Public Key</a></li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-19">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -81,6 +91,7 @@
 <p>Possibly with intermediate organisations between the endpoint ones, possibly stored on several locations per organisation - possibly times the number of specified recipients.</p>
 <p>Moreover many countries require by law that emails are stored by Internet providers durably (often at least for one year) - not to mention the large-scale data harvesting that many countries perform, officially or not, with their own measures, on their own territory or on the one of others.</p>
 <p>That's a rather large number of copies for one's private correspondence - to the point that emails sent in clear text could be mostly considered as public. Not to mention that they could also be altered in the process, at some point(s) in the chain.</p>
+<p>Common solutions exist to ensure that a given mailserver is indeed in charge of a given domain name (SPF), that a given email originates from a given mailserver and has not been tampered with (DKIM) and that any non-conformance can be managed according to a policy recommended by the emitter (DMARC), but none is about the privacy of your messages.</p>
 <p><strong>Encrypting and signing are solutions to restore some privacy and safety</strong> - yours, but also the ones of the persons with whom you happen to correspond.</p>
 </div>
 <div class="section" id="technical-solution">
@@ -90,43 +101,43 @@
 <p>The corresponding command-line executable, <tt class="docutils literal">gpg</tt>, can be installed on Arch Linux with: <tt class="docutils literal">pacman <span class="pre">-Sy</span> gnupg</tt>.</p>
 <div class="section" id="obtaining-one-s-keys">
 <h3><a class="toc-backref" href="#toc-entry-5">Obtaining One's Keys</a></h3>
-<p>The first step is to generate locally one's key pair, knowing that each public key is bound to a username or an e-mail address (which is our preference; having one's domain name allows to create any number of them).</p>
+<p>A first step is to generate locally one's key pair, knowing that each public key is bound to a username or an e-mail address (which is our preference; having one's domain name allows to create any number of them).</p>
 <p>A nice feature of this cryptographic scheme is that one may issue any number of keys in full autonomy and with neither consequences nor cost. So as many key pairs as notions of &quot;unrelated identities&quot; may be freely created.</p>
-<p>Several settings can be chosen when generating a key, and logically the strongest keys are preferred. Yet uncommon/too recent generation algorithms and/or higher key lengths may not be supported by the various tools <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>, so applying the default settings retained by gpg, or similar ones yet a bit stronger (ex: at the time of this writing, November 2021, RSA 4096 bits rather than 3072 bits) is probably the way to go (it can already be deemed safe, and will be widely supported); so the generation may be best triggered simply thanks to:</p>
+<p>Several settings can be chosen when generating a key, and logically the strongest keys are preferred. Yet uncommon/too recent generation algorithms and/or higher key lengths may not be supported by the various tools <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>, so applying the default settings retained by gpg, or similar ones yet a bit stronger (e.g. at the time of this writing, November 2021, RSA 4096 bits rather than 3072 bits) is probably the way to go (it can already be deemed safe, and will be widely supported); so the generation may be best triggered simply thanks to:</p>
 <pre class="code bash literal-block">
 <span class="c1"># For current defaults:
-</span>$ gpg --gen-key
+</span>$<span class="w"> </span>gpg<span class="w"> </span>--gen-key<span class="w">
 
-<span class="c1"># Or, for more control:
-</span>$ gpg --full-gen-key
+</span><span class="c1"># Or, for more control:
+</span>$<span class="w"> </span>gpg<span class="w"> </span>--full-gen-key
 </pre>
 <table class="docutils footnote" frame="void" id="footnote-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-1">[1]</a></td><td>With &quot;cutting-edge&quot; settings, some tools (like Thunderbird) on your side and/or the email clients of your recipients may be unable to make use of the resulting keys, and may fail to report clearly that they actually do not support this algorithm or its parametrisation. So one may consider sticking to the reasonable gpg defaults.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-1">[1]</a></td><td>With &quot;cutting-edge&quot; settings, some tools (like Thunderbird) on your side and/or the email clients of your recipients may be unable to make use of the resulting keys, and may fail to report clearly that they actually do not support this algorithm or its parametrisation. So one may consider sticking to reasonable gpg defaults, or use paranoid settings only for a fully-private primary key whence actual work keys are derived.</td></tr>
 </tbody>
 </table>
 <p>If preferring rather paranoid settings, presumably for an extra security/durability, one can select ECC (for <a class="reference external" href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography">Elliptic-curve cryptography</a>), with the <tt class="docutils literal">Sign</tt>, <tt class="docutils literal">Certify</tt> and <tt class="docutils literal">Authenticate</tt> capabilities enabled (even if authentification is not used by many common protocols), and opt for the <tt class="docutils literal">Brainpool <span class="pre">P-512</span></tt> curve through:</p>
 <pre class="code bash literal-block">
-$ gpg --full-gen-key --expert
+$<span class="w"> </span>gpg<span class="w"> </span>--full-gen-key<span class="w"> </span>--expert
 </pre>
 <p>In all cases, one may enter <tt class="docutils literal">1y</tt> to set the initial validity duration of the generated key to one year, and already plan in one's agenda, a dozen days before the end of its validity, its renewal.</p>
-<p>Then one may enter one's selected identity (ex: for <tt class="docutils literal">Real name</tt>, one may enter <tt class="docutils literal">James Bond</tt>), one's email address of interest (ex: <tt class="docutils literal">james.bond&#64;mi6.org</tt>) and possibly:</p>
+<p>Then one may enter one's selected identity (e.g. for <tt class="docutils literal">Real name</tt>, one may enter <tt class="docutils literal">James Bond</tt>), one's email address of interest (e.g. <tt class="docutils literal">james.bond&#64;mi6.org</tt>) and possibly:</p>
 <ul class="simple">
 <li>either no specific comment (they are not normalised anyway)</li>
-<li>or one pointing to an authoritative source against which the public key may be verified (such as: &quot;This public key can be verified against its reference in <a class="reference external" href="https://mi6.org/james-bond.pub">https://mi6.org/james-bond.pub</a>&quot; - provided of course such a file is to exist)</li>
+<li>or one pointing to an authoritative source against which the public key may be verified (such as: &quot;this public key can be verified against its reference in <a class="reference external" href="https://mi6.org/james-bond.pub">https://mi6.org/james-bond.pub</a>&quot; - provided of course such a file is to exist)</li>
 </ul>
 <p>The requested passphrase only consists on a last-resort protection of the generated private key (that you should <em>never</em> transmit to <em>anyone</em>), in order to avoid that anyone accessing this file on your computer becomes directly able to fully impersonate this identity.</p>
 <p>The operation generates a public/private key pair, and also an associated emergency revocation certificate, so that you can invalidate it at any time and for any reason:</p>
 <pre class="code bash literal-block">
-gpg: key 9A60ADA4E151B8B5 marked as ultimately trusted
-gpg: directory <span class="s1">'/home/james/.gnupg/openpgp-revocs.d'</span> created
-gpg: revocation certificate stored as <span class="s1">'/home/james/.gnupg/openpgp-revocs.d/C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5.rev'</span>
-public and secret key created and signed.
+gpg:<span class="w"> </span>key<span class="w"> </span>9A60ADA4E151B8B5<span class="w"> </span>marked<span class="w"> </span>as<span class="w"> </span>ultimately<span class="w"> </span>trusted<span class="w">
+</span>gpg:<span class="w"> </span>directory<span class="w"> </span><span class="s1">'/home/james/.gnupg/openpgp-revocs.d'</span><span class="w"> </span>created<span class="w">
+</span>gpg:<span class="w"> </span>revocation<span class="w"> </span>certificate<span class="w"> </span>stored<span class="w"> </span>as<span class="w"> </span><span class="s1">'/home/james/.gnupg/openpgp-revocs.d/C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5.rev'</span><span class="w">
+</span>public<span class="w"> </span>and<span class="w"> </span>secret<span class="w"> </span>key<span class="w"> </span>created<span class="w"> </span>and<span class="w"> </span>signed.<span class="w">
 
-pub   brainpoolP512r1 <span class="m">2021</span>-11-26 <span class="o">[</span>SCA<span class="o">]</span> <span class="o">[</span>expires: <span class="m">2022</span>-11-26<span class="o">]</span>
-      C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
-uid   James Bond &lt;james.bond&#64;mi6.org&gt;
+</span>pub<span class="w">   </span>brainpoolP512r1<span class="w"> </span><span class="m">2021</span>-11-26<span class="w"> </span><span class="o">[</span>SCA<span class="o">]</span><span class="w"> </span><span class="o">[</span>expires:<span class="w"> </span><span class="m">2022</span>-11-26<span class="o">]</span><span class="w">
+      </span>C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5<span class="w">
+</span>uid<span class="w">   </span>James<span class="w"> </span>Bond<span class="w"> </span>&lt;james.bond&#64;mi6.org&gt;
 </pre>
 <p>Here <tt class="docutils literal">C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5</tt> is the full fingerprint of the public key; it could be shortened to its 8, if not 4, last characters (long/short ID), yet it would expose to the forging of intentionally-colliding keys, so one should only designate a key based on its full fingerprint, and forget unsafe abbreviations.</p>
 <p>The public key can be freely shared, whereas the private one and the revocation certificate must be equally well protected (preferably in different places).</p>
@@ -135,8 +146,8 @@ uid   James Bond &lt;james.bond&#64;mi6.org&gt;
 <ul class="simple">
 <li>first an infrequently-used, very-well protected (hence less accessible), signing-only &quot;master&quot; (primary) key of longer validity (one's actual identity)</li>
 <li>then at least two subkeys (deriving from the previous one, yet autonomous) may be of use:<ul>
-<li>one for everyday encrypting; a proper subkey has already been automatically created and used by gnupg</li>
-<li>an extra one for everyday signing: such a subkey may be created with a sufficient lifespan so that past signatures can be durably verified</li>
+<li>one for everyday <em>encrypting</em>; a proper subkey has already been automatically created and used by gnupg</li>
+<li>an extra one for everyday <em>signing</em>: such a subkey may be created with a sufficient lifespan so that past signatures can be durably verified</li>
 </ul>
 </li>
 </ul>
@@ -145,7 +156,7 @@ uid   James Bond &lt;james.bond&#64;mi6.org&gt;
 <p>See also <a class="reference external" href="https://wiki.debian.org/Subkeys">these very relevant Debian guidelines</a> for further information about subkey management.</p>
 </div>
 <div class="section" id="where-are-the-keys-and-how-to-backup-them">
-<h3><a class="toc-backref" href="#toc-entry-6">Where are the keys, and how to backup them?</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-6">Where are the Keys, and How to Backup Them?</a></h3>
 <p>The full gpg state is stored by default in its <tt class="docutils literal"><span class="pre">~/.gnupg/</span></tt> tree.</p>
 <p>One may notably notice in it:</p>
 <ul class="simple">
@@ -163,32 +174,32 @@ uid   James Bond &lt;james.bond&#64;mi6.org&gt;
 </table>
 <p>Even if a backup of one's key pair could be made by creating and encrypting an archive of this gpg filesystem tree, a far better solution is to use its integrated procedure, as the structure of its internal state may change from a version/platform of gpg to another. So the best course of action is to use the following command in order to generate a backup of a key pair in a standard, durable form:</p>
 <pre class="code bash literal-block">
-$ gpg -o <span class="k">$(</span>date <span class="s1">'+%Y%m%d'</span><span class="k">)</span>-full-key-backup-for-james.bond-at-mi6.org.gpg --export-secret-keys james.bond&#64;mi6.org
+$<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span>-full-key-backup-for-james.bond-at-mi6.org.gpg<span class="w"> </span>--export-secret-keys<span class="w"> </span>james.bond&#64;mi6.org
 </pre>
 <p>This will produce a half-kilobyte file containing the full key pair, whose type is:</p>
 <pre class="code literal-block">
 20211126-full-key-backup-for-james.bond-at-mi6.org.gpg: OpenPGP Secret Key Version 4, Created Fri Nov 26 21:52:31 2021, ECDSA; User ID; Signature; OpenPGP Certificate
 </pre>
 <p>Of course, so that it may be used in the future, this backup of (notably) the private key should <em>not</em> be encrypted with that same key.</p>
-<p>Specifying in filenames the email address may be avoided, in the sense that rather than having multiple keys (ex: as many as email accounts), it is often more convenient to have a single key supporting multiple names/addresses (see the section about subkey below); so:</p>
+<p>Specifying in filenames the email address may be avoided, in the sense that rather than having multiple keys (e.g. as many as email accounts), it is often more convenient to have a single key supporting multiple names/addresses (see the section about subkey below); so:</p>
 <pre class="code bash literal-block">
 <span class="c1"># If using fingerprints and potentially having multiple registered email
-# accounts,just focusing on their common identity:
+# accounts, just focusing on their common identity:
 #
-</span>$ gpg -o <span class="k">$(</span>date <span class="s1">'+%Y%m%d'</span><span class="k">)</span>-full-key-backup-for-james.bond.gpg --export-secret-keys C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
+</span>$<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span>-full-key-backup-for-james.bond.gpg<span class="w"> </span>--export-secret-keys<span class="w"> </span>C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
 </pre>
 <p>A backup of the revocation certificate shall be done as well (knowing that by design it is not password-protected, and thus having access to this certificate is sufficient to be able to kill your key), preferably in a different location as the role of this certificate is to serve as an urgent safety measure should the private key be lost (non-emergency revocations should be performed thanks to the more adapted and informative <tt class="docutils literal"><span class="pre">--generate-revocation</span></tt> option instead).</p>
 <p>For long-term auxiliary storage, such a backup can be printed (on paper), possibly thanks to <a class="reference external" href="https://wiki.archlinux.org/title/Paperkey">Paperkey</a> (installed on Arch with <tt class="docutils literal">pacman <span class="pre">-Sy</span> paperkey</tt>). For example:</p>
 <pre class="code bash literal-block">
 <span class="c1"># To print directly:
-</span>gpg --export-secret-key my_key_fingerprint <span class="p">|</span> paperkey <span class="p">|</span> lpr
+</span>gpg<span class="w"> </span>--export-secret-key<span class="w"> </span>my_key_fingerprint<span class="w"> </span><span class="p">|</span><span class="w"> </span>paperkey<span class="w"> </span><span class="p">|</span><span class="w"> </span>lpr<span class="w">
 
-<span class="c1"># To store first (less secure):
-</span>gpg --export-secret-key my_key_fingerprint <span class="p">|</span> paperkey --output my_key_fingerprint.asc
+</span><span class="c1"># To store first (less secure):
+</span>gpg<span class="w"> </span>--export-secret-key<span class="w"> </span>my_key_fingerprint<span class="w"> </span><span class="p">|</span><span class="w"> </span>paperkey<span class="w"> </span>--output<span class="w"> </span>my_key_fingerprint.asc
 </pre>
 <p>Such exports are ASCII texts, but they can also take the perhaps more convenient (and maybe less secured if having to trust one's smartphone) form of a QR code:</p>
 <pre class="code bash literal-block">
-$ gpg --export-secret-key my_key_fingerprint <span class="p">|</span> paperkey --output-type raw <span class="p">|</span> qrencode --8bit --output my_key_fingerprint.qr.png
+$<span class="w"> </span>gpg<span class="w"> </span>--export-secret-key<span class="w"> </span>my_key_fingerprint<span class="w"> </span><span class="p">|</span><span class="w"> </span>paperkey<span class="w"> </span>--output-type<span class="w"> </span>raw<span class="w"> </span><span class="p">|</span><span class="w"> </span>qrencode<span class="w"> </span>--8bit<span class="w"> </span>--output<span class="w"> </span>my_key_fingerprint.qr.png
 </pre>
 <p>Besides key pairs, following backups shall be done:</p>
 <ul class="simple">
@@ -210,35 +221,35 @@ $ gpg --export-secret-key my_key_fingerprint <span class="p">|</span> paperkey -
 <p>The goal is to enable the emergence of some level of global trust from the trust that each given identity concedes to the various identities that it knows directly.</p>
 <p>Trust is indeed to be spread, by extending it from peer to peer (or friend to friend) in an increasingly large network of trust, typically with trust levels that decrease with the number of peers that have to be traversed in the network before reaching a given identity: you may trust friends of your friends, albeit probably a bit less than your direct friends; networks of trust may reflect that increasing risk, typically based on mean shortest distance between endpoints.</p>
 <p>In practice, if A expresses some level of trust to B, A will digitally sign (thus with its own private key) the public certificate of B, to assess its association with the identity it embeds. This is commonly done at key signing parties (a nice way of meeting likely-minded folks as well).</p>
-<p>Various schemes for vetting (validating in practice the identity carried by B; ex: should we request B to show their identity card, to prove they control a given domain, or any other identity/ownership proof?) and voting (to decide on the overall trust to be derived from a potentially conflicting set of peer-to-peer endorsements A1, A2, etc. about B) exist; one remains of course free to decide for oneself on which grounds one concedes trust, it is the beauty of a decentralised mode of operation.</p>
+<p>Various schemes for vetting (validating in practice the identity carried by B; e.g. should we request B to show their identity card, to prove they control a given domain, or any other identity/ownership proof?) and voting (to decide on the overall trust to be derived from a potentially conflicting set of peer-to-peer endorsements A1, A2, etc. about B) exist; one remains of course free to decide for oneself on which grounds one concedes trust, it is the beauty of a decentralised mode of operation.</p>
 <p>In practice, the sharing of public certificates used to be done through SKS <a class="reference external" href="https://en.wikipedia.org/wiki/Key_server_(cryptographic)">key servers</a>; it is as simple as requesting gpg to send the pblic key that corresponds to the specified fingerprint (here its last 8 characters):</p>
 <pre class="code bash literal-block">
-$ gpg --send-keys E115A8B5
-gpg: sending key 9D60ADA5E115A8B5 to hkps://keyserver.ubuntu.com
+$<span class="w"> </span>gpg<span class="w"> </span>--send-keys<span class="w"> </span>E115A8B5<span class="w">
+</span>gpg:<span class="w"> </span>sending<span class="w"> </span>key<span class="w"> </span>9D60ADA5E115A8B5<span class="w"> </span>to<span class="w"> </span>hkps://keyserver.ubuntu.com
 </pre>
 <p>Note that this sharing discloses the corresponding email address, and thus exposes it to spam.</p>
 <p>As <a class="reference external" href="https://en.wikipedia.org/wiki/Key_server_(cryptographic)#Problems_with_keyservers">various issues</a> threaten SKS-based solutions, public keys may also be sent to the Hagrid-based OpenGPG server, <tt class="docutils literal">keys.openpgp.org</tt> (which is not replicated to peer servers, yet performs more verification of the issuer of registered certificates).</p>
 <p>To do so, register first this server in your configuration:</p>
 <pre class="code bash literal-block">
-$ <span class="nb">echo</span> <span class="s2">&quot;keyserver hkps://keys.openpgp.org&quot;</span> &gt;&gt; ~/.gnupg/dirmngr.conf
+$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;keyserver hkps://keys.openpgp.org&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.gnupg/dirmngr.conf<span class="w">
 
-<span class="c1"># Reload gpg daemon:
-</span>$ gpgconf --reload dirmngr
+</span><span class="c1"># Reload gpg daemon:
+</span>$<span class="w"> </span>gpgconf<span class="w"> </span>--reload<span class="w"> </span>dirmngr<span class="w">
 
-<span class="c1"># Extract the public key of interest in a .pub file:
-</span>$ gpg -o <span class="k">$(</span>date <span class="s1">'+%Y%m%d'</span><span class="k">)</span>-james.bond-at-mi6.org.pub --export james.bond&#64;mi6.org
+</span><span class="c1"># Extract the public key of interest in a .pub file:
+</span>$<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span>-james.bond-at-mi6.org.pub<span class="w"> </span>--export<span class="w"> </span>james.bond&#64;mi6.org
 </pre>
-<p>This file shall be uploaded via <a class="reference external" href="http://keys.openpgp.org/upload">this web page</a> that will guide you through the verification process, i.e. sending an email to the electronic address embedded in the transmitted public key in order to check that it is legit (by waiting for you to visit the URL that it generated and specified in said email).</p>
+<p>This file shall be uploaded via <a class="reference external" href="http://keys.openpgp.org/upload">this web page</a> that will guide you through the verification process, i.e. sending an email to the electronic address embedded in the transmitted public key in order to check that it is legit (by waiting for you to visit the URL that it generated and specified in said email); apparently uploading each public key separately (if multiple ones are associated to a given master key) shall be preferred so that they can be found by a look-up based on an electronic address.</p>
 <p>More generally, <a class="reference external" href="https://en.wikipedia.org/wiki/Key_server_(cryptographic)#Keyserver_examples">various keyservers</a> are looked up by gpg and thus can be considered (<a class="reference external" href="https://wiki.archlinux.org/title/GnuPG#Key_servers">with different configurations</a> regarding federation, verification, ability to forget keys, etc.).</p>
 <p>Afterwards anyone will be able to search for such key:</p>
 <pre class="code bash literal-block">
-$ gpg --search-keys james.bond&#64;mi6.org
-gpg: data source: https://keys.openpgp.org:443
-<span class="o">(</span><span class="m">1</span><span class="o">)</span>    James Bond &lt;james.bond&#64;mi6.org&gt;
-         <span class="m">512</span> bit ECDSA key 9A60ADA4E151B8B5, created: <span class="m">2021</span>-11-26
+$<span class="w"> </span>gpg<span class="w"> </span>--search-keys<span class="w"> </span>james.bond&#64;mi6.org<span class="w">
+</span>gpg:<span class="w"> </span>data<span class="w"> </span>source:<span class="w"> </span>https://keys.openpgp.org:443<span class="w">
+</span><span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w">    </span>James<span class="w"> </span>Bond<span class="w"> </span>&lt;james.bond&#64;mi6.org&gt;<span class="w">
+         </span><span class="m">512</span><span class="w"> </span>bit<span class="w"> </span>ECDSA<span class="w"> </span>key<span class="w"> </span>9A60ADA4E151B8B5,<span class="w"> </span>created:<span class="w"> </span><span class="m">2021</span>-11-26
 </pre>
-<p>Of course checking that only one matches is returned is important to detect spoofing attempts.</p>
-<p>Specifying your OpenPGP fingerprint in your email footers offers little interest, as your recipients cannot be sure that such incoming emails have not been tampered with.</p>
+<p>Of course checking that only one match is returned is important in order to detect spoofing attempts.</p>
+<p>Specifying your OpenPGP fingerprint in your email footers offers little interest, as your recipients cannot be sure that such incoming emails have not been tampered with (except if DKIM is used).</p>
 <p>So ultimately one will have either to trust such a decentralised scheme, or to trust a central authority like discussed next.</p>
 </div>
 <div class="section" id="centralised-sharing">
@@ -250,73 +261,181 @@ gpg: data source: https://keys.openpgp.org:443
 <div class="section" id="sharing-largely">
 <h4>Sharing Largely</h4>
 <p>So a public certificate can be spread as widely as wanted, through key servers / PKIs, but also it should be shared through any reliable, authoritative reference of a given identity, like one's own webserver, emails, social accounts, etc.</p>
-<p>This can be directly your public certificate (<a class="reference external" href="https://esperide.com/olivier-boudeville.pub">here is mine</a>) <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[3]</a> or a (shorter) fingerprint thereof (ex: the full fingerprint of my key is <tt class="docutils literal">DCA8E181DC3CEAF0EAE4033F9987EE77188E9BF4</tt>).</p>
+<p>This can be directly your public certificate (<a class="reference external" href="https://esperide.com/olivier-boudeville.pub">here is mine</a>) <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[3]</a> or a (shorter) fingerprint thereof (e.g. the full fingerprint of my key is <tt class="docutils literal">B8235ECE469EB77F</tt>).</p>
 <table class="docutils footnote" frame="void" id="footnote-3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-3">[3]</a></td><td>Note the HTTPS protection and that it currently refers to <tt class="docutils literal">online.fr</tt> rather than to <tt class="docutils literal">esperide.com</tt>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-3">[3]</a></td><td>Note the HTTPS certification.</td></tr>
 </tbody>
 </table>
 <p>Such public keys can be listed and then obtained respectively thanks to:</p>
 <pre class="code bash literal-block">
-$ gpg --list-keys james.bond&#64;mi6.org
-pub   brainpoolP512r1 <span class="m">2021</span>-11-26 <span class="o">[</span>SCA<span class="o">]</span> <span class="o">[</span>expires: <span class="m">2022</span>-11-26<span class="o">]</span>
-     C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
-uid           <span class="o">[</span>ultimate<span class="o">]</span> James Bond &lt;james.bond&#64;mi6.org&gt;
+$<span class="w"> </span>gpg<span class="w"> </span>--list-keys<span class="w"> </span>james.bond&#64;mi6.org<span class="w">
+</span>pub<span class="w">   </span>brainpoolP512r1<span class="w"> </span><span class="m">2021</span>-11-26<span class="w"> </span><span class="o">[</span>SCA<span class="o">]</span><span class="w"> </span><span class="o">[</span>expires:<span class="w"> </span><span class="m">2022</span>-11-26<span class="o">]</span><span class="w">
+     </span>C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5<span class="w">
+</span>uid<span class="w">           </span><span class="o">[</span>ultimate<span class="o">]</span><span class="w"> </span>James<span class="w"> </span>Bond<span class="w"> </span>&lt;james.bond&#64;mi6.org&gt;<span class="w">
 
-<span class="c1"># For a binary version of the public key:
-</span>$ gpg -o james-bond.pub ---export C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
+</span><span class="c1"># For a binary version of the public key:
+</span>$<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span>james-bond.pub<span class="w"> </span>---export<span class="w"> </span>C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5<span class="w">
 
-<span class="c1"># For an ASCII-based version (ex: suitable to register in GitHub):
-</span>$ gpg -o james-bond.pub.asc --armor --export C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
+</span><span class="c1"># For an ASCII-based version (e.g. suitable to register in GitHub):
+</span>$<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span>james-bond.pub.asc<span class="w"> </span>--armor<span class="w"> </span>--export<span class="w"> </span>C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
 </pre>
 </div>
 </div>
 <div class="section" id="what-can-be-done-with-these-keys">
-<h3><a class="toc-backref" href="#toc-entry-8">What can be done with these keys?</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-8">What can be Done with these Keys?</a></h3>
 <p>One may:</p>
 <ul class="simple">
 <li><strong>encrypt</strong> a file: <tt class="docutils literal">gpg <span class="pre">-r</span> james.bond&#64;mi6.org <span class="pre">-e</span> my_file_to_encrypt</tt>; this generates a <tt class="docutils literal">my_file_to_encrypt.gpg</tt> file</li>
 <li><strong>sign</strong> a file, with three possibilities:<ul>
 <li><tt class="docutils literal"><span class="pre">--sign</span></tt> / <tt class="docutils literal"><span class="pre">-s</span></tt> to generate a file containing both the input file (wrapped in an OpenPGP packet) and the signature</li>
 <li><tt class="docutils literal"><span class="pre">--clear-sign</span></tt> to generate a file containing both the input file (verbatim, expected to be a text file) and the signature</li>
-<li><tt class="docutils literal"><span class="pre">--detach-sign</span></tt> / <tt class="docutils literal"><span class="pre">-b</span></tt> to only generate a file containing said signature; so the input file will be needed in this mode to verify that signature; this possibility is useful when distributing content (ex: binaries), so that the intended public can check the signature if wanted</li>
+<li><tt class="docutils literal"><span class="pre">--detach-sign</span></tt> / <tt class="docutils literal"><span class="pre">-b</span></tt> to only generate a file containing said signature; so the input file will be needed in this mode to verify that signature; this possibility is useful when distributing content (e.g. binaries), so that the intended public can check the signature if wanted</li>
 </ul>
 </li>
 <li><strong>decrypt</strong> and possibly in  the same movement <strong>check the signature</strong> of a file: <tt class="docutils literal">gpg <span class="pre">-d</span> my_file_to_decrypt.gpg</tt> (everything will be output to the standard stream)</li>
 <li><strong>verify</strong> a signature: see the <tt class="docutils literal"><span class="pre">--verify</span></tt> option for the 3 types of signatures</li>
 <li><strong>verify</strong> signed emails:<ul>
 <li>import the public key of the sender: <tt class="docutils literal">gpg <span class="pre">--search-keys</span> dr.no&#64;foobar.org</tt></li>
-<li>determine whether it is valid and, more importantly, deserving trust (is it the right public key?); if yes; sign it with <tt class="docutils literal">gpg <span class="pre">--edit-key</span> dr.no&#64;foobar.org</tt></li>
+<li>determine whether it is valid and, more importantly, deserving trust (is it the right public key?); if yes, sign it with <tt class="docutils literal">gpg <span class="pre">--edit-key</span> dr.no&#64;foobar.org</tt></li>
 </ul>
 </li>
-<li><strong>import</strong> keys (yours or not) in your email client; if using a (recent) Thunderbird, no plugin is needed, but the local gpg rings will <em>not</em> be used by Thunderbird; refer to <a class="reference external" href="https://support.mozilla.org/en-US/kb/openpgp-thunderbird-howto-and-faq#w_i-have-never-used-openpgp-with-thunderbird-before-how-do-i-setup-openpgp">this documentation</a></li>
+<li><strong>import</strong> keys (yours or not) in your email client; if using a (recent) Thunderbird, no plugin is needed, but the local gpg rings will <em>not</em> be used by Thunderbird; refer to <a class="reference external" href="https://support.mozilla.org/en-US/kb/openpgp-thunderbird-howto-and-faq#w_i-have-never-used-openpgp-with-thunderbird-before-how-do-i-setup-openpgp">this documentation</a>, unless <a class="reference external" href="https://blog.nicohood.de/use-thunderbird-78-with-system-gnupg-keyring">special measures</a> are taken</li>
+<li><strong>access to online services</strong>, such as GitHub, GitLab, etc., typically to sign commits</li>
 <li><strong>encrypt</strong> and/or <strong>sign</strong> emails</li>
 </ul>
+</div>
+<div class="section" id="updating-your-keys">
+<h3><a class="toc-backref" href="#toc-entry-9">Updating Your Keys</a></h3>
+<p>Keys are meant to expire, so that they are updated as technology progresses.</p>
+<p>To check whether one's (secret) keys expired:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>gpg<span class="w"> </span>--list-secret-keys<span class="w"> </span>--keyid-format<span class="w"> </span>LONG<span class="w">
+</span><span class="o">[</span>...<span class="o">]</span><span class="w">
+</span>sec<span class="w">   </span>brainpoolP512r1/3D60ADA5E251A8B5<span class="w"> </span><span class="m">2021</span>-11-26<span class="w"> </span><span class="o">[</span>SCA<span class="o">]</span><span class="w"> </span><span class="o">[</span>expired:<span class="w"> </span><span class="m">2022</span>-11-26<span class="o">]</span><span class="w">
+      </span>C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5<span class="w">
+</span>uid<span class="w">                 </span><span class="o">[</span><span class="w"> </span>expired<span class="o">]</span><span class="w"> </span>James<span class="w"> </span>Bond<span class="w"> </span>&lt;james.bond&#64;mi6.org&gt;<span class="w">
+</span><span class="o">[</span>...<span class="o">]</span>
+</pre>
+<p>So this key expired and shall be renewed; let's extend it of two years, and proceed interactively, based on its KEYID:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>gpg<span class="w"> </span>--edit-key<span class="w"> </span>3D60ADA5E251A8B5<span class="w">
+</span>Secret<span class="w"> </span>key<span class="w"> </span>is<span class="w"> </span>available.<span class="w">
+
+</span>sec<span class="w">  </span>brainpoolP512r1/3D60ADA5E251A8B5<span class="w">
+    </span>created:<span class="w"> </span><span class="m">2021</span>-11-26<span class="w">  </span>expired:<span class="w"> </span><span class="m">2022</span>-11-26<span class="w">  </span>usage:<span class="w"> </span>SCA<span class="w">
+    </span>trust:<span class="w"> </span>ultimate<span class="w">      </span>validity:<span class="w"> </span>expired<span class="w">
+</span><span class="o">[</span><span class="w"> </span>expired<span class="o">]</span><span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span>.<span class="w"> </span>James<span class="w"> </span>Bond<span class="w"> </span>&lt;james.bond&#64;mi6.org&gt;<span class="w">
+
+</span>gpg&gt;<span class="w"> </span>expire<span class="w">
+</span>Changing<span class="w"> </span>expiration<span class="w"> </span><span class="nb">time</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>primary<span class="w"> </span>key.<span class="w">
+</span>Please<span class="w"> </span>specify<span class="w"> </span>how<span class="w"> </span>long<span class="w"> </span>the<span class="w"> </span>key<span class="w"> </span>should<span class="w"> </span>be<span class="w"> </span>valid.<span class="w">
+        </span><span class="nv">0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>expire<span class="w">
+     </span>&lt;n&gt;<span class="w">  </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>days<span class="w">
+     </span>&lt;n&gt;w<span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>weeks<span class="w">
+     </span>&lt;n&gt;m<span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>months<span class="w">
+     </span>&lt;n&gt;y<span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>years<span class="w">
+</span>Key<span class="w"> </span>is<span class="w"> </span>valid<span class="w"> </span><span class="k">for</span>?<span class="w"> </span><span class="o">(</span><span class="m">0</span><span class="o">)</span><span class="w"> </span>2y<span class="w">
+
+</span>Key<span class="w"> </span>expires<span class="w"> </span>at<span class="w"> </span>Wed<span class="w"> </span><span class="m">01</span><span class="w"> </span>Jan<span class="w"> </span><span class="m">2025</span><span class="w"> </span><span class="m">12</span>:40:27<span class="w"> </span>PM<span class="w"> </span>CET<span class="w">
+</span>Is<span class="w"> </span>this<span class="w"> </span>correct?<span class="w"> </span><span class="o">(</span>y/N<span class="o">)</span><span class="w">
+
+</span>sec<span class="w">  </span>brainpoolP512r1/3D60ADA5E251A8B5<span class="w">
+    </span>created:<span class="w"> </span><span class="m">2021</span>-11-26<span class="w">  </span>expires:<span class="w"> </span><span class="m">2025</span>-01-01<span class="w">  </span>usage:<span class="w"> </span>SCA<span class="w">
+    </span>trust:<span class="w"> </span>ultimate<span class="w">      </span>validity:<span class="w"> </span>ultimate<span class="w">
+</span><span class="o">[</span>ultimate<span class="o">]</span><span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span>.<span class="w"> </span>James<span class="w"> </span>Bond<span class="w"> </span>&lt;james.bond&#64;mi6.org&gt;<span class="w">
+
+ </span>gpg&gt;<span class="w"> </span>trust<span class="w">
+ </span>gpg&gt;<span class="w"> </span>save
+</pre>
+</div>
+<div class="section" id="deleting-your-keys">
+<h3><a class="toc-backref" href="#toc-entry-10">Deleting Your Keys</a></h3>
+<p>Typically if having expired keys not intended to be renewed:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>gpg<span class="w"> </span>--delete-secret-key<span class="w"> </span>KEYID
+</pre>
+</div>
+</div>
+<div class="section" id="a-corresponding-cheat-sheet">
+<h2><a class="toc-backref" href="#toc-entry-11">A Corresponding Cheat Sheet</a></h2>
+<div class="section" id="root-key">
+<h3><a class="toc-backref" href="#toc-entry-12">Root Key</a></h3>
+<p>Create a master key that will never leave one's network, thanks to <tt class="docutils literal">gpg <span class="pre">--expert</span> <span class="pre">--full-generate-key</span></tt>:</p>
+<ul class="simple">
+<li>with a strong algorithm (e.g. <tt class="docutils literal">Brainpool <span class="pre">P-512</span></tt>, by selecting <tt class="docutils literal">ECC (set your own capabilities)</tt>)</li>
+<li>only able to certify (C) - not sign (S) or authenticate (A) - thus switch off the sign capability</li>
+<li>with a rather long lifespan (e.g. 6 years, hence <tt class="docutils literal">6y</tt>)</li>
+<li>with a relevant comment (e.g. <tt class="docutils literal">this public key can be verified against its reference in <span class="pre">https://mi6.org/james-bond.pub</span></tt>), as subkeys will inherit it</li>
+</ul>
+<p>Possibly add other identities (typically email addresses), with <tt class="docutils literal">gpg <span class="pre">--edit-key</span></tt>, <tt class="docutils literal">adduid</tt>, then <tt class="docutils literal">uid 2</tt>, <tt class="docutils literal">trust</tt>, <tt class="docutils literal">uid 2</tt> (to unselect), <tt class="docutils literal">primary</tt> (for uid 1) and <tt class="docutils literal">save</tt>.</p>
+<p>Sign this new key with any past one:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>gpg<span class="w"> </span>--default-key<span class="w"> </span>OLDKEYID<span class="w"> </span>--edit-key<span class="w"> </span>NEWKEYID<span class="w">
+</span>gpg&gt;<span class="w"> </span>sign<span class="w">
+</span>gpg&gt;<span class="w"> </span>save
+</pre>
+</div>
+<div class="section" id="subkeys">
+<h3><a class="toc-backref" href="#toc-entry-13">Subkeys</a></h3>
+<p>Define as many of them as needed (based on <tt class="docutils literal">gpg <span class="pre">--expert</span> <span class="pre">--edit-key</span> NEWKEYID</tt>), possibly one for signing, one for encrypting and one for authenticating (apparently not automatically generated), each time with <tt class="docutils literal">addkey</tt>; select a strong yet commonly-accepted algorithm (e.g. RSA 4096 bits), and a shorter lifespan (e.g. 2 years).</p>
+<p>A simpler &quot;triple&quot; use (S/E/A) key may be preferred or additionally created.</p>
+</div>
+<div class="section" id="prepare-revocation">
+<h3><a class="toc-backref" href="#toc-entry-14">Prepare Revocation</a></h3>
+<p>Create a revocation certificate for your master key, specifying reason 1 (<tt class="docutils literal">Key has been compromised</tt>) and clarify with a comment (<tt class="docutils literal">This revocation certificate has been generated at key creation.</tt>):</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>gpg<span class="w"> </span>--output<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span>-masterkey.gpg-revocation-certificate.key<span class="w"> </span>--gen-revoke<span class="w"> </span>KEYID
+</pre>
+<p>Stores possibly multiple offline copies of that certificate.</p>
+</div>
+<div class="section" id="finally">
+<h3><a class="toc-backref" href="#toc-entry-15">Finally</a></h3>
+<p>Backup secret keys:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span>-full-key-backup-for-james.bond.gpg<span class="w"> </span>--export-secret-keys
+</pre>
+<p>Dispatch the various public keys generated (for signing, encrypting, authenticating):</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>gpg<span class="w"> </span>--send-keys<span class="w"> </span>KEYID
+</pre>
+<p>Transfer the <tt class="docutils literal"><span class="pre">james-bond.pub</span></tt> public key to webserver (e.g. <tt class="docutils literal"><span class="pre">https://mi6.org/</span></tt>), based on <tt class="docutils literal">gpg <span class="pre">-o</span> <span class="pre">james-bond.pub</span> <span class="pre">--export</span> PUBKEYID</tt>.</p>
 </div>
 </div>
 </div>
 <div class="section" id="a-link-with-decentralized-identifiers">
-<h1><a class="toc-backref" href="#toc-entry-9">A Link With Decentralized Identifiers</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-16">A Link With Decentralized Identifiers</a></h1>
 <p>The use of key pairs in the absence of a certificate authority directly relates to <a class="reference external" href="https://www.w3.org/TR/did-core/">Decentralized Identifiers</a> (DIDs), a class of universal solutions (not depending on any context/organisation, and able to be recognized by any) with which anyone can create one's (globally unique) identifiers that remain in one's full control: one freely issues them, they remain valid as long as their issuer wishes (as none but their creator itself can revoke them), and (for example unlike mere UUIDs) they can be cryptographically verified by anyone.</p>
 <p>No external central authority applies to such identifiers, which cannot reveal personal information unless decided by their issuer and thus sole controller.</p>
 <p>In practice, although other solutions could maybe be considered, it involves, like discussed in the previous sections, generating on one's own at least a public/private key pair, to store safely the private one and to share as widely as needed the public one. Then one can sign and/or encrypt one's messages with a pretty good hope that they will remain secure for a while; such a system enables partial disclosure (as one chooses what one encrypts or signs) in full control (as all operations are driven by the private key that the issuer is the only one to control).</p>
-<p>These decentralised identifiers, together with the principle of addressing a digital content by its fingerprint (ex: SHA1), offer a solution bringing many interesting properties and opening new possibilities to distributed systems (ex: for blockchains, a user account is often identified by the fingerprint of its associated public certificate).</p>
+<p>These decentralised identifiers, together with the principle of addressing a digital content by its fingerprint (e.g. SHA1), offer a solution bringing many interesting properties and opening new possibilities to distributed systems (e.g. for blockchains, a user account is often identified by the fingerprint of its associated public certificate).</p>
 </div>
 <div class="section" id="hints">
-<h1><a class="toc-backref" href="#toc-entry-10">Hints</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-17">Hints</a></h1>
 <ul class="simple">
 <li>whenever useful, add the <tt class="docutils literal"><span class="pre">--armor</span></tt> option to use ASCII output armor, suitable for copying and pasting content in text format</li>
-<li>if you have multiple email accounts, thanks to <tt class="docutils literal"><span class="pre">--edit-key</span></tt> you can add each one of themin the same key as an identity (name), using the <tt class="docutils literal">adduid</tt> command; you can then set your favourite one as primary</li>
+<li>if you have multiple email accounts, thanks to <tt class="docutils literal"><span class="pre">--edit-key</span></tt> you can add each one of them in the same key as an identity (name), using the <tt class="docutils literal">adduid</tt> command; you can then set your favourite one as primary</li>
 <li>to always show full fingerprints of keys, add <tt class="docutils literal"><span class="pre">with-fingerprint</span></tt> to your configuration file (typically <tt class="docutils literal"><span class="pre">~/.gnupg/dirmngr.conf</span></tt>)</li>
 <li><a class="reference external" href="https://wiki.debian.org/Subkeys">these Debian guidelines</a> describe a robust, well-defined process for key management that may apply to most developers</li>
+<li>for a proper OpenPGP support, we have had to change of mail client, from Thunderbird (problems importing by itself strong/recent key types, and non-terminating attempts of reading the local pgp key ring) to Evolution (worked directly as expected)</li>
+</ul>
+</div>
+<div class="section" id="obtaining-my-current-public-key">
+<h1><a class="toc-backref" href="#toc-entry-18">Obtaining my Current Public Key</a></h1>
+<p>As the time of this writing (Tuesday, January 3, 2023), my daily key for signing / encrypting / authenticating is a RSA 4096-bit one designated as <tt class="docutils literal">3e090de4d08e42944d195a7bb8235ece469eb77f</tt>.</p>
+<p>It can be obtained by different means:</p>
+<ul class="simple">
+<li>downloading <a class="reference external" href="https://esperide.com/olivier-boudeville.pub">https://esperide.com/olivier-boudeville.pub</a></li>
+<li>searching in SKS key servers, e.g. <a class="reference external" href="http://keyserver.ubuntu.com/pks/lookup?search=olivier.boudeville%40esperide.com&amp;fingerprint=on&amp;op=index">keyserver.ubuntu.com</a></li>
+<li>searching in the <a class="reference external" href="https://keys.openpgp.org/search?q=olivier.boudeville%40esperide.com">openpgp.org key server</a></li>
 </ul>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-11">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-19">See Also</a></h1>
 <ul class="simple">
 <li>a complete, well-written tutorial, in French: <a class="reference external" href="https://linuxfr.org/news/bien-demarrer-avec-gnupg">Bien démarrer avec GnuPG</a></li>
-<li>other <a class="reference external" href="https://blog.mailfence.com/fr/meilleures-pratiques-de-signature-numerique-openpgp/">interesting usage hints</a>, still in French</li>
+<li>still in French: other <a class="reference external" href="https://blog.mailfence.com/fr/meilleures-pratiques-de-signature-numerique-openpgp/">interesting usage hints</a> and <a class="reference external" href="https://wiki.csnu.org/index.php/GnuPG_:_Cr%C3%A9er_la_paire_de_cl%C3%A9_gpg_parfaite_:_cl%C3%A9_maitre,_subkeys_et_support_smartcard_(yubikey)">GnuPG : Créer la paire de clé gpg parfaite</a></li>
 <li><a class="reference external" href="https://wiki.archlinux.org/title/GnuPG">GnuPG on Arch</a>, for much additional information</li>
 <li><a class="reference external" href="Networking.html">Network Management</a> information</li>
 </ul>

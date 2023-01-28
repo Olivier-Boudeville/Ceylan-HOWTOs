@@ -23,13 +23,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2022-2022 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2022-2023 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, December 1, 2022</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 21, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -108,11 +108,11 @@
 <h4>Basic, Less-than-Satisfactory, Installation Approach</h4>
 <p>For example, on Arch Linux, as <tt class="docutils literal">root</tt>, it is sufficient to execute:</p>
 <pre class="code bash literal-block">
-$ pacman -Sy mathjax
+$<span class="w"> </span>pacman<span class="w"> </span>-Sy<span class="w"> </span>mathjax
 </pre>
 <p>Then, to enable the use of MathJax for a given website based on Ceylan-Myriad, run from its root (often a <tt class="docutils literal">doc</tt> directory):</p>
 <pre class="code bash literal-block">
-$ make create-mathjax-symlink
+$<span class="w"> </span>make<span class="w"> </span>create-mathjax-symlink
 </pre>
 <p>(this target is defined in <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">GNUmakerules-docutils.inc</a>; it boils down to symlinking <tt class="docutils literal">/usr/share/mathjax</tt>; see also the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-HOWTOs/blob/master/doc/GNUmakefile">HOWTOs corresponding makefile</a> to properly manage this dependency afterwards, notably when deploying web content)</p>
 <p>Yet, depending on settings and conventions, updating MathJax in a web root may lead to permission errors; in that case the next approach shall be favored.</p>
@@ -236,9 +236,19 @@ This algorithm can be:
 <div class="section" id="fixing-permissions-in-third-party-content-to-integrate-in-a-web-root">
 <h2><a class="toc-backref" href="#toc-entry-14">Fixing Permissions in Third-Party Content to Integrate in a Web Root</a></h2>
 <p>The objective is to ensure that a filesystem tree can be transferred as a whole without permission errors to a given server more than once, whereas the destination user and group (typically specialised and restricted on a server) differ from the source ones.</p>
-<p>It is indeed often necessary to fix permissions in a third-party tree before it is transferred to a server (e.g. MathJax being copied through <tt class="docutils literal">scp</tt> in a web root); otherwise the next transfers will stumble on the initial, inadequate group rights, typically preventing them to be overwritten by a process belonging to a different user yet being in the same group, like <tt class="docutils literal">700</tt> instead of <tt class="docutils literal">770</tt> - resulting in <tt class="docutils literal">Permission denied</tt> errors.</p>
+<p>It is indeed often necessary to fix permissions in a third-party tree before it is transferred to a server (e.g. MathJax being copied from a client host through <tt class="docutils literal">scp</tt> in a web root on a given server); otherwise the next transfers will stumble on the initial, inadequate group rights, typically preventing them to be overwritten by a process belonging to a different user yet being in the same group, like <tt class="docutils literal">700</tt> instead of <tt class="docutils literal">770</tt> - resulting in <tt class="docutils literal">Permission denied</tt> errors.</p>
 <p>For that we recommend executing our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/fix-www-metadata.sh">fix-www-metadata.sh</a> script in the <em>source</em> root prior to transfer it to a webroot of choice. This typically applies to MathJax (see the <a class="reference internal" href="#rendering-mathematical-elements">Rendering Mathematical Elements</a> section), which therefore should not be installed in the system tree thanks to a package manager (as our script will alter its permissions) but in the user account (e.g. as <tt class="docutils literal">~/Software/mathjax</tt>).</p>
 <p>So typically this script shall be symlinked in each third-party root of interest, and be executed there at each update thereof.</p>
+<p>However doing so does not solve all issues: the file entries created/updated by <tt class="docutils literal">scp</tt> on the server will be owned by the user on the server implied by the <tt class="docutils literal">scp</tt> command, for example <tt class="docutils literal">stallone:users</tt> - not the desired <tt class="docutils literal"><span class="pre">web-srv-user:web-srv-group</span></tt>. Of course the <tt class="docutils literal"><span class="pre">fix-www-metadata.sh</span></tt> script can be run (by root) on the server to correct that. Yet the next update of this webroot will fail again with <tt class="docutils literal">Permission denied</tt> errors, as the groups are not expected to match anymore (we cannot overwrite with our client-side <tt class="docutils literal">users</tt> group a remote directory whose permission is <tt class="docutils literal">770</tt> that is owned by group <tt class="docutils literal"><span class="pre">web-srv-group</span></tt>).</p>
+<p>A solution is to ensure that the source content bears already the target group. As <tt class="docutils literal">scp</tt> relies on user/group IDs, not on names (e.g. on a numerical GID like <tt class="docutils literal">1001</tt>, not a name like <tt class="docutils literal">users</tt> or <tt class="docutils literal"><span class="pre">web-srv-group</span></tt>), the simplest solution is to determine the actual GID of the target group on the server (e.g. running, as root, <tt class="docutils literal">grep <span class="pre">web-srv-group</span> /etc/group</tt> may tell us that the GID of <tt class="docutils literal"><span class="pre">web-srv-group</span></tt> is <tt class="docutils literal">1002</tt> there) and to create <em>on the client</em> a group with the same GID (if ever possible - that is if there is not already another group happening to have be set to that GID) and to apply it to the source content to transfer, like in:</p>
+<pre class="code bash literal-block">
+<span class="c1"># We are on the &quot;client&quot;, source host, as root:
+# (web-srv-group-of-target-server clearer than web-srv-group)
+</span>$<span class="w"> </span>groupadd<span class="w"> </span>--gid<span class="w"> </span><span class="m">1002</span><span class="w"> </span>web-srv-group-of-target-server<span class="w">
+</span>$<span class="w"> </span>usermod<span class="w"> </span>-a<span class="w"> </span>-G<span class="w"> </span>web-srv-group-of-target-server<span class="w"> </span>stallone<span class="w">
+</span>$<span class="w"> </span>chgrp<span class="w"> </span>-R<span class="w"> </span>web-srv-group-of-target-server<span class="w"> </span>/home/stallone/mathjax
+</pre>
+<p>Then, afterwards, when the <tt class="docutils literal">stallone</tt> user performs his <tt class="docutils literal">scp</tt> repeatedly to transfer updated versions of his <tt class="docutils literal">mathjax</tt> directory from the client to the server, he should be able to perform a flawless update of its files and directories.</p>
 </div>
 <div class="section" id="pointing-to-a-specific-moment-in-a-linked-video">
 <h2><a class="toc-backref" href="#toc-entry-15">Pointing to a Specific Moment in a Linked Video</a></h2>
@@ -255,22 +265,22 @@ This algorithm can be:
 <p><a class="reference external" href="https://pandoc.org/">Pandoc</a> is the tool of choice for such operations, as it often yields good results.</p>
 <p>For example, in order to convert a page written in Mediawiki syntax, whose source content has been pasted in a <tt class="docutils literal"><span class="pre">old-content-in-mediawiki.txt</span></tt> file, into one that be specified in a GitLab wiki (hence in GFM markup, for <em>GitLab Flavored Markdown</em>) from a converted content, to be written in a <tt class="docutils literal"><span class="pre">converted-content.gfm</span></tt> file, one may use:</p>
 <pre class="code bash literal-block">
-$ pandoc old-content-in-mediawiki.txt --from<span class="o">=</span>mediawiki --to<span class="o">=</span>gfm --standalone -o converted-content.gfm
+$<span class="w"> </span>pandoc<span class="w"> </span>old-content-in-mediawiki.txt<span class="w"> </span>--from<span class="o">=</span>mediawiki<span class="w"> </span>--to<span class="o">=</span>gfm<span class="w"> </span>--standalone<span class="w"> </span>-o<span class="w"> </span>converted-content.gfm<span class="w">
 
-<span class="c1"># Or, for older versions of pandoc not supporting a gfm writer:
-</span>$ pandoc old-content-in-mediawiki.txt --from<span class="o">=</span>mediawiki --to<span class="o">=</span>markdown_github --standalone -o converted-content.gfm
+</span><span class="c1"># Or, for older versions of pandoc not supporting a gfm writer:
+</span>$<span class="w"> </span>pandoc<span class="w"> </span>old-content-in-mediawiki.txt<span class="w"> </span>--from<span class="o">=</span>mediawiki<span class="w"> </span>--to<span class="o">=</span>markdown_github<span class="w"> </span>--standalone<span class="w"> </span>-o<span class="w"> </span>converted-content.gfm
 </pre>
 <p>Then the content in <tt class="docutils literal"><span class="pre">converted-content.gfm</span></tt> file can be pasted in the target GitLab wiki page.</p>
 <p>Another example is the conversion of a GitLab wiki page into a RST document (ex: then for a PDF generation):</p>
 <pre class="code bash literal-block">
-$ pandoc my-gitlab-wiki-extract.gfm --from<span class="o">=</span>gfm --to<span class="o">=</span>rst --standalone -o my-converted-content.rst
+$<span class="w"> </span>pandoc<span class="w"> </span>my-gitlab-wiki-extract.gfm<span class="w"> </span>--from<span class="o">=</span>gfm<span class="w"> </span>--to<span class="o">=</span>rst<span class="w"> </span>--standalone<span class="w"> </span>-o<span class="w"> </span>my-converted-content.rst<span class="w">
 
-<span class="c1"># Or, for older versions of pandoc not supporting a gfm reader:
-</span>$ pandoc my-gitlab-wiki-extract.gfm --from<span class="o">=</span>markdown_github --to<span class="o">=</span>rst --standalone -o my-converted-content.rst
+</span><span class="c1"># Or, for older versions of pandoc not supporting a gfm reader:
+</span>$<span class="w"> </span>pandoc<span class="w"> </span>my-gitlab-wiki-extract.gfm<span class="w"> </span>--from<span class="o">=</span>markdown_github<span class="w"> </span>--to<span class="o">=</span>rst<span class="w"> </span>--standalone<span class="w"> </span>-o<span class="w"> </span>my-converted-content.rst
 </pre>
 <p>Finally, if really needing to generate a Word document, an example may be:</p>
 <pre class="code bash literal-block">
-$ pandoc my-document.rst --from<span class="o">=</span>rst --to<span class="o">=</span>docx -o my-converted-document.docx
+$<span class="w"> </span>pandoc<span class="w"> </span>my-document.rst<span class="w"> </span>--from<span class="o">=</span>rst<span class="w"> </span>--to<span class="o">=</span>docx<span class="w"> </span>-o<span class="w"> </span>my-converted-document.docx
 </pre>
 <p>The lists of the input and output formats supported by Pandoc and of their corresponding command-line options is specified <a class="reference external" href="https://pandoc.org/MANUAL.html#general-options">here</a>.</p>
 <p>These options are also returned by: <tt class="docutils literal">pandoc <span class="pre">--list-input-formats</span></tt> and <tt class="docutils literal">pandoc <span class="pre">--list-output-formats</span></tt> (or, for older versions of pandoc, thanks to <tt class="docutils literal">pandoc <span class="pre">--help</span></tt>).</p>
@@ -280,12 +290,12 @@ pandoc: Cannot decode byte '\xe9': Data.Text.Internal.Encoding.Fusion.streamUtf8
 </pre>
 <p>In this case, the actual encoding shall be determined, for example with:</p>
 <pre class="code bash literal-block">
-$ file input.html
-input.html: HTML document, ISO-8859 text
+$<span class="w"> </span>file<span class="w"> </span>input.html<span class="w">
+</span>input.html:<span class="w"> </span>HTML<span class="w"> </span>document,<span class="w"> </span>ISO-8859<span class="w"> </span>text
 </pre>
 <p>Then the encoding may be changed before calling pandoc, for example like:</p>
 <pre class="code bash literal-block">
-$ iconv -f ISO-8859-1 -t utf-8 input.html <span class="p">|</span> pandoc --from<span class="o">=</span>html --to<span class="o">=</span>markdown_github --standalone -o output.gfm
+$<span class="w"> </span>iconv<span class="w"> </span>-f<span class="w"> </span>ISO-8859-1<span class="w"> </span>-t<span class="w"> </span>utf-8<span class="w"> </span>input.html<span class="w"> </span><span class="p">|</span><span class="w"> </span>pandoc<span class="w"> </span>--from<span class="o">=</span>html<span class="w"> </span>--to<span class="o">=</span>markdown_github<span class="w"> </span>--standalone<span class="w"> </span>-o<span class="w"> </span>output.gfm
 </pre>
 </div>
 <div class="section" id="transformation-of-pdf-files">
@@ -307,7 +317,7 @@ $ iconv -f ISO-8859-1 -t utf-8 input.html <span class="p">|</span> pandoc --from
 </ul>
 <p>To invert/negate an image (swap colors with their complementary ones, while preserving alpha coordinates):</p>
 <pre class="code bash literal-block">
-$ convert source.png -channel RGB -negate target.png
+$<span class="w"> </span>convert<span class="w"> </span>source.png<span class="w"> </span>-channel<span class="w"> </span>RGB<span class="w"> </span>-negate<span class="w"> </span>target.png
 </pre>
 <p>See also the Myriad's automatic rules, which generate <tt class="docutils literal"><span class="pre">X-negated.png</span></tt> from <tt class="docutils literal">X.png</tt> thanks to: <tt class="docutils literal">make <span class="pre">X-negated.png</span></tt>.</p>
 </div>
@@ -373,9 +383,9 @@ $ convert source.png -channel RGB -negate target.png
 <p>For that we use Graphviz, with <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">our own build conventions</a>.</p>
 <p>For example, supposing <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/uml_class_diagram_example.graph">this diagram example</a>, i.e. a source file named <tt class="docutils literal">uml_class_diagram_example.graph</tt>:</p>
 <pre class="code bash literal-block">
-$ make uml_class_diagram_example.png
-<span class="c1"># or, to force a regeneration and a displaying of the result:
-</span>$ make clean uml_class_diagram_example.png <span class="nv">VIEW_GRAPH</span><span class="o">=</span><span class="nb">true</span>
+$<span class="w"> </span>make<span class="w"> </span>uml_class_diagram_example.png<span class="w">
+</span><span class="c1"># or, to force a regeneration and a displaying of the result:
+</span>$<span class="w"> </span>make<span class="w"> </span>clean<span class="w"> </span>uml_class_diagram_example.png<span class="w"> </span><span class="nv">VIEW_GRAPH</span><span class="o">=</span><span class="nb">true</span>
 </pre>
 <p>This example results in the following diagram:</p>
 <p><span class="raw-html"><center><img src="uml_class_diagram_example.png" id="responsive-image-small"></img></center></span>
