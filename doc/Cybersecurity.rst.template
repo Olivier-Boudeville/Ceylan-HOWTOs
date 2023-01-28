@@ -539,6 +539,20 @@ Hints
 - if you have multiple email accounts, thanks to ``--edit-key`` you can add each one of them in the same key as an identity (name), using the ``adduid`` command; you can then set your favourite one as primary
 - to always show full fingerprints of keys, add ``with-fingerprint`` to your configuration file (typically ``~/.gnupg/dirmngr.conf``)
 - `these Debian guidelines <https://wiki.debian.org/Subkeys>`_ describe a robust, well-defined process for key management that may apply to most developers
+- for a proper OpenPGP support, we have had to change of mail client, from Thunderbird (problems importing by itself strong/recent key types, and non-terminating attempts of reading the local pgp key ring) to Evolution (worked directly as expected)
+
+
+
+Obtaining my Current Public Key
+===============================
+
+As the time of this writing (Tuesday, January 3, 2023), my daily key for signing / encrypting / authenticating is a RSA 4096-bit one designated as ``3e090de4d08e42944d195a7bb8235ece469eb77f``.
+
+It can be obtained by different means:
+
+- downloading `https://esperide.com/olivier-boudeville.pub <https://esperide.com/olivier-boudeville.pub>`_
+- searching in SKS key servers, e.g. `keyserver.ubuntu.com <http://keyserver.ubuntu.com/pks/lookup?search=olivier.boudeville%40esperide.com&fingerprint=on&op=index>`_
+- searching in the `openpgp.org key server <https://keys.openpgp.org/search?q=olivier.boudeville%40esperide.com>`_
 
 
 
