@@ -670,8 +670,8 @@ Running it to reformat in-place source files is then as simple as:
 
 
 
-Features
---------
+Language Features
+-----------------
 
 Experimental features (such as ``maybe`` in Erlang 25) of the **compiler** (once Erlang has been built, they are *potentially available*) may have to be specifically *enabled* at runtime, like in ``ERL_FLAGS="-enable-feature all" rebar3 as release escriptize``.
 
