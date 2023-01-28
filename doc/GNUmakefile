@@ -102,9 +102,9 @@ export-doc: clean-doc full-doc export-doc-to-official export-doc-to-mirror
 # not a set of files), so currently not used:
 # rsync -avze "ssh $(SP)" $(SOME_WEB_TREE) $(WEB_SRV):$(WEB_ROOT)/Howtos/
 #
-export-doc-to-official: #check-mathjax clean-doc create-links doc
+export-doc-to-official: check-mathjax clean-doc create-links doc
 	@echo "   Exporting HOWTOs documentation to official website ($(WEB_SRV))"
-	@echo /bin/scp $(SP) -r $(WEB_CONTENT) $(WEB_SRV):$(WEB_ROOT)/Howtos/
+	@/bin/scp $(SP) -r $(WEB_CONTENT) $(WEB_SRV):$(WEB_ROOT)/Howtos/
 
 
 # H option for cp so that a local MathJax is copied in target branch:
