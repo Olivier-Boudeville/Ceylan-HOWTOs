@@ -488,18 +488,103 @@ This long-awaited feature, named *BeamAsm* and whose rationale and history have 
 Static Typing
 -------------
 
-Static type checking can be performed on Erlang code; the usual course of action is to use `Dialyzer <https://www.erlang.org/doc/man/dialyzer.html>`_ - albeit other solutions like `Gradualizer <https://github.com/josefs/Gradualizer>`_ (and also `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_) exist, and are mostly complementary (see also `1 <https://learnyousomeerlang.com/types-or-lack-thereof#for-type-junkies>`_ and `2 <https://learnyousomeerlang.com/dialyzer>`_).
+Static type checking can be performed on Erlang code; the usual course of action is to use `Dialyzer <https://www.erlang.org/doc/man/dialyzer.html>`_ - albeit other solutions like `Gradualizer <https://github.com/josefs/Gradualizer>`_ and also `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_ exist, and are mostly complementary (see also `1 <https://learnyousomeerlang.com/types-or-lack-thereof#for-type-junkies>`_ and `2 <https://learnyousomeerlang.com/dialyzer>`_).
 
 More precisely:
 
 - Dialyzer is a discrepancy analyzer that aims **to prove the presence of type-induced runtime crashes** (it may not be able to detect all type problems, yet "is never wrong"); Dialyzer does not use type specifications to guide the analysis: first it infers type information, and then only, if requested, it checks that information against the type specifications; so Dialyzer may operate with or without type specifications
-- whereas tools like Gradualizer and eqWAlizer are more conventional type system, based on the theory of gradual typing, that aim **to prove the absence of such crashes**; notably Gradualyzer depends intimately on type specifications: by default, without them, no static typing happens
+- whereas tools like Gradualizer and eqWAlizer are more conventional type systems, based on the theory of gradual typing, that aim **to prove the absence of such crashes**; notably Gradualizer depends intimately on type specifications: by default, without them, no static typing happens
 
 Also a few `statically-typed languages <https://github.com/llaisdy/beam_languages#statically-typed-languages>`_ can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).
 
 In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports JIT_).
 
-Beyond mere code, the messages exchanges between processes could also be typed and checked. Version upgrades could also benefit from it.
+Beyond mere code, the messages exchanges between processes could also be typed and checked. Version upgrades could also benefit from it. Of course type-related errors are only a subset of the software errors.
+
+Note that developments that rely on parse-transforms (almost all ours, directly or not) shall be verified based on their BEAM files (hence their actual, final output) rather than on their sources (as the checking would be done on code not transformed yet). See also the `Type-checking Myriad <https://myriad.esperide.org/#type-checking-myriad>`_ section.
+
+
+
+About Dialyzer
+..............
+
+
+Installing Dialyzer
+___________________
+
+Nothing is to be done, as Dialyzer is included in the standard Erlang distribution.
+
+
+Using Dialyzer
+______________
+
+Our preferred options (beyond path specifications of course) are: ``-Wextra_return -Wmissing_return -Wno_return -Werror_handling -Wno_improper_lists -Wno_unused -Wunderspecs``. See the ``DIALYZER_OPTS`` variable in Myriad's `GNUmakevars.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakevars.inc>`_ and the copiously commented options.
+
+A problem is that typing errors tend to snowball: many false positives (functions that are correct but whose call is not because an error upward in the callgraph) may be reported (leading to the infamous ``Function f/N has no local return``, which does not tell much).
+
+We recommend focusing on the first error reported for each module, and re-running the static analysis once supposedly fixed.
+
+
+
+About Gradualizer
+.................
+
+
+Installing Gradualizer
+______________________
+
+We install `Gradualizer <https://github.com/josefs/Gradualizer>`_ that way:
+
+.. code:: bash
+
+ $ cd ~/Software
+ $ mkdir gradualizer && cd gradualizer
+ $ git clone https://github.com/josefs/Gradualizer.git
+ $ cd Gradualizer
+ $ make escript
+
+Then just ensure that the ``~/Software/gradualizer/Gradualizer/bin`` directory is in your PATH (e.g. set in your ``.bashrc``).
+
+
+Using Gradualizer
+_________________
+
+Our preferred options (beyond path specifications of course) are: ``--infer --fmt_location verbose --fancy --color always --stop_on_first_error``. See the ``GRADUALIZER_OPTS`` variable in Myriad's `GNUmakevars.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakevars.inc>`_ and the copiously commented options..
+
+
+
+About eqWAlizer
+...............
+
+It is a tool developed in Rust.
+
+
+Installing eqWAlizer
+____________________
+
+We install `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_ that way:
+
+.. code:: bash
+
+ $ cd ~/Software
+ $ mkdir -p eqwalizer && cd eqwalizer
+ $ wget https://github.com/WhatsApp/eqwalizer/releases/download/vx.y.z/elp-linux.tar.gz
+ $ tar xvf elp-linux.tar.gz && mkdir -p bin && /bin/mv -f elp bin/
+
+Then just ensure that the ``~/Software/eqwalizer/bin`` directory is in your PATH (e.g. set in your ``.bashrc``).
+
+
+
+Using eqWAlizer
+_______________
+
+We use it out of a rebar3 context.
+
+Settings are to be stored in a JSON file (e.g. ``conf/foobar-for-eqwalizer.json``), to be designated thanks to the ``--project`` option.
+
+See also the ``EQWALIZER_OPTS`` variable in Myriad's `GNUmakevars.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakevars.inc>`_ and its own `myriad-for-eqwalizer.json <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/myriad-for-eqwalizer.json>`_  project file.
+
+(our first test was not successful, we will have to investigate more when time permits)
 
 
 
@@ -766,6 +851,8 @@ To avoid having to perform a lookup in the documentation:
   - to express an "or" operator, use a semi-colon, i.e. "``;``"
   - ``andalso`` and ``orelse`` behave there as tests, and their code is a little less effective than "``,``" and "``;``"
   - refer to the two tables (test/others) of the `BIFs supported in guards expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions>`_
+
+- to handle **binaries**, one may refer to `this cheat sheet <https://cheatography.com/fylke/cheat-sheets/erlang-binaries/>`_
 
 - in boolean expressions **outside of guards**:
 
