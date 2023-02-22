@@ -433,7 +433,13 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 </div>
 <div class="section" id="e-mail-clients">
 <h2><a class="toc-backref" href="#toc-entry-21">E-mail Clients</a></h2>
-<p>Over time we were preferring <a class="reference external" href="https://help.gnome.org/users/evolution/stable/index.html">Evolution</a> to <a class="reference external" href="https://www.thunderbird.net/">Thunderbird</a>, notably regarding its far better <a class="reference external" href="Cybersecurity.html#securing-thanks-to-openpgp">OpenPGP</a> support. Yet, at least for some IMAP servers (e.g. the ones of <a class="reference external" href="https://www.mailo.com/">Mailo</a>), errors (like: <tt class="docutils literal">Error copying messages: Error</tt>) constantly happening (despite many attempts of configuration changes) and being reported ruined its use for us, so we switched back to Thunderbird.</p>
+<p>Over time we were preferring <a class="reference external" href="https://help.gnome.org/users/evolution/stable/index.html">Evolution</a> to <a class="reference external" href="https://www.thunderbird.net/">Thunderbird</a>, notably regarding its far better <a class="reference external" href="Cybersecurity.html#securing-thanks-to-openpgp">OpenPGP</a> support. Yet, at least for some IMAP servers (e.g. the ones of <a class="reference external" href="https://www.mailo.com/">Mailo</a>), errors (like: <tt class="docutils literal">Error copying messages: Error</tt>) constantly happening (despite many attempts of configuration changes) and being reported ruined its use for us <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a>, so we switched back to Thunderbird.</p>
+<table class="docutils footnote" frame="void" id="footnote-2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-2">[2]</a></td><td>Moreover the fixed character-wrapping of Evolution is rather surprising and unfortunate.</td></tr>
+</tbody>
+</table>
 <ul class="simple">
 <li>for Thunderbird: we recommend using the <a class="reference external" href="https://addons.thunderbird.net/en-us/thunderbird/addon/dkim-verifier/">DKIM Verifier</a> add-on, that we found much useful to better detect spoofing attempts</li>
 <li>for Evolution: on Arch Linux, consider installing the <tt class="docutils literal"><span class="pre">evolution-bogofilter</span></tt> and/or <tt class="docutils literal"><span class="pre">evolution-spamassassin</span></tt> packages, otherwise spams (junk mails) do not seem to be managed properly (or at all)</li>

@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 28, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, February 22, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -390,15 +390,70 @@ $<span class="w"> </span>cdv<span class="w"> </span>erl_crash.dump
 </div>
 <div class="section" id="static-typing">
 <h2><a class="toc-backref" href="#toc-entry-26">Static Typing</a></h2>
-<p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> (and also <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a>) exist, and are mostly complementary (see also <a class="reference external" href="https://learnyousomeerlang.com/types-or-lack-thereof#for-type-junkies">1</a> and <a class="reference external" href="https://learnyousomeerlang.com/dialyzer">2</a>).</p>
+<p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> and also <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a> exist, and are mostly complementary (see also <a class="reference external" href="https://learnyousomeerlang.com/types-or-lack-thereof#for-type-junkies">1</a> and <a class="reference external" href="https://learnyousomeerlang.com/dialyzer">2</a>).</p>
 <p>More precisely:</p>
 <ul class="simple">
 <li>Dialyzer is a discrepancy analyzer that aims <strong>to prove the presence of type-induced runtime crashes</strong> (it may not be able to detect all type problems, yet &quot;is never wrong&quot;); Dialyzer does not use type specifications to guide the analysis: first it infers type information, and then only, if requested, it checks that information against the type specifications; so Dialyzer may operate with or without type specifications</li>
-<li>whereas tools like Gradualizer and eqWAlizer are more conventional type system, based on the theory of gradual typing, that aim <strong>to prove the absence of such crashes</strong>; notably Gradualyzer depends intimately on type specifications: by default, without them, no static typing happens</li>
+<li>whereas tools like Gradualizer and eqWAlizer are more conventional type systems, based on the theory of gradual typing, that aim <strong>to prove the absence of such crashes</strong>; notably Gradualizer depends intimately on type specifications: by default, without them, no static typing happens</li>
 </ul>
 <p>Also a few <a class="reference external" href="https://github.com/llaisdy/beam_languages#statically-typed-languages">statically-typed languages</a> can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).</p>
 <p>In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports <a class="reference internal" href="#jit">JIT</a>).</p>
-<p>Beyond mere code, the messages exchanges between processes could also be typed and checked. Version upgrades could also benefit from it.</p>
+<p>Beyond mere code, the messages exchanges between processes could also be typed and checked. Version upgrades could also benefit from it. Of course type-related errors are only a subset of the software errors.</p>
+<p>Note that developments that rely on parse-transforms (almost all ours, directly or not) shall be verified based on their BEAM files (hence their actual, final output) rather than on their sources (as the checking would be done on code not transformed yet). See also the <a class="reference external" href="https://myriad.esperide.org/#type-checking-myriad">Type-checking Myriad</a> section.</p>
+<div class="section" id="about-dialyzer">
+<h3>About Dialyzer</h3>
+<div class="section" id="installing-dialyzer">
+<h4>Installing Dialyzer</h4>
+<p>Nothing is to be done, as Dialyzer is included in the standard Erlang distribution.</p>
+</div>
+<div class="section" id="using-dialyzer">
+<h4>Using Dialyzer</h4>
+<p>Our preferred options (beyond path specifications of course) are: <tt class="docutils literal"><span class="pre">-Wextra_return</span> <span class="pre">-Wmissing_return</span> <span class="pre">-Wno_return</span> <span class="pre">-Werror_handling</span> <span class="pre">-Wno_improper_lists</span> <span class="pre">-Wno_unused</span> <span class="pre">-Wunderspecs</span></tt>. See the <tt class="docutils literal">DIALYZER_OPTS</tt> variable in Myriad's <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakevars.inc">GNUmakevars.inc</a> and the copiously commented options.</p>
+<p>A problem is that typing errors tend to snowball: many false positives (functions that are correct but whose call is not because an error upward in the callgraph) may be reported (leading to the infamous <tt class="docutils literal">Function f/N has no local return</tt>, which does not tell much).</p>
+<p>We recommend focusing on the first error reported for each module, and re-running the static analysis once supposedly fixed.</p>
+</div>
+</div>
+<div class="section" id="about-gradualizer">
+<h3>About Gradualizer</h3>
+<div class="section" id="installing-gradualizer">
+<h4>Installing Gradualizer</h4>
+<p>We install <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> that way:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
+</span>$<span class="w"> </span>mkdir<span class="w"> </span>gradualizer<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>gradualizer<span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/josefs/Gradualizer.git<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>Gradualizer<span class="w">
+</span>$<span class="w"> </span>make<span class="w"> </span>escript
+</pre>
+<p>Then just ensure that the <tt class="docutils literal">~/Software/gradualizer/Gradualizer/bin</tt> directory is in your PATH (e.g. set in your <tt class="docutils literal">.bashrc</tt>).</p>
+</div>
+<div class="section" id="using-gradualizer">
+<h4>Using Gradualizer</h4>
+<p>Our preferred options (beyond path specifications of course) are: <tt class="docutils literal"><span class="pre">--infer</span> <span class="pre">--fmt_location</span> verbose <span class="pre">--fancy</span> <span class="pre">--color</span> always <span class="pre">--stop_on_first_error</span></tt>. See the <tt class="docutils literal">GRADUALIZER_OPTS</tt> variable in Myriad's <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakevars.inc">GNUmakevars.inc</a> and the copiously commented options..</p>
+</div>
+</div>
+<div class="section" id="about-eqwalizer">
+<h3>About eqWAlizer</h3>
+<p>It is a tool developed in Rust.</p>
+<div class="section" id="installing-eqwalizer">
+<h4>Installing eqWAlizer</h4>
+<p>We install <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a> that way:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
+</span>$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>eqwalizer<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>eqwalizer<span class="w">
+</span>$<span class="w"> </span>wget<span class="w"> </span>https://github.com/WhatsApp/eqwalizer/releases/download/vx.y.z/elp-linux.tar.gz<span class="w">
+</span>$<span class="w"> </span>tar<span class="w"> </span>xvf<span class="w"> </span>elp-linux.tar.gz<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>bin<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>/bin/mv<span class="w"> </span>-f<span class="w"> </span>elp<span class="w"> </span>bin/
+</pre>
+<p>Then just ensure that the <tt class="docutils literal">~/Software/eqwalizer/bin</tt> directory is in your PATH (e.g. set in your <tt class="docutils literal">.bashrc</tt>).</p>
+</div>
+<div class="section" id="using-eqwalizer">
+<h4>Using eqWAlizer</h4>
+<p>We use it out of a rebar3 context.</p>
+<p>Settings are to be stored in a JSON file (e.g. <tt class="docutils literal"><span class="pre">conf/foobar-for-eqwalizer.json</span></tt>), to be designated thanks to the <tt class="docutils literal"><span class="pre">--project</span></tt> option.</p>
+<p>See also the <tt class="docutils literal">EQWALIZER_OPTS</tt> variable in Myriad's <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakevars.inc">GNUmakevars.inc</a> and its own <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/myriad-for-eqwalizer.json">myriad-for-eqwalizer.json</a>  project file.</p>
+<p>(our first test was not successful, we will have to investigate more when time permits)</p>
+</div>
+</div>
 </div>
 <div class="section" id="software-robustness">
 <h2><a class="toc-backref" href="#toc-entry-27">Software Robustness</a></h2>
@@ -614,6 +669,7 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <li>refer to the two tables (test/others) of the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions">BIFs supported in guards expressions</a></li>
 </ul>
 </li>
+<li>to handle <strong>binaries</strong>, one may refer to <a class="reference external" href="https://cheatography.com/fylke/cheat-sheets/erlang-binaries/">this cheat sheet</a></li>
 <li>in boolean expressions <strong>outside of guards</strong>:<ul>
 <li>do not use <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt>, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in <tt class="docutils literal">(A =:= B) and (C =:= D)</tt>) and, more importantly, they do not short-circuit, i.e. in <tt class="docutils literal">E = A and B</tt>, B will be evaluated even if A is already known as false (so is E), and in <tt class="docutils literal">E = A or B</tt>, B will be evaluated even if A is already known as true (so is E)</li>
 <li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[9]</a></li>
