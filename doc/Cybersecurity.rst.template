@@ -67,8 +67,28 @@ More precisely:
 
 
 
-Securing thanks to OpenPGP
-==========================
+Securing One's E-mail Service In General
+========================================
+
+Now that electronic exchanges are central to most communications, controlling one's e-mail services is of paramount importance.
+
+It is a real pity that most individuals will not be able in practise to run their own mail server (`Message transfer agent <https://en.wikipedia.org/wiki/Message_transfer_agent>`_), short of being able to setup through their Internet provider a proper `reverse DNS <https://en.wikipedia.org/wiki/Reverse_DNS_lookup>`_ information (as any e-mail that such a home server would emit would likely be considered as spam/junk mail by the recipients).
+
+So one will have to resort to third-party e-mail services ("MX plan"). We do not see the reliance on one's Internet provider e-mail solution as a good choice (even if being able to make use of such an address regardless of any active subscription to that provider), possibly not all registrars are also good email hosters, and surely we do not want to depend on any GAFAM-related service.
+
+The last remaining solution is therefore to elect a dedicated provider of e-mail hosting, which most of the time incurs monthly fees, albeit rather low (e.g. 1 euro per month).
+
+In that case we strongly recommend:
+
+- choosing an e-mail hosting that supports for real SPF, DKIM and DMARC, and a catch-all in terms of incoming e-mail addresses (we see all these as hard requirements; an example of a corresponding provider being, certainly among others, `Mailo <https://www.mailo.com/>`_ - although we would have liked that it supported as well MTA-STS for an increased security, including for OpenPGP; refer to `these information <https://keys.openpgp.org/about/faq#email-protection>`_ to better understand the interest of MTA-STS; DANE and DNSSEC would be also of interest)
+- purchasing (actually leasing) one's domain name (like ``foobar.org``), in order to obtain (hopefully life-time) e-mail address(es) (e.g. ``john.doe@foobar.org``); this is another little expense, around 10-15 euros per year, yet it opens many other interesting opportunities (starting with the possibility of hosting one's webserver and other online services)
+
+Wanting to test whether your current e-mail system is reliable? We recommend using the `MECSA <https://mecsa.jrc.ec.europa.eu>`_ online testing tool, which is provided by the European Commission and allows to learn a lot about the level of security reached by one's email system.
+
+
+
+Increasing Security thanks to OpenPGP
+=====================================
 
 
 Purpose
@@ -517,6 +537,39 @@ Transfer the ``james-bond.pub`` public key to webserver (e.g. ``https://mi6.org/
 
 
 
+Hints
+-----
+
+- whenever useful, add the ``--armor`` option to use ASCII output armor, suitable for copying and pasting content in text format
+- if you have multiple email accounts, thanks to ``--edit-key`` you can add each one of them in the same key as an identity (name), using the ``adduid`` command; you can then set your favourite one as primary
+- to always show full fingerprints of keys, add ``with-fingerprint`` to your configuration file (typically ``~/.gnupg/dirmngr.conf``)
+- `these Debian guidelines <https://wiki.debian.org/Subkeys>`_ describe a robust, well-defined process for key management that may apply to most developers
+- for a proper OpenPGP support, we have had to change of mail client, from Thunderbird (problems importing by itself strong/recent key types, and non-terminating attempts of reading the local pgp key ring) to Evolution (worked directly as expected)
+
+
+
+Obtaining my Current Public Key
+-------------------------------
+
+As the time of this writing (Tuesday, January 3, 2023), my daily key for signing / encrypting / authenticating is a RSA 4096-bit one designated as ``3e090de4d08e42944d195a7bb8235ece469eb77f``.
+
+It can be obtained by different means:
+
+- downloading `https://esperide.com/olivier-boudeville.pub <https://esperide.com/olivier-boudeville.pub>`_
+- searching in SKS key servers, e.g. `keyserver.ubuntu.com <http://keyserver.ubuntu.com/pks/lookup?search=olivier.boudeville%40esperide.com&fingerprint=on&op=index>`_
+- searching in the `openpgp.org key server <https://keys.openpgp.org/search?q=olivier.boudeville%40esperide.com>`_
+
+
+See Also
+--------
+
+- a complete, well-written tutorial, in French: `Bien démarrer avec GnuPG <https://linuxfr.org/news/bien-demarrer-avec-gnupg>`_
+- still in French: other `interesting usage hints <https://blog.mailfence.com/fr/meilleures-pratiques-de-signature-numerique-openpgp/>`_ and `GnuPG : Créer la paire de clé gpg parfaite <https://wiki.csnu.org/index.php/GnuPG_:_Cr%C3%A9er_la_paire_de_cl%C3%A9_gpg_parfaite_:_cl%C3%A9_maitre,_subkeys_et_support_smartcard_(yubikey)>`_
+- `GnuPG on Arch <https://wiki.archlinux.org/title/GnuPG>`_, for much additional information
+- `Network Management <Networking.html>`_ information
+
+
+
 
 
 A Link With Decentralized Identifiers
@@ -529,26 +582,6 @@ No external central authority applies to such identifiers, which cannot reveal p
 In practice, although other solutions could maybe be considered, it involves, like discussed in the previous sections, generating on one's own at least a public/private key pair, to store safely the private one and to share as widely as needed the public one. Then one can sign and/or encrypt one's messages with a pretty good hope that they will remain secure for a while; such a system enables partial disclosure (as one chooses what one encrypts or signs) in full control (as all operations are driven by the private key that the issuer is the only one to control).
 
 These decentralised identifiers, together with the principle of addressing a digital content by its fingerprint (e.g. SHA1), offer a solution bringing many interesting properties and opening new possibilities to distributed systems (e.g. for blockchains, a user account is often identified by the fingerprint of its associated public certificate).
-
-
-
-Hints
-=====
-
-- whenever useful, add the ``--armor`` option to use ASCII output armor, suitable for copying and pasting content in text format
-- if you have multiple email accounts, thanks to ``--edit-key`` you can add each one of them in the same key as an identity (name), using the ``adduid`` command; you can then set your favourite one as primary
-- to always show full fingerprints of keys, add ``with-fingerprint`` to your configuration file (typically ``~/.gnupg/dirmngr.conf``)
-- `these Debian guidelines <https://wiki.debian.org/Subkeys>`_ describe a robust, well-defined process for key management that may apply to most developers
-
-
-
-See Also
-========
-
-- a complete, well-written tutorial, in French: `Bien démarrer avec GnuPG <https://linuxfr.org/news/bien-demarrer-avec-gnupg>`_
-- still in French: other `interesting usage hints <https://blog.mailfence.com/fr/meilleures-pratiques-de-signature-numerique-openpgp/>`_ and `GnuPG : Créer la paire de clé gpg parfaite <https://wiki.csnu.org/index.php/GnuPG_:_Cr%C3%A9er_la_paire_de_cl%C3%A9_gpg_parfaite_:_cl%C3%A9_maitre,_subkeys_et_support_smartcard_(yubikey)>`_
-- `GnuPG on Arch <https://wiki.archlinux.org/title/GnuPG>`_, for much additional information
-- `Network Management <Networking.html>`_ information
 
 
 :raw-html:`<a name="howtos_bottom"></a>`
