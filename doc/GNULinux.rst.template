@@ -427,7 +427,7 @@ The pseudo-Windows filesystem is then located mostly in ``~/.wine/drive_c``.
 Invalid PGP Signatures in Packages
 ----------------------------------
 
-This happens regularly, symptom being: ``File /var/cache/pacman/pkg/xxx.pkg.tar.zst is corrupted (invalid or corrupted package (PGP signature))``.
+This happens regularly, especially when updating a symptom being: ``File /var/cache/pacman/pkg/xxx.pkg.tar.zst is corrupted (invalid or corrupted package (PGP signature))``.
 
 Solution: ``pacman -S archlinux-keyring`` is at least often enough. Otherwise ``pacman-key --populate archlinux``, or changing mirror might help.
 
