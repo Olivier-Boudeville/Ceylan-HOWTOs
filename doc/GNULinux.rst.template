@@ -424,12 +424,23 @@ The pseudo-Windows filesystem is then located mostly in ``~/.wine/drive_c``.
 
 
 
-Invalid PGP Signatures in Packages
-----------------------------------
+Overcoming Invalid PGP Signatures in Pacman Packages
+----------------------------------------------------
 
 This happens regularly, especially when updating a symptom being: ``File /var/cache/pacman/pkg/xxx.pkg.tar.zst is corrupted (invalid or corrupted package (PGP signature))``.
 
 Solution: ``pacman -S archlinux-keyring`` is at least often enough. Otherwise ``pacman-key --populate archlinux``, or changing mirror might help.
+
+
+
+Converting Data Formats
+-----------------------
+
+- to convert multimedia files, ``ffmpeg`` is very convenient; for example to convert an AIF file into a WAV one: ``ffmpeg -i sound.aif sound.wav``
+
+- to read ``*.pck`` resource file, the `Dragon UnPACKer <https://www.elberethzone.net/dragon-unpacker.html>`_ (Windows) open source tool can be used
+
+See also Ceylan-Hull's `multimedia-related section <https://hull.esperide.org/#multimedia-related>`_.
 
 
 
