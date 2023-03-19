@@ -78,9 +78,9 @@ The latest version of this documentation is to be found at the `official Ceylan-
 
 
 
-.. commment Not ready yet:  :raw-latex:`\pagebreak`
+:raw-latex:`\pagebreak`
 
-.. commment Not ready yet: .. include:: OnlineInteractiveMultimedia.rst
+.. include:: OnlineInteractiveMultimedia.rst
 
 
 

@@ -46,7 +46,7 @@ Online Interactive Multimedia
 Overview
 ========
 
-Here, online interactive multimedia could be seen as an euphemism for networked video games, yet the topic may be a bit larger, including cases where some kind of online, persistent, multi-user virtual world has to be simulated, for example `MMORPGs <https://en.wikipedia.org/wiki/Massively_multiplayer_online_role-playing_game>`_ or any sorts of `metaverse <https://en.wikipedia.org/wiki/Metaverse>`_.
+Here, "online interactive multimedia" could be seen as an euphemism for networked video games, yet the topic may be a bit larger, including cases where some kind of online, persistent, multi-user virtual world has to be simulated, for example `MMORPGs <https://en.wikipedia.org/wiki/Massively_multiplayer_online_role-playing_game>`_ or any sorts of `metaverse <https://en.wikipedia.org/wiki/Metaverse>`_.
 
 As for the topic of graphical 2D/3D rendering, it is specifically addressed in `this section <ThreeDimensional.html>`_.
 
@@ -55,13 +55,124 @@ As for the topic of graphical 2D/3D rendering, it is specifically addressed in `
 Networking Subsystem
 ====================
 
-Various architectures can be considered for networked applications, from a totally decentralised peer-to-peer one, to a strict client/server one, possibly based on an authoritative server (performing most of the world evaluation by itself, rather delegating some of this processing to clients).
+.. Note: https://erlangforums.com/t/erlang-shall-power-the-metaverse/938 has already been fully integrated here.
+
+Various architectures can be considered for networked applications, from a totally decentralised peer-to-peer one to a strict client/server one, possibly based on an authoritative server (which is to perform most of the world evaluation by itself, rather than delegating a part of this processing to clients).
 
 Notably when an application is intensively interactive (e.g. a real-time strategy game, as opposed as a turn-based one), compensating for the lag and jitter induced by the network is a difficult technical challenge.
 
-Dedicated libraries exist for that, either commercial (e.g.
+Dedicated solutions exist for that, either released as free software or commercially, and they are all built from the same standards.
 
-https://erlangforums.com/t/erlang-shall-power-the-metaverse/938/6
+
+Standards
+---------
+
+
+Network Protocols
+.................
+
+
+IP
+__
+
+In terms of low-level network carriers, ultimately all traffic will be conveyed of course by the  `IP protocol <https://en.wikipedia.org/wiki/Internet_Protocol>`_ (on the Internet or even in a local network) - but no one directly forges IP packets.
+
+A little higher in the `OSI model <https://en.wikipedia.org/wiki/OSI_model>`_, communications will certainly be handled by the TCP and/or UDP protocols (which are both implemented on top of IP).
+
+
+TCP
+___
+
+The `TCP protocol <https://en.wikipedia.org/wiki/Transmission_Control_Protocol>`_ offers strong guarantees to the application: instead of thinking in terms of a stream of packets being sent (some possibly being lost or corrupted in the process), TCP provides *connections*, i.e. reliable bidirectional streams of bytes between two networked peers.
+
+Yet this higher-level service comes at a price: latency. Indeed, under the hood, TCP has to detect communication issues and overcome them, typically by handling network congestion and requesting the re-emission of IP packets, which have thus to be waited for and delay the whole communication.
+
+Many algorithms have been fine-tuned to maximise the resulting bandwidth and minimise the latency, yet of course guaranteeing a perfect communication remains demanding.
+
+
+UDP
+___
+
+The `UDP protocol <https://en.wikipedia.org/wiki/User_Datagram_Protocol>`_ will be preferred whenever having data to be sent primarily with a low latency. As UDP packets can be lost or received in a order different from the emission one (data corruption is not a real problem, thanks to IP-level and UDP-level checksums), it is generally dedicated to transient, fast-paced exchanges, where the loss of a packet can be just ignored, the next ones making up for any lacking information with fresher data.
+
+So UDP offers weaker guarantees, which is bound to increase the complexity of the application.
+
+Howeover, depending on the application needs, better guarantees can be implemented on top of UDP, dealing with integrity, order and reliability. Of course the closer to the guarantees of TCP requirements are, the higher the cost of a UDP-based solution will be. Of course, if an application requires the properties provided by TCP, just use TCP rather than trying to recode a poor man's version of it over UDP.
+
+
+Other Protocols & Facilities
+____________________________
+
+They include the `WebSockets <https://en.wikipedia.org/wiki/WebSocket>`_ (on top of TCP) and `WebRTC <https://en.wikipedia.org/wiki/WebRTC>`_ (*Web Real-Time Communication*).
+
+A host of protocols are associated to WebRTC: `SCTP <https://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol>`_ (*Stream Control Transmission Protocol*, typically for a data channel), RTP (*Real-time Transport Protocol*) and SRTP (*Secure RTP*, typically for a media channel).
+
+
+
+Middleware
+..........
+
+Their role is to marshall/demarshall application data so that it can be sent over the wire, through the aforementioned protocols: the information to sent through the network shall be transformed in a series of bytes that the other end will be able to interpret, according to a data format (that is generally cross-platform); this is a special case of serialisation/deserialisation.
+
+A popular choice for that is `Protocol Buffers <https://en.wikipedia.org/wiki/Protocol_Buffers>`_ (a.k.a. Protobuf).
+
+
+
+Integrated Solutions
+--------------------
+
+They provide a complete set of high-level services to be directly used by applications, implemented in libraries.
+
+Free Software Solutions
+.......................
+
+In this category, the main libraries that we spotted are:
+
+- `Mirror <https://mirror-networking.com/>`_: open-source, moreover with a permissive licence
+
+- `Bevy engine <https://bevyengine.org/>`_: a data-driven game engine implemented in the Rust language
+
+- `DarkRift 2 <https://www.darkriftnetworking.com/>`_: an high performance, multithreaded and open source networking system for Unity
+
+
+The Godot game engine also offers `interesting network services <https://docs.godotengine.org/en/stable/tutorials/networking/index.html>`_. Godot has native support for Websockets, and libraries like `Godobuf <https://github.com/oniksan/godobuf>`_ implement the decoding/encoding of Protobuf messages.
+
+
+Commercial Solutions
+....................
+
+As for commercial offers, in order to build multiplayer games in Unity, one may take into account `Unity3D Multiplayer Networking <https://docs-multiplayer.unity3d.com/>`_ (Netcode) or `Photon Fusion <https://www.photonengine.com/>`_, and their `Unreal counterpart <https://docs.unrealengine.com/5.1/en-US/networking-and-multiplayer-in-unreal-engine/>`_.
+
+
+
+
+Information Pointers
+--------------------
+
+Much expert information on these topics can be read from the articles of `Gaffer On Games <https://gafferongames.com/>`_.
+
+As for Erlang-based servers, these posts are of interest: `[1] <https://erlangforums.com/t/erlang-shall-power-the-metaverse/938/6>`_ and `[2] <https://elixirforum.com/t/how-is-the-performance-of-elixir-in-game-backend-project/45142/4?u=kartheek>`_. See also `this Demonware presentation <https://www.erlang-factory.com/upload/presentations/395/ErlangandFirst-PersonShooters.pdf>`_, which offers a rich Erlang-related operational feedback.
+
+
+
+Application Architecture
+========================
+
+The key topic here is *synchronisation*, i.e. how the game state is managed so that all players can seamlessly access it and enjoy fair interactions. The overall complexity increases drastically and multiplicatively on two dimensions (scalability and real-time), and theoretical results proved that upper bounds exist in that matter (see the `CAP theorem <https://en.wikipedia.org/wiki/CAP_theorem>`_ and the `FLP impossibility result <https://en.wikipedia.org/wiki/Consensus_(computer_science)#The_FLP_impossibility_result_for_asynchronous_deterministic_consensus>`_).
+
+For the core game (as opposed to backend services like authentication, chat, lobbies, match-making, etc.), a trade-off must be found between:
+
+- a centralised architecture, where a logical server is authoritative, i.e. the sole controller of the truth
+- a decentralised architecture, where the communication takes part mostly between peers, the logical server (if any) being merely a relay
+
+Such a trade-off is game-specific, depending a lot on the intended reactiveness (consider a game of chess versus a frantic first-person shooter, where latency will be measured in terms of dozens of milliseconds).
+
+The centralised architecture is simpler (e.g. a single, reliable true state exists; and by nature it better resists to cheating attempts), but it is more resource-demanding (bandwidth but also processing power) and depends a lot of the network-induced latency.
+
+Some approaches like client-side prediction can hide a bit this problem; notably, when the same software runs on both sides (headless server and clients), the same logic can predictively result in the same evolution, which facilitates a lot any anticipations made by the clients.
+
+
+As for decentralised architectures, they require some consensus to be reached between the peers involved, with a lack of trust to overcome. Not all peers have to be equal, for example each game session may elect a game leader (typically the one enjoying the best overall connectivity with the other players): this host will be both the server and a player. One way or another, reliance onto the clients will be needed; short of being able to trust them, at least checking their reports and auditing them will be needed.
 
 
 :raw-html:`<a name="howtos_bottom"></a>`
