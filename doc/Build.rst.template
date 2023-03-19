@@ -53,7 +53,7 @@ A build tool allows to automate all kinds of tasks, by **applying rules and trac
 Choice
 ======
 
-Often build tools are tied to some programming languages (ex: Maven for Java, `Rebar3 <https://github.com/erlang/rebar3>`_ for Erlang, etc.).
+Often build tools are tied to some programming languages (e.g. Maven for Java, `Rebar3 <https://github.com/erlang/rebar3>`_ for Erlang, etc.).
 
 Some tools are more generic by nature, like late GNU autotools, or `Cmake <https://cmake.org/>`_, `GNU make <https://www.gnu.org/software/make/>`_, etc.
 
@@ -67,7 +67,7 @@ GNU make
 
 We recommend the reading of `this essential source <https://www.gnu.org/software/make/manual/make.html>`_ for reference purpose, notably the section about `The Two Flavors of Variables <https://www.gnu.org/software/make/manual/make.html#Flavors>`_.
 
-Taking our Erlang developments as an example, their base, first layer, `Ceylan-Myriad <http://myriad.esperide.org>`_, relies on build facilities that are designed to be also reused and further adapted / specialised / parametrised in turn  by all layers above in the stack (ex: `Ceylan-WOOPER <http://wooper.esperide.org>`_).
+Taking our Erlang developments as an example, their base, first layer, `Ceylan-Myriad <http://myriad.esperide.org>`_, relies on build facilities that are designed to be also reused and further adapted / specialised / parametrised in turn  by all layers above in the stack (e.g. `Ceylan-WOOPER <http://wooper.esperide.org>`_).
 
 For that, Myriad defines three top-level makefiles:
 
@@ -75,7 +75,7 @@ For that, Myriad defines three top-level makefiles:
 
 - *automatic rules*, in `GNUmakerules-automatic.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakerules-automatic.inc>`_, able to operate generically on patterns, typically based on file extensions
 
-- *explicit rules*, in `GNUmakerules-explicit.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakerules-explicit.inc>`_, for all specific named make targets (ex: ``all``, ``clean``)
+- *explicit rules*, in `GNUmakerules-explicit.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakerules-explicit.inc>`_, for all specific named make targets (e.g. ``all``, ``clean``)
 
 Each layer references its specialisation of these three elements (and the ones of all layers below) in its own `GNUmakesettings.inc <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/GNUmakesettings.inc>`_ file, which is the only element that each per-directory ``GNUmakefile`` file will have to include.
 

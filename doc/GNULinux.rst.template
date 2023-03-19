@@ -125,7 +125,7 @@ This may be done by populating ``/etc/modules-load.d/`` with as many files listi
  8021q
 
 
-This is not sufficient though (ex: one cannot anticipate all modules needed after a while); disabling the *automatic* updates of kernels is also key to reduce issues; this can be done by specifying in ``/etc/pacman.conf``:
+This is not sufficient though (e.g. one cannot anticipate all modules needed after a while); disabling the *automatic* updates of kernels is also key to reduce issues; this can be done by specifying in ``/etc/pacman.conf``:
 
 .. code:: bash
 
@@ -195,8 +195,8 @@ Interesting Packages
 They might be lesser known:
 
 - ``cpulimit``: the way of limiting CPU usage of a given process, for example to avoid overheat (``nice`` just defines respective process priorities)
-- ``inotify-tools``: to be able to monitor filesystem events (ex: with ``inotifywait``) from scripts
-- ``jq``: for command-line JSON processing (ex: ``jq . myfile.json`` to display it properly on a terminal)
+- ``inotify-tools``: to be able to monitor filesystem events (e.g. with ``inotifywait``) from scripts
+- ``jq``: for command-line JSON processing (e.g. ``jq . myfile.json`` to display it properly on a terminal)
 - ``mathjax``: to generate LaTeX-like images for the web
 - ``most``: a replacement for ``more``
 - ``pdftk``: to transform PDF files
@@ -228,9 +228,9 @@ Systemd Commands
 
 - **reloading**:
 
-  - a service-specific configuration of a unit: ``systemctl reload [PATTERN]`` (ex: requesting Apache to reload its own httpd.conf file)
+  - a service-specific configuration of a unit: ``systemctl reload [PATTERN]`` (e.g. requesting Apache to reload its own httpd.conf file)
 
-  - the systemd configuration file of a unit: ``systemctl daemon-reload [PATTERN]`` (ex: reloading the ``apache.service`` systemd unit file)
+  - the systemd configuration file of a unit: ``systemctl daemon-reload [PATTERN]`` (e.g. reloading the ``apache.service`` systemd unit file)
 
 - **enabling/disabling** for good units (while not starting/stopping them): ``systemctl enable|disable [PATTERN]``
 
@@ -402,7 +402,7 @@ or::
  ext2/ext3/ext4 filesystem [...]
 
 
-then, unless you are trying to check an encrypted partition (ex: not having cryptsetup-opened a LUKS one) or a superblock copy is enough, prospects are grim.
+then, unless you are trying to check an encrypted partition (e.g. not having cryptsetup-opened a LUKS one) or a superblock copy is enough, prospects are grim.
 
 Try for example ``fdisk`` / ``gdisk`` / ``cgdisk``, ``parted``, ``smartctl --all -T verypermissive``, ``badblocks -o ~/scan-result.txt -sv`` (for which errors are counted as NumberOfReadErrors / NumberOfWriteErrors / NumberOfCorruptionErrors) - yet your disk is maybe already unrecoverable.
 
@@ -487,8 +487,8 @@ Selecting a per-user wallpaper may be of help.
 
 
 
-Emacs
------
+Using Emacs
+-----------
 
 
 .. _`Emacs configuration`:
@@ -531,8 +531,8 @@ Sometimes problems arise due to older packages, this may be solved by removing t
 
 
 
-E-mail Clients
---------------
+Using E-mail Clients
+--------------------
 
 Over time we were preferring `Evolution <https://help.gnome.org/users/evolution/stable/index.html>`_ to `Thunderbird <https://www.thunderbird.net/>`_, notably regarding its far better `OpenPGP <Cybersecurity.html#securing-thanks-to-openpgp>`_ support. Yet, at least for some IMAP servers (e.g. the ones of `Mailo <https://www.mailo.com/>`_), errors (like: ``Error copying messages: Error``) constantly happening (despite many attempts of configuration changes) and being reported ruined its use for us [#]_, so we switched back to Thunderbird.
 
@@ -544,6 +544,22 @@ Over time we were preferring `Evolution <https://help.gnome.org/users/evolution/
 - for Evolution: on Arch Linux, consider installing the ``evolution-bogofilter`` and/or ``evolution-spamassassin`` packages, otherwise spams (junk mails) do not seem to be managed properly (or at all)
 
 See also Ceylan-Hull's `email.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/email.sh/>`_ and `archive-emails.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/archive-emails.sh>`_ scripts.
+
+
+
+Recording a Screencast
+----------------------
+
+We rely on the impressive, feature-rich, free software `SimpleScreenRecorder <https://en.wikipedia.org/wiki/SimpleScreenRecorder>`_ (``pacman -Sy simplescreenrecorder``).
+
+This tool is run as ``simplescreenrecorder`` and offers many options and encoding choices; it is able to record OpenGL applications [#]_ and also the audio.
+
+.. [#] In our case it was sufficient to select ``Record a fixed rectangle`` and ``Select window`` (which happened to be the one of an OpenGL application); it seemed a better option than selecting ``Record OpenGL``, as afterwards no recording could be done due to ``Could not get the size of the OpenGL application.`` (maybe this could be alleviated by entering adequate settings).
+
+Note that, as notified by the tool, the MP4 container type will produce unreadable files if the recording is interrupted (then the MKV container shall be preferred).
+
+See also `this comparison <https://en.wikipedia.org/wiki/Comparison_of_screencasting_software>`_ of screencasting software.
+
 
 
 

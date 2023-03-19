@@ -57,9 +57,9 @@ Networking Subsystem
 
 Various architectures can be considered for networked applications, from a totally decentralised peer-to-peer one, to a strict client/server one, possibly based on an authoritative server (performing most of the world evaluation by itself, rather delegating some of this processing to clients).
 
-Notably when an application is intensively interactive (ex: a real-time strategy game, as opposed as a turn-based one), compensating for the lag and jitter induced by the network is a difficult technical challenge.
+Notably when an application is intensively interactive (e.g. a real-time strategy game, as opposed as a turn-based one), compensating for the lag and jitter induced by the network is a difficult technical challenge.
 
-Dedicated libraries exist for that, either commercial (ex:
+Dedicated libraries exist for that, either commercial (e.g.
 
 https://erlangforums.com/t/erlang-shall-power-the-metaverse/938/6
 

@@ -53,13 +53,13 @@ We want to be able to generate, **from a single source**, at least two **documen
 
 The document source shall be expressed in a simple, non-limiting, high-level syntax; in practice a rather standard, lightweight markup language.
 
-All standard documentation elements shall be available (ex: title, tables, images, links, references, tables of content, etc.) and be customisable.
+All standard documentation elements shall be available (e.g. title, tables, images, links, references, tables of content, etc.) and be customisable.
 
-The resulting documents shall be quickly and easily generated, with proper error report, and be beautiful and user-friendly (ex: with well-configured LaTeX, with appropriate CSS, icons and features like banners, with proper rendering of equations).
+The resulting documents shall be quickly and easily generated, with proper error report, and be beautiful and user-friendly (e.g. with well-configured LaTeX, with appropriate CSS, icons and features like banners, with proper rendering of equations).
 
-Per-format overriding shall be possible (ex: to define different image sizes depending on web output or PDF one).
+Per-format overriding shall be possible (e.g. to define different image sizes depending on web output or PDF one).
 
-The whole documentation process shall be powered only by free software solutions, easily automated (ex: `with Make <Build.html>`_) and suitable for version control (ex: `with Git <Git.html>`_).
+The whole documentation process shall be powered only by free software solutions, easily automated (e.g. `with Make <Build.html>`_) and suitable for version control (e.g. `with Git <Git.html>`_).
 
 
 
@@ -235,11 +235,11 @@ Then a convenient approach is to define different entry points for different out
 Inner Links
 ...........
 
-Defining any title (ex: the ``"Rendering Mathematical Elements"`` one above) automatically introduces in turn a corresponding anchor, which, for the HTML output, can then be referenced from any page, for example as raw HTML (like `MyPage.html#rendering-mathematical-elements <DocGeneration.html#rendering-mathematical-elements>`_, or directly from the current page as `#rendering-mathematical-elements <#rendering-mathematical-elements>`_) or directly through RST in the document (ex: specified as ```Rendering Mathematical Elements`_``, resulting in: `Rendering Mathematical Elements`_).
+Defining any title (e.g. the ``"Rendering Mathematical Elements"`` one above) automatically introduces in turn a corresponding anchor, which, for the HTML output, can then be referenced from any page, for example as raw HTML (like `MyPage.html#rendering-mathematical-elements <DocGeneration.html#rendering-mathematical-elements>`_, or directly from the current page as `#rendering-mathematical-elements <#rendering-mathematical-elements>`_) or directly through RST in the document (e.g. specified as ```Rendering Mathematical Elements`_``, resulting in: `Rendering Mathematical Elements`_).
 
 Note the light transformation (spaces becoming dashes) of the specified name once a it is translated into a legit HTML anchor.
 
-Extra local anchors (ex: that could be named ``"how to render equations"``) can also be specified anywhere in the document (ex: just before the previously mentioned title, so that it can be designated with other words), thanks to::
+Extra local anchors (e.g. that could be named ``"how to render equations"``) can also be specified anywhere in the document (e.g. just before the previously mentioned title, so that it can be designated with other words), thanks to::
 
   .. _`how to render equations`:
 
@@ -341,7 +341,7 @@ For example, in order to convert a page written in Mediawiki syntax, whose sourc
 
 Then the content in ``converted-content.gfm`` file can be pasted in the target GitLab wiki page.
 
-Another example is the conversion of a GitLab wiki page into a RST document (ex: then for a PDF generation):
+Another example is the conversion of a GitLab wiki page into a RST document (e.g. then for a PDF generation):
 
 .. code:: bash
 
@@ -476,7 +476,7 @@ Aggregation
 ___________
 
 
-An **aggregation** is a specific association that denotes that an instance of a class (ex: ``Library``) is to loosely contain instances of another class (ex: ``Book``), in the sense that the lifecycle of the contained classes is not strongly dependent on the one of the container (ex: books will still exist even if the library is dismantled).
+An **aggregation** is a specific association that denotes that an instance of a class (e.g. ``Library``) is to loosely contain instances of another class (e.g. ``Book``), in the sense that the lifecycle of the contained classes is not strongly dependent on the one of the container (e.g. books will still exist even if the library is dismantled).
 
 Here a library may contain any number of books (possibly none), and a given book belongs to at most one library.
 
@@ -490,7 +490,7 @@ Here a library may contain any number of books (possibly none), and a given book
 Composition
 ___________
 
-A **composition** is a specific association that denotes that an instance of a class (ex: ``HumanBeing``) is to own instances of another class (ex: ``Leg``), in the sense that the lifecycle of the contained classes fully depends on the one of the container (here, if a human being dies, his/her legs will not exist anymore either).
+A **composition** is a specific association that denotes that an instance of a class (e.g. ``HumanBeing``) is to own instances of another class (e.g. ``Leg``), in the sense that the lifecycle of the contained classes fully depends on the one of the container (here, if a human being dies, his/her legs will not exist anymore either).
 
 Here a human being has exactly 2 legs, and any given leg belongs to exactly one human being (therefore this model does not account for one-legged persons).
 
@@ -504,7 +504,7 @@ Here a human being has exactly 2 legs, and any given leg belongs to exactly one 
 Inheritance
 ___________
 
-An **inheritance** relationship is a specific association that denotes that a class (ex: ``HumanBeing``) is a specific case of a more general one (ex: ``Animal``), and thus that an instance of the first one is also an instance of the second one ("is-a" relationship).
+An **inheritance** relationship is a specific association that denotes that a class (e.g. ``HumanBeing``) is a specific case of a more general one (e.g. ``Animal``), and thus that an instance of the first one is also an instance of the second one ("is-a" relationship).
 
 Here a human being is a specific animal.
 
@@ -548,6 +548,6 @@ Using Additional Fonts
 
 One may use websites like `Dafont <https://www.dafont.com>`_ in order to select, based on appearance and licence, a given TTF font.
 
-At least on Arch, it is sufficient to copy the corresponding downloaded TTF file (as root) in ``/usr/share/fonts/`` so that tools like The Gimp support it right afterwards (ex: no need to run ``fc-cache`` beforehand).
+At least on Arch, it is sufficient to copy the corresponding downloaded TTF file (as root) in ``/usr/share/fonts/`` so that tools like The Gimp support it right afterwards (e.g. no need to run ``fc-cache`` beforehand).
 
 :raw-html:`<a name="howtos_bottom"></a>`

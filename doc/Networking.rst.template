@@ -71,7 +71,7 @@ A general rule that we retain, especially for an Internet gateway, is to drop al
 Configuration of a Gateway to the Internet
 ------------------------------------------
 
-Our `iptables.rules-Gateway.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.sh>`_ script sets up an iptables configuration with various services that can be enabled (ex: for masquerading, IPTV, different kinds of servers) as an example that we hope is secure enough [#]_.
+Our `iptables.rules-Gateway.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-Gateway.sh>`_ script sets up an iptables configuration with various services that can be enabled (e.g. for masquerading, IPTV, different kinds of servers) as an example that we hope is secure enough [#]_.
 
 .. [#] Please email us if you found otherwise! Refer to the top of this document for that.
 
@@ -114,7 +114,7 @@ An example thereof:
  # Enabled input TCP port range for traffic from LAN to gateway:
  enable_unfiltered_tcp_range="true"
 
- # TCP unfiltered window (ex: for passive FTP and BEAM port ranges):
+ # TCP unfiltered window (e.g. for passive FTP and BEAM port ranges):
  tcp_unfiltered_low_port=50000
  tcp_unfiltered_high_port=55000
 
@@ -190,7 +190,7 @@ Use `iptables-inspect.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob
  $ iptables -D FORWARD 1
 
 
-Setting environment variables (either through files such as ``/etc/iptables.settings-Gateway.sh`` or directly in the shell) is less error-prone; ex:
+Setting environment variables (either through files such as ``/etc/iptables.settings-Gateway.sh`` or directly in the shell) is less error-prone; e.g.
 
 .. code:: bash
 
@@ -225,13 +225,13 @@ Network Troubleshooting
 A few pieces of advice/information:
 
 - be familiar with ``ip link``, ``ip addr`` and ``ip route`` (generally used in that order), and ``tcpdump`` for the worst cases
-- to review *host-local* open ports and sockets, use ``ss`` (for *socket statistics*, replacement of ``netstat``; ex: ``ss --inet --listening -p``) or ``nmap`` for remote testing
+- to review *host-local* open ports and sockets, use ``ss`` (for *socket statistics*, replacement of ``netstat``; e.g. ``ss --inet --listening -p``) or ``nmap`` for remote testing
 - nowadays, many devices change their MAC address regularly, like smartphones do
 - one may rely on ``netctl``, and create as many profiles as found useful
-- regularly inspect network-related messages (ex: with ``journalctl -kf``) to detect anomalies such as ``IPv4: martian source 192.168.0.49``
+- regularly inspect network-related messages (e.g. with ``journalctl -kf``) to detect anomalies such as ``IPv4: martian source 192.168.0.49``
 - interfaces may be associated to any number of IP addresses, this may create surprises
 - when a network does not work properly, always consider that this device may be faulty, that cables may malfunction, and that power supplies may be culprits
-- having smart switches may help a lot, to better control one's network (ex: disabling ports, checking statuses, isolating sections, etc.)
+- having smart switches may help a lot, to better control one's network (e.g. disabling ports, checking statuses, isolating sections, etc.)
 - beware to DHCP server(s) being left unnoticed; various devices may use them to get a random address and become difficult to spot
 - netmasks shall not be neglected, for example in routes:
 
@@ -245,10 +245,10 @@ A few pieces of advice/information:
 
 Here for example, in ``192.168.0.0/16``, ``16`` corresponds to the length of *the network prefix*; the next 16 bits are left to designate hosts, whose addresses therefore range in ``192.168.[0..254].[1..254]``. So ``192.168.0.0/16`` includes the ``192.168.27.0/24`` network, whereas ``192.168.0.0/24`` would not.
 
-- go for VLAN only when having reached a first level of correct operation; note that some devices (ex: non-manageable switches) are not able to handle VLAN-tagged packets and may reject or overwrite this information
+- go for VLAN only when having reached a first level of correct operation; note that some devices (e.g. non-manageable switches) are not able to handle VLAN-tagged packets and may reject or overwrite this information
 - in some cases, hard reboots / returns to factory settings will fix inexplicable situations; updating to latest firmware may help too (network appliances *do* have bugs as well!)
 - secure spare parts (if possible all cables, fibers, devices, power supply, etc. shall exist at least in two copies, tested just after purchased): when the one in operation will fail, the outage will be quickly solved by switching element; the troubleshooting will be easier as well: replace the whole set of equipment, check that everything works again, and try to progress by dichotomy (change half of the elements, and check whether everything remains functional)
-- purchase only equipment of quality, and treat it gently (ex: use an Uninterruptible Power Supply providing good-quality current)
+- purchase only equipment of quality, and treat it gently (e.g. use an Uninterruptible Power Supply providing good-quality current)
 - take notes about the operations that are performed, the detected issues and the current configuration, and put the whole in VCS
 - check temperature, ventilation and prevent dust accumulation
 - consider monitoring temperatures, fans, availability, performances
