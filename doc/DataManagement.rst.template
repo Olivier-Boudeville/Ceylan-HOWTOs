@@ -433,5 +433,20 @@ This results in:
 The image can be saved either by using the ``Save As`` GUI menu and typically selecting PNG, or directly from the console/scripts thanks to the following command: ``print("my_plot.png", "-dpng")``.
 
 
+LibreOffice
+-----------
+
+
+To obtain a list of all the different values in a selection
+...........................................................
+
+The objective is to determine the set of the different (unique) values in a selection (typically a whole column).
+
+Once the selection has been defined, select the ``Data -> More Filters -> Standard Filter`` menu item, set the ``Field name`` dropdown to "``-none -``" and, in the panel for ``Options`` settings, enable ``No duplications``.
+
+Then each resulting *selected* row while have a unique value in the selected column (the other rows will still exist but not be selected).
+
+Often it might be convenient to sort this selection afterwards; the up/down arrow icons may be used, and keeping the ``Current selection`` is generally used (rather than extending it).
+
 
 :raw-html:`<a name="howtos_bottom"></a>`
