@@ -65,11 +65,11 @@ Recommended General Conventions
 The ones to which we try to stick are:
 
 - the path (including names) of files and directories should not include spaces; as separator, prefer dashes (``-``) to underscores (``_``)
-- the character case shall be uniform (ex: directory names starting always or never with a capital letter)
-- the language used shall be uniform (ex: only English)
-- a commit message shall describe synthetically the modifications operated on the corresponding new filesystem snapshot; such a message, preferably in English, should always start with a capital letter and end with a dot; ex: "*Fixed the computation of angles.*"
+- the character case shall be uniform (e.g. directory names starting always or never with a capital letter)
+- the language used shall be uniform (e.g. only English)
+- a commit message shall describe synthetically the modifications operated on the corresponding new filesystem snapshot; such a message, preferably in English, should always start with a capital letter and end with a dot; e.g. "*Fixed the computation of angles.*"
 - the file formats shall be, as much as possible, homogeneous, notably for text files with regard to the line terminators; either only UNIX conventions (only ``LF``; preferred), or only Windows ones (``CRLF``); use ``dos2unix`` whenever necessary, possibly automated through a Git hook
-- abbreviations are convenient (ex: ``br`` for branch, ``co`` for ``checkout``, etc.); they can be defined in one's ``~/.gitconfig``
+- abbreviations are convenient (e.g. ``br`` for branch, ``co`` for ``checkout``, etc.); they can be defined in one's ``~/.gitconfig``
 
 
 
@@ -80,7 +80,7 @@ Basic Operations
 
   - **creating** branches is done thanks to the ``checkout`` command, often abbreviated as ``co`` here
   - to create a branch deriving from the current one (the current ``HEAD``) and switching to it at the same time (performing its co, while inheriting any local changes): ``git co -b my_new_branch``
-  - to `create a local branch corresponding to a remote one <https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches>`_ (let's suppose it is named ``some_branch``), assuming that a remote server (ex: ``my_remote``, possibly ``origin``) has already been declared (ex: ``git remote add my_remote URL``):
+  - to `create a local branch corresponding to a remote one <https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches>`_ (let's suppose it is named ``some_branch``), assuming that a remote server (e.g. ``my_remote``, possibly ``origin``) has already been declared (e.g. ``git remote add my_remote URL``):
 
 	- first step is to update the remote-tracking branches with ``git fetch my_remote``, then to create the target local branch tracking that remote (upstream) one with: ``git co -b some_branch my_remote/some_branch`` (also switching to it here)
 	- a shortcut is to use ``git co --track my_remote/some_branch`` instead
@@ -93,7 +93,7 @@ Basic Operations
 
   - to list (local) tags: ``git tag``
   - to have information about an already-existing tag: ``git show my_tag``
-  - to set a new annotated tag: ``git tag -a foobar-version-2.4.0 -m "Release of the version 2.4.0 of Foobar."``; prefer naming tags differently from branches (ex: ``foobar-version-2.4.0`` rather than ``foobar-2.4.0``) to spare ambiguities to Git
+  - to set a new annotated tag: ``git tag -a foobar-version-2.4.0 -m "Release of the version 2.4.0 of Foobar."``; prefer naming tags differently from branches (e.g. ``foobar-version-2.4.0`` rather than ``foobar-2.4.0``) to spare ambiguities to Git
   - a set tag must be specifically pushed on a remote, for example: ``git push origin my_tag``; all tags can be pushed with ``git push --tags`` (the remote can be implied)
   - to delete a tag that was not pushed: ``git tag --delete my_tag``
 
@@ -136,8 +136,8 @@ Merge versus Rebase
 
 Here one may want:
 
-- either to **integrate back a development branch** (ex: ``my-feature``) **in a shared, parent one** (ex: ``master``): then one shall prefer using ``merge``, in order to keep separate histories and not affect the past one of the shared branch
-- or to **resynchronise a development branch** (ex: ``my-feature``) **on the last version of a shared branch and continue these developments**: then one shall prefer ``rebase``, so that the history of the development branch contains only its own changes (less noise, linear history)
+- either to **integrate back a development branch** (e.g. ``my-feature``) **in a shared, parent one** (e.g. ``master``): then one shall prefer using ``merge``, in order to keep separate histories and not affect the past one of the shared branch
+- or to **resynchronise a development branch** (e.g. ``my-feature``) **on the last version of a shared branch and continue these developments**: then one shall prefer ``rebase``, so that the history of the development branch contains only its own changes (less noise, linear history)
 
 In practice, in order to transfer the changes of a branch A in a branch B:
 
@@ -213,7 +213,7 @@ This is typically useful initially:
  $ git -c http.sslVerify=false clone https://foo.bar.org/XX/XXX
 
 
-In order that the next operations (ex: future pushes) overcome too this problem for the current repository, use from within the current clone:
+In order that the next operations (e.g. future pushes) overcome too this problem for the current repository, use from within the current clone:
 
 .. code:: bash
 
@@ -337,7 +337,7 @@ To list the untracked files (i.e. the files *not* in VCS), use ``git ls-files --
 Reducing the size of a repository
 .................................
 
-One may use our `list-largest-vcs-blobs.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-largest-vcs-blobs.sh>`_ script to detect any larger files that should not be in VCS (ex: should a colleague have committed by mistake a third-party archive, or unexpected data such as CSV files).
+One may use our `list-largest-vcs-blobs.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-largest-vcs-blobs.sh>`_ script to detect any larger files that should not be in VCS (e.g. should a colleague have committed by mistake a third-party archive, or unexpected data such as CSV files).
 
 Then install `BFG Repo-Cleaner <https://rtyley.github.io/bfg-repo-cleaner/>`_:
 
@@ -351,9 +351,9 @@ Then install `BFG Repo-Cleaner <https://rtyley.github.io/bfg-repo-cleaner/>`_:
  $ alias bfg="java -jar ~/Software/bfg-repo-cleaner/bfg.jar"
 
 
-All developers should be asked to commit their sources (git add + push), to archive their clone (ex: in a timestamped ``.xz`` file like ``20220412-archive-clone-foobar.tar.xz``), and to wait until notified that they can create a new clone.
+All developers should be asked to commit their sources (git add + push), to archive their clone (e.g. in a timestamped ``.xz`` file like ``20220412-archive-clone-foobar.tar.xz``), and to wait until notified that they can create a new clone.
 
-The repository may be then cleaned up (ex: from large, unnecessary CSV files) in isolation, with:
+The repository may be then cleaned up (e.g. from large, unnecessary CSV files) in isolation, with:
 
 .. code:: bash
 
@@ -363,7 +363,7 @@ The repository may be then cleaned up (ex: from large, unnecessary CSV files) in
  $ git reflog expire --expire=now --all && git gc --prune=now --aggressive
  $ git push
 
-Then all developers shall be requested to perform a new clone and to check the fetched content (ex: with regard to the content of the last branch in which they committed).
+Then all developers shall be requested to perform a new clone and to check the fetched content (e.g. with regard to the content of the last branch in which they committed).
 
 
 
@@ -412,9 +412,9 @@ See also our Ceylan-Hull section about `VCS-related scripts <https://hull.esperi
 On Windows
 ----------
 
-Tools like `TortoiseGit <https://tortoisegit.org/>`_ may foster a view on the usage of Git that is a bit particular, conflating concepts or introducing extra ones (ex: a ``sync`` command). Apparently also at least some pulls did not reintroduce files just removed from the working directory.
+Tools like `TortoiseGit <https://tortoisegit.org/>`_ may foster a view on the usage of Git that is a bit particular, conflating concepts or introducing extra ones (e.g. a ``sync`` command). Apparently also at least some pulls did not reintroduce files just removed from the working directory.
 
-More generally, cloning on a Windows host an UNIX-originating repository comprising symbolic links may induce oddities (ex: a symlink named ``S`` pointing to ``Foobar`` resulting, on a Windows clone, in a file named ``S`` whose content is, literally, the text ``"Foobar"``, instead of the expected content of the ``Foobar`` file).
+More generally, cloning on a Windows host an UNIX-originating repository comprising symbolic links may induce oddities (e.g. a symlink named ``S`` pointing to ``Foobar`` resulting, on a Windows clone, in a file named ``S`` whose content is, literally, the text ``"Foobar"``, instead of the expected content of the ``Foobar`` file).
 
 Another option is to use Visual Studio Code (``vscode``), which supports natively Git (provided that the command-line version is already installed). One may select ``View -> SCM`` (or ``Ctrl-Shift-G``) for that. Clicking on the "VCS" icon (three rings links by two curves; the third from the top) displays a contextual view offering various associated operations (here based on Git).
 

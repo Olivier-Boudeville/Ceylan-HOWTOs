@@ -75,9 +75,9 @@ A JSON document is in plain-text and may contain:
   - Boolean: ``true`` or ``false``
   - ``null``: to denote an empty value
 
-- attribute-value pairs (ex: ``"firstName": "John")``
-- "arrays" (ordered lists), ex: ``"myNumbers": ["12", "7", "4"]``
-- "objects" (collection of name-value pairs), ex:
+- attribute-value pairs (e.g. ``"firstName": "John")``
+- "arrays" (ordered lists), e.g. ``"myNumbers": ["12", "7", "4"]``
+- "objects" (collection of name-value pairs), e.g.
 
 .. code:: json
 
@@ -93,9 +93,9 @@ A JSON document is in plain-text and may contain:
 
 The order in arrays is expected to be preserved, but not the one of the elements in an object.
 
-Defining an element (ex: an attribute-value pair) more than once is allowed, and the last instance thereof will be the one kept.
+Defining an element (e.g. an attribute-value pair) more than once is allowed, and the last instance thereof will be the one kept.
 
-Ex:
+For instance:
 
 .. code:: json
 
@@ -115,7 +115,7 @@ _______________
 
 On GNU/Linux, one may rely on ``jq``, a command-line JSON processor.
 
-Ex: ``jq . my_document.json``.
+For instance: ``jq . my_document.json``.
 
 
 
@@ -175,7 +175,7 @@ With JSON, there is, on purpose, no built-in way to add comments.
 
 The sole solution/workaround is to add comments as specific fields, although they will end up as data like the other fields.
 
-We recommend to mark them specifically (ex: as ``__comment``) so that they should not interfere with the "real" data. As an example, see the second key of the previous JSON document.
+We recommend to mark them specifically (e.g. as ``__comment``) so that they should not interfere with the "real" data. As an example, see the second key of the previous JSON document.
 
 
 
@@ -187,7 +187,7 @@ YAML
 
 We prefer the ``.yaml`` extension to the ``.yml`` one.
 
-No tabulation should be used for indentation, only spaces, and preferably a fixed amount of them; we used to prefer 4, now 2, since it allows to properly align the items listed with a dash (ex: "``- I am an item``").
+No tabulation should be used for indentation, only spaces, and preferably a fixed amount of them; we used to prefer 4, now 2, since it allows to properly align the items listed with a dash (e.g. "``- I am an item``").
 
 With Emacs, the `Yaml Mode <https://www.emacswiki.org/emacs/YamlMode>`_ may be of help.
 
@@ -265,21 +265,21 @@ or with an array thereof (a vector):
 Outputs
 .......
 
-Beware to the lower-precision of textual outputs, which may be misleading (ex: use ``format long`` with Octave to request 15 significant figures).
+Beware to the lower-precision of textual outputs, which may be misleading (e.g. use ``format long`` with Octave to request 15 significant figures).
 
 
 
 Script Files
 ............
 
-Rather than being directly interpreted (ex: from a pasted text), a series of statements can be gathered in a script file (a bit different from a function file [#]_) that can be loaded and executed afterwards.
+Rather than being directly interpreted (e.g. from a pasted text), a series of statements can be gathered in a script file (a bit different from a function file [#]_) that can be loaded and executed afterwards.
 
 .. [#] A so-called "function file" is one that starts with a function definition and that must only be called from a "script file".
 
 
-Their conventional extension in ``m`` (ex: ``foobar.m``), due to the MATLAB legacy.
+Their conventional extension in ``m`` (e.g. ``foobar.m``), due to the MATLAB legacy.
 
-Avoid dashes in the script filenames, as it may be interpreted as ``minus``; prefer underscores (ex: ``phi_exp.m`` rather than ``phi-exp.m``).
+Avoid dashes in the script filenames, as it may be interpreted as ``minus``; prefer underscores (e.g. ``phi_exp.m`` rather than ``phi-exp.m``).
 
 
 An example of script, named ``phi_exp.m``:
@@ -330,7 +330,7 @@ Then a script can be run from the command-line; for example:
 Using Scilab
 ------------
 
-Scilab may be best obtained, on Arch Linux, from the AUR (ex: ``yay -Sy scilab``) by selecting the ``scilab-bin`` option (relying then on prebuilt binaries); it can then be run with: ``scilab``.
+Scilab may be best obtained, on Arch Linux, from the AUR (e.g. ``yay -Sy scilab``) by selecting the ``scilab-bin`` option (relying then on prebuilt binaries); it can then be run with: ``scilab``.
 
 Note that the copy/paste behaviour is not consistent with the usual UNIX/X11 one, and that tabulation can be used for auto-completion.
 
@@ -375,7 +375,7 @@ We experienced rendering issues that prevented a proper display of plots.
 Using Octave
 ------------
 
-`Octave <https://octave.org/>`_ can be installed on Arch Linux with ``pacman -Sy octave``; extra packages may be needed (ex: ``octave-quaternion``, available in the AUR).
+`Octave <https://octave.org/>`_ can be installed on Arch Linux with ``pacman -Sy octave``; extra packages may be needed (e.g. ``octave-quaternion``, available in the AUR).
 
 
 The command-line version can be run as ``octave``. Typing ``quit`` at the prompt allows to exit.

@@ -66,15 +66,62 @@ Godot (version 3.4.1) will not be able to load FBX files that reference formats 
 Installation
 ............
 
-On Arch Linux: ``pacman -Sy godot``.
+On Arch Linux, one may simply use ``pacman -Sy godot``.
+
+Or just, for maximum control, one may instead directly download the GNU/Linux version `from the Godot official website <https://godotengine.org/download/linux/>`_.
+
+If planning to be able to develop in C# in addition to GDScript (refer to our `Scripting Language`_ section), prefer the .NET version (as opposed to the Standard one), i.e. the "``.NET (x86_64)``" version - provided that the support for .NET is already secured, either based on the `Microsoft .NET SDK <https://dotnet.microsoft.com/download>`_ or, possibly better, on the `Mono SDK <https://www.mono-project.com/download/stable/>`_.
+
+The installation procedure that we prefer can be done automatically thanks to our `install-godot.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-godot.sh>`_ script.
+
 
 
 Use
 ...
 
-Godot logs are stored per-project; e.g. ``~/.local/share/godot/app_userdata/my-test-project/logs/godot.log``; past log files are kept once timestamped. They tend not to have interesting content.
+
+Scripting Language
+__________________
+
+Users of the Godot API may develop notably in GDScript (extension: ``*.gd``) and/or in C# (extension: ``*.cs``).
+
+See `this comparison <https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_differences.html>`_ - knowing that `languages can be mixed and matched <https://docs.godotengine.org/en/stable/tutorials/scripting/cross_language_scripting.html#doc-cross-language-scripting>`_.
+
+We prefer using C# to GDScript as:
+
+- C# is statically typed (GDScript is dynamically typed, with implicit casts)
+- C# is widely-used / general-purpose (and Unity supports it as well), as opposed to GDScript
+- C# is C++-inspired, whereas GDScript is Python-inspired [#]_; so for example C# does not rely on indentation to define clauses
+
+.. [#] With additionally quite many differences. For example, with GDScript, variables are typed, like in ``var my_msg : String = 'Hello!'``. So ``my_msg = 7`` is to result in a (*runtime*) error. Python lists are Godot arrays. ``None`` is ``null``. A switch-like operator (``match``) exists.
+
+
+Development Hints
+_________________
+
+
+- all scripts are classes, which are by default anonymous
+
+
+Important Paths
+_______________
 
 A configuration tree lies in ``.config/godot``, a cache tree in ``~/.cache/godot``.
+
+
+
+Logs
+____
+
+Godot logs are stored per-project; e.g. ``~/.local/share/godot/app_userdata/my-test-project/logs/godot.log``; past log files are kept once timestamped. They tend not to have interesting content.
+
+
+Sources of Godot-related Information
+____________________________________
+
+
+- the official `Godot Engine <https://www.youtube.com/@GodotEngineOfficial>`_ video channel
+- the `GDQuest channel <https://www.youtube.com/@Gdquest/>`_, offering a large number of Godot tutorials covering many topics
 
 
 
@@ -290,9 +337,11 @@ Using `blender import`_ is the primary solution that we see: a content, once imp
 
 Yet this operation may fail, for example on "older" FBX files, whose FBX version (e.g. 6.1) is not supported by Blender ("*Version 6100 unsupported, must be 7100 or later*") or by other tools such as Godot. See also the `Media Formats <https://docs.blender.org/manual/en/latest/files/media/index.html>`_ supported by Blender.
 
+Another option of interest is to use Godot's `FBX2glTF <https://github.com/godotengine/FBX2glTF>`_ command-line tool.
+
+
 
 .. _`autodesk-converter`:
-
 
 Workaround #1: Using Autodesk FBX Converter
 ...........................................
@@ -501,6 +550,36 @@ F3D
 `f3d <https://github.com/f3d-app/f3d>`_ (installable from the AUR) is a fast and minimalist VTK-based 3D viewer.
 
 Such a viewer is especially interesting to investigate whether a tool failed to properly export a content or whether it is the next tool that actually failed to properly import, and to gain another chance of accessing to relevant error messages.
+
+
+
+Mikktspace
+----------
+
+This tool (`official website <http://www.mikktspace.com/>`_), created by Morten S. Mikkelsen, is a de facto (free) standard in terms of normal map baker: it generates *Tangent Space Normal Maps* (tangents), and helps ensuring consistency between 3D applications (such as Blender).
+
+These fields of normals may be seen as an encoding, explaining why conventions like the ones enforced by this tool (which became an implementation standard) help performing a suitable, robust reciprocal decoding.
+
+
+
+Mixamo
+------
+
+`Mixamo <https://www.mixamo.com/#/>`_ is a website that allows to download and use for free a large number of rather high-quality 3D characters (about 110 of them; all being textured and rigged) and animations (about 2500 of them; full-body character animations, captured from professional motion actors), which can be arbitrarily mixed and matched.
+
+This website allows also to rig one's (humanoid) character (see ``Upload character``).
+
+The `licence attached to Mixamo <https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html>`_ is rather permissive; notably::
+
+ You can use both characters and animations royalty free for personal, commercial, and non-profit projects including:
+	Incorporate characters into illustrations and graphic art.
+	3D print characters.
+	Create films.
+	Create video games.
+
+
+
+
 
 
 
