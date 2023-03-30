@@ -796,7 +796,11 @@ OpenGL Hints
   - as for ``glBindObject``, its role is to register the ``Foo`` pointer corresponding to the specified identifier ``fooId`` in the C-like struct that corresponds to the current context (i.e. the current state of OpenGL), in the field designated here by ``GL_SOME_TARGET``, like in: ``current_gl_context->gl_some_target = foo_pointer_for(fooId)``; this operation is thus mostly an assignment
   - once bound, this ``Foo`` instance can be accessed implicitly (through the current context) by calls such as ``glSetFooOption(GL_SOME_TARGET, GL_OPTION_FOO_WIDTH, 800);`` (where neither its identifier nor any pointer for it is specified); once done, this instance can be unbound with ``glBindObject(GL_SOME_TARGET, 0);``; rebinding that identifier later will restore the corresponding options; as a result, several instances can be created, corresponding to as many sets of predefined options, and when a given one shall apply, it just has to be bound
 
-- in OpenGL, the **alpha** coordinate encodes **opacity**; thus 1.0 means fully opaque, whereas 0.0 means fully transparent
+
+- in OpenGL:
+
+  - 3D coordinates are processed iff they are Normalized Device Coordinates (see NDC), for all 3 dimensions
+  -  the **alpha** color coordinate encodes **opacity**; thus 1.0 means fully opaque, whereas 0.0 means fully transparent
 
 
 
@@ -818,6 +822,7 @@ Terms that are more or less specific to OpenGL:
 - ``GLUT``, *OpenGL Utility Toolkit*, a system-independent window toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, it is less used nowadays
 - ``GLX``: the X extension of the OpenGL interface, i.e. a solution to integrate OpenGL to X servers; see `this page <https://www.glprogramming.com/blue/ch02.html#id86751>`_ for more information
 - ``GLSL``: `OpenGL Shading Language <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>`_, a C-like language with which the transformation and fragment shading stages of the pipeline can be programmed; introduced in OpenGL 2.0; see `our GLSL section <#glsl>`_
+- ``NDC``: *Normalized Device Coordinate*; such a coordinate is, in OpenGL, in :math:`[-1.0, 1.0]`, defining a cube; only the points ultimately within this cube will be rendered, by being transformed to screen-space (viewport) coordinates and then fragments sent to the fragment shader
 - ``OpenCL``: `Open Computing Language <https://en.wikipedia.org/wiki/OpenCL>`_, a framework for writing programs that execute across heterogeneous platforms: central processing units (CPUs), graphics processing units (GPUs), digital signal processors (DSPs), field-programmable gate arrays (FPGAs) and other processors or hardware accelerators; in practice OpenCL defines programming languages, deriving from C and C++, for these devices, and APIs to control the platform and execute programs on the compute devices; OpenGL defines a standard interface for parallel computing using task-based and data-based parallelism; see also `our Erlang-related section <Erlang.html#opencl>`_
 - ``OpenGL ES``: `OpenGL for Embedded Systems <https://en.wikipedia.org/wiki/OpenGL_ES>`_ is a subset of the OpenGL API, designed for embedded systems (like smartphones, tablet computers, video game consoles and PDAs)
 - ``Pixel``: *Picture Element*
