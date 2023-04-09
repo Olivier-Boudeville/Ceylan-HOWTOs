@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, March 19, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, April 9, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -112,27 +112,29 @@
 <li><a class="reference internal" href="#runtime-build" id="toc-entry-51">Runtime Build</a></li>
 <li><a class="reference internal" href="#implementing-a-shader" id="toc-entry-52">Implementing a Shader</a></li>
 <li><a class="reference internal" href="#communicating-with-shaders" id="toc-entry-53">Communicating with Shaders</a></li>
-<li><a class="reference internal" href="#examples-of-shaders" id="toc-entry-54">Examples of Shaders</a></li>
-<li><a class="reference internal" href="#managing-spatial-transformations" id="toc-entry-55">Managing Spatial Transformations</a></li>
+<li><a class="reference internal" href="#troubleshooting-shaders" id="toc-entry-54">Troubleshooting Shaders</a></li>
+<li><a class="reference internal" href="#examples-of-shaders" id="toc-entry-55">Examples of Shaders</a></li>
+<li><a class="reference internal" href="#managing-spatial-transformations" id="toc-entry-56">Managing Spatial Transformations</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#more-advanced-topics" id="toc-entry-56">More Advanced Topics</a><ul>
-<li><a class="reference internal" href="#shadows" id="toc-entry-57">Shadows</a></li>
+<li><a class="reference internal" href="#more-advanced-topics" id="toc-entry-57">More Advanced Topics</a><ul>
+<li><a class="reference internal" href="#shadows" id="toc-entry-58">Shadows</a></li>
+<li><a class="reference internal" href="#reference-glsl-compiler" id="toc-entry-59">Reference GLSL Compiler</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sources-of-information" id="toc-entry-58">Sources of Information</a></li>
+<li><a class="reference internal" href="#sources-of-information" id="toc-entry-60">Sources of Information</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#operating-system-support-for-3d" id="toc-entry-59">Operating System Support for 3D</a><ul>
-<li><a class="reference internal" href="#testing" id="toc-entry-60">Testing</a></li>
-<li><a class="reference internal" href="#troubleshooting-1" id="toc-entry-61">Troubleshooting</a></li>
+<li><a class="reference internal" href="#operating-system-support-for-3d" id="toc-entry-61">Operating System Support for 3D</a><ul>
+<li><a class="reference internal" href="#testing" id="toc-entry-62">Testing</a></li>
+<li><a class="reference internal" href="#troubleshooting-1" id="toc-entry-63">Troubleshooting</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#minor-topics" id="toc-entry-62">Minor Topics</a><ul>
-<li><a class="reference internal" href="#camera-navigation-conventions" id="toc-entry-63">Camera Navigation Conventions</a></li>
+<li><a class="reference internal" href="#minor-topics" id="toc-entry-64">Minor Topics</a><ul>
+<li><a class="reference internal" href="#camera-navigation-conventions" id="toc-entry-65">Camera Navigation Conventions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#d-related-mini-glossary" id="toc-entry-64">3D-Related Mini-Glossary</a></li>
+<li><a class="reference internal" href="#d-related-mini-glossary" id="toc-entry-66">3D-Related Mini-Glossary</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -495,7 +497,7 @@ You can use both characters and animations royalty free for personal, commercial
 <p>The reference pages for OpenGL (in version 4.x) can be <a class="reference external" href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/">browsed here</a>.</p>
 <p>Note that initially the information here related to older versions of OpenGL (1.1, 2.1, etc.; see <a class="reference external" href="https://www.khronos.org/opengl/wiki/History_of_OpenGL">history</a>) that relied on a fixed pipeline (no shader support) - whereas, starting from OpenGL 3.0, many of the corresponding features were marked as deprecated, and actually removed as a whole in 3.1. However, thanks to the <em>compatibility context</em> (whose support is not mandatory - but that all major implementations of OpenGL provide), these features can still be used.</p>
 <p>Yet nowadays relying on at least the OpenGL 3 <em>core</em> context (not using the <em>compatibility</em> context) would be preferable (source: <a class="reference external" href="https://erlangforums.com/t/no-gl-get-1/1035">this thread</a>). Still better options would be to rely on OpenGL 4 Core or OpenGL ES 2+, or libraries on top of <a class="reference external" href="https://en.wikipedia.org/wiki/Vulkan">Vulkan</a>, like <a class="reference external" href="https://github.com/gfx-rs/wgpu">wgpu</a>. Specific libraries also exist for rendering for the web and for mobile, like <a class="reference external" href="https://www.w3.org/TR/webgpu/">WebGPU</a>.</p>
-<p>As of 2022, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (e.g. skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum that we target is the <strong>Core Profile of OpenGL 3.3</strong>, which is &quot;modern OpenGL&quot; and introduced most features that still apply; it will halt on error if any deprecated functionality is used.</p>
+<p>As of 2023, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (e.g. skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum that we target is the <strong>Core Profile of OpenGL 3.3</strong>, which is &quot;modern OpenGL&quot; and introduced most features that still apply; it will halt on error if any deprecated functionality is used.</p>
 <p>For more general-purpose computations (as opposed to rendering operations) to be offset to a GPU/GPGU, one may rely on <a class="reference external" href="Erlang.html#opencl">OpenCL</a> instead.</p>
 <p>The mentioned tests will be <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a> ones, typically located <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/test/user-interface/graphical">here</a>.</p>
 <div class="section" id="basics">
@@ -640,7 +642,11 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <li>once bound, this <tt class="docutils literal">Foo</tt> instance can be accessed implicitly (through the current context) by calls such as <tt class="docutils literal">glSetFooOption(GL_SOME_TARGET, GL_OPTION_FOO_WIDTH, 800);</tt> (where neither its identifier nor any pointer for it is specified); once done, this instance can be unbound with <tt class="docutils literal">glBindObject(GL_SOME_TARGET, 0);</tt>; rebinding that identifier later will restore the corresponding options; as a result, several instances can be created, corresponding to as many sets of predefined options, and when a given one shall apply, it just has to be bound</li>
 </ul>
 </li>
-<li>in OpenGL, the <strong>alpha</strong> coordinate encodes <strong>opacity</strong>; thus 1.0 means fully opaque, whereas 0.0 means fully transparent</li>
+<li>in OpenGL:<ul>
+<li>3D coordinates are processed iff they are <em>Normalized Device Coordinates</em> (see <a class="reference internal" href="#ndc">NDC</a>), for all 3 dimensions</li>
+<li>the <strong>alpha</strong> color coordinate encodes <strong>opacity</strong>; thus 1.0 means fully opaque, whereas 0.0 means fully transparent</li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="mini-opengl-glossary">
@@ -660,6 +666,9 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <li><tt class="docutils literal">GLUT</tt>, <em>OpenGL Utility Toolkit</em>, a system-independent window toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, it is less used nowadays</li>
 <li><tt class="docutils literal">GLX</tt>: the X extension of the OpenGL interface, i.e. a solution to integrate OpenGL to X servers; see <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id86751">this page</a> for more information</li>
 <li><tt class="docutils literal">GLSL</tt>: <a class="reference external" href="https://en.wikipedia.org/wiki/OpenGL_Shading_Language">OpenGL Shading Language</a>, a C-like language with which the transformation and fragment shading stages of the pipeline can be programmed; introduced in OpenGL 2.0; see <a class="reference external" href="#glsl">our GLSL section</a></li>
+</ul>
+<span id="ndc"></span><ul class="simple" id="ndcs">
+<li><tt class="docutils literal">NDC</tt>: <em>Normalized Device Coordinate</em>; such a coordinate is, in OpenGL, in <span class="math">\([-1.0, 1.0]\)</span>, defining a cube (see <a class="reference external" href="https://learnopengl.com/img/getting-started/ndc.png">this example</a>, which does not represents the Z axis); only the points ultimately within this cube will be rendered, by being transformed to screen-space (viewport) coordinates and then fragments sent to the fragment shader; the conventions for texture coordinates (<a class="reference internal" href="#texels">texels</a>) are different</li>
 <li><tt class="docutils literal">OpenCL</tt>: <a class="reference external" href="https://en.wikipedia.org/wiki/OpenCL">Open Computing Language</a>, a framework for writing programs that execute across heterogeneous platforms: central processing units (CPUs), graphics processing units (GPUs), digital signal processors (DSPs), field-programmable gate arrays (FPGAs) and other processors or hardware accelerators; in practice OpenCL defines programming languages, deriving from C and C++, for these devices, and APIs to control the platform and execute programs on the compute devices; OpenGL defines a standard interface for parallel computing using task-based and data-based parallelism; see also <a class="reference external" href="Erlang.html#opencl">our Erlang-related section</a></li>
 <li><tt class="docutils literal">OpenGL ES</tt>: <a class="reference external" href="https://en.wikipedia.org/wiki/OpenGL_ES">OpenGL for Embedded Systems</a> is a subset of the OpenGL API, designed for embedded systems (like smartphones, tablet computers, video game consoles and PDAs)</li>
 <li><tt class="docutils literal">Pixel</tt>: <em>Picture Element</em></li>
@@ -669,7 +678,9 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <li><tt class="docutils literal">Scissor Test</tt>: an arbitrary screen-aligned rectangle outside of which fragments will be discarded; useful to clear or update only a part of the viewport</li>
 <li><tt class="docutils literal">Shader</tt>: a user-defined program providing the code for some programmable stages of the rendering pipeline; they can also be used in a slightly more limited form for general, on-GPU computation (<a class="reference external" href="https://www.khronos.org/opengl/wiki/Shader">source</a>)</li>
 <li><tt class="docutils literal">Stencil Test</tt>: conditionally discards a fragment based on the outcome of a selected comparison between the value in the stencil buffer and a reference value; useful to perform non-rectangular clipping</li>
-<li><tt class="docutils literal">Texel</tt>: <em>Texture Element</em> ; it corresponds to a <tt class="docutils literal">(s,t)</tt> pair of coordinates in <tt class="docutils literal">[0,1]</tt> designating a point in a texture</li>
+</ul>
+<ul class="simple" id="texels">
+<li><tt class="docutils literal">Texel</tt>: <em>Texture Element</em> ; it corresponds to a <tt class="docutils literal">(s,t)</tt> pair of coordinates in <tt class="docutils literal">[0,1]</tt> designating a point in a texture (see <a class="reference external" href="https://learnopengl.com/img/getting-started/tex_coords.png">this example</a>; <a class="reference internal" href="#ndcs">NDCs</a> span different ranges)</li>
 <li><tt class="docutils literal">Vertex Array</tt>: these in-memory client-side arrays may aggregate 6 types of data (vertex coordinates, RGBA colors, color indices, surface normals, texture coordinates, polygon edge flags), possibly interleaved; such arrays allow to reduce the number of calls to OpenGL functions, and also to share elements (e.g. vertices pertaining to multiple faces should preferably be defined only once); in a non-networked setting, the GPU just dereferences the corresponding pointers</li>
 <li><tt class="docutils literal">Viewport</tt>: the (rectangular) part (defined based on its lower left corner and its width and height, in pixels) within the current window in which OpenGL is to perform its rendering; so multiple viewports may be used in turn in order to offer multiple, composite views of the scene of interest in a given window; the ultimately processed 2D coordinates in OpenGL are both in <tt class="docutils literal"><span class="pre">[-1.0,</span> 1.0]</tt> before they are finally mapped to the current viewport dimensions (e.g. abscissa in <tt class="docutils literal">[0,800]</tt>, ordinate in <tt class="docutils literal">[0,600]</tt>, in pixels)</li>
 <li><tt class="docutils literal">Vulkan</tt>: a low-overhead, cross-platform API, open standard for 3D graphics and computing; it is intended to offer higher performance and more balanced CPU and GPU usage than the OpenGL or Direct3D 11 APIs; it is lower-level than OpenGL, and not backwards compatible with it (<a class="reference external" href="https://en.wikipedia.org/wiki/Vulkan">source</a>)</li>
@@ -713,6 +724,7 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <p><span class="raw-html"><center><img src="myriad-space-time-referential.png" id="responsive-image-tiny"></img></center></span>
 </p>
 <p>These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.</p>
+<p>Note that perhaps the most popular convention is different, for which X is horizontal, Y is up and Z is depth (hence Z-buffer).</p>
 <div class="section" id="a-tree-of-referentials">
 <h4>A Tree of Referentials</h4>
 <p>In the general case, either in 2D or (more often of interest here) in 3D, a given scene (a model) is made of a set of elements (e.g. the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (e.g. a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.</p>
@@ -737,23 +749,29 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <p>For example the hand of a character may be defined in <span class="math">\(R_h\)</span>, itself defined relatively to its associated forearm in <span class="math">\(R_f\)</span> up to the overall referential <span class="math">\(R_a\)</span> of that character, defined relatively to the referential of the whole scene, <span class="math">\(R_s\)</span>. This referential may have no explicit parent defined, meaning implicitly that it is defined in the canonical, global referential.</p>
 <p>Once the <strong>model</strong> is expressed as a whole in the scene-global referential, the next transformations have to be conducted : <strong>view</strong> and projection. The view transformation involves at least an extra referential, the one of the camera in charge of the rendering, which is <span class="math">\(R_c\)</span>, possibly defined relatively to <span class="math">\(R_s\)</span> (or any other referential).</p>
 <p>So a geometry (e.g. a part of the hand, defined in <span class="math">\(R_f\)</span>) has to be transformed upward in the referential tree in order to be expressed in the common, &quot;global&quot; scene referential <span class="math">\(R_s\)</span>, before being transformed last in the camera one, <span class="math">\(R_c\)</span>.</p>
-<p>In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations, which thus include the transformation of one referential into another. Their product can be computed once, and then applying a vector (e.g. corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all model-view transformations (and even the projection) as well.</p>
+<p>In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations <a class="footnote-reference" href="#footnote-6" id="footnote-reference-6">[6]</a>, which thus include the transformation of one referential into another. Their product can be computed once, and then applying a vector (e.g. corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all model-view transformations (and even the projection) as well.</p>
+<table class="docutils footnote" frame="void" id="footnote-6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-6">[6]</a></td><td>In practice the recommended order of the operations are: scaling, then rotation, then translation, otherwise they will become coupled and would interfere negatively (e.g. a translation vector would be scaled as well).</td></tr>
+</tbody>
+</table>
 <p>Noting <span class="math">\(P_{a{\rightarrow}b}\)</span> the transition matrix transforming a vector <span class="math">\(\vec{V_a}\)</span> expressed in <span class="math">\(R_a\)</span> into its representation <span class="math">\(\vec{V_b}\)</span> in <span class="math">\(R_b\)</span>, we have:</p>
 <div class="math">
 \begin{equation*}
 \vec{V_b} = P_{a{\rightarrow}b}.\vec{V_a}
 \end{equation*}
 </div>
-<p>Thus, to express the geometry of said hand (natively defined in <span class="math">\(R_h\)</span>) in camera space (hence in <span class="math">\(R_c\)</span>), the following composition of referential changes <a class="footnote-reference" href="#footnote-6" id="footnote-reference-6">[6]</a> shall be applied:</p>
+<p>Thus, to express the geometry of said hand (natively defined in <span class="math">\(R_h\)</span>) in camera space (hence in <span class="math">\(R_c\)</span>), the following composition of referential changes <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[7]</a> shall be applied:</p>
 <div class="math">
 \begin{equation*}
 P_{h{\rightarrow}c} = P_{s{\rightarrow}c}.P_{a{\rightarrow}s}.P_{f{\rightarrow}a}.P_{h{\rightarrow}f}.
 \end{equation*}
 </div>
-<table class="docutils footnote" frame="void" id="footnote-6" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-6">[6]</a></td><td>Thus transformation matrices, knowing that the product of such matrices is in turn a transformation matrix.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-7">[7]</a></td><td>Thus transformation matrices, knowing that the product of such matrices is in turn a transformation matrix.</td></tr>
 </tbody>
 </table>
 <p>So a whole series of transformations can be done by applying a single matrix - whose coordinates are determined now.</p>
@@ -954,18 +972,18 @@ P_{\beta\rightarrow\alpha}
 </div>
 </div>
 <p>As a result, from the definition of a tree of referentials, we are able to compute the transition matrix transforming the representation of a vector expressed in any of them to its representation in any of the other referentials.</p>
-<p>A special case of interest is, for the sake of rendering, to transform, through that tree, a local referential in which a geometry is defined into the one of the camera, defining where it is positioned and aimed <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[7]</a>; in OpenGL parlance, this corresponds to the <em>model-view</em> matrix (for &quot;modelling and viewing transformations&quot;) that we designate here as <span class="math">\(M_{mv}\)</span> and which corresponds to <span class="math">\(P_{local{\rightarrow}camera}\)</span>.</p>
-<table class="docutils footnote" frame="void" id="footnote-7" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-7">[7]</a></td><td><tt class="docutils literal">gluLookAt</tt> can define such a viewing transformation matrix, when given (1) the position of the camera, (2) a point at which it shall look, and (3) a vector specifying its up direction (i.e. where is the upward direction for the camera - as otherwise all directions orthogonal to its line of sight defined by (1) and (2) could be chosen).</td></tr>
-</tbody>
-</table>
-<p>Taking into account the last rendering step, the <em>projection</em> (comprising clipping, projection division and viewport transformation), which can be implemented as well thanks to a 4x4 (non-invertible) matrix designated here as <span class="math">\(M_p\)</span>, we see that a single combined overall matrix <span class="math">\(M_o = M_p.M_{mv}\)</span> is sufficient <a class="footnote-reference" href="#footnote-8" id="footnote-reference-8">[8]</a> to convey in one go all transformations that shall be applied to a given geometry for its rendering.</p>
+<p>A special case of interest is, for the sake of rendering, to transform, through that tree, a local referential in which a geometry is defined into the one of the camera, defining where it is positioned and aimed <a class="footnote-reference" href="#footnote-8" id="footnote-reference-8">[8]</a>; in OpenGL parlance, this corresponds to the <em>model-view</em> matrix (for &quot;modelling and viewing transformations&quot;) that we designate here as <span class="math">\(M_{mv}\)</span> and which corresponds to <span class="math">\(P_{local{\rightarrow}camera}\)</span>.</p>
 <table class="docutils footnote" frame="void" id="footnote-8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-8">[8]</a></td><td>In practice, for more flexibility, in OpenGL the management of the viewport, of the projection and of the model-view transformations is done separately (for example, respectively, with: <tt class="docutils literal">glViewport</tt>, <tt class="docutils literal">glMatrixMode(GL_MODELVIEW)</tt> and <tt class="docutils literal">glMatrixMode(GL_PROJECTION)</tt>; so there is a matrix stack corresponding to <tt class="docutils literal">GL_MODELVIEW</tt> and another one to <tt class="docutils literal">GL_PROJECTION</tt>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-8">[8]</a></td><td><tt class="docutils literal">gluLookAt</tt> can define such a viewing transformation matrix, when given (1) the position of the camera, (2) a point at which it shall look, and (3) a vector specifying its up direction (i.e. where is the upward direction for the camera - as otherwise all directions orthogonal to its line of sight defined by (1) and (2) could be chosen).</td></tr>
+</tbody>
+</table>
+<p>Taking into account the last rendering step, the <em>projection</em> (comprising clipping, projection division and viewport transformation), which can be implemented as well thanks to a 4x4 (non-invertible) matrix designated here as <span class="math">\(M_p\)</span>, we see that a single combined overall matrix <span class="math">\(M_o = M_p.M_{mv}\)</span> is sufficient <a class="footnote-reference" href="#footnote-9" id="footnote-reference-9">[9]</a> to convey in one go all transformations that shall be applied to a given geometry for its rendering.</p>
+<table class="docutils footnote" frame="void" id="footnote-9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-9">[9]</a></td><td>In practice, for more flexibility, in OpenGL the management of the viewport, of the projection and of the model-view transformations is done separately (for example, respectively, with: <tt class="docutils literal">glViewport</tt>, <tt class="docutils literal">glMatrixMode(GL_MODELVIEW)</tt> and <tt class="docutils literal">glMatrixMode(GL_PROJECTION)</tt>; so there is a matrix stack corresponding to <tt class="docutils literal">GL_MODELVIEW</tt> and another one to <tt class="docutils literal">GL_PROJECTION</tt>.</td></tr>
 </tbody>
 </table>
 </div>
@@ -1012,14 +1030,16 @@ P_{\beta\rightarrow\alpha}
 <p>Shaders are written in the <strong>GLSL</strong> language, i.e. the <a class="reference external" href="https://en.wikipedia.org/wiki/OpenGL_Shading_Language">OpenGL Shading Language</a>.</p>
 <p>They are portions of C-like code that can be inserted in the rendering pipeline implemented by the OpenGL driver of a GPU card. Six different kinds of shaders can be defined, depending on the processing step that they implement and on their purpose: vertex, tessellation for control or for evaluation, geometry, fragment or compute shaders.</p>
 <p>Except this last type (compute shader), all types are mostly dedicated to <em>rendering</em>. If wanting to perform on one's GPU more general-purpose processing, <a class="reference external" href="https://en.wikipedia.org/wiki/OpenCL">OpenCL</a> shall be preferred to GLSL.</p>
+<p>Each shader is to receive data to process that is appropriate to its type; for example each vertex shader instance will receive a vertex (multiple of such instances will process each their own vertex in parallel) whereas each fragment shader will operate on data specific to a pixel.</p>
+<p>So shader instances will vary in terms of role (e.g. in charge of the processing of a vertex or a fragment), data types (input and output ones) and multiplicities (number of instances). Indeed, if considering a triangle whose vertices are each pure green, red or blue, only 3 vertices will be processed by the vertex shaders, whereas all the numerous pixels of the triangle will the result of the evaluation of as many fragment shaders, each input of which is computed by interpolating the attributes of said 3 vertices - which ultimately results in a smooth gradient over the whole triangle.</p>
 </div>
 <div class="section" id="runtime-build">
 <h3><a class="toc-backref" href="#toc-entry-51">Runtime Build</a></h3>
-<p>Shaders are compiled at (application) runtime <a class="footnote-reference" href="#footnote-9" id="footnote-reference-9">[9]</a> (to target exactly the actual hardware), then linked and attached to a separate program running on the GPU. This is fairly low-level, black-box direct programming, in sharp contrast with the reliance on APIs that used to be the norm with OpenGL 1.x.</p>
-<table class="docutils footnote" frame="void" id="footnote-9" rules="none">
+<p>Shaders are compiled at (application) runtime <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[10]</a> (to target exactly the actual hardware), then linked and attached to a separate program running on the GPU. This is fairly low-level, black-box direct programming, in sharp contrast with the reliance on APIs that used to be the norm with OpenGL 1.x.</p>
+<table class="docutils footnote" frame="void" id="footnote-10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-9">[9]</a></td><td>So each shader is built each time the application is started, and the operation may fail (e.g. with <tt class="docutils literal">0(40) : error C1503: undefined variable &quot;foobar&quot;</tt>).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[10]</a></td><td>So each shader is built each time the application is started, and the operation may fail (e.g. with <tt class="docutils literal">0(40) : error C1503: undefined variable &quot;foobar&quot;</tt>).</td></tr>
 </tbody>
 </table>
 <p>Yet offline compilers exist as well, as well as debuggers (like the NVIDIA NsightShader Debugger).</p>
@@ -1046,13 +1066,13 @@ P_{\beta\rightarrow\alpha}
 <p>Of course the application must have a way of supplying information to its shaders (the other way round does not really happen, except for compute shaders), and a given shader must be able to pass information to (only) any next shader in the pipeline.</p>
 <p>Two options exist for shaders to have inputs and outputs, from/to the CPU and/or <a class="reference external" href="https://www.lighthouse3d.com/tutorials/glsl-tutorial/inter-shader-communication/">other shaders</a>:</p>
 <ul class="simple">
-<li>basically each shader is fed with a stream of vertices <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[10]</a> with associated data, named <strong>vertex attributes</strong>; these attributes are either <em>user-defined</em> or <em>built-in</em> (each type of shader having its own set of built-in input attributes)</li>
+<li>basically each shader is fed with a stream of vertices <a class="footnote-reference" href="#footnote-11" id="footnote-reference-11">[11]</a> with associated data, named <strong>vertex attributes</strong>; these attributes are either <em>user-defined</em> or <em>built-in</em> (each type of shader having its own set of built-in input attributes)</li>
 <li>global, read-only data can also be defined, as <strong>uniform</strong> variables</li>
 </ul>
-<table class="docutils footnote" frame="void" id="footnote-10" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[10]</a></td><td>Then the user-defined <em>primitives</em>, applied later in the pipeline, will allow OpenGL to interpret such a series of vertices in terms of a sequence of triangles, or points, or lines, etc.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-11">[11]</a></td><td>Then the user-defined <em>primitives</em>, applied later in the pipeline, will allow OpenGL to interpret such a series of vertices in terms of a sequence of triangles, or points, or lines, etc.</td></tr>
 </tbody>
 </table>
 <p>These communication options are discussed more in-depth next.</p>
@@ -1061,11 +1081,11 @@ P_{\beta\rightarrow\alpha}
 <div class="section" id="defining-attributes">
 <h5>Defining Attributes</h5>
 <p>A vertex attribute, whether user-defined or built-in, may store any kind of data - notably positions, texture coordinates and normals.</p>
-<p>Either a given attribute is a single, <em>standalone</em> one (then a unique value will be read and will apply to all vertices), or is <em>per-vertex</em>, in which case it is read from a buffer, each element of it being bound accordingly when its associated vertex is processed by the shader. Such arrays are either used in-order, or according to any indices defined (then themselves defined thanks to an array as well) <a class="footnote-reference" href="#footnote-11" id="footnote-reference-11">[11]</a>.</p>
-<table class="docutils footnote" frame="void" id="footnote-11" rules="none">
+<p>Either a given attribute is a single, <em>standalone</em> one (then a unique value will be read and will apply to all vertices), or is <em>per-vertex</em>, in which case it is read from a buffer, each element of it being bound accordingly when its associated vertex is processed by the shader. Such arrays are either used in-order, or according to any indices defined (then themselves defined thanks to an array as well) <a class="footnote-reference" href="#footnote-12" id="footnote-reference-12">[12]</a>.</p>
+<table class="docutils footnote" frame="void" id="footnote-12" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-11">[11]</a></td><td>This is the preferred method, as it prevents vertex duplication, and allows to process each of them once: there is a vertex cache that stores the outputs of the last processed vertices, so that if a vertex is mentioned multiple times (e.g. being included in a triangle fan or strip), the corresponding output may be directly re-used (provided it is still in the cache) instead of having to be computed again.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-12">[12]</a></td><td>This is the preferred method, as it prevents vertex duplication, and allows to process each of them once: there is a vertex cache that stores the outputs of the last processed vertices, so that if a vertex is mentioned multiple times (e.g. being included in a triangle fan or strip), the corresponding output may be directly re-used (provided it is still in the cache) instead of having to be computed again.</td></tr>
 </tbody>
 </table>
 <p>Said differently, for each attribute used by a shader, either a single value or an array thereof must be specified.</p>
@@ -1080,7 +1100,7 @@ P_{\beta\rightarrow\alpha}
 </ul>
 <p>In the two last cases, the layout of variables must match on either side (e.g. main program/shader); for example, with &quot;<tt class="docutils literal">layout(location = 0) in vec3 input_vertex;</tt>&quot; in its code, a vertex shader will expect a (single) vector of 3 (floating-point) coordinates (<tt class="docutils literal">vec3</tt>) to be found at index 0 (<tt class="docutils literal">location = 0</tt>) as input (<tt class="docutils literal">in</tt>); the application will need to specify a corresponding <em>Vertex Buffer Object</em> (VBO) for that.</p>
 <p>So that they can be fetched for a given vertex, attributes have to be appropriately located in buffers. For each attribute, either the developer defines, prior to linking, a specific location (as an index starting at zero) with <tt class="docutils literal">glBindAttribLocation</tt>, or he lets OpenGL choose it, and queries it afterwards, with <tt class="docutils literal">glGetAttribLocation</tt>; refer to <a class="reference external" href="https://www.lighthouse3d.com/tutorials/glsl-tutorial/attribute-variables/">this page</a> for further details.</p>
-<p>If a given program is linked with two shaders, a vertex one and a fragment one, the former one will probably have to pass its outputs as inputs of the latter one; this requires as many variables defined on either side, with relevant out/in specifications, and a matching name and type; for example the vertex shader may declare <tt class="docutils literal">out vec3 my_Color;</tt> whereas the fragment shader will declare <tt class="docutils literal">in vec3 my_Color;</tt>.</p>
+<p>If a given program is linked with two shaders, a vertex one and a fragment one, the former one will probably have to pass its outputs as inputs of the latter one; this requires as many variables defined on either side, with relevant out/in specifications, and a matching name and type; for example the vertex shader may declare <tt class="docutils literal">out vec3 my_color;</tt> whereas the fragment shader will declare <tt class="docutils literal">in vec3 my_color;</tt>.</p>
 </div>
 <div class="section" id="providing-attribute-data-vao-and-vbo">
 <h5>Providing Attribute Data : VAO and VBO</h5>
@@ -1092,24 +1112,24 @@ P_{\beta\rightarrow\alpha}
 </div>
 </div>
 <div class="section" id="uniform-variables-are-read-only-and-global">
-<h4>Uniform Variables are Read-Only and Global</h4>
-<p>Instead of relying on attributes, an alternate way of passing information, provided that it may change relatively infrequently, is to use <em>uniform variables</em>, which behave, for a shader and in the course of a draw call, as read-only, constant global variables for all vertices (hence their <em>uniform</em> naming). Any shader can access every uniform variable (they are global), as long as it declares that variable.</p>
+<span id="uniform-variables"></span><h4>Uniform Variables are Read-Only and Global</h4>
+<p>Instead of relying on attributes, an alternate way of passing information, provided that it may change relatively infrequently, is to use <em>uniform variables</em>, which behave, for a shader and in the course of a draw call, as read-only, constant global variables for all vertices (hence their <em>uniform</em> naming). Any shader can access every uniform variable (they are global), as long as it declares that variable, and these variables hold as long as they are not reset or updated.</p>
 <p>Examples of uniform variables could be the position of a light, transformation matrices, fog settings, variables such as gravity and speed, etc.</p>
 <p>Uniform variables may be defined individually, or be grouped in <a class="reference external" href="https://www.lighthouse3d.com/tutorials/glsl-tutorial/uniform-blocks/">named blocks</a>, for a more effective data setup (to share uniform variables between programs) and transfer from the application to the shader (setting multiple values at once).</p>
 <p>Uniform variables are declared at the program-level (as opposed to a per-vertex level) thanks to:</p>
 <ul class="simple">
 <li>the <tt class="docutils literal">uniform</tt> qualifier on the shader-side, like in <tt class="docutils literal">uniform mat4 MyMatrix;</tt></li>
-<li>a <tt class="docutils literal">glGetUniformLocation</tt> call on the application-side, to create a location associated to a name (e.g. &quot;<tt class="docutils literal">MyMatrix</tt>&quot;), and to associate it to a given value, like, in C:</li>
+<li>a <tt class="docutils literal">glGetUniformLocation</tt> call on the application-side, to create a location associated to a variable name (e.g. <tt class="docutils literal">my_matrix</tt>) in a shader, and to associate it to a given value, like, in C:</li>
 </ul>
 <pre class="code c literal-block">
-<span class="n">mat4</span><span class="w"> </span><span class="n">someMatrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[...];</span><span class="w">
+<span class="n">mat4</span><span class="w"> </span><span class="n">some_matrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[...];</span><span class="w">
 
-</span><span class="n">GLuint</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">programId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MyMatrix&quot;</span><span class="p">);</span><span class="w">
+</span><span class="n">GLuint</span><span class="w"> </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">programId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my_matrix&quot;</span><span class="p">);</span><span class="w">
 
 </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">location</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
 </span><span class="p">{</span><span class="w">
    </span><span class="c1">// Defining a single matrix (1), not to transpose (GL_FALSE):
-</span><span class="w">   </span><span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">someMatrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span><span class="w">
+</span><span class="w">   </span><span class="n">glUniformMatrix4fv</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GL_FALSE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">some_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span><span class="w">
    </span><span class="p">[...]</span>
 </pre>
 <p>Individual variables may be used as uniform, as well as arrays and structs.</p>
@@ -1126,14 +1146,25 @@ P_{\beta\rightarrow\alpha}
 </ul>
 </div>
 </div>
+<div class="section" id="troubleshooting-shaders">
+<h3><a class="toc-backref" href="#toc-entry-54">Troubleshooting Shaders</a></h3>
+<p>Once a shader builds correctly, it may misbehave at runtime.</p>
+<p>One may refer to the &quot;Debugging shader output&quot; section of <a class="reference external" href="https://learnopengl.com/In-Practice/Debugging">this page</a>.</p>
+</div>
 <div class="section" id="examples-of-shaders">
-<h3><a class="toc-backref" href="#toc-entry-54">Examples of Shaders</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-55">Examples of Shaders</a></h3>
 <p>See the <a class="reference external" href="https://github.com/dgud/wings/tree/master/shaders">ones of Wings3D</a> (in GLSL &quot;1.2&quot; apparently, presumably for maximum backward compatibility; note that some elements, with the <tt class="docutils literal">*.cl</tt> extension, are OpenCL ones), or <a class="reference external" href="https://www.lighthouse3d.com/tutorials/glsl-tutorial/geometry-shader-examples/">these ones</a>.</p>
 </div>
 <div class="section" id="managing-spatial-transformations">
-<h3><a class="toc-backref" href="#toc-entry-55">Managing Spatial Transformations</a></h3>
-<p>Modern OpenGL (and GLU) implementations basically dropped the direct matrix support (the so-called immediate mode does not exist anymore, except in a compatibility context). So no more calls to <tt class="docutils literal">glTranslate</tt>, <tt class="docutils literal">glRotate</tt>, <tt class="docutils literal">glLoadIdentity</tt> or <tt class="docutils literal">gluPerspective</tt> shall be done; now the application has to compute such matrices (for model, view, texture, normal, projection, etc.) <em>by itself</em> (on the CPU), as inputs to its GLSL shaders.</p>
-<p>For that, applications may use dedicated, separate libraries, such as, in C/C++, GLM, i.e. <a class="reference external" href="https://github.com/g-truc/glm">OpenGL Mathematics</a> (Myriad's <a class="reference external" href="http://myriad.esperide.org/#spatial-support">linear support</a> aims to provide, in Erlang, a relevant subset of these operations).</p>
+<h3><a class="toc-backref" href="#toc-entry-56">Managing Spatial Transformations</a></h3>
+<p>Modern OpenGL (and GLU) implementations basically dropped the direct matrix support (the so-called immediate mode does not exist anymore, except in a compatibility context). So no more calls to <tt class="docutils literal">glTranslate</tt>, <tt class="docutils literal">glRotate</tt>, <tt class="docutils literal">glLoadIdentity</tt> or <tt class="docutils literal">gluPerspective</tt> shall be done; now the application has to compute such matrices (for model, view, texture, normal, projection, etc.) <em>by itself</em> (on the CPU), and the result thereof can be send on the GPU, as input to its GLSL shaders (typically thanks to <a class="reference internal" href="#uniform-variables">uniform variables</a>).</p>
+<p>For that, applications may use dedicated, separate libraries, such as, in C/C++, GLM, i.e. <a class="reference external" href="https://github.com/g-truc/glm">OpenGL Mathematics</a> <a class="footnote-reference" href="#footnote-13" id="footnote-reference-13">[13]</a> (Myriad's <a class="reference external" href="http://myriad.esperide.org/#spatial-support">linear support</a> aims to provide, in Erlang, a relevant subset of these operations - albeit admittedly in a simplified form).</p>
+<table class="docutils footnote" frame="void" id="footnote-13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-13">[13]</a></td><td>GLM is a free software header-only, template-based C++ library. See <a class="reference external" href="https://github.com/g-truc/glm/blob/master/manual.md">its manual</a> and for example <a class="reference external" href="https://github.com/g-truc/glm/blob/master/glm/detail/type_mat4x4.inl">its implementation of 4x4 float-based matrices</a> (and their corresponding <a class="reference external" href="https://github.com/g-truc/glm/blob/master/glm/ext/matrix_float4x4.hpp">type definition</a>).</td></tr>
+</tbody>
+</table>
 <p>The <a class="reference external" href="https://en.wikibooks.org/wiki/GLSL_Programming/Applying_Matrix_Transformations">matrices that correspond to the transformations</a> to be applied are then typically shared with the shaders thanks to uniform variables.</p>
 <p>This is especially the case for the vertex shader, in charge of <a class="reference external" href="https://en.wikibooks.org/wiki/GLSL_Programming/Vertex_Transformations">transforming coordinates expressed in a local referential into screen coordinates</a>.</p>
 <p>More precisely, the modeling (object-space to absolute, world-space), viewing (world-space to camera-space) and projection transformation (camera-space to clip-space) are applied in the vertex shader, whereas the final perspective division and the viewport transformation are applied in the fixed-function stage after the vertex shader.</p>
@@ -1145,16 +1176,22 @@ P_{\beta\rightarrow\alpha}
 </div>
 </div>
 <div class="section" id="more-advanced-topics">
-<h2><a class="toc-backref" href="#toc-entry-56">More Advanced Topics</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-57">More Advanced Topics</a></h2>
 <div class="section" id="shadows">
-<h3><a class="toc-backref" href="#toc-entry-57">Shadows</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-58">Shadows</a></h3>
 <p>Determining the shadow of an arbitrary object on an arbitrary plane (representing typically the ground - or other objects) from an arbitrary light source (possibly at infinity) corresponds to performing a specific <strong>projection</strong>. For that, a relevant 4x4 (based on homogeneous coordinates) matrix (singular, i.e. non-invertible matrix) can be defined.</p>
 <p>This matrix can be multiplied with the top of the model-view matrix stack, before drawing the object of interest in the shadow color (a shade of black generally).</p>
 <p>Refer to <a class="reference external" href="https://www.glprogramming.com/red/chapter14.html#name15">this page</a> for more information.</p>
 </div>
+<div class="section" id="reference-glsl-compiler">
+<h3><a class="toc-backref" href="#toc-entry-59">Reference GLSL Compiler</a></h3>
+<p>As always, different compilers (corresponding to different brands of graphical cards) will not implement exactly the same way the (OpenGL, here) specification; and a shader may work correctly on one type of card and not on another.</p>
+<p>Testing shader code with the <a class="reference external" href="https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/">OpenGL / OpenGL ES Reference Compiler</a>, a.k.a. <tt class="docutils literal">glslang</tt> (installed on Arch Linux thanks to <tt class="docutils literal">pacman <span class="pre">-Sy</span> glslang</tt>, to be run as <tt class="docutils literal">glslangValidator</tt>) may report interesting information.</p>
+<p>See the <em>OpenGL GLSL reference compiler</em> section of <a class="reference external" href="https://learnopengl.com/In-Practice/Debugging">this page</a> for more information.</p>
+</div>
 </div>
 <div class="section" id="sources-of-information">
-<h2><a class="toc-backref" href="#toc-entry-58">Sources of Information</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-60">Sources of Information</a></h2>
 <p>The reference pages for the various versions of OpenGL are <a class="reference external" href="https://www.khronos.org/registry/OpenGL-Refpages/">available on the Khronos official OpenGL Registry</a>.</p>
 <p>Two very well-written books, strongly recommended, that are still relevant for 3D graphics despite their old age (circa 1996; for OpenGL 1.1):</p>
 <ul class="simple">
@@ -1181,17 +1218,17 @@ P_{\beta\rightarrow\alpha}
 </div>
 </div>
 <div class="section" id="operating-system-support-for-3d">
-<span id="os-support"></span><h1><a class="toc-backref" href="#toc-entry-59">Operating System Support for 3D</a></h1>
+<span id="os-support"></span><h1><a class="toc-backref" href="#toc-entry-61">Operating System Support for 3D</a></h1>
 <p>Benefiting from a proper 2D/3D hardware acceleration on GNU/Linux is unfortunately not always straightforward, and sometimes brittle.</p>
 <p>The very first step is to <strong>update's one's video drivers to their latest, official stable version</strong> according to your OS/distribution of choice (even if it implies using closed-source binaries...) and to check that they are in use (probably reboot then).</p>
 <div class="section" id="testing">
-<h2><a class="toc-backref" href="#toc-entry-60">Testing</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-62">Testing</a></h2>
 <p>First, one may check whether such acceleration is already available by running, from the command-line and as the current, non-priviledged user, the <tt class="docutils literal">glxinfo</tt> executable (to be obtained on Arch Linux thanks to the <tt class="docutils literal"><span class="pre">mesa-utils</span></tt> package), and hope to see, among the many displayed lines, <tt class="docutils literal">direct rendering: Yes</tt>.</p>
 <p>One may also run our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/display-opengl-information.sh">display-opengl-information.sh</a> script to report relevant information.</p>
 <p>A final validation might be to run the <tt class="docutils literal">glxgears</tt> executable (still obtained through the <tt class="docutils literal"><span class="pre">mesa-utils</span></tt> package), and to ensure that a window appears, showing three gears properly rotating.</p>
 </div>
 <div class="section" id="troubleshooting-1">
-<h2><a class="toc-backref" href="#toc-entry-61">Troubleshooting</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-63">Troubleshooting</a></h2>
 <p>If it is not the case (no direct rendering, or a GLX error being returned - typically involving any <tt class="docutils literal">X Error of failed request:&nbsp; BadValue</tt> for a <tt class="docutils literal">X_GLXCreateNewContext</tt>), one should investigate one's configuration (with <tt class="docutils literal">lspci | grep VGA</tt>, <tt class="docutils literal">lsmod</tt>, etc.), update one's video driver on par with the current kernel, sacrifice a chicken, reboot, etc.</p>
 <p>If using a NVidia graphic card, consider reading this <a class="reference external" href="https://wiki.archlinux.org/title/NVIDIA">Arch Linux wiki page</a> first.</p>
 <p>In our case, relevant installations could be done with <tt class="docutils literal">pacman <span class="pre">-Sy</span> nvidia <span class="pre">nvidia-utils</span></tt> but required a reboot.</p>
@@ -1199,9 +1236,9 @@ P_{\beta\rightarrow\alpha}
 </div>
 </div>
 <div class="section" id="minor-topics">
-<h1><a class="toc-backref" href="#toc-entry-62">Minor Topics</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-64">Minor Topics</a></h1>
 <div class="section" id="camera-navigation-conventions">
-<h2><a class="toc-backref" href="#toc-entry-63">Camera Navigation Conventions</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-65">Camera Navigation Conventions</a></h2>
 <p>Multiple tools introduced conventions in order to navigate, with mouse and keyboard, in a 3D world.</p>
 <p id="blender-conventions">We prefer the way Blender manages the observer viewpoint (current camera), as <a class="reference external" href="https://docs.blender.org/manual/en/latest/editors/3dview/navigate/navigation.html">described here</a>; notably, supposing a three-button mouse with a scrollwheel:</p>
 <ul class="simple">
@@ -1212,7 +1249,7 @@ P_{\beta\rightarrow\alpha}
 </div>
 </div>
 <div class="section" id="d-related-mini-glossary">
-<h1><a class="toc-backref" href="#toc-entry-64">3D-Related Mini-Glossary</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-66">3D-Related Mini-Glossary</a></h1>
 <ul class="simple">
 <li><strong>HDRP</strong>: <em>High Definition Render Pipeline</em>, a <a class="reference external" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition&#64;13.1/manual/index.html">high-fidelity scriptable render pipeline</a>, made by Unity to target <strong>modern</strong> (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)</li>
 <li><strong>IK</strong>: <em>Inverse Kinematics</em>, the <strong>computation of intermediary joint parameters</strong> so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. that may be retained so that the hand is ultimately correctly placed on the chair (<a class="reference external" href="https://en.wikipedia.org/wiki/Inverse_kinematics">more information</a>)</li>

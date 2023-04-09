@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 28, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, March 19, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -78,10 +78,10 @@
 <li>a single, <strong>standalone PDF file</strong> (convenient for offline reading, printing, etc.)</li>
 </ul>
 <p>The document source shall be expressed in a simple, non-limiting, high-level syntax; in practice a rather standard, lightweight markup language.</p>
-<p>All standard documentation elements shall be available (ex: title, tables, images, links, references, tables of content, etc.) and be customisable.</p>
-<p>The resulting documents shall be quickly and easily generated, with proper error report, and be beautiful and user-friendly (ex: with well-configured LaTeX, with appropriate CSS, icons and features like banners, with proper rendering of equations).</p>
-<p>Per-format overriding shall be possible (ex: to define different image sizes depending on web output or PDF one).</p>
-<p>The whole documentation process shall be powered only by free software solutions, easily automated (ex: <a class="reference external" href="Build.html">with Make</a>) and suitable for version control (ex: <a class="reference external" href="Git.html">with Git</a>).</p>
+<p>All standard documentation elements shall be available (e.g. title, tables, images, links, references, tables of content, etc.) and be customisable.</p>
+<p>The resulting documents shall be quickly and easily generated, with proper error report, and be beautiful and user-friendly (e.g. with well-configured LaTeX, with appropriate CSS, icons and features like banners, with proper rendering of equations).</p>
+<p>Per-format overriding shall be possible (e.g. to define different image sizes depending on web output or PDF one).</p>
+<p>The whole documentation process shall be powered only by free software solutions, easily automated (e.g. <a class="reference external" href="Build.html">with Make</a>) and suitable for version control (e.g. <a class="reference external" href="Git.html">with Git</a>).</p>
 </div>
 <div class="section" id="our-recommended-approach">
 <h1><a class="toc-backref" href="#toc-entry-2">Our Recommended Approach</a></h1>
@@ -198,9 +198,9 @@ P_e = \frac{P_n.e^{m}}{1 + P_n.(e^{m}-1)}
 </div>
 <div class="section" id="inner-links">
 <h3><a class="toc-backref" href="#toc-entry-9">Inner Links</a></h3>
-<p>Defining any title (ex: the <tt class="docutils literal">&quot;Rendering Mathematical Elements&quot;</tt> one above) automatically introduces in turn a corresponding anchor, which, for the HTML output, can then be referenced from any page, for example as raw HTML (like <a class="reference external" href="DocGeneration.html#rendering-mathematical-elements">MyPage.html#rendering-mathematical-elements</a>, or directly from the current page as <a class="reference external" href="#rendering-mathematical-elements">#rendering-mathematical-elements</a>) or directly through RST in the document (ex: specified as <tt class="docutils literal">`Rendering Mathematical Elements`_</tt>, resulting in: <a class="reference internal" href="#rendering-mathematical-elements">Rendering Mathematical Elements</a>).</p>
+<p>Defining any title (e.g. the <tt class="docutils literal">&quot;Rendering Mathematical Elements&quot;</tt> one above) automatically introduces in turn a corresponding anchor, which, for the HTML output, can then be referenced from any page, for example as raw HTML (like <a class="reference external" href="DocGeneration.html#rendering-mathematical-elements">MyPage.html#rendering-mathematical-elements</a>, or directly from the current page as <a class="reference external" href="#rendering-mathematical-elements">#rendering-mathematical-elements</a>) or directly through RST in the document (e.g. specified as <tt class="docutils literal">`Rendering Mathematical Elements`_</tt>, resulting in: <a class="reference internal" href="#rendering-mathematical-elements">Rendering Mathematical Elements</a>).</p>
 <p>Note the light transformation (spaces becoming dashes) of the specified name once a it is translated into a legit HTML anchor.</p>
-<p>Extra local anchors (ex: that could be named <tt class="docutils literal">&quot;how to render equations&quot;</tt>) can also be specified anywhere in the document (ex: just before the previously mentioned title, so that it can be designated with other words), thanks to:</p>
+<p>Extra local anchors (e.g. that could be named <tt class="docutils literal">&quot;how to render equations&quot;</tt>) can also be specified anywhere in the document (e.g. just before the previously mentioned title, so that it can be designated with other words), thanks to:</p>
 <pre class="literal-block">
 .. _`how to render equations`:
 </pre>
@@ -271,7 +271,7 @@ $<span class="w"> </span>pandoc<span class="w"> </span>old-content-in-mediawiki.
 </span>$<span class="w"> </span>pandoc<span class="w"> </span>old-content-in-mediawiki.txt<span class="w"> </span>--from<span class="o">=</span>mediawiki<span class="w"> </span>--to<span class="o">=</span>markdown_github<span class="w"> </span>--standalone<span class="w"> </span>-o<span class="w"> </span>converted-content.gfm
 </pre>
 <p>Then the content in <tt class="docutils literal"><span class="pre">converted-content.gfm</span></tt> file can be pasted in the target GitLab wiki page.</p>
-<p>Another example is the conversion of a GitLab wiki page into a RST document (ex: then for a PDF generation):</p>
+<p>Another example is the conversion of a GitLab wiki page into a RST document (e.g. then for a PDF generation):</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>pandoc<span class="w"> </span>my-gitlab-wiki-extract.gfm<span class="w"> </span>--from<span class="o">=</span>gfm<span class="w"> </span>--to<span class="o">=</span>rst<span class="w"> </span>--standalone<span class="w"> </span>-o<span class="w"> </span>my-converted-content.rst<span class="w">
 
@@ -353,7 +353,7 @@ $<span class="w"> </span>convert<span class="w"> </span>source.png<span class="w
 </div>
 <div class="section" id="aggregation">
 <h4>Aggregation</h4>
-<p>An <strong>aggregation</strong> is a specific association that denotes that an instance of a class (ex: <tt class="docutils literal">Library</tt>) is to loosely contain instances of another class (ex: <tt class="docutils literal">Book</tt>), in the sense that the lifecycle of the contained classes is not strongly dependent on the one of the container (ex: books will still exist even if the library is dismantled).</p>
+<p>An <strong>aggregation</strong> is a specific association that denotes that an instance of a class (e.g. <tt class="docutils literal">Library</tt>) is to loosely contain instances of another class (e.g. <tt class="docutils literal">Book</tt>), in the sense that the lifecycle of the contained classes is not strongly dependent on the one of the container (e.g. books will still exist even if the library is dismantled).</p>
 <p>Here a library may contain any number of books (possibly none), and a given book belongs to at most one library.</p>
 <p><span class="raw-html"><center><img src="uml_aggregation_diagram.png" id="responsive-image-small"></img></center></span>
 </p>
@@ -361,7 +361,7 @@ $<span class="w"> </span>convert<span class="w"> </span>source.png<span class="w
 </div>
 <div class="section" id="composition">
 <h4>Composition</h4>
-<p>A <strong>composition</strong> is a specific association that denotes that an instance of a class (ex: <tt class="docutils literal">HumanBeing</tt>) is to own instances of another class (ex: <tt class="docutils literal">Leg</tt>), in the sense that the lifecycle of the contained classes fully depends on the one of the container (here, if a human being dies, his/her legs will not exist anymore either).</p>
+<p>A <strong>composition</strong> is a specific association that denotes that an instance of a class (e.g. <tt class="docutils literal">HumanBeing</tt>) is to own instances of another class (e.g. <tt class="docutils literal">Leg</tt>), in the sense that the lifecycle of the contained classes fully depends on the one of the container (here, if a human being dies, his/her legs will not exist anymore either).</p>
 <p>Here a human being has exactly 2 legs, and any given leg belongs to exactly one human being (therefore this model does not account for one-legged persons).</p>
 <p><span class="raw-html"><center><img src="uml_composition_diagram.png" id="responsive-image-small"></img></center></span>
 </p>
@@ -369,7 +369,7 @@ $<span class="w"> </span>convert<span class="w"> </span>source.png<span class="w
 </div>
 <div class="section" id="inheritance">
 <h4>Inheritance</h4>
-<p>An <strong>inheritance</strong> relationship is a specific association that denotes that a class (ex: <tt class="docutils literal">HumanBeing</tt>) is a specific case of a more general one (ex: <tt class="docutils literal">Animal</tt>), and thus that an instance of the first one is also an instance of the second one (&quot;is-a&quot; relationship).</p>
+<p>An <strong>inheritance</strong> relationship is a specific association that denotes that a class (e.g. <tt class="docutils literal">HumanBeing</tt>) is a specific case of a more general one (e.g. <tt class="docutils literal">Animal</tt>), and thus that an instance of the first one is also an instance of the second one (&quot;is-a&quot; relationship).</p>
 <p>Here a human being is a specific animal.</p>
 <p><span class="raw-html"><center><img src="uml_inheritance_diagram.png" id="responsive-image-small"></img></center></span>
 </p>
@@ -396,7 +396,7 @@ $<span class="w"> </span>make<span class="w"> </span>uml_class_diagram_example.p
 <div class="section" id="using-additional-fonts">
 <h2><a class="toc-backref" href="#toc-entry-22">Using Additional Fonts</a></h2>
 <p>One may use websites like <a class="reference external" href="https://www.dafont.com">Dafont</a> in order to select, based on appearance and licence, a given TTF font.</p>
-<p>At least on Arch, it is sufficient to copy the corresponding downloaded TTF file (as root) in <tt class="docutils literal">/usr/share/fonts/</tt> so that tools like The Gimp support it right afterwards (ex: no need to run <tt class="docutils literal"><span class="pre">fc-cache</span></tt> beforehand).</p>
+<p>At least on Arch, it is sufficient to copy the corresponding downloaded TTF file (as root) in <tt class="docutils literal">/usr/share/fonts/</tt> so that tools like The Gimp support it right afterwards (e.g. no need to run <tt class="docutils literal"><span class="pre">fc-cache</span></tt> beforehand).</p>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
 </div>
 </div>

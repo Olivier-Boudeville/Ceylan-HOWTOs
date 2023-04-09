@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, January 16, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, January 28, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, March 21, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -37,21 +37,95 @@
 <span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
 <ul class="simple">
 <li><a class="reference internal" href="#overview" id="toc-entry-1">Overview</a></li>
-<li><a class="reference internal" href="#networking-subsystem" id="toc-entry-2">Networking Subsystem</a></li>
+<li><a class="reference internal" href="#networking-subsystem" id="toc-entry-2">Networking Subsystem</a><ul>
+<li><a class="reference internal" href="#standards" id="toc-entry-3">Standards</a></li>
+<li><a class="reference internal" href="#integrated-solutions" id="toc-entry-4">Integrated Solutions</a></li>
+<li><a class="reference internal" href="#information-pointers" id="toc-entry-5">Information Pointers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#application-architecture" id="toc-entry-6">Application Architecture</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
 <div class="section" id="overview">
 <h1><a class="toc-backref" href="#toc-entry-1">Overview</a></h1>
-<p>Here, online interactive multimedia could be seen as an euphemism for networked video games, yet the topic may be a bit larger, including cases where some kind of online, persistent, multi-user virtual world has to be simulated, for example <a class="reference external" href="https://en.wikipedia.org/wiki/Massively_multiplayer_online_role-playing_game">MMORPGs</a> or any sorts of <a class="reference external" href="https://en.wikipedia.org/wiki/Metaverse">metaverse</a>.</p>
+<p>Here, &quot;online interactive multimedia&quot; could be seen as an euphemism for networked video games, yet the topic may be a bit larger, including cases where some kind of online, persistent, multi-user virtual world has to be simulated, for example <a class="reference external" href="https://en.wikipedia.org/wiki/Massively_multiplayer_online_role-playing_game">MMORPGs</a> or any sorts of <a class="reference external" href="https://en.wikipedia.org/wiki/Metaverse">metaverse</a>.</p>
 <p>As for the topic of graphical 2D/3D rendering, it is specifically addressed in <a class="reference external" href="ThreeDimensional.html">this section</a>.</p>
 </div>
 <div class="section" id="networking-subsystem">
 <h1><a class="toc-backref" href="#toc-entry-2">Networking Subsystem</a></h1>
-<p>Various architectures can be considered for networked applications, from a totally decentralised peer-to-peer one, to a strict client/server one, possibly based on an authoritative server (performing most of the world evaluation by itself, rather delegating some of this processing to clients).</p>
-<p>Notably when an application is intensively interactive (ex: a real-time strategy game, as opposed as a turn-based one), compensating for the lag and jitter induced by the network is a difficult technical challenge.</p>
-<p>Dedicated libraries exist for that, either commercial (ex:</p>
-<p><a class="reference external" href="https://erlangforums.com/t/erlang-shall-power-the-metaverse/938/6">https://erlangforums.com/t/erlang-shall-power-the-metaverse/938/6</a></p>
+<p>Various architectures can be considered for networked applications, from a totally decentralised peer-to-peer one to a strict client/server one, possibly based on an authoritative server (which is to perform most of the world evaluation by itself, rather than delegating a part of this processing to clients).</p>
+<p>Notably when an application is intensively interactive (e.g. a real-time strategy game, as opposed as a turn-based one), compensating for the lag and jitter induced by the network is a difficult technical challenge.</p>
+<p>Dedicated solutions exist for that, either released as free software or commercially, and they are all built from the same standards.</p>
+<div class="section" id="standards">
+<h2><a class="toc-backref" href="#toc-entry-3">Standards</a></h2>
+<div class="section" id="network-protocols">
+<h3>Network Protocols</h3>
+<div class="section" id="ip">
+<h4>IP</h4>
+<p>In terms of low-level network carriers, ultimately all traffic will be conveyed of course by the  <a class="reference external" href="https://en.wikipedia.org/wiki/Internet_Protocol">IP protocol</a> (on the Internet or even in a local network) - but no one directly forges IP packets.</p>
+<p>A little higher in the <a class="reference external" href="https://en.wikipedia.org/wiki/OSI_model">OSI model</a>, communications will certainly be handled by the TCP and/or UDP protocols (which are both implemented on top of IP).</p>
+</div>
+<div class="section" id="tcp">
+<h4>TCP</h4>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol">TCP protocol</a> offers strong guarantees to the application: instead of thinking in terms of a stream of packets being sent (some possibly being lost or corrupted in the process), TCP provides <em>connections</em>, i.e. reliable bidirectional streams of bytes between two networked peers.</p>
+<p>Yet this higher-level service comes at a price: latency. Indeed, under the hood, TCP has to detect communication issues and overcome them, typically by handling network congestion and requesting the re-emission of IP packets, which have thus to be waited for and delay the whole communication.</p>
+<p>Many algorithms have been fine-tuned to maximise the resulting bandwidth and minimise the latency, yet of course guaranteeing a perfect communication remains demanding.</p>
+</div>
+<div class="section" id="udp">
+<h4>UDP</h4>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP protocol</a> will be preferred whenever having data to be sent primarily with a low latency. As UDP packets can be lost or received in a order different from the emission one (data corruption is not a real problem, thanks to IP-level and UDP-level checksums), it is generally dedicated to transient, fast-paced exchanges, where the loss of a packet can be just ignored, the next ones making up for any lacking information with fresher data.</p>
+<p>So UDP offers weaker guarantees, which is bound to increase the complexity of the application.</p>
+<p>Howeover, depending on the application needs, better guarantees can be implemented on top of UDP, dealing with integrity, order and reliability. Of course the closer to the guarantees of TCP requirements are, the higher the cost of a UDP-based solution will be. Of course, if an application requires the properties provided by TCP, just use TCP rather than trying to recode a poor man's version of it over UDP.</p>
+</div>
+<div class="section" id="other-protocols-facilities">
+<h4>Other Protocols &amp; Facilities</h4>
+<p>They include the <a class="reference external" href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> (on top of TCP) and <a class="reference external" href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a> (<em>Web Real-Time Communication</em>).</p>
+<p>A host of protocols are associated to WebRTC: <a class="reference external" href="https://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol">SCTP</a> (<em>Stream Control Transmission Protocol</em>, typically for a data channel), RTP (<em>Real-time Transport Protocol</em>) and SRTP (<em>Secure RTP</em>, typically for a media channel).</p>
+</div>
+</div>
+<div class="section" id="middleware">
+<h3>Middleware</h3>
+<p>Their role is to marshall/demarshall application data so that it can be sent over the wire, through the aforementioned protocols: the information to sent through the network shall be transformed in a series of bytes that the other end will be able to interpret, according to a data format (that is generally cross-platform); this is a special case of serialisation/deserialisation.</p>
+<p>A popular choice for that is <a class="reference external" href="https://en.wikipedia.org/wiki/Protocol_Buffers">Protocol Buffers</a> (a.k.a. Protobuf).</p>
+</div>
+</div>
+<div class="section" id="integrated-solutions">
+<h2><a class="toc-backref" href="#toc-entry-4">Integrated Solutions</a></h2>
+<p>They provide a complete set of high-level services to be directly used by applications, implemented in libraries.</p>
+<div class="section" id="free-software-solutions">
+<h3>Free Software Solutions</h3>
+<p>In this category, the main libraries that we spotted are:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://mirror-networking.com/">Mirror</a>: open-source, moreover with a permissive licence</li>
+<li><a class="reference external" href="https://bevyengine.org/">Bevy engine</a>: a data-driven game engine implemented in the Rust language</li>
+<li><a class="reference external" href="https://www.darkriftnetworking.com/">DarkRift 2</a>: an high performance, multithreaded and open source networking system for Unity</li>
+</ul>
+<p>The Godot game engine also offers <a class="reference external" href="https://docs.godotengine.org/en/stable/tutorials/networking/index.html">interesting network services</a>. Godot has native support for Websockets, and libraries like <a class="reference external" href="https://github.com/oniksan/godobuf">Godobuf</a> implement the decoding/encoding of Protobuf messages.</p>
+</div>
+<div class="section" id="commercial-solutions">
+<h3>Commercial Solutions</h3>
+<p>As for commercial offers, in order to build multiplayer games in Unity, one may take into account <a class="reference external" href="https://docs-multiplayer.unity3d.com/">Unity3D Multiplayer Networking</a> (Netcode) or <a class="reference external" href="https://www.photonengine.com/">Photon Fusion</a>, and their <a class="reference external" href="https://docs.unrealengine.com/5.1/en-US/networking-and-multiplayer-in-unreal-engine/">Unreal counterpart</a>.</p>
+</div>
+</div>
+<div class="section" id="information-pointers">
+<h2><a class="toc-backref" href="#toc-entry-5">Information Pointers</a></h2>
+<p>Much expert information on these topics can be read from the articles of <a class="reference external" href="https://gafferongames.com/">Gaffer On Games</a>.</p>
+<p>As for Erlang-based servers, these posts are of interest: <a class="reference external" href="https://erlangforums.com/t/erlang-shall-power-the-metaverse/938/6">[1]</a> and <a class="reference external" href="https://elixirforum.com/t/how-is-the-performance-of-elixir-in-game-backend-project/45142/4?u=kartheek">[2]</a>. See also <a class="reference external" href="https://www.erlang-factory.com/upload/presentations/395/ErlangandFirst-PersonShooters.pdf">this Demonware presentation</a>, which offers a rich Erlang-related operational feedback.</p>
+</div>
+</div>
+<div class="section" id="application-architecture">
+<h1><a class="toc-backref" href="#toc-entry-6">Application Architecture</a></h1>
+<p>The key topic here is <em>synchronisation</em>, i.e. how the game state is managed so that all players can seamlessly access it and enjoy fair interactions. The overall complexity increases drastically and multiplicatively on two dimensions (scalability and real-time), and theoretical results proved that upper bounds exist in that matter (see the <a class="reference external" href="https://en.wikipedia.org/wiki/CAP_theorem">CAP theorem</a> and the <a class="reference external" href="https://en.wikipedia.org/wiki/Consensus_(computer_science)#The_FLP_impossibility_result_for_asynchronous_deterministic_consensus">FLP impossibility result</a>).</p>
+<p>For the core game (as opposed to backend services like authentication, chat, lobbies, match-making, etc.), a trade-off must be found between:</p>
+<ul class="simple">
+<li>a centralised architecture, where a logical server is authoritative, i.e. the sole controller of the truth</li>
+<li>a decentralised architecture, where the communication takes part mostly between peers, the logical server (if any) being merely a relay</li>
+</ul>
+<p>Such a trade-off is game-specific, depending a lot on the intended reactiveness (consider a game of chess versus a frantic first-person shooter, where latency will be measured in terms of dozens of milliseconds).</p>
+<p>The centralised architecture is simpler (e.g. a single, reliable true state exists; and by nature it better resists to cheating attempts), but it is more resource-demanding (bandwidth but also processing power) and depends a lot of the network-induced latency.</p>
+<p>Some approaches like client-side prediction can hide a bit this problem; notably, when the same software runs on both sides (headless server and clients), the same logic can predictively result in the same evolution, which facilitates a lot any anticipations made by the clients.</p>
+<p>As for decentralised architectures, they require some consensus to be reached between the peers involved, with a lack of trust to overcome. Not all peers have to be equal, for example each game session may elect a game leader (typically the one enjoying the best overall connectivity with the other players): this host will be both the server and a player. One way or another, reliance onto the clients will be needed; short of being able to trust them, at least checking their reports and auditing them will be needed.</p>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
 </div>
 </div>
