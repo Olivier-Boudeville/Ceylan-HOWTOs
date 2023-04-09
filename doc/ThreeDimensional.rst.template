@@ -602,7 +602,7 @@ Note that initially the information here related to older versions of OpenGL (1.
 
 Yet nowadays relying on at least the OpenGL 3 *core* context (not using the *compatibility* context) would be preferable (source: `this thread <https://erlangforums.com/t/no-gl-get-1/1035>`_). Still better options would be to rely on OpenGL 4 Core or OpenGL ES 2+, or libraries on top of `Vulkan <https://en.wikipedia.org/wiki/Vulkan>`_, like `wgpu <https://github.com/gfx-rs/wgpu>`_. Specific libraries also exist for rendering for the web and for mobile, like `WebGPU <https://www.w3.org/TR/webgpu/>`_.
 
-As of 2022, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (e.g. skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum that we target is the **Core Profile of OpenGL 3.3**, which is "modern OpenGL" and introduced most features that still apply; it will halt on error if any deprecated functionality is used.
+As of 2023, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (e.g. skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum that we target is the **Core Profile of OpenGL 3.3**, which is "modern OpenGL" and introduced most features that still apply; it will halt on error if any deprecated functionality is used.
 
 For more general-purpose computations (as opposed to rendering operations) to be offset to a GPU/GPGU, one may rely on `OpenCL <Erlang.html#opencl>`_ instead.
 
@@ -799,7 +799,7 @@ OpenGL Hints
 
 - in OpenGL:
 
-  - 3D coordinates are processed iff they are Normalized Device Coordinates (see NDC), for all 3 dimensions
+  - 3D coordinates are processed iff they are *Normalized Device Coordinates* (see NDC_), for all 3 dimensions
   -  the **alpha** color coordinate encodes **opacity**; thus 1.0 means fully opaque, whereas 0.0 means fully transparent
 
 
@@ -822,7 +822,10 @@ Terms that are more or less specific to OpenGL:
 - ``GLUT``, *OpenGL Utility Toolkit*, a system-independent window toolkit hiding the complexities of differing window system APIs and more complicated three-dimensional objects such as a sphere, a torus, and a teapot; its main interest was when learning OpenGL, it is less used nowadays
 - ``GLX``: the X extension of the OpenGL interface, i.e. a solution to integrate OpenGL to X servers; see `this page <https://www.glprogramming.com/blue/ch02.html#id86751>`_ for more information
 - ``GLSL``: `OpenGL Shading Language <https://en.wikipedia.org/wiki/OpenGL_Shading_Language>`_, a C-like language with which the transformation and fragment shading stages of the pipeline can be programmed; introduced in OpenGL 2.0; see `our GLSL section <#glsl>`_
-- ``NDC``: *Normalized Device Coordinate*; such a coordinate is, in OpenGL, in :math:`[-1.0, 1.0]`, defining a cube; only the points ultimately within this cube will be rendered, by being transformed to screen-space (viewport) coordinates and then fragments sent to the fragment shader
+
+.. _NDC:
+.. _NDCs:
+- ``NDC``: *Normalized Device Coordinate*; such a coordinate is, in OpenGL, in :math:`[-1.0, 1.0]`, defining a cube (see `this example <https://learnopengl.com/img/getting-started/ndc.png>`_, which does not represents the Z axis); only the points ultimately within this cube will be rendered, by being transformed to screen-space (viewport) coordinates and then fragments sent to the fragment shader; the conventions for texture coordinates (texels_) are different
 - ``OpenCL``: `Open Computing Language <https://en.wikipedia.org/wiki/OpenCL>`_, a framework for writing programs that execute across heterogeneous platforms: central processing units (CPUs), graphics processing units (GPUs), digital signal processors (DSPs), field-programmable gate arrays (FPGAs) and other processors or hardware accelerators; in practice OpenCL defines programming languages, deriving from C and C++, for these devices, and APIs to control the platform and execute programs on the compute devices; OpenGL defines a standard interface for parallel computing using task-based and data-based parallelism; see also `our Erlang-related section <Erlang.html#opencl>`_
 - ``OpenGL ES``: `OpenGL for Embedded Systems <https://en.wikipedia.org/wiki/OpenGL_ES>`_ is a subset of the OpenGL API, designed for embedded systems (like smartphones, tablet computers, video game consoles and PDAs)
 - ``Pixel``: *Picture Element*
@@ -832,7 +835,8 @@ Terms that are more or less specific to OpenGL:
 - ``Scissor Test``: an arbitrary screen-aligned rectangle outside of which fragments will be discarded; useful to clear or update only a part of the viewport
 - ``Shader``: a user-defined program providing the code for some programmable stages of the rendering pipeline; they can also be used in a slightly more limited form for general, on-GPU computation (`source <https://www.khronos.org/opengl/wiki/Shader>`_)
 - ``Stencil Test``: conditionally discards a fragment based on the outcome of a selected comparison between the value in the stencil buffer and a reference value; useful to perform non-rectangular clipping
-- ``Texel``: *Texture Element* ; it corresponds to a ``(s,t)`` pair of coordinates in ``[0,1]`` designating a point in a texture
+.. _texels:
+- ``Texel``: *Texture Element* ; it corresponds to a ``(s,t)`` pair of coordinates in ``[0,1]`` designating a point in a texture (see `this example <https://learnopengl.com/img/getting-started/tex_coords.png>`_; NDCs_ span different ranges)
 - ``Vertex Array``: these in-memory client-side arrays may aggregate 6 types of data (vertex coordinates, RGBA colors, color indices, surface normals, texture coordinates, polygon edge flags), possibly interleaved; such arrays allow to reduce the number of calls to OpenGL functions, and also to share elements (e.g. vertices pertaining to multiple faces should preferably be defined only once); in a non-networked setting, the GPU just dereferences the corresponding pointers
 - ``Viewport``: the (rectangular) part (defined based on its lower left corner and its width and height, in pixels) within the current window in which OpenGL is to perform its rendering; so multiple viewports may be used in turn in order to offer multiple, composite views of the scene of interest in a given window; the ultimately processed 2D coordinates in OpenGL are both in ``[-1.0, 1.0]`` before they are finally mapped to the current viewport dimensions (e.g. abscissa in ``[0,800]``, ordinate in ``[0,600]``, in pixels)
 - ``Vulkan``: a low-overhead, cross-platform API, open standard for 3D graphics and computing; it is intended to offer higher performance and more balanced CPU and GPU usage than the OpenGL or Direct3D 11 APIs; it is lower-level than OpenGL, and not backwards compatible with it (`source <https://en.wikipedia.org/wiki/Vulkan>`_)
@@ -891,13 +895,14 @@ Using "stable", device-independent floats instead of integers directly accountin
 Referentials In 3D
 ..................
 
-
 We will rely here as well on the Myriad conventions, `this time for 3D <https://myriad.esperide.org/#3d-referential>`_ (not taking specifically time into account here, which anyway cannot be shown properly there):
 
 :raw-html:`<center><img src="myriad-space-time-referential.png" id="responsive-image-tiny"></img></center>`
 :raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{myriad-space-time-referential.png} \end{figure}`
 
 These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.
+
+Note that perhaps the most popular convention is different, for which X is horizontal, Y is up and Z is depth (hence Z-buffer).
 
 
 
@@ -934,7 +939,10 @@ Once the **model** is expressed as a whole in the scene-global referential, the 
 So a geometry (e.g. a part of the hand, defined in :math:`R_f`) has to be transformed upward in the referential tree in order to be expressed in the common, "global" scene referential :math:`R_s`, before being transformed last in the camera one, :math:`R_c`.
 
 
-In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations, which thus include the transformation of one referential into another. Their product can be computed once, and then applying a vector (e.g. corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all model-view transformations (and even the projection) as well.
+In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations [#]_, which thus include the transformation of one referential into another. Their product can be computed once, and then applying a vector (e.g. corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all model-view transformations (and even the projection) as well.
+
+.. [#] In practice the recommended order of the operations are: scaling, then rotation, then translation, otherwise they will become coupled and would interfere negatively (e.g. a translation vector would be scaled as well).
+
 
 Noting :math:`P_{a{\rightarrow}b}` the transition matrix transforming a vector :math:`\vec{V_a}` expressed in :math:`R_a` into its representation :math:`\vec{V_b}` in :math:`R_b`, we have:
 
@@ -1235,6 +1243,9 @@ They are portions of C-like code that can be inserted in the rendering pipeline 
 
 Except this last type (compute shader), all types are mostly dedicated to *rendering*. If wanting to perform on one's GPU more general-purpose processing, `OpenCL <https://en.wikipedia.org/wiki/OpenCL>`_ shall be preferred to GLSL.
 
+Each shader is to receive data to process that is appropriate to its type; for example each vertex shader instance will receive a vertex (multiple of such instances will process each their own vertex in parallel) whereas each fragment shader will operate on data specific to a pixel.
+
+So shader instances will vary in terms of role (e.g. in charge of the processing of a vertex or a fragment), data types (input and output ones) and multiplicities (number of instances). Indeed, if considering a triangle whose vertices are each pure green, red or blue, only 3 vertices will be processed by the vertex shaders, whereas all the numerous pixels of the triangle will the result of the evaluation of as many fragment shaders, each input of which is computed by interpolating the attributes of said 3 vertices - which ultimately results in a smooth gradient over the whole triangle.
 
 
 Runtime Build
@@ -1319,7 +1330,7 @@ In the two last cases, the layout of variables must match on either side (e.g. m
 
 So that they can be fetched for a given vertex, attributes have to be appropriately located in buffers. For each attribute, either the developer defines, prior to linking, a specific location (as an index starting at zero) with ``glBindAttribLocation``, or he lets OpenGL choose it, and queries it afterwards, with ``glGetAttribLocation``; refer to `this page <https://www.lighthouse3d.com/tutorials/glsl-tutorial/attribute-variables/>`_ for further details.
 
-If a given program is linked with two shaders, a vertex one and a fragment one, the former one will probably have to pass its outputs as inputs of the latter one; this requires as many variables defined on either side, with relevant out/in specifications, and a matching name and type; for example the vertex shader may declare ``out vec3 my_Color;`` whereas the fragment shader will declare ``in vec3 my_Color;``.
+If a given program is linked with two shaders, a vertex one and a fragment one, the former one will probably have to pass its outputs as inputs of the latter one; this requires as many variables defined on either side, with relevant out/in specifications, and a matching name and type; for example the vertex shader may declare ``out vec3 my_color;`` whereas the fragment shader will declare ``in vec3 my_color;``.
 
 
 Providing Attribute Data : VAO and VBO
@@ -1336,10 +1347,12 @@ A `Vertex Buffer Object <https://www.khronos.org/opengl/wiki/Vertex_Specificatio
 So, in practice, each homogeneous chunk of data to be sent from the CPU-space to the GPU-space (vertices, normals, colors) is stored in an array corresponding to a *Vertex Buffer Object* (VBO), itself stored in a *Vertex Array Object* (VAO). A VAO may gather vertex data and colour data in separate VBOs, and store them on the graphics card for any later use (as opposed to streaming vertices through to the graphics card when they become needed). A VAO is only meant to hold one (VBO) array of vertices, each other VBO being used then for per-vertex attributes.
 
 
+.. _`uniform variables`:
+
 Uniform Variables are Read-Only and Global
 __________________________________________
 
-Instead of relying on attributes, an alternate way of passing information, provided that it may change relatively infrequently, is to use *uniform variables*, which behave, for a shader and in the course of a draw call, as read-only, constant global variables for all vertices (hence their *uniform* naming). Any shader can access every uniform variable (they are global), as long as it declares that variable.
+Instead of relying on attributes, an alternate way of passing information, provided that it may change relatively infrequently, is to use *uniform variables*, which behave, for a shader and in the course of a draw call, as read-only, constant global variables for all vertices (hence their *uniform* naming). Any shader can access every uniform variable (they are global), as long as it declares that variable, and these variables hold as long as they are not reset or updated.
 
 Examples of uniform variables could be the position of a light, transformation matrices, fog settings, variables such as gravity and speed, etc.
 
@@ -1349,18 +1362,18 @@ Uniform variables are declared at the program-level (as opposed to a per-vertex 
 
 - the ``uniform`` qualifier on the shader-side, like in ``uniform mat4 MyMatrix;``
 
-- a ``glGetUniformLocation`` call on the application-side, to create a location associated to a name (e.g. "``MyMatrix``"), and to associate it to a given value, like, in C:
+- a ``glGetUniformLocation`` call on the application-side, to create a location associated to a variable name (e.g. ``my_matrix``) in a shader, and to associate it to a given value, like, in C:
 
 .. code:: c
 
- mat4 someMatrix = [...];
+ mat4 some_matrix = [...];
 
- GLuint location = glGetUniformLocation(programId, "MyMatrix");
+ GLuint location = glGetUniformLocation(programId, "my_matrix");
 
  if (location >= 0)
  {
 	// Defining a single matrix (1), not to transpose (GL_FALSE):
-	glUniformMatrix4fv(location, 1, GL_FALSE, &someMatrix[0][0]);
+	glUniformMatrix4fv(location, 1, GL_FALSE, &some_matrix[0][0]);
 	[...]
 
 Individual variables may be used as uniform, as well as arrays and structs.
@@ -1382,6 +1395,15 @@ For example, for a vertex shader, following output variables are predefined:
 
 
 
+Troubleshooting Shaders
+.......................
+
+Once a shader builds correctly, it may misbehave at runtime.
+
+One may refer to the "Debugging shader output" section of `this page <https://learnopengl.com/In-Practice/Debugging>`_.
+
+
+
 Examples of Shaders
 ...................
 
@@ -1392,9 +1414,12 @@ See the `ones of Wings3D <https://github.com/dgud/wings/tree/master/shaders>`_ (
 Managing Spatial Transformations
 ................................
 
-Modern OpenGL (and GLU) implementations basically dropped the direct matrix support (the so-called immediate mode does not exist anymore, except in a compatibility context). So no more calls to ``glTranslate``, ``glRotate``, ``glLoadIdentity`` or ``gluPerspective`` shall be done; now the application has to compute such matrices (for model, view, texture, normal, projection, etc.) *by itself* (on the CPU), as inputs to its GLSL shaders.
+Modern OpenGL (and GLU) implementations basically dropped the direct matrix support (the so-called immediate mode does not exist anymore, except in a compatibility context). So no more calls to ``glTranslate``, ``glRotate``, ``glLoadIdentity`` or ``gluPerspective`` shall be done; now the application has to compute such matrices (for model, view, texture, normal, projection, etc.) *by itself* (on the CPU), and the result thereof can be send on the GPU, as input to its GLSL shaders (typically thanks to `uniform variables`_).
 
-For that, applications may use dedicated, separate libraries, such as, in C/C++, GLM, i.e. `OpenGL Mathematics <https://github.com/g-truc/glm>`_ (Myriad's `linear support <http://myriad.esperide.org/#spatial-support>`_ aims to provide, in Erlang, a relevant subset of these operations).
+For that, applications may use dedicated, separate libraries, such as, in C/C++, GLM, i.e. `OpenGL Mathematics <https://github.com/g-truc/glm>`_ [#]_ (Myriad's `linear support <http://myriad.esperide.org/#spatial-support>`_ aims to provide, in Erlang, a relevant subset of these operations - albeit admittedly in a simplified form).
+
+.. [#] GLM is a free software header-only, template-based C++ library. See `its manual <https://github.com/g-truc/glm/blob/master/manual.md>`_ and for example `its implementation of 4x4 float-based matrices <https://github.com/g-truc/glm/blob/master/glm/detail/type_mat4x4.inl>`_ (and their corresponding `type definition <https://github.com/g-truc/glm/blob/master/glm/ext/matrix_float4x4.hpp>`_).
+
 
 The `matrices that correspond to the transformations <https://en.wikibooks.org/wiki/GLSL_Programming/Applying_Matrix_Transformations>`_ to be applied are then typically shared with the shaders thanks to uniform variables.
 
@@ -1421,6 +1446,16 @@ This matrix can be multiplied with the top of the model-view matrix stack, befor
 
 Refer to `this page <https://www.glprogramming.com/red/chapter14.html#name15>`_ for more information.
 
+
+
+Reference GLSL Compiler
+.......................
+
+As always, different compilers (corresponding to different brands of graphical cards) will not implement exactly the same way the (OpenGL, here) specification; and a shader may work correctly on one type of card and not on another.
+
+Testing shader code with the `OpenGL / OpenGL ES Reference Compiler <https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/>`_, a.k.a. ``glslang`` (installed on Arch Linux thanks to ``pacman -Sy glslang``, to be run as ``glslangValidator``) may report interesting information.
+
+See the *OpenGL GLSL reference compiler* section of `this page <https://learnopengl.com/In-Practice/Debugging>`_ for more information.
 
 
 Sources of Information
