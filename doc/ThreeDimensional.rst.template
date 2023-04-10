@@ -638,7 +638,7 @@ Basics
 
 - while this will not change *anything* regarding the actual OpenGL library and the computations that it performs, the conventions adopted by the OpenGL *documentation* regarding matrices are the following ones:
 
-  - their `in-memory representation <https://www.opengl.org//archives/resources/faq/technical/transformations.htm>`_ is `column-major order <https://en.wikipedia.org/wiki/Row-_and_column-major_order>`_ (even if it is unusual, at least in C; this corresponds to Fortran-like conventions), meaning that it enumerates their coordinates first per column rather than per row (and for them a vector is a *row* of coordinates), whereas tools following the row-major counterpart order, `including Myriad <http://myriad.esperide.org/#matrix-conventions>`_ (precisely: MyriadGUI), do the opposite (and for them vectors are *columns* of coordinates); more clearly, a matrix like :math:`M = \begin{bmatrix} a11 & a12 & ... & a1n \\ a21 & a22 & ... & a2n \\ ... & ... & ... & ... \\ am1 & am2 & ... & amn \\ \end{bmatrix}`
+  - their `in-memory representation <https://www.opengl.org//archives/resources/faq/technical/transformations.htm>`_ is `column-major order <https://en.wikipedia.org/wiki/Row-_and_column-major_order>`_ (even if it is unusual, at least in C; this corresponds to Fortran-like conventions), meaning that it enumerates their coordinates first per column rather than per row (and for them a vector is a *row* of coordinates), whereas tools following the row-major counterpart order, `including Myriad <http://myriad.esperide.org/#matrix-conventions>`_, do the opposite (and for them vectors are *columns* of coordinates); more clearly, a matrix like :math:`M = \begin{bmatrix} a11 & a12 & ... & a1n \\ a21 & a22 & ... & a2n \\ ... & ... & ... & ... \\ am1 & am2 & ... & amn \\ \end{bmatrix}`
 
 	- will be stored with row-major conventions (e.g. Myriad) as: ``[ [a11, a12, ... a1n], [a21, a22, ... a2n], ..., [am1, am2, ... amn] ]``
 	- whereas, with the conventions discussed, OpenGL will expect it to be stored in-memory in this order: ``a11, a21, ..., am1, a21, a22, ..., am2, ..., a1n, a2n, ..., amn``, i.e. as the transpose of the previous matrix
@@ -657,6 +657,10 @@ Basics
   the current matrix :math:`M` ends up being multiplied (on the right) by :math:`M' = M_r.M_s.M_t`; when applied to a vector :math:`\vec{V}`, still multiplying on the right results in :math:`\vec{V'} = M.\vec{V} = M.M_r.M_s.M_t.\vec{V}'`; so the input vector :math:`\vec{V}` is first translated, then the result is scaled, then rotated, then transformed by the previous matrix :math:`M`; as a result: **operations happen in the opposite order of their specification as calls**; said differently: one shall specify the calls corresponding to one's target series of transformations *backwards*
 
   - considering that the OpenGL storage is done in a surprising column-major order was actually a trick so that OpenGL could rely on the (modern, math-originating) vector-as-column convention while being still compliant with its GL ancestor - which relied on the (now unusual) vector-as-row convention and on *pre-multiplication* (where we would have :math:`M' = M_O.M`); indeed, knowing that, when transposing matrices, :math:`(A.B)^\top = B^\top.A^\top`, one may consider that OpenGL actually always operates on transpose elements, and thus that: (1) matrices are actually specified in row-order and (2) they are multiplied on the left (e.g. :math:`M' = M_t.M_s.M_r.M`); note that switching convention does not affect at all the computations, and that the same operations are always performed in reverse call order
+
+.. _`maybe-transposition`:
+  - nowadays, with modern OpenGL, **matrix computations are done by the application on the CPU**, and are transmitted thanks to uniform variables; this means that addressing any mismatch in terms of matrix conventions arises only once per matrix update, when the time has come to ultimately transfer the computed matrix to the GPU; knowing that the corresponding `glUniformMatrix* <https://registry.khronos.org/OpenGL-Refpages/gl4/html/glUniform.xhtml>`_ operations offer natively to transpose in the same movement the specified matrix (presumably at a very low cost, as they must be optimised to death - the matrix may even be already in a CPU cache), we prefer remaining with the usual (row-major order) conventions and just enabling the transposition; this allows remaining with a familiar, standard linear support
+
 
 - OpenGL can operate on three mutually exclusive **modes**:
 
@@ -1188,7 +1192,7 @@ These matrices account for the main processing steps of a rendering.
 Three types of referentials can be considered:
 
 - **world** referential: the absolute, overall referential where 3D scenes are to be assembled
-- **local** referential: a referential in which a given model is defined (generally located at its origin)
+- **local** referential: the referential in which a given model is defined (generally placed at its origin)
 - **camera** referential: a referential where a camera is at the origin, looking down on the negative Z axis
 
 The **clip space** can also be considered; this is the post-projection space, where the view frustum is transformed into a cube, centered in the origin, and going from -1 to 1 in every axis.
@@ -1418,7 +1422,7 @@ Modern OpenGL (and GLU) implementations basically dropped the direct matrix supp
 
 For that, applications may use dedicated, separate libraries, such as, in C/C++, GLM, i.e. `OpenGL Mathematics <https://github.com/g-truc/glm>`_ [#]_ (Myriad's `linear support <http://myriad.esperide.org/#spatial-support>`_ aims to provide, in Erlang, a relevant subset of these operations - albeit admittedly in a simplified form).
 
-.. [#] GLM is a free software header-only, template-based C++ library. See `its manual <https://github.com/g-truc/glm/blob/master/manual.md>`_ and for example `its implementation of 4x4 float-based matrices <https://github.com/g-truc/glm/blob/master/glm/detail/type_mat4x4.inl>`_ (and their corresponding `type definition <https://github.com/g-truc/glm/blob/master/glm/ext/matrix_float4x4.hpp>`_).
+.. [#] GLM is a free software header-only, template-based C++ library. See `its manual <https://github.com/g-truc/glm/blob/master/manual.md>`_ and for example `its implementation of 4x4 float-based matrices <https://github.com/g-truc/glm/blob/master/glm/detail/type_mat4x4.inl>`_ (and their corresponding `type definition <https://github.com/g-truc/glm/blob/master/glm/ext/matrix_float4x4.hpp>`_). Note that, as GLM is targeted at OpenGL, by default it adopts column-major internal conventions, leading to a somehow unfamiliar mode of operation.
 
 
 The `matrices that correspond to the transformations <https://en.wikibooks.org/wiki/GLSL_Programming/Applying_Matrix_Transformations>`_ to be applied are then typically shared with the shaders thanks to uniform variables.
