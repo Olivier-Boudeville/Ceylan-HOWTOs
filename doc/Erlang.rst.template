@@ -495,6 +495,11 @@ More precisely:
 - Dialyzer is a discrepancy analyzer that aims **to prove the presence of type-induced runtime crashes** (it may not be able to detect all type problems, yet "is never wrong"); Dialyzer does not use type specifications to guide the analysis: first it infers type information, and then only, if requested, it checks that information against the type specifications; so Dialyzer may operate with or without type specifications
 - whereas tools like Gradualizer and eqWAlizer are more conventional type systems, based on the theory of gradual typing, that aim **to prove the absence of such crashes**; notably Gradualizer depends intimately on type specifications: by default, without them, no static typing happens
 
+See `EEP 61 <https://www.erlang.org/eeps/eep-0061>`_ for further typing-related information [#]_.
+
+.. [#] On a side note, the (newer) ``dynamic()`` type mentioned there is often used to mark "inherently dynamic code", like reading from ETS, message passing, deserialization and so on.
+
+
 Also a few `statically-typed languages <https://github.com/llaisdy/beam_languages#statically-typed-languages>`_ can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).
 
 In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports JIT_).
