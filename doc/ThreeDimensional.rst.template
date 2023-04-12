@@ -116,12 +116,22 @@ ____
 Godot logs are stored per-project; e.g. ``~/.local/share/godot/app_userdata/my-test-project/logs/godot.log``; past log files are kept once timestamped. They tend not to have interesting content.
 
 
-Sources of Godot-related Information
-____________________________________
 
+Assets
+......
+
+The official `Godot Asset Library <https://godotengine.org/asset-library/asset>`_, whose assets are at least mostly available through the rather permissive MIT licence, coexists with (probably too many) unofficial ones, like `Godot A.L. <https://godotassetlibrary.com/>`_ (AGPLv3 license), `Godot Asset Store <https://godotassetstore.org/>`_, `GodotAssets <https://godotassets.io/>`_, etc.
+
+For obvious reasons, many of the current open source assets are of a significantly lower quality than their non-Godot commercial counterparts. We believe than, until Godot-related assets progress (either as open-source or commercial ones), as soon as a game is a bit ambitious, relying on the asset stores of the other engines (see `Engine-related Assets`_) and/or on `asset providers`_ is a better option.
+
+
+
+Sources of Godot-related Information
+....................................
 
 - the official `Godot Engine <https://www.youtube.com/@GodotEngineOfficial>`_ video channel
 - the `GDQuest channel <https://www.youtube.com/@Gdquest/>`_, offering a large number of Godot tutorials covering many topics
+
 
 
 
@@ -138,16 +148,17 @@ Its `licence <https://www.unrealengine.com/en-US/faq>`_ is meant to induce costs
 
 With an Unreal user account, the sources of the engine (in its latest stable version, 5) `can be examined on Github <https://www.unrealengine.com/en-US/ue-on-github>`_ (so it is open source, yet not free software).
 
-See its `official website <https://www.unrealengine.com>`_ and its `marketplace <https://www.unrealengine.com/marketplace/en-US/store>`_.
+See its `official website <https://www.unrealengine.com>`_.
 
 
-Assets
-......
+Unreal Assets
+.............
 
-Purchased assets may be used in one's own shipped products (`source <https://marketplacehelp.epicgames.com/s/article/How-can-I-use-the-products-I-ve-purchased-from-the-Marketplace-or-Learn-Tab?language=en_US>`_) and apparently at least usually no restrictive terms apply.
+Purchased assets from the `Unreal marketplace <https://www.unrealengine.com/marketplace/en-US/store>`_ may be used in one's own shipped products (`source <https://marketplacehelp.epicgames.com/s/article/How-can-I-use-the-products-I-ve-purchased-from-the-Marketplace-or-Learn-Tab?language=en_US>`_) and apparently at least usually no restrictive terms apply.
 
-Assets not created by Epic Games can be used in other engines unless otherwise specified (`source <https://marketplacehelp.epicgames.com/s/article/Can-I-use-these-products-in-other-gaming-engines-like-Source-or-Unity?language=en_US>`_).
+Assets not created by Epic Games can be used in other engines unless otherwise specified (`source <https://marketplacehelp.epicgames.com/s/article/Can-I-use-these-products-in-other-gaming-engines-like-Source-or-Unity?language=en_US>`_; see also `this thread <https://www.reddit.com/r/godot/comments/bjsfoz/can_i_use_unreal_engine_assets_in_godot/>`_.
 
+Note that parts of the content will be Unreal-specific (``*.uasset``, ``*.umap``, etc.), like scripts. Yet technically many can be adapted to other engines (see for example `Exporting from Unreal Engine to Godot <https://www.youtube.com/watch?v=fhv_cpYQIqc>`_).
 
 
 
@@ -394,6 +405,17 @@ Here are a few samples of 3D content (useful for testing):
 - `FBX <https://free3d.com/dl-files.php?p=5671208f26be8b5e7b8b4567&f=4>`_; direct: `Stylized character <https://github.com/armory3d/armorpaint_samples/raw/master/sample.fbx>`_
 - `OBJ <https://free3d.com/dl-files.php?p=51a50c9b46e0daad6a99bb49&f=0>`_
 - `IFC <https://github.com/andrewisen/bim-whale-ifc-samples>`_; direct: `Basic house <https://github.com/andrewisen/bim-whale-ifc-samples/raw/main/BasicHouse/IFC/BasicHouse.ifc>`_ (requires the `BlenderBIM <https://blenderbim.org/download.html>`_ add-on for BIM support in Blender)
+
+
+
+Engine-related Assets
+---------------------
+
+Technically, and also legally, assets obtained in the context of any of these engines can be at least partially exported and adapted for re-use in other engines.
+
+Textures may be exported as PNG, animations in the `FBX <https://en.wikipedia.org/wiki/FBX>`_ (proprietary) file format, that can nevertheless be imported in Blender_ and converted to other file formats (e.g. glTF 2.0); see `blender import`_ and `blender convert`_ for that.
+
+Scripts and alike (Nodes, Prefabs, Blueprints) are engine-specific, yet may be recreated or at least translated to some extent.
 
 
 
