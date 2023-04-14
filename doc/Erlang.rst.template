@@ -495,6 +495,11 @@ More precisely:
 - Dialyzer is a discrepancy analyzer that aims **to prove the presence of type-induced runtime crashes** (it may not be able to detect all type problems, yet "is never wrong"); Dialyzer does not use type specifications to guide the analysis: first it infers type information, and then only, if requested, it checks that information against the type specifications; so Dialyzer may operate with or without type specifications
 - whereas tools like Gradualizer and eqWAlizer are more conventional type systems, based on the theory of gradual typing, that aim **to prove the absence of such crashes**; notably Gradualizer depends intimately on type specifications: by default, without them, no static typing happens
 
+See `EEP 61 <https://www.erlang.org/eeps/eep-0061>`_ for further typing-related information [#]_.
+
+.. [#] On a side note, the (newer) ``dynamic()`` type mentioned there is often used to mark "inherently dynamic code", like reading from ETS, message passing, deserialization and so on.
+
+
 Also a few `statically-typed languages <https://github.com/llaisdy/beam_languages#statically-typed-languages>`_ can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).
 
 In addition to the increased type safety that statically-typed languages permit (possibly applying to sequential code but also to inter-process messages), it is unsure whether such extra static awareness may also lead to better performances (especially now that the standard compiler supports JIT_).
@@ -852,7 +857,13 @@ To avoid having to perform a lookup in the documentation:
   - ``andalso`` and ``orelse`` behave there as tests, and their code is a little less effective than "``,``" and "``;``"
   - refer to the two tables (test/others) of the `BIFs supported in guards expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions>`_
 
-- to handle **binaries**, one may refer to `this cheat sheet <https://cheatography.com/fylke/cheat-sheets/erlang-binaries/>`_
+- to handle **binaries**:
+
+  - one may refer to `this cheat sheet <https://cheatography.com/fylke/cheat-sheets/erlang-binaries/>`_; see also an `introduction to the bit syntax <https://www.erlang.org/doc/programming_examples/bit_syntax.html>`_ (including `bit string comprehensions <https://www.erlang.org/doc/reference_manual/expressions.html#bit-string-comprehensions>`_) and its `full reference <https://www.erlang.org/doc/reference_manual/expressions.html#bit_syntax>`_, the `Constructing and Matching Binaries <https://www.erlang.org/doc/efficiency_guide/binaryhandling.html>`_ section and the `binary <https://www.erlang.org/doc/man/binary.html>`_ module; see also our `bin_utils <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/data-management/bin_utils.erl>`_ module
+  - as a rule of thumb:
+
+	- even if it may seem a bit counter-intuitive, *integers* (the default matching type) are handled at the bit level (e.g. ``A:16`` means an integer on two bytes), whereas *binaries* are handled at the byte level (e.g. ``B:16/binary`` means 16 bytes) - indeed their bit-level counterparts are *bitstrings*
+	- unlike lists, binaries are preferably built by appending `on their right <https://www.erlang.org/doc/efficiency_guide/binaryhandling.html#constructing-binaries>`_
 
 - in boolean expressions **outside of guards**:
 
