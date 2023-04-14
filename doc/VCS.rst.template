@@ -173,7 +173,7 @@ Sometimes, one may want to directly transfer the changes of a derivate branch B 
  $ git checkout A
  $ git merge -X theirs B
 
-No conflict should arise (`source <https://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours>`_).
+No conflict should arise (`source <https://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours>`_); note that this does *not* imply that the contents of the two branches match.
 
 The same is possible with ``rebase``; for example: ``git rebase -X theirs B``.
 
@@ -182,10 +182,10 @@ Note that ``-X`` a *strategy* option, whereas ``-s`` would be a *merge strategy*
 Using here ``ours`` rather than ``theirs`` :
 
 - ``-X ours`` uses "our" version of a change *only when there is a conflict*
-- whereas ``-s ours`` ignores the content of the other branch entirely (in all cases), and use "our" version instead
+- whereas ``-s ours`` ignores the content of the other branch entirely (in all cases), and use "our" version instead; ``-s theirs`` does not exist
 
 
-Another way of forcing the content of a branch B to be the same as the one of a branch A is, while B is checked-out, to execute: ``git reset --hard A``. As mentioned previously, push shall be done then with ``git push --force-with-lease``.
+Another (brutal but sure) way of forcing the content of a branch B to be the same as the one of a branch A is, while B is checked-out, to execute: ``git reset --hard A``. As mentioned previously, push shall be done then with ``git push --force-with-lease``.
 
 
 
@@ -394,6 +394,18 @@ If no push was done, it is as simple as replacing the former message by a new on
 
 
 
+Restoring a branch to a past state
+..................................
+
+Sometimes mistakes are made, committed and pushed - typically when messing up some merge.
+
+Various operations can be of use:
+
+- to consult a past state (e.g. based on a SHA1) and possibly create a dedicated branch out of it: use ``checkout``
+- to selectively remove the changes introduced by specific commits, by adding reverting commits (hence not losing history); use ``revert``; such an operation must be validated thanks to a well-documented commit
+- to come back to a past overall state (e.g. a SHA1), losing all changes done since then (hard delete, rewriting history): use ``reset``, with the ``--soft`` option to keep intermediary changes as non-committed, or with the ``--hard`` option to remove all changes; no commit is involved here (newer commits being just forgotten); if satisfied with this new state, it may be validated thanks to ``git push --force origin HEAD`` - provided that the current branch is not protected
+
+See also `these exchanges <https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit>`_.
 
 
 Tools
