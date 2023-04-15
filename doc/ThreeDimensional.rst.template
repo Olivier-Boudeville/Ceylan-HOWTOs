@@ -49,7 +49,10 @@ As usual, these information pertain to a GNU/Linux perspective.
 Cross-Platform Game Engines
 ===========================
 
-The big three are Godot_, `Unreal Engine`_ and Unity3D_.
+The big three are Godot_, `Unreal Engine`_ and Unity3D_ [#]_.
+
+.. [#] Others could be considered, like `Cocos Creator <https://www.cocos.com/en/creator>`_, an open-source engine using TypeScript and WebGL.
+
 
 
 Godot
