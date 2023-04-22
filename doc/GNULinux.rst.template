@@ -343,10 +343,517 @@ From there, `standard gdb-fu <https://sourceware.org/gdb/current/onlinedocs/gdb/
 
 
 
-Filesystem-related Issues
-=========================
+Preparing Adequate USB Keys
+===========================
 
-Word of wisdom: perform backups. Regularly. Safely stored.
+
+Objective
+---------
+
+The goal here is, once having purchased a basic yet robust (e.g. with a proper lid) USB key (preferably from a good brand, bought from a reliable seller in order to avoid counterfeits), to prepare it efficiently for everyday use.
+
+Often capacity matters a bit, speed not so much, and the best value for money is met for the mid-range keys of the time.
+
+
+
+Conventions, conventions
+------------------------
+
+The name of our key (``KEY_NAME``) will be ``Kn``, where ``n`` is a key counter (e.g. ``KEY_NAME=K7``).
+
+We will create here two (GPT) partitions on such a key:
+
+- a large, encrypted ("private"), Linux-friendly partition, as the main storage space of interest; based on EXT4 with dm-crypt and LUKS2, ciphered based on a 256-bit AES algorithm
+- a smaller, plain/unencrypted ("public"), Windows-friendly partition, for convenience (when you have files to transfer yet you do not remember the passphrase of the previous partition)
+
+The name of a partition (``P_NAME``) is a disk label, often limited to 11 characters. We choose it as prefixed with the name of the key, followed by either ``pub`` (for public, unencrypted) or ``encr`` (for encrypted), then with the partition number. For example, ``K3-pub-1`` or ``K11-encr-4``.
+
+The name of a filesystem (``FS_NAME``) of a partition is constrained as well, we specify it as: ``KEY_NAME-(pub|encr)-PHYSICAL_SIZE[-PARTITION_NUMBER]``, the partition number being useful to distinguish between any otherwise identical partitions of a given key.
+For instance ``K7-pub-2GB`` and ``K7-encr-14GB-4``.
+
+Any statically-defined mount point shall bear the same name as the associated filesystem: ``MOUNTPOINT=/mnt/${FS_NAME}``. For example ``MOUNTPOINT="/mnt/K7-pub-2GB"``.
+
+
+
+Targeting the Right Device
+--------------------------
+
+Each key shall be registered in one's referential, and one shall be careful not to format one's local hard disk instead of a key.
+
+To identify for sure such a key, run ``lsblk --fs`` just before plugging it in, and just after, so that the difference can be easily spotted.
+
+
+For an increased security, environment variables will be associated here to such a key, for example with: ``export KEY_DEV=/dev/sdz``.
+
+Its characteristics can be recorded in one's referential:
+
+.. code:: bash
+
+ $ fdisk -l ${KEY_DEV}
+ $ parted ${KEY_DEV} print
+
+
+
+Creating the Partitions
+-----------------------
+
+As root:
+
+.. code:: bash
+
+ $ export KEY_NAME="K7"
+ $ fdisk -l
+ $ export KEY_DEV=/dev/sdz
+ $ fdisk ${KEY_DEV}
+
+Then:
+
+- print the partition table : (p)
+- delete if necessary any previously existing partition(s): (d) for each of them
+- create a GPT disklabel: (g) rather than a MBR one (i.e. not "dos" (o))
+- create each partition (first the encrypted one(s), to favor their use):
+
+  - creation thanks to (n)
+  - size (e.g."+55G")
+  - type (e.g. "Linux filesystem", i.e. 20, or "Microsoft basic data", i.e. 11)
+  - partition name (with GPT: switch to expert mode (x), then (n), then a name like ``K7-encr-part``); back to the main menu (r)
+- check: (p), (F), (v)
+- write: (w)
+
+
+So that the kernel updates its partition table, it may be necessary to unplug and plug again the key.
+
+All information (obtained in expert mode) regarding the new partitions may be stored in one's referential.
+
+
+Erasing a Target Partition
+--------------------------
+
+If feeling paranoid about the previous content and having quite a lot of time ahead, a low-level erasure of a partition can be performed.
+
+
+For example:
+
+.. code:: bash
+
+ $ export PUB_DEV_NUM=1
+ $ export PUB_DEV="${KEY_DEV}${PUB_DEV_NUM}"; echo "PUB_DEV: ${PUB_DEV}"
+
+ $ fdisk -l ${PUB_DEV}
+ $ parted ${PUB_DEV} print
+
+ # Remove the echo after serious verification:
+ $ echo dd bs=256K if=/dev/urandom of=${PUB_DEV}
+ # (wait for *very* long)
+ dd: error writing '/dev/sdz1': No space left on device
+ # (still blocks for very long, despite any CTRL-C; just wait)
+ 16385+0 records in
+ 16384+0 records out
+ 2147483648 bytes (2.1 GB, 2.0 GiB) copied, 241.353 s, 8.9 MB/s
+
+
+
+Creating Plain, Unencrypted Partitions
+--------------------------------------
+
+
+Formatting a Plain Partition
+............................
+
+As FAT32 :
+
+.. code:: bash
+
+ $ export PART_NUM=2
+ $ export PART_SIZE="2GB"
+
+ $ export FS_NAME="${KEY_NAME}-pub-${PART_NUM}-${PART_SIZE}"
+ # Or if a single partition is of that type:
+ $ export FS_NAME="${KEY_NAME}-pub-${PART_SIZE}"
+
+ $ echo ${FS_NAME}
+ $ export PUB_DEV="${KEY_DEV}${PART_NUM}"
+ # Remove the echo after serious verification:
+ $ echo mkdosfs -F 32 -n ${FS_NAME} ${PUB_DEV}
+ mkfs.fat 4.2 (2021-01-31)
+ mkfs.fat: Warning: lowercase labels might not work properly on some systems
+
+
+
+Finalising and Testing a Plain Partition
+........................................
+
+We take this opportunity to, after the previous section, create its own mount point (typically to be referenced in ``/etc/fstab``):
+
+.. code:: bash
+
+ $ export MOUNT_POINT=/mnt/${FS_NAME}; mkdir ${MOUNT_POINT} && mount ${PUB_DEV} ${MOUNT_POINT}
+
+ # Should be not needed:
+ $ chown -R YOUR_USER:YOUR_GROUP ${MOUNT_POINT}
+
+ $ touch ${MOUNT_POINT}/WELCOME_TO_${KEY_NAME}_PUBLIC_${PART_NUM}_${PART_SIZE}_SPACE && ls -l ${MOUNT_POINT}
+
+ # Or if a single partition is of that type:
+ $ touch ${MOUNT_POINT}/WELCOME_TO_${KEY_NAME}_PUBLIC_${PART_SIZE}_SPACE && ls -l ${MOUNT_POINT}
+
+
+If really wanting to register extraneous information:
+
+.. code:: bash
+
+ $ mount | grep ${MOUNT_POINT}
+ /dev/sdb2 on /mnt/K5-pub-2GB type vfat (rw,relatime,fmask=0002,dmask=0002,allow_utime=0020,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro)
+
+ $ df ${MOUNT_POINT}
+ Filesystem     1K-blocks  Used Available Use% Mounted on
+ /dev/sdb2        2774720     4   2774716   1% /mnt/K5-pub-2GB
+
+ $ blkid ${PUB_DEV}
+ /dev/sdb2: LABEL_FATBOOT="K5-pub-2GB" LABEL="K5-pub-2GB" UUID="8C2C-1849" BLOCK_SIZE="512" TYPE="vfat" PARTLABEL="K5-pub-part" PARTUUID="955a970a-9920-c448-ada1-3f523d6fded3"
+
+ $ lsblk --fs ${PUB_DEV}
+ NAME FSTYPE FSVER LABEL      UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+ sdb2 vfat   FAT32 K5-pub-2GB 8C2C-1849                               2.6G     0% /mnt/K5-pub-2GB
+
+ $ parted ${PUB_DEV} print
+ Model: Unknown (unknown)
+ Disk /dev/sdb2: 2847MB
+ Sector size (logical/physical): 512B/512B
+ Partition Table: loop
+ Disk Flags:
+
+ Number  Start  End     Size    File system  Flags
+ 1      0.00B  2847MB  2847MB  fat32
+
+ $ umount ${MOUNT_POINT}
+
+
+
+Creating Encrypted Partitions
+-----------------------------
+
+
+After Partitioning
+..................
+
+
+Such storage space is of course to be partitioned first like the plain ones (see `Creating the Partitions`_), and can similarly be erased at a low level first (see `Erasing a Target Partition`_).
+
+For example we may end up with:
+
+.. code:: bash
+
+ $ export ENCR_DEV_NUM=1
+
+ $ export ENCR_DEV="${KEY_DEV}${ENCR_DEV_NUM}"; echo "ENCR_DEV: ${ENCR_DEV}"
+ ENCR_DEV=/dev/sdb1
+
+ $ fdisk -l ${ENCR_DEV}
+ Disk /dev/sdb1: 12 GiB, 12884901888 bytes, 25165824 sectors
+ Units: sectors of 1 * 512 = 512 bytes
+ Sector size (logical/physical): 512 bytes / 512 bytes
+ I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+ $ parted ${ENCR_DEV} print
+
+ $ export PART_SIZE="12GB"
+
+
+
+Creating an encrypted LUKS container
+....................................
+
+We used to favor LUKS1 over LUKS2 for a better compatibility with ancient Linuces, yet it is no longer relevant, LUKS is widespread now.
+
+In order to create such a container, there are `many options <https://wiki.archlinux.org/title/Dm-crypt/Device_encryption#Encryption_options_for_LUKS_mode>`_ to choose from; here are the ones that we prefer:
+
+.. code:: bash
+
+ # Remove the echo after serious verification (enter YES then the main, daily
+ # passphrase to unlock that container):
+ #
+ $ echo cryptsetup --hash sha512 -c aes-xts-plain --key-size 512 luksFormat ${ENCR_DEV}
+ WARNING!
+ ========
+ This will overwrite data on /dev/sdb1 irrevocably.
+
+ Are you sure? (Type 'yes' in capital letters): YES
+ Enter passphrase for /dev/sdb1:
+ Verify passphrase:
+
+
+We strongly advise to add a second, "rescue" passphrase (longer, more difficult than the previous daily one, and potentially common to at least some keys), as a last chance:
+
+.. code:: bash
+
+ # Remove the echo after serious verification (enter the previous passphrase, then
+ # the rescue one):
+ #
+ $ echo cryptsetup luksAddKey ${ENCR_DEV}
+ Enter any existing passphrase:
+ Enter new passphrase for key slot:
+ Verify passphrase:
+
+
+Let's introduce then more variables:
+
+.. code:: bash
+
+ $ export ENCR_DESIGNATOR="${KEY_NAME}-encr-${ENCR_DEV_NUM}-${PART_SIZE}"
+ # - OR -
+ $ export ENCR_DESIGNATOR="${KEY_NAME}-encr-${PART_SIZE}"
+
+ $ echo "ENCR_DESIGNATOR=${ENCR_DESIGNATOR}"
+ ENCR_DESIGNATOR=K5-encr-12GB
+
+.. So that, even if not mounted, the partition is appropriately named:
+
+.. .. code:: bash
+
+.. $ export ENCR_BASE_PART_NAME="${ENCR_DESIGNATOR}-luks"
+
+
+Now we unlock the LUKS container so that we can create an EXT4 partition in it.
+
+A ``-fs`` suffix would not be very relevant (this is the name that will be used by to automounter):
+
+.. code:: bash
+
+ $ export ENCR_FS_NAME="${ENCR_DESIGNATOR}"
+
+ # Remove the echo after serious verification:
+ $ echo cryptsetup config ${ENCR_DEV} --label ${ENCR_FS_NAME}
+ cryptsetup config /dev/sdb1 --label K5-encr-12GB
+ $ cryptsetup config ${ENCR_DEV} --label ${ENCR_FS_NAME}
+
+ $ export DM_NAME="my-${ENCR_DESIGNATOR}"
+
+ # Enter either of the two aforementioned passphrases:
+ $ cryptsetup luksOpen ${ENCR_DEV} ${DM_NAME}
+ Enter passphrase for /dev/sdb1:
+
+
+
+Creating the In-Container EXT4 Filesystem
+.........................................
+
+Deactivating journaling (with the ``-O ^has_journal`` option) could increase a bit the lifespan of the key, but would weaken its filesystem, whereas USB keys may be (unfortunately) unplugged while being still mounted; so we prefer keeping the journaling:
+
+.. code:: bash
+
+ # Remove the echo after serious verification:
+ $ echo mkfs.ext4 /dev/mapper/${DM_NAME} -L ${ENCR_FS_NAME} -E discard
+ mkfs.ext4 /dev/mapper/my-K5-encr-12GB -L K5-encr-12GB -E discard
+
+ $ mkfs.ext4 /dev/mapper/${DM_NAME} -L ${ENCR_FS_NAME} -E discard
+ mke2fs 1.47.0 (5-Feb-2023)
+ Creating filesystem with 3141632 4k blocks and 786432 inodes
+ Filesystem UUID: 92c44f73-8614-44f9-a03c-cfd718aecb8e
+ Superblock backups stored on blocks:
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208
+
+ Allocating group tables: done
+ Writing inode tables: done
+ Creating journal (16384 blocks): done
+ Writing superblocks and filesystem accounting information: done
+
+ # Should be needed (otherwise can be mounted yet not written by one's normal user):
+ $ chown -R YOUR_USER:YOUR_GROUP ${MOUNT_POINT}
+
+
+So no more need here for ``tune2fs -O ^has_journal /dev/mapper/${DM_NAME}``. One may still check the resulting settings with ``tune2fs -l /dev/mapper/${DM_NAME}``.
+
+.. No need either to change permissions or owner of that filesystem.
+
+Declaring keys in ``/etc/fstab`` and in ``/etc/crypttab`` is not necessary; moreover some care would be needed in order to ensure that the automounter would not freeze at the next reboot, expecting such a key to be available.
+
+
+
+Finalising and Testing an Encrypted Partition
+.............................................
+
+Here also one could take this opportunity to, after the previous section, create a dedicated mount point (see just above for a warning about referencing it through ``/etc/fstab`` and/or ``/etc/crypttab``).
+
+We consider that the previous LUKS container is still opened (otherwise: ``cryptsetup luksOpen ${ENCR_DEV} ${DM_NAME}``).
+
+Then:
+
+.. code:: bash
+
+ $ export MOUNT_POINT=/mnt/${ENCR_DESIGNATOR}; echo "MOUNT_POINT = $MOUNT_POINT"
+ MOUNT_POINT = /mnt/K5-encr-12GB
+
+ $ mkdir ${MOUNT_POINT}
+
+ # For example DM_NAME=/dev/mapper/my-K5-encr-12GB:
+ $ mount /dev/mapper/${DM_NAME} ${MOUNT_POINT}
+
+ $ touch ${MOUNT_POINT}/WELCOME_TO_${KEY_NAME}_ENCRYPTED_${PART_NUM}_${PART_SIZE}_SPACE && ls -l ${MOUNT_POINT}
+  or
+ $ touch ${MOUNT_POINT}/WELCOME_TO_${KEY_NAME}_ENCRYPTED_${PART_SIZE}_SPACE && ls -l ${MOUNT_POINT}
+ total 16
+ drwx------ 2 root root 16384 Apr 22 12:41 lost+found
+ -rw-rw-r-- 1 root root     0 Apr 22 16:14 WELCOME_TO_K5_ENCRYPTED_12GB_SPACE
+
+ # Record some information if wanted:
+ $ mount | grep ${MOUNT_POINT}
+ /dev/mapper/my-K5-encr-12GB on /mnt/K5-encr-12GB type ext4 (rw,relatime)
+
+ $ blkid ${ENCR_DEV}
+ /dev/sdb1: UUID="f00def37-529a-4400-aa8c-c7a36589c152" LABEL="K5-encr-12GB" TYPE="crypto_LUKS" PARTLABEL="K5-encr-part" PARTUUID="b4b72946-f1d1-1c45-976d-3bd389d23752"
+
+ $ lsblk --fs ${ENCR_DEV}
+ NAME              FSTYPE      FSVER LABEL        UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+ sdb1              crypto_LUKS 2     K5-encr-12GB f00def37-529a-4400-aa8c-c7a36589c152
+ └─my-K5-encr-12GB ext4        1.0   K5-encr-12GB 92c45f73-8614-44f9-a03c-cfd718aecb8e   11.1G     0% /mnt/K5-encr-12GB
+
+ $ parted ${ENCR_DEV} print
+ Error: /dev/sdb1: unrecognised disk label
+ Model: Unknown (unknown)
+ Disk /dev/sdb1: 12.9GB
+ Sector size (logical/physical): 512B/512B
+ Partition Table: unknown
+ Disk Flags:
+
+ $ df ${MOUNT_POINT}
+ Filesystem                  1K-blocks  Used Available Use% Mounted on
+ /dev/mapper/my-K5-encr-12GB  12262536  2072  11615756   1% /mnt/K5-encr-12GB
+
+
+Finally:
+
+.. code:: bash
+
+ $ umount ${MOUNT_POINT}
+ $ cryptsetup close ${DM_NAME}
+
+
+That's it! You should end up with a basic, inexpensive USB key - yet offering at least two satisfying partitions, one public, one adequately encrypted.
+
+
+
+GRUB Ate My Distro Again: Fixing the Bootloader
+===============================================
+
+So you tried recklessly to add some kernel parameters - presumably to prevent your laptop from freezing regularly for no apparent reason - and GRUB managed once again to replace a bootloader that used to work flawlessly with one that just cycles to the BIOS?
+
+Here are a few guidelines (on Arch Linux, with UEFI and GPT - rather than any MBR) that could be useful, knowing that considerably more complete information can be found in `this page <https://wiki.archlinux.org/title/GRUB>`_.
+
+
+Prerequisites
+-------------
+
+At least the following packages will be needed (anyway they are likely to be already available, either from a real install or from a rescue medium): ``grub``, ``efibootmgr`` and  ``os-prober``.
+
+
+You will also need a bootable (most probably removable) install/rescue medium, typically an USB stick whose content can be erased. Either you have access to another computer (Linux or not), or you have a multiboot and, after a smart journey in the BIOS menus, you will be able to nevertheless launch a Windows instance (generally GRUB just concentrates on wreaking havoc on unfortunate Linuces, rather than doing the same to Windows installations).
+
+If having only a Windows instance at hand, one may just follow `these guidelines <https://wiki.archlinux.org/title/USB_flash_installation_medium#Using_win32diskimager>`_, which mostly boil down to downloading and installing the (free software) `Win32 Disk Imager <https://sourceforge.net/projects/win32diskimager/files/latest/download>`_ tool, grabbing also `a relevant ISO <https://archlinux.org/download/>`_ (e.g. ``archlinux-2023.04.01-x86_64.iso`` at the time of this writing) and writing in on said USB stick.
+
+
+Running a Live Rescue Arch
+--------------------------
+
+Once having a proper rescue medium, ensure that it is inserted, and reboot your GRUB-affected host; possibly the BIOS configuration will have to be updated so that the host can boot on that medium.
+
+Once done, you should end up with a root shell - albeit running from a live, rescue Arch Linux, whereas the one that you want to fix is of course the one of your host.
+
+
+Preparing the chroot
+--------------------
+
+
+First enforce any essential setting, such as ``loadkeys fr`` if you have a French keyboard. Then locate the ``/boot`` partition of the host. It may either be directly in the partition corresponding to the root ``/`` tree or, as per our conventions, in a separate one (so that all other partitions can be appropriately encrypted). For that, ``fdisk -l`` (and possibly ``lsblk`` as well) shall help finding out such a partition; for instance:
+
+.. code:: bash
+
+ $ fdisk -l
+ Device              Start        End    Sectors   Size Type
+ /dev/nvme0n1p1       2048    1226751    1224704   598M EFI System
+ /dev/nvme0n1p2    1226752    1259519      32768    16M Microsoft reserved
+ /dev/nvme0n1p3    1259520  313274682  312015163 148.8G Microsoft basic data
+ /dev/nvme0n1p4  313276416  314570751    1294336   632M Windows recovery environment
+ /dev/nvme0n1p5  314572800  838860799  524288000   250G Microsoft basic data
+ /dev/nvme0n1p6  838860800  855638015   16777216     8G Linux swap
+ /dev/nvme0n1p7  855638016 1056964607  201326592    96G Linux filesystem
+ /dev/nvme0n1p8 1056964608 4000797326 2943832719   1.4T Linux filesystem
+
+
+Here, one can guess that ``nvme0n1p1`` is ``/boot`` (because of the EFI type, and the size), that ``nvme0n1p7`` is ``/``  and ``nvme0n1p8`` is ``/home``.
+
+
+Managing the chroot
+-------------------
+
+A relevant chroot shall be performed, once all appropriate trees have been mounted; we do not need ``/home`` (on the contrary, it is safer if it remains locked and not even mounted), but we need the right ``/boot``  (the one on disk and that contains the previous bootloader elements) to be mounted, instead of the empty one that would be inherited by a mere mounting of the ``/`` root. So:
+
+.. code:: bash
+
+ $ cd /mnt
+
+ # Intermediary directory usually useless but clearer:
+ $ mkdir my_chroot_tree
+
+ # Mount the whole system tree, "/":
+ $ mount /dev/nvme0n1p7 my_chroot_tree
+
+ # Take care of our separate "/boot" as well:
+ $ ls my_chroot_tree/boot
+ # (empty)
+
+ $ mount /dev/nvme0n1p1 my_chroot_tree/boot
+ $ ls my_chroot_tree/boot
+ . EFI initramfs-linux-fallback.img initramfs-linux-lts-fallback.img
+ intel-ucode.img  vmlinuz-linux .. grub initramfs-linux.img
+ initramfs-linux-lts.img 'System Volume Information' vmlinuz-linux-lts
+
+ # Switch to the actual host Arch system:
+ $ arch-chroot my_chroot_tree
+
+
+
+(Re)Installing GRUB
+-------------------
+
+As we understand it, installing GRUB (i.e. copying its relevant file elements in a proper location in ``/boot``) and configuring it can be done in any order; we prefer anyway installing it first, with:
+
+.. code:: bash
+
+ # Note that the 'EFI' directory is not directly specified here, only
+ # the /boot mount point:
+ $ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=MY_GRUB
+
+
+Configuring GRUB
+----------------
+
+Now is the right time to update one's ``/etc/default/grub``, notably to ensure that ``GRUB_DISABLE_OS_PROBER=false`` is indeed defined, and is not commented out.
+
+If ``os-prober`` is especially useful to auto-detect any Windows installation, we could see that it was not working from a chroot (and thus it has to be done later, directly from the final Arch host).
+
+.. One may still attempt to run ``os-prober``.
+
+The last step is to generate the corresponding GRUB configuration file:
+
+.. code:: bash
+
+ $ grub-mkconfig -o /boot/grub/grub.cfg
+
+
+Finally
+-------
+
+Rebooting and selecting a right entry menu should result in a restored boot proceeding as normal.
+
+Moreover, from now, ``os-prober`` should be able to pick up any other system (especially Windows installations) and declare them appropriately: this should be just a matter of running ``grub-mkconfig -o /boot/grub/grub.cfg`` again.
+
+
+
+Other Filesystem-related Issues
+===============================
+
+Word of wisdom: perform backups. Regularly. Safely stored, sheltered from disasters like burglars, floods, cats, fires, etc.
 
 
 Target is busy
@@ -357,9 +864,8 @@ Umounting may fail with ``umount: /var/foobar: target is busy``. Finding the cul
 .. code:: bash
 
  $ lsof /var/foobar
-COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF     NODE NAME
-bash    275648 root  cwd    DIR  254,1    20480 45236687 /var/foobar/www/Foo
-
+ COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF     NODE NAME
+ bash    275648 root  cwd    DIR  254,1    20480 45236687 /var/foobar/www/Foo
 
 
 
