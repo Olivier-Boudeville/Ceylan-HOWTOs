@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, March 19, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 21, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -57,18 +57,19 @@
 <li><a class="reference internal" href="#reducing-the-size-of-a-repository" id="toc-entry-17">Reducing the size of a repository</a></li>
 <li><a class="reference internal" href="#fixing-lf-vs-crlf-end-of-line-problems" id="toc-entry-18">Fixing LF vs CRLF End of Line Problems</a></li>
 <li><a class="reference internal" href="#fixing-a-commit-message" id="toc-entry-19">Fixing a commit message</a></li>
+<li><a class="reference internal" href="#restoring-a-branch-to-a-past-state" id="toc-entry-20">Restoring a branch to a past state</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tools" id="toc-entry-20">Tools</a><ul>
-<li><a class="reference internal" href="#on-most-platforms" id="toc-entry-21">On Most Platforms</a></li>
-<li><a class="reference internal" href="#on-windows" id="toc-entry-22">On Windows</a></li>
+<li><a class="reference internal" href="#tools" id="toc-entry-21">Tools</a><ul>
+<li><a class="reference internal" href="#on-most-platforms" id="toc-entry-22">On Most Platforms</a></li>
+<li><a class="reference internal" href="#on-windows" id="toc-entry-23">On Windows</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inner-workings" id="toc-entry-23">Inner Workings</a></li>
-<li><a class="reference internal" href="#translations" id="toc-entry-24">Translations</a></li>
-<li><a class="reference internal" href="#documentation" id="toc-entry-25">Documentation</a></li>
+<li><a class="reference internal" href="#inner-workings" id="toc-entry-24">Inner Workings</a></li>
+<li><a class="reference internal" href="#translations" id="toc-entry-25">Translations</a></li>
+<li><a class="reference internal" href="#documentation" id="toc-entry-26">Documentation</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -179,15 +180,15 @@ $<span class="w"> </span>git<span class="w"> </span>co<span class="w"> </span>B<
 $<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>A<span class="w">
 </span>$<span class="w"> </span>git<span class="w"> </span>merge<span class="w"> </span>-X<span class="w"> </span>theirs<span class="w"> </span>B
 </pre>
-<p>No conflict should arise (<a class="reference external" href="https://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours">source</a>).</p>
+<p>No conflict should arise (<a class="reference external" href="https://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours">source</a>); note that this does <em>not</em> imply that the contents of the two branches match.</p>
 <p>The same is possible with <tt class="docutils literal">rebase</tt>; for example: <tt class="docutils literal">git rebase <span class="pre">-X</span> theirs B</tt>.</p>
 <p>Note that <tt class="docutils literal"><span class="pre">-X</span></tt> a <em>strategy</em> option, whereas <tt class="docutils literal"><span class="pre">-s</span></tt> would be a <em>merge strategy</em> option.</p>
 <p>Using here <tt class="docutils literal">ours</tt> rather than <tt class="docutils literal">theirs</tt> :</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">-X</span> ours</tt> uses &quot;our&quot; version of a change <em>only when there is a conflict</em></li>
-<li>whereas <tt class="docutils literal"><span class="pre">-s</span> ours</tt> ignores the content of the other branch entirely (in all cases), and use &quot;our&quot; version instead</li>
+<li>whereas <tt class="docutils literal"><span class="pre">-s</span> ours</tt> ignores the content of the other branch entirely (in all cases), and use &quot;our&quot; version instead; <tt class="docutils literal"><span class="pre">-s</span> theirs</tt> does not exist</li>
 </ul>
-<p>Another way of forcing the content of a branch B to be the same as the one of a branch A is, while B is checked-out, to execute: <tt class="docutils literal">git reset <span class="pre">--hard</span> A</tt>. As mentioned previously, push shall be done then with <tt class="docutils literal">git push <span class="pre">--force-with-lease</span></tt>.</p>
+<p>Another (brutal but sure) way of forcing the content of a branch B to be the same as the one of a branch A is, while B is checked-out, to execute: <tt class="docutils literal">git reset <span class="pre">--hard</span> A</tt>. As mentioned previously, push shall be done then with <tt class="docutils literal">git push <span class="pre">--force-with-lease</span></tt>.</p>
 </div>
 </div>
 <div class="section" id="common-procedures">
@@ -321,17 +322,28 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
 $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>--amend<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;This is a fixed commit message.&quot;</span>
 </pre>
 </div>
+<div class="section" id="restoring-a-branch-to-a-past-state">
+<h3><a class="toc-backref" href="#toc-entry-20">Restoring a branch to a past state</a></h3>
+<p>Sometimes mistakes are made, committed and pushed - typically when messing up some merge.</p>
+<p>Various operations can be of use:</p>
+<ul class="simple">
+<li>to consult a past state (e.g. based on a SHA1) and possibly create a dedicated branch out of it: use <tt class="docutils literal">checkout</tt></li>
+<li>to selectively remove the changes introduced by specific commits, by adding reverting commits (hence not losing history); use <tt class="docutils literal">revert</tt>; such an operation must be validated thanks to a well-documented commit</li>
+<li>to come back to a past overall state (e.g. a SHA1), losing all changes done since then (hard delete, rewriting history): use <tt class="docutils literal">reset</tt>, with the <tt class="docutils literal"><span class="pre">--soft</span></tt> option to keep intermediary changes as non-committed, or with the <tt class="docutils literal"><span class="pre">--hard</span></tt> option to remove all changes; no commit is involved here (newer commits being just forgotten); if satisfied with this new state, it may be validated thanks to <tt class="docutils literal">git push <span class="pre">--force</span> origin HEAD</tt> - provided that the current branch is not protected</li>
+</ul>
+<p>See also <a class="reference external" href="https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit">these exchanges</a>.</p>
+</div>
 </div>
 </div>
 <div class="section" id="tools">
-<h1><a class="toc-backref" href="#toc-entry-20">Tools</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-21">Tools</a></h1>
 <div class="section" id="on-most-platforms">
-<h2><a class="toc-backref" href="#toc-entry-21">On Most Platforms</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-22">On Most Platforms</a></h2>
 <p>At least on UNIX, the command-line Git client (<tt class="docutils literal">git</tt>) is certainly the best tool. In difficult situations, graphical tools such as <tt class="docutils literal">gitk</tt> may be of help.</p>
 <p>See also our Ceylan-Hull section about <a class="reference external" href="https://hull.esperide.org/#for-version-control-system-vcs">VCS-related scripts</a>.</p>
 </div>
 <div class="section" id="on-windows">
-<h2><a class="toc-backref" href="#toc-entry-22">On Windows</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-23">On Windows</a></h2>
 <p>Tools like <a class="reference external" href="https://tortoisegit.org/">TortoiseGit</a> may foster a view on the usage of Git that is a bit particular, conflating concepts or introducing extra ones (e.g. a <tt class="docutils literal">sync</tt> command). Apparently also at least some pulls did not reintroduce files just removed from the working directory.</p>
 <p>More generally, cloning on a Windows host an UNIX-originating repository comprising symbolic links may induce oddities (e.g. a symlink named <tt class="docutils literal">S</tt> pointing to <tt class="docutils literal">Foobar</tt> resulting, on a Windows clone, in a file named <tt class="docutils literal">S</tt> whose content is, literally, the text <tt class="docutils literal">&quot;Foobar&quot;</tt>, instead of the expected content of the <tt class="docutils literal">Foobar</tt> file).</p>
 <p>Another option is to use Visual Studio Code (<tt class="docutils literal">vscode</tt>), which supports natively Git (provided that the command-line version is already installed). One may select <tt class="docutils literal">View <span class="pre">-&gt;</span> SCM</tt> (or <tt class="docutils literal"><span class="pre">Ctrl-Shift-G</span></tt>) for that. Clicking on the &quot;VCS&quot; icon (three rings links by two curves; the third from the top) displays a contextual view offering various associated operations (here based on Git).</p>
@@ -339,14 +351,14 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 </div>
 </div>
 <div class="section" id="inner-workings">
-<h1><a class="toc-backref" href="#toc-entry-23">Inner Workings</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-24">Inner Workings</a></h1>
 <p>Git stores internally every version of every file separately (not as a diff with a parent version) as a blob (an opaque binary content) identified by its (SHA1) hash.</p>
 <p>A commit is the identifier of a tree representing the filesystem of interest at a given moment (snapshot). This tree references the files through their SHA1, similarly to a <a class="reference external" href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree</a>.</p>
 <p>A branch is thus nothing but a pointer on a given commit, and <tt class="docutils literal">HEAD</tt> designates the current branch. Git stores natively only blobs, trees and commits.</p>
 <p>The reported differences in the content of a file or a tree are thus only recreated (established dynamically) by Git commands, they are not natively tracked.</p>
 </div>
 <div class="section" id="translations">
-<h1><a class="toc-backref" href="#toc-entry-24">Translations</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-25">Translations</a></h1>
 <p>From English to French:</p>
 <ul class="simple">
 <li><tt class="docutils literal">repository</tt> -&gt; <tt class="docutils literal">dépôt</tt></li>
@@ -362,7 +374,7 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 </ul>
 </div>
 <div class="section" id="documentation">
-<h1><a class="toc-backref" href="#toc-entry-25">Documentation</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-26">Documentation</a></h1>
 <p>Many pointers exist, doing a great job in unveiling how Git is to be used.</p>
 <p>In English, <a class="reference external" href="https://git-scm.com/book/en/v2">Pro GIT</a> is surely a reference.</p>
 <p>In French:</p>

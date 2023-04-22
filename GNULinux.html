@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, April 1, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, April 22, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -50,26 +50,46 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#process-related-post-mortem-investigations" id="toc-entry-10">Process-related Post-Mortem Investigations</a></li>
-<li><a class="reference internal" href="#filesystem-related-issues" id="toc-entry-11">Filesystem-related Issues</a><ul>
-<li><a class="reference internal" href="#target-is-busy" id="toc-entry-12">Target is busy</a></li>
-<li><a class="reference internal" href="#failed-i-o-operations" id="toc-entry-13">Failed I/O Operations</a></li>
-<li><a class="reference internal" href="#checking-a-disk" id="toc-entry-14">Checking a Disk</a></li>
+<li><a class="reference internal" href="#preparing-adequate-usb-keys" id="toc-entry-11">Preparing Adequate USB Keys</a><ul>
+<li><a class="reference internal" href="#objective" id="toc-entry-12">Objective</a></li>
+<li><a class="reference internal" href="#conventions-conventions" id="toc-entry-13">Conventions, conventions</a></li>
+<li><a class="reference internal" href="#targeting-the-right-device" id="toc-entry-14">Targeting the Right Device</a></li>
+<li><a class="reference internal" href="#creating-the-partitions" id="toc-entry-15">Creating the Partitions</a></li>
+<li><a class="reference internal" href="#erasing-a-target-partition" id="toc-entry-16">Erasing a Target Partition</a></li>
+<li><a class="reference internal" href="#creating-plain-unencrypted-partitions" id="toc-entry-17">Creating Plain, Unencrypted Partitions</a></li>
+<li><a class="reference internal" href="#creating-encrypted-partitions" id="toc-entry-18">Creating Encrypted Partitions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#quick-topics" id="toc-entry-15">Quick Topics</a><ul>
-<li><a class="reference internal" href="#installing-wine" id="toc-entry-16">Installing Wine</a></li>
-<li><a class="reference internal" href="#overcoming-invalid-pgp-signatures-in-pacman-packages" id="toc-entry-17">Overcoming Invalid PGP Signatures in Pacman Packages</a></li>
-<li><a class="reference internal" href="#converting-data-formats" id="toc-entry-18">Converting Data Formats</a></li>
-<li><a class="reference internal" href="#adding-a-locale" id="toc-entry-19">Adding a Locale</a></li>
-<li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-20">Applying a XFCE4 configuration to a different user</a></li>
-<li><a class="reference internal" href="#using-emacs" id="toc-entry-21">Using Emacs</a></li>
-<li><a class="reference internal" href="#using-e-mail-clients" id="toc-entry-22">Using E-mail Clients</a></li>
-<li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-23">Recording a Screencast</a></li>
-<li><a class="reference internal" href="#other-settings" id="toc-entry-24">Other Settings</a></li>
-<li><a class="reference internal" href="#shortcuts" id="toc-entry-25">Shortcuts</a></li>
+<li><a class="reference internal" href="#grub-ate-my-distro-again-fixing-the-bootloader" id="toc-entry-19">GRUB Ate My Distro Again: Fixing the Bootloader</a><ul>
+<li><a class="reference internal" href="#prerequisites" id="toc-entry-20">Prerequisites</a></li>
+<li><a class="reference internal" href="#running-a-live-rescue-arch" id="toc-entry-21">Running a Live Rescue Arch</a></li>
+<li><a class="reference internal" href="#preparing-the-chroot" id="toc-entry-22">Preparing the chroot</a></li>
+<li><a class="reference internal" href="#managing-the-chroot" id="toc-entry-23">Managing the chroot</a></li>
+<li><a class="reference internal" href="#re-installing-grub" id="toc-entry-24">(Re)Installing GRUB</a></li>
+<li><a class="reference internal" href="#configuring-grub" id="toc-entry-25">Configuring GRUB</a></li>
+<li><a class="reference internal" href="#finally" id="toc-entry-26">Finally</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-26">See Also</a></li>
+<li><a class="reference internal" href="#other-filesystem-related-issues" id="toc-entry-27">Other Filesystem-related Issues</a><ul>
+<li><a class="reference internal" href="#target-is-busy" id="toc-entry-28">Target is busy</a></li>
+<li><a class="reference internal" href="#failed-i-o-operations" id="toc-entry-29">Failed I/O Operations</a></li>
+<li><a class="reference internal" href="#checking-a-disk" id="toc-entry-30">Checking a Disk</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#quick-topics" id="toc-entry-31">Quick Topics</a><ul>
+<li><a class="reference internal" href="#installing-wine" id="toc-entry-32">Installing Wine</a></li>
+<li><a class="reference internal" href="#overcoming-invalid-pgp-signatures-in-pacman-packages" id="toc-entry-33">Overcoming Invalid PGP Signatures in Pacman Packages</a></li>
+<li><a class="reference internal" href="#converting-data-formats" id="toc-entry-34">Converting Data Formats</a></li>
+<li><a class="reference internal" href="#adding-a-locale" id="toc-entry-35">Adding a Locale</a></li>
+<li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-36">Applying a XFCE4 configuration to a different user</a></li>
+<li><a class="reference internal" href="#using-emacs" id="toc-entry-37">Using Emacs</a></li>
+<li><a class="reference internal" href="#using-e-mail-clients" id="toc-entry-38">Using E-mail Clients</a></li>
+<li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-39">Recording a Screencast</a></li>
+<li><a class="reference internal" href="#other-settings" id="toc-entry-40">Other Settings</a></li>
+<li><a class="reference internal" href="#shortcuts" id="toc-entry-41">Shortcuts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-42">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -312,20 +332,402 @@ $<span class="w"> </span>coredumpctl<span class="w"> </span>debug<span class="w"
 <p>(this example was an Erlang wx/OpenGL-oriented crash)</p>
 <p>From there, <a class="reference external" href="https://sourceware.org/gdb/current/onlinedocs/gdb/">standard gdb-fu</a> shall be sufficient to give much insight. Once done, use <tt class="docutils literal">q</tt> to quit.</p>
 </div>
-<div class="section" id="filesystem-related-issues">
-<h1><a class="toc-backref" href="#toc-entry-11">Filesystem-related Issues</a></h1>
-<p>Word of wisdom: perform backups. Regularly. Safely stored.</p>
+<div class="section" id="preparing-adequate-usb-keys">
+<h1><a class="toc-backref" href="#toc-entry-11">Preparing Adequate USB Keys</a></h1>
+<div class="section" id="objective">
+<h2><a class="toc-backref" href="#toc-entry-12">Objective</a></h2>
+<p>The goal here is, once having purchased a basic yet robust (e.g. with a proper lid) USB key (preferably from a good brand, bought from a reliable seller in order to avoid counterfeits), to prepare it efficiently for everyday use.</p>
+<p>Often capacity matters a bit, speed not so much, and the best value for money is met for the mid-range keys of the time.</p>
+</div>
+<div class="section" id="conventions-conventions">
+<h2><a class="toc-backref" href="#toc-entry-13">Conventions, conventions</a></h2>
+<p>The name of our key (<tt class="docutils literal">KEY_NAME</tt>) will be <tt class="docutils literal">Kn</tt>, where <tt class="docutils literal">n</tt> is a key counter (e.g. <tt class="docutils literal">KEY_NAME=K7</tt>).</p>
+<p>We will create here two (GPT) partitions on such a key:</p>
+<ul class="simple">
+<li>a large, encrypted (&quot;private&quot;), Linux-friendly partition, as the main storage space of interest; based on EXT4 with dm-crypt and LUKS2, ciphered based on a 256-bit AES algorithm</li>
+<li>a smaller, plain/unencrypted (&quot;public&quot;), Windows-friendly partition, for convenience (when you have files to transfer yet you do not remember the passphrase of the previous partition)</li>
+</ul>
+<p>The name of a partition (<tt class="docutils literal">P_NAME</tt>) is a disk label, often limited to 11 characters. We choose it as prefixed with the name of the key, followed by either <tt class="docutils literal">pub</tt> (for public, unencrypted) or <tt class="docutils literal">encr</tt> (for encrypted), then with the partition number. For example, <tt class="docutils literal"><span class="pre">K3-pub-1</span></tt> or <tt class="docutils literal"><span class="pre">K11-encr-4</span></tt>.</p>
+<p>The name of a filesystem (<tt class="docutils literal">FS_NAME</tt>) of a partition is constrained as well, we specify it as: <tt class="docutils literal"><span class="pre">KEY_NAME-(pub|encr)-PHYSICAL_SIZE[-PARTITION_NUMBER]</span></tt>, the partition number being useful to distinguish between any otherwise identical partitions of a given key.
+For instance <tt class="docutils literal"><span class="pre">K7-pub-2GB</span></tt> and <tt class="docutils literal"><span class="pre">K7-encr-14GB-4</span></tt>.</p>
+<p>Any statically-defined mount point shall bear the same name as the associated filesystem: <tt class="docutils literal"><span class="pre">MOUNTPOINT=/mnt/${FS_NAME}</span></tt>. For example <tt class="docutils literal"><span class="pre">MOUNTPOINT=&quot;/mnt/K7-pub-2GB&quot;</span></tt>.</p>
+</div>
+<div class="section" id="targeting-the-right-device">
+<h2><a class="toc-backref" href="#toc-entry-14">Targeting the Right Device</a></h2>
+<p>Each key shall be registered in one's referential, and one shall be careful not to format one's local hard disk instead of a key.</p>
+<p>To identify for sure such a key, run <tt class="docutils literal">lsblk <span class="pre">--fs</span></tt> just before plugging it in, and just after, so that the difference can be easily spotted.</p>
+<p>For an increased security, environment variables will be associated here to such a key, for example with: <tt class="docutils literal">export <span class="pre">KEY_DEV=/dev/sdz</span></tt>.</p>
+<p>Its characteristics can be recorded in one's referential:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>fdisk<span class="w"> </span>-l<span class="w"> </span><span class="si">${</span><span class="nv">KEY_DEV</span><span class="si">}</span><span class="w">
+</span>$<span class="w"> </span>parted<span class="w"> </span><span class="si">${</span><span class="nv">KEY_DEV</span><span class="si">}</span><span class="w"> </span>print
+</pre>
+</div>
+<div class="section" id="creating-the-partitions">
+<h2><a class="toc-backref" href="#toc-entry-15">Creating the Partitions</a></h2>
+<p>As root:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">KEY_NAME</span><span class="o">=</span><span class="s2">&quot;K7&quot;</span><span class="w">
+</span>$<span class="w"> </span>fdisk<span class="w"> </span>-l<span class="w">
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">KEY_DEV</span><span class="o">=</span>/dev/sdz<span class="w">
+</span>$<span class="w"> </span>fdisk<span class="w"> </span><span class="si">${</span><span class="nv">KEY_DEV</span><span class="si">}</span>
+</pre>
+<p>Then:</p>
+<ul class="simple">
+<li>print the partition table : (p)</li>
+<li>delete if necessary any previously existing partition(s): (d) for each of them</li>
+<li>create a GPT disklabel: (g) rather than a MBR one (i.e. not &quot;dos&quot; (o))</li>
+<li>create each partition (first the encrypted one(s), to favor their use):<ul>
+<li>creation thanks to (n)</li>
+<li>size (e.g.&quot;+55G&quot;)</li>
+<li>type (e.g. &quot;Linux filesystem&quot;, i.e. 20, or &quot;Microsoft basic data&quot;, i.e. 11)</li>
+<li>partition name (with GPT: switch to expert mode (x), then (n), then a name like <tt class="docutils literal"><span class="pre">K7-encr-part</span></tt>); back to the main menu (r)</li>
+</ul>
+</li>
+<li>check: (p), (F), (v)</li>
+<li>write: (w)</li>
+</ul>
+<p>So that the kernel updates its partition table, it may be necessary to unplug and plug again the key.</p>
+<p>All information (obtained in expert mode) regarding the new partitions may be stored in one's referential.</p>
+</div>
+<div class="section" id="erasing-a-target-partition">
+<h2><a class="toc-backref" href="#toc-entry-16">Erasing a Target Partition</a></h2>
+<p>If feeling paranoid about the previous content and having quite a lot of time ahead, a low-level erasure of a partition can be performed.</p>
+<p>For example:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PUB_DEV_NUM</span><span class="o">=</span><span class="m">1</span><span class="w">
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PUB_DEV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_DEV</span><span class="si">}${</span><span class="nv">PUB_DEV_NUM</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PUB_DEV: </span><span class="si">${</span><span class="nv">PUB_DEV</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+
+</span>$<span class="w"> </span>fdisk<span class="w"> </span>-l<span class="w"> </span><span class="si">${</span><span class="nv">PUB_DEV</span><span class="si">}</span><span class="w">
+</span>$<span class="w"> </span>parted<span class="w"> </span><span class="si">${</span><span class="nv">PUB_DEV</span><span class="si">}</span><span class="w"> </span>print<span class="w">
+
+</span><span class="c1"># Remove the echo after serious verification:
+</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>dd<span class="w"> </span><span class="nv">bs</span><span class="o">=</span>256K<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/urandom<span class="w"> </span><span class="nv">of</span><span class="o">=</span><span class="si">${</span><span class="nv">PUB_DEV</span><span class="si">}</span><span class="w">
+</span><span class="c1"># (wait for *very* long)
+</span>dd:<span class="w"> </span>error<span class="w"> </span>writing<span class="w"> </span><span class="s1">'/dev/sdz1'</span>:<span class="w"> </span>No<span class="w"> </span>space<span class="w"> </span>left<span class="w"> </span>on<span class="w"> </span>device<span class="w">
+</span><span class="c1"># (still blocks for very long, despite any CTRL-C; just wait)
+</span><span class="m">16385</span>+0<span class="w"> </span>records<span class="w"> </span><span class="k">in</span><span class="w">
+</span><span class="m">16384</span>+0<span class="w"> </span>records<span class="w"> </span>out<span class="w">
+</span><span class="m">2147483648</span><span class="w"> </span>bytes<span class="w"> </span><span class="o">(</span><span class="m">2</span>.1<span class="w"> </span>GB,<span class="w"> </span><span class="m">2</span>.0<span class="w"> </span>GiB<span class="o">)</span><span class="w"> </span>copied,<span class="w"> </span><span class="m">241</span>.353<span class="w"> </span>s,<span class="w"> </span><span class="m">8</span>.9<span class="w"> </span>MB/s
+</pre>
+</div>
+<div class="section" id="creating-plain-unencrypted-partitions">
+<h2><a class="toc-backref" href="#toc-entry-17">Creating Plain, Unencrypted Partitions</a></h2>
+<div class="section" id="formatting-a-plain-partition">
+<h3>Formatting a Plain Partition</h3>
+<p>As FAT32 :</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PART_NUM</span><span class="o">=</span><span class="m">2</span><span class="w">
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PART_SIZE</span><span class="o">=</span><span class="s2">&quot;2GB&quot;</span><span class="w">
+
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">FS_NAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_NAME</span><span class="si">}</span><span class="s2">-pub-</span><span class="si">${</span><span class="nv">PART_NUM</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">PART_SIZE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+</span><span class="c1"># Or if a single partition is of that type:
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">FS_NAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_NAME</span><span class="si">}</span><span class="s2">-pub-</span><span class="si">${</span><span class="nv">PART_SIZE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+
+</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">FS_NAME</span><span class="si">}</span><span class="w">
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PUB_DEV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_DEV</span><span class="si">}${</span><span class="nv">PART_NUM</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+</span><span class="c1"># Remove the echo after serious verification:
+</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>mkdosfs<span class="w"> </span>-F<span class="w"> </span><span class="m">32</span><span class="w"> </span>-n<span class="w"> </span><span class="si">${</span><span class="nv">FS_NAME</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">PUB_DEV</span><span class="si">}</span><span class="w">
+</span>mkfs.fat<span class="w"> </span><span class="m">4</span>.2<span class="w"> </span><span class="o">(</span><span class="m">2021</span>-01-31<span class="o">)</span><span class="w">
+</span>mkfs.fat:<span class="w"> </span>Warning:<span class="w"> </span>lowercase<span class="w"> </span>labels<span class="w"> </span>might<span class="w"> </span>not<span class="w"> </span>work<span class="w"> </span>properly<span class="w"> </span>on<span class="w"> </span>some<span class="w"> </span>systems
+</pre>
+</div>
+<div class="section" id="finalising-and-testing-a-plain-partition">
+<h3>Finalising and Testing a Plain Partition</h3>
+<p>We take this opportunity to, after the previous section, create its own mount point (typically to be referenced in <tt class="docutils literal">/etc/fstab</tt>):</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">MOUNT_POINT</span><span class="o">=</span>/mnt/<span class="si">${</span><span class="nv">FS_NAME</span><span class="si">}</span><span class="p">;</span><span class="w"> </span>mkdir<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mount<span class="w"> </span><span class="si">${</span><span class="nv">PUB_DEV</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+
+</span><span class="c1"># Should be not needed:
+</span>$<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>YOUR_USER:YOUR_GROUP<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+
+</span>$<span class="w"> </span>touch<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span>/WELCOME_TO_<span class="si">${</span><span class="nv">KEY_NAME</span><span class="si">}</span>_PUBLIC_<span class="si">${</span><span class="nv">PART_NUM</span><span class="si">}</span>_<span class="si">${</span><span class="nv">PART_SIZE</span><span class="si">}</span>_SPACE<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+
+</span><span class="c1"># Or if a single partition is of that type:
+</span>$<span class="w"> </span>touch<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span>/WELCOME_TO_<span class="si">${</span><span class="nv">KEY_NAME</span><span class="si">}</span>_PUBLIC_<span class="si">${</span><span class="nv">PART_SIZE</span><span class="si">}</span>_SPACE<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span>
+</pre>
+<p>If really wanting to register extraneous information:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+</span>/dev/sdb2<span class="w"> </span>on<span class="w"> </span>/mnt/K5-pub-2GB<span class="w"> </span><span class="nb">type</span><span class="w"> </span>vfat<span class="w"> </span><span class="o">(</span>rw,relatime,fmask<span class="o">=</span><span class="m">0002</span>,dmask<span class="o">=</span><span class="m">0002</span>,allow_utime<span class="o">=</span><span class="m">0020</span>,codepage<span class="o">=</span><span class="m">437</span>,iocharset<span class="o">=</span>ascii,shortname<span class="o">=</span>mixed,utf8,errors<span class="o">=</span>remount-ro<span class="o">)</span><span class="w">
+
+</span>$<span class="w"> </span>df<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+</span>Filesystem<span class="w">     </span>1K-blocks<span class="w">  </span>Used<span class="w"> </span>Available<span class="w"> </span>Use%<span class="w"> </span>Mounted<span class="w"> </span>on<span class="w">
+</span>/dev/sdb2<span class="w">        </span><span class="m">2774720</span><span class="w">     </span><span class="m">4</span><span class="w">   </span><span class="m">2774716</span><span class="w">   </span><span class="m">1</span>%<span class="w"> </span>/mnt/K5-pub-2GB<span class="w">
+
+</span>$<span class="w"> </span>blkid<span class="w"> </span><span class="si">${</span><span class="nv">PUB_DEV</span><span class="si">}</span><span class="w">
+</span>/dev/sdb2:<span class="w"> </span><span class="nv">LABEL_FATBOOT</span><span class="o">=</span><span class="s2">&quot;K5-pub-2GB&quot;</span><span class="w"> </span><span class="nv">LABEL</span><span class="o">=</span><span class="s2">&quot;K5-pub-2GB&quot;</span><span class="w"> </span><span class="nv">UUID</span><span class="o">=</span><span class="s2">&quot;8C2C-1849&quot;</span><span class="w"> </span><span class="nv">BLOCK_SIZE</span><span class="o">=</span><span class="s2">&quot;512&quot;</span><span class="w"> </span><span class="nv">TYPE</span><span class="o">=</span><span class="s2">&quot;vfat&quot;</span><span class="w"> </span><span class="nv">PARTLABEL</span><span class="o">=</span><span class="s2">&quot;K5-pub-part&quot;</span><span class="w"> </span><span class="nv">PARTUUID</span><span class="o">=</span><span class="s2">&quot;955a970a-9920-c448-ada1-3f523d6fded3&quot;</span><span class="w">
+
+</span>$<span class="w"> </span>lsblk<span class="w"> </span>--fs<span class="w"> </span><span class="si">${</span><span class="nv">PUB_DEV</span><span class="si">}</span><span class="w">
+</span>NAME<span class="w"> </span>FSTYPE<span class="w"> </span>FSVER<span class="w"> </span>LABEL<span class="w">      </span>UUID<span class="w">                                 </span>FSAVAIL<span class="w"> </span>FSUSE%<span class="w"> </span>MOUNTPOINTS<span class="w">
+</span>sdb2<span class="w"> </span>vfat<span class="w">   </span>FAT32<span class="w"> </span>K5-pub-2GB<span class="w"> </span>8C2C-1849<span class="w">                               </span><span class="m">2</span>.6G<span class="w">     </span><span class="m">0</span>%<span class="w"> </span>/mnt/K5-pub-2GB<span class="w">
+
+</span>$<span class="w"> </span>parted<span class="w"> </span><span class="si">${</span><span class="nv">PUB_DEV</span><span class="si">}</span><span class="w"> </span>print<span class="w">
+</span>Model:<span class="w"> </span>Unknown<span class="w"> </span><span class="o">(</span>unknown<span class="o">)</span><span class="w">
+</span>Disk<span class="w"> </span>/dev/sdb2:<span class="w"> </span>2847MB<span class="w">
+</span>Sector<span class="w"> </span>size<span class="w"> </span><span class="o">(</span>logical/physical<span class="o">)</span>:<span class="w"> </span>512B/512B<span class="w">
+</span>Partition<span class="w"> </span>Table:<span class="w"> </span>loop<span class="w">
+</span>Disk<span class="w"> </span>Flags:<span class="w">
+
+</span>Number<span class="w">  </span>Start<span class="w">  </span>End<span class="w">     </span>Size<span class="w">    </span>File<span class="w"> </span>system<span class="w">  </span>Flags<span class="w">
+</span><span class="m">1</span><span class="w">      </span><span class="m">0</span>.00B<span class="w">  </span>2847MB<span class="w">  </span>2847MB<span class="w">  </span>fat32<span class="w">
+
+</span>$<span class="w"> </span>umount<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span>
+</pre>
+</div>
+</div>
+<div class="section" id="creating-encrypted-partitions">
+<h2><a class="toc-backref" href="#toc-entry-18">Creating Encrypted Partitions</a></h2>
+<div class="section" id="after-partitioning">
+<h3>After Partitioning</h3>
+<p>Such storage space is of course to be partitioned first like the plain ones (see <a class="reference internal" href="#creating-the-partitions">Creating the Partitions</a>), and can similarly be erased at a low level first (see <a class="reference internal" href="#erasing-a-target-partition">Erasing a Target Partition</a>).</p>
+<p>For example we may end up with:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">ENCR_DEV_NUM</span><span class="o">=</span><span class="m">1</span><span class="w">
+
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">ENCR_DEV</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_DEV</span><span class="si">}${</span><span class="nv">ENCR_DEV_NUM</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;ENCR_DEV: </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+</span><span class="nv">ENCR_DEV</span><span class="o">=</span>/dev/sdb1<span class="w">
+
+</span>$<span class="w"> </span>fdisk<span class="w"> </span>-l<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w">
+</span>Disk<span class="w"> </span>/dev/sdb1:<span class="w"> </span><span class="m">12</span><span class="w"> </span>GiB,<span class="w"> </span><span class="m">12884901888</span><span class="w"> </span>bytes,<span class="w"> </span><span class="m">25165824</span><span class="w"> </span>sectors<span class="w">
+</span>Units:<span class="w"> </span>sectors<span class="w"> </span>of<span class="w"> </span><span class="m">1</span><span class="w"> </span>*<span class="w"> </span><span class="nv">512</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">512</span><span class="w"> </span>bytes<span class="w">
+</span>Sector<span class="w"> </span>size<span class="w"> </span><span class="o">(</span>logical/physical<span class="o">)</span>:<span class="w"> </span><span class="m">512</span><span class="w"> </span>bytes<span class="w"> </span>/<span class="w"> </span><span class="m">512</span><span class="w"> </span>bytes<span class="w">
+</span>I/O<span class="w"> </span>size<span class="w"> </span><span class="o">(</span>minimum/optimal<span class="o">)</span>:<span class="w"> </span><span class="m">512</span><span class="w"> </span>bytes<span class="w"> </span>/<span class="w"> </span><span class="m">512</span><span class="w"> </span>bytes<span class="w">
+
+</span>$<span class="w"> </span>parted<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w"> </span>print<span class="w">
+
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PART_SIZE</span><span class="o">=</span><span class="s2">&quot;12GB&quot;</span>
+</pre>
+</div>
+<div class="section" id="creating-an-encrypted-luks-container">
+<h3>Creating an encrypted LUKS container</h3>
+<p>We used to favor LUKS1 over LUKS2 for a better compatibility with ancient Linuces, yet it is no longer relevant, LUKS is widespread now.</p>
+<p>In order to create such a container, there are <a class="reference external" href="https://wiki.archlinux.org/title/Dm-crypt/Device_encryption#Encryption_options_for_LUKS_mode">many options</a> to choose from; here are the ones that we prefer:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Remove the echo after serious verification (enter YES then the main, daily
+# passphrase to unlock that container):
+#
+</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>cryptsetup<span class="w"> </span>--hash<span class="w"> </span>sha512<span class="w"> </span>-c<span class="w"> </span>aes-xts-plain<span class="w"> </span>--key-size<span class="w"> </span><span class="m">512</span><span class="w"> </span>luksFormat<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w">
+</span>WARNING!<span class="w">
+</span><span class="o">========</span><span class="w">
+</span>This<span class="w"> </span>will<span class="w"> </span>overwrite<span class="w"> </span>data<span class="w"> </span>on<span class="w"> </span>/dev/sdb1<span class="w"> </span>irrevocably.<span class="w">
+
+</span>Are<span class="w"> </span>you<span class="w"> </span>sure?<span class="w"> </span><span class="o">(</span>Type<span class="w"> </span><span class="s1">'yes'</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>capital<span class="w"> </span>letters<span class="o">)</span>:<span class="w"> </span>YES<span class="w">
+</span>Enter<span class="w"> </span>passphrase<span class="w"> </span><span class="k">for</span><span class="w"> </span>/dev/sdb1:<span class="w">
+</span>Verify<span class="w"> </span>passphrase:
+</pre>
+<p>We strongly advise to add a second, &quot;rescue&quot; passphrase (longer, more difficult than the previous daily one, and potentially common to at least some keys), as a last chance:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Remove the echo after serious verification (enter the previous passphrase, then
+# the rescue one):
+#
+</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>cryptsetup<span class="w"> </span>luksAddKey<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w">
+</span>Enter<span class="w"> </span>any<span class="w"> </span>existing<span class="w"> </span>passphrase:<span class="w">
+</span>Enter<span class="w"> </span>new<span class="w"> </span>passphrase<span class="w"> </span><span class="k">for</span><span class="w"> </span>key<span class="w"> </span>slot:<span class="w">
+</span>Verify<span class="w"> </span>passphrase:
+</pre>
+<p>Let's introduce then more variables:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">ENCR_DESIGNATOR</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_NAME</span><span class="si">}</span><span class="s2">-encr-</span><span class="si">${</span><span class="nv">ENCR_DEV_NUM</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">PART_SIZE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+</span><span class="c1"># - OR -
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">ENCR_DESIGNATOR</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_NAME</span><span class="si">}</span><span class="s2">-encr-</span><span class="si">${</span><span class="nv">PART_SIZE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+
+</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;ENCR_DESIGNATOR=</span><span class="si">${</span><span class="nv">ENCR_DESIGNATOR</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+</span><span class="nv">ENCR_DESIGNATOR</span><span class="o">=</span>K5-encr-12GB
+</pre>
+<p>Now we unlock the LUKS container so that we can create an EXT4 partition in it.</p>
+<p>A <tt class="docutils literal"><span class="pre">-fs</span></tt> suffix would not be very relevant (this is the name that will be used by to automounter):</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">ENCR_FS_NAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">ENCR_DESIGNATOR</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+
+</span><span class="c1"># Remove the echo after serious verification:
+</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>cryptsetup<span class="w"> </span>config<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w"> </span>--label<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_FS_NAME</span><span class="si">}</span><span class="w">
+</span>cryptsetup<span class="w"> </span>config<span class="w"> </span>/dev/sdb1<span class="w"> </span>--label<span class="w"> </span>K5-encr-12GB<span class="w">
+</span>$<span class="w"> </span>cryptsetup<span class="w"> </span>config<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w"> </span>--label<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_FS_NAME</span><span class="si">}</span><span class="w">
+
+</span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">DM_NAME</span><span class="o">=</span><span class="s2">&quot;my-</span><span class="si">${</span><span class="nv">ENCR_DESIGNATOR</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+
+</span><span class="c1"># Enter either of the two aforementioned passphrases:
+</span>$<span class="w"> </span>cryptsetup<span class="w"> </span>luksOpen<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">DM_NAME</span><span class="si">}</span><span class="w">
+</span>Enter<span class="w"> </span>passphrase<span class="w"> </span><span class="k">for</span><span class="w"> </span>/dev/sdb1:
+</pre>
+</div>
+<div class="section" id="creating-the-in-container-ext4-filesystem">
+<h3>Creating the In-Container EXT4 Filesystem</h3>
+<p>Deactivating journaling (with the <tt class="docutils literal"><span class="pre">-O</span> ^has_journal</tt> option) could increase a bit the lifespan of the key, but would weaken its filesystem, whereas USB keys may be (unfortunately) unplugged while being still mounted; so we prefer keeping the journaling:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Remove the echo after serious verification:
+</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/mapper/<span class="si">${</span><span class="nv">DM_NAME</span><span class="si">}</span><span class="w"> </span>-L<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_FS_NAME</span><span class="si">}</span><span class="w"> </span>-E<span class="w"> </span>discard<span class="w">
+</span>mkfs.ext4<span class="w"> </span>/dev/mapper/my-K5-encr-12GB<span class="w"> </span>-L<span class="w"> </span>K5-encr-12GB<span class="w"> </span>-E<span class="w"> </span>discard<span class="w">
+
+</span>$<span class="w"> </span>mkfs.ext4<span class="w"> </span>/dev/mapper/<span class="si">${</span><span class="nv">DM_NAME</span><span class="si">}</span><span class="w"> </span>-L<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_FS_NAME</span><span class="si">}</span><span class="w"> </span>-E<span class="w"> </span>discard<span class="w">
+</span>mke2fs<span class="w"> </span><span class="m">1</span>.47.0<span class="w"> </span><span class="o">(</span><span class="m">5</span>-Feb-2023<span class="o">)</span><span class="w">
+</span>Creating<span class="w"> </span>filesystem<span class="w"> </span>with<span class="w"> </span><span class="m">3141632</span><span class="w"> </span>4k<span class="w"> </span>blocks<span class="w"> </span>and<span class="w"> </span><span class="m">786432</span><span class="w"> </span>inodes<span class="w">
+</span>Filesystem<span class="w"> </span>UUID:<span class="w"> </span>92c44f73-8614-44f9-a03c-cfd718aecb8e<span class="w">
+</span>Superblock<span class="w"> </span>backups<span class="w"> </span>stored<span class="w"> </span>on<span class="w"> </span>blocks:<span class="w">
+   </span><span class="m">32768</span>,<span class="w"> </span><span class="m">98304</span>,<span class="w"> </span><span class="m">163840</span>,<span class="w"> </span><span class="m">229376</span>,<span class="w"> </span><span class="m">294912</span>,<span class="w"> </span><span class="m">819200</span>,<span class="w"> </span><span class="m">884736</span>,<span class="w"> </span><span class="m">1605632</span>,<span class="w"> </span><span class="m">2654208</span><span class="w">
+
+</span>Allocating<span class="w"> </span>group<span class="w"> </span>tables:<span class="w"> </span><span class="k">done</span><span class="w">
+</span>Writing<span class="w"> </span>inode<span class="w"> </span>tables:<span class="w"> </span><span class="k">done</span><span class="w">
+</span>Creating<span class="w"> </span>journal<span class="w"> </span><span class="o">(</span><span class="m">16384</span><span class="w"> </span>blocks<span class="o">)</span>:<span class="w"> </span><span class="k">done</span><span class="w">
+</span>Writing<span class="w"> </span>superblocks<span class="w"> </span>and<span class="w"> </span>filesystem<span class="w"> </span>accounting<span class="w"> </span>information:<span class="w"> </span><span class="k">done</span><span class="w">
+
+</span><span class="c1"># Should be needed (otherwise can be mounted yet not written by one's normal user):
+</span>$<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>YOUR_USER:YOUR_GROUP<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span>
+</pre>
+<p>So no more need here for <tt class="docutils literal">tune2fs <span class="pre">-O</span> ^has_journal <span class="pre">/dev/mapper/${DM_NAME}</span></tt>. One may still check the resulting settings with <tt class="docutils literal">tune2fs <span class="pre">-l</span> <span class="pre">/dev/mapper/${DM_NAME}</span></tt>.</p>
+<p>Declaring keys in <tt class="docutils literal">/etc/fstab</tt> and in <tt class="docutils literal">/etc/crypttab</tt> is not necessary; moreover some care would be needed in order to ensure that the automounter would not freeze at the next reboot, expecting such a key to be available.</p>
+</div>
+<div class="section" id="finalising-and-testing-an-encrypted-partition">
+<h3>Finalising and Testing an Encrypted Partition</h3>
+<p>Here also one could take this opportunity to, after the previous section, create a dedicated mount point (see just above for a warning about referencing it through <tt class="docutils literal">/etc/fstab</tt> and/or <tt class="docutils literal">/etc/crypttab</tt>).</p>
+<p>We consider that the previous LUKS container is still opened (otherwise: <tt class="docutils literal">cryptsetup luksOpen ${ENCR_DEV} ${DM_NAME}</tt>).</p>
+<p>Then:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">MOUNT_POINT</span><span class="o">=</span>/mnt/<span class="si">${</span><span class="nv">ENCR_DESIGNATOR</span><span class="si">}</span><span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;MOUNT_POINT = </span><span class="nv">$MOUNT_POINT</span><span class="s2">&quot;</span><span class="w">
+</span><span class="nv">MOUNT_POINT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/mnt/K5-encr-12GB<span class="w">
+
+</span>$<span class="w"> </span>mkdir<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+
+</span><span class="c1"># For example DM_NAME=/dev/mapper/my-K5-encr-12GB:
+</span>$<span class="w"> </span>mount<span class="w"> </span>/dev/mapper/<span class="si">${</span><span class="nv">DM_NAME</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+
+</span>$<span class="w"> </span>touch<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span>/WELCOME_TO_<span class="si">${</span><span class="nv">KEY_NAME</span><span class="si">}</span>_ENCRYPTED_<span class="si">${</span><span class="nv">PART_NUM</span><span class="si">}</span>_<span class="si">${</span><span class="nv">PART_SIZE</span><span class="si">}</span>_SPACE<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+ </span>or<span class="w">
+</span>$<span class="w"> </span>touch<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span>/WELCOME_TO_<span class="si">${</span><span class="nv">KEY_NAME</span><span class="si">}</span>_ENCRYPTED_<span class="si">${</span><span class="nv">PART_SIZE</span><span class="si">}</span>_SPACE<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+</span>total<span class="w"> </span><span class="m">16</span><span class="w">
+</span>drwx------<span class="w"> </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">16384</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">12</span>:41<span class="w"> </span>lost+found<span class="w">
+</span>-rw-rw-r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">     </span><span class="m">0</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">16</span>:14<span class="w"> </span>WELCOME_TO_K5_ENCRYPTED_12GB_SPACE<span class="w">
+
+</span><span class="c1"># Record some information if wanted:
+</span>$<span class="w"> </span>mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+</span>/dev/mapper/my-K5-encr-12GB<span class="w"> </span>on<span class="w"> </span>/mnt/K5-encr-12GB<span class="w"> </span><span class="nb">type</span><span class="w"> </span>ext4<span class="w"> </span><span class="o">(</span>rw,relatime<span class="o">)</span><span class="w">
+
+</span>$<span class="w"> </span>blkid<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w">
+</span>/dev/sdb1:<span class="w"> </span><span class="nv">UUID</span><span class="o">=</span><span class="s2">&quot;f00def37-529a-4400-aa8c-c7a36589c152&quot;</span><span class="w"> </span><span class="nv">LABEL</span><span class="o">=</span><span class="s2">&quot;K5-encr-12GB&quot;</span><span class="w"> </span><span class="nv">TYPE</span><span class="o">=</span><span class="s2">&quot;crypto_LUKS&quot;</span><span class="w"> </span><span class="nv">PARTLABEL</span><span class="o">=</span><span class="s2">&quot;K5-encr-part&quot;</span><span class="w"> </span><span class="nv">PARTUUID</span><span class="o">=</span><span class="s2">&quot;b4b72946-f1d1-1c45-976d-3bd389d23752&quot;</span><span class="w">
+
+</span>$<span class="w"> </span>lsblk<span class="w"> </span>--fs<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w">
+</span>NAME<span class="w">              </span>FSTYPE<span class="w">      </span>FSVER<span class="w"> </span>LABEL<span class="w">        </span>UUID<span class="w">                                 </span>FSAVAIL<span class="w"> </span>FSUSE%<span class="w"> </span>MOUNTPOINTS<span class="w">
+</span>sdb1<span class="w">              </span>crypto_LUKS<span class="w"> </span><span class="m">2</span><span class="w">     </span>K5-encr-12GB<span class="w"> </span>f00def37-529a-4400-aa8c-c7a36589c152<span class="w">
+</span>└─my-K5-encr-12GB<span class="w"> </span>ext4<span class="w">        </span><span class="m">1</span>.0<span class="w">   </span>K5-encr-12GB<span class="w"> </span>92c45f73-8614-44f9-a03c-cfd718aecb8e<span class="w">   </span><span class="m">11</span>.1G<span class="w">     </span><span class="m">0</span>%<span class="w"> </span>/mnt/K5-encr-12GB<span class="w">
+
+</span>$<span class="w"> </span>parted<span class="w"> </span><span class="si">${</span><span class="nv">ENCR_DEV</span><span class="si">}</span><span class="w"> </span>print<span class="w">
+</span>Error:<span class="w"> </span>/dev/sdb1:<span class="w"> </span>unrecognised<span class="w"> </span>disk<span class="w"> </span>label<span class="w">
+</span>Model:<span class="w"> </span>Unknown<span class="w"> </span><span class="o">(</span>unknown<span class="o">)</span><span class="w">
+</span>Disk<span class="w"> </span>/dev/sdb1:<span class="w"> </span><span class="m">12</span>.9GB<span class="w">
+</span>Sector<span class="w"> </span>size<span class="w"> </span><span class="o">(</span>logical/physical<span class="o">)</span>:<span class="w"> </span>512B/512B<span class="w">
+</span>Partition<span class="w"> </span>Table:<span class="w"> </span>unknown<span class="w">
+</span>Disk<span class="w"> </span>Flags:<span class="w">
+
+</span>$<span class="w"> </span>df<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+</span>Filesystem<span class="w">                  </span>1K-blocks<span class="w">  </span>Used<span class="w"> </span>Available<span class="w"> </span>Use%<span class="w"> </span>Mounted<span class="w"> </span>on<span class="w">
+</span>/dev/mapper/my-K5-encr-12GB<span class="w">  </span><span class="m">12262536</span><span class="w">  </span><span class="m">2072</span><span class="w">  </span><span class="m">11615756</span><span class="w">   </span><span class="m">1</span>%<span class="w"> </span>/mnt/K5-encr-12GB
+</pre>
+<p>Finally:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>umount<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
+</span>$<span class="w"> </span>cryptsetup<span class="w"> </span>close<span class="w"> </span><span class="si">${</span><span class="nv">DM_NAME</span><span class="si">}</span>
+</pre>
+<p>That's it! You should end up with a basic, inexpensive USB key - yet offering at least two satisfying partitions, one public, one adequately encrypted.</p>
+</div>
+</div>
+</div>
+<div class="section" id="grub-ate-my-distro-again-fixing-the-bootloader">
+<h1><a class="toc-backref" href="#toc-entry-19">GRUB Ate My Distro Again: Fixing the Bootloader</a></h1>
+<p>So you tried recklessly to add some kernel parameters - presumably to prevent your laptop from freezing regularly for no apparent reason - and GRUB managed once again to replace a bootloader that used to work flawlessly with one that just cycles to the BIOS?</p>
+<p>Here are a few guidelines (on Arch Linux, with UEFI and GPT - rather than any MBR) that could be useful, knowing that considerably more complete information can be found in <a class="reference external" href="https://wiki.archlinux.org/title/GRUB">this page</a>.</p>
+<div class="section" id="prerequisites">
+<h2><a class="toc-backref" href="#toc-entry-20">Prerequisites</a></h2>
+<p>At least the following packages will be needed (anyway they are likely to be already available, either from a real install or from a rescue medium): <tt class="docutils literal">grub</tt>, <tt class="docutils literal">efibootmgr</tt> and  <tt class="docutils literal"><span class="pre">os-prober</span></tt>.</p>
+<p>You will also need a bootable (most probably removable) install/rescue medium, typically an USB stick whose content can be erased. Either you have access to another computer (Linux or not), or you have a multiboot and, after a smart journey in the BIOS menus, you will be able to nevertheless launch a Windows instance (generally GRUB just concentrates on wreaking havoc on unfortunate Linuces, rather than doing the same to Windows installations).</p>
+<p>If having only a Windows instance at hand, one may just follow <a class="reference external" href="https://wiki.archlinux.org/title/USB_flash_installation_medium#Using_win32diskimager">these guidelines</a>, which mostly boil down to downloading and installing the (free software) <a class="reference external" href="https://sourceforge.net/projects/win32diskimager/files/latest/download">Win32 Disk Imager</a> tool, grabbing also <a class="reference external" href="https://archlinux.org/download/">a relevant ISO</a> (e.g. <tt class="docutils literal"><span class="pre">archlinux-2023.04.01-x86_64.iso</span></tt> at the time of this writing) and writing in on said USB stick.</p>
+</div>
+<div class="section" id="running-a-live-rescue-arch">
+<h2><a class="toc-backref" href="#toc-entry-21">Running a Live Rescue Arch</a></h2>
+<p>Once having a proper rescue medium, ensure that it is inserted, and reboot your GRUB-affected host; possibly the BIOS configuration will have to be updated so that the host can boot on that medium.</p>
+<p>Once done, you should end up with a root shell - albeit running from a live, rescue Arch Linux, whereas the one that you want to fix is of course the one of your host.</p>
+</div>
+<div class="section" id="preparing-the-chroot">
+<h2><a class="toc-backref" href="#toc-entry-22">Preparing the chroot</a></h2>
+<p>First enforce any essential setting, such as <tt class="docutils literal">loadkeys fr</tt> if you have a French keyboard. Then locate the <tt class="docutils literal">/boot</tt> partition of the host. It may either be directly in the partition corresponding to the root <tt class="docutils literal">/</tt> tree or, as per our conventions, in a separate one (so that all other partitions can be appropriately encrypted). For that, <tt class="docutils literal">fdisk <span class="pre">-l</span></tt> (and possibly <tt class="docutils literal">lsblk</tt> as well) shall help finding out such a partition; for instance:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>fdisk<span class="w"> </span>-l<span class="w">
+</span>Device<span class="w">              </span>Start<span class="w">        </span>End<span class="w">    </span>Sectors<span class="w">   </span>Size<span class="w"> </span>Type<span class="w">
+</span>/dev/nvme0n1p1<span class="w">       </span><span class="m">2048</span><span class="w">    </span><span class="m">1226751</span><span class="w">    </span><span class="m">1224704</span><span class="w">   </span>598M<span class="w"> </span>EFI<span class="w"> </span>System<span class="w">
+</span>/dev/nvme0n1p2<span class="w">    </span><span class="m">1226752</span><span class="w">    </span><span class="m">1259519</span><span class="w">      </span><span class="m">32768</span><span class="w">    </span>16M<span class="w"> </span>Microsoft<span class="w"> </span>reserved<span class="w">
+</span>/dev/nvme0n1p3<span class="w">    </span><span class="m">1259520</span><span class="w">  </span><span class="m">313274682</span><span class="w">  </span><span class="m">312015163</span><span class="w"> </span><span class="m">148</span>.8G<span class="w"> </span>Microsoft<span class="w"> </span>basic<span class="w"> </span>data<span class="w">
+</span>/dev/nvme0n1p4<span class="w">  </span><span class="m">313276416</span><span class="w">  </span><span class="m">314570751</span><span class="w">    </span><span class="m">1294336</span><span class="w">   </span>632M<span class="w"> </span>Windows<span class="w"> </span>recovery<span class="w"> </span>environment<span class="w">
+</span>/dev/nvme0n1p5<span class="w">  </span><span class="m">314572800</span><span class="w">  </span><span class="m">838860799</span><span class="w">  </span><span class="m">524288000</span><span class="w">   </span>250G<span class="w"> </span>Microsoft<span class="w"> </span>basic<span class="w"> </span>data<span class="w">
+</span>/dev/nvme0n1p6<span class="w">  </span><span class="m">838860800</span><span class="w">  </span><span class="m">855638015</span><span class="w">   </span><span class="m">16777216</span><span class="w">     </span>8G<span class="w"> </span>Linux<span class="w"> </span>swap<span class="w">
+</span>/dev/nvme0n1p7<span class="w">  </span><span class="m">855638016</span><span class="w"> </span><span class="m">1056964607</span><span class="w">  </span><span class="m">201326592</span><span class="w">    </span>96G<span class="w"> </span>Linux<span class="w"> </span>filesystem<span class="w">
+</span>/dev/nvme0n1p8<span class="w"> </span><span class="m">1056964608</span><span class="w"> </span><span class="m">4000797326</span><span class="w"> </span><span class="m">2943832719</span><span class="w">   </span><span class="m">1</span>.4T<span class="w"> </span>Linux<span class="w"> </span>filesystem
+</pre>
+<p>Here, one can guess that <tt class="docutils literal">nvme0n1p1</tt> is <tt class="docutils literal">/boot</tt> (because of the EFI type, and the size), that <tt class="docutils literal">nvme0n1p7</tt> is <tt class="docutils literal">/</tt>  and <tt class="docutils literal">nvme0n1p8</tt> is <tt class="docutils literal">/home</tt>.</p>
+</div>
+<div class="section" id="managing-the-chroot">
+<h2><a class="toc-backref" href="#toc-entry-23">Managing the chroot</a></h2>
+<p>A relevant chroot shall be performed, once all appropriate trees have been mounted; we do not need <tt class="docutils literal">/home</tt> (on the contrary, it is safer if it remains locked and not even mounted), but we need the right <tt class="docutils literal">/boot</tt>  (the one on disk and that contains the previous bootloader elements) to be mounted, instead of the empty one that would be inherited by a mere mounting of the <tt class="docutils literal">/</tt> root. So:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/mnt<span class="w">
+
+</span><span class="c1"># Intermediary directory usually useless but clearer:
+</span>$<span class="w"> </span>mkdir<span class="w"> </span>my_chroot_tree<span class="w">
+
+</span><span class="c1"># Mount the whole system tree, &quot;/&quot;:
+</span>$<span class="w"> </span>mount<span class="w"> </span>/dev/nvme0n1p7<span class="w"> </span>my_chroot_tree<span class="w">
+
+</span><span class="c1"># Take care of our separate &quot;/boot&quot; as well:
+</span>$<span class="w"> </span>ls<span class="w"> </span>my_chroot_tree/boot<span class="w">
+</span><span class="c1"># (empty)
+</span><span class="w">
+</span>$<span class="w"> </span>mount<span class="w"> </span>/dev/nvme0n1p1<span class="w"> </span>my_chroot_tree/boot<span class="w">
+</span>$<span class="w"> </span>ls<span class="w"> </span>my_chroot_tree/boot<span class="w">
+</span>.<span class="w"> </span>EFI<span class="w"> </span>initramfs-linux-fallback.img<span class="w"> </span>initramfs-linux-lts-fallback.img<span class="w">
+</span>intel-ucode.img<span class="w">  </span>vmlinuz-linux<span class="w"> </span>..<span class="w"> </span>grub<span class="w"> </span>initramfs-linux.img<span class="w">
+</span>initramfs-linux-lts.img<span class="w"> </span><span class="s1">'System Volume Information'</span><span class="w"> </span>vmlinuz-linux-lts<span class="w">
+
+</span><span class="c1"># Switch to the actual host Arch system:
+</span>$<span class="w"> </span>arch-chroot<span class="w"> </span>my_chroot_tree
+</pre>
+</div>
+<div class="section" id="re-installing-grub">
+<h2><a class="toc-backref" href="#toc-entry-24">(Re)Installing GRUB</a></h2>
+<p>As we understand it, installing GRUB (i.e. copying its relevant file elements in a proper location in <tt class="docutils literal">/boot</tt>) and configuring it can be done in any order; we prefer anyway installing it first, with:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Note that the 'EFI' directory is not directly specified here, only
+# the /boot mount point:
+</span>$<span class="w"> </span>grub-install<span class="w"> </span>--target<span class="o">=</span>x86_64-efi<span class="w"> </span>--efi-directory<span class="o">=</span>/boot<span class="w"> </span>--bootloader-id<span class="o">=</span>MY_GRUB
+</pre>
+</div>
+<div class="section" id="configuring-grub">
+<h2><a class="toc-backref" href="#toc-entry-25">Configuring GRUB</a></h2>
+<p>Now is the right time to update one's <tt class="docutils literal">/etc/default/grub</tt>, notably to ensure that <tt class="docutils literal">GRUB_DISABLE_OS_PROBER=false</tt> is indeed defined, and is not commented out.</p>
+<p>If <tt class="docutils literal"><span class="pre">os-prober</span></tt> is especially useful to auto-detect any Windows installation, we could see that it was not working from a chroot (and thus it has to be done later, directly from the final Arch host).</p>
+<p>The last step is to generate the corresponding GRUB configuration file:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>grub-mkconfig<span class="w"> </span>-o<span class="w"> </span>/boot/grub/grub.cfg
+</pre>
+</div>
+<div class="section" id="finally">
+<h2><a class="toc-backref" href="#toc-entry-26">Finally</a></h2>
+<p>Rebooting and selecting a right entry menu should result in a restored boot proceeding as normal.</p>
+<p>Moreover, from now, <tt class="docutils literal"><span class="pre">os-prober</span></tt> should be able to pick up any other system (especially Windows installations) and declare them appropriately: this should be just a matter of running <tt class="docutils literal"><span class="pre">grub-mkconfig</span> <span class="pre">-o</span> /boot/grub/grub.cfg</tt> again.</p>
+</div>
+</div>
+<div class="section" id="other-filesystem-related-issues">
+<h1><a class="toc-backref" href="#toc-entry-27">Other Filesystem-related Issues</a></h1>
+<p>Word of wisdom: perform backups. Regularly. Safely stored, sheltered from disasters like burglars, floods, cats, fires, etc.</p>
 <div class="section" id="target-is-busy">
-<h2><a class="toc-backref" href="#toc-entry-12">Target is busy</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-28">Target is busy</a></h2>
 <p>Umounting may fail with <tt class="docutils literal">umount: /var/foobar: target is busy</tt>. Finding the culprit can be done with:</p>
 <pre class="code bash literal-block">
-$<span class="w"> </span>lsof<span class="w"> </span>/var/foobar
+$<span class="w"> </span>lsof<span class="w"> </span>/var/foobar<span class="w">
+</span>COMMAND<span class="w">    </span>PID<span class="w"> </span>USER<span class="w">   </span>FD<span class="w">   </span>TYPE<span class="w"> </span>DEVICE<span class="w"> </span>SIZE/OFF<span class="w">     </span>NODE<span class="w"> </span>NAME<span class="w">
+</span>bash<span class="w">    </span><span class="m">275648</span><span class="w"> </span>root<span class="w">  </span>cwd<span class="w">    </span>DIR<span class="w">  </span><span class="m">254</span>,1<span class="w">    </span><span class="m">20480</span><span class="w"> </span><span class="m">45236687</span><span class="w"> </span>/var/foobar/www/Foo
 </pre>
-<p>COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF     NODE NAME
-bash    275648 root  cwd    DIR  254,1    20480 45236687 /var/foobar/www/Foo</p>
 </div>
 <div class="section" id="failed-i-o-operations">
-<h2><a class="toc-backref" href="#toc-entry-13">Failed I/O Operations</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-29">Failed I/O Operations</a></h2>
 <p>Some operations (even a <tt class="docutils literal">touch</tt> done by <tt class="docutils literal">root</tt>) may fail, reporting <tt class="docutils literal"><span class="pre">Read-only</span> file system</tt>; <tt class="docutils literal"><span class="pre">systemd-fsck</span></tt> may also report <tt class="docutils literal">Structure needs cleaning</tt>.</p>
 <p>Check with <tt class="docutils literal">mount</tt> that a given filesystem/partition is (still) in the expected state:</p>
 <pre class="code bash literal-block">
@@ -338,7 +740,7 @@ bash    275648 root  cwd    DIR  254,1    20480 45236687 /var/foobar/www/Foo</p>
 <p>Best option here is to unmount, make a sector-level backup of the disk, and then check it. Probably that the disk already failed and you will have to resort to revert to a former backup.</p>
 </div>
 <div class="section" id="checking-a-disk">
-<h2><a class="toc-backref" href="#toc-entry-14">Checking a Disk</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-30">Checking a Disk</a></h2>
 <p>This can be done with <tt class="docutils literal">e2fsck</tt> once the filesystem is unmounted, like in: <tt class="docutils literal">e2fsck <span class="pre">-cDp</span> /dev/mapper/foobar</tt>, with:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">-c</span></tt>: use <tt class="docutils literal">badblocks</tt> to do a read-only scan of the device</li>
@@ -359,20 +761,20 @@ ext2/ext3/ext4 filesystem [...]
 </div>
 </div>
 <div class="section" id="quick-topics">
-<h1><a class="toc-backref" href="#toc-entry-15">Quick Topics</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-31">Quick Topics</a></h1>
 <div class="section" id="installing-wine">
-<h2><a class="toc-backref" href="#toc-entry-16">Installing Wine</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-32">Installing Wine</a></h2>
 <p>Install it, once <a class="reference internal" href="#enabling-multilib">enabling multilib</a> has been done, with: <tt class="docutils literal">pacman <span class="pre">-S</span> wine</tt>.</p>
 <p>When run, this may lead <tt class="docutils literal"><span class="pre">wine-mono</span></tt> to be auto-installed.</p>
 <p>The pseudo-Windows filesystem is then located mostly in <tt class="docutils literal"><span class="pre">~/.wine/drive_c</span></tt>.</p>
 </div>
 <div class="section" id="overcoming-invalid-pgp-signatures-in-pacman-packages">
-<h2><a class="toc-backref" href="#toc-entry-17">Overcoming Invalid PGP Signatures in Pacman Packages</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-33">Overcoming Invalid PGP Signatures in Pacman Packages</a></h2>
 <p>This happens regularly, especially when updating a symptom being: <tt class="docutils literal">File /var/cache/pacman/pkg/xxx.pkg.tar.zst is corrupted (invalid or corrupted package (PGP signature))</tt>.</p>
 <p>Solution: <tt class="docutils literal">pacman <span class="pre">-S</span> <span class="pre">archlinux-keyring</span></tt> is at least often enough. Otherwise <tt class="docutils literal"><span class="pre">pacman-key</span> <span class="pre">--populate</span> archlinux</tt>, or changing mirror might help.</p>
 </div>
 <div class="section" id="converting-data-formats">
-<h2><a class="toc-backref" href="#toc-entry-18">Converting Data Formats</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-34">Converting Data Formats</a></h2>
 <ul class="simple">
 <li>to convert multimedia files, <tt class="docutils literal">ffmpeg</tt> is very convenient; for example to convert an AIF file into a WAV one: <tt class="docutils literal">ffmpeg <span class="pre">-i</span> sound.aif sound.wav</tt></li>
 <li>to read <tt class="docutils literal">*.pck</tt> resource file, the <a class="reference external" href="https://www.elberethzone.net/dragon-unpacker.html">Dragon UnPACKer</a> (Windows) open source tool can be used</li>
@@ -380,7 +782,7 @@ ext2/ext3/ext4 filesystem [...]
 <p>See also Ceylan-Hull's <a class="reference external" href="https://hull.esperide.org/#multimedia-related">multimedia-related section</a>.</p>
 </div>
 <div class="section" id="adding-a-locale">
-<h2><a class="toc-backref" href="#toc-entry-19">Adding a Locale</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-35">Adding a Locale</a></h2>
 <p>On some hosts, issues in terms of a lacking locales may be reported, like in the following:</p>
 <pre class="literal-block">
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
@@ -396,7 +798,7 @@ $<span class="w"> </span>locale-gen<span class="w">
 </pre>
 </div>
 <div class="section" id="applying-a-xfce4-configuration-to-a-different-user">
-<h2><a class="toc-backref" href="#toc-entry-20">Applying a XFCE4 configuration to a different user</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-36">Applying a XFCE4 configuration to a different user</a></h2>
 <p>The objective is to duplicate the configuration of the <tt class="docutils literal">user_a</tt> desktop to the <tt class="docutils literal">user_b</tt> one, for example if <tt class="docutils literal">user_b</tt> is used to test an untrusted application.</p>
 <p>A key point is to ensure that at least <tt class="docutils literal">user_b</tt> has no ongoing graphical session (otherwise any new configuration may be overwritten with an older one at logout).</p>
 <p>Then, typically as root:</p>
@@ -410,7 +812,7 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 <p>Selecting a per-user wallpaper may be of help.</p>
 </div>
 <div class="section" id="using-emacs">
-<h2><a class="toc-backref" href="#toc-entry-21">Using Emacs</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-37">Using Emacs</a></h2>
 <div class="section" id="configuration-1">
 <span id="emacs-configuration"></span><h3>Configuration</h3>
 <p>Our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">init.el</a>, that may be stored in <tt class="docutils literal"><span class="pre">~/.emacs.d/</span></tt>, currently relies on <a class="reference external" href="https://github.com/radian-software/straight.el">straight.el</a>.</p>
@@ -444,7 +846,7 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 </div>
 </div>
 <div class="section" id="using-e-mail-clients">
-<h2><a class="toc-backref" href="#toc-entry-22">Using E-mail Clients</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-38">Using E-mail Clients</a></h2>
 <p>Over time we were preferring <a class="reference external" href="https://help.gnome.org/users/evolution/stable/index.html">Evolution</a> to <a class="reference external" href="https://www.thunderbird.net/">Thunderbird</a>, notably regarding its far better <a class="reference external" href="Cybersecurity.html#securing-thanks-to-openpgp">OpenPGP</a> support. Yet, at least for some IMAP servers (e.g. the ones of <a class="reference external" href="https://www.mailo.com/">Mailo</a>), errors (like: <tt class="docutils literal">Error copying messages: Error</tt>) constantly happening (despite many attempts of configuration changes) and being reported ruined its use for us <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a>, so we switched back to Thunderbird.</p>
 <table class="docutils footnote" frame="void" id="footnote-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -459,7 +861,7 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 <p>See also Ceylan-Hull's <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/email.sh/">email.sh</a> and <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/archive-emails.sh">archive-emails.sh</a> scripts.</p>
 </div>
 <div class="section" id="recording-a-screencast">
-<h2><a class="toc-backref" href="#toc-entry-23">Recording a Screencast</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-39">Recording a Screencast</a></h2>
 <p>We rely on the impressive, feature-rich, free software <a class="reference external" href="https://en.wikipedia.org/wiki/SimpleScreenRecorder">SimpleScreenRecorder</a> (<tt class="docutils literal">pacman <span class="pre">-Sy</span> simplescreenrecorder</tt>).</p>
 <p>This tool is run as <tt class="docutils literal">simplescreenrecorder</tt> and offers many options and encoding choices; it is able to record OpenGL applications <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[3]</a> and also the audio.</p>
 <table class="docutils footnote" frame="void" id="footnote-3" rules="none">
@@ -472,11 +874,11 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 <p>See also <a class="reference external" href="https://en.wikipedia.org/wiki/Comparison_of_screencasting_software">this comparison</a> of screencasting software.</p>
 </div>
 <div class="section" id="other-settings">
-<h2><a class="toc-backref" href="#toc-entry-24">Other Settings</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-40">Other Settings</a></h2>
 <p>See our <a class="reference external" href="https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a">preferences</a> for <a class="reference external" href="https://www.startpage.com">Startpage</a>; it can be set as homepage.</p>
 </div>
 <div class="section" id="shortcuts">
-<h2><a class="toc-backref" href="#toc-entry-25">Shortcuts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-41">Shortcuts</a></h2>
 <p>Listing here the main keyboard shortcuts of interest for a few base tools.</p>
 <div class="section" id="for-less">
 <h3>For <tt class="docutils literal">less</tt></h3>
@@ -505,7 +907,7 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-26">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-42">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>
