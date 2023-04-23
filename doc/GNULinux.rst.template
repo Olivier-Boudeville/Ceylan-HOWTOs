@@ -828,6 +828,9 @@ As we understand it, installing GRUB (i.e. copying its relevant file elements in
 Configuring GRUB
 ----------------
 
+.. Note:: Configuring GRUB means generating a settings file whose syntax may be more recent than the one supported by any already-installed GRUB - which would thus be bound to fail at boot. So any configuration update of GRUB shall be done together with the update of its installation.
+
+
 Now is the right time to update one's ``/etc/default/grub``, notably to ensure that ``GRUB_DISABLE_OS_PROBER=false`` is indeed defined, and is not commented out.
 
 If ``os-prober`` is especially useful to auto-detect any Windows installation, we could see that it was not working from a chroot (and thus it has to be done later, directly from the final Arch host).
@@ -844,9 +847,9 @@ The last step is to generate the corresponding GRUB configuration file:
 Finally
 -------
 
-Rebooting and selecting a right entry menu should result in a restored boot proceeding as normal.
+Rebooting and selecting a right entry menu (note that LTS kernels will be sorted first and thus be selected by default) should result in a restored boot proceeding as normal.
 
-Moreover, from now, ``os-prober`` should be able to pick up any other system (especially Windows installations) and declare them appropriately: this should be just a matter of running ``grub-mkconfig -o /boot/grub/grub.cfg`` again.
+Moreover, from now, ``os-prober`` should be able to pick up any other system (especially Windows installations) and declare them appropriately: this should be just a matter of running ``grub-mkconfig -o /boot/grub/grub.cfg`` again (and hope for the best).
 
 
 
@@ -1024,7 +1027,7 @@ Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", gene
 
 - to go to the matching delimiter (parenthesis, bracket, end of word, etc.): to go forward, use ``C-M-f``, and to go backward use ``C-M-b``
 
-- to re-selects a region (e.g. to perform multiple substitutions in a row): ``C-x C-x``
+- to re-select a region (e.g. to perform multiple substitutions in a row on the same region): ``C-x C-x``
 
 - to abort the current entry in the minibuffer: ``C-g``
 
