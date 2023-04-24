@@ -46,6 +46,8 @@ Documentation Generation
 Objective
 =========
 
+The goal is to generate nice documentations of any kind (not necessarily technical), as static content - as opposed to wikis or `content management systems <https://en.wikipedia.org/wiki/Content_management_system>`_ (CMS).
+
 We want to be able to generate, **from a single source**, at least two **documentation formats**:
 
 - a set of **interlinked static web pages** (the most popular, flexible format)
@@ -61,16 +63,22 @@ Per-format overriding shall be possible (e.g. to define different image sizes de
 
 The whole documentation process shall be powered only by free software solutions, easily automated (e.g. `with Make <Build.html>`_) and suitable for version control (e.g. `with Git <Git.html>`_).
 
+For that we rely on two possible approaches, a lighter one and a more involved one, depending on the project at hand.
 
 
-Our Recommended Approach
-========================
+.. _`lightweight approach`:
+
+
+Our Preferred Lightweight Approach
+==================================
 
 
 Principle
 ---------
 
-We chose to rely on the `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_ syntax and tools, also known as RST, a part of the `Docutils <https://docutils.sourceforge.io/>`_ project. We did not specifically rely on elements related to Python or the Sphinx toolchain.
+We found this approach convenient for lighter projects, i.e. ones comprising a limited number of pages. This is the case of this page and more generally of the whole Ceylan-HOWTO website.
+
+We chose to rely on the `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_ syntax and tools, also known as RST, a part of the `Docutils <https://docutils.sourceforge.io/>`_ project. Here we do not specifically rely on elements related to Python or the Sphinx toolchain, as our more `heavy-duty approach`_ does.
 
 We augmented reStructuredText with:
 
@@ -273,6 +281,112 @@ Before a code block (e.g. introduced with ``.. code:: erlang``), a single colon 
 	  [...]
 
 
+.. _`heavy-duty approach`:
+
+
+Our Preferred More Heavy-Duty Approach
+======================================
+
+
+Principle
+---------
+
+It applies to more ambitious projects, involving larger content with potentially many interlinked pages.
+
+It is based on the `Sphinx toolchain <https://www.sphinx-doc.org/en/master/>`_, and therefore shares many elements with our `lightweight approach`_ above, starting from the RST syntax.
+
+It offers out of the box many useful mechanisms beyond the generation of a single-page website, from a smooth navigation between a set of pages based on foldable menus to a generated index and a local search engine. It moreover can be easily customised.
+
+More types of outputs are readily supported: HTML, PDF, EPUB, man pages.
+
+
+
+Installation
+------------
+
+One may follow `these guidelines <https://www.sphinx-doc.org/en/master/usage/installation.html>`_. On Arch Linux, we install the `python-sphinx <https://archlinux.org/packages/community/any/python-sphinx/>`_ package, thanks to: ``pacman -Sy python-sphinx``.
+
+
+
+Configuration
+-------------
+
+Running ``sphinx-quickstart`` is one's best route; in terms of choices:
+
+- we strongly recommend separating the source and build directories
+- the "Project name" shall not include "documentation", as this word will be added automatically wherever needed
+
+.. - the "Author name(s)" may include an email address
+
+Then ``make html`` should generate a base website (including makefiles) that can be browsed in the ``build/html`` directory (use ``make clean`` to force its erasure; run just ``make`` to list all targets of interest, including the ``linkcheck`` one, to check all external links for integrity).
+
+The project settings can be edited in ``source/conf.py``.
+
+
+
+Theme Selection
+---------------
+
+The default (HTML) theme is the Alabaster one. Other themes may be preferred, whether they are `Sphinx built-ins <https://www.sphinx-doc.org/en/master/usage/theming.html>`_ or `external ones <https://sphinx-themes.org/>`_. Many can be customised.
+
+As for us, we prefer mobile-compliant themes with a left column to navigate. This includes the popular `Read the Docs <https://sphinx-themes.org/sample-sites/sphinx-rtd-theme/>`_ theme, which will use here, but also the `classic <https://sphinx-themes.org/sample-sites/default-classic/>`_ theme.
+
+The `documentation <https://sphinx-rtd-theme.readthedocs.io/en/latest/>`_ of the Read the Docs theme details everything needed. For an installation thereof on Arch, the simplest is to run ``pacman -Sy python-sphinx_rtd_theme``.
+
+Then it is just a matter of editing ``source/conf.py`` so that ``'sphinx_rtd_theme'`` is listed in the ``extensions`` list, and that the ``html_theme`` is now set to ``'sphinx_rtd_theme'``.
+
+Running ``make html`` again should be sufficient to take this new theme into account. The generated result is quite satisfying.
+
+Here is one `customisation thereof <https://sphinx-rtd-theme.readthedocs.io/en/latest/configuring.html>`_ (theme options) that we like:
+
+.. code:: python
+
+ #html_theme = 'alabaster'
+ html_theme = 'sphinx_rtd_theme'
+
+ html_theme_options = {
+	#'analytics_id': 'G-XXXXXXXXXX',  #  Provided by Google in your dashboard
+	#'analytics_anonymize_ip': True,
+	'logo_only': False,
+	'display_version': True,
+	'prev_next_buttons_location': 'both',
+	'style_external_links': True,
+	'vcs_pageview_mode': '',
+	#'style_nav_header_background': 'white',
+	#'style_nav_header_background': '#2980B9',
+	'style_nav_header_background': 'black',
+	# Toc options
+	'collapse_navigation': False,
+	'sticky_navigation': True,
+	'navigation_depth': 4,
+	'includehidden': True,
+	'titles_only': False
+ }
+
+ html_logo = '../foobar-title.png'
+ html_favicon =  '../foobar-icon.png'
+ html_last_updated_fmt = ''
+ html_copy_source = False
+ html_show_sourcelink = False
+ html_show_sphinx = False
+
+ html_static_path = ['_static']
+
+
+Adding Content
+--------------
+
+This is just a matter of adding ``*.rst`` files (each defining at least one title) in the ``source`` directory, and to reference them in a least one table of contents (e.g. in ``source/index.rst``), like in::
+
+ .. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   ./foobar.rst
+   ./buz.rst
+
+
+The result in a static website that can safely be transferred and served by any webserver of choice.
 
 
 Miscellaneous
