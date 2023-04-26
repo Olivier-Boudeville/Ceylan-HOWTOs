@@ -905,7 +905,7 @@ In this case, the viewport can be addressed like a **usual (2D) framebuffer** (l
 
 Each time the OpenGL canvas is resized, this projection matrix has to be updated, with the same procedure, yet based on the new dimensions.
 
-Another option - still with axes respecting the Myriad 2D conventions - is to operate this time based on **normalised, definition-independent coordinates**, ranging in ``[0.0, 1.0]``, like in:
+Another option - still with axes respecting the Myriad 2D conventions - is to operate this time based on **normalised, definition-independent coordinates** (see NDC_), ranging in ``[0.0, 1.0]``, like in:
 
 .. code:: erlang
 
@@ -931,7 +931,7 @@ We will rely here as well on the Myriad conventions, `this time for 3D <https://
 
 These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.
 
-Note that perhaps the most popular convention is different, for which X is horizontal, Y is up and Z is depth (hence Z-buffer).
+Note that perhaps the most popular convention is different, for which X is horizontal, Y is up and Z is depth (hence Z-buffer) - this axis pointing then to the user.
 
 
 
@@ -940,11 +940,11 @@ ______________________
 
 In the general case, either in 2D or (more often of interest here) in 3D, a given scene (a model) is made of a set of elements (e.g. the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (e.g. a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.
 
-The rendering objective requires to have ultimately one's scene transformed as a whole in **eye coordinates** (to obtain coordinates along the aforementioned 2D screen referential, along the X and Y axes - the Z one serving to sort out depth, as per our conventions).
+The rendering objective requires to have ultimately one's scene transformed as a whole in **eye coordinates** (to obtain coordinates along the aforementioned 2D screen referential, along the X and Y axes - the Z one serving to sort out depth, as per our 2D conventions).
 
-For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same, **scene-global**, space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take into account the scene as a whole, to transform it to eye coordinates).
+For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same, **scene-global**, space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take into account the scene as a whole, to transform it ultimately to eye coordinates).
 
-As each individual type of model (e.g. a bike model) is natively defined in an abstract, local referential (an orthonormal basis) of its own, each actual model instance (e.g. the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (e.g. bike A is at this absolute position and orientation in the scene global referential) or relatively to a *series* of parent referentials (e.g. this character rides bike B - and thus is defined relatively to it, knowing that the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).
+As each individual type of model (e.g. a bike model) is natively defined in an abstract, local referential (an orthonormal basis) of its own, each actual model instance (e.g. the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (e.g. bike A is at this absolute position and orientation in the scene global referential) or relatively to a *series* of parent referentials (e.g. this character rides bike B - and thus is defined relatively to it, knowing that for example the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).
 
 So in the general case, referentials are nested (recursively defined relatively to their parent) and form a tree [#]_ whose root corresponds to the (possibly absolute) referential of the overall scene, like in:
 
@@ -954,14 +954,14 @@ So in the general case, referentials are nested (recursively defined relatively 
 
 .. [#] This is actually named a *scene graph* rather than a *scene tree*, as if we consider the leaves of that "tree" to contain actual geometries (e.g. of an abstract bike), as soon as a given geometry is instantiated more than once (e.g. if having 2 of such bikes in the scene), this geometry will have multiple parents and thus the corresponding scene will be a graph.
 
-	   As for us, we consider *referential trees* (no geometry involved) - a given 3D object being possibly associated to (1) a referential and (2) a geometry (independently). This is as expressive and most probably clearer.
+	   As for us, we consider *referential trees* (no geometry involved) - a given 3D object being possibly associated to (1) a referential and (2) a geometry (independently). This is as expressive, and most probably clearer.
 
 
 A series of model transformations has thus to be operated in order to express all models in the scene referential::
 
  (local referential of model Rh) -> (parent referential Rf) -> (parent referential Ra) -> (scene referential Rs)
 
-For example the hand of a character may be defined in :math:`R_h`, itself defined relatively to its associated forearm in :math:`R_f` up to the overall referential :math:`R_a` of that character, defined relatively to the referential of the whole scene, :math:`R_s`. This referential may have no explicit parent defined, meaning implicitly that it is defined in the canonical, global referential.
+For example the hand of a character may be defined in :math:`R_h`, itself defined relatively to its associated forearm in :math:`R_f` up to the overall referential :math:`R_a` of that character, defined relatively to the referential of the whole scene, :math:`R_s`. This referential may have no explicit parent defined, meaning implicitly that it is defined in the canonical, global, "world" referential.
 
 Once the **model** is expressed as a whole in the scene-global referential, the next transformations have to be conducted : **view** and projection. The view transformation involves at least an extra referential, the one of the camera in charge of the rendering, which is :math:`R_c`, possibly defined relatively to :math:`R_s` (or any other referential).
 
@@ -1205,7 +1205,7 @@ A special case of interest is, for the sake of rendering, to transform, through 
 
 Taking into account the last rendering step, the *projection* (comprising clipping, projection division and viewport transformation), which can be implemented as well thanks to a 4x4 (non-invertible) matrix designated here as :math:`M_p`, we see that a single combined overall matrix :math:`M_o = M_p.M_{mv}` is sufficient [#]_ to convey in one go all transformations that shall be applied to a given geometry for its rendering.
 
-.. [#] In practice, for more flexibility, in OpenGL the management of the viewport, of the projection and of the model-view transformations is done separately (for example, respectively, with: ``glViewport``, ``glMatrixMode(GL_MODELVIEW)`` and ``glMatrixMode(GL_PROJECTION)``; so there is a matrix stack corresponding to ``GL_MODELVIEW`` and another one to ``GL_PROJECTION``.
+.. [#] In practice, for more flexibility, in older (pre-shader) OpenGL the management of the viewport, of the projection and of the model-view transformations was done separately (for example, respectively, with: ``glViewport``, ``glMatrixMode(GL_MODELVIEW)`` and ``glMatrixMode(GL_PROJECTION)``; so in compatibility mode there is a matrix stack corresponding to ``GL_MODELVIEW`` and another one to ``GL_PROJECTION``.
 
 
 
