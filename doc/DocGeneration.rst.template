@@ -503,9 +503,13 @@ Transformation of PDF files
 For that, one may use the ``pdftk`` tool, possibly with the ``convert`` one, which comes from `ImageMagick <http://www.imagemagick.org/>`_ (typically available thanks to a ``imagemagick`` package):
 
 - to **split all pages of a PDF** in as many individual files (named ``pg_0001.pdf``, ``pg_0002.pdf``, etc.): ``pdftk document.pdf burst``
+- to **extract a range of pages from a PDF**: ``pdftk original-document.pdf cat 276-313 output my-extract.pdf``
 - to **convert a PDF file** (typically a single page) into a **PNG** one (typically in order to edit the PNG with The Gimp afterwards): ``convert pg_000x.pdf pg_000x.png``
 - to convert (possibly back) a **PNG file to a PDF** one: ``convert pg_000x-modified.png pg_000x-modified.pdf``
 - to **concatenate PDFs**: ``pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdf``
+
+PDF documents may contain images/scans (possibly of texts) and/or actual, raw texts. If a PDF is a scan, OCR (`Optical character recognition <https://en.wikipedia.org/wiki/Optical_character_recognition>`_) can be used in order to convert the embedded scans into their actual text. Such a transformation can be done online, and we found `PDF24 <https://tools.pdf24.org/fr/ocr-pdf>`_ very useful for that. From such services, usually a PDF (thus including text instead of images) is generated. To obtain a text version thereof respecting its layout (typically to preserve the indentation of a scanned program), one may use: ``pdftotext -layout my-OCRed-document.pdf`` in order to enjoy a proper ``my-OCRed-document.txt``.
+
 
 
 
