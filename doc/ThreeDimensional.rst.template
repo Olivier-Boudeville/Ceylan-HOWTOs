@@ -759,7 +759,7 @@ A projection defines 6 clipping planes (and at least 6 additional ones can be de
 
 A 3D plane is defined by including a given (3D) point and comprising all vectors orthogonal to a given vector; it can be defined thanks to 4 coordinates (e.g. ``(a, b, c, d)``); and a point :math:`P = \begin{pmatrix} x \\ y \\ z \end{pmatrix}` will belong to such a plane iff :math:`a.x + b.y + c.z + d = 0`.
 
-Two kinds of projections are considered: orthographic and perspective.
+Two kinds of projections are considered below: orthographic and perspective; for extra information, refer to `this OpenGL Projection Matrix page <http://www.songho.ca/opengl/gl_projectionmatrix.html>`_.
 
 
 
@@ -782,7 +782,7 @@ They are defined based on a field of view and an aspect ratio; see ``gl:frustum/
 
 
 Viewport Transformations
-************************
+________________________
 
 As for the viewport, it is generally defined with ``gl:viewport/4`` so that its size corresponds to the widget in which the rendering is to take place.
 
