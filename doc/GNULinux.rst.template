@@ -942,6 +942,17 @@ Solution: ``pacman -S archlinux-keyring`` is at least often enough. Otherwise ``
 
 
 
+Protecting Files and Directories
+--------------------------------
+
+Beyond the basic ``chown`` / ``chmod`` commands (e.g. ``chmod 400`` to have it read-only for its owner only), using ``chattr`` as well shall be considered for the most sensitive filesystem elements (like the ones related to ``~/.ssh``).
+
+Notably, so that a file becomes immutable (even for root), one may use ``chattr +i MY_FILE``.
+
+Use ``chattr -i MY_FILE`` to clear that immutability, and ``lsattr`` to check it.
+
+
+
 Converting Data Formats
 -----------------------
 
@@ -1080,8 +1091,8 @@ See also `this comparison <https://en.wikipedia.org/wiki/Comparison_of_screencas
 
 
 
-Other Settings
---------------
+Other User Settings
+-------------------
 
 See our `preferences <https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a>`_ for `Startpage <https://www.startpage.com>`_; it can be set as homepage.
 
