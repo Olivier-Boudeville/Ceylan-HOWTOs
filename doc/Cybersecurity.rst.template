@@ -32,7 +32,6 @@ A Bit of Cybersecurity
 :Creation date: Saturday, November 20, 2021
 :Lastly updated: GENERATION_DATE_TAG
 
-
 :raw-html:`<a name="howtos_toc"></a>`
 
 .. _`table of contents`:
@@ -86,6 +85,7 @@ In that case we strongly recommend:
 Wanting to test whether your current e-mail system is reliable? We recommend using the `MECSA <https://mecsa.jrc.ec.europa.eu>`_ online testing tool, which is provided by the European Commission and allows to learn a lot about the level of security reached by one's email system.
 
 
+.. _`OpenPGP`:
 
 Increasing Security thanks to OpenPGP
 =====================================
@@ -567,8 +567,6 @@ See Also
 - still in French: other `interesting usage hints <https://blog.mailfence.com/fr/meilleures-pratiques-de-signature-numerique-openpgp/>`_ and `GnuPG : Créer la paire de clé gpg parfaite <https://wiki.csnu.org/index.php/GnuPG_:_Cr%C3%A9er_la_paire_de_cl%C3%A9_gpg_parfaite_:_cl%C3%A9_maitre,_subkeys_et_support_smartcard_(yubikey)>`_
 - `GnuPG on Arch <https://wiki.archlinux.org/title/GnuPG>`_, for much additional information
 - `Network Management <Networking.html>`_ information
-
-
 
 
 
