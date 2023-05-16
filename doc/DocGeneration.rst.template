@@ -118,6 +118,14 @@ For example, on Arch Linux, as ``root``, it is sufficient to execute:
  $ pacman -Sy mathjax
 
 
+If not having root permissions, it can be installed directly in one's user account, for example:
+
+.. code:: bash
+
+ $ cd /tmp && git clone https://github.com/mathjax/MathJax.git
+ $ mv MathJax/es5 ~/Software/MathJax
+
+
 Then, to enable the use of MathJax for a given website based on Ceylan-Myriad, run from its root (often a ``doc`` directory):
 
 .. code:: bash
