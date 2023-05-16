@@ -62,14 +62,21 @@ Beyond the documentation_ relative to its general use, projects have to adopt th
 Recommended General Conventions
 -------------------------------
 
+These are certainly very basic and possibly idiosyncratic, yet any VCS content (typically a release branch) should, in our opinion, meet a few criteria in terms of quality.
+
 The ones to which we try to stick are:
 
-- the path (including names) of files and directories should not include spaces; as separator, prefer dashes (``-``) to underscores (``_``)
+- the path (including names) of files and directories should not contain diacritic, special character or spaces - only plain, basic, boring ASCII characters; as separator, prefer dashes (``-``) to underscores (``_``)
 - the character case shall be uniform (e.g. directory names starting always or never with a capital letter)
-- the language used shall be uniform (e.g. only English)
-- a commit message shall describe synthetically the modifications operated on the corresponding new filesystem snapshot; such a message, preferably in English, should always start with a capital letter and end with a dot; e.g. "*Fixed the computation of angles.*"
+- the language used shall be uniform (e.g. only proper English)
+- a commit message shall describe synthetically the modifications operated on the corresponding new filesystem snapshot; such a message, preferably in English, should always start with a capital letter and end with a dot; e.g. "*Fixed the computation of angles.*" or "*Upgraded the Frobnicator to 2.1.*"
+- permissions, both for directories and files, shall be uniform and properly set (e.g. no plain file shall be executable)
 - the file formats shall be, as much as possible, homogeneous, notably for text files with regard to the line terminators; either only UNIX conventions (only ``LF``; preferred), or only Windows ones (``CRLF``); use ``dos2unix`` whenever necessary, possibly automated through a Git hook
 - abbreviations are convenient (e.g. ``br`` for branch, ``co`` for ``checkout``, etc.); they can be defined in one's ``~/.gitconfig``
+- a repository should:
+
+  - only include relevant, well-selected binary files (*if any*)
+  - neither include generated files (at least no trivially-generated one), such as ``*.o``, ``*.so``, ``*.class`` nor useless/temporary ones (such as ``.~lock.foo.bar#`` or ``commit-30860f7``, ``buz.log``)
 
 
 
@@ -85,7 +92,6 @@ Basic Operations
 	- first step is to update the remote-tracking branches with ``git fetch my_remote``, then to create the target local branch tracking that remote (upstream) one with: ``git co -b some_branch my_remote/some_branch`` (also switching to it here)
 	- a shortcut is to use ``git co --track my_remote/some_branch`` instead
 	- even shorter, if the name of the target local branch name does not exist yet and matches exactly matches a name on only one remote, ``git co some_branch`` will suffice
-
 
   - to delete a local branch: ``git branch -d my_branch``
 
@@ -119,6 +125,7 @@ Basic Operations
 
  # Outputs on the console the diff between the designated
  # version and the current one:
+ #
  $ git show COMMIT_ID path/to/the/target/file
 
 - listing the **files modified by a given commit**: ``git show --name-only MY_COMMIT_ID``
@@ -431,7 +438,6 @@ More generally, cloning on a Windows host an UNIX-originating repository compris
 Another option is to use Visual Studio Code (``vscode``), which supports natively Git (provided that the command-line version is already installed). One may select ``View -> SCM`` (or ``Ctrl-Shift-G``) for that. Clicking on the "VCS" icon (three rings links by two curves; the third from the top) displays a contextual view offering various associated operations (here based on Git).
 
 We finally preferred using MSYS2 + Git rather than `Git Bash <https://gitforwindows.org/>`_, named "Git for Windows"; `hints <http://source.technology/speed-up-git-bash-on-windows>`_ to speed up these tools may apply.
-
 
 
 Inner Workings
