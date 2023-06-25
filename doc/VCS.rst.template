@@ -113,6 +113,8 @@ Basic Operations
  # Or, in order to trigger an error if this target file is not tracked:
  git ls-files --error-unmatch my_file
 
+.. _`checkout`:
+
 - getting the **version of a file as it was at a given commit**:
 
 .. code:: bash
@@ -126,7 +128,7 @@ Basic Operations
  # Outputs on the console the diff between the designated
  # version and the current one:
  #
- $ git show COMMIT_ID path/to/the/target/file
+ $ git show COMMIT_ID:path/to/the/target/file
 
 - listing the **files modified by a given commit**: ``git show --name-only MY_COMMIT_ID``
 
@@ -194,6 +196,14 @@ Using here ``ours`` rather than ``theirs`` :
 
 Another (brutal but sure) way of forcing the content of a branch B to be the same as the one of a branch A is, while B is checked-out, to execute: ``git reset --hard A``. As mentioned previously, push shall be done then with ``git push --force-with-lease``.
 
+Sometimes, we know for sure that a given file must be transferred as it is on a given branch (``some_branch``), as a whole, to the current branch (``current_branch``). Cherry-picking is not exactly what is needed, as `git cherry <https://git-scm.com/docs/git-cherry>`_ deals with commits, not actual contents. Here, `what we presented with checkout <#checkout>`_ may be more appropriate:
+
+.. code:: bash
+
+ $ git checkout current_branch
+ # The current location on the branch matters:
+ $ git checkout some_branch path/to/the/target/file
+ Updated 1 path from 6f154364
 
 
 Common Procedures
