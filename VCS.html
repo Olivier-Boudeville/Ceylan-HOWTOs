@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Version Control Systems</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 21, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, June 21, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -83,14 +83,21 @@
 <p>Beyond the <a class="reference internal" href="#documentation">documentation</a> relative to its general use, projects have to adopt their own set of conventions - regarding the management of branches, commits, tags, etc - based on their preferences and context.</p>
 <div class="section" id="recommended-general-conventions">
 <h2><a class="toc-backref" href="#toc-entry-3">Recommended General Conventions</a></h2>
+<p>These are certainly very basic and possibly idiosyncratic, yet any VCS content (typically a release branch) should, in our opinion, meet a few criteria in terms of quality.</p>
 <p>The ones to which we try to stick are:</p>
 <ul class="simple">
-<li>the path (including names) of files and directories should not include spaces; as separator, prefer dashes (<tt class="docutils literal">-</tt>) to underscores (<tt class="docutils literal">_</tt>)</li>
+<li>the path (including names) of files and directories should not contain diacritic, special character or spaces - only plain, basic, boring ASCII characters; as separator, prefer dashes (<tt class="docutils literal">-</tt>) to underscores (<tt class="docutils literal">_</tt>)</li>
 <li>the character case shall be uniform (e.g. directory names starting always or never with a capital letter)</li>
-<li>the language used shall be uniform (e.g. only English)</li>
-<li>a commit message shall describe synthetically the modifications operated on the corresponding new filesystem snapshot; such a message, preferably in English, should always start with a capital letter and end with a dot; e.g. &quot;<em>Fixed the computation of angles.</em>&quot;</li>
+<li>the language used shall be uniform (e.g. only proper English)</li>
+<li>a commit message shall describe synthetically the modifications operated on the corresponding new filesystem snapshot; such a message, preferably in English, should always start with a capital letter and end with a dot; e.g. &quot;<em>Fixed the computation of angles.</em>&quot; or &quot;<em>Upgraded the Frobnicator to 2.1.</em>&quot;</li>
+<li>permissions, both for directories and files, shall be uniform and properly set (e.g. no plain file shall be executable)</li>
 <li>the file formats shall be, as much as possible, homogeneous, notably for text files with regard to the line terminators; either only UNIX conventions (only <tt class="docutils literal">LF</tt>; preferred), or only Windows ones (<tt class="docutils literal">CRLF</tt>); use <tt class="docutils literal">dos2unix</tt> whenever necessary, possibly automated through a Git hook</li>
 <li>abbreviations are convenient (e.g. <tt class="docutils literal">br</tt> for branch, <tt class="docutils literal">co</tt> for <tt class="docutils literal">checkout</tt>, etc.); they can be defined in one's <tt class="docutils literal"><span class="pre">~/.gitconfig</span></tt></li>
+<li>a repository should:<ul>
+<li>only include relevant, well-selected binary files (<em>if any</em>)</li>
+<li>neither include generated files (at least no trivially-generated one), such as <tt class="docutils literal">*.o</tt>, <tt class="docutils literal">*.so</tt>, <tt class="docutils literal">*.class</tt> nor useless/temporary ones (such as <tt class="docutils literal">.~lock.foo.bar#</tt> or <tt class="docutils literal"><span class="pre">commit-30860f7</span></tt>, <tt class="docutils literal">buz.log</tt>)</li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="basic-operations">
@@ -125,7 +132,7 @@
 </span><span class="c1"># Or, in order to trigger an error if this target file is not tracked:
 </span>git<span class="w"> </span>ls-files<span class="w"> </span>--error-unmatch<span class="w"> </span>my_file
 </pre>
-<ul class="simple">
+<ul class="simple" id="checkout">
 <li>getting the <strong>version of a file as it was at a given commit</strong>:</li>
 </ul>
 <pre class="code bash literal-block">
@@ -137,7 +144,8 @@
 
 </span><span class="c1"># Outputs on the console the diff between the designated
 # version and the current one:
-</span>$<span class="w"> </span>git<span class="w"> </span>show<span class="w"> </span>COMMIT_ID<span class="w"> </span>path/to/the/target/file
+#
+</span>$<span class="w"> </span>git<span class="w"> </span>show<span class="w"> </span>COMMIT_ID:path/to/the/target/file
 </pre>
 <ul class="simple">
 <li>listing the <strong>files modified by a given commit</strong>: <tt class="docutils literal">git show <span class="pre">--name-only</span> MY_COMMIT_ID</tt></li>
@@ -189,6 +197,13 @@ $<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </s
 <li>whereas <tt class="docutils literal"><span class="pre">-s</span> ours</tt> ignores the content of the other branch entirely (in all cases), and use &quot;our&quot; version instead; <tt class="docutils literal"><span class="pre">-s</span> theirs</tt> does not exist</li>
 </ul>
 <p>Another (brutal but sure) way of forcing the content of a branch B to be the same as the one of a branch A is, while B is checked-out, to execute: <tt class="docutils literal">git reset <span class="pre">--hard</span> A</tt>. As mentioned previously, push shall be done then with <tt class="docutils literal">git push <span class="pre">--force-with-lease</span></tt>.</p>
+<p>Sometimes, we know for sure that a given file must be transferred as it is on a given branch (<tt class="docutils literal">some_branch</tt>), as a whole, to the current branch (<tt class="docutils literal">current_branch</tt>). Cherry-picking is not exactly what is needed, as <a class="reference external" href="https://git-scm.com/docs/git-cherry">git cherry</a> deals with commits, not actual contents. Here, <a class="reference external" href="#checkout">what we presented with checkout</a> may be more appropriate:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>current_branch<span class="w">
+</span><span class="c1"># The current location on the branch matters:
+</span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>some_branch<span class="w"> </span>path/to/the/target/file<span class="w">
+</span>Updated<span class="w"> </span><span class="m">1</span><span class="w"> </span>path<span class="w"> </span>from<span class="w"> </span>6f154364
+</pre>
 </div>
 </div>
 <div class="section" id="common-procedures">

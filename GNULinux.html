@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About GNU/Linux</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, April 22, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, June 14, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -79,17 +79,18 @@
 <li><a class="reference internal" href="#quick-topics" id="toc-entry-31">Quick Topics</a><ul>
 <li><a class="reference internal" href="#installing-wine" id="toc-entry-32">Installing Wine</a></li>
 <li><a class="reference internal" href="#overcoming-invalid-pgp-signatures-in-pacman-packages" id="toc-entry-33">Overcoming Invalid PGP Signatures in Pacman Packages</a></li>
-<li><a class="reference internal" href="#converting-data-formats" id="toc-entry-34">Converting Data Formats</a></li>
-<li><a class="reference internal" href="#adding-a-locale" id="toc-entry-35">Adding a Locale</a></li>
-<li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-36">Applying a XFCE4 configuration to a different user</a></li>
-<li><a class="reference internal" href="#using-emacs" id="toc-entry-37">Using Emacs</a></li>
-<li><a class="reference internal" href="#using-e-mail-clients" id="toc-entry-38">Using E-mail Clients</a></li>
-<li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-39">Recording a Screencast</a></li>
-<li><a class="reference internal" href="#other-settings" id="toc-entry-40">Other Settings</a></li>
-<li><a class="reference internal" href="#shortcuts" id="toc-entry-41">Shortcuts</a></li>
+<li><a class="reference internal" href="#protecting-files-and-directories" id="toc-entry-34">Protecting Files and Directories</a></li>
+<li><a class="reference internal" href="#converting-data-formats" id="toc-entry-35">Converting Data Formats</a></li>
+<li><a class="reference internal" href="#adding-a-locale" id="toc-entry-36">Adding a Locale</a></li>
+<li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-37">Applying a XFCE4 configuration to a different user</a></li>
+<li><a class="reference internal" href="#using-emacs" id="toc-entry-38">Using Emacs</a></li>
+<li><a class="reference internal" href="#using-e-mail-clients" id="toc-entry-39">Using E-mail Clients</a></li>
+<li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-40">Recording a Screencast</a></li>
+<li><a class="reference internal" href="#other-user-settings" id="toc-entry-41">Other User Settings</a></li>
+<li><a class="reference internal" href="#shortcuts" id="toc-entry-42">Shortcuts</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-42">See Also</a></li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-43">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -251,6 +252,9 @@ $<span class="w"> </span>shutdown-local-host.sh<span class="w"> </span>--reboot
 <li>from:<ul>
 <li>the oldest entry collected: <tt class="docutils literal">journalctl</tt></li>
 <li>last boot: <tt class="docutils literal">journalctl <span class="pre">-b</span></tt></li>
+<li>yesterday: <tt class="docutils literal">journalctl <span class="pre">--since</span> yesterday</tt></li>
+<li>a given duration: <tt class="docutils literal">journalctl <span class="pre">--since</span> &quot;10 minutes ago&quot;</tt></li>
+<li>one or two time bounds: <tt class="docutils literal">journalctl <span class="pre">--since</span> <span class="pre">&quot;2023-02-10</span> 21:00:00&quot; <span class="pre">--until</span> <span class="pre">&quot;2023-02-10</span> 22:00:00&quot;</tt></li>
 <li>the most recent journal entries, listing them to current end, and:<ul>
 <li>stopping there: <tt class="docutils literal">journalctl <span class="pre">-e</span></tt></li>
 <li>continuously printing the new entries as they are added: <tt class="docutils literal">journalctl <span class="pre">-f</span></tt> (or <tt class="docutils literal"><span class="pre">--follow</span></tt>)</li>
@@ -261,6 +265,7 @@ $<span class="w"> </span>shutdown-local-host.sh<span class="w"> </span>--reboot
 <li>for a given unit <tt class="docutils literal">my_unit</tt> (see <a class="reference internal" href="#systemd-commands">Systemd Commands</a> for selection): <tt class="docutils literal">journalctl <span class="pre">-u</span> my_unit</tt></li>
 <li>showing <tt class="docutils literal">COUNT</tt> lines: add <tt class="docutils literal"><span class="pre">-n</span> COUNT</tt> (default: 10)</li>
 </ul>
+<p>So for example <tt class="docutils literal">journalctl <span class="pre">-n</span> 200 <span class="pre">-fu</span> my_unit</tt> may be convenient to have recent history together with the next entries to come.</p>
 </div>
 </div>
 <div class="section" id="process-related-post-mortem-investigations">
@@ -701,6 +706,10 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/mnt<
 </div>
 <div class="section" id="configuring-grub">
 <h2><a class="toc-backref" href="#toc-entry-25">Configuring GRUB</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Configuring GRUB means generating a settings file whose syntax may be more recent than the one supported by any already-installed GRUB - which would thus be bound to fail at boot. So any configuration update of GRUB shall be done together with the update of its installation.</p>
+</div>
 <p>Now is the right time to update one's <tt class="docutils literal">/etc/default/grub</tt>, notably to ensure that <tt class="docutils literal">GRUB_DISABLE_OS_PROBER=false</tt> is indeed defined, and is not commented out.</p>
 <p>If <tt class="docutils literal"><span class="pre">os-prober</span></tt> is especially useful to auto-detect any Windows installation, we could see that it was not working from a chroot (and thus it has to be done later, directly from the final Arch host).</p>
 <p>The last step is to generate the corresponding GRUB configuration file:</p>
@@ -710,8 +719,8 @@ $<span class="w"> </span>grub-mkconfig<span class="w"> </span>-o<span class="w">
 </div>
 <div class="section" id="finally">
 <h2><a class="toc-backref" href="#toc-entry-26">Finally</a></h2>
-<p>Rebooting and selecting a right entry menu should result in a restored boot proceeding as normal.</p>
-<p>Moreover, from now, <tt class="docutils literal"><span class="pre">os-prober</span></tt> should be able to pick up any other system (especially Windows installations) and declare them appropriately: this should be just a matter of running <tt class="docutils literal"><span class="pre">grub-mkconfig</span> <span class="pre">-o</span> /boot/grub/grub.cfg</tt> again.</p>
+<p>Rebooting and selecting a right entry menu (note that LTS kernels will be sorted first and thus be selected by default) should result in a restored boot proceeding as normal.</p>
+<p>Moreover, from now, <tt class="docutils literal"><span class="pre">os-prober</span></tt> should be able to pick up any other system (especially Windows installations) and declare them appropriately: this should be just a matter of running <tt class="docutils literal"><span class="pre">grub-mkconfig</span> <span class="pre">-o</span> /boot/grub/grub.cfg</tt> again (and hope for the best).</p>
 </div>
 </div>
 <div class="section" id="other-filesystem-related-issues">
@@ -773,8 +782,14 @@ ext2/ext3/ext4 filesystem [...]
 <p>This happens regularly, especially when updating a symptom being: <tt class="docutils literal">File /var/cache/pacman/pkg/xxx.pkg.tar.zst is corrupted (invalid or corrupted package (PGP signature))</tt>.</p>
 <p>Solution: <tt class="docutils literal">pacman <span class="pre">-S</span> <span class="pre">archlinux-keyring</span></tt> is at least often enough. Otherwise <tt class="docutils literal"><span class="pre">pacman-key</span> <span class="pre">--populate</span> archlinux</tt>, or changing mirror might help.</p>
 </div>
+<div class="section" id="protecting-files-and-directories">
+<h2><a class="toc-backref" href="#toc-entry-34">Protecting Files and Directories</a></h2>
+<p>Beyond the basic <tt class="docutils literal">chown</tt> / <tt class="docutils literal">chmod</tt> commands (e.g. <tt class="docutils literal">chmod 400</tt> to have it read-only for its owner only), using <tt class="docutils literal">chattr</tt> as well shall be considered for the most sensitive filesystem elements (like the ones related to <tt class="docutils literal"><span class="pre">~/.ssh</span></tt>).</p>
+<p>Notably, so that a file becomes immutable (even for root), one may use <tt class="docutils literal">chattr +i MY_FILE</tt>.</p>
+<p>Use <tt class="docutils literal">chattr <span class="pre">-i</span> MY_FILE</tt> to clear that immutability, and <tt class="docutils literal">lsattr</tt> to check it.</p>
+</div>
 <div class="section" id="converting-data-formats">
-<h2><a class="toc-backref" href="#toc-entry-34">Converting Data Formats</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-35">Converting Data Formats</a></h2>
 <ul class="simple">
 <li>to convert multimedia files, <tt class="docutils literal">ffmpeg</tt> is very convenient; for example to convert an AIF file into a WAV one: <tt class="docutils literal">ffmpeg <span class="pre">-i</span> sound.aif sound.wav</tt></li>
 <li>to read <tt class="docutils literal">*.pck</tt> resource file, the <a class="reference external" href="https://www.elberethzone.net/dragon-unpacker.html">Dragon UnPACKer</a> (Windows) open source tool can be used</li>
@@ -782,7 +797,7 @@ ext2/ext3/ext4 filesystem [...]
 <p>See also Ceylan-Hull's <a class="reference external" href="https://hull.esperide.org/#multimedia-related">multimedia-related section</a>.</p>
 </div>
 <div class="section" id="adding-a-locale">
-<h2><a class="toc-backref" href="#toc-entry-35">Adding a Locale</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-36">Adding a Locale</a></h2>
 <p>On some hosts, issues in terms of a lacking locales may be reported, like in the following:</p>
 <pre class="literal-block">
 bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
@@ -798,7 +813,7 @@ $<span class="w"> </span>locale-gen<span class="w">
 </pre>
 </div>
 <div class="section" id="applying-a-xfce4-configuration-to-a-different-user">
-<h2><a class="toc-backref" href="#toc-entry-36">Applying a XFCE4 configuration to a different user</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-37">Applying a XFCE4 configuration to a different user</a></h2>
 <p>The objective is to duplicate the configuration of the <tt class="docutils literal">user_a</tt> desktop to the <tt class="docutils literal">user_b</tt> one, for example if <tt class="docutils literal">user_b</tt> is used to test an untrusted application.</p>
 <p>A key point is to ensure that at least <tt class="docutils literal">user_b</tt> has no ongoing graphical session (otherwise any new configuration may be overwritten with an older one at logout).</p>
 <p>Then, typically as root:</p>
@@ -812,10 +827,33 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 <p>Selecting a per-user wallpaper may be of help.</p>
 </div>
 <div class="section" id="using-emacs">
-<h2><a class="toc-backref" href="#toc-entry-37">Using Emacs</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-38">Using Emacs</a></h2>
 <div class="section" id="configuration-1">
 <span id="emacs-configuration"></span><h3>Configuration</h3>
-<p>Our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">init.el</a>, that may be stored in <tt class="docutils literal"><span class="pre">~/.emacs.d/</span></tt>, currently relies on <a class="reference external" href="https://github.com/radian-software/straight.el">straight.el</a>.</p>
+<p>Our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">init.el</a>, which may be stored in <tt class="docutils literal"><span class="pre">~/.emacs.d/</span></tt>, currently relies on <a class="reference external" href="https://github.com/radian-software/straight.el">straight.el</a>.</p>
+</div>
+<div class="section" id="installation">
+<h3>Installation</h3>
+<p>Quite surprisingly, Emacs still changes a lot (notably in terms of function names), and (elisp) scripts that work for an Emacs version may not work for the next one. So at least controlling one's version may be of use.</p>
+<p>Of course using a package manager for that is the best option.</p>
+<p>Otherwise, to perform a manual installation of Emacs on one's user account, it must be first <a class="reference external" href="https://www.gnu.org/software/emacs/download.html">downloaded</a>; one may thus fetch for example <tt class="docutils literal"><span class="pre">emacs-28.2.tar.xz</span></tt>.</p>
+<p>Prerequisites may be needed; running - unfortunately as root - <tt class="docutils literal"><span class="pre">apt-get</span> <span class="pre">build-dep</span> emacs28</tt> or alike may be of use, or at least having a package like <tt class="docutils literal"><span class="pre">libgtk-3-dev</span></tt> installed.</p>
+<p>Then:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Software/Emacs<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software/Emacs<span class="w">
+</span>$<span class="w"> </span>mv<span class="w"> </span>~/Downloads/emacs-28.2.tar.xz<span class="w"> </span>.<span class="w">
+</span>$<span class="w"> </span>tar<span class="w"> </span>xvJf<span class="w"> </span>emacs-28.2.tar.xz<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>emacs-28.2<span class="w">
+</span><span class="c1"># If not having these dependencies:
+</span>$<span class="w"> </span>./configure<span class="w"> </span>--with-xpm<span class="o">=</span>ifavailable<span class="w"> </span>--with-gif<span class="o">=</span>ifavailable<span class="w"> </span><span class="se">\
+</span>--with-tiff<span class="o">=</span>ifavailable<span class="w"> </span>--with-gnutls<span class="o">=</span>ifavailable<span class="w"> </span>--prefix<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/Software/Emacs/emacs-28.2-install<span class="w">
+</span>$<span class="w"> </span>make<span class="w"> </span>install<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>emacs-28.2-install<span class="w"> </span>emacs-current-install
+</pre>
+<p>Then one's shell environment shall be updated once for all with:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/Software/Emacs/emacs-current-install/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre>
 </div>
 <div class="section" id="hints">
 <h3>Hints</h3>
@@ -830,7 +868,7 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 <li>to prefix all lines of the selected region: <tt class="docutils literal"><span class="pre">C-x</span></tt> then <tt class="docutils literal">r</tt> then <tt class="docutils literal">t</tt>, then type the prefix then type Enter</li>
 <li>to sort alphabetically the selected region: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">sort-lines</span></tt></li>
 <li>to go to the matching delimiter (parenthesis, bracket, end of word, etc.): to go forward, use <tt class="docutils literal"><span class="pre">C-M-f</span></tt>, and to go backward use <tt class="docutils literal"><span class="pre">C-M-b</span></tt></li>
-<li>to re-selects a region (e.g. to perform multiple substitutions in a row): <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-x</span></tt></li>
+<li>to re-select a region (e.g. to perform multiple substitutions in a row on the same region): <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-x</span></tt></li>
 <li>to abort the current entry in the minibuffer: <tt class="docutils literal"><span class="pre">C-g</span></tt></li>
 </ul>
 <p>Other useful commands to trigger with <tt class="docutils literal"><span class="pre">M-x</span></tt>:</p>
@@ -846,7 +884,7 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 </div>
 </div>
 <div class="section" id="using-e-mail-clients">
-<h2><a class="toc-backref" href="#toc-entry-38">Using E-mail Clients</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-39">Using E-mail Clients</a></h2>
 <p>Over time we were preferring <a class="reference external" href="https://help.gnome.org/users/evolution/stable/index.html">Evolution</a> to <a class="reference external" href="https://www.thunderbird.net/">Thunderbird</a>, notably regarding its far better <a class="reference external" href="Cybersecurity.html#securing-thanks-to-openpgp">OpenPGP</a> support. Yet, at least for some IMAP servers (e.g. the ones of <a class="reference external" href="https://www.mailo.com/">Mailo</a>), errors (like: <tt class="docutils literal">Error copying messages: Error</tt>) constantly happening (despite many attempts of configuration changes) and being reported ruined its use for us <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a>, so we switched back to Thunderbird.</p>
 <table class="docutils footnote" frame="void" id="footnote-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -861,7 +899,7 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 <p>See also Ceylan-Hull's <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/email.sh/">email.sh</a> and <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/archive-emails.sh">archive-emails.sh</a> scripts.</p>
 </div>
 <div class="section" id="recording-a-screencast">
-<h2><a class="toc-backref" href="#toc-entry-39">Recording a Screencast</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-40">Recording a Screencast</a></h2>
 <p>We rely on the impressive, feature-rich, free software <a class="reference external" href="https://en.wikipedia.org/wiki/SimpleScreenRecorder">SimpleScreenRecorder</a> (<tt class="docutils literal">pacman <span class="pre">-Sy</span> simplescreenrecorder</tt>).</p>
 <p>This tool is run as <tt class="docutils literal">simplescreenrecorder</tt> and offers many options and encoding choices; it is able to record OpenGL applications <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[3]</a> and also the audio.</p>
 <table class="docutils footnote" frame="void" id="footnote-3" rules="none">
@@ -873,12 +911,12 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 <p>Note that, as notified by the tool, the MP4 container type will produce unreadable files if the recording is interrupted (then the MKV container shall be preferred).</p>
 <p>See also <a class="reference external" href="https://en.wikipedia.org/wiki/Comparison_of_screencasting_software">this comparison</a> of screencasting software.</p>
 </div>
-<div class="section" id="other-settings">
-<h2><a class="toc-backref" href="#toc-entry-40">Other Settings</a></h2>
+<div class="section" id="other-user-settings">
+<h2><a class="toc-backref" href="#toc-entry-41">Other User Settings</a></h2>
 <p>See our <a class="reference external" href="https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a">preferences</a> for <a class="reference external" href="https://www.startpage.com">Startpage</a>; it can be set as homepage.</p>
 </div>
 <div class="section" id="shortcuts">
-<h2><a class="toc-backref" href="#toc-entry-41">Shortcuts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-42">Shortcuts</a></h2>
 <p>Listing here the main keyboard shortcuts of interest for a few base tools.</p>
 <div class="section" id="for-less">
 <h3>For <tt class="docutils literal">less</tt></h3>
@@ -907,7 +945,7 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-42">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-43">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>

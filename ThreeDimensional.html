@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About 3D</title>
 <script type="text/javascript" src="mathjax/tex-mml-chtml.js?config=TeX-AMS_CHTML"></script>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 21, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, June 2, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -617,9 +617,10 @@ You can use both characters and animations royalty free for personal, commercial
 </div>
 <div class="section" id="projections">
 <h4>Projections</h4>
+<p>In OpenGL, the projection matrix (<tt class="docutils literal">GL_PROJECTION</tt>) transforms eye coordinates to clip coordinates (not viewport coordinates).</p>
 <p>A projection defines 6 clipping planes (and at least 6 additional ones can be defined).</p>
 <p>A 3D plane is defined by including a given (3D) point and comprising all vectors orthogonal to a given vector; it can be defined thanks to 4 coordinates (e.g. <tt class="docutils literal">(a, b, c, d)</tt>); and a point <span class="math">\(P = \begin{pmatrix} x \\ y \\ z \end{pmatrix}\)</span> will belong to such a plane iff <span class="math">\(a.x + b.y + c.z + d = 0\)</span>.</p>
-<p>Two kinds of projections are considered: orthographic and perspective.</p>
+<p>Two kinds of projections are considered below: orthographic and perspective; for extra information, refer to <a class="reference external" href="http://www.songho.ca/opengl/gl_projectionmatrix.html">this OpenGL Projection Matrix page</a>.</p>
 <div class="section" id="orthographic-projections">
 <h5>Orthographic Projections</h5>
 <p>Their viewing volume is a parallelepiped, precisely a rectangular cuboid.</p>
@@ -630,11 +631,11 @@ You can use both characters and animations royalty free for personal, commercial
 <p>Their viewing volume is a truncated pyramid.</p>
 <p>They are defined based on a field of view and an aspect ratio; see <tt class="docutils literal">gl:frustum/6</tt> and <tt class="docutils literal">glu:perspective/4</tt>.</p>
 </div>
+</div>
 <div class="section" id="viewport-transformations">
-<h5>Viewport Transformations</h5>
+<h4>Viewport Transformations</h4>
 <p>As for the viewport, it is generally defined with <tt class="docutils literal">gl:viewport/4</tt> so that its size corresponds to the widget in which the rendering is to take place.</p>
 <p>To avoid distortion, its aspect ratio must be the same as the one of the projection transformation.</p>
-</div>
 </div>
 </div>
 <div class="section" id="camera">
@@ -731,7 +732,7 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 </pre>
 <p>In this case, the viewport can be addressed like a <strong>usual (2D) framebuffer</strong> (like provided by any classical 2D backend such as <a class="reference external" href="https://www.libsdl.org/">SDL</a>) obeying the coordinate system just described: if the width of the OpenGL canvas is 800 pixels and its height is 600 pixels, then its top-left on-screen corner is <tt class="docutils literal">(0,0)</tt> and its bottom-right one is <tt class="docutils literal">(799,599)</tt>, and any pixel-level operation can be directly performed there &quot;as usual&quot;. One may refer, in Myriad, to <tt class="docutils literal">gui_opengl_2D_test.erl</tt> for a full example thereof, in which line-based letters are drawn to demonstrate these conventions.</p>
 <p>Each time the OpenGL canvas is resized, this projection matrix has to be updated, with the same procedure, yet based on the new dimensions.</p>
-<p>Another option - still with axes respecting the Myriad 2D conventions - is to operate this time based on <strong>normalised, definition-independent coordinates</strong>, ranging in <tt class="docutils literal">[0.0, 1.0]</tt>, like in:</p>
+<p>Another option - still with axes respecting the Myriad 2D conventions - is to operate this time based on <strong>normalised, definition-independent coordinates</strong> (see <a class="reference internal" href="#ndc">NDC</a>), ranging in <tt class="docutils literal">[0.0, 1.0]</tt>, like in:</p>
 <pre class="code erlang literal-block">
 <span class="nn">gl</span><span class="p">:</span><span class="nf">matrixMode</span><span class="p">(</span><span class="o">?</span><span class="nv">GL_PROJECTION</span><span class="p">),</span><span class="w">
 </span><span class="nn">gl</span><span class="p">:</span><span class="nf">loadIdentity</span><span class="p">(),</span><span class="w">
@@ -746,13 +747,13 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <p><span class="raw-html"><center><img src="myriad-space-time-referential.png" id="responsive-image-tiny"></img></center></span>
 </p>
 <p>These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.</p>
-<p>Note that perhaps the most popular convention is different, for which X is horizontal, Y is up and Z is depth (hence Z-buffer).</p>
+<p>Note that perhaps the most popular convention is different, for which X is horizontal, Y is up and Z is depth (hence Z-buffer) - this axis pointing then to the user.</p>
 <div class="section" id="a-tree-of-referentials">
 <h4>A Tree of Referentials</h4>
 <p>In the general case, either in 2D or (more often of interest here) in 3D, a given scene (a model) is made of a set of elements (e.g. the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (e.g. a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.</p>
-<p>The rendering objective requires to have ultimately one's scene transformed as a whole in <strong>eye coordinates</strong> (to obtain coordinates along the aforementioned 2D screen referential, along the X and Y axes - the Z one serving to sort out depth, as per our conventions).</p>
-<p>For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same, <strong>scene-global</strong>, space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take into account the scene as a whole, to transform it to eye coordinates).</p>
-<p>As each individual type of model (e.g. a bike model) is natively defined in an abstract, local referential (an orthonormal basis) of its own, each actual model instance (e.g. the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (e.g. bike A is at this absolute position and orientation in the scene global referential) or relatively to a <em>series</em> of parent referentials (e.g. this character rides bike B - and thus is defined relatively to it, knowing that the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).</p>
+<p>The rendering objective requires to have ultimately one's scene transformed as a whole in <strong>eye coordinates</strong> (to obtain coordinates along the aforementioned 2D screen referential, along the X and Y axes - the Z one serving to sort out depth, as per our 2D conventions).</p>
+<p>For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same, <strong>scene-global</strong>, space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take into account the scene as a whole, to transform it ultimately to eye coordinates).</p>
+<p>As each individual type of model (e.g. a bike model) is natively defined in an abstract, local referential (an orthonormal basis) of its own, each actual model instance (e.g. the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (e.g. bike A is at this absolute position and orientation in the scene global referential) or relatively to a <em>series</em> of parent referentials (e.g. this character rides bike B - and thus is defined relatively to it, knowing that for example the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).</p>
 <p>So in the general case, referentials are nested (recursively defined relatively to their parent) and form a tree <a class="footnote-reference" href="#footnote-6" id="footnote-reference-6">[6]</a> whose root corresponds to the (possibly absolute) referential of the overall scene, like in:</p>
 <p><span class="raw-html"><center><img src="referential-tree.png" id="responsive-image-small"></img></center></span>
 </p>
@@ -760,7 +761,7 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#footnote-reference-6">[6]</a></td><td><p class="first">This is actually named a <em>scene graph</em> rather than a <em>scene tree</em>, as if we consider the leaves of that &quot;tree&quot; to contain actual geometries (e.g. of an abstract bike), as soon as a given geometry is instantiated more than once (e.g. if having 2 of such bikes in the scene), this geometry will have multiple parents and thus the corresponding scene will be a graph.</p>
-<p class="last">As for us, we consider <em>referential trees</em> (no geometry involved) - a given 3D object being possibly associated to (1) a referential and (2) a geometry (independently). This is as expressive and most probably clearer.</p>
+<p class="last">As for us, we consider <em>referential trees</em> (no geometry involved) - a given 3D object being possibly associated to (1) a referential and (2) a geometry (independently). This is as expressive, and most probably clearer.</p>
 </td></tr>
 </tbody>
 </table>
@@ -768,7 +769,7 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <pre class="literal-block">
 (local referential of model Rh) -&gt; (parent referential Rf) -&gt; (parent referential Ra) -&gt; (scene referential Rs)
 </pre>
-<p>For example the hand of a character may be defined in <span class="math">\(R_h\)</span>, itself defined relatively to its associated forearm in <span class="math">\(R_f\)</span> up to the overall referential <span class="math">\(R_a\)</span> of that character, defined relatively to the referential of the whole scene, <span class="math">\(R_s\)</span>. This referential may have no explicit parent defined, meaning implicitly that it is defined in the canonical, global referential.</p>
+<p>For example the hand of a character may be defined in <span class="math">\(R_h\)</span>, itself defined relatively to its associated forearm in <span class="math">\(R_f\)</span> up to the overall referential <span class="math">\(R_a\)</span> of that character, defined relatively to the referential of the whole scene, <span class="math">\(R_s\)</span>. This referential may have no explicit parent defined, meaning implicitly that it is defined in the canonical, global, &quot;world&quot; referential.</p>
 <p>Once the <strong>model</strong> is expressed as a whole in the scene-global referential, the next transformations have to be conducted : <strong>view</strong> and projection. The view transformation involves at least an extra referential, the one of the camera in charge of the rendering, which is <span class="math">\(R_c\)</span>, possibly defined relatively to <span class="math">\(R_s\)</span> (or any other referential).</p>
 <p>So a geometry (e.g. a part of the hand, defined in <span class="math">\(R_f\)</span>) has to be transformed upward in the referential tree in order to be expressed in the common, &quot;global&quot; scene referential <span class="math">\(R_s\)</span>, before being transformed last in the camera one, <span class="math">\(R_c\)</span>.</p>
 <p>In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[7]</a>, which thus include the transformation of one referential into another. Their product can be computed once, and then applying a vector (e.g. corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all model-view transformations (and even the projection) as well.</p>
@@ -1005,7 +1006,7 @@ P_{\beta\rightarrow\alpha}
 <table class="docutils footnote" frame="void" id="footnote-10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[10]</a></td><td>In practice, for more flexibility, in OpenGL the management of the viewport, of the projection and of the model-view transformations is done separately (for example, respectively, with: <tt class="docutils literal">glViewport</tt>, <tt class="docutils literal">glMatrixMode(GL_MODELVIEW)</tt> and <tt class="docutils literal">glMatrixMode(GL_PROJECTION)</tt>; so there is a matrix stack corresponding to <tt class="docutils literal">GL_MODELVIEW</tt> and another one to <tt class="docutils literal">GL_PROJECTION</tt>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[10]</a></td><td>In practice, for more flexibility, in older (pre-shader) OpenGL the management of the viewport, of the projection and of the model-view transformations was done separately (for example, respectively, with: <tt class="docutils literal">glViewport</tt>, <tt class="docutils literal">glMatrixMode(GL_MODELVIEW)</tt> and <tt class="docutils literal">glMatrixMode(GL_PROJECTION)</tt>; so in compatibility mode there is a matrix stack corresponding to <tt class="docutils literal">GL_MODELVIEW</tt> and another one to <tt class="docutils literal">GL_PROJECTION</tt>.</td></tr>
 </tbody>
 </table>
 </div>
@@ -1275,7 +1276,7 @@ P_{\beta\rightarrow\alpha}
 <ul class="simple">
 <li><strong>HDRP</strong>: <em>High Definition Render Pipeline</em>, a <a class="reference external" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition&#64;13.1/manual/index.html">high-fidelity scriptable render pipeline</a>, made by Unity to target <strong>modern</strong> (Compute Shader compatible) platforms (so HDRP is the high-end counterpart of URP)</li>
 <li><strong>IK</strong>: <em>Inverse Kinematics</em>, the <strong>computation of intermediary joint parameters</strong> so that the end of the kinematic chain is at a given position and orientation; typically, if one wants the hand of a character to grasp the top of a chair, IK is used in order to determine the parameters of the character's wrist, arm, elbow, etc. that may be retained so that the hand is ultimately correctly placed on the chair (<a class="reference external" href="https://en.wikipedia.org/wiki/Inverse_kinematics">more information</a>)</li>
-<li><strong>Material</strong>: controls the optical properties of an object, i.e. how a 3D object appears on the screen, that is: the color of each point of the object (generally thanks to multiple texture maps, like diffusion, normal, specular, glow, etc.) and how reflective or dull its surface appears; designates, with OpenGL, a set of coefficients that define <strong>how the lighting model interacts with the surface</strong>; in particular, ambient, diffuse, and specular coefficients for each color component (R,G,B) are defined and applied to a surface and effectively multiplied by the amount of light of each kind/color that strikes the surface; a final emmissivity coefficient is then added to each color component so that objects can also be light emitters</li>
+<li><strong>Material</strong>: controls the optical properties of an object, i.e. how a 3D object appears on the screen, that is: the color of each point of the object (generally thanks to multiple texture maps, like diffusion, normal, specular, glow, etc.) and how reflective or dull its surface appears; designates, with OpenGL, a set of coefficients that define <strong>how the lighting model interacts with the surface</strong>; in particular, ambient, diffuse, and specular coefficients for each color component (R,G,B) are defined and applied to a surface and effectively multiplied by the amount of light of each kind/color that strikes the surface; a final emissivity coefficient is then added to each color component so that objects can also be light emitters</li>
 <li><strong>NURBS</strong>: <em>Non-Uniform Rational B-Spline</em>, a mathematical model using <a class="reference external" href="https://en.wikipedia.org/wiki/B-spline">basis splines</a> (B-splines) that is commonly used in computer graphics for representing <strong>curves and surfaces</strong>, whose shape is determined by control points (<a class="reference external" href="https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline">more information</a>)</li>
 <li><strong>PBR</strong>: <em>Physically-Based Rendering</em> designates approaches to render images in a way that <strong>models the flow of light in the real world</strong>, for example thanks to photogrammetry; many PBR pipelines aim to achieve photorealism; in practice they often rely on the <strong>micro-facet theory</strong>, with specific materials (generally based on texture maps) and shaders (is also called PBS, for <em>Physically-Based Shading</em>); PBR is slowly becoming the standard for all materials</li>
 <li><strong>PSD</strong>: <em>Photoshop Document</em>, a <a class="reference external" href="https://docs.fileformat.com/image/psd/">proprietary format for graphics</a> with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to <a class="reference external" href="https://www.gimp.org/">Gimp</a>, <a class="reference external" href="https://krita.org">Krita</a>, etc.) often used to store textures that may still be edited as templates by the user - provided that they are using Photoshop as well; however, at least to some extent, <a class="reference external" href="https://wiki.gimp.org/wiki/PSD_support">Gimp is able to edit PSD files</a> and <a class="reference external" href="https://docs.krita.org/en/general_concepts/file_formats/file_psd.html">Krita too</a></li>
