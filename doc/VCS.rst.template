@@ -128,7 +128,7 @@ Basic Operations
  #
  $ git show COMMIT_ID path/to/the/target/file
 
-- listing the **files modified by a given commit**: ``git show --name-only MY_COMMIT_ID``
+- listing the **files modified by a given commit**: ``git show --name-only MY_COMMIT_ID`` will print relevant extra information; if wanting only the list of modified files: ``git diff-tree --no-commit-id --name-only -r --pretty COMMIT_ID``
 
 
 
