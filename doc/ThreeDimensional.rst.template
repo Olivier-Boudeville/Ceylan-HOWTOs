@@ -752,8 +752,11 @@ They are compositions of a linear transformation and a translation of their argu
 For them :math:`f(\lambda.x+y) = \lambda.f(x) + f(y)`.
 
 
+
 Projections
 ___________
+
+In OpenGL, the projection matrix (``GL_PROJECTION``) transforms eye coordinates to clip coordinates (not viewport coordinates).
 
 A projection defines 6 clipping planes (and at least 6 additional ones can be defined).
 

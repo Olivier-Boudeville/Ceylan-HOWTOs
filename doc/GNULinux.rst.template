@@ -247,6 +247,9 @@ To consult the journal:
 
   - the oldest entry collected: ``journalctl``
   - last boot: ``journalctl -b``
+  - yesterday: ``journalctl --since yesterday``
+  - a given duration: ``journalctl --since "10 minutes ago"``
+  - one or two time bounds: ``journalctl --since "2023-02-10 21:00:00" --until "2023-02-10 22:00:00"``
   - the most recent journal entries, listing them to current end, and:
 
 	- stopping there: ``journalctl -e``
@@ -255,6 +258,8 @@ To consult the journal:
 - for a given unit ``my_unit`` (see `Systemd Commands`_ for selection): ``journalctl -u my_unit``
 
 - showing ``COUNT`` lines: add ``-n COUNT`` (default: 10)
+
+So for example ``journalctl -n 200 -fu my_unit`` may be convenient to have recent history together with the next entries to come.
 
 
 

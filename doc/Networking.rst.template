@@ -51,6 +51,12 @@ Investigating Network Issues
 
 Tools like ``ping``, ``traceroute``, ``drill``, ``arp``, etc. are invaluable.
 
+For example:
+
+- to get all/most DNS records of a given domain, knowing that ``any`` requests (e.g. ``dig +noall +answer +multiline TARGET_DOMAIN any``) may be not honored by some servers, we recommend using our `list-dns-records.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-dns-records.sh>`_ script
+
+- to perform a reverse DNS lookup (thus translating a given IP address into a domain name), one may use: ``drill -x TARGET_IP``.
+
 Use `ip-scan.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-scan.sh>`_ to scans all IPs with any specified prefix, and `ip-examine.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-examine.sh>`_ to collect information about a given IP.
 
 Use `monitor-network.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/monitor-network.sh>`_ to investigate unstable connections.
