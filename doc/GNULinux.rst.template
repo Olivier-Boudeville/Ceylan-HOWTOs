@@ -1059,7 +1059,7 @@ Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", gene
 
 - to tune the font size:
 
-  - temporarily: use ``C-x C-+`` to increase, ``C-x C--`` to decrease (or press Shift then click the first mouse button to select a relevant option)
+  - temporarily: use ``C-x C-+`` to increase, ``C-x C--`` to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use ``C-mousewheel``)
   - permanently: one may add in one's `Emacs configuration`_ file for example: ``(set-face-attribute 'default nil :height 100)``
 
 - to insert in the current buffer the output of a shell command: ``C-u then M-!``: enter that shell command, whose output will be pasted at the current cursor position
