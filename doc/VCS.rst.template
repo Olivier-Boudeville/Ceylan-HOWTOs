@@ -206,6 +206,8 @@ Sometimes, we know for sure that a given file must be transferred as it is on a 
  Updated 1 path from 6f154364
 
 
+
+
 Common Procedures
 -----------------
 
@@ -320,6 +322,20 @@ Listing differences with prior versions of a file
 .................................................
 
 In order to list the differences of a given file with the previous commits (precisely: of a set of pathspecs), one may use our ``dif-prev.sh`` script, which by default reports the differences with the last committed version. With the ``--all`` option, it lists all differences, until the first addition of this file.
+
+
+
+Using the stash
+...............
+
+The stash is convenient in order to switch branches without having to perform an arbitrary (meaningless) commit just for the sake of switching.
+
+A basic use of the stash is the following:
+
+- to store the currently modified files in the stash: ``git stash`` (equivalent of ``git stash push``)
+- to restore the lastly stored state (hence the reciprocal of the previous command): ``git stash pop``
+
+Refer to the `git stash documentation <https://git-scm.com/docs/git-stash/>`_ for more information.
 
 
 
