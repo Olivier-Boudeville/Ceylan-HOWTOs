@@ -1079,6 +1079,7 @@ Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", gene
 
 - to abort the current entry in the minibuffer: ``C-g``
 
+- to perform replacements based on regular expressions: ``M-x replace-regexp RET regexp RET newstring RET``, with `this REGEXP syntax <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html>`_ (`more information <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html>`_); for example, to remove, in each line, all characters from the first comma: ``M-x replace-regexp RET ,.* RET , RET``
 
 Other useful commands to trigger with ``M-x``:
 
