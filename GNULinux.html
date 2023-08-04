@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, June 14, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, July 18, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -860,7 +860,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>Here <tt class="docutils literal">C</tt> corresponds to the &quot;Ctrl&quot; key, <tt class="docutils literal">M</tt> the &quot;Meta&quot; one (i.e. &quot;Alt&quot;, generally) and <tt class="docutils literal">-</tt> is just a separator.</p>
 <ul class="simple">
 <li>to tune the font size:<ul>
-<li>temporarily: use <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-+</span></tt> to increase, <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> to decrease (or press Shift then click the first mouse button to select a relevant option)</li>
+<li>temporarily: use <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-+</span></tt> to increase, <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use <tt class="docutils literal"><span class="pre">C-mousewheel</span></tt>)</li>
 <li>permanently: one may add in one's <a class="reference internal" href="#emacs-configuration">Emacs configuration</a> file for example: <tt class="docutils literal"><span class="pre">(set-face-attribute</span> 'default nil :height 100)</tt></li>
 </ul>
 </li>
@@ -870,6 +870,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li>to go to the matching delimiter (parenthesis, bracket, end of word, etc.): to go forward, use <tt class="docutils literal"><span class="pre">C-M-f</span></tt>, and to go backward use <tt class="docutils literal"><span class="pre">C-M-b</span></tt></li>
 <li>to re-select a region (e.g. to perform multiple substitutions in a row on the same region): <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-x</span></tt></li>
 <li>to abort the current entry in the minibuffer: <tt class="docutils literal"><span class="pre">C-g</span></tt></li>
+<li>to perform replacements based on regular expressions: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET regexp RET newstring RET</tt>, with <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html">this REGEXP syntax</a> (<a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html">more information</a>); for example, to remove, in each line, all characters from the first comma: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET ,.* RET , RET</tt></li>
 </ul>
 <p>Other useful commands to trigger with <tt class="docutils literal"><span class="pre">M-x</span></tt>:</p>
 <ul class="simple">
