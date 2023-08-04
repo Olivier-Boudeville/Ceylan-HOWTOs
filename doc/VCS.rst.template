@@ -450,6 +450,8 @@ On Most Platforms
 
 At least on UNIX, the command-line Git client (``git``) is certainly the best tool. In difficult situations, graphical tools such as ``gitk`` may be of help.
 
+Some distributions (e.g. Debian) do not come with a relevant Git autocompletion (for commands, branches, etc.) regarding one's shell of interest (like Bash). A `solution <https://git-scm.com/book/en/v2/Appendix-A:-Git-in-Other-Environments-Git-in-Bash>`_ is to download `git-completion.bash <https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash>`_, store it for example in ``~/Software/Git/``, and source it automatically from one's ``~/.bashrc``.
+
 See also our Ceylan-Hull section about `VCS-related scripts <https://hull.esperide.org/#for-version-control-system-vcs>`_.
 
 
