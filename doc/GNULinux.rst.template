@@ -387,6 +387,7 @@ Each key shall be registered in one's referential, and one shall be careful not 
 
 To identify for sure such a key, run ``lsblk --fs`` just before plugging it in, and just after, so that the difference can be easily spotted.
 
+The device name and size should be checked.
 
 For an increased security, environment variables will be associated here to such a key, for example with: ``export KEY_DEV=/dev/sdz``.
 
@@ -460,6 +461,9 @@ For example:
 
 Creating Plain, Unencrypted Partitions
 --------------------------------------
+
+Some devices (e.g. printers) may be confused should there be multiple partitions, or some with non-FAT or encrypted filesystems. This may be a reason to create a single, overall FAT partition.
+
 
 
 Formatting a Plain Partition
@@ -734,7 +738,7 @@ Finally:
  $ cryptsetup close ${DM_NAME}
 
 
-That's it! You should end up with a basic, inexpensive USB key - yet offering at least two satisfying partitions, one public, one adequately encrypted.
+That's it! You should end up with a basic, inexpensive USB key - yet offering at least two satisfying partitions, one public (unencrypted), one adequately encrypted.
 
 
 
