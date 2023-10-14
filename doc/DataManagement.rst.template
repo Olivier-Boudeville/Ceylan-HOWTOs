@@ -218,6 +218,9 @@ As such, the three of them support mostly the same syntax (even if Scilab puts l
 From now on, the specific tool being used among the two MATLAB alternatives will not be specifically mentioned (mentioning "the tool" instead). We tried both alternatives and had more issues (build/installation, proper display) with Scilab, so we mostly used Octave.
 
 
+.. Note:: A personal consideration: for basic uses, relying on a generic-purpose programming language remains often vastly more convenient.
+
+
 
 Common Hints About Scilab and Octave
 ------------------------------------
@@ -404,12 +407,17 @@ Plotting a Function
 
 We consider first a function of a single variable.
 
-Let ``my_xs = 0:0.2:10`` define the support / display range of our function; then:
+Let ``my_xs = 0:0.2:10`` define [#]_ the support / display range of our function; then:
 
 .. code:: octave
 
  my_ys = my_func(my_xs)
  plot(my_xs, my_ys)
+
+
+.. [#] The range syntax is ``Min:StepSize:Max``. As ``Min`` and ``Max`` are both included, ``my_range = 0:0.2:1`` would correspond therefore to a vector of 6 values: ``[0, 0.2, 0.4, 0.6, 0.8, 1]``.
+
+	   Alternatively ``linspace`` can be used in order to specify the number of points (rather than the step size); for example ``linspace(0,5,9)`` is a vector of 9 evenly-spaced points between 0 and 5 (both included: ``[0, 0.625, 1.25, 1.875, 2.5, 3.125, 3.75, 4.375]``).
 
 
 A key point is to understand that, for all plots (``plot``, ``mesh``, ``surf``, etc.), the last element to be specified is *not* the function to which the previous elements are to be applied, but directly the final values to plot.
