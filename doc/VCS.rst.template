@@ -489,7 +489,8 @@ From English to French:
 - ``repository`` -> ``dépôt``
 - ``to checkout`` -> ``extraire``
 - ``to commit`` -> ``valider``
-- ``a commit`` -> ``validation``
+- ``a commit`` -> ``une validation``
+- ``a tag`` -> ``une étiquette``
 - ``in VCS`` -> ``en GCL`` (Gestion de Configuration Logicielle)
 - ``snapshot`` -> ``instantané`` (de l'état du sous-système de fichiers géré en GCL)
 - ``merge`` -> ``fusion``

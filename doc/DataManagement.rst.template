@@ -230,6 +230,16 @@ Putting a semicolon at the end of statement prevents the console from printing t
 
 
 
+Value Ranges
+............
+
+Ranges can be expressed thanks to:
+
+ - ``MIN:STEP_SIZE:MAX``, like in: ``x = -10:2:10`` resulting in 11 points
+ - or ``linspace(MIN, MAX, STEP_COUNT)``, like in: ``x = linspace(-10, 10, 11)`` to produce the same list as before
+
+
+
 Array-based Functions
 .....................
 
@@ -303,7 +313,7 @@ An example of script, named ``phi_exp.m``:
  plot(xs,ys)
 
  title ("A function phi to map values V to a probability-suitable ]0,1[ interval")
- ylabel ("\phi(V")
+ ylabel ("\phi(V)")
  xlabel ("V")
  grid on
 
