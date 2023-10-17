@@ -993,6 +993,15 @@ This can be fixed by uncommenting the corresponding locale (``en_US.UTF-8`` here
 
 
 
+Performing Searches and Replacements
+------------------------------------
+
+With grep and sed, ``[[:space:]]`` and ``\s`` are the same, they will both match any whitespace character spaces, tabs, etc.
+
+To perform in-place replacements in a file: ``sed -i 's|MY_TAG|142|g' my_file.txt``.
+
+
+
 Applying a XFCE4 configuration to a different user
 --------------------------------------------------
 
