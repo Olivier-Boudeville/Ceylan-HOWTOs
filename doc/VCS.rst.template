@@ -102,6 +102,7 @@ Basic Operations
   - to set a new annotated tag: ``git tag -a foobar-version-2.4.0 -m "Release of the version 2.4.0 of Foobar."``; prefer naming tags differently from branches (e.g. ``foobar-version-2.4.0`` rather than ``foobar-2.4.0``) to spare ambiguities to Git
   - a set tag must be specifically pushed on a remote, for example: ``git push origin my_tag``; all tags can be pushed with ``git push --tags`` (the remote can be implied)
   - to delete a tag that was not pushed: ``git tag --delete my_tag``
+  - to list all (annotated) tags, from the oldest one to the latest one: use Ceylan-Hull's ``list-tags-by-date.sh`` script
 
 - **determining whether a file is in VCS**, knowing that due to ``.gitignore`` rules, ``update-index --skip-worktree``, etc. it is not always obvious:
 
