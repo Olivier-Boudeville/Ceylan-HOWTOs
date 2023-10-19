@@ -387,6 +387,7 @@ Each key shall be registered in one's referential, and one shall be careful not 
 
 To identify for sure such a key, run ``lsblk --fs`` just before plugging it in, and just after, so that the difference can be easily spotted.
 
+The device name and size should be checked.
 
 For an increased security, environment variables will be associated here to such a key, for example with: ``export KEY_DEV=/dev/sdz``.
 
@@ -460,6 +461,9 @@ For example:
 
 Creating Plain, Unencrypted Partitions
 --------------------------------------
+
+Some devices (e.g. printers) may be confused should there be multiple partitions, or some with non-FAT or encrypted filesystems. This may be a reason to create a single, overall FAT partition.
+
 
 
 Formatting a Plain Partition
@@ -734,7 +738,7 @@ Finally:
  $ cryptsetup close ${DM_NAME}
 
 
-That's it! You should end up with a basic, inexpensive USB key - yet offering at least two satisfying partitions, one public, one adequately encrypted.
+That's it! You should end up with a basic, inexpensive USB key - yet offering at least two satisfying partitions, one public (unencrypted), one adequately encrypted.
 
 
 
@@ -986,6 +990,15 @@ This can be fixed by uncommenting the corresponding locale (``en_US.UTF-8`` here
   fr_FR.UTF-8... done
   fr_FR.ISO-8859-15@euro... done
  Generation complete.
+
+
+
+Performing Searches and Replacements
+------------------------------------
+
+With grep and sed, ``[[:space:]]`` and ``\s`` are the same, they will both match any whitespace character spaces, tabs, etc.
+
+To perform in-place replacements in a file: ``sed -i 's|MY_TAG|142|g' my_file.txt``.
 
 
 
