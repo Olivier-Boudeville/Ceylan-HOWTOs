@@ -842,6 +842,10 @@ To avoid having to perform a lookup in the documentation:
   - creating/updating maps is ``EmptyMap = #{}``, ``NewMFromScratch = #{K1 => V1, K2 => V2}`` or ``UpdatedM = M#{K1 => V1, K2 => V2}``
   - updating the value associated to an already-existing key ``K`` is ``ModM = M#{K := V}``
   - matching is ``#{K1 := V1, K2 := V2} = M`` where the ``K*`` are `guard expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard_expressions>`_ and the ``V*`` can be any pattern
+  - obtaining the value ``V`` associated to a key ``K`` that:
+
+	- is expected to exist: ``V = maps:get(K, MyMap)`` (generally could/should be directly matched instead)
+	- may or may not exist: ``case maps:find(K, MyMap) of {ok, V} -> ...; error -> ... end``
 
 - when converting a float to a string, to set the precision (the number of digits after the decimal point) to ``P``, use: ``"~.Pf"``; for example, if ``P=5``, we have: ``"0.33333" = io_lib:format("~.5f", [1/3]).``
 
