@@ -312,7 +312,7 @@ More types of outputs are readily supported: HTML, PDF, EPUB, man pages.
 Installation
 ------------
 
-One may follow `these guidelines <https://www.sphinx-doc.org/en/master/usage/installation.html>`_. On Arch Linux, we install the `python-sphinx <https://archlinux.org/packages/community/any/python-sphinx/>`_ package, thanks to: ``pacman -Sy python-sphinx``.
+One may follow `these guidelines <https://www.sphinx-doc.org/en/master/usage/installation.html>`_. On Arch Linux, we install the `python-sphinx <https://archlinux.org/packages/community/any/python-sphinx/>`_ package, thanks to: ``pacman -Sy python-sphinx texlive-binextra``(last package being needed now for ``latexmk``, to generate PDFs).
 
 
 
@@ -347,6 +347,8 @@ Running ``make html`` again should be sufficient to take this new theme into acc
 
 Here is one `customisation thereof <https://sphinx-rtd-theme.readthedocs.io/en/latest/configuring.html>`_ (theme options) that we like:
 
+.. _`conf.py`:
+
 .. code:: python
 
  #html_theme = 'alabaster'
@@ -380,6 +382,11 @@ Here is one `customisation thereof <https://sphinx-rtd-theme.readthedocs.io/en/l
 
  html_static_path = ['_static']
 
+ # So that inner cross-RST file references can be found:
+ default_role = 'any'
+
+
+
 
 Adding Content
 --------------
@@ -395,6 +402,17 @@ This is just a matter of adding ``*.rst`` files (each defining at least one titl
 
 
 The result in a static website that can safely be transferred and served by any webserver of choice.
+
+
+
+Inner Links with Sphinx
+-----------------------
+
+In our preferred approach, described `here <https://stackoverflow.com/a/70355341>`_ and `there <https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any>`_, such inner links - which are possibly defined and referenced in *different* RST files - are to be managed in a slightly different way than for `Docutils's inner links <#inner-links>`_:
+
+- first, as shown in the `conf.py`_ example above, the ``default_role = 'any'`` setting should be specified
+- then, if each inner link target shall be specified as usual (e.g. as ``.. _`brief answers`:``), they should be referenced like with Docutils but *without* a trailing underscore (e.g. as ```brief answers``` - rather than as ```brief answers`_``)
+
 
 
 Miscellaneous
