@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, October 14, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, October 22, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -82,15 +82,16 @@
 <li><a class="reference internal" href="#protecting-files-and-directories" id="toc-entry-34">Protecting Files and Directories</a></li>
 <li><a class="reference internal" href="#converting-data-formats" id="toc-entry-35">Converting Data Formats</a></li>
 <li><a class="reference internal" href="#adding-a-locale" id="toc-entry-36">Adding a Locale</a></li>
-<li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-37">Applying a XFCE4 configuration to a different user</a></li>
-<li><a class="reference internal" href="#using-emacs" id="toc-entry-38">Using Emacs</a></li>
-<li><a class="reference internal" href="#using-e-mail-clients" id="toc-entry-39">Using E-mail Clients</a></li>
-<li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-40">Recording a Screencast</a></li>
-<li><a class="reference internal" href="#other-user-settings" id="toc-entry-41">Other User Settings</a></li>
-<li><a class="reference internal" href="#shortcuts" id="toc-entry-42">Shortcuts</a></li>
+<li><a class="reference internal" href="#performing-searches-and-replacements" id="toc-entry-37">Performing Searches and Replacements</a></li>
+<li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-38">Applying a XFCE4 configuration to a different user</a></li>
+<li><a class="reference internal" href="#using-emacs" id="toc-entry-39">Using Emacs</a></li>
+<li><a class="reference internal" href="#using-e-mail-clients" id="toc-entry-40">Using E-mail Clients</a></li>
+<li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-41">Recording a Screencast</a></li>
+<li><a class="reference internal" href="#other-user-settings" id="toc-entry-42">Other User Settings</a></li>
+<li><a class="reference internal" href="#shortcuts" id="toc-entry-43">Shortcuts</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-43">See Also</a></li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-44">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -814,8 +815,13 @@ $<span class="w"> </span>locale-gen<span class="w">
 </span>Generation<span class="w"> </span>complete.
 </pre>
 </div>
+<div class="section" id="performing-searches-and-replacements">
+<h2><a class="toc-backref" href="#toc-entry-37">Performing Searches and Replacements</a></h2>
+<p>With grep and sed, <tt class="docutils literal"><span class="pre">[[:space:]]</span></tt> and <tt class="docutils literal">\s</tt> are the same, they will both match any whitespace character spaces, tabs, etc.</p>
+<p>To perform in-place replacements in a file: <tt class="docutils literal">sed <span class="pre">-i</span> 's|MY_TAG|142|g' my_file.txt</tt>.</p>
+</div>
 <div class="section" id="applying-a-xfce4-configuration-to-a-different-user">
-<h2><a class="toc-backref" href="#toc-entry-37">Applying a XFCE4 configuration to a different user</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-38">Applying a XFCE4 configuration to a different user</a></h2>
 <p>The objective is to duplicate the configuration of the <tt class="docutils literal">user_a</tt> desktop to the <tt class="docutils literal">user_b</tt> one, for example if <tt class="docutils literal">user_b</tt> is used to test an untrusted application.</p>
 <p>A key point is to ensure that at least <tt class="docutils literal">user_b</tt> has no ongoing graphical session (otherwise any new configuration may be overwritten with an older one at logout).</p>
 <p>Then, typically as root:</p>
@@ -829,7 +835,7 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 <p>Selecting a per-user wallpaper may be of help.</p>
 </div>
 <div class="section" id="using-emacs">
-<h2><a class="toc-backref" href="#toc-entry-38">Using Emacs</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-39">Using Emacs</a></h2>
 <div class="section" id="configuration-1">
 <span id="emacs-configuration"></span><h3>Configuration</h3>
 <p>Our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">init.el</a>, which may be stored in <tt class="docutils literal"><span class="pre">~/.emacs.d/</span></tt>, currently relies on <a class="reference external" href="https://github.com/radian-software/straight.el">straight.el</a>.</p>
@@ -887,7 +893,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 </div>
 <div class="section" id="using-e-mail-clients">
-<h2><a class="toc-backref" href="#toc-entry-39">Using E-mail Clients</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-40">Using E-mail Clients</a></h2>
 <p>Over time we were preferring <a class="reference external" href="https://help.gnome.org/users/evolution/stable/index.html">Evolution</a> to <a class="reference external" href="https://www.thunderbird.net/">Thunderbird</a>, notably regarding its far better <a class="reference external" href="Cybersecurity.html#securing-thanks-to-openpgp">OpenPGP</a> support. Yet, at least for some IMAP servers (e.g. the ones of <a class="reference external" href="https://www.mailo.com/">Mailo</a>), errors (like: <tt class="docutils literal">Error copying messages: Error</tt>) constantly happening (despite many attempts of configuration changes) and being reported ruined its use for us <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a>, so we switched back to Thunderbird.</p>
 <table class="docutils footnote" frame="void" id="footnote-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -896,13 +902,17 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </tbody>
 </table>
 <ul class="simple">
-<li>for Thunderbird: we recommend using the <a class="reference external" href="https://addons.thunderbird.net/en-us/thunderbird/addon/dkim-verifier/">DKIM Verifier</a> add-on, that we found much useful to better detect spoofing attempts</li>
+<li>for Thunderbird:<ul>
+<li>the message filters can be copied as a whole from a computer to another, knowing that with IMAP servers the emails and their folder structure should be readily available from all clients; transferring filters is as simple as copying, whereas Thunderbird instances are closed, the relevant <tt class="docutils literal">msgFilterRules.dat</tt> file (located typically in a generated directly like <tt class="docutils literal"><span class="pre">~/.thunderbird/6r77gatw.default-release/ImapMail/YOUR_IMAP_SERVER/msgFilterRules.dat</span></tt>)</li>
+<li>we recommend using the <a class="reference external" href="https://addons.thunderbird.net/en-us/thunderbird/addon/dkim-verifier/">DKIM Verifier</a> add-on, that we found much useful to better detect spoofing attempts; it can be configured to display colored DKIM statuses for the sender of each email, which is very convenient</li>
+</ul>
+</li>
 <li>for Evolution: on Arch Linux, consider installing the <tt class="docutils literal"><span class="pre">evolution-bogofilter</span></tt> and/or <tt class="docutils literal"><span class="pre">evolution-spamassassin</span></tt> packages, otherwise spams (junk mails) do not seem to be managed properly (or at all)</li>
 </ul>
 <p>See also Ceylan-Hull's <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/email.sh/">email.sh</a> and <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/archive-emails.sh">archive-emails.sh</a> scripts.</p>
 </div>
 <div class="section" id="recording-a-screencast">
-<h2><a class="toc-backref" href="#toc-entry-40">Recording a Screencast</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-41">Recording a Screencast</a></h2>
 <p>We rely on the impressive, feature-rich, free software <a class="reference external" href="https://en.wikipedia.org/wiki/SimpleScreenRecorder">SimpleScreenRecorder</a> (<tt class="docutils literal">pacman <span class="pre">-Sy</span> simplescreenrecorder</tt>).</p>
 <p>This tool is run as <tt class="docutils literal">simplescreenrecorder</tt> and offers many options and encoding choices; it is able to record OpenGL applications <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[3]</a> and also the audio.</p>
 <table class="docutils footnote" frame="void" id="footnote-3" rules="none">
@@ -915,11 +925,11 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>See also <a class="reference external" href="https://en.wikipedia.org/wiki/Comparison_of_screencasting_software">this comparison</a> of screencasting software.</p>
 </div>
 <div class="section" id="other-user-settings">
-<h2><a class="toc-backref" href="#toc-entry-41">Other User Settings</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-42">Other User Settings</a></h2>
 <p>See our <a class="reference external" href="https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a">preferences</a> for <a class="reference external" href="https://www.startpage.com">Startpage</a>; it can be set as homepage.</p>
 </div>
 <div class="section" id="shortcuts">
-<h2><a class="toc-backref" href="#toc-entry-42">Shortcuts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-43">Shortcuts</a></h2>
 <p>Listing here the main keyboard shortcuts of interest for a few base tools.</p>
 <div class="section" id="for-less">
 <h3>For <tt class="docutils literal">less</tt></h3>
@@ -948,7 +958,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-43">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-44">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>

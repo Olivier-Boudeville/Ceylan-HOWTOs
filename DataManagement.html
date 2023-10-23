@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, October 7, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, October 22, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -180,6 +180,16 @@ $<span class="w"> </span>jq<span class="w"> </span><span class="nb">type</span><
 <h3>Syntax</h3>
 <p>Putting a semicolon at the end of statement prevents the console from printing the corresponding value (answer, variable assignment, etc.).</p>
 </div>
+<div class="section" id="value-ranges">
+<h3>Value Ranges</h3>
+<p>Ranges can be expressed thanks to:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal">MIN:STEP_SIZE:MAX</tt>, like in: <tt class="docutils literal">x = <span class="pre">-10:2:10</span></tt> resulting in 11 points</li>
+<li>or <tt class="docutils literal">linspace(MIN, MAX, STEP_COUNT)</tt>, like in: <tt class="docutils literal">x = <span class="pre">linspace(-10,</span> 10, 11)</tt> to produce the same list as before</li>
+</ul>
+</blockquote>
+</div>
 <div class="section" id="array-based-functions">
 <h3>Array-based Functions</h3>
 <p>Many functions are defined so that they can be called also with <em>arrays</em> of parameters, instead of just standalone values. For that, a dot/period-based syntax has been introduced so that each element of an input vector is applied to the function in turn. A key understanding is that such a dot applies not to variables but to operators; for example <tt class="docutils literal"><span class="pre">2*x.^2+1</span></tt> shall not be read as <tt class="docutils literal"><span class="pre">2*(x.)^2+1</span></tt> but as <tt class="docutils literal"><span class="pre">2*x(.^)2+1</span></tt>.</p>
@@ -241,7 +251,7 @@ $<span class="w"> </span>jq<span class="w"> </span><span class="nb">type</span><
 </span><span class="nb">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">)</span><span class="w">
 
 </span><span class="nb">title</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;A function phi to map values V to a probability-suitable ]0,1[ interval&quot;</span><span class="p">)</span><span class="w">
-</span><span class="nb">ylabel</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;\phi(V&quot;</span><span class="p">)</span><span class="w">
+</span><span class="nb">ylabel</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;\phi(V)&quot;</span><span class="p">)</span><span class="w">
 </span><span class="nb">xlabel</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;V&quot;</span><span class="p">)</span><span class="w">
 </span><span class="nb">grid</span><span class="w"> </span><span class="n">on</span>
 </pre>

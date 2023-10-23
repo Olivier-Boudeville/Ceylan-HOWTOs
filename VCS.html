@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, August 4, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, October 22, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -122,6 +122,7 @@
 <li>to set a new annotated tag: <tt class="docutils literal">git tag <span class="pre">-a</span> <span class="pre">foobar-version-2.4.0</span> <span class="pre">-m</span> &quot;Release of the version 2.4.0 of Foobar.&quot;</tt>; prefer naming tags differently from branches (e.g. <tt class="docutils literal"><span class="pre">foobar-version-2.4.0</span></tt> rather than <tt class="docutils literal"><span class="pre">foobar-2.4.0</span></tt>) to spare ambiguities to Git</li>
 <li>a set tag must be specifically pushed on a remote, for example: <tt class="docutils literal">git push origin my_tag</tt>; all tags can be pushed with <tt class="docutils literal">git push <span class="pre">--tags</span></tt> (the remote can be implied)</li>
 <li>to delete a tag that was not pushed: <tt class="docutils literal">git tag <span class="pre">--delete</span> my_tag</tt></li>
+<li>to list all (annotated) tags, from the oldest one to the latest one: use Ceylan-Hull's <tt class="docutils literal"><span class="pre">list-tags-by-date.sh</span></tt> script</li>
 </ul>
 </li>
 <li><strong>determining whether a file is in VCS</strong>, knowing that due to <tt class="docutils literal">.gitignore</tt> rules, <tt class="docutils literal"><span class="pre">update-index</span> <span class="pre">--skip-worktree</span></tt>, etc. it is not always obvious:</li>
@@ -391,7 +392,8 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 <li><tt class="docutils literal">repository</tt> -&gt; <tt class="docutils literal">dépôt</tt></li>
 <li><tt class="docutils literal">to checkout</tt> -&gt; <tt class="docutils literal">extraire</tt></li>
 <li><tt class="docutils literal">to commit</tt> -&gt; <tt class="docutils literal">valider</tt></li>
-<li><tt class="docutils literal">a commit</tt> -&gt; <tt class="docutils literal">validation</tt></li>
+<li><tt class="docutils literal">a commit</tt> -&gt; <tt class="docutils literal">une validation</tt></li>
+<li><tt class="docutils literal">a tag</tt> -&gt; <tt class="docutils literal">une étiquette</tt></li>
 <li><tt class="docutils literal">in VCS</tt> -&gt; <tt class="docutils literal">en GCL</tt> (Gestion de Configuration Logicielle)</li>
 <li><tt class="docutils literal">snapshot</tt> -&gt; <tt class="docutils literal">instantané</tt> (de l'état du sous-système de fichiers géré en GCL)</li>
 <li><tt class="docutils literal">merge</tt> -&gt; <tt class="docutils literal">fusion</tt></li>

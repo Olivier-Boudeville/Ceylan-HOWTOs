@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, April 14, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, August 13, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -663,6 +663,11 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <li>creating/updating maps is <tt class="docutils literal">EmptyMap = #{}</tt>, <tt class="docutils literal">NewMFromScratch = #{K1 =&gt; V1, K2 =&gt; V2}</tt> or <tt class="docutils literal">UpdatedM = <span class="pre">M#{K1</span> =&gt; V1, K2 =&gt; V2}</tt></li>
 <li>updating the value associated to an already-existing key <tt class="docutils literal">K</tt> is <tt class="docutils literal">ModM = <span class="pre">M#{K</span> := V}</tt></li>
 <li>matching is <tt class="docutils literal">#{K1 := V1, K2 := V2} = M</tt> where the <tt class="docutils literal">K*</tt> are <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard_expressions">guard expressions</a> and the <tt class="docutils literal">V*</tt> can be any pattern</li>
+<li>obtaining the value <tt class="docutils literal">V</tt> associated to a key <tt class="docutils literal">K</tt> that:<ul>
+<li>is expected to exist: <tt class="docutils literal">V = maps:get(K, MyMap)</tt> (generally could/should be directly matched instead)</li>
+<li>may or may not exist: <tt class="docutils literal">case maps:find(K, MyMap) of {ok, V} <span class="pre">-&gt;</span> <span class="pre">...;</span> error <span class="pre">-&gt;</span> ... end</tt></li>
+</ul>
+</li>
 </ul>
 </li>
 <li>when converting a float to a string, to set the precision (the number of digits after the decimal point) to <tt class="docutils literal">P</tt>, use: <tt class="docutils literal"><span class="pre">&quot;~.Pf&quot;</span></tt>; for example, if <tt class="docutils literal">P=5</tt>, we have: <tt class="docutils literal">&quot;0.33333&quot; = <span class="pre">io_lib:format(&quot;~.5f&quot;,</span> <span class="pre">[1/3]).</span></tt></li>
