@@ -998,6 +998,8 @@ Performing Searches and Replacements
 
 With grep and sed, ``[[:space:]]`` and ``\s`` are the same, they will both match any whitespace character spaces, tabs, etc.
 
+To search for a set of patterns, separate them by an (escaped) pipe; for example: ``grep 'hello\|goodbye\|farewell' Foobar.java``.
+
 To perform in-place replacements in a file: ``sed -i 's|MY_TAG|142|g' my_file.txt``.
 
 
