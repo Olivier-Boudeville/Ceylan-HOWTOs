@@ -265,6 +265,44 @@ It can then be referenced from the same page as `#how-to-render-equations <#how-
 Note that titles and hypertext links introduce local links as well, so one's inner links may clash with them (resulting in ``(ERROR/3) Duplicate target name [...]``); the best option is generally to phrase these inner links differently.
 
 
+
+Citations & References
+......................
+
+
+Choice of Conventions
+_____________________
+
+Engineering generally relies often on the `IEEE <https://www.scribbr.com/category/ieee/>`_ or the `APA <https://apastyle.apa.org/style-grammar-guidelines/citations/basic-principles/author-date>`_ citation style.
+
+We dislike a bit IEEE, as its references are just numbers (e.g. ``[1]`` in ``Lindberg and Lee [1]``), instead of more informative elements (like ``[CIT2002]``), so we chose APA, which seems more in-line with RST conventions.
+
+Within APA, we prefer parenthetical citations (e.g. ``(Salas & D’Agostino, 2020)``) to narrative ones (e.g. ``Salas and D’Agostino (2020)``).
+
+Here are extra `examples thereof <https://libguides.wpi.edu/citingsources/apa_examples>`_:
+
+- the in-text reference pointers shall be, for books, like ``(Author, Year)``; for example ``(Taylor, 2005)``
+- each of these pointers designates an actual reference in the form:
+
+ Authors' Last name, First Initial. (Year). Book title: Subtitle. (Edition) [if other than the 1st]. Publisher
+
+
+Unfortunately neither types of APA citations is supported (possibly because of the parentheses and/or the space, the text is not interpreted as a citation. So for example ``[(Taylor, 2005)]_`` / ``.. [(Taylor, 2005)]`` will not work.
+
+So we finally retained conventions that are a bit different: **APA with no parentheses or space**.
+
+
+
+Example
+_______
+
+Finally an actual example just follows: like explained in [Taylor2005]_, the conservation of momentum can help solving elegantly some problems.
+
+.. [Taylor2005] Taylor, J, (2005), Classical Mechanics, (2005), University Science Book, 98-100
+
+
+
+
 Commenting
 ..........
 
@@ -312,7 +350,7 @@ More types of outputs are readily supported: HTML, PDF, EPUB, man pages.
 Installation
 ------------
 
-One may follow `these guidelines <https://www.sphinx-doc.org/en/master/usage/installation.html>`_. On Arch Linux, we install the `python-sphinx <https://archlinux.org/packages/community/any/python-sphinx/>`_ package, thanks to: ``pacman -Sy python-sphinx``.
+One may follow `these guidelines <https://www.sphinx-doc.org/en/master/usage/installation.html>`_. On Arch Linux, we install the `python-sphinx <https://archlinux.org/packages/community/any/python-sphinx/>`_ package, thanks to: ``pacman -Sy python-sphinx texlive-binextra``(last package being needed now for ``latexmk``, to generate PDFs).
 
 
 
@@ -347,6 +385,8 @@ Running ``make html`` again should be sufficient to take this new theme into acc
 
 Here is one `customisation thereof <https://sphinx-rtd-theme.readthedocs.io/en/latest/configuring.html>`_ (theme options) that we like:
 
+.. _`conf.py`:
+
 .. code:: python
 
  #html_theme = 'alabaster'
@@ -380,6 +420,11 @@ Here is one `customisation thereof <https://sphinx-rtd-theme.readthedocs.io/en/l
 
  html_static_path = ['_static']
 
+ # So that inner cross-RST file references can be found:
+ default_role = 'any'
+
+
+
 
 Adding Content
 --------------
@@ -395,6 +440,17 @@ This is just a matter of adding ``*.rst`` files (each defining at least one titl
 
 
 The result in a static website that can safely be transferred and served by any webserver of choice.
+
+
+
+Inner Links with Sphinx
+-----------------------
+
+In our preferred approach, described `here <https://stackoverflow.com/a/70355341>`_ and `there <https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any>`_, such inner links - which are possibly defined and referenced in *different* RST files - are to be managed in a slightly different way than for `Docutils's inner links <#inner-links>`_:
+
+- first, as shown in the `conf.py`_ example above, the ``default_role = 'any'`` setting should be specified
+- then, if each inner link target shall be specified as usual (e.g. as ``.. _`brief answers`:``), they should be referenced like with Docutils but *without* a trailing underscore (e.g. as ```brief answers``` - rather than as ```brief answers`_``)
+
 
 
 Miscellaneous
