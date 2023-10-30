@@ -326,6 +326,30 @@ In order to list the differences of a given file with the previous commits (prec
 
 
 
+Performing a Merge with Emacs
+.............................
+
+Our procedure is to rely on our `configuration of Emacs <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el>`_, which configures the ``smerge-mode`` (which is automatically triggered in the case of files containing conflicts; see the ``SMerge`` menu) so that it relies on the ``C-c v`` [#]_ smerge command prefix (that we found more convenient).
+
+.. [#] Hence: press and hold the "Ctrl" key, and hit the "c" key, then release all, then press the "v" key, and release.
+
+Then the following main commands are useful:
+
+- to move between conflicts:
+
+  - go to *next* one: ``smerge-command-prefix n`` (for ``smerge-next``), which thus corresponds to ``C-c v n``
+  - go to *previous* one: ``smerge-command-prefix p`` (for ``smerge-previous``), which thus corresponds to ``C-c v p``
+
+- to select a version:
+
+  - the one the cursor is currently on: ``smerge-command-prefix RET`` (for ``smerge-keep-current``), which thus corresponds to ``C-c v RET``
+  - that was in our current merge-target branch: ``smerge-command-prefix m`` (for ``smerge-keep-mine``), which thus corresponds to ``C-c v m``
+  - that is in the other branch, to merge in our current one: ``smerge-command-prefix o`` (for ``smerge-keep-other``), which thus corresponds to ``C-c v o``
+
+See also our more general `Using Emacs <GNULinux.html#using-emacs>`_ section.
+
+
+
 Using the stash
 ...............
 

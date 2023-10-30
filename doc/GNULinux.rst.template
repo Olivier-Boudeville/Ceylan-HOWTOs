@@ -1075,7 +1075,11 @@ Then one's shell environment shall be updated once for all with:
 Hints
 .....
 
-Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", generally) and ``-`` is just a separator.
+Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", generally) and ``-`` is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press *while the modifier is still held down*.
+
+For example ``C-x C--`` means: press and hold the "Ctrl" key, and hit the "x" key, then release all, then press and hold the "Ctrl" key, and hit the "-" key, and release all.
+
+Frequent actions needed:
 
 - to tune the font size:
 
@@ -1102,6 +1106,8 @@ Other useful commands to trigger with ``M-x``:
 - ``query-replace``
 - ``kill-rectangle``
 
+
+See also our `Performing a Merge with Emacs <VCS.html#performing-a-merge-with-emacs>`_ section.
 
 
 
