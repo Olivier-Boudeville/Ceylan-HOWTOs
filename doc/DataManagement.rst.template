@@ -467,4 +467,50 @@ Then each resulting *selected* row while have a unique value in the selected col
 Often it might be convenient to sort this selection afterwards; the up/down arrow icons may be used, and keeping the ``Current selection`` is generally used (rather than extending it).
 
 
+
+.. _`data display`:
+
+
+Data-related Displaying Tools
+=============================
+
+For that we rely mostly on `gnuplot <http://www.gnuplot.info/>`_.
+
+Our conventions are the following:
+
+- rely on a recent version of gnuplot (e.g. 5.4)
+- the image formats for the generated plots are (large-enough) ``PNG`` or ``SVG`` (better in spirit, yet usually of higher file size, and with a slightly different rendering)
+- the extension of command files is ``p`` (e.g. ``foobar.p``), the one for data files that they refer to is ``dat`` (e.g. ``foobar.dat``); running gnuplot scripts is then as simple as executing ``gnuplot foobar.p``
+
+Besides generating images, gnuplot is able, thanks to interactive terminal types (like ``qt``), to let the user navigate in the plots (e.g. move around, zoom on them).
+
+As an example to be copied in a ``hyperboloid.p`` command file:
+
+.. code:: gnuplot
+
+ reset
+ set grid
+ set parametric
+ set view equal
+
+ splot [-pi:pi][-2.5:2.5] cos(u)*sinh(v), sin(u)*sinh(v), cosh(v), cos(u)*sinh(v), sin(u)*sinh(v), -cosh(v)
+
+ set terminal qt persist
+ pause mouse close
+
+Then running ``gnuplot hyperboloid.p`` results in an interactive viewer like:
+
+:raw-html:`<center><img src="gnuplot-hyperboloid.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{gnuplot-hyperboloid.png} \end{figure}`
+
+
+that we can explore with the mouse and/or keyboard. Press the ``h`` key to list the available mouse/keyboard commands.
+
+
+.. remove branch name:
+
+Based on our Erlang developments, we implemented the `plot_utils <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/opengl-augmentation/src/maths/plot_utils.erl>`_ module, which is a library (relying on gnuplot) to generate plots more conveniently.
+
+
+
 :raw-html:`<a name="howtos_bottom"></a>`
