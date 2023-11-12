@@ -148,6 +148,34 @@ For that, rather than installing MathJax by oneself (as we found its website rat
 ``pacman -Sy mathjax``) and to copy the result in one's account: ``cp -r /usr/share/mathjax ~/Software/``, before fixing permissions there. This local copy shall just be regularly updated.
 
 
+If Needing to Generate Images from Formulas
+___________________________________________
+
+
+This is typically generating an image file file from a LaTeX formula to include in a presentation, an e-mail, any kind of post, etc.
+
+
+LaTeX to SVG
+************
+
+`tex2svg <https://github.com/yannikschaelte/tex2svg>`_ is the tool of choice here.
+
+On Arch Linux, the ``texlive-bin`` (for *pdflatex*) and ``pdf2svg`` packages may have to be installed.
+
+
+
+LaTeX to PNG
+************
+
+We do not think this is the best approach as the resulting bitmap file is likely to have issues in terms of rendering/aliasing.
+
+This can be done thanks to `tex2png <https://xyne.dev/projects/tex2png/>`_, a simple yet effective Bash script.
+
+At least the ``texlive-fontsrecommended`` Arch package shall be installed beforehand, so that the ``lmodern.sty`` file is available.
+
+Example of use: ``./tex2png -c "$\phi_n(\kappa) = \frac{1}{4\pi^2\kappa^2}$" -T -D 500 -o my-example.png``.
+
+
 
 Usage
 *****
@@ -595,6 +623,12 @@ To invert/negate an image (swap colors with their complementary ones, while pres
 
 See also the Myriad's automatic rules, which generate ``X-negated.png`` from ``X.png`` thanks to: ``make X-negated.png``.
 
+
+
+Plot Generation
+---------------
+
+Refer to our `data display <DataManagement.html#data-display>`_ section.
 
 
 
