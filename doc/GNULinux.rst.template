@@ -996,11 +996,25 @@ This can be fixed by uncommenting the corresponding locale (``en_US.UTF-8`` here
 Performing Searches and Replacements
 ------------------------------------
 
+
+Searches: to be made with ``grep``
+..................................
+
+To search for a **set** of patterns, separate them by an (escaped) pipe; for example: ``grep 'hello\|goodbye\|farewell' Foobar.java``.
+
+
+Replacements: to be made with ``sed``
+.....................................
+
+- **multiple operations** (typically replacements) can be made in a row by combining them with ``";"``; for example to uppercase only a set of letters: ``echo "aabbccddee" | sed 's|b|B|g;s|d|D|g'`` yields ``aaBBccDDee``
+- to perform **in-place** replacements in a file: ``sed -i 's|MY_TAG|142|g' my_file.txt`` (if a suffix is specified, backups may be made)
+
+
+Common to ``grep`` and ``sed``
+..............................
+
 With grep and sed, ``[[:space:]]`` and ``\s`` are the same, they will both match any whitespace character spaces, tabs, etc.
 
-To search for a set of patterns, separate them by an (escaped) pipe; for example: ``grep 'hello\|goodbye\|farewell' Foobar.java``.
-
-To perform in-place replacements in a file: ``sed -i 's|MY_TAG|142|g' my_file.txt``.
 
 
 
