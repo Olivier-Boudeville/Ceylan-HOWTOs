@@ -610,9 +610,14 @@ Image Transformations
 
 One may rely on:
 
-- `GIMP <https://www.gimp.org/>`_ (*GNU Image Manipulation Program*; corresponding, on Arch, to the ``gimp`` package)
-- or on command-line `ImageMagick <https://imagemagick.org>`_ (on Arch, the ``imagemagick`` package, which provides notably the ``convert`` and ``display`` executables)
+- `GIMP <https://www.gimp.org/>`_ (*GNU Image Manipulation Program*; corresponding, on Arch, to the ``gimp`` package), for bitmap (e.g. PNG) graphics
+- `Inkscape <https://inkscape.org>`_, for vector-based (e.g. SVG) graphics
+- or on command-line `ImageMagick <https://imagemagick.org>`_ (on Arch Linux, install the ``imagemagick`` package, which provides notably the ``convert`` and ``display`` executables)
 
+
+
+Inverting an Image
+..................
 
 To invert/negate an image (swap colors with their complementary ones, while preserving alpha coordinates):
 
@@ -620,8 +625,72 @@ To invert/negate an image (swap colors with their complementary ones, while pres
 
  $ convert source.png -channel RGB -negate target.png
 
-
 See also the Myriad's automatic rules, which generate ``X-negated.png`` from ``X.png`` thanks to: ``make X-negated.png``.
+
+
+
+Adding a Border to an Image
+...........................
+
+For example to add a 10-pixel wide / 5-pixel tall red border to an image:
+
+.. code:: bash
+
+ $ magick source.png -bordercolor red -border 10x5 target.png
+
+
+A more classical 2-pixel thick black border:
+
+.. code:: bash
+
+ $ magick source.png -bordercolor black -border 2 target.png
+
+
+
+Rendering a Vector Image at a given Scale/Size
+..............................................
+
+Let's suppose that a SVG file is available (for example obtained thanks to our `latex-to-image.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/latex-to-image.sh>`_ script).
+
+Going for a PNG of a width of 1000 pixels while preserving the aspect ratio and keeping the background transparent:
+
+.. code:: bash
+
+ $ convert -size 1000 -background none latex-formula.svg target.png
+
+.. Select a high-enough DPI (e.g. 1200), going for a width of 1000 pixels while preserving the aspect ratio and keeping the background transparent:
+
+.. .. code:: bash
+
+..  $ convert -density 1200 -resize 1000 -background none latex-formula.svg target.png
+
+
+
+Compositing/Blitting an Image onto Another
+..........................................
+
+Let's suppose we have an overall, larger image (e.g. ``my-overall-plot.png``) onto which we want to composite / blit a smaller one (e.g. ``my-formula.png``) at position (100,150) - in pixels, relatively to the top-left corner - with no specific scaling:
+
+.. code:: bash
+
+ $ magick composite my-formula.png my-overall-plot.png -geometry +100+150 target.png
+
+
+
+Positioning the inner image based on "gravity" (preset areas, based on various possible origins; see ``magick -list gravity``) is often convenient; for example relatively to the bottom-right corner of the final image (knowing that positive axes are then, for "SouthEast", the opposite of the default ones - positive coordinate offsets have therefore to be specified in order to go towards the center):
+
+.. code:: bash
+
+ $ magick composite my-formula.png my-overall-plot.png -gravity SouthEast -geometry +50+200 target.png
+
+
+Or simply to have the inner image centered into the overall one:
+
+.. code:: bash
+
+ $ magick composite my-formula.png my-overall-plot.png -gravity Center target.png
+
+.. no need for: -geometry +0+0
 
 
 
