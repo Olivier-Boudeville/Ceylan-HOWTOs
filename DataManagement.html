@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, October 7, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, October 29, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -50,6 +50,7 @@
 <li><a class="reference internal" href="#libreoffice" id="toc-entry-9">LibreOffice</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#data-related-displaying-tools" id="toc-entry-10">Data-related Displaying Tools</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -180,6 +181,16 @@ $<span class="w"> </span>jq<span class="w"> </span><span class="nb">type</span><
 <h3>Syntax</h3>
 <p>Putting a semicolon at the end of statement prevents the console from printing the corresponding value (answer, variable assignment, etc.).</p>
 </div>
+<div class="section" id="value-ranges">
+<h3>Value Ranges</h3>
+<p>Ranges can be expressed thanks to:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal">MIN:STEP_SIZE:MAX</tt>, like in: <tt class="docutils literal">x = <span class="pre">-10:2:10</span></tt> resulting in 11 points</li>
+<li>or <tt class="docutils literal">linspace(MIN, MAX, STEP_COUNT)</tt>, like in: <tt class="docutils literal">x = <span class="pre">linspace(-10,</span> 10, 11)</tt> to produce the same list as before</li>
+</ul>
+</blockquote>
+</div>
 <div class="section" id="array-based-functions">
 <h3>Array-based Functions</h3>
 <p>Many functions are defined so that they can be called also with <em>arrays</em> of parameters, instead of just standalone values. For that, a dot/period-based syntax has been introduced so that each element of an input vector is applied to the function in turn. A key understanding is that such a dot applies not to variables but to operators; for example <tt class="docutils literal"><span class="pre">2*x.^2+1</span></tt> shall not be read as <tt class="docutils literal"><span class="pre">2*(x.)^2+1</span></tt> but as <tt class="docutils literal"><span class="pre">2*x(.^)2+1</span></tt>.</p>
@@ -241,7 +252,7 @@ $<span class="w"> </span>jq<span class="w"> </span><span class="nb">type</span><
 </span><span class="nb">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">)</span><span class="w">
 
 </span><span class="nb">title</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;A function phi to map values V to a probability-suitable ]0,1[ interval&quot;</span><span class="p">)</span><span class="w">
-</span><span class="nb">ylabel</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;\phi(V&quot;</span><span class="p">)</span><span class="w">
+</span><span class="nb">ylabel</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;\phi(V)&quot;</span><span class="p">)</span><span class="w">
 </span><span class="nb">xlabel</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;V&quot;</span><span class="p">)</span><span class="w">
 </span><span class="nb">grid</span><span class="w"> </span><span class="n">on</span>
 </pre>
@@ -338,9 +349,37 @@ $<span class="w"> </span>octave<span class="w"> </span>--eval<span class="w"> </
 <p>Once the selection has been defined, select the <tt class="docutils literal">Data <span class="pre">-&gt;</span> More Filters <span class="pre">-&gt;</span> Standard Filter</tt> menu item, set the <tt class="docutils literal">Field name</tt> dropdown to &quot;<tt class="docutils literal"><span class="pre">-none</span> -</tt>&quot; and, in the panel for <tt class="docutils literal">Options</tt> settings, enable <tt class="docutils literal">No duplications</tt>.</p>
 <p>Then each resulting <em>selected</em> row while have a unique value in the selected column (the other rows will still exist but not be selected).</p>
 <p>Often it might be convenient to sort this selection afterwards; the up/down arrow icons may be used, and keeping the <tt class="docutils literal">Current selection</tt> is generally used (rather than extending it).</p>
+</div>
+</div>
+</div>
+<div class="section" id="data-related-displaying-tools">
+<span id="data-display"></span><h1><a class="toc-backref" href="#toc-entry-10">Data-related Displaying Tools</a></h1>
+<p>For that we rely mostly on <a class="reference external" href="http://www.gnuplot.info/">gnuplot</a>.</p>
+<p>Our conventions are the following:</p>
+<ul class="simple">
+<li>rely on a recent version of gnuplot (e.g. 5.4)</li>
+<li>the image formats for the generated plots are (large-enough) <tt class="docutils literal">PNG</tt> or <tt class="docutils literal">SVG</tt> (better in spirit, yet usually of higher file size, and with a slightly different rendering)</li>
+<li>the extension of command files is <tt class="docutils literal">p</tt> (e.g. <tt class="docutils literal">foobar.p</tt>), the one for data files that they refer to is <tt class="docutils literal">dat</tt> (e.g. <tt class="docutils literal">foobar.dat</tt>); running gnuplot scripts is then as simple as executing <tt class="docutils literal">gnuplot foobar.p</tt></li>
+</ul>
+<p>Besides generating images, gnuplot is able, thanks to interactive terminal types (like <tt class="docutils literal">qt</tt>), to let the user navigate in the plots (e.g. move around, zoom on them).</p>
+<p>As an example to be copied in a <tt class="docutils literal">hyperboloid.p</tt> command file:</p>
+<pre class="code gnuplot literal-block">
+<span class="k">reset</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nb">grid</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nb">parametric</span><span class="w">
+</span><span class="k">set</span><span class="w"> </span><span class="nb">view</span><span class="w"> </span><span class="n">equal</span><span class="w">
+
+</span><span class="k">splot</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="n">pi</span><span class="o">:</span><span class="n">pi</span><span class="p">][</span><span class="mi">-2</span><span class="mf">.5</span><span class="o">:</span><span class="mf">2.5</span><span class="p">]</span><span class="w"> </span><span class="nf">cos</span><span class="p">(</span><span class="nb">u</span><span class="p">)</span><span class="o">*</span><span class="nf">sinh</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">,</span><span class="w"> </span><span class="nf">sin</span><span class="p">(</span><span class="nb">u</span><span class="p">)</span><span class="o">*</span><span class="nf">sinh</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">,</span><span class="w"> </span><span class="nf">cosh</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">,</span><span class="w"> </span><span class="nf">cos</span><span class="p">(</span><span class="nb">u</span><span class="p">)</span><span class="o">*</span><span class="nf">sinh</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">,</span><span class="w"> </span><span class="nf">sin</span><span class="p">(</span><span class="nb">u</span><span class="p">)</span><span class="o">*</span><span class="nf">sinh</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">,</span><span class="w"> </span><span class="o">-</span><span class="nf">cosh</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w">
+
+</span><span class="k">set</span><span class="w"> </span><span class="nb">terminal</span><span class="w"> </span><span class="n">qt</span><span class="w"> </span><span class="n">persist</span><span class="w">
+</span><span class="k">pause</span><span class="w"> </span><span class="nb">mouse</span><span class="w"> </span><span class="n">close</span>
+</pre>
+<p>Then running <tt class="docutils literal">gnuplot hyperboloid.p</tt> results in an interactive viewer like:</p>
+<p><span class="raw-html"><center><img src="gnuplot-hyperboloid.png" id="responsive-image-small"></img></center></span>
+</p>
+<p>that we can explore with the mouse and/or keyboard. Press the <tt class="docutils literal">h</tt> key to list the available mouse/keyboard commands.</p>
+<p>Based on our Erlang developments, we implemented the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/opengl-augmentation/src/maths/plot_utils.erl">plot_utils</a> module, which is a library (relying on gnuplot) to generate plots more conveniently.</p>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
-</div>
-</div>
 </div>
 </div>
 </body>
