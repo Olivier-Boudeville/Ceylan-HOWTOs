@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, November 19, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, October 22, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -817,21 +817,8 @@ $<span class="w"> </span>locale-gen<span class="w">
 </div>
 <div class="section" id="performing-searches-and-replacements">
 <h2><a class="toc-backref" href="#toc-entry-37">Performing Searches and Replacements</a></h2>
-<div class="section" id="searches-to-be-made-with-grep">
-<h3>Searches: to be made with <tt class="docutils literal">grep</tt></h3>
-<p>To search for a <strong>set</strong> of patterns, separate them by an (escaped) pipe; for example: <tt class="docutils literal">grep <span class="pre">'hello\|goodbye\|farewell'</span> Foobar.java</tt>.</p>
-</div>
-<div class="section" id="replacements-to-be-made-with-sed">
-<h3>Replacements: to be made with <tt class="docutils literal">sed</tt></h3>
-<ul class="simple">
-<li><strong>multiple operations</strong> (typically replacements) can be made in a row by combining them with <tt class="docutils literal">&quot;;&quot;</tt>; for example to uppercase only a set of letters: <tt class="docutils literal">echo &quot;aabbccddee&quot; | sed 's|b|B|g;s|d|D|g'</tt> yields <tt class="docutils literal">aaBBccDDee</tt></li>
-<li>to perform <strong>in-place</strong> replacements in a file: <tt class="docutils literal">sed <span class="pre">-i</span> 's|MY_TAG|142|g' my_file.txt</tt> (if a suffix is specified, backups may be made)</li>
-</ul>
-</div>
-<div class="section" id="common-to-grep-and-sed">
-<h3>Common to <tt class="docutils literal">grep</tt> and <tt class="docutils literal">sed</tt></h3>
 <p>With grep and sed, <tt class="docutils literal"><span class="pre">[[:space:]]</span></tt> and <tt class="docutils literal">\s</tt> are the same, they will both match any whitespace character spaces, tabs, etc.</p>
-</div>
+<p>To perform in-place replacements in a file: <tt class="docutils literal">sed <span class="pre">-i</span> 's|MY_TAG|142|g' my_file.txt</tt>.</p>
 </div>
 <div class="section" id="applying-a-xfce4-configuration-to-a-different-user">
 <h2><a class="toc-backref" href="#toc-entry-38">Applying a XFCE4 configuration to a different user</a></h2>
