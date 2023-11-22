@@ -129,7 +129,7 @@ Basic Operations
  # Outputs on the console the diff between the designated
  # version and the current one:
  #
- $ git show COMMIT_ID:path/to/the/target/file
+ $ git diff COMMIT_ID:path/to/the/target/file
 
 - listing the **files modified by a given commit**: ``git show --name-only MY_COMMIT_ID`` will print relevant extra information; if wanting only the list of modified files: ``git diff-tree --no-commit-id --name-only -r --pretty COMMIT_ID``
 
@@ -350,8 +350,10 @@ See also our more general `Using Emacs <GNULinux.html#using-emacs>`_ section.
 
 
 
-Using the stash
+Using the Stash
 ...............
+
+The stash allows to record the current state of the working directory and the index while going back to a clean working directory: the command saves the local modifications away, and reverts the working directory to match the HEAD commit.
 
 The stash is convenient in order to switch branches without having to perform an arbitrary (meaningless) commit just for the sake of switching.
 
@@ -359,6 +361,9 @@ A basic use of the stash is the following:
 
 - to store the currently modified files in the stash: ``git stash`` (equivalent of ``git stash push``)
 - to restore the lastly stored state (hence the reciprocal of the previous command): ``git stash pop``
+- to list the various sets of modifications stashed away: ``git stash list``
+- to show the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created: ``git stash show [STASH_INDEX]``
+
 
 Refer to the `git stash documentation <https://git-scm.com/docs/git-stash/>`_ for more information.
 

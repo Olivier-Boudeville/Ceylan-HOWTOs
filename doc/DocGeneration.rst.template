@@ -725,7 +725,7 @@ It can be set for attributes, operations, and associations in a class diagram, a
 
 It is defined as an inclusive interval based on non-negative integers, with ``*`` denoting an unlimited upper bound (not, for example, ``n``).
 
-Most common multiplies are:
+Most common multiplicities are:
 
 - no instance or one instance: ``0..1``
 - any number of instances, including zero: ``*`` (shorthand for ``0..*``)
