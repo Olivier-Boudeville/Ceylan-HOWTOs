@@ -629,6 +629,27 @@ See also the Myriad's automatic rules, which generate ``X-negated.png`` from ``X
 
 
 
+Rendering a Vector Image at a given Scale/Size
+..............................................
+
+Let's suppose that a SVG file is available (for example obtained thanks to our `latex-to-image.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/latex-to-image.sh>`_ script).
+
+Going for a PNG of a width of 1000 pixels while selecting a high-enough DPI, preserving the aspect ratio and keeping the background transparent:
+
+.. code:: bash
+
+ $ convert -density 1200 -size 1000 -background none latex-formula.svg target.png
+
+.. Select a high-enough DPI (e.g. 1200), going for a width of 1000 pixels while preserving the aspect ratio and keeping the background transparent:
+
+.. .. code:: bash
+
+..  $ convert -density 1200 -resize 1000 -background none latex-formula.svg target.png
+
+Setting a background to a solid color (e.g. ``white``) may allow, when adding a border, to have its color applied only on that border (rather than on the full background).
+
+
+
 Adding a Border to an Image
 ...........................
 
@@ -644,25 +665,6 @@ A more classical 2-pixel thick black border:
 .. code:: bash
 
  $ magick source.png -bordercolor black -border 2 target.png
-
-
-
-Rendering a Vector Image at a given Scale/Size
-..............................................
-
-Let's suppose that a SVG file is available (for example obtained thanks to our `latex-to-image.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/latex-to-image.sh>`_ script).
-
-Going for a PNG of a width of 1000 pixels while preserving the aspect ratio and keeping the background transparent:
-
-.. code:: bash
-
- $ convert -size 1000 -background none latex-formula.svg target.png
-
-.. Select a high-enough DPI (e.g. 1200), going for a width of 1000 pixels while preserving the aspect ratio and keeping the background transparent:
-
-.. .. code:: bash
-
-..  $ convert -density 1200 -resize 1000 -background none latex-formula.svg target.png
 
 
 
