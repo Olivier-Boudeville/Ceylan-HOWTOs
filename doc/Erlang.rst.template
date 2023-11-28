@@ -820,6 +820,14 @@ Extra information resources about ``wx`` (besides the documentation of its modul
 
 
 
+Installing rebar3
+-----------------
+
+One may use our `install-rebar3.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-rebar3.sh>`_ script for that (installed from sources, or prebuilt).
+
+
+
+
 Micro-Cheat Sheet
 =================
 
