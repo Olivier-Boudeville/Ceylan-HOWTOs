@@ -360,9 +360,13 @@ The stash is convenient in order to switch branches without having to perform an
 A basic use of the stash is the following:
 
 - to store the currently modified files in the stash: ``git stash`` (equivalent of ``git stash push``)
-- to restore the lastly stored state (hence the reciprocal of the previous command): ``git stash pop``
 - to list the various sets of modifications stashed away: ``git stash list``
-- to show the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created: ``git stash show [STASH_INDEX]``
+- to show the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created:
+
+  - with just one synthetic line per file changed: ``git stash show [STASH_INDEX]``
+  - with all actual changes: ``git stash show -p [STASH_INDEX]``
+
+- to restore the lastly stored state (hence the reciprocal of the previous command), i.e. to apply it to the current files (with no review and no changes to add afterwards) and then drop that stashed entry: ``git stash pop``
 
 
 Refer to the `git stash documentation <https://git-scm.com/docs/git-stash/>`_ for more information.
