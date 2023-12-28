@@ -177,7 +177,11 @@ Package-related Commands
 ------------------------
 
 - to get information about a package (installed or not): ``pacman -Si MY_PACKAGE``
-- to list all packages explicitly installed and not required as dependencies: ``pacman -Qet``
+- to list all packages:
+
+  - installed (explicitly or not): ``pacman -Q``
+  - explicitly installed and not required as dependencies: ``pacman -Qet``
+
 - to determine which package installed a specified file:
 
   - on Arch: ``pkgfile SOME_FILE``; ``pkgfile`` itself must have been installed beforehand, with ``pacman -S pkgfile``, and be updated, with ``pkgfile --update`` (still as root)
