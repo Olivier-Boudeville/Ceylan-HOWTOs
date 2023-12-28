@@ -694,6 +694,8 @@ Or simply to have the inner image centered into the overall one:
 
 .. no need for: -geometry +0+0
 
+See also our `affix-images.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/affix-images.sh>`_ script.
+
 
 
 Plot Generation
