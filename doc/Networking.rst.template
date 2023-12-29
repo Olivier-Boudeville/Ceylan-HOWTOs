@@ -217,12 +217,27 @@ Note that the ``LOG`` target does not intercept a packet, which thus continues t
 
 As a reminder, for a given table (``filter`` by default), rules may be:
 
-- appended *at the end* of the selected chain with ``-A``
+- appended *at the end* of the selected chain with ``-A`` (then of course any previous rule may eclipse it)
 - inserted either at the *beginning* of the selected chain with ``-I``, or at its position N with ``-I N``
 
+Adding/removing rules "safely" from the command-line may be done more easily by rule specification rather than by rule position.
 
+For example removing a given rule can be done:
 
-See also the `iptables section <https://wiki.archlinux.org/title/iptables>`_ in the Arch wiki.
+- by first listing all rules thanks to ``iptables -S``, to pick the one of interest
+- by removing the prefix (typically ``-A``) of the spec, and pasting the rest of that spec after ``iptables -D`` in order to remove the corresponding rule
+
+Putting back this rule at the first position on its chain instead is just a matter of using  ``iptables -I`` and the same shortened spec.
+
+So, for example if wanting to silence an untrusted device (e.g. some "smart" box, a netcam of dubious origin), an approach is to:
+
+- determine its MAC address and associate a static IP to it; for example, if using ``dnsmasq``, in ``/etc/dnsmasq.conf`` one may define ``dhcp-host=30:ef:50:36:54:68,10.0.17.203``, so that the IP ``10.0.17.203`` is always assigned to the device of MAC address ``30:ef:50:36:54:68``
+- define a firewall rule so that one's gateway never forwards outgoing packets from that (local) IP, for example with: ``iptables -I FORWARD -s 10.0.17.203/32 -i my_lan_interface -j DROP``
+
+See also:
+
+- our `filtered_local_hosts section <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/ef6239b6ca1659ccd479d58b38eb79632b86842f/iptables.rules-Gateway.sh#L674>`_ of ``iptables.rules-Gateway.sh``, the hosts being filtered out based on the ones specified in the ``setting_file`` configuration file
+- the `iptables section <https://wiki.archlinux.org/title/iptables>`_ in the Arch wiki.
 
 
 Network Troubleshooting
