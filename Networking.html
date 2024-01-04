@@ -21,13 +21,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2023 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2024 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, October 29, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, January 4, 2024</td>
 </tr>
 </tbody>
 </table>
@@ -183,10 +183,26 @@ $<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </sp
 <p>Note that the <tt class="docutils literal">LOG</tt> target does not intercept a packet, which thus continues to flow in the next rule(s). so log targets are better defined as first rules (and thus could be inserted lastly).</p>
 <p>As a reminder, for a given table (<tt class="docutils literal">filter</tt> by default), rules may be:</p>
 <ul class="simple">
-<li>appended <em>at the end</em> of the selected chain with <tt class="docutils literal"><span class="pre">-A</span></tt></li>
+<li>appended <em>at the end</em> of the selected chain with <tt class="docutils literal"><span class="pre">-A</span></tt> (then of course any previous rule may eclipse it)</li>
 <li>inserted either at the <em>beginning</em> of the selected chain with <tt class="docutils literal"><span class="pre">-I</span></tt>, or at its position N with <tt class="docutils literal"><span class="pre">-I</span> N</tt></li>
 </ul>
-<p>See also the <a class="reference external" href="https://wiki.archlinux.org/title/iptables">iptables section</a> in the Arch wiki.</p>
+<p>Adding/removing rules &quot;safely&quot; from the command-line may be done more easily by rule specification rather than by rule position.</p>
+<p>For example removing a given rule can be done:</p>
+<ul class="simple">
+<li>by first listing all rules thanks to <tt class="docutils literal">iptables <span class="pre">-S</span></tt>, to pick the one of interest</li>
+<li>by removing the prefix (typically <tt class="docutils literal"><span class="pre">-A</span></tt>) of the spec, and pasting the rest of that spec after <tt class="docutils literal">iptables <span class="pre">-D</span></tt> in order to remove the corresponding rule</li>
+</ul>
+<p>Putting back this rule at the first position on its chain instead is just a matter of using  <tt class="docutils literal">iptables <span class="pre">-I</span></tt> and the same shortened spec.</p>
+<p>So, for example if wanting to silence an untrusted device (e.g. some &quot;smart&quot; box, a netcam of dubious origin), an approach is to:</p>
+<ul class="simple">
+<li>determine its MAC address and associate a static IP to it; for example, if using <tt class="docutils literal">dnsmasq</tt>, in <tt class="docutils literal">/etc/dnsmasq.conf</tt> one may define <tt class="docutils literal"><span class="pre">dhcp-host=30:ef:50:36:54:68,10.0.17.203</span></tt>, so that the IP <tt class="docutils literal">10.0.17.203</tt> is always assigned to the device of MAC address <tt class="docutils literal">30:ef:50:36:54:68</tt></li>
+<li>define a firewall rule so that one's gateway never forwards outgoing packets from that (local) IP, for example with: <tt class="docutils literal">iptables <span class="pre">-I</span> FORWARD <span class="pre">-s</span> 10.0.17.203/32 <span class="pre">-i</span> my_lan_interface <span class="pre">-j</span> DROP</tt></li>
+</ul>
+<p>See also:</p>
+<ul class="simple">
+<li>our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/ef6239b6ca1659ccd479d58b38eb79632b86842f/iptables.rules-Gateway.sh#L674">filtered_local_hosts section</a> of <tt class="docutils literal"><span class="pre">iptables.rules-Gateway.sh</span></tt>, the hosts being filtered out based on the ones specified in the <tt class="docutils literal">setting_file</tt> configuration file</li>
+<li>the <a class="reference external" href="https://wiki.archlinux.org/title/iptables">iptables section</a> in the Arch wiki.</li>
+</ul>
 </div>
 </div>
 <div class="section" id="network-troubleshooting">

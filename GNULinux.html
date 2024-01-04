@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, November 19, 2023</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, December 28, 2023</td>
 </tr>
 </tbody>
 </table>
@@ -199,7 +199,11 @@ $<span class="w"> </span>shutdown-local-host.sh<span class="w"> </span>--reboot
 <h2><a class="toc-backref" href="#toc-entry-5">Package-related Commands</a></h2>
 <ul class="simple">
 <li>to get information about a package (installed or not): <tt class="docutils literal">pacman <span class="pre">-Si</span> MY_PACKAGE</tt></li>
-<li>to list all packages explicitly installed and not required as dependencies: <tt class="docutils literal">pacman <span class="pre">-Qet</span></tt></li>
+<li>to list all packages:<ul>
+<li>installed (explicitly or not): <tt class="docutils literal">pacman <span class="pre">-Q</span></tt></li>
+<li>explicitly installed and not required as dependencies: <tt class="docutils literal">pacman <span class="pre">-Qet</span></tt></li>
+</ul>
+</li>
 <li>to determine which package installed a specified file:<ul>
 <li>on Arch: <tt class="docutils literal">pkgfile SOME_FILE</tt>; <tt class="docutils literal">pkgfile</tt> itself must have been installed beforehand, with <tt class="docutils literal">pacman <span class="pre">-S</span> pkgfile</tt>, and be updated, with <tt class="docutils literal">pkgfile <span class="pre">--update</span></tt> (still as root)</li>
 <li>on Debian: <tt class="docutils literal"><span class="pre">apt-file</span> search SOME_FILE</tt> after a similar initial install thanks to: <tt class="docutils literal">sudo <span class="pre">apt-get</span> install <span class="pre">apt-file</span> &amp;&amp; sudo <span class="pre">apt-file</span> update</tt></li>
