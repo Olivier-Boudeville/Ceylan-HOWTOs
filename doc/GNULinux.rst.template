@@ -1104,6 +1104,8 @@ Frequent actions needed:
   - temporarily: use ``C-x C-+`` to increase, ``C-x C--`` to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use ``C-mousewheel``)
   - permanently: one may add in one's `Emacs configuration`_ file for example: ``(set-face-attribute 'default nil :height 100)``
 
+- to insert special characters (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example ``M-x quoted-insert <tab>``, which is often bound (yet not in our conventions) to ``C-q``; note that pasting a tab with the mouse in the minibuffer works as well
+
 - to insert in the current buffer the output of a shell command: ``C-u then M-!``: enter that shell command, whose output will be pasted at the current cursor position
 
 - to prefix all lines of the selected region: ``C-x`` then ``r`` then ``t``, then type the prefix then type Enter
