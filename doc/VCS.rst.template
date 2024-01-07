@@ -365,13 +365,14 @@ The stash is convenient in order to switch branches without having to perform an
 A basic use of the stash is the following:
 
 - to store the currently modified files in the stash: ``git stash`` (equivalent of ``git stash push``)
+- to restore the (by default lastly) stored state (hence the reciprocal of the previous command), i.e. to apply it to the current files (with no review and no changes to add afterwards) and then drop that stashed entry: ``git stash pop [STASH_INDEX]``
 - to list the various sets of modifications stashed away: ``git stash list``
 - to show the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created:
 
   - with just one synthetic line per file changed: ``git stash show [STASH_INDEX]``
   - with all actual changes: ``git stash show -p [STASH_INDEX]``
 
-- to restore the lastly stored state (hence the reciprocal of the previous command), i.e. to apply it to the current files (with no review and no changes to add afterwards) and then drop that stashed entry: ``git stash pop``
+- to drop a stash entry: ``git stash drop [STASH_INDEX]``
 
 
 Refer to the `git stash documentation <https://git-scm.com/docs/git-stash/>`_ for more information.
@@ -463,6 +464,15 @@ If no push was done, it is as simple as replacing the former message by a new on
 .. code:: bash
 
  $ git commit --amend -m "This is a fixed commit message."
+
+
+
+Removing a commit (rollback)
+............................
+
+The goal here is to withdraw (revert) a (presumably faulty) commit.
+
+If it has not been pushed to remote, use ``git reset HEAD~1``; otherwise (already pushed), use ``git revert HEAD`` (then a push can be made).
 
 
 
