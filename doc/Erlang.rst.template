@@ -213,6 +213,29 @@ Having such a pre-launch function is useful when having to set specific informat
 In any case this should result in ``foobar_app:start/2`` to be called at application startup, a function whose purpose is generally to spawn the root supervisor of this application.
 
 
+Note that, alternatively (perhaps for some uncommon debugging needs), one may execute one's application (e.g. ``foo``) by oneself, knowing that doing so requires starting beforehand the applications it depends on - be them Erlang-standard (e.g. ``kernel, stdlib``) or user-provided (e.g. ``bar, buz``); for that both their modules [#]_ and their ``.app`` file [#]_ must be found.
+
+.. [#] If using Ceylan-Myriad, run, from the root of ``foo``, ``make copy-all-beams-to-ebins`` to populate the ``ebin`` directories of all layers (knowing that by default each module is only to be found directly from its source/build directory, and thus such a copy is usually unnecessary).
+
+.. [#] If using Ceylan-Myriad, run, from the root of ``foo``, ``make create-app-file``.
+
+
+This can be done with:
+
+.. code:: erlang
+
+ $ erl -pa XXX/bar/ebin -pa YYY/buz/ebin -pa ZZZ/foo/ebin
+
+ Erlang/OTP 26 [erts-14.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
+
+ Eshell V14.2 (press Ctrl+G to abort, type help(). for help)
+ 1> application:ensure_all_started([kernel, stdlib, bar, buz, foo]).
+
+
+
+Then the ``foo`` application shall be launched, and a shell be available to interact with the corresponding VM.
+
+
 
 OTP Supervisors
 ---------------
