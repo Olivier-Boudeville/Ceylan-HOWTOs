@@ -294,7 +294,10 @@ For example it could be:
 	{ok, {SupSettings, ChildSpecs}}.
 
 
-Children are created synchronously and in the order of their specification.
+Children are created synchronously and in the order of their specification [#]_.
+
+.. [#] Yet some interleaving is possible thanks to ``proc_lib:init_ack/1``.
+
 
 So if ``ChildSpecs=[A, B, C]``, then a child according to the A spec is first created, then, once it is over (either its ``init/1`` finished successfully, or it called ``proc_lib:init_ack/{1,2}`` [#]_ and then continued its own initialisation concurrently), a child according to the B spec is created, then once done a child according to the C spec.
 
@@ -904,6 +907,8 @@ To avoid having to perform a lookup in the documentation:
 
 	- is expected to exist: ``V = maps:get(K, MyMap)`` (generally could/should be directly matched instead)
 	- may or may not exist: ``case maps:find(K, MyMap) of {ok, V} -> ...; error -> ... end``
+
+  - removing an entry: ``ShrunkMap = maps:remove(Key,Map)``
 
 - when converting a float to a string, to set the precision (the number of digits after the decimal point) to ``P``, use: ``"~.Pf"``; for example, if ``P=5``, we have: ``"0.33333" = io_lib:format("~.5f", [1/3]).``
 
