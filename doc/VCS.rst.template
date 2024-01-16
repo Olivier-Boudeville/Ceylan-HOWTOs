@@ -128,6 +128,11 @@ Basic Operations
  # Replaces the current version of that file by the designated one:
  $ git checkout COMMIT_ID path/to/the/target/file
 
+ # So, for example, in order to revert/replace the current version of a file by
+ # the one at which is was *prior* to a given commit:
+ #
+ $ git checkout COMMIT_ID~ path/to/the/target/file
+
  # Outputs on the console the designated version:
  $ git show COMMIT_ID:path/to/the/target/file
 
