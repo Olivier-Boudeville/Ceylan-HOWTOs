@@ -915,7 +915,7 @@ To avoid having to perform a lookup in the documentation:
 - the lesser-known `"--" list subtraction <https://www.erlang.org/doc/reference_manual/expressions.html#list-operationslist>`_ operator returns a list that is a copy of the first argument where, for each element in the second argument, the first occurrence of this element (if any) is removed
 - refer to the `escape sequences <https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences>`_, typically in order to specify characters like "space" (``$\s``); ``$char`` is the notation to designate the ASCII value or Unicode code-point of the character ``char`` (e.g. ``$A``)
 
-- see the always handy `operator precedence <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_ and the various ways to `handle exceptions with try/catch <https://www.erlang.org/doc/reference_manual/expressions.html#try>`_
+- see the always handy `operator precedence <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_ and the various ways to `handle exceptions with try/catch <https://www.erlang.org/doc/reference_manual/expressions.html#try>`_; note that to catch *all* exceptions - i.e. those of the ``throw`` class, but also of the ``exit`` and ``error`` classes, one may use: ``try EXPR catch _:E -> ...`` (rather than just: ``try EXPR catch E -> ...``)
 
 - in **guard expressions**:
 
