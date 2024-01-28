@@ -218,6 +218,17 @@ Sometimes, we know for sure that a given file must be transferred as it is on a 
 
 
 
+Merging with no Auto-Commit
+...........................
+
+Often a bit anxious to acknowledge an automatic merge with so little control on the corresponding changes?
+
+One approach is, when being in a branch A, to execute ``git merge --no-commit --no-ff B``: the merge of B in A will be done, but not committed, leaving the possibility to review - and possibly correct - it.
+
+The staged changes can indeed then be inspected with ``git diff --cached`` (or our ``difs`` script) and, if finding a file whose merge is not satisfactory, just correct it (possibly ``git restore`` its version from A), and possibly further fix the merge, before committing it.
+
+If there was at least one conflict, run ``git merge --abort`` to get rid of the 'MERGING' state.
+
 
 Common Procedures
 -----------------
