@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, January 4, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, February 4, 2024</td>
 </tr>
 </tbody>
 </table>
@@ -73,7 +73,7 @@
 <li><a class="reference internal" href="#workaround-2-relying-on-unity" id="toc-entry-24">Workaround #2: Relying on Unity</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#samples" id="toc-entry-25">Samples</a></li>
+<li><a class="reference internal" href="#examples-of-3d-content" id="toc-entry-25">Examples of 3D Content</a></li>
 <li><a class="reference internal" href="#engine-related-assets" id="toc-entry-26">Engine-related Assets</a></li>
 <li><a class="reference internal" href="#asset-providers" id="toc-entry-27">Asset Providers</a></li>
 </ul>
@@ -167,18 +167,18 @@
 <h3><a class="toc-backref" href="#toc-entry-4">Use</a></h3>
 <div class="section" id="scripting-language">
 <h4>Scripting Language</h4>
-<p>Users of the Godot API may develop notably in GDScript (extension: <tt class="docutils literal">*.gd</tt>) and/or in C# (extension: <tt class="docutils literal">*.cs</tt>).</p>
+<p>Users of the Godot API may develop notably in GDScript (extension: <tt class="docutils literal">*.gd</tt>) and/or in C# (extension: <tt class="docutils literal">*.cs</tt>) and/or in C++.</p>
 <p>See <a class="reference external" href="https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_differences.html">this comparison</a> - knowing that <a class="reference external" href="https://docs.godotengine.org/en/stable/tutorials/scripting/cross_language_scripting.html#doc-cross-language-scripting">languages can be mixed and matched</a>.</p>
-<p>We prefer using C# to GDScript as:</p>
+<p>We prefer using C# to GDScript or C++, as:</p>
 <ul class="simple">
 <li>C# is statically typed (GDScript is dynamically typed, with implicit casts)</li>
 <li>C# is widely-used / general-purpose (and Unity supports it as well), as opposed to GDScript</li>
-<li>C# is C++-inspired, whereas GDScript is Python-inspired <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a>; so for example C# does not rely on indentation to define clauses</li>
+<li>C# is C++-inspired (yet offers a safer model, notably in terms of life-cycle management), whereas GDScript is Python-inspired <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a>; so for example C# does not rely on indentation to define clauses</li>
 </ul>
 <table class="docutils footnote" frame="void" id="footnote-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-2">[2]</a></td><td>With additionally quite many differences. For example, with GDScript, variables are typed, like in <tt class="docutils literal">var my_msg : String = 'Hello!'</tt>. So <tt class="docutils literal">my_msg = 7</tt> is to result in a (<em>runtime</em>) error. Python lists are Godot arrays. <tt class="docutils literal">None</tt> is <tt class="docutils literal">null</tt>. A switch-like operator (<tt class="docutils literal">match</tt>) exists.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-2">[2]</a></td><td>With additionally quite many differences. For example, with GDScript, variables are typed, like in <tt class="docutils literal">var my_msg : String = 'Hello!'</tt>. So <tt class="docutils literal">my_msg = 7</tt> is to result in a (<em>runtime</em>) error. Python lists are Godot arrays. <tt class="docutils literal">None</tt> is <tt class="docutils literal">null</tt>. A switch-like operator (<tt class="docutils literal">match</tt>) exists, etc.</td></tr>
 </tbody>
 </table>
 </div>
@@ -216,19 +216,19 @@
 <p>The Unreal Engine 5 brings new features that may be of interest, including a <a class="reference external" href="https://docs.unrealengine.com/5.0/en-US/lumen-global-illumination-and-reflections-in-unreal-engine/">fully dynamic global illumination and reflection system</a> (Lumen, not requiring baked lightmaps anymore), a <a class="reference external" href="https://docs.unrealengine.com/5.0/en-US/nanite-virtualized-geometry-in-unreal-engine/">virtualized geometry system</a> (Nanite, simplifying detailed geometries on the fly) and a <a class="reference external" href="https://www.unrealengine.com/en-US/features/quixel-megascans">quality 2D/3D asset library</a> (the Quixel Megascans library, obtained from real-world scans).</p>
 <p>Unreal does not offer a scripting language anymore, user developments have to be done <a class="reference external" href="https://docs.unrealengine.com/5.0/en-US/unreal-engine-programming-and-scripting/">in C++</a> (beyond <em>Blueprints Visual Scripting</em>).</p>
 <p>Its <a class="reference external" href="https://www.unrealengine.com/en-US/faq">licence</a> is meant to induce costs only when making large-enough profits; more precisely, a <em>5% royalty is due only if you are distributing an off-the-shelf product that incorporates Unreal Engine code (such as a game) and the lifetime gross revenue from that product exceeds $1 million USD</em> (the first $1 million remaining royalty-exempt); in case of large success, it may be a costlier licence than Unity.</p>
-<p>With an Unreal user account, the sources of the engine (in its latest stable version, 5) <a class="reference external" href="https://www.unrealengine.com/en-US/ue-on-github">can be examined on Github</a> (so it is open source, yet not free software).</p>
+<p>With an Unreal user account, the sources of the engine (in its latest stable version, 5) <a class="reference external" href="https://www.unrealengine.com/en-US/ue-on-github">can be examined on Github</a> (so it is open source - yet not free software).</p>
 <p>See its <a class="reference external" href="https://www.unrealengine.com">official website</a>.</p>
 <div class="section" id="unreal-assets">
 <h3><a class="toc-backref" href="#toc-entry-8">Unreal Assets</a></h3>
 <p>Purchased assets from the <a class="reference external" href="https://www.unrealengine.com/marketplace/en-US/store">Unreal marketplace</a> may be used in one's own shipped products (<a class="reference external" href="https://marketplacehelp.epicgames.com/s/article/How-can-I-use-the-products-I-ve-purchased-from-the-Marketplace-or-Learn-Tab?language=en_US">source</a>) and apparently at least usually no restrictive terms apply.</p>
-<p>Assets not created by Epic Games can be used in other engines unless otherwise specified (<a class="reference external" href="https://marketplacehelp.epicgames.com/s/article/Can-I-use-these-products-in-other-gaming-engines-like-Source-or-Unity?language=en_US">source</a>; see also <a class="reference external" href="https://www.reddit.com/r/godot/comments/bjsfoz/can_i_use_unreal_engine_assets_in_godot/">this thread</a>.</p>
-<p>Note that parts of the content will be Unreal-specific (<tt class="docutils literal">*.uasset</tt>, <tt class="docutils literal">*.umap</tt>, etc.), like scripts. Yet technically many can be adapted to other engines (see for example <a class="reference external" href="https://www.youtube.com/watch?v=fhv_cpYQIqc">Exporting from Unreal Engine to Godot</a>).</p>
+<p>Assets not created by Epic Games can be used in other engines unless otherwise specified (<a class="reference external" href="https://marketplacehelp.epicgames.com/s/article/Can-I-use-these-products-in-other-gaming-engines-like-Source-or-Unity?language=en_US">source</a>; see also <a class="reference external" href="https://www.reddit.com/r/godot/comments/bjsfoz/can_i_use_unreal_engine_assets_in_godot/">this thread</a>).</p>
+<p>Note that parts of the content of assets will be Unreal-specific (<tt class="docutils literal">*.uasset</tt>, <tt class="docutils literal">*.umap</tt>, etc.), like scripts. Yet technically many can be adapted to other engines (see for example <a class="reference external" href="https://www.youtube.com/watch?v=fhv_cpYQIqc">Exporting from Unreal Engine to Godot</a>).</p>
 </div>
 </div>
 <div class="section" id="unity3d">
 <h2><a class="toc-backref" href="#toc-entry-9">Unity3D</a></h2>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/Unity_(game_engine)">Unity</a> is most probably the cross-platform game engine that is the most popular.</p>
-<p>Regarding the licensing of the engine, <a class="reference external" href="https://store.unity.com/#plans-individual">various plans</a> apply, depending notably on whether one subscribes as an individual or a team, and on one's profile, revenue and funding; the general idea is not taking royalties, but <strong>flat</strong>, per seat yearly fees increasing with the organisation &quot;size&quot; (typically in the $400-$1800 range, per seat).</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Unity_(game_engine)">Unity</a> is most probably still the most popular cross-platform game engine, despite recent controversies.</p>
+<p>Regarding the licensing of the engine, <a class="reference external" href="https://store.unity.com/#plans-individual">various plans</a> apply (warning: they may have changed since this writing), depending notably on whether one subscribes as an individual or a team, and on one's profile, revenue and funding; the general idea is not taking royalties, but <strong>flat</strong>, per seat yearly fees increasing with the organisation &quot;size&quot; (typically in the $400-$1800 range, per seat).</p>
 <p>See its <a class="reference external" href="https://unity.com/">official website</a> and its <a class="reference external" href="https://assetstore.unity.com/">asset store</a>.</p>
 <p id="unity-assets">Unity may be installed at least in order to access its asset store, knowing that apparently an asset purchased in this store may be used with any game engine of choice. Indeed, for the standard licence, it is stipulated in the <a class="reference external" href="https://unity3d.com/legal/as_terms">EULA legal terms</a> that:</p>
 <p><em>Licensor grants to the END-USER a non-exclusive, worldwide, and perpetual license to the Asset to integrate Assets only as incorporated and embedded components of electronic games and interactive media and distribute such electronic game and interactive media.</em></p>
@@ -237,7 +237,7 @@
 <h3><a class="toc-backref" href="#toc-entry-10">Installation</a></h3>
 <p>Unity shall now be obtained thanks to the Unity Hub.</p>
 <p>On Arch Linux it is <a class="reference external" href="https://aur.archlinux.org/packages/unityhub/">available through the AUR</a>, as an <a class="reference external" href="https://en.wikipedia.org/wiki/AppImage">AppImage</a>; one may thus use: <tt class="docutils literal">yay <span class="pre">-Sy</span> unityhub</tt>.</p>
-<p>Then, when running (as a non-privileged user) <tt class="docutils literal">unityhub</tt>, a Unity account will be needed, then a licence, then a Unity release will have to be added in order to have it downloaded and installed for good, covering the selected target platforms (e.g. Linux and Windows &quot;Build Supports&quot;).</p>
+<p>Then, when running (as a non-privileged user) <tt class="docutils literal">unityhub</tt>, a Unity account will be needed, then a licence, then a Unity release will have to be added in order to have it downloaded and installed for good, covering the selected target platforms (e.g. GNU/Linux and Windows &quot;Build Supports&quot;).</p>
 <p>We rely here on the Unity version 2021.2.7f1.</p>
 <p>Additional information: <a class="reference external" href="https://wiki.archlinux.org/title/Unity3D">Unity3D on Arch</a>.</p>
 </div>
@@ -268,8 +268,8 @@
 <div class="section" id="unity-assets-1">
 <h3><a class="toc-backref" href="#toc-entry-14">Unity Assets</a></h3>
 <p>Once ordered through the Unity Asset Store, assets can be downloaded through the <tt class="docutils literal">Window <span class="pre">-&gt;</span> Package Manager</tt> menu, by replacing, in the top <tt class="docutils literal">Packages</tt> drop-down, the <tt class="docutils literal">In Project</tt> entry by the <tt class="docutils literal">My Assets</tt> one. After having selected an asset, use the <tt class="docutils literal">Download</tt> button at the bottom-right of the screen.</p>
-<p>Then, to gain access to such downloaded assets, of course the simplest approach is to use the Unity editor; this is done by creating a project (e.g. <tt class="docutils literal">MyProject</tt>), selecting the aforementioned menu option (just above), then clicking on <tt class="docutils literal">Import</tt> and selecting the relevant content that will end up in clear form in your project, i.e. in the UNIX filesystem with their actual name and content, for example in <tt class="docutils literal">MyProject/Assets/CorrespondingAssetProvider/AssetName</tt>. Unfortunately we experienced reproducible freezes when importing some resources.</p>
-<p>Yet such Unity packages, once downloaded (whether or not they have been imported in projects afterwards) are files stored typically in the <tt class="docutils literal"><span class="pre">~/.local/share/unity3d/Asset</span> <span class="pre">Store-5.x</span></tt> directory and whose extension is <tt class="docutils literal">.unitypackage</tt>.</p>
+<p>Then, to gain access to such downloaded assets, of course the simplest approach is to use the Unity editor; this is done by creating a project (e.g. <tt class="docutils literal">MyProject</tt>), selecting the aforementioned menu option (just above), then clicking on <tt class="docutils literal">Import</tt> and selecting the relevant content that will end up in clear form in your project, i.e. in the filesystem of the operating system with their actual name and content, for example in <tt class="docutils literal">MyProject/Assets/CorrespondingAssetProvider/AssetName</tt>. Unfortunately we experienced reproducible freezes when importing some resources.</p>
+<p>Yet such Unity packages, once downloaded (whether or not they have been imported in projects afterwards) are just files that are stored typically in the <tt class="docutils literal"><span class="pre">~/.local/share/unity3d/Asset</span> <span class="pre">Store-5.x</span></tt> directory and whose extension is <tt class="docutils literal">.unitypackage</tt>.</p>
 <p>Such files are actually <tt class="docutils literal">.tar.gz</tt> archives, and thus their content can be listed thanks to:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>tar<span class="w"> </span>tvzf<span class="w"> </span>Foobar.unitypackage
@@ -304,10 +304,10 @@ $<span class="w"> </span>tar<span class="w"> </span>tvzf<span class="w"> </span>
 <p>It comes in two forms:</p>
 <ul class="simple">
 <li>either as <tt class="docutils literal">*.gltf</tt> when JSON-based, possibly embedding the actual data (vertices, normals, textures, etc.) as ASCII <a class="reference external" href="https://en.wikipedia.org/wiki/Base64">base64-encoded</a> content, or referencing external files</li>
-<li>or as <tt class="docutils literal">*.glb</tt> when binary; this is the most compact form, and the one that we recommend especially</li>
+<li>or as <tt class="docutils literal">*.glb</tt> when binary; this is the most compact form, and the one that we recommend for actual releases</li>
 </ul>
 <p>See also the <a class="reference external" href="https://www.khronos.org/files/gltf20-reference-guide.pdf">glTF 2.0 quick reference guide</a>, the <a class="reference external" href="https://docs.godotengine.org/en/stable/getting_started/workflow/assets/importing_scenes.html">related section of Godot</a> and <a class="reference external" href="https://github.khronos.org/glTF-Sample-Viewer-Release/">this standard viewer of predefined glTF samples</a>.</p>
-<p>This (generic) <a class="reference external" href="https://gltf-viewer.donmccurdy.com/">online glTF viewer</a> proved lightweight and convenient notably because it displays errors, warnings and information regarding the glTF data that it decodes.</p>
+<p>This (generic) <a class="reference external" href="https://gltf-viewer.donmccurdy.com/">online glTF viewer</a> proved lightweight and convenient, notably because it displays errors, warnings and information regarding the glTF data that it decodes.</p>
 </div>
 <div class="section" id="collada">
 <h3><a class="toc-backref" href="#toc-entry-18">Collada</a></h3>
@@ -315,7 +315,7 @@ $<span class="w"> </span>tar<span class="w"> </span>tvzf<span class="w"> </span>
 </div>
 <div class="section" id="fbx-obj-etc">
 <h3><a class="toc-backref" href="#toc-entry-19">FBX, OBJ, etc.</a></h3>
-<p>Often, assets can be found as <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> of <a class="reference external" href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ</a> files and thus may have to be converted (typically to glTF), which is never a riskless task. FBX comes in two flavours: text-based (ASCII) or binary, see <a class="reference external" href="https://code.blender.org/2013/08/fbx-binary-file-format-specification/">this retro-specification</a> for more information.</p>
+<p>Often, assets can be found as <a class="reference external" href="https://en.wikipedia.org/wiki/FBX">FBX</a> of <a class="reference external" href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ</a> files and thus may have to be converted (typically to glTF), which is never a riskless task. FBX comes in two flavours: text-based (ASCII) or binary; see <a class="reference external" href="https://code.blender.org/2013/08/fbx-binary-file-format-specification/">this retro-specification</a> for more information.</p>
 </div>
 <div class="section" id="in-general">
 <h3><a class="toc-backref" href="#toc-entry-20">In General</a></h3>
@@ -367,8 +367,8 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/.wi
 <p>Afterwards, in the <tt class="docutils literal">GameObject</tt> menu, an <tt class="docutils literal">Export to FBX</tt> option will be available. Select the <tt class="docutils literal">Binary</tt> export format (not <tt class="docutils literal">ASCII</tt>) if wanting to be compliant with Blender.</p>
 </div>
 </div>
-<div class="section" id="samples">
-<h2><a class="toc-backref" href="#toc-entry-25">Samples</a></h2>
+<div class="section" id="examples-of-3d-content">
+<h2><a class="toc-backref" href="#toc-entry-25">Examples of 3D Content</a></h2>
 <p>Here are a few samples of 3D content (useful for testing):</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models">glTF</a>, notably <a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0">glTF 2.0</a>; direct: <a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Buggy/glTF-Embedded/Buggy.gltf">.gltf Buggy example</a>, <a class="reference external" href="https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/BarramundiFish/glTF-Binary/BarramundiFish.glb">.glb Fish example</a> (also: a <a class="reference external" href="http://paulbourke.net/dataformats/glTF/cube.txt">simple cube</a>)</li>
@@ -388,10 +388,10 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/.wi
 <h2><a class="toc-backref" href="#toc-entry-27">Asset Providers</a></h2>
 <p>Usually, for one's creation, much multimedia artwork has to be secured: typically graphical assets (e.g. 2D/3D geometries, animations, textures) and/or audio ones (e.g. music, sounds, speech syntheses, special effects).</p>
 <p>Instead of creating such content by oneself (not enough time/interest/skill?), it may be more relevant to rely on specialised third-parties.</p>
-<p><strong>Hiring a professional or a freelance</strong> is then an option. This is of course relatively expensive, involves more efforts (to define requirements and review the results), longer, but it is to provide exactly the artwork that one would like.</p>
-<p>Another option is to rely on specialised third-party providers who <strong>sell non-exclusive licences for the content they offer</strong>.</p>
+<p><strong>Hiring a professional or a freelance</strong> is then an option. This is of course relatively expensive, involves more efforts (to define requirements and review the results), longer, but it is supposed to provide exactly the artwork that one would like.</p>
+<p>Another option is to rely on specialised third-party providers who <strong>sell non-exclusive licences for the content that they offer</strong>.</p>
 <p>These providers can be either direct <strong>content producers</strong> (companies with staffs of modellers), or <strong>asset aggregators</strong> (marketplaces that federate the offers of many producers of any size) that are often created in link to a given multimedia engine. An interesting point is that assets purchased in these stores generally can be used in any technical context, hence are not meant to be bound to the corresponding engine.</p>
-<p>Nowadays, much content is available, in terms of theme/setting (e.g. Medieval, Science-Fiction), of nature (e.g. characters, environments, vehicles), etc. and the overall quality/price ratio is rather good.</p>
+<p>Nowadays, much content is available, in terms of theme/setting (e.g. Medieval, Science-Fiction), of nature (e.g. characters, environments, vehicles), etc. and the overall quality/price ratio seems rather good.</p>
 <p>The main advantages of these marketplaces is that:</p>
 <ul class="simple">
 <li>they favor the competition between content providers: the clients can easily compare assets and share their opinion about them</li>
@@ -400,7 +400,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/.wi
 <p>The main content aggregators that we spotted are (roughly by decreasing order of interest, based on our limited experience):</p>
 <ul class="simple">
 <li>the <a class="reference external" href="https://assetstore.unity.com/">Unity Asset Store</a>, already discussed in the <a class="reference internal" href="#unity-assets">Unity Assets</a> section; websites like <a class="reference external" href="https://www.gameassetdeals.com/">this one</a> allow to track the significant discounts that are regularly made on assets</li>
-<li>the <a class="reference external" href="https://www.unrealengine.com/marketplace/en-US/store">UE Marketplace</a>, i.e. the store associated to the Unreal Engine; in terms of licensing and uses:<ul>
+<li>the <a class="reference external" href="https://www.unrealengine.com/marketplace/en-US/store">UE Marketplace</a>, i.e. the store associated to the Unreal Engine; in terms of licensing and uses (see also <a class="reference external" href="#unreal-assets">this section</a>):<ul>
 <li><a class="reference external" href="https://marketplacehelp.epicgames.com/s/article/What-is-the-customer-getting-when-they-purchase-my-product?language=en_US">this article</a> states that <em>When customers purchase Marketplace products, they get a non-exclusive, worldwide, perpetual license to download, use, copy, post, modify, promote, license, sell, publicly perform, publicly display, digitally perform, distribute, or transmit your product’s content for personal, promotional, and/or commercial purposes. Distribution of products via the Marketplace is not a sale of the content but the granting of digital rights to the customer.</em></li>
 <li><a class="reference external" href="https://marketplacehelp.epicgames.com/s/article/Can-I-use-these-products-in-other-gaming-engines-like-Source-or-Unity?language=en_US">this one</a> states that <em>Any Marketplace products that have not been created by Epic Games can be used in other engines unless otherwise specified.</em></li>
 <li><a class="reference external" href="https://marketplacehelp.epicgames.com/s/article/What-can-a-customer-do-with-my-product?language=en_US">this one</a> states that <em>All products sold on the Marketplace are licensed to the customer (who may be either an individual or company) for the lifetime right to use the content in developing an unlimited number of products and in shipping those products. The customer is also licensed to make the content available to employees and contractors for the sole purpose of contributing to products controlled by the customer.</em></li>
@@ -435,7 +435,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/.wi
 </div>
 <div class="section" id="wings3d">
 <h2><a class="toc-backref" href="#toc-entry-30">Wings3D</a></h2>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/Wings_3D">Wings3D</a> is a nice, Erlang-based, free software, advanced subdivision <em>modeler</em> <a class="footnote-reference" href="#footnote-4" id="footnote-reference-4">[4]</a>, available for Windows, GNU/Linux, and Mac OS X. Wings3D relies on OpenGL.</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Wings_3D">Wings3D</a> is a nice, Erlang-based, free software, advanced subdivision <em>modeler</em> <a class="footnote-reference" href="#footnote-4" id="footnote-reference-4">[4]</a>, available for GNU/Linux, Windows and Mac OS X. Wings3D relies on OpenGL.</p>
 <table class="docutils footnote" frame="void" id="footnote-4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -465,7 +465,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/.wi
 </span>not<span class="w"> </span>exist,<span class="w"> </span>draco<span class="w"> </span>mesh<span class="w"> </span>compression<span class="w"> </span>not<span class="w"> </span>available,<span class="w"> </span>please<span class="w"> </span>add<span class="w"> </span>it<span class="w"> </span>or<span class="w"> </span>create<span class="w">
 </span>environment<span class="w"> </span>variable<span class="w"> </span>BLENDER_EXTERN_DRACO_LIBRARY_PATH<span class="w"> </span>pointing<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>folder
 </pre>
-<p>Setting the environment prior to running Blender is necessary (and done by our <tt class="docutils literal"><span class="pre">blender-*.sh</span></tt> scripts:</p>
+<p>Setting the environment prior to running Blender is necessary (and done by our <tt class="docutils literal"><span class="pre">blender-*.sh</span></tt> scripts):</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">BLENDER_EXTERN_DRACO_LIBRARY_PATH</span><span class="o">=</span>/usr/lib
 </pre>
@@ -482,7 +482,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/usr/
 </div>
 <div class="section" id="the-compressonator">
 <h2><a class="toc-backref" href="#toc-entry-33">The Compressonator</a></h2>
-<p>The <a class="reference external" href="https://gpuopen.com/compressonator/">Compressonator</a> is an AMD tool (as a GUI, a command-line executable and a SDK) designed to compress textures (e.g. in DXT1, DXT3 or DXT5 formats; typically resulting in a <tt class="docutils literal">.dds</tt> extension) and generate mipmaps ahead of time, so that it does not have to be done at runtime.</p>
+<p>The <a class="reference external" href="https://gpuopen.com/compressonator/">Compressonator</a> is an AMD tool (as a GUI, a command-line executable and a SDK) designed to compress textures (e.g. in DXT1, DXT3 or DXT5 formats; typically resulting in a <tt class="docutils literal">.dds</tt> extension) and to generate mipmaps ahead of time, so that it does not have to be done at runtime.</p>
 </div>
 <div class="section" id="f3d">
 <h2><a class="toc-backref" href="#toc-entry-34">F3D</a></h2>
@@ -492,7 +492,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/usr/
 <div class="section" id="mikktspace">
 <h2><a class="toc-backref" href="#toc-entry-35">Mikktspace</a></h2>
 <p>This tool (<a class="reference external" href="http://www.mikktspace.com/">official website</a>), created by Morten S. Mikkelsen, is a de facto (free) standard in terms of normal map baker: it generates <em>Tangent Space Normal Maps</em> (tangents), and helps ensuring consistency between 3D applications (such as Blender).</p>
-<p>These fields of normals may be seen as an encoding, explaining why conventions like the ones enforced by this tool (which became an implementation standard) help performing a suitable, robust reciprocal decoding.</p>
+<p>These fields of normals may be seen as an encoding - explaining why conventions like the ones enforced by this tool (which became an implementation standard) help performing a suitable, robust reciprocal decoding.</p>
 </div>
 <div class="section" id="mixamo">
 <h2><a class="toc-backref" href="#toc-entry-36">Mixamo</a></h2>
@@ -516,11 +516,11 @@ You can use both characters and animations royalty free for personal, commercial
 <p>Code snippets will correspond to the OpenGL/GLU APIs as they are exposed in Erlang, in the <a class="reference external" href="https://www.erlang.org/doc/man/gl.html">gl</a> and <a class="reference external" href="https://www.erlang.org/doc/man/glu.html">glu</a> modules respectively.</p>
 <p>These translate easily for instance in the vanilla C GL/GLU implementations. As an example, <a class="reference external" href="https://www.erlang.org/doc/man/gl.html#ortho-6">gl:ortho/6</a> (<tt class="docutils literal">6</tt> designating here the arity of that function, i.e. the number of the arguments that it takes) corresponds to its C counterpart, <a class="reference external" href="https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glOrtho.xml">glOrtho</a>.</p>
 <p>The reference pages for OpenGL (in version 4.x) can be <a class="reference external" href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/">browsed here</a>.</p>
-<p>Note that initially the information here related to older versions of OpenGL (1.1, 2.1, etc.; see <a class="reference external" href="https://www.khronos.org/opengl/wiki/History_of_OpenGL">history</a>) that relied on a fixed pipeline (no shader support) - whereas, starting from OpenGL 3.0, many of the corresponding features were marked as deprecated, and actually removed as a whole in 3.1. However, thanks to the <em>compatibility context</em> (whose support is not mandatory - but that all major implementations of OpenGL provide), these features can still be used.</p>
+<p>Note that initially the information in this page related to older versions of OpenGL (1.1, 2.1, etc.; see <a class="reference external" href="https://www.khronos.org/opengl/wiki/History_of_OpenGL">history</a>) that relied on a fixed pipeline (no shader support) - whereas, starting from OpenGL 3.0, many of the corresponding features were marked as deprecated, and actually removed as a whole in 3.1. However, thanks to the <em>compatibility context</em> (whose support is not mandatory - but that all major implementations of OpenGL provide), these features can still be used.</p>
 <p>Yet nowadays relying on at least the OpenGL 3 <em>core</em> context (not using the <em>compatibility</em> context) would be preferable (source: <a class="reference external" href="https://erlangforums.com/t/no-gl-get-1/1035">this thread</a>). Still better options would be to rely on OpenGL 4 Core or OpenGL ES 2+, or libraries on top of <a class="reference external" href="https://en.wikipedia.org/wiki/Vulkan">Vulkan</a>, like <a class="reference external" href="https://github.com/gfx-rs/wgpu">wgpu</a>. Specific libraries also exist for rendering for the web and for mobile, like <a class="reference external" href="https://www.w3.org/TR/webgpu/">WebGPU</a>.</p>
 <p>As of 2023, the current OpenGL version is 4.6; we will try to stick to the latest ones (4.x) only (e.g. skipping intermediate changes in 3.2); even though in this document reminiscences of older OpenGL versions remain, the current minimum that we target is the <strong>Core Profile of OpenGL 3.3</strong>, which is &quot;modern OpenGL&quot; and introduced most features that still apply; it will halt on error if any deprecated functionality is used.</p>
 <p>For more general-purpose computations (as opposed to rendering operations) to be offset to a GPU/GPGU, one may rely on <a class="reference external" href="Erlang.html#opencl">OpenCL</a> instead.</p>
-<p>The mentioned tests will be <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a> ones, typically located <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/test/user-interface/graphical">here</a>.</p>
+<p>The mentioned tests will be <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a> ones, typically located <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/tree/master/test/user-interface/graphical/opengl">here</a>.</p>
 <div class="section" id="basics">
 <h3><a class="toc-backref" href="#toc-entry-39">Basics</a></h3>
 <ul class="simple">
@@ -528,7 +528,7 @@ You can use both characters and animations royalty free for personal, commercial
 <li>a video card will run an <em>implementation</em> of that specification, generally developed by the manufacturer of that card; a good rule of thumb is to always update one's video card drivers to their <strong>latest stable version</strong>, as OpenGL implementations are constantly improved (bug-fixing) and updated (with regard to newer OpenGL versions)</li>
 <li>OpenGL concentrates on <strong>hardware-independent 2D/3D rendering</strong>; no commands for performing window-related tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the windowing system</li>
 <li>OpenGL offers only <strong>low-level primitives</strong> organised through a <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id57691">pipeline</a> in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such, OpenGL is a building-block for higher-level engines (e.g. like <a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a>)</li>
-<li>OpenGL is a <strong>procedural</strong> (function-based, not object-oriented) <strong>state machine</strong> comprising a larger number of variables defined within a given OpenGL state (named <em>OpenGL context</em>; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, relatively to an OpenGL context (which is often implicit), all OpenGL state variables behave like global variables; when a parameter is set, it applies and lasts as long as it is not modified; the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set to a given value)</li>
+<li>OpenGL is a <strong>procedural</strong> (function-based, not object-oriented) <strong>state machine</strong> comprising a larger number of variables defined within a given OpenGL state (named an <em>OpenGL context</em>; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, all OpenGL state variables behave like &quot;global&quot; variables, more precisely they are actually relative to an OpenGL context that is often implicit; when a parameter is set, it applies and lasts as long as it is not modified (if still using the same OpenGL context); the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set to a given value)</li>
 <li>so the <strong>currently processed element</strong> (e.g. a vertex) <strong>inherits (implicitly) the current settings of the context</strong> (e.g. color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply whenever performing a rendering operation (specifying all these parameters would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards (being &quot;implicitly inherited&quot;), until possibly being reassigned in some later point in time</li>
 <li>OpenGL respects a <strong>client/server execution model</strong>: an application (a specific client, running on a CPU) issues commands to a rendering server (on the same host or not - see GLX; generally the server can be seen as running on a local graphic card), that executes them <strong>sequentially and in-order</strong>; as such, most of the calls performed by user programs are <strong>asynchronous</strong>: they are triggered by the (client) program through OpenGL, and return almost immediately, whereas they have not been executed (by the server) yet: they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like <em>Display Lists</em> allow to pipeline operations (as opposed to the default <em>immediate mode</em>), which are accumulated for processing at a later time, as fast as the graphic card can then process them</li>
 <li>state variables are mostly server-side, yet some of them are client-side; in both cases, they can be gathered in <em>attribute groups</em>, which can be pushed on, and popped from, their respective server or client attribute stacks</li>
@@ -539,7 +539,7 @@ You can use both characters and animations royalty free for personal, commercial
 </li>
 <li>vertices and normals are transformed by the <strong>model-view</strong> and <strong>projection</strong> matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; as for texture coordinates, they are transformed by the <strong>texture</strong> matrix</li>
 <li>textures may reside in the main, general-purpose, client, <strong>CPU-side memory</strong> (large, but slow to access for the rendering) and/or in any auxiliary, dedicated, server-side <strong>GPU memory</strong> (more constrained, hence prioritized thanks to <em>texture objects</em>; and, rendering-wise, of significantly higher performance)</li>
-<li>OpenGL has to apply varied kinds of transformations - linear (e.g. rotation, scaling) or not (e.g. translation, perspective) - to geometries, for example in order to perform referential changes or rendering; each of these transformations can be represented as a 4x4 <a class="reference external" href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">homogeneous matrix</a>, with floating-point (homogeneous) coordinates <a class="footnote-reference" href="#footnote-5" id="footnote-reference-5">[5]</a>; a series of transformations can then simply be represented as a single of such matrices, corresponding to the product of the involved transformation matrices</li>
+<li>OpenGL has to apply varied kinds of transformations - &quot;linear&quot; (e.g. rotation, scaling) or not (e.g. translation, perspective) - to geometries, for example in order to perform referential changes or rendering; each of these transformations can be represented as a 4x4 <a class="reference external" href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">homogeneous matrix</a>, with floating-point (homogeneous) coordinates <a class="footnote-reference" href="#footnote-5" id="footnote-reference-5">[5]</a>; a series of transformations can then simply be represented as a single of such matrices, corresponding to the product of the involved transformation matrices</li>
 </ul>
 <table class="docutils footnote" frame="void" id="footnote-5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -553,7 +553,7 @@ You can use both characters and animations royalty free for personal, commercial
 <li><p class="first">while this will not change <em>anything</em> regarding the actual OpenGL library and the computations that it performs, the conventions adopted by the OpenGL <em>documentation</em> regarding matrices are the following ones:</p>
 <ul class="simple">
 <li>their <a class="reference external" href="https://www.opengl.org//archives/resources/faq/technical/transformations.htm">in-memory representation</a> is <a class="reference external" href="https://en.wikipedia.org/wiki/Row-_and_column-major_order">column-major order</a> (even if it is unusual, at least in C; this corresponds to Fortran-like conventions), meaning that it enumerates their coordinates first per column rather than per row (and for them a vector is a <em>row</em> of coordinates), whereas tools following the row-major counterpart order, <a class="reference external" href="http://myriad.esperide.org/#matrix-conventions">including Myriad</a>, do the opposite (and for them vectors are <em>columns</em> of coordinates); more clearly, a matrix like <span class="math">\(M = \begin{bmatrix} a11 &amp; a12 &amp; ... &amp; a1n \\ a21 &amp; a22 &amp; ... &amp; a2n \\ ... &amp; ... &amp; ... &amp; ... \\ am1 &amp; am2 &amp; ... &amp; amn \\ \end{bmatrix}\)</span><ul>
-<li>will be stored with row-major conventions (e.g. Myriad) as: <tt class="docutils literal">[ [a11, a12, ... a1n], [a21, a22, ... a2n], <span class="pre">...,</span> [am1, am2, ... amn] ]</tt></li>
+<li>will be stored with row-major conventions (e.g. Myriad) as: <tt class="docutils literal">a11, a12, ... a1n, a21, a22, ... a2n, am1, am2, ... amn</tt> (or, more precisely, as <tt class="docutils literal">[[a11, a12, ... a1n], [a21, a22, ... a2n], <span class="pre">...,</span> [am1, am2, ... amn]]</tt>)</li>
 <li>whereas, with the conventions discussed, OpenGL will expect it to be stored in-memory in this order: <tt class="docutils literal">a11, a21, <span class="pre">...,</span> am1, a21, a22, <span class="pre">...,</span> am2, <span class="pre">...,</span> a1n, a2n, <span class="pre">...,</span> amn</tt>, i.e. as the transpose of the previous matrix</li>
 </ul>
 </li>
@@ -573,7 +573,7 @@ You can use both characters and animations royalty free for personal, commercial
 </ul>
 <ul class="simple">
 <li>OpenGL can operate on three mutually exclusive <strong>modes</strong>:<ul>
-<li><em>rendering</em>: the default, most common one, discussed here</li>
+<li><em>rendering</em>: is the default, most common mode, discussed here</li>
 <li><em>feedback</em>: allows to capture the primitives generated by the vertex processing, i.e. to establish the primitives that would be displayed after the transformation and clipping steps; often used in order to resubmit this data multiple times</li>
 <li><em>selection</em>: determines which primitives would be drawn into some region of a window (like in <em>feedback</em> mode), yet based on stacks of only user-specified &quot;names&quot; (so that the actual data of the corresponding primitives is not returned, just their name identifier); a special case of selection is <em>picking</em>, allowing to determine what are the primitives rendered at a given point of the viewport (typically the onscreen position of the mouse cursor, to enable corresponding interactions)</li>
 </ul>
@@ -594,7 +594,7 @@ You can use both characters and animations royalty free for personal, commercial
 </div>
 <div class="section" id="transformations">
 <h3><a class="toc-backref" href="#toc-entry-41">Transformations</a></h3>
-<p>In this context, except notably the projections, most are invertible, and a composition of invertible transformations, in any combination and sequence, is itself invertible.</p>
+<p>In this context - except notably the projections - most transformations are invertible, and a composition of invertible transformations, in any combination and sequence, is itself invertible.</p>
 <p>As mentioned, they can all be expressed as 4x4 homogeneous matrices, and their composition translates into the (orderly) product of their matrices.</p>
 <p>Referential transitions are discussed further in this document, in the <a class="reference internal" href="#d-referentials">3D referentials</a> section.</p>
 <div class="section" id="translations-rotations-scalings-shearings">
@@ -602,7 +602,7 @@ You can use both characters and animations royalty free for personal, commercial
 <ul class="simple">
 <li>the inverse of a <strong>translation</strong> of a vector <span class="math">\(\vec{T}\)</span> is a translation of vector <span class="math">\(\vec{-T}\)</span>, thus: <span class="math">\((Mt_\vec{T})^{-1} = Mt_{-\vec{T}}\)</span></li>
 <li>the inverse of a <strong>rotation</strong> of an angle <span class="math">\(\theta\)</span> along a vector <span class="math">\(\vec{U}\)</span> is a rotation of an angle <span class="math">\(-\theta\)</span> along the same vector, thus: <span class="math">\((Mr_(\vec{u},\theta))^{-1} = Mr_(\vec{u},-\theta)\)</span></li>
-<li>the inverse of a <strong>scaling</strong> of a (non-null) factor <span class="math">\(f\)</span> is a scaling of factor <span class="math">\(1/f\)</span>, thus: <span class="math">\((Ms_f)^{-1} = Ms_{1/f}\)</span>; the same applies for each factor when performing a shear mapping</li>
+<li>the inverse of a (uniform) <strong>scaling</strong> of a (non-null) factor <span class="math">\(f\)</span> is a scaling of factor <span class="math">\(1/f\)</span>, thus: <span class="math">\((Ms_f)^{-1} = Ms_{1/f}\)</span>; the same applies for each factor when performing a shear mapping</li>
 </ul>
 </div>
 <div class="section" id="reflections">
@@ -619,7 +619,7 @@ You can use both characters and animations royalty free for personal, commercial
 <h4>Projections</h4>
 <p>In OpenGL, the projection matrix (<tt class="docutils literal">GL_PROJECTION</tt>) transforms eye coordinates to clip coordinates (not viewport coordinates).</p>
 <p>A projection defines 6 clipping planes (and at least 6 additional ones can be defined).</p>
-<p>A 3D plane is defined by including a given (3D) point and comprising all vectors orthogonal to a given vector; it can be defined thanks to 4 coordinates (e.g. <tt class="docutils literal">(a, b, c, d)</tt>); and a point <span class="math">\(P = \begin{pmatrix} x \\ y \\ z \end{pmatrix}\)</span> will belong to such a plane iff <span class="math">\(a.x + b.y + c.z + d = 0\)</span>.</p>
+<p>A 3D plane is defined by including a given (3D) point and comprising all vectors orthogonal to a given vector; it can be defined thanks to 4 coordinates (e.g. <tt class="docutils literal">(a, b, c, d)</tt>); and a given point <span class="math">\(P = \begin{pmatrix} x \\ y \\ z \end{pmatrix}\)</span> will belong to such a plane iff <span class="math">\(a.x + b.y + c.z + d = 0\)</span>.</p>
 <p>Two kinds of projections are considered below: orthographic and perspective; for extra information, refer to <a class="reference external" href="http://www.songho.ca/opengl/gl_projectionmatrix.html">this OpenGL Projection Matrix page</a>.</p>
 <div class="section" id="orthographic-projections">
 <h5>Orthographic Projections</h5>
@@ -654,20 +654,20 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
     \end{bmatrix}
 \end{equation*}
 </div>
-<p>For example, if we want that this camera sees, in (Z-up) MyriadGUI referential, a point <tt class="docutils literal">P</tt> at coordinates <span class="math">\(P_{zup}=\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}\)</span> (thus a point in its Y axis), its coordinates in the base OpenGL (Y-up) referential must be <span class="math">\(P_{yup} = P_{zup{\rightarrow}yup}.P_{zup} = \begin{bmatrix} 0 \\ 0 \\ -1 \end{bmatrix}\)</span> ; refer to the <a class="reference internal" href="#computing-transition-matrices">Computing Transition Matrices</a> section for more information.</p>
+<p>For example, if we want that this camera sees, in (Z-up) MyriadGUI referential, a point <tt class="docutils literal">P</tt> at coordinates <span class="math">\(P_{zup}=\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}\)</span> (thus a point in its Y axis), then the coordinates of the same point P this time in the base OpenGL (Y-up) referential must be <span class="math">\(P_{yup} = P_{zup{\rightarrow}yup}.P_{zup} = \begin{bmatrix} 0 \\ 0 \\ -1 \end{bmatrix}\)</span>; refer to the <a class="reference internal" href="#computing-transition-matrices">Computing Transition Matrices</a> section for more information.</p>
 </div>
 <div class="section" id="opengl-hints">
 <h3><a class="toc-backref" href="#toc-entry-43">OpenGL Hints</a></h3>
 <ul class="simple" id="gl-bindings">
 <li>a frequent pattern is, for some type of OpenGL element (let's name it <tt class="docutils literal">Foo</tt>; it could designate for example <tt class="docutils literal">Texture</tt>, <tt class="docutils literal">Buffer</tt> or <tt class="docutils literal">VertexArray</tt>) is to call first (here in C) <tt class="docutils literal">glGenObjects(1, &amp;fooId);</tt> (note the plural), then <tt class="docutils literal">glBindObject(GL_SOME_TARGET, fooId);</tt><ul>
 <li>it must be understood that <tt class="docutils literal">glGenObjects</tt> is the actual creator of (at least) one new (blank) instance of <tt class="docutils literal">Foo</tt>, whose address is kept by OpenGL behind the scenes; the user program will be able to access this instance only once bound thanks to an additional level of indirection, its (GL) identifier (<tt class="docutils literal">fooId</tt> here); &quot;integer pointers/identifiers&quot; are thus used</li>
-<li>as for <tt class="docutils literal">glBindObject</tt>, its role is to register the <tt class="docutils literal">Foo</tt> pointer corresponding to the specified identifier <tt class="docutils literal">fooId</tt> in the C-like struct that corresponds to the current context (i.e. the current state of OpenGL), in the field designated here by <tt class="docutils literal">GL_SOME_TARGET</tt>, like in: <tt class="docutils literal"><span class="pre">current_gl_context-&gt;gl_some_target</span> = foo_pointer_for(fooId)</tt>; this operation is thus mostly an assignment</li>
+<li>as for <tt class="docutils literal">glBindObject</tt>, its role is to register the <tt class="docutils literal">Foo</tt> pointer corresponding to the specified identifier <tt class="docutils literal">fooId</tt> in the C-like struct that corresponds to the current context (i.e. the current state of OpenGL), in the field designated here by <tt class="docutils literal">GL_SOME_TARGET</tt>, like in: <tt class="docutils literal"><span class="pre">current_gl_context-&gt;gl_some_target</span> = foo_pointer_for(fooId)</tt>; this operation is thus mostly a (quick) assignment</li>
 <li>once bound, this <tt class="docutils literal">Foo</tt> instance can be accessed implicitly (through the current context) by calls such as <tt class="docutils literal">glSetFooOption(GL_SOME_TARGET, GL_OPTION_FOO_WIDTH, 800);</tt> (where neither its identifier nor any pointer for it is specified); once done, this instance can be unbound with <tt class="docutils literal">glBindObject(GL_SOME_TARGET, 0);</tt>; rebinding that identifier later will restore the corresponding options; as a result, several instances can be created, corresponding to as many sets of predefined options, and when a given one shall apply, it just has to be bound</li>
 </ul>
 </li>
 <li>in OpenGL:<ul>
 <li>3D coordinates are processed iff they are <em>Normalized Device Coordinates</em> (see <a class="reference internal" href="#ndc">NDC</a>), for all 3 dimensions</li>
-<li>the <strong>alpha</strong> color coordinate encodes <strong>opacity</strong>; thus 1.0 means fully opaque, whereas 0.0 means fully transparent</li>
+<li>the <strong>alpha</strong> color coordinate encodes <strong>opacity</strong> (as usual); thus 1.0 means fully opaque, whereas 0.0 means fully transparent</li>
 </ul>
 </li>
 </ul>
@@ -739,7 +739,7 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 
 </span><span class="nn">gl</span><span class="p">:</span><span class="nf">ortho</span><span class="p">(_</span><span class="nv">Left</span><span class="o">=</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Right</span><span class="o">=</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Bottom</span><span class="o">=</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Top</span><span class="o">=</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Near</span><span class="o">=-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">_</span><span class="nv">Far</span><span class="o">=</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
 </pre>
-<p>Using &quot;stable&quot;, device-independent floats instead of integers directly accounting for pixels is generally more convenient. For example a resizing of the viewport will then not require an update of the projection matrix. One may refer to <tt class="docutils literal">gui_opengl_minimal_test.erl</tt> for a full example thereof.</p>
+<p>Using &quot;stable&quot;, device-independent floats - instead of integers directly accounting for pixels - is generally more convenient. For example a resizing of the viewport will then not require an update of the projection matrix. One may refer to <tt class="docutils literal">gui_opengl_minimal_test.erl</tt> for a full example thereof.</p>
 </div>
 <div class="section" id="referentials-in-3d">
 <span id="d-referentials"></span><h3><a class="toc-backref" href="#toc-entry-47">Referentials In 3D</a></h3>
@@ -747,7 +747,7 @@ M_{camera} = P_{zup{\rightarrow}yup} = \begin{bmatrix}
 <p><span class="raw-html"><center><img src="myriad-space-time-referential.png" id="responsive-image-tiny"></img></center></span>
 </p>
 <p>These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.</p>
-<p>Note that perhaps the most popular convention is different, for which X is horizontal, Y is up and Z is depth (hence Z-buffer) - this axis pointing then to the user.</p>
+<p>Note that perhaps the most popular convention is different, it is Y-up, for which X is horizontal, Y is up and Z is depth (hence Z-buffer) - this axis pointing then to the user.</p>
 <div class="section" id="a-tree-of-referentials">
 <h4>A Tree of Referentials</h4>
 <p>In the general case, either in 2D or (more often of interest here) in 3D, a given scene (a model) is made of a set of elements (e.g. the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (e.g. a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.</p>
@@ -1002,11 +1002,11 @@ P_{\beta\rightarrow\alpha}
 <tr><td class="label"><a class="fn-backref" href="#footnote-reference-9">[9]</a></td><td><tt class="docutils literal">gluLookAt</tt> can define such a viewing transformation matrix, when given (1) the position of the camera, (2) a point at which it shall look, and (3) a vector specifying its up direction (i.e. where is the upward direction for the camera - as otherwise all directions orthogonal to its line of sight defined by (1) and (2) could be chosen).</td></tr>
 </tbody>
 </table>
-<p>Taking into account the last rendering step, the <em>projection</em> (comprising clipping, projection division and viewport transformation), which can be implemented as well thanks to a 4x4 (non-invertible) matrix designated here as <span class="math">\(M_p\)</span>, we see that a single combined overall matrix <span class="math">\(M_o = M_p.M_{mv}\)</span> is sufficient <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[10]</a> to convey in one go all transformations that shall be applied to a given geometry for its rendering.</p>
+<p>Taking into account the last rendering step, the <em>projection</em> (comprising clipping, projection division and viewport transformation), which can be implemented as well thanks to a 4x4 (non-invertible) matrix designated here as <span class="math">\(M_p\)</span>, we see that a single combined overall matrix <span class="math">\(M_o = M_p.M_{mv}\)</span> is sufficient <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[10]</a> to convey in one go all the transformations that shall be applied to a given geometry for its rendering.</p>
 <table class="docutils footnote" frame="void" id="footnote-10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[10]</a></td><td>In practice, for more flexibility, in older (pre-shader) OpenGL the management of the viewport, of the projection and of the model-view transformations was done separately (for example, respectively, with: <tt class="docutils literal">glViewport</tt>, <tt class="docutils literal">glMatrixMode(GL_MODELVIEW)</tt> and <tt class="docutils literal">glMatrixMode(GL_PROJECTION)</tt>; so in compatibility mode there is a matrix stack corresponding to <tt class="docutils literal">GL_MODELVIEW</tt> and another one to <tt class="docutils literal">GL_PROJECTION</tt>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[10]</a></td><td>In practice, for more flexibility, in older (pre-shader) OpenGL the management of the viewport, of the projection and of the model-view transformations was done separately (for example, respectively, with: <tt class="docutils literal">glViewport</tt>, <tt class="docutils literal">glMatrixMode(GL_MODELVIEW)</tt> and <tt class="docutils literal">glMatrixMode(GL_PROJECTION)</tt>; so, in compatibility mode, there is a matrix stack corresponding to <tt class="docutils literal">GL_MODELVIEW</tt> and another one to <tt class="docutils literal">GL_PROJECTION</tt>.</td></tr>
 </tbody>
 </table>
 </div>
@@ -1054,7 +1054,7 @@ P_{\beta\rightarrow\alpha}
 <p>They are portions of C-like code that can be inserted in the rendering pipeline implemented by the OpenGL driver of a GPU card. Six different kinds of shaders can be defined, depending on the processing step that they implement and on their purpose: vertex, tessellation for control or for evaluation, geometry, fragment or compute shaders.</p>
 <p>Except this last type (compute shader), all types are mostly dedicated to <em>rendering</em>. If wanting to perform on one's GPU more general-purpose processing, <a class="reference external" href="https://en.wikipedia.org/wiki/OpenCL">OpenCL</a> shall be preferred to GLSL.</p>
 <p>Each shader is to receive data to process that is appropriate to its type; for example each vertex shader instance will receive a vertex (multiple of such instances will process each their own vertex in parallel) whereas each fragment shader will operate on data specific to a pixel.</p>
-<p>So shader instances will vary in terms of role (e.g. in charge of the processing of a vertex or a fragment), data types (input and output ones) and multiplicities (number of instances). Indeed, if considering a triangle whose vertices are each pure green, red or blue, only 3 vertices will be processed by the vertex shaders, whereas all the numerous pixels of the triangle will the result of the evaluation of as many fragment shaders, each input of which is computed by interpolating the attributes of said 3 vertices - which ultimately results in a smooth gradient over the whole triangle.</p>
+<p>So shader instances will vary in terms of role (e.g. in charge of the processing of a vertex or a fragment), data types (input and output ones) and multiplicities (number of instances). Indeed, if considering a triangle whose vertices are each pure green, red or blue, only 3 vertices will be processed by the vertex shaders, whereas all the numerous pixels of the triangle will be the result of the evaluation of as many fragment shaders, each input of which is computed by interpolating the attributes of said 3 vertices - which ultimately results in a smooth gradient over the whole triangle.</p>
 </div>
 <div class="section" id="runtime-build">
 <h3><a class="toc-backref" href="#toc-entry-54">Runtime Build</a></h3>
@@ -1115,13 +1115,13 @@ P_{\beta\rightarrow\alpha}
 </div>
 <div class="section" id="referencing-attributes">
 <h5>Referencing Attributes</h5>
-<p>In order that attributes can be referenced from at least one shader, they must be matched:</p>
+<p>In order that attributes can be defined in a place (program or shader) and referenced later by at least one shader, they must be matched:</p>
 <ul class="simple">
 <li>by (attribute) <em>name</em>: then they must bear exactly the same name in the main program and in the shader(s) using them, knowing that any name beginning with <tt class="docutils literal">gl_</tt> is reserved</li>
 <li>or by (attribute) <em>location</em>: their common location is specified, and a per-shader variable name is associated - which is more flexible</li>
 <li>or by <em>block</em>, like for the uniform variables, discussed below</li>
 </ul>
-<p>In the two last cases, the layout of variables must match on either side (e.g. main program/shader); for example, with &quot;<tt class="docutils literal">layout(location = 0) in vec3 input_vertex;</tt>&quot; in its code, a vertex shader will expect a (single) vector of 3 (floating-point) coordinates (<tt class="docutils literal">vec3</tt>) to be found at index 0 (<tt class="docutils literal">location = 0</tt>) as input (<tt class="docutils literal">in</tt>); the application will need to specify a corresponding <em>Vertex Buffer Object</em> (VBO) for that.</p>
+<p>In the two last cases, the layout of variables must match on either side (for example in the main program and a given shader); for instance, with &quot;<tt class="docutils literal">layout(location = 0) in vec3 input_vertex;</tt>&quot; in its code, a vertex shader will expect a (single) vector of 3 (floating-point) coordinates (<tt class="docutils literal">vec3</tt>) to be found at index 0 (<tt class="docutils literal">location = 0</tt>) as input (<tt class="docutils literal">in</tt>); the application will need to specify a corresponding <em>Vertex Buffer Object</em> (VBO) for that.</p>
 <p>So that they can be fetched for a given vertex, attributes have to be appropriately located in buffers. For each attribute, either the developer defines, prior to linking, a specific location (as an index starting at zero) with <tt class="docutils literal">glBindAttribLocation</tt>, or he lets OpenGL choose it, and queries it afterwards, with <tt class="docutils literal">glGetAttribLocation</tt>; refer to <a class="reference external" href="https://www.lighthouse3d.com/tutorials/glsl-tutorial/attribute-variables/">this page</a> for further details.</p>
 <p>If a given program is linked with two shaders, a vertex one and a fragment one, the former one will probably have to pass its outputs as inputs of the latter one; this requires as many variables defined on either side, with relevant out/in specifications, and a matching name and type; for example the vertex shader may declare <tt class="docutils literal">out vec3 my_color;</tt> whereas the fragment shader will declare <tt class="docutils literal">in vec3 my_color;</tt>.</p>
 </div>
@@ -1131,7 +1131,7 @@ P_{\beta\rightarrow\alpha}
 <p>A VAO references (rather than storing directly) the format of the vertex data, as well as the buffers (VBOs, see below) holding that data.</p>
 <p>A vertex attribute is identified by a number (in <tt class="docutils literal"><span class="pre">[0;GL_MAX_VERTEX_ATTRIBS-1]</span></tt>), and by default is accessed as a single value (as opposed to as an array).</p>
 <p>A <a class="reference external" href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object">Vertex Buffer Object</a> (VBO) is a data array, typically referenced by a VAO. A VBO defines its internal structure and where the corresponding data can be found.</p>
-<p>So, in practice, each homogeneous chunk of data to be sent from the CPU-space to the GPU-space (vertices, normals, colors) is stored in an array corresponding to a <em>Vertex Buffer Object</em> (VBO), itself stored in a <em>Vertex Array Object</em> (VAO). A VAO may gather vertex data and colour data in separate VBOs, and store them on the graphics card for any later use (as opposed to streaming vertices through to the graphics card when they become needed). A VAO is only meant to hold one (VBO) array of vertices, each other VBO being used then for per-vertex attributes.</p>
+<p>So, in practice, each homogeneous chunk of data (vertices, normals, colors) to be sent from the CPU-space to the GPU-space (hence from the client side to the server one) is stored in an array corresponding to a <em>Vertex Buffer Object</em> (VBO), itself referenced by a <em>Vertex Array Object</em> (VAO). A VAO may gather vertex data and colour data in separate VBOs, and store them on the graphics card for any later use (as opposed to streaming vertices through to the graphics card when they become needed). A VAO is only meant to hold one (VBO) array of vertices, each other VBO being used then for per-vertex attributes.</p>
 </div>
 </div>
 <div class="section" id="uniform-variables-are-read-only-and-global">

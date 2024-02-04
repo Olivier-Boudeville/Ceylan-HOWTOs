@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, January 4, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, January 22, 2024</td>
 </tr>
 </tbody>
 </table>
@@ -43,35 +43,37 @@
 <li><a class="reference internal" href="#managing-branches" id="toc-entry-5">Managing Branches</a><ul>
 <li><a class="reference internal" href="#merge-versus-rebase" id="toc-entry-6">Merge versus Rebase</a></li>
 <li><a class="reference internal" href="#directly-transferring-changes" id="toc-entry-7">Directly Transferring Changes</a></li>
+<li><a class="reference internal" href="#merging-with-no-auto-commit" id="toc-entry-8">Merging with no Auto-Commit</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#common-procedures" id="toc-entry-8">Common Procedures</a><ul>
-<li><a class="reference internal" href="#overcoming-auto-signed-ssl-certificate-issues" id="toc-entry-9">Overcoming auto-signed SSL certificate issues</a></li>
-<li><a class="reference internal" href="#setting-the-right-metadata-for-the-next-commits" id="toc-entry-10">Setting the right metadata for the next commits</a></li>
-<li><a class="reference internal" href="#performing-operation-on-remotes-with-no-systematic-authentication" id="toc-entry-11">Performing operation on remotes with no systematic authentication</a></li>
-<li><a class="reference internal" href="#updating-one-s-fork-from-its-upstream" id="toc-entry-12">Updating One's Fork from its Upstream</a></li>
-<li><a class="reference internal" href="#creating-an-empty-branch" id="toc-entry-13">Creating an empty branch</a></li>
-<li><a class="reference internal" href="#listing-differences-with-prior-versions-of-a-file" id="toc-entry-14">Listing differences with prior versions of a file</a></li>
-<li><a class="reference internal" href="#performing-a-merge-with-emacs" id="toc-entry-15">Performing a Merge with Emacs</a></li>
-<li><a class="reference internal" href="#using-the-stash" id="toc-entry-16">Using the Stash</a></li>
-<li><a class="reference internal" href="#preventing-the-commit-of-a-file-in-vcs-that-is-often-locally-modified" id="toc-entry-17">Preventing the commit of a file in VCS that is often locally modified</a></li>
-<li><a class="reference internal" href="#listing-the-files-managed-in-vcs-from-the-current-directory" id="toc-entry-18">Listing the files managed in VCS from the current directory</a></li>
-<li><a class="reference internal" href="#reducing-the-size-of-a-repository" id="toc-entry-19">Reducing the size of a repository</a></li>
-<li><a class="reference internal" href="#fixing-lf-vs-crlf-end-of-line-problems" id="toc-entry-20">Fixing LF vs CRLF End of Line Problems</a></li>
-<li><a class="reference internal" href="#fixing-a-commit-message" id="toc-entry-21">Fixing a commit message</a></li>
-<li><a class="reference internal" href="#restoring-a-branch-to-a-past-state" id="toc-entry-22">Restoring a branch to a past state</a></li>
+<li><a class="reference internal" href="#common-procedures" id="toc-entry-9">Common Procedures</a><ul>
+<li><a class="reference internal" href="#overcoming-auto-signed-ssl-certificate-issues" id="toc-entry-10">Overcoming auto-signed SSL certificate issues</a></li>
+<li><a class="reference internal" href="#setting-the-right-metadata-for-the-next-commits" id="toc-entry-11">Setting the right metadata for the next commits</a></li>
+<li><a class="reference internal" href="#performing-operation-on-remotes-with-no-systematic-authentication" id="toc-entry-12">Performing operation on remotes with no systematic authentication</a></li>
+<li><a class="reference internal" href="#updating-one-s-fork-from-its-upstream" id="toc-entry-13">Updating One's Fork from its Upstream</a></li>
+<li><a class="reference internal" href="#creating-an-empty-branch" id="toc-entry-14">Creating an empty branch</a></li>
+<li><a class="reference internal" href="#listing-differences-with-prior-versions-of-a-file" id="toc-entry-15">Listing differences with prior versions of a file</a></li>
+<li><a class="reference internal" href="#performing-a-merge-with-emacs" id="toc-entry-16">Performing a Merge with Emacs</a></li>
+<li><a class="reference internal" href="#using-the-stash" id="toc-entry-17">Using the Stash</a></li>
+<li><a class="reference internal" href="#preventing-the-commit-of-a-file-in-vcs-that-is-often-locally-modified" id="toc-entry-18">Preventing the commit of a file in VCS that is often locally modified</a></li>
+<li><a class="reference internal" href="#listing-the-files-managed-in-vcs-from-the-current-directory" id="toc-entry-19">Listing the files managed in VCS from the current directory</a></li>
+<li><a class="reference internal" href="#reducing-the-size-of-a-repository" id="toc-entry-20">Reducing the size of a repository</a></li>
+<li><a class="reference internal" href="#fixing-lf-vs-crlf-end-of-line-problems" id="toc-entry-21">Fixing LF vs CRLF End of Line Problems</a></li>
+<li><a class="reference internal" href="#fixing-a-commit-message" id="toc-entry-22">Fixing a commit message</a></li>
+<li><a class="reference internal" href="#removing-a-commit-rollback" id="toc-entry-23">Removing a commit (rollback)</a></li>
+<li><a class="reference internal" href="#restoring-a-branch-to-a-past-state" id="toc-entry-24">Restoring a branch to a past state</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tools" id="toc-entry-23">Tools</a><ul>
-<li><a class="reference internal" href="#on-most-platforms" id="toc-entry-24">On Most Platforms</a></li>
-<li><a class="reference internal" href="#on-windows" id="toc-entry-25">On Windows</a></li>
+<li><a class="reference internal" href="#tools" id="toc-entry-25">Tools</a><ul>
+<li><a class="reference internal" href="#on-most-platforms" id="toc-entry-26">On Most Platforms</a></li>
+<li><a class="reference internal" href="#on-windows" id="toc-entry-27">On Windows</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inner-workings" id="toc-entry-26">Inner Workings</a></li>
-<li><a class="reference internal" href="#translations" id="toc-entry-27">Translations</a></li>
-<li><a class="reference internal" href="#documentation" id="toc-entry-28">Documentation</a></li>
+<li><a class="reference internal" href="#inner-workings" id="toc-entry-28">Inner Workings</a></li>
+<li><a class="reference internal" href="#translations" id="toc-entry-29">Translations</a></li>
+<li><a class="reference internal" href="#documentation" id="toc-entry-30">Documentation</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -147,6 +149,11 @@
 <span class="c1"># Replaces the current version of that file by the designated one:
 </span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>COMMIT_ID<span class="w"> </span>path/to/the/target/file<span class="w">
 
+</span><span class="c1"># So, for example, in order to revert/replace the current version of a file by
+# the one at which is was *prior* to a given commit:
+#
+</span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>COMMIT_ID~<span class="w"> </span>path/to/the/target/file<span class="w">
+
 </span><span class="c1"># Outputs on the console the designated version:
 </span>$<span class="w"> </span>git<span class="w"> </span>show<span class="w"> </span>COMMIT_ID:path/to/the/target/file<span class="w">
 
@@ -213,11 +220,18 @@ $<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </s
 </span>Updated<span class="w"> </span><span class="m">1</span><span class="w"> </span>path<span class="w"> </span>from<span class="w"> </span>6f154364
 </pre>
 </div>
+<div class="section" id="merging-with-no-auto-commit">
+<h3><a class="toc-backref" href="#toc-entry-8">Merging with no Auto-Commit</a></h3>
+<p>Often a bit anxious to acknowledge an automatic merge with so little control on the corresponding changes?</p>
+<p>One approach is, when being in a branch A, to execute <tt class="docutils literal">git merge <span class="pre">--no-commit</span> <span class="pre">--no-ff</span> B</tt>: the merge of B in A will be done, but not committed, leaving the possibility to review - and possibly correct - it.</p>
+<p>The staged changes can indeed then be inspected with <tt class="docutils literal">git diff <span class="pre">--cached</span></tt> (or our <tt class="docutils literal">difs</tt> script) and, if finding a file whose merge is not satisfactory, just correct it (possibly <tt class="docutils literal">git restore</tt> its version from A), and possibly further fix the merge, before committing it.</p>
+<p>If there was at least one conflict, run <tt class="docutils literal">git merge <span class="pre">--abort</span></tt> to get rid of the 'MERGING' state.</p>
+</div>
 </div>
 <div class="section" id="common-procedures">
-<h2><a class="toc-backref" href="#toc-entry-8">Common Procedures</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-9">Common Procedures</a></h2>
 <div class="section" id="overcoming-auto-signed-ssl-certificate-issues">
-<h3><a class="toc-backref" href="#toc-entry-9">Overcoming auto-signed SSL certificate issues</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-10">Overcoming auto-signed SSL certificate issues</a></h3>
 <p>To avoid, typically in a company internal setting, errors like:</p>
 <pre class="code bash literal-block">
 Cloning<span class="w"> </span>into<span class="w"> </span><span class="s1">'XXX'</span>...<span class="w">
@@ -234,7 +248,7 @@ $<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </spa
 </pre>
 </div>
 <div class="section" id="setting-the-right-metadata-for-the-next-commits">
-<h3><a class="toc-backref" href="#toc-entry-10">Setting the right metadata for the next commits</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-11">Setting the right metadata for the next commits</a></h3>
 <p>Doing so prevent from having to amend commits a posteriori.</p>
 <p>If these information apply for all projects:</p>
 <pre class="code bash literal-block">
@@ -249,11 +263,11 @@ $<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </spa
 <p>Also <tt class="docutils literal">git config <span class="pre">--global</span> <span class="pre">--edit</span></tt> may be of use (beware to trigger a <tt class="docutils literal">vi</tt> by accident...).</p>
 </div>
 <div class="section" id="performing-operation-on-remotes-with-no-systematic-authentication">
-<h3><a class="toc-backref" href="#toc-entry-11">Performing operation on remotes with no systematic authentication</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-12">Performing operation on remotes with no systematic authentication</a></h3>
 <p>Using a SSH key pair, hence with its public key declared on said remote, is a relevant approach, safer than from example using a <tt class="docutils literal"><span class="pre">~/.netrc</span></tt> file.</p>
 </div>
 <div class="section" id="updating-one-s-fork-from-its-upstream">
-<h3><a class="toc-backref" href="#toc-entry-12">Updating One's Fork from its Upstream</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-13">Updating One's Fork from its Upstream</a></h3>
 <p>So you forked a repository (let's say it is in <tt class="docutils literal"><span class="pre">https://github.com/some_project/some_repo.git</span></tt>) and made progress - yet in the meantime the upstream repository may also have been updated, and you want to integrate these changes in yours.</p>
 <p>First step is to ensure that this repository (designated here as <tt class="docutils literal">upstream</tt> for convenience) is locally known:</p>
 <pre class="code bash literal-block">
@@ -277,7 +291,7 @@ $<span class="w"> </span>git<span class="w"> </span>fetch<span class="w"> </span
 </pre>
 </div>
 <div class="section" id="creating-an-empty-branch">
-<h3><a class="toc-backref" href="#toc-entry-13">Creating an empty branch</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-14">Creating an empty branch</a></h3>
 <p>Rather than creating it from a pre-existing branch and removing all inherited content, prefer:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>--orphan<span class="w"> </span>my_new_branch
@@ -285,11 +299,11 @@ $<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </s
 <p>(typically useful for GitHub Pages branches; may then be followed by some adds and <tt class="docutils literal">git commit <span class="pre">--allow-empty</span> <span class="pre">-m</span> &quot;Initial website.&quot;</tt>)</p>
 </div>
 <div class="section" id="listing-differences-with-prior-versions-of-a-file">
-<h3><a class="toc-backref" href="#toc-entry-14">Listing differences with prior versions of a file</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-15">Listing differences with prior versions of a file</a></h3>
 <p>In order to list the differences of a given file with the previous commits (precisely: of a set of pathspecs), one may use our <tt class="docutils literal"><span class="pre">dif-prev.sh</span></tt> script, which by default reports the differences with the last committed version. With the <tt class="docutils literal"><span class="pre">--all</span></tt> option, it lists all differences, until the first addition of this file.</p>
 </div>
 <div class="section" id="performing-a-merge-with-emacs">
-<h3><a class="toc-backref" href="#toc-entry-15">Performing a Merge with Emacs</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-16">Performing a Merge with Emacs</a></h3>
 <p>Our procedure is to rely on our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">configuration of Emacs</a>, which configures the <tt class="docutils literal"><span class="pre">smerge-mode</span></tt> (which is automatically triggered in the case of files containing conflicts; see the <tt class="docutils literal">SMerge</tt> menu) so that it relies on the <tt class="docutils literal"><span class="pre">C-c</span> v</tt> <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a> smerge command prefix (that we found more convenient).</p>
 <table class="docutils footnote" frame="void" id="footnote-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -314,24 +328,25 @@ $<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </s
 <p>See also our more general <a class="reference external" href="GNULinux.html#using-emacs">Using Emacs</a> section.</p>
 </div>
 <div class="section" id="using-the-stash">
-<h3><a class="toc-backref" href="#toc-entry-16">Using the Stash</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-17">Using the Stash</a></h3>
 <p>The stash allows to record the current state of the working directory and the index while going back to a clean working directory: the command saves the local modifications away, and reverts the working directory to match the HEAD commit.</p>
 <p>The stash is convenient in order to switch branches without having to perform an arbitrary (meaningless) commit just for the sake of switching.</p>
 <p>A basic use of the stash is the following:</p>
 <ul class="simple">
 <li>to store the currently modified files in the stash: <tt class="docutils literal">git stash</tt> (equivalent of <tt class="docutils literal">git stash push</tt>)</li>
+<li>to restore the (by default lastly) stored state (hence the reciprocal of the previous command), i.e. to apply it to the current files (with no review and no changes to add afterwards) and then drop that stashed entry: <tt class="docutils literal">git stash pop [STASH_INDEX]</tt></li>
 <li>to list the various sets of modifications stashed away: <tt class="docutils literal">git stash list</tt></li>
 <li>to show the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created:<ul>
 <li>with just one synthetic line per file changed: <tt class="docutils literal">git stash show [STASH_INDEX]</tt></li>
 <li>with all actual changes: <tt class="docutils literal">git stash show <span class="pre">-p</span> [STASH_INDEX]</tt></li>
 </ul>
 </li>
-<li>to restore the lastly stored state (hence the reciprocal of the previous command), i.e. to apply it to the current files (with no review and no changes to add afterwards) and then drop that stashed entry: <tt class="docutils literal">git stash pop</tt></li>
+<li>to drop a stash entry: <tt class="docutils literal">git stash drop [STASH_INDEX]</tt></li>
 </ul>
 <p>Refer to the <a class="reference external" href="https://git-scm.com/docs/git-stash/">git stash documentation</a> for more information.</p>
 </div>
 <div class="section" id="preventing-the-commit-of-a-file-in-vcs-that-is-often-locally-modified">
-<h3><a class="toc-backref" href="#toc-entry-17">Preventing the commit of a file in VCS that is often locally modified</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-18">Preventing the commit of a file in VCS that is often locally modified</a></h3>
 <p>One should use <a class="reference external" href="https://stackoverflow.com/questions/1753070/how-do-i-configure-git-to-ignore-some-files-locally">this method</a>:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>git<span class="w"> </span>update-index<span class="w"> </span>--skip-worktree<span class="w"> </span>&lt;file-list&gt;
@@ -342,12 +357,12 @@ $<span class="w"> </span>git<span class="w"> </span>update-index<span class="w">
 </pre>
 </div>
 <div class="section" id="listing-the-files-managed-in-vcs-from-the-current-directory">
-<h3><a class="toc-backref" href="#toc-entry-18">Listing the files managed in VCS from the current directory</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-19">Listing the files managed in VCS from the current directory</a></h3>
 <p>Use <tt class="docutils literal">git <span class="pre">ls-files</span></tt> to determine the files that are already managed in VCS, recursively from the current directory.</p>
 <p>To list the untracked files (i.e. the files <em>not</em> in VCS), use <tt class="docutils literal">git <span class="pre">ls-files</span> <span class="pre">--others</span></tt>.</p>
 </div>
 <div class="section" id="reducing-the-size-of-a-repository">
-<h3><a class="toc-backref" href="#toc-entry-19">Reducing the size of a repository</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-20">Reducing the size of a repository</a></h3>
 <p>One may use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-largest-vcs-blobs.sh">list-largest-vcs-blobs.sh</a> script to detect any larger files that should not be in VCS (e.g. should a colleague have committed by mistake a third-party archive, or unexpected data such as CSV files).</p>
 <p>Then install <a class="reference external" href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a>:</p>
 <pre class="code bash literal-block">
@@ -370,7 +385,7 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
 <p>Then all developers shall be requested to perform a new clone and to check the fetched content (e.g. with regard to the content of the last branch in which they committed).</p>
 </div>
 <div class="section" id="fixing-lf-vs-crlf-end-of-line-problems">
-<h3><a class="toc-backref" href="#toc-entry-20">Fixing LF vs CRLF End of Line Problems</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-21">Fixing LF vs CRLF End of Line Problems</a></h3>
 <p>Use <a class="reference external" href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes">Git Attributes</a> to specify proper files and paths attributes.</p>
 <p>One may define a <tt class="docutils literal">.gitattributes</tt> file for example with <tt class="docutils literal">*.js eol=lf</tt>, <tt class="docutils literal">* text=auto</tt>, or:</p>
 <pre class="code bash literal-block">
@@ -381,14 +396,19 @@ $<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span
 </pre>
 </div>
 <div class="section" id="fixing-a-commit-message">
-<h3><a class="toc-backref" href="#toc-entry-21">Fixing a commit message</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-22">Fixing a commit message</a></h3>
 <p>If no push was done, it is as simple as replacing the former message by a new one, like in:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>--amend<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;This is a fixed commit message.&quot;</span>
 </pre>
 </div>
+<div class="section" id="removing-a-commit-rollback">
+<h3><a class="toc-backref" href="#toc-entry-23">Removing a commit (rollback)</a></h3>
+<p>The goal here is to withdraw (revert) a (presumably faulty) commit.</p>
+<p>If it has not been pushed to remote, use <tt class="docutils literal">git reset HEAD~1</tt>; otherwise (already pushed), use <tt class="docutils literal">git revert HEAD</tt> (then a push can be made).</p>
+</div>
 <div class="section" id="restoring-a-branch-to-a-past-state">
-<h3><a class="toc-backref" href="#toc-entry-22">Restoring a branch to a past state</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-24">Restoring a branch to a past state</a></h3>
 <p>Sometimes mistakes are made, committed and pushed - typically when messing up some merge.</p>
 <p>Various operations can be of use:</p>
 <ul class="simple">
@@ -401,15 +421,15 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 </div>
 </div>
 <div class="section" id="tools">
-<h1><a class="toc-backref" href="#toc-entry-23">Tools</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-25">Tools</a></h1>
 <div class="section" id="on-most-platforms">
-<h2><a class="toc-backref" href="#toc-entry-24">On Most Platforms</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-26">On Most Platforms</a></h2>
 <p>At least on UNIX, the command-line Git client (<tt class="docutils literal">git</tt>) is certainly the best tool. In difficult situations, graphical tools such as <tt class="docutils literal">gitk</tt> may be of help.</p>
 <p>Some distributions (e.g. Debian) do not come with a relevant Git autocompletion (for commands, branches, etc.) regarding one's shell of interest (like Bash). A <a class="reference external" href="https://git-scm.com/book/en/v2/Appendix-A:-Git-in-Other-Environments-Git-in-Bash">solution</a> is to download <a class="reference external" href="https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash">git-completion.bash</a>, store it for example in <tt class="docutils literal">~/Software/Git/</tt>, and source it automatically from one's <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt>.</p>
 <p>See also our Ceylan-Hull section about <a class="reference external" href="https://hull.esperide.org/#for-version-control-system-vcs">VCS-related scripts</a>.</p>
 </div>
 <div class="section" id="on-windows">
-<h2><a class="toc-backref" href="#toc-entry-25">On Windows</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-27">On Windows</a></h2>
 <p>Tools like <a class="reference external" href="https://tortoisegit.org/">TortoiseGit</a> may foster a view on the usage of Git that is a bit particular, conflating concepts or introducing extra ones (e.g. a <tt class="docutils literal">sync</tt> command). Apparently also at least some pulls did not reintroduce files just removed from the working directory.</p>
 <p>More generally, cloning on a Windows host an UNIX-originating repository comprising symbolic links may induce oddities (e.g. a symlink named <tt class="docutils literal">S</tt> pointing to <tt class="docutils literal">Foobar</tt> resulting, on a Windows clone, in a file named <tt class="docutils literal">S</tt> whose content is, literally, the text <tt class="docutils literal">&quot;Foobar&quot;</tt>, instead of the expected content of the <tt class="docutils literal">Foobar</tt> file).</p>
 <p>Another option is to use Visual Studio Code (<tt class="docutils literal">vscode</tt>), which supports natively Git (provided that the command-line version is already installed). One may select <tt class="docutils literal">View <span class="pre">-&gt;</span> SCM</tt> (or <tt class="docutils literal"><span class="pre">Ctrl-Shift-G</span></tt>) for that. Clicking on the &quot;VCS&quot; icon (three rings links by two curves; the third from the top) displays a contextual view offering various associated operations (here based on Git).</p>
@@ -417,14 +437,14 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 </div>
 </div>
 <div class="section" id="inner-workings">
-<h1><a class="toc-backref" href="#toc-entry-26">Inner Workings</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-28">Inner Workings</a></h1>
 <p>Git stores internally every version of every file separately (not as a diff with a parent version) as a blob (an opaque binary content) identified by its (SHA1) hash.</p>
 <p>A commit is the identifier of a tree representing the filesystem of interest at a given moment (snapshot). This tree references the files through their SHA1, similarly to a <a class="reference external" href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree</a>.</p>
 <p>A branch is thus nothing but a pointer on a given commit, and <tt class="docutils literal">HEAD</tt> designates the current branch. Git stores natively only blobs, trees and commits.</p>
 <p>The reported differences in the content of a file or a tree are thus only recreated (established dynamically) by Git commands, they are not natively tracked.</p>
 </div>
 <div class="section" id="translations">
-<h1><a class="toc-backref" href="#toc-entry-27">Translations</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-29">Translations</a></h1>
 <p>From English to French:</p>
 <ul class="simple">
 <li><tt class="docutils literal">repository</tt> -&gt; <tt class="docutils literal">dépôt</tt></li>
@@ -441,7 +461,7 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 </ul>
 </div>
 <div class="section" id="documentation">
-<h1><a class="toc-backref" href="#toc-entry-28">Documentation</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-30">Documentation</a></h1>
 <p>Many pointers exist, doing a great job in unveiling how Git is to be used.</p>
 <p>In English, <a class="reference external" href="https://git-scm.com/book/en/v2">Pro GIT</a> is surely a reference.</p>
 <p>In French:</p>
