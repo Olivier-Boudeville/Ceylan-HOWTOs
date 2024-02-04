@@ -485,6 +485,8 @@ The two main approaches in order to integrate third-party code to Erlang are to:
 
 - directly link the current Erlang VM to this code, through `NIF <https://www.erlang.org/doc/tutorial/nif.html>`_; for C, it can be done manually, or may be automatised thanks to `nifty <https://github.com/parapluu/nifty>`_, which is an *Erlang NIF Wrapper Generator*; this can be especially useful for larger APIs (e.g. `SDL <https://www.libsdl.org/>`_); see also `rusterl <https://docs.rs/rustler/latest/rustler/pub>`_, which allows to write NIFs in safe Rust code
 
+.. python bindings: erlport, https://pyrlang.github.io/Pyrlang/
+
 
 
 Language Implementation
