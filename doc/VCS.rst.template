@@ -80,8 +80,8 @@ The ones to which we try to stick are:
 
 
 
-Basic Operations
-----------------
+Base Know-How
+-------------
 
 - **specifying a revision**: a `revision <https://git-scm.com/docs/gitrevisions>`_ is generally the name of a commit object; it can be its SHA-1, or a symbolic name like ``HEAD`` or ``master@{yesterday}``; suffixes may be added:
 
