@@ -378,7 +378,7 @@ More types of outputs are readily supported: HTML, PDF, EPUB, man pages.
 Installation
 ------------
 
-One may follow `these guidelines <https://www.sphinx-doc.org/en/master/usage/installation.html>`_. On Arch Linux, we install the `python-sphinx <https://archlinux.org/packages/community/any/python-sphinx/>`_ package, thanks to: ``pacman -Sy python-sphinx texlive-binextra``(last package being needed now for ``latexmk``, to generate PDFs).
+One may follow `these guidelines <https://www.sphinx-doc.org/en/master/usage/installation.html>`_. On Arch Linux, we install the `python-sphinx <https://archlinux.org/packages/community/any/python-sphinx/>`_ package, thanks to: ``pacman -Sy python-sphinx gnu-free-fonts texlive-binextra`` (last package being needed now for ``latexmk``, to generate PDFs).
 
 
 
