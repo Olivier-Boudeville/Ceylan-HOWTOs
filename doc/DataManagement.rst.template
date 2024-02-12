@@ -215,7 +215,7 @@ Whenever needing to perform **numerical operations** on data, we recommend the u
 
 As such, the three of them support mostly the same syntax (even if Scilab puts less emphasis on syntactic compatibility with MATLAB than Octave does).
 
-From now on, the specific tool being used among the two MATLAB alternatives will not be specifically mentioned (mentioning "the tool" instead). We tried both alternatives and had more issues (build/installation, proper display) with Scilab, so we mostly used Octave.
+From now on, the specific tool being used among the two MATLAB alternatives will not be specifically mentioned (mentioning "the tool" instead). We tried both alternatives and had more issues (build/installation, proper display) with Scilab, so we mostly used Octave, but did not find it very user-friendly.
 
 
 .. Note:: A personal consideration: for basic uses, relying on a generic-purpose programming language remains often vastly more convenient.
@@ -345,7 +345,21 @@ Using Scilab
 
 Scilab may be best obtained, on Arch Linux, from the AUR (e.g. ``yay -Sy scilab``) by selecting the ``scilab-bin`` option (relying then on prebuilt binaries); it can then be run with: ``scilab``.
 
+We experienced quite a few issues in order to obtain Scilab by any means. A last-resort option is to rely on `an AppImage <https://appimage.github.io/Scilab/>`_ instead; one may then `sandbox it <GNULinux.html#sandboxing-an-application>`_: first the `Scilab AppImage <https://github.com/davidcl/Scilab.AppDir/releases>`_ shall be downloaded, for example as ``~/Scilab-x86_64.AppImage``. Then:
+
+.. code:: bash
+
+ $ mkdir -p ~/Software/scilab
+ $ cd ~/Software/scilab
+ $ mv ~/Scilab-x86_64.AppImage .
+ $ chmod +x Scilab-x86_64.AppImage
+ $ firejail --appimage ./Scilab-x86_64.AppImage &
+
+Once installed that way, our `run-scilab.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/run-scilab.sh>`_ can be used instead.
+
 Note that the copy/paste behaviour is not consistent with the usual UNIX/X11 one, and that tabulation can be used for auto-completion.
+
+Scilab does not seem to offer any symbolic support out of the box. See `Using Maxima`_ instead (knowing that Maxima may be integrated within Scilab).
 
 
 
@@ -451,8 +465,114 @@ This results in:
 The image can be saved either by using the ``Save As`` GUI menu and typically selecting PNG, or directly from the console/scripts thanks to the following command: ``print("my_plot.png", "-dpng")``.
 
 
-LibreOffice
------------
+
+
+Using Maxima
+------------
+
+`Maxima <https://maxima.sourceforge.io/>`_ is a free software (GPL) tool for the manipulation of symbolic and numerical expressions.
+
+It can be installed on Arch with ``pacman -Sy maxima``.
+
+A graphical frontend exists, considerably more user-friendly, and useful for teaching the use of Maxima: ``wxmaxima``; it is available on the Arch AUR, yet its build fails at the time of this writing; it has however `an AppImage <https://github.com/wxMaxima-developers/docker-wxmaxima/releases>`_ - just try to find a recent ``wxmaxima-x86_64.AppImage`` there.
+
+One may then store this image in ``~/Software/maxima/`` and run it either directly or in a sandboxed environment: ``firejail --appimage wxmaxima-x86_64.AppImage``; see also our `run-maxima.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/run-scilab.sh>`_ script.
+
+For example, taking into account that (refer to `this introduction <https://maxima.sourceforge.io/docs/manual/intromax.html>`_ for more details):
+
+- to assign a value to a variable, use the colon (``:`` ; for example: ``a : [1,2]``), not the equal sign (that is used for representing equations)
+- each statement is to be ended, on:
+
+  - the command-line: with a semi-colon (``;``) followed by ``Enter``
+  - the GUI: with just ``Shift-Enter`` (the semi-colon is auto-added; ``Enter`` is used here for multiline inputs)
+
+- one shall enter ``quit();`` to exit
+- a general matrix ``m`` may be defined that way:
+
+.. code::
+
+ m: matrix(
+  [m11,m12,m13,tx],
+  [m21,m22,m23,ty],
+  [m31,m32,m33,tz],
+  [0,0,0,1]
+ );
+
+
+- a diagonal matrix ``s`` may be defined that way:
+
+.. code::
+
+ s: matrix(
+  [Sx,0,0,0],
+  [0,Sy,0,0],
+  [0,0,Sz,0],
+  [0,0,0,1]
+ );
+
+
+- multiplication is represented by a dot : ``m.s;``
+
+then Maxima can be directly used in a terminal:
+
+.. code::
+
+ $ maxima
+ ;;; Loading #P"/usr/lib/ecl-23.9.9/sb-bsd-sockets.fas"
+ ;;; Loading #P"/usr/lib/ecl-23.9.9/sockets.fas"
+ Maxima 5.47.0 https://maxima.sourceforge.io
+ using Lisp ECL 23.9.9
+ Distributed under the GNU Public License. See the file COPYING.
+ Dedicated to the memory of William Schelter.
+ The function bug_report() provides bug reporting information.
+ [...]
+ (%i1) m: matrix(
+  [m11,m12,m13,tx],
+  [m21,m22,m23,ty],
+  [m31,m32,m33,tz],
+  [0,0,0,1]
+ );
+							 [ m11  m12  m13  tx ]
+							 [                   ]
+							 [ m21  m22  m23  ty ]
+ (%o1)                       [                   ]
+							 [ m31  m32  m33  tz ]
+							 [                   ]
+							 [  0    0    0   1  ]
+ (%i2) s: matrix(
+  [Sx,0,0,0],
+  [0,Sy,0,0],
+  [0,0,Sz,0],
+  [0,0,0,1]
+ );
+							   [ Sx  0   0   0 ]
+							   [               ]
+							   [ 0   Sy  0   0 ]
+ (%o2)                         [               ]
+							   [ 0   0   Sz  0 ]
+							   [               ]
+							   [ 0   0   0   1 ]
+ (%i3) m.s;
+						[ Sx m11  Sy m12  Sz m13  tx ]
+						[                            ]
+						[ Sx m21  Sy m22  Sz m23  ty ]
+ (%o3)                  [                            ]
+						[ Sx m31  Sy m32  Sz m33  tz ]
+						[                            ]
+						[   0       0       0     1  ]
+
+
+Doing the same this time with wxmaxima:
+
+:raw-html:`<center><img src="wxmaxima-example.png" id="responsive-image-large"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.7]{wxmaxima-example} \end{figure}`
+
+See also `Maxima's documentation <https://maxima.sourceforge.io/docs/manual/maxima_toc.html#SEC_Contents>`_.
+
+
+
+Using LibreOffice
+-----------------
 
 
 To obtain a list of all the different values in a selection
