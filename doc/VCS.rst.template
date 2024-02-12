@@ -80,13 +80,17 @@ The ones to which we try to stick are:
 
 
 
-Basic Operations
-----------------
+Base Know-How
+-------------
 
-- **specifying a revision**: a `revision <https://git-scm.com/docs/gitrevisions>`_ is generally the name of a commit object; it can be its SHA-1, or a symbolic name like ``HEAD`` or ``master@{yesterday}``; suffixes may be added:
+- **specifying a target revision**:
 
-  - ``~[n]`` (e.g. ``v1.5.1~3``) allows to designate the generation ancestor (parent, grand-parent, etc.) of a revision; for example: ``git show HEAD~:a/b/c/my-file.txt`` shows the first parent of the current commit of that file
-  - ``^[n]`` (e.g. ``HEAD^`` or ``HEAD^2``) allows to designate the n-th parent (at the same level, should a commit have multiple parents, like after a merge) of the current commit of that file
+  - a `revision <https://git-scm.com/docs/gitrevisions>`_ is generally the name of a commit object; it can be its SHA-1, or a symbolic name like ``HEAD`` or ``master@{yesterday}``
+  - the path that it designates may be either "absolute" (i.e. relative to the root of the clone, like ``PREFIX:a/b/c/my-file.txt``) or relative to the current directory in the clone (provided they start with ``./``, like ``PREFIX:./c/my-file.txt`` if being in the previous ``b`` directory)
+  - suffixes may be added:
+
+	- ``~[n]`` (e.g. ``v1.5.1~3``) allows to designate the generation ancestor (parent, grand-parent, etc.) of a revision; for example: ``git show HEAD~:a/b/c/my-file.txt`` shows the first parent of the current commit of that file
+	- ``^[n]`` (e.g. ``HEAD^`` or ``HEAD^2``) allows to designate the n-th parent (at the same level, should a commit have multiple parents, like after a merge) of the current commit of that file
 
 - **managing branches**:
 

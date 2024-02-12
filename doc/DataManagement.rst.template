@@ -238,8 +238,8 @@ Value Ranges
 
 Ranges can be expressed thanks to:
 
- - ``MIN:STEP_SIZE:MAX``, like in: ``x = -10:2:10`` resulting in 11 points
- - or ``linspace(MIN, MAX, STEP_COUNT)``, like in: ``x = linspace(-10, 10, 11)`` to produce the same list as before
+- ``MIN:STEP_SIZE:MAX``, like in: ``x = -10:2:10`` resulting in 11 points
+- or ``linspace(MIN, MAX, STEP_COUNT)``, like in: ``x = linspace(-10, 10, 11)`` to produce the same list as before
 
 
 
