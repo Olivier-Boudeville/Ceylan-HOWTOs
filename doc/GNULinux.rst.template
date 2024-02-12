@@ -1108,7 +1108,7 @@ Frequent actions needed:
 
 - to insert in the current buffer the output of a shell command: ``C-u then M-!``: enter that shell command, whose output will be pasted at the current cursor position
 
-- to prefix all lines of the selected region: ``C-x`` then ``r`` then ``t``, then type the prefix then type Enter
+- to prefix all lines of the selected region: ``C-x`` then ``r`` then ``t``, then type the prefix then type Enter (useful for example to indent a series of lines)
 
 - to sort alphabetically the selected region: ``M-x sort-lines``
 
@@ -1155,6 +1155,20 @@ Over time we were preferring `Evolution <https://help.gnome.org/users/evolution/
 - for Evolution: on Arch Linux, consider installing the ``evolution-bogofilter`` and/or ``evolution-spamassassin`` packages, otherwise spams (junk mails) do not seem to be managed properly (or at all)
 
 See also Ceylan-Hull's `email.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/email.sh/>`_ and `archive-emails.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/archive-emails.sh>`_ scripts.
+
+
+
+Sandboxing an Application
+-------------------------
+
+Sometimes it is harder to trust an application, for example because it had to be installed as an `AppImage <https://en.wikipedia.org/wiki/AppImage>`_.
+
+Sandboxing reduces the risk of security breaches by restricting the running environment of untrusted applications: they can be prevented from accessing to filesystems, to the network, etc.
+
+A well-known sandboxing tool is `firejail <https://github.com/netblue30/firejail>`_. It can be installed `on Arch Linux <https://wiki.archlinux.org/title/firejail>`_ with ``pacman -Sy firejail``. Then an untrusted executable ``my_exec`` can simply be run with: ``firejail my_exec``.
+
+
+
 
 
 
