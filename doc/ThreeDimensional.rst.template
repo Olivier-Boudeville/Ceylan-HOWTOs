@@ -1458,7 +1458,7 @@ The `matrices that correspond to the transformations <https://en.wikibooks.org/w
 
 This is especially the case for the vertex shader, in charge of `transforming coordinates expressed in a local referential into screen coordinates <https://en.wikibooks.org/wiki/GLSL_Programming/Vertex_Transformations>`_.
 
-More precisely, the modeling (object-space to absolute, world-space), viewing (world-space to camera-space) and projection transformation (camera-space to clip-space) are applied in the vertex shader, whereas the final perspective division and the viewport transformation are applied in the fixed-function stage after the vertex shader.
+More precisely, the modeling (object-space to absolute, world-space), viewing (world-space to camera-space) and projection (camera-space to clip-space) transformations are applied in the vertex shader, whereas the final perspective division and the viewport transformation are applied in the fixed-function stage after the vertex shader.
 
 So a vertex shader is usually given two 4x4 homogeneous, uniform matrices:
 
@@ -1484,7 +1484,7 @@ Refer to `this page <https://www.glprogramming.com/red/chapter14.html#name15>`_ 
 Reference GLSL Compiler
 .......................
 
-As always, different compilers (corresponding to different brands of graphical cards) will not implement exactly the same way the (OpenGL, here) specification; and a shader may work correctly on one type of card and not on another.
+As always, different compilers (corresponding to different brands of graphical cards) will not implement exactly the same way the (OpenGL GLSL, here) specification; and a shader may work correctly on one type of card and not on another.
 
 Testing shader code with the `OpenGL / OpenGL ES Reference Compiler <https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/>`_, a.k.a. ``glslang`` (installed on Arch Linux thanks to ``pacman -Sy glslang``, to be run as ``glslangValidator``) may report interesting information.
 
@@ -1496,7 +1496,7 @@ Sources of Information
 
 The reference pages for the various versions of OpenGL are `available on the Khronos official OpenGL Registry <https://www.khronos.org/registry/OpenGL-Refpages/>`_.
 
-Two very well-written books, strongly recommended, that are still relevant for 3D graphics despite their old age (circa 1996; for OpenGL 1.1):
+Two very well-written books, strongly recommended, that are still relevant for 3D graphics despite their old age (circa 1996; for OpenGL 1.1) are:
 
 - *The Official Guide to Learning OpenGL*: the `OpenGL Red book <https://www.glprogramming.com/red/index.html>`_
 - *The OpenGL Reference Manual*: the `OpenGL Blue book <https://www.glprogramming.com/blue/index.html>`_
@@ -1530,13 +1530,13 @@ Operating System Support for 3D
 
 Benefiting from a proper 2D/3D hardware acceleration on GNU/Linux is unfortunately not always straightforward, and sometimes brittle.
 
-The very first step is to **update's one's video drivers to their latest, official stable version** according to your OS/distribution of choice (even if it implies using closed-source binaries...) and to check that they are in use (probably reboot then).
+The very first step is to **update's one's video drivers to their latest, official stable version** according to your OS/distribution of choice (even if it implies using closed-source binaries...) and to check that they are in use (probably rebooting is then needed; note that updating one's kernel may also make the hardware acceleration be lost until the next reboot).
 
 
 Testing
 -------
 
-First, one may check whether such acceleration is already available by running, from the command-line and as the current, non-priviledged user, the ``glxinfo`` executable (to be obtained on Arch Linux thanks to the ``mesa-utils`` package), and hope to see, among the many displayed lines, ``direct rendering: Yes``.
+First, one may check whether such acceleration is already available by running, from the command-line and as the current, non-privileged user, the ``glxinfo`` executable (to be obtained on Arch Linux thanks to the ``mesa-utils`` package), and hope to see, among the many displayed lines, ``direct rendering: Yes``.
 
 One may also run our `display-opengl-information.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/display-opengl-information.sh>`_ script to report relevant information.
 
@@ -1569,11 +1569,11 @@ Multiple tools introduced conventions in order to navigate, with mouse and keybo
 
 .. _`Blender conventions`:
 
-We prefer the way Blender manages the observer viewpoint (current camera), as `described here <https://docs.blender.org/manual/en/latest/editors/3dview/navigate/navigation.html>`_; notably, supposing a three-button mouse with a scrollwheel:
+We prefer the way Blender manages the observer viewpoint (current camera), as `described here <https://docs.blender.org/manual/en/latest/editors/3dview/navigate/navigation.html>`_; notably, supposing a three-button mouse with a scrollwheel, basic navigation will be **based on the middle button**:
 
-- ``orbit the view around the currently selected object`` (or ``Tumble``) by holding the middle button down and moving the mouse
-- ``pan`` (moving the view up, down, left and right) by holding down Shift and the middle button, and moving the mouse
-- ``zoom in/out`` with the scrollwheel; a variation of it, ``Dolly``, can be obtained by holding down Ctrl and the middle button, and moving the mouse
+- ``orbit the view around the currently selected object`` (or ``Tumble``) by **holding the middle button down** and moving the mouse
+- ``pan`` (moving the view up, down, left and right) by holding down **Shift and the middle button**, and moving the mouse
+- ``zoom in/out`` with the **scrollwheel**; a variation of it, ``Dolly``, can be obtained by holding down **Ctrl and the middle button**, and moving the mouse
 
 
 
@@ -1595,7 +1595,7 @@ We prefer the way Blender manages the observer viewpoint (current camera), as `d
 
 - **PSD**: *Photoshop Document*, a `proprietary format for graphics <https://docs.fileformat.com/image/psd/>`_ with layers, masks, etc. used by Adobe Photoshop (a commercial counterpart to `Gimp <https://www.gimp.org/>`_, `Krita <https://krita.org>`_, etc.) often used to store textures that may still be edited as templates by the user - provided that they are using Photoshop as well; however, at least to some extent, `Gimp is able to edit PSD files <https://wiki.gimp.org/wiki/PSD_support>`_ and `Krita too <https://docs.krita.org/en/general_concepts/file_formats/file_psd.html>`_
 
-- **Rigging** (or *Skeletal Animation*) consists in **controlling the deformation of a mesh** (a.k.a. a *skin*, the surface of a body) of an articulated object (typically a character) **based on a virtual inner armature** (a hierarchical set of interconnected parts, called *bones*, and collectively forming the skeleton or *rig*) in order to animate that mesh (`more information <https://en.wikipedia.org/wiki/Skeletal_animation>`_)
+- **Rigging** (or *Skeletal Animation*) consists in **controlling the deformation of a mesh** (a.k.a. a *skin*, the surface of a body) of an articulated object (typically a character) **based on a virtual inner armature** (a hierarchical set of interconnected parts, called *bones*, collectively forming the skeleton or *rig*) in order to animate that mesh (`more information <https://en.wikipedia.org/wiki/Skeletal_animation>`_)
 
 - **Textures**: bitmaps (images) used to **skin 3D objects**, by defining the color of each point on the surface of the object in terms of texture coordinates; besides such 2D textures, 1D, 3D and 4D ones exist
 
