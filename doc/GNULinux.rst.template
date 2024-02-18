@@ -1216,6 +1216,24 @@ Mix of ``vi`` / ``more`` conventions, in order to:
 - **quit**: ``q``
 
 
+For ``mpv``
+...............
+
+- **pause / unpause** the current playback: ``<Space>``
+- **decrease the volume**: ``/``; **increase** it: ``*``; **mute**: ``m``
+- **go backward / forward** in the current playback, by steps of:
+
+  - 5 seconds: ``Left`` / ``Right arrow`` keys
+  - 1 minute: ``Down`` / ``Up arrow`` keys
+
+- **jump to the next playback**: ``<Enter>`` or ``<Escape>``
+- **stop** all playbacks: ``<Ctrl-C>``
+- **display temporarily durations**: ``o`` (*On-Screen Display*), i.e. elapsed, elapsed / total, etc.
+- **toggle fullscreen**: ``f``
+- **double / halve the playback speed**: ``{`` / ``}`` (``Backspace`` to reset it)
+- **take a screenshot**: ``s`` (notably if using our `v <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/v>`_ script, as the ``-vf screenshot`` command-line option must have been specified); then a ``mpv-shot0001.jpg`` file will be silently created in the directory whence mplayer was launched, next screenshot will be ``mpv-shot0002.jpg``, etc.
+- **quit**: ``q``
+
 
 For ``mplayer``
 ...............
