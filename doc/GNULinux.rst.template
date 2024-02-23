@@ -935,6 +935,43 @@ Quick Topics
 ============
 
 
+Relying on Stable and User-Friendly Names for Network Interfaces
+----------------------------------------------------------------
+
+Tired of having your network interfaces be named ``enp0s31f6``, or ``wlp4s0`` then ``wlan0``, to mix them up afterwards and to have to update their naming in various places (e.g. for ``netctl``, ``iptables``)?
+
+Time is `to rename them <https://wiki.archlinux.org/title/Network_configuration#Change_interface_name>`_ once for all; and we prefer doing so with thanks to a `udev rule <https://wiki.archlinux.org/title/udev>`_.
+
+To change the name of a given network interface (e.g. ``enp0s31f6``), its MAC address must be obtained first:
+
+.. code::
+
+ $ ip link show enp0s31f6
+ 2: enp0s31f6: <BROADCAST,MULTICAST> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+ link/ether 54:e1:cd:f5:a4:f8 brd ff:ff:ff:ff:ff:ff
+
+
+Then a corresponding entry (the MAC address must be in a lowercase ) may be added (possibly among others) in a file named, for example, ``/etc/udev/rules.d/10-network.rules``:
+
+.. code::
+
+ SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="54:e1:cd:f5:a4:f8", NAME="eth0"
+
+
+Then, provided that the target interface is down [#]_ , the new rule can be triggered with:
+
+.. code:: bash
+
+ $ udevadm trigger --verbose --subsystem-match=net --action=add
+
+
+.. [#] Actually it does not even seem necessary.
+
+
+Use ``ip link`` to check that the new names are indeed applied.
+
+
+
 Installing Wine
 ---------------
 
