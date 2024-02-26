@@ -958,7 +958,7 @@ Then a corresponding entry (the MAC address must be in a lowercase ) may be adde
  SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="54:e1:cd:f5:a4:f8", NAME="eth0"
 
 
-Then, provided that the target interface is down [#]_ , the new rule can be triggered with:
+Then, provided that the target interface is down [#]_ , the new rule can be triggered for a test, with:
 
 .. code:: bash
 
@@ -969,6 +969,9 @@ Then, provided that the target interface is down [#]_ , the new rule can be trig
 
 
 Use ``ip link`` to check that the new names are indeed applied.
+
+One should then hunt down under the ``/etc/systemd`` tree (especially in  ``/etc/systemd/system/multi-user.target.wants/``) all files whose name and/or content include the former interface name, in order to update them with the new name and try, after a ``systemctl daemon-reload``, to (re)start that interface.
+
 
 
 
