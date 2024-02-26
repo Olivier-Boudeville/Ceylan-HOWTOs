@@ -567,6 +567,8 @@ Doing the same this time with wxmaxima:
 :raw-html:`<center><img src="wxmaxima-example.png" id="responsive-image-large"></img></center>`
 :raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.7]{wxmaxima-example} \end{figure}`
 
+A session can be saved in a file, using the ``*.wxmx`` extension.
+
 See also `Maxima's documentation <https://maxima.sourceforge.io/docs/manual/maxima_toc.html#SEC_Contents>`_.
 
 
