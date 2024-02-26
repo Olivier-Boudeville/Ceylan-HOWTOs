@@ -843,11 +843,11 @@ it is probably the sign that the user code attempted to perform an operation on 
 
 - if creating, from a wx-using process, another one, this one should set a relevant environment first (see ``wx:set_env/1``) before using wx functions
 
-- the `way wx/wxWidgets manage event propagation <https://docs.wxwidgets.org/3.1/overview_events.html#overview_events_propagation>`_ is complex; here are some elements:
+- the `way wx/wxWidgets manage event propagation <https://docs.wxwidgets.org/latest/overview_events.html#overview_events_propagation>`_ is complex; here are some elements:
 
-  - for each actual event happening, wx creates an instance of `wxEvent <https://docs.wxwidgets.org/3.1/classwx_event.html>`_ (a direct, abstract child class of ``wxObject``), which itself is specialised into many event classes that are more concrete
+  - for each actual event happening, wx creates an instance of `wxEvent <https://docs.wxwidgets.org/latest/classwx_event.html>`_ (a direct, abstract child class of ``wxObject``), which itself is specialised into many event classes that are more concrete
 
-  - among them, they are so-called *command events*, which originate from a variety of simple controls and correspond to the `wxCommandEvent <https://docs.wxwidgets.org/3.1/classwx_command_event.html>`_ mother class; by default only these command events are set to propagate, i.e. only them will be transmitted to the event handler of the parent widget if the current one does not process them by itself ("did not connect to them")
+  - among them, they are so-called *command events*, which originate from a variety of simple controls and correspond to the `wxCommandEvent <https://docs.wxwidgets.org/latest/classwx_command_event.html>`_ mother class; by default only these command events are set to propagate, i.e. only them will be transmitted to the event handler of the parent widget if the current one does not process them by itself ("did not connect to them")
 
   - by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will *not* be propagated anymore, possibly preventing the built-in wx event handlers to operate (e.g. to properly manage resizings); to restore their activation, ``skip`` (to be understood here as "propagate event" - however counter-intuitive it may seem) shall be set to ``true`` (either by passing a corresponding option when connecting, or by calling ``wxEvent:skip/2`` with ``skip`` set to ``true`` from one's event handler) [#]_
 
@@ -864,6 +864,9 @@ it is probably the sign that the user code attempted to perform an operation on 
 - in terms of sizing, the dimensions of a parent widget prevail: its child widgets have to adapt (typically with sizers); if wanting instead that the size of a child dictates the one of its parent, the size of the client area of the parent should be set to the best size of its child, or its ``fit/1`` method shall be called
 
 Extra information resources about ``wx`` (besides the documentation of its modules):
+
+- the graphical `class hierarchy of the wxWindow class <https://docs.wxwidgets.org/latest/classwx_window.html>`_, as this class corresponds to the concept of widget, which is very central
+- `graphical referentials of most widgets <https://docs.wxwidgets.org/latest/page_screenshots.html>`_ (screenshots thereof)
 
 - wxErlang: `Getting started <https://arifishaq.files.wordpress.com/2017/12/wxerlang-getting-started.pdf>`_ and `Speeding up <https://arifishaq.files.wordpress.com/2018/04/wxerlang-speeding-up.pdf>`_, by Arif Ishaq
 
