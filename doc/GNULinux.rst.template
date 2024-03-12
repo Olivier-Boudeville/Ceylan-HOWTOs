@@ -387,7 +387,7 @@ Any statically-defined mount point shall bear the same name as the associated fi
 Targeting the Right Device
 --------------------------
 
-Each key shall be registered in one's referential, and one shall be careful not to format one's local hard disk instead of a key.
+Each key shall be registered in one's repository, and one shall be careful not to format one's local hard disk instead of a key.
 
 To identify for sure such a key, run ``lsblk --fs`` just before plugging it in, and just after, so that the difference can be easily spotted.
 
@@ -395,7 +395,7 @@ The device name and size should be checked.
 
 For an increased security, environment variables will be associated here to such a key, for example with: ``export KEY_DEV=/dev/sdz``.
 
-Its characteristics can be recorded in one's referential:
+Its characteristics can be recorded in one's repository:
 
 .. code:: bash
 
@@ -433,7 +433,7 @@ Then:
 
 So that the kernel updates its partition table, it may be necessary to unplug and plug again the key.
 
-All information (obtained in expert mode) regarding the new partitions may be stored in one's referential.
+All information (obtained in expert mode) regarding the new partitions may be stored in one's repository.
 
 
 Erasing a Target Partition
@@ -942,7 +942,7 @@ Tired of having your network interfaces be named ``enp0s31f6``, or ``wlp4s0`` th
 
 Time is `to rename them <https://wiki.archlinux.org/title/Network_configuration#Change_interface_name>`_ once for all; and we prefer doing so with thanks to a `udev rule <https://wiki.archlinux.org/title/udev>`_.
 
-To change the name of a given network interface (e.g. ``enp0s31f6``), its MAC address must be obtained first:
+To change the name of a given network interface (e.g. from ``enp0s31f6`` to ``lanfoobar``, ``fiber1`` or, here, ``eth0``), its MAC address must be obtained first:
 
 .. code::
 

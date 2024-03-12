@@ -866,7 +866,7 @@ it is probably the sign that the user code attempted to perform an operation on 
 Extra information resources about ``wx`` (besides the documentation of its modules):
 
 - the graphical `class hierarchy of the wxWindow class <https://docs.wxwidgets.org/latest/classwx_window.html>`_, as this class corresponds to the concept of widget, which is very central
-- `graphical referentials of most widgets <https://docs.wxwidgets.org/latest/page_screenshots.html>`_ (screenshots thereof)
+- `graphical repositories of most widgets <https://docs.wxwidgets.org/latest/page_screenshots.html>`_ (screenshots thereof)
 
 - wxErlang: `Getting started <https://arifishaq.files.wordpress.com/2017/12/wxerlang-getting-started.pdf>`_ and `Speeding up <https://arifishaq.files.wordpress.com/2018/04/wxerlang-speeding-up.pdf>`_, by Arif Ishaq
 

@@ -655,7 +655,7 @@ Basics
 
 - vertices and normals are transformed by the **model-view** and **projection** matrices (that can be each set and transformed on a stack of their own), before being used to produce an image in the frame buffer; as for texture coordinates, they are transformed by the **texture** matrix
 - textures may reside in the main, general-purpose, client, **CPU-side memory** (large, but slow to access for the rendering) and/or in any auxiliary, dedicated, server-side **GPU memory** (more constrained, hence prioritized thanks to *texture objects*; and, rendering-wise, of significantly higher performance)
-- OpenGL has to apply varied kinds of transformations - "linear" (e.g. rotation, scaling) or not (e.g. translation, perspective) - to geometries, for example in order to perform referential changes or rendering; each of these transformations can be represented as a 4x4 `homogeneous matrix <https://en.wikipedia.org/wiki/Homogeneous_coordinates>`_, with floating-point (homogeneous) coordinates [#]_; a series of transformations can then simply be represented as a single of such matrices, corresponding to the product of the involved transformation matrices
+- OpenGL has to apply varied kinds of transformations - "linear" (e.g. rotation, scaling) or not (e.g. translation, perspective) - to geometries, for example in order to perform coordinate system changes or rendering; each of these transformations can be represented as a 4x4 `homogeneous matrix <https://en.wikipedia.org/wiki/Homogeneous_coordinates>`_, with floating-point (homogeneous) coordinates [#]_; a series of transformations can then simply be represented as a single of such matrices, corresponding to the product (of course in a right order) of the involved transformation matrices
 
 
 .. [#] So a 3D point is specified based on 4 coordinates: :math:`P = \begin{pmatrix} x \\ y \\ z \\ w \end{pmatrix}`, with ``w`` being usually equal to ``1.0`` (otherwise the point can be normalised by dividing each of its coordinates by ``w``, provided of course that ``w`` is not null - otherwise these coordinates do not specify a point but a direction).
@@ -720,7 +720,7 @@ In this context - except notably the projections - most transformations are inve
 
 As mentioned, they can all be expressed as 4x4 homogeneous matrices, and their composition translates into the (orderly) product of their matrices.
 
-Referential transitions are discussed further in this document, in the `3D referentials`_ section.
+Coordinate system transitions are discussed further in this document, in the `3D coordinate systems`_ section.
 
 
 
@@ -798,7 +798,7 @@ Camera
 
 The default model-view matrix is an identity; the camera (or eye) is located at the origin, points down the negative Z-axis, and has an up-vector of ``(0, 1, 0)``.
 
-With Z-up conventions (like in Myriad ones), this corresponds to a camera pointing downward (see `Referentials In 3D`_ to picture it).
+With Z-up conventions (like in Myriad ones), this corresponds to a camera pointing downward (see `Coordinate Systems In 3D`_ to picture it).
 
 Calling ``glu:lookAt/9`` allows to set arbitrarily one's camera position and orientation.
 
@@ -814,7 +814,7 @@ In order to switch from (OpenGL) Y-up conventions to Z-up ones, another option i
 	 \end{bmatrix}
 
 
-For example, if we want that this camera sees, in (Z-up) MyriadGUI referential, a point ``P`` at coordinates :math:`P_{zup}=\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}` (thus a point in its Y axis), then the coordinates of the same point P this time in the base OpenGL (Y-up) referential must be :math:`P_{yup} = P_{zup{\rightarrow}yup}.P_{zup} = \begin{bmatrix} 0 \\ 0 \\ -1 \end{bmatrix}`; refer to the `Computing Transition Matrices`_ section for more information.
+For example, if we want that this camera sees, in the (Z-up) MyriadGUI coordinate system, a point ``P`` at coordinates :math:`P_{zup}=\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}` (thus a point in its Y axis), then the coordinates of the same point P this time in the base OpenGL (Y-up) coordinate system must be :math:`P_{yup} = P_{zup{\rightarrow}yup}.P_{zup} = \begin{bmatrix} 0 \\ 0 \\ -1 \end{bmatrix}`; refer to the `Computing Transition Matrices`_ section for more information.
 
 
 
@@ -880,19 +880,19 @@ Terms that are more or less specific to OpenGL:
 Refer to the `description of the pipeline <https://www.glprogramming.com/blue/ch02.html#id57691>`_ for further details.
 
 
-Referentials
-------------
+Coordinate Systems
+------------------
 
 
-Referentials In 2D
-..................
+Coordinate Systems In 2D
+........................
 
 A popular convention, for example detailed in `this section <https://www.glprogramming.com/red/chapter02.html#name10>`_ of the (OpenGL) Red book, is to consider that the ordinates increase when going from the *bottom of the viewport to its top*; then for example the on-screen lower-left corner of the OpenGL canvas is ``(0,0)``, and its upper-right corner is ``(Width,Height)``.
 
-As for us, we prefer the `MyriadGUI 2D conventions <https://myriad.esperide.org/#2d-referential>`_, in which ordinates increase when going from the *top of the viewport to its bottom*, as depicted in the following figure:
+As for us, we prefer the `MyriadGUI 2D conventions <https://myriad.esperide.org/#2d-coordinate-system>`_, in which ordinates increase when going from the *top of the viewport to its bottom*, as depicted in the following figure:
 
-:raw-html:`<center><img src="myriad-2D-referential.png" id="responsive-image-xsmall"></img></center>`
-:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.5]{myriad-2D-referential} \end{figure}`
+:raw-html:`<center><img src="myriad-2D-coordinate-system.png" id="responsive-image-xsmall"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.5]{myriad-2D-coordinate-system} \end{figure}`
 
 Such a setting can be obtained thanks to (with Erlang conventions):
 
@@ -923,15 +923,15 @@ Using "stable", device-independent floats - instead of integers directly account
 
 
 
-.. _`3D referentials`:
+.. _`3D coordinate systems`:
 
-Referentials In 3D
-..................
+Coordinate Systems In 3D
+........................
 
-We will rely here as well on the Myriad conventions, `this time for 3D <https://myriad.esperide.org/#3d-referential>`_ (not taking specifically time into account here, which anyway cannot be shown properly there):
+We will rely here as well on the Myriad conventions, `this time for 3D <https://myriad.esperide.org/#3d-coordinate-system>`_ (not taking specifically time into account in this section, which anyway cannot be shown properly there):
 
-:raw-html:`<center><img src="myriad-space-time-referential.png" id="responsive-image-tiny"></img></center>`
-:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{myriad-space-time-referential.png} \end{figure}`
+:raw-html:`<center><img src="myriad-space-time-coordinate-system.png" id="responsive-image-tiny"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{myriad-space-time-coordinate-system} \end{figure}`
 
 These are thus Z-up conventions (the Z axis being vertical and designating altitudes), like modelling software such as Blender.
 
@@ -939,40 +939,40 @@ Note that perhaps the most popular convention is different, it is Y-up, for whic
 
 
 
-A Tree of Referentials
-______________________
+A Tree of Coordinate Systems
+____________________________
 
 In the general case, either in 2D or (more often of interest here) in 3D, a given scene (a model) is made of a set of elements (e.g. the model of a street may comprise a car, two bikes, a few people) that will have to be rendered from a given viewpoint (e.g. a window on the second floor of a given building) onto the (flat) user screen (with suitable clipping, perspective division and projection on the viewport). Let's start from the intended result and unwind the process.
 
-The rendering objective requires to have ultimately one's scene transformed as a whole in **eye coordinates** (to obtain coordinates along the aforementioned 2D screen referential, along the X and Y axes - the Z one serving to sort out depth, as per our 2D conventions).
+The rendering objective requires to have ultimately one's scene transformed as a whole in **eye coordinates** (to obtain coordinates along the aforementioned 2D screen coordinate system, along the X and Y axes - the Z one serving to sort out depth, as per our 2D conventions).
 
 For that, a prerequisite is to have the target scene correctly composed, with all its elements defined in the same, **scene-global**, space, in their respective position and orientation (then only the viewpoint, i.e. the virtual camera, can take into account the scene as a whole, to transform it ultimately to eye coordinates).
 
-As each individual type of model (e.g. a bike model) is natively defined in an abstract, local referential (an orthonormal basis) of its own, each actual model instance (e.g. the first bike, the second bike) has to be specifically placed in the referential of the overall scene. This placement is either directly defined in that target space (e.g. bike A is at this absolute position and orientation in the scene global referential) or relatively to a *series* of parent referentials (e.g. this character rides bike B - and thus is defined relatively to it, knowing that for example the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).
+As each individual type of model (e.g. a bike model) is natively defined in an abstract, local coordinate system (an orthonormal basis) of its own, each actual model instance (e.g. the first bike, the second bike) has to be specifically placed in the coordinate system of the overall scene. This placement is either directly defined in that target space (e.g. bike A is at this absolute position and orientation in the scene global coordinate system) or relatively to a *series* of parent coordinate systems (e.g. this character rides bike B - and thus is defined relatively to it, knowing that for example the bike is placed relatively to the car, and that the car itself is placed relatively to the scene).
 
-So in the general case, referentials are nested (recursively defined relatively to their parent) and form a tree [#]_ whose root corresponds to the (possibly absolute) referential of the overall scene, like in:
+So in the general case, coordinate systems are nested (recursively defined relatively to their parent) and form a tree [#]_ whose root corresponds to the (possibly absolute) coordinate system of the overall scene, like in (``R`` standing here for *reference frame*, a concept that we deem a bit more general than *coordinate system*):
 
-:raw-html:`<center><img src="referential-tree.png" id="responsive-image-small"></img></center>`
-:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{referential-tree.png} \end{figure}`
+:raw-html:`<center><img src="reference-frame-tree.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{reference-frame-tree} \end{figure}`
 
 
 .. [#] This is actually named a *scene graph* rather than a *scene tree*, as if we consider the leaves of that "tree" to contain actual geometries (e.g. of an abstract bike), as soon as a given geometry is instantiated more than once (e.g. if having 2 of such bikes in the scene), this geometry will have multiple parents and thus the corresponding scene will be a graph.
 
-	   As for us, we consider *referential trees* (no geometry involved) - a given 3D object being possibly associated to (1) a referential and (2) a geometry (independently). This is as expressive, and most probably clearer.
+	   As for us, we consider *reference frame trees* (no geometry involved) - a given 3D object being possibly associated to (1) a reference frame and (2) a geometry (independently). This is as expressive, and most probably clearer.
 
 
-A series of model transformations has thus to be operated in order to express all models in the scene referential::
+A series of model transformations has thus to be operated in order to express all models in the scene reference frame::
 
- (local referential of model Rh) -> (parent referential Rf) -> (parent referential Ra) -> (scene referential Rs)
+ (local reference frame of model Rh) -> (parent reference frame Rf) -> (parent reference frame Ra) -> (scene reference frame Rs)
 
-For example the hand of a character may be defined in :math:`R_h`, itself defined relatively to its associated forearm in :math:`R_f` up to the overall referential :math:`R_a` of that character, defined relatively to the referential of the whole scene, :math:`R_s`. This referential may have no explicit parent defined, meaning implicitly that it is defined in the canonical, global, "world" referential.
+For example the hand of a character may be defined in :math:`R_h`, itself defined relatively to its associated forearm in :math:`R_f` up to the overall reference frame :math:`R_a` of that character, defined relatively to the reference frame of the whole scene, :math:`R_s`. This reference frame may have no explicit parent defined, meaning implicitly that it is defined in the canonical, global, "world" reference frame.
 
-Once the **model** is expressed as a whole in the scene-global referential, the next transformations have to be conducted : **view** and projection. The view transformation involves at least an extra referential, the one of the camera in charge of the rendering, which is :math:`R_c`, possibly defined relatively to :math:`R_s` (or any other referential).
+Once the **model** is expressed as a whole in the scene-global reference frame, the next transformations have to be conducted : **view** and projection. The view transformation involves at least an extra reference frame, the one of the camera in charge of the rendering, which is :math:`R_c`, possibly defined relatively to :math:`R_s` (or any other reference frame).
 
-So a geometry (e.g. a part of the hand, defined in :math:`R_f`) has to be transformed upward in the referential tree in order to be expressed in the common, "global" scene referential :math:`R_s`, before being transformed last in the camera one, :math:`R_c`.
+So a geometry (e.g. a part of the hand, defined in :math:`R_f`) has to be transformed upward in the reference frame tree in order to be expressed in the common, "global" scene reference frame :math:`R_s`, before being transformed last in the camera one, :math:`R_c` .
 
 
-In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations [#]_, which thus include the transformation of one referential into another. Their product can be computed once, and then applying a vector (e.g. corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all model-view transformations (and even the projection) as well.
+In practice, all these operations can be done thanks to the multiplication of homogeneous 4x4 matrices, each able to express any combination of rotations, scalings/reflections/shearings, translations [#]_, which thus include the transformation of one reference frame into another. Their product can be computed once, and then applying a vector (e.g. corresponding to a vertex) to the resulting matrix allows to perform in one go the full composition thereof, encoding all model-view transformations (and even the projection) as well.
 
 .. [#] In practice the recommended order of the operations are: scaling, then rotation, then translation, otherwise they will become coupled and would interfere negatively (e.g. a translation vector would be scaled as well).
 
@@ -984,7 +984,7 @@ Noting :math:`P_{a{\rightarrow}b}` the transition matrix transforming a vector :
   \vec{V_b} = P_{a{\rightarrow}b}.\vec{V_a}
 
 
-Thus, to express the geometry of said hand (natively defined in :math:`R_h`) in camera space (hence in :math:`R_c`), the following composition of referential changes [#]_ shall be applied:
+Thus, to express the geometry of said hand (natively defined in :math:`R_h`) in camera space (hence in :math:`R_c`), the following composition of reference frame changes [#]_ shall be applied:
 
 .. math::
 
@@ -1000,7 +1000,7 @@ Computing Transition Matrices
 .............................
 
 
-For that, let's consider an homogeneous 4x4 matrix is in the form of:
+For that, let's consider that an homogeneous 4x4 matrix is in the form of:
 
 .. math::
  M = \begin{bmatrix}
@@ -1040,11 +1040,11 @@ Applying a (4x4 homogeneous) point :math:`P = \begin{Bmatrix} x \\ y \\ z \\ 1 \
 
 Let's consider now:
 
-:raw-html:`<center><img src="change-of-referential.png" id="responsive-image-small"></img></center>`
-:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.7]{change-of-referential.png} \end{figure}`
+:raw-html:`<center><img src="change-of-coordinate-system.png" id="responsive-image-small"></img></center>`
+:raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.7]{change-of-coordinate-system} \end{figure}`
 
 
-- two referentials (defined as orthonormal bases), :math:`R_1` and :math:`R_2`; :math:`R_2` may for example be defined relatively to :math:`R_1`; for a given point or vector :math:`U`, :math:`U_1` will designate its coordinates in :math:`R_1`, and :math:`U_2` its coordinates in :math:`R_2`
+- two coordinate systems (defined as orthonormal bases), :math:`R_1` and :math:`R_2`; :math:`R_2` may for example be defined relatively to :math:`R_1`; for a given point or vector :math:`U`, :math:`U_1` will designate its coordinates in :math:`R_1`, and :math:`U_2` its coordinates in :math:`R_2`
 - :math:`P_{2\rightarrow1}` the (homogeneous 4x4) `transition matrix <https://en.wikipedia.org/wiki/Change_of_basis>`_ from :math:`R_2` to :math:`R_1`, specified first by blocks then by coordinates as:
 
 .. math::
@@ -1122,7 +1122,7 @@ where:
 - :math:`R_{2\rightarrow1}` is the 3x3 rotation matrix converting vectors of :math:`R_2` in :math:`R_1`, i.e. whose columns are the axes of :math:`R_2` expressed in :math:`R_1`
 - :math:`\vec{T_{2\rightarrow1}} = Ob_1` is the 3D vector of the coordinates of the origin of :math:`R_2` as expressed in :math:`R_1`
 
-This also corresponds to a matrix obtained by describing the :math:`R_2` referential in :math:`R_1`, by listing first the three (4D) vector axes of :math:`R_2` then its (4D) origin, i.e. :math:`P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} && \vec{Jb_1} && \vec{Kb_1} && Ob_1 \end{bmatrix}`.
+This also corresponds to a matrix obtained by describing the :math:`R_2` coordinate system in :math:`R_1`, by listing first the three (4D) vector axes of :math:`R_2` then its (4D) origin, i.e. :math:`P_{2\rightarrow1} = \begin{bmatrix} \vec{Ib_1} && \vec{Jb_1} && \vec{Kb_1} && Ob_1 \end{bmatrix}`.
 
 Often, transformations have to be used both ways, like in the case of a scene-to-camera transformation; as a consequence, transition matrices may have to be inversed, knowing that :math:`(P_{2\rightarrow1})^{-1} = P_{1\rightarrow2}` (since by definition :math:`P_{2\rightarrow1}.P_{1\rightarrow2} = Id`).
 
@@ -1161,7 +1161,7 @@ then:
 
 .. Note::
 
- Therefore, in a nutshell, the transition matrix from a referential :math:`R_\alpha` to a referential :math:`R_\beta` is:
+ Therefore, in a nutshell, the transition matrix from a coordinate system :math:`R_\alpha` to a coordinate system :math:`R_\beta` is:
 
  .. math::
   P_{\alpha\rightarrow\beta}
@@ -1181,7 +1181,7 @@ then:
  - :math:`Rot_{\alpha\rightarrow\beta}` is the 3x3 rotation matrix converting vectors of :math:`R_\alpha` in :math:`R_\beta`, i.e. whose columns are the axes of :math:`R_\alpha` expressed in :math:`R_\beta`
  - :math:`\vec{Tr_{\alpha\rightarrow\beta}} = Ob_\beta` is the 3D vector of the coordinates of the origin of :math:`R_\alpha` as expressed in :math:`R_\beta`
 
- This also corresponds to a matrix obtained by describing the :math:`R_\alpha` referential in :math:`R_\beta`, by listing first the three (4D) vector axes of :math:`R_\alpha` then its (4D) origin, i.e. :math:`P_{\alpha\rightarrow\beta} = \begin{bmatrix} \vec{Ib_\beta} && \vec{Jb_\beta} && \vec{Kb_\beta} && Ob_\beta \end{bmatrix}`.
+ This also corresponds to a matrix obtained by describing the :math:`R_\alpha` coordinate system in :math:`R_\beta`, by listing first the three (4D) vector axes of :math:`R_\alpha` then its (4D) origin, i.e. :math:`P_{\alpha\rightarrow\beta} = \begin{bmatrix} \vec{Ib_\beta} && \vec{Jb_\beta} && \vec{Kb_\beta} && Ob_\beta \end{bmatrix}`.
 
  Its reciprocal (inverse transformation) is then:
 
@@ -1199,9 +1199,9 @@ then:
 	   \end{bmatrix}
 
 
-As a result, from the definition of a tree of referentials, we are able to compute the transition matrix transforming the representation of a vector expressed in any of them to its representation in any of the other referentials.
+As a result, from the definition of a tree of coordinate systems, we are able to compute the transition matrix transforming the representation of a vector expressed in any of them to its representation in any of the other coordinate systems.
 
-A special case of interest is, for the sake of rendering, to transform, through that tree, a local referential in which a geometry is defined into the one of the camera, defining where it is positioned and aimed [#]_; in OpenGL parlance, this corresponds to the *model-view* matrix (for "modelling and viewing transformations") that we designate here as :math:`M_{mv}` and which corresponds to :math:`P_{local{\rightarrow}camera}`.
+A special case of interest is, for the sake of rendering, to transform, through that tree, a local coordinate system in which a geometry is defined into the one of the camera, defining where it is positioned and aimed [#]_; in OpenGL parlance, this corresponds to the *model-view* matrix (for "modelling and viewing transformations") that we designate here as :math:`M_{mv}` and which corresponds to :math:`P_{local{\rightarrow}camera}`.
 
 .. [#] ``gluLookAt`` can define such a viewing transformation matrix, when given (1) the position of the camera, (2) a point at which it shall look, and (3) a vector specifying its up direction (i.e. where is the upward direction for the camera - as otherwise all directions orthogonal to its line of sight defined by (1) and (2) could be chosen).
 
@@ -1218,20 +1218,20 @@ Main Matrices
 
 These matrices account for the main processing steps of a rendering.
 
-Three types of referentials can be considered:
+Three types of coordinate systems can be considered:
 
-- **world** referential: the absolute, overall referential where 3D scenes are to be assembled
-- **local** referential: the referential in which a given model is defined (generally placed at its origin)
-- **camera** referential: a referential where a camera is at the origin, looking down on the negative Z axis
+- **world** coordinate system: the absolute, overall coordinate system where 3D scenes are to be assembled
+- **local** coordinate system: the coordinate system in which a given model is defined (generally placed at its origin)
+- **camera** coordinate system: a coordinate system where a camera is at the origin, looking down on the negative Z axis
 
 The **clip space** can also be considered; this is the post-projection space, where the view frustum is transformed into a cube, centered in the origin, and going from -1 to 1 in every axis.
 
 
-The transformations between referentials can be represented by 4×4 transition matrices:
+The transformations between coordinate systems can be represented by 4×4 transition matrices:
 
-- **model matrix** (:math:`M_M`): to transform from local to world referential
-- **view matrix** (:math:`M_V`): to transform from world to camera referential
-- **projection matrix** (:math:`M_P`): to transform from camera referential to clip space
+- **model matrix** (:math:`M_M`): to transform from local to world coordinate system
+- **view matrix** (:math:`M_V`): to transform from world to camera coordinate system
+- **projection matrix** (:math:`M_P`): to transform from camera coordinate system to clip space
 
 Finally, two composite matrices are especially useful (note the aforementioned reverse multiplication order) and are typically passed through uniform variables in shaders:
 
@@ -1456,7 +1456,7 @@ For that, applications may use dedicated, separate libraries, such as, in C/C++,
 
 The `matrices that correspond to the transformations <https://en.wikibooks.org/wiki/GLSL_Programming/Applying_Matrix_Transformations>`_ to be applied are then typically shared with the shaders thanks to uniform variables.
 
-This is especially the case for the vertex shader, in charge of `transforming coordinates expressed in a local referential into screen coordinates <https://en.wikibooks.org/wiki/GLSL_Programming/Vertex_Transformations>`_.
+This is especially the case for the vertex shader, in charge of `transforming coordinates expressed in a local coordinate system into screen coordinates <https://en.wikibooks.org/wiki/GLSL_Programming/Vertex_Transformations>`_.
 
 More precisely, the modeling (object-space to absolute, world-space), viewing (world-space to camera-space) and projection (camera-space to clip-space) transformations are applied in the vertex shader, whereas the final perspective division and the viewport transformation are applied in the fixed-function stage after the vertex shader.
 
