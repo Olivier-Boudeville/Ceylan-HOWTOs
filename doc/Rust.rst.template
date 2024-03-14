@@ -1,0 +1,253 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About Rust
+
+----
+Rust
+----
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Rust">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2024-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Tuesday, March 12, 2024
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 2
+
+
+:raw-html:`</center>`
+
+
+
+Overview
+========
+
+`Rust <https://en.wikipedia.org/wiki/Rust_(programming_language)>`_  is a multi-paradigm, general-purpose, efficient, safe language available as free software; see `its official website <https://www.rust-lang.org/>`_ for more details.
+
+
+Documentation
+=============
+
+One should read the official `Rust book <https://doc.rust-lang.org/stable/book/>`_ (*The Rust Programming Language*), which is clear and well written.
+
+
+See also:
+
+- `Rust on Arch Linux <https://wiki.archlinux.org/title/rust>`_
+
+
+.. _`Rust Installation`:
+
+
+Installation
+============
+
+Even if done here in the context of Arch Linux, for the procedure that we recommend the actual distribution does not matter.
+
+As we intend to develop (rather than just running or installing Rust software), we prefer relying on the Rustup toolchain manager, so that multiple toolchains, for multiple platforms and architectures, can be used.
+
+Rather than using ``pacman`` to install its ``rustup`` package, we prefer going the more standard Rust way. One should follow the official `Rust guidelines <https://rustup.rs/>`_ for that; here is our corresponding procedure:
+
+.. code:: bash
+
+ $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > install-rustup.sh
+ # Inspect install-rustup.sh before running it.
+ $ sh install-rustup.sh
+
+From now the ``rustc`` compiler and the Cargo package manager are available on the system, from one's account (in the ``~/.rustup`` and ``~/.cargo`` trees respectively). All Rust-related commands are then be available from ``~/.cargo/bin``.
+
+One may prefer customising the installation and avoiding that one's shell configuration is automatically modified; then it is just a matter of editing typically one's ``~/.bashrc`` or related by oneself and adding there ``export PATH="${HOME}/.cargo/bin:${PATH}"`` (another option is to add ``. ${HOME}/.cargo/env`` instead).
+
+Then updating the current shell accordingly (e.g. ``. ~/.bashrc``) allows to check that for example ``rustc`` can now be executed as intended.
+
+As Rust does not perform the linking by itself, a linker (typically provided by ``gcc``) must be available.
+
+
+
+Examples
+========
+
+
+Most Basic One
+--------------
+
+In ``~/hello.rs``:
+
+.. code:: rust
+
+ fn main() {
+	println!("Hello from Ceylan-HOWTOs!");
+ }
+
+To be compiled and linked with ``rustc hello.rs`` and run with ``./hello``; yields as expected: ``Hello from Ceylan-HOWTOs!``.
+
+This executable occupies 3.7MB (!); more information:
+
+.. code:: bash
+
+ $ file hello
+ hello: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2,
+ BuildID[sha1]=c77ef3f032c2f1961866e0889d54d6342a9e3554, for GNU/Linux 4.4.0, with debug_info, not stripped
+
+No need to devise one's GNU make automatic rules - cargo will do best.
+
+
+
+
+
+Related Tools
+=============
+
+
+Included with rustup
+--------------------
+
+Cargo
+.....
+
+`Cargo <https://crates.io/>`_, the included dependency manager and build tool, a.k.a. the Rust community’s crate registry; it allows to install crates and to publish ones, so that Rust projects declare their various dependencies and their build is repeatable; see also the `Cargo guide <https://doc.rust-lang.org/cargo/guide/>`_.
+
+
+Rustfmt
+.......
+
+`Rustfmt <https://github.com/rust-lang/rustfmt>`_ is the source-formatting tool of choice: it formats Rust code according to the official style guidelines.
+
+We found very useful that a stable, conventional formatting exists, and decided from the start to always use it; a great standardization of sources, for easier readings and simplified merges.
+
+Rustfmt should be readily available with ``rustup``; otherwise execute ``rustup component add rustfmt``.
+
+
+
+External Ecosystem
+------------------
+
+
+rust-analyzer
+.............
+
+This is a Language Server Protocol implementation for Rust, typically used by IDEs.
+
+There are multiple `options to install it <https://rust-analyzer.github.io/manual.html#installation>`_; rather than installing as an (OS) package, we prefer once again using ``rustup``, with: ``rustup component add rust-analyzer``.
+
+Once installed, running ``rust-analyzer --version`` should switch from::
+
+ error: Unknown binary 'rust-analyzer' in official toolchain 'stable-x86_64-unknown-linux-gnu'.
+
+to something like::
+
+ rust-analyzer 1.76.0 (07dca48 2024-02-04)
+
+As rust-analyzer will need the Rust source code, it can be directly installed with: ``rustup component add rust-src``.
+
+
+
+Using Emacs with Rust
+.....................
+
+The Emacs light-weight `rust-mode <https://github.com/rust-lang/rust-mode>`_ can be used, yet `rustic <https://github.com/brotzeit/rustic>`_ (which is based on ``rust-mode``) provides additional features that we like.
+
+A prerequisite thereof is `rust-analyzer`_ (and of course a recent Emacs).
+
+We rely on `straight.el <https://github.com/radian-software/straight.el>`_ to manage our Emacs packages (as a replacement for the Emacs now built-in ``package.el``), so, provided that the `straight.el bases <https://github.com/radian-software/straight.el?tab=readme-ov-file#getting-started>`_ are respected, having ``rustic`` is just a matter of adding, typically  in one's ``~/.emacs.d/init.el``, a ``(straight-use-package 'rustic)`` line.
+
+Another approach that we prefer is to install and configure it with ``use-package rustic``, as done in `Robert Krahn's page <https://robert.kra.hn/posts/rust-emacs-setup/>`_; see `our complete init.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el>`_ for that.
+
+Then opening a Rust source file (e.g. ``hello.rs``) should automatically exhibit syntax highlighting and the ``Rustic`` mode.
+
+Notably, saving a Rust source file will automatically format it with Rustfmt_, which is neat.
+
+
+See also:
+
+- the `WikEmacs page <https://wikemacs.org/wiki/Rust>`_
+- the `Robert Krahn's page on it <https://robert.kra.hn/posts/rust-emacs-setup/>`_
+
+
+
+
+More Advanced Topics
+====================
+
+
+Mode of Operation
+=================
+
+Rust relies on LLVM to generate its code, in order to be platform and hardware-agnostic and achieve best performance.
+
+
+
+Quick Facts
+===========
+
+- Rust is well suited for **embedded development**, because it can target many platforms (thanks to LLVM) and can be as low-level as wanted; notably using ``#![no_std]`` allows to benefit from the *Rust Core Library* without relying on the *Rust Standard Library*, for smaller binary sizes and possibly improved performance
+- thanks to the use of rustup and its support of toolchains, **cross-compiling** is rather easy; for instance, to install Rust using the stable channel for Windows, using the GNU Compiler, just execute ``rustup toolchain install stable-x86_64-pc-windows-gnu``
+
+
+
+Language Bindings
+=================
+
+
+Short Hints
+===========
+
+
+Optimizing for native CPU platform
+----------------------------------
+
+The current target platform is given by ``rustup toolchain list``; in our case it is ``stable-x86_64-unknown-linux-gnu``.
+
+Then, to request Cargo to always compile code optimized for the native CPU platform, one may add in ``~/.cargo/config``::
+
+ [target.x86_64-unknown-linux-gnu]
+ rustflags = ["-C", "target-cpu=native"]
+
+Note that the resulting binary is expected to depend on the precise local CPU and thus should not be distributed - lest it cannot be run on other computers.
+
+
+Accelerating Builds
+-------------------
+
+A shared compilation cache - specifically `sccache <https://github.com/mozilla/sccache>`_ can be used to speed up builds.
+
+See `this section <https://wiki.archlinux.org/title/rust#sccache>`_ for more details.
+
+Micro-Cheat Sheet
+=================
+
+- to get Rust (compiler) version: ``rustc -V``
+
+
+
+Rust Resources
+================
+
+- the reference is the `Rust official website <http://erlang.org>`_
+
+
+:raw-html:`<a name="howtos_bottom"></a>`
