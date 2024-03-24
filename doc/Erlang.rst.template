@@ -937,6 +937,12 @@ To avoid having to perform a lookup in the documentation:
 	- even if it may seem a bit counter-intuitive, *integers* (the default matching type) are handled at the bit level (e.g. ``A:16`` means an integer on two bytes), whereas *binaries* are handled at the byte level (e.g. ``B:16/binary`` means 16 bytes) - indeed their bit-level counterparts are *bitstrings*
 	- unlike lists, binaries are preferably built by appending `on their right <https://www.erlang.org/doc/efficiency_guide/binaryhandling.html#constructing-binaries>`_
 
+- typically for non-critical code (e.g. tests or temporary, debugging code):
+
+  - to avoid repeating a prefixing module, `imports can be done <https://www.erlang.org/doc/reference_manual/modules#pre-defined-module-attributes>`_, like in: ``-import(lists, [map/2, foldl/3, foldr/3]).``
+  - to suppress warnings/errors whenever variables are not used: ``-compile(nowarn_unused_vars).``
+
+
 - in boolean expressions **outside of guards**:
 
   - do not use ``and`` and ``or``, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in ``(A =:= B) and (C =:= D)``) and, more importantly, they do not short-circuit, i.e. in ``E = A and B``, B will be evaluated even if A is already known as false (so is E), and in ``E = A or B``, B will be evaluated even if A is already known as true (so is E)
