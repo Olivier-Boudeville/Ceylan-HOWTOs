@@ -1084,6 +1084,27 @@ Selecting a per-user wallpaper may be of help.
 
 
 
+Solving PulseAudio Issues
+-------------------------
+
+As your current user:
+
+.. code:: bash
+
+ $ /bin/rm -rf /tmp/pulse* ~/.pulse* ~/.config/pulse
+ $ pulseaudio -k ; pulseaudio --start
+
+If not sufficient, check ``/etc/pulse/default.pa`` and run as a normal user ``pulseaudio -vvv``, looking for errors (e.g. ``pulseaudio -vvv 2>&1 | grep '^E: '``).
+
+The playback hardware devices may be listed with ``aplay -l``.
+
+One may run ``pacmd list-cards`` to obtain the information (e.g. symbolic and profile names) to specify ``set-card-profile`` entries (useful to set proper defaults and switch off unwanted elements).
+
+See also these `Arch guidelines <https://wiki.archlinux.org/title/PulseAudio/Examples>`_.
+
+As last resort (rarely needed), as root, one may reinstall it: ``pacman -Sy pulseaudio`` and reboot.
+
+
 
 Using Emacs
 -----------
