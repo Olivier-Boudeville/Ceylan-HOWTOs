@@ -1230,9 +1230,6 @@ A well-known sandboxing tool is `firejail <https://github.com/netblue30/firejail
 
 
 
-
-
-
 Recording a Screencast
 ----------------------
 
@@ -1246,6 +1243,19 @@ Note that, as notified by the tool, the MP4 container type will produce unreadab
 
 See also `this comparison <https://en.wikipedia.org/wiki/Comparison_of_screencasting_software>`_ of screencasting software.
 
+
+
+Shell Auto-completing the available ``make`` targets
+----------------------------------------------------
+
+If able to do so, just install a ``bash-completion`` package, available on most distributions (including Arch Linux).
+
+Otherwise, one may add to one's shell profile / configuration (e.g. ``~/.bashrc``):
+
+```bash
+
+complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' *akefile | sed 's/[^a-zA-Z0-9_.-]*$//' 2>/dev/null\`" make
+```
 
 
 
