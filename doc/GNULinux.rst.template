@@ -1252,10 +1252,10 @@ If able to do so, just install a ``bash-completion`` package, available on most 
 
 Otherwise, one may add to one's shell profile / configuration (e.g. ``~/.bashrc``):
 
-```bash
+.. code:: bash
 
-complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' *akefile | sed 's/[^a-zA-Z0-9_.-]*$//' 2>/dev/null\`" make
-```
+  complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' *akefile | sed 's/[^a-zA-Z0-9_.-]*$//' 2>/dev/null\`" make
+
 
 
 
