@@ -41,6 +41,11 @@ Using the GNU/Linux Operating System
 
 :raw-html:`</center>`
 
+VS-Code : pacman -Sy code
+File > Preferences > Settings). This will open the setting screen.
+Files: Exclude **/*.beam
+Trim Trailing WhiteSpace
+Ctrl-Shift-M to see problems
 
 
 Overview

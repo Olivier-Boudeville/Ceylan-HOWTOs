@@ -893,6 +893,8 @@ To avoid having to perform a lookup in the documentation:
 
 - Erlang indices start at ``1``, except the ones of the ``array`` module that are zero-based
 
+- when they yield the same result, ``=:=`` is a bit more efficient than ``==``
+
 - for tuples of unknown number of elements:
 
   - **setting** an element is to be done with ``setelement(positive_index(), tuple(), term()) -> tuple()``
@@ -907,13 +909,18 @@ To avoid having to perform a lookup in the documentation:
 
   - creating/updating maps is ``EmptyMap = #{}``, ``NewMFromScratch = #{K1 => V1, K2 => V2}`` or ``UpdatedM = M#{K1 => V1, K2 => V2}``
   - updating the value associated to an already-existing key ``K`` is ``ModM = M#{K := V}``
-  - matching is ``#{K1 := V1, K2 := V2} = M`` where the ``K*`` are `guard expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard_expressions>`_ and the ``V*`` can be any pattern
+  - matching is ``#{K1 := V1, K2 := V2} = M`` where the ``K*`` are `guard expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard_expressions>`_ and the ``V*`` can be any pattern; matching an empty map is best done with ``when Map == #{}``
+
   - obtaining the value ``V`` associated to a key ``K`` that:
 
 	- is expected to exist: ``V = maps:get(K, MyMap)`` (generally could/should be directly matched instead)
 	- may or may not exist: ``case maps:find(K, MyMap) of {ok, V} -> ...; error -> ... end``
 
   - removing an entry: ``ShrunkMap = maps:remove(Key,Map)``
+
+- to detect in a guard whether a term is a map, there is no ``is_map/1`` guard available: ``map_size/1`` will fail the guard if its argument is not a map; a map includes its size in the header word, so ``map_size/1`` is O(1); furthermore, the JIT will inline calls to ``map_size/1``
+
+- a rule of thumb for naming in Erlang/OTP is that functions having ``size`` in their name are O(1), while functions having ``length`` in their name are O(N)
 
 - when converting a float to a string, to set the precision (the number of digits after the decimal point) to ``P``, use: ``"~.Pf"``; for example, if ``P=5``, we have: ``"0.33333" = io_lib:format("~.5f", [1/3]).``
 

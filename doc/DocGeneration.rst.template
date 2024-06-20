@@ -355,6 +355,19 @@ Before a code block (e.g. introduced with ``.. code:: erlang``), a single colon 
 	  [...]
 
 
+
+Fixing ``WARNING: Duplicate explicit target name: "some link"``
+...............................................................
+
+This typically happens whenever defining a link with a given label more than once.
+
+A solution is to use anonymous reference instead, i.e. *double* underscores (so: ``__``) to define references, like in::
+
+  Here is `some link <http://example.org/xxx>`__.
+
+
+
+
 .. _`heavy-duty approach`:
 
 
@@ -835,7 +848,15 @@ This example results in the following diagram:
 Finding Usable Content
 ----------------------
 
-Assets can be found thanks to `Creative Commons <https://search.creativecommons.org/>`_, which references, among others, `OpenClipart <https://openclipart.org>`_.
+Assets can be found thanks to `Creative Commons <https://search.creativecommons.org/>`_, which references, among others, `OpenClipart <https://openclipart.org>`_, otherwise possibly `publicdomainvectors.org <https://publicdomainvectors.org>`_.
+
+General purposes elements:
+
+- `arrow icons for toolbar buttons <https://openclipart.org/detail/2203/arrowiconsset>`_
+.. in kuba-arrow-icons-set.svg
+
+
+The simplest approach is to rely on SVG files, to edit them on Inkscape and possibly to export a selection of them as PNG files of the desired size.
 
 
 
