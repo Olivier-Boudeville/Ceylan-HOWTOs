@@ -1250,6 +1250,16 @@ See also `this comparison <https://en.wikipedia.org/wiki/Comparison_of_screencas
 
 
 
+Specifying iterations with Bash
+-------------------------------
+
+With Bash, as an alternative to ``$(seq N)``, variables may be iterated (e.g. to select filenames) based on:
+
+- a list: ``for i in images-{1,4,9}-of-cats.jpeg; do ...``
+- a range: ``ls images-{1..7}-of-cats.jpeg``, possibly with an increment: ``ls images-{1..7..2}-of-cats.jpeg``
+
+
+
 Shell Auto-completing the available ``make`` targets
 ----------------------------------------------------
 
