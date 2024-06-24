@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Erlang</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,13 +28,13 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, February 1, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, May 20, 2024</td>
 </tr>
 </tbody>
 </table>
 <p><span class="raw-html"><a name="howtos_toc"></a></span></p>
 <div class="contents local topic" id="topic-1">
-<span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<span id="table-of-contents"></span><p class="topic-title"><a class="reference internal" href="#top"><strong>Table of Contents</strong></a></p>
 <ul class="simple">
 <li><a class="reference internal" href="#overview" id="toc-entry-1">Overview</a></li>
 <li><a class="reference internal" href="#let-s-start-with-some-shameless-advertisement-for-erlang-and-the-beam-vm" id="toc-entry-2">Let's Start with some Shameless Advertisement for Erlang and the BEAM VM</a></li>
@@ -665,9 +665,9 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <p>it is probably the sign that the user code attempted to perform an operation on an already-deallocated wx object; the corresponding life-cycle management might be error-prone, as some deallocations are implicit, others are explicit, and in a concurrent context race conditions easily happen</p>
 <ul class="simple">
 <li>if creating, from a wx-using process, another one, this one should set a relevant environment first (see <tt class="docutils literal">wx:set_env/1</tt>) before using wx functions</li>
-<li>the <a class="reference external" href="https://docs.wxwidgets.org/3.1/overview_events.html#overview_events_propagation">way wx/wxWidgets manage event propagation</a> is complex; here are some elements:<ul>
-<li>for each actual event happening, wx creates an instance of <a class="reference external" href="https://docs.wxwidgets.org/3.1/classwx_event.html">wxEvent</a> (a direct, abstract child class of <tt class="docutils literal">wxObject</tt>), which itself is specialised into many event classes that are more concrete</li>
-<li>among them, they are so-called <em>command events</em>, which originate from a variety of simple controls and correspond to the <a class="reference external" href="https://docs.wxwidgets.org/3.1/classwx_command_event.html">wxCommandEvent</a> mother class; by default only these command events are set to propagate, i.e. only them will be transmitted to the event handler of the parent widget if the current one does not process them by itself (&quot;did not connect to them&quot;)</li>
+<li>the <a class="reference external" href="https://docs.wxwidgets.org/latest/overview_events.html#overview_events_propagation">way wx/wxWidgets manage event propagation</a> is complex; here are some elements:<ul>
+<li>for each actual event happening, wx creates an instance of <a class="reference external" href="https://docs.wxwidgets.org/latest/classwx_event.html">wxEvent</a> (a direct, abstract child class of <tt class="docutils literal">wxObject</tt>), which itself is specialised into many event classes that are more concrete</li>
+<li>among them, they are so-called <em>command events</em>, which originate from a variety of simple controls and correspond to the <a class="reference external" href="https://docs.wxwidgets.org/latest/classwx_command_event.html">wxCommandEvent</a> mother class; by default only these command events are set to propagate, i.e. only them will be transmitted to the event handler of the parent widget if the current one does not process them by itself (&quot;did not connect to them&quot;)</li>
 <li>by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will <em>not</em> be propagated anymore, possibly preventing the built-in wx event handlers to operate (e.g. to properly manage resizings); to restore their activation, <tt class="docutils literal">skip</tt> (to be understood here as &quot;propagate event&quot; - however counter-intuitive it may seem) shall be set to <tt class="docutils literal">true</tt> (either by passing a corresponding option when connecting, or by calling <tt class="docutils literal">wxEvent:skip/2</tt> with <tt class="docutils literal">skip</tt> set to <tt class="docutils literal">true</tt> from one's event handler) <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[12]</a></li>
 <li>when a process connects to the emitter of a given type of events (e.g. <tt class="docutils literal">close_window</tt> for a given frame), this process is to receive corresponding messages and then perform any kind of operation; however these operations cannot be synchronous (they are non-blocking: the process does not send to anyone any notification that it finished handling that event), and thus, if <tt class="docutils literal">skip</tt> is <tt class="docutils literal">true</tt> (that is, if event propagation is enabled), any other associated event handler(s) will be triggered concurrently to the processing of these event messages; this may be a problem for example if a controller listens to the <tt class="docutils literal">close_window</tt> event emitted by a main frame in order to perform a proper termination: the basic, built-in event handlers will then by default be triggered whereas the controller teardown may be still in progress, and this may result in errors (e.g. OpenGL ones, like <tt class="docutils literal"><span class="pre">{{{badarg,&quot;This&quot;},{wxGLCanvas,swapBuffers,1}},...</span></tt> because the built-in close handlers already deallocated the OpenGL context); a proper design is to ensure that <tt class="docutils literal">skip</tt> remains set to false so that propagation of such events is disabled in these cases: then only the user code is in charge of closing the application, at its own pace <a class="footnote-reference" href="#footnote-11" id="footnote-reference-11">[13]</a></li>
 </ul>
@@ -690,6 +690,8 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 </ul>
 <p>Extra information resources about <tt class="docutils literal">wx</tt> (besides the documentation of its modules):</p>
 <ul class="simple">
+<li>the graphical <a class="reference external" href="https://docs.wxwidgets.org/latest/classwx_window.html">class hierarchy of the wxWindow class</a>, as this class corresponds to the concept of widget, which is very central</li>
+<li><a class="reference external" href="https://docs.wxwidgets.org/latest/page_screenshots.html">graphical repositories of most widgets</a> (screenshots thereof)</li>
 <li>wxErlang: <a class="reference external" href="https://arifishaq.files.wordpress.com/2017/12/wxerlang-getting-started.pdf">Getting started</a> and <a class="reference external" href="https://arifishaq.files.wordpress.com/2018/04/wxerlang-speeding-up.pdf">Speeding up</a>, by Arif Ishaq</li>
 <li>Doug Edmunds' <a class="reference external" href="http://wxerlang.dougedmunds.com/">wxerlang workups</a></li>
 <li><a class="reference external" href="https://www.wxwidgets.org/">wxWidgets itself</a></li>
@@ -705,6 +707,7 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <p>To avoid having to perform a lookup in the documentation:</p>
 <ul class="simple">
 <li>Erlang indices start at <tt class="docutils literal">1</tt>, except the ones of the <tt class="docutils literal">array</tt> module that are zero-based</li>
+<li>when they yield the same result, <tt class="docutils literal">=:=</tt> is a bit more efficient than <tt class="docutils literal">==</tt></li>
 <li>for tuples of unknown number of elements:<ul>
 <li><strong>setting</strong> an element is to be done with <tt class="docutils literal"><span class="pre">setelement(positive_index(),</span> <span class="pre">tuple(),</span> <span class="pre">term())</span> <span class="pre">-&gt;</span> tuple()</tt></li>
 <li><strong>extracting</strong> an element is to be done with <tt class="docutils literal"><span class="pre">element(positive_index(),</span> <span class="pre">tuple())</span> <span class="pre">-&gt;</span> term()</tt></li>
@@ -718,7 +721,7 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <li>for <tt class="docutils literal">maps</tt>: refer to <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#map_expressions">map expressions</a>, the <a class="reference external" href="https://www.erlang.org/doc/man/maps.html">maps module</a> and the corresponding part of the <a class="reference external" href="https://www.erlang.org/doc/efficiency_guide/maps.html">efficiency guide</a>; in short:<ul>
 <li>creating/updating maps is <tt class="docutils literal">EmptyMap = #{}</tt>, <tt class="docutils literal">NewMFromScratch = #{K1 =&gt; V1, K2 =&gt; V2}</tt> or <tt class="docutils literal">UpdatedM = <span class="pre">M#{K1</span> =&gt; V1, K2 =&gt; V2}</tt></li>
 <li>updating the value associated to an already-existing key <tt class="docutils literal">K</tt> is <tt class="docutils literal">ModM = <span class="pre">M#{K</span> := V}</tt></li>
-<li>matching is <tt class="docutils literal">#{K1 := V1, K2 := V2} = M</tt> where the <tt class="docutils literal">K*</tt> are <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard_expressions">guard expressions</a> and the <tt class="docutils literal">V*</tt> can be any pattern</li>
+<li>matching is <tt class="docutils literal">#{K1 := V1, K2 := V2} = M</tt> where the <tt class="docutils literal">K*</tt> are <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard_expressions">guard expressions</a> and the <tt class="docutils literal">V*</tt> can be any pattern; matching an empty map is best done with <tt class="docutils literal">when Map == #{}</tt></li>
 <li>obtaining the value <tt class="docutils literal">V</tt> associated to a key <tt class="docutils literal">K</tt> that:<ul>
 <li>is expected to exist: <tt class="docutils literal">V = maps:get(K, MyMap)</tt> (generally could/should be directly matched instead)</li>
 <li>may or may not exist: <tt class="docutils literal">case maps:find(K, MyMap) of {ok, V} <span class="pre">-&gt;</span> <span class="pre">...;</span> error <span class="pre">-&gt;</span> ... end</tt></li>
@@ -727,6 +730,8 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <li>removing an entry: <tt class="docutils literal">ShrunkMap = maps:remove(Key,Map)</tt></li>
 </ul>
 </li>
+<li>to detect in a guard whether a term is a map, there is no <tt class="docutils literal">is_map/1</tt> guard available: <tt class="docutils literal">map_size/1</tt> will fail the guard if its argument is not a map; a map includes its size in the header word, so <tt class="docutils literal">map_size/1</tt> is O(1); furthermore, the JIT will inline calls to <tt class="docutils literal">map_size/1</tt></li>
+<li>a rule of thumb for naming in Erlang/OTP is that functions having <tt class="docutils literal">size</tt> in their name are O(1), while functions having <tt class="docutils literal">length</tt> in their name are O(N)</li>
 <li>when converting a float to a string, to set the precision (the number of digits after the decimal point) to <tt class="docutils literal">P</tt>, use: <tt class="docutils literal"><span class="pre">&quot;~.Pf&quot;</span></tt>; for example, if <tt class="docutils literal">P=5</tt>, we have: <tt class="docutils literal">&quot;0.33333&quot; = <span class="pre">io_lib:format(&quot;~.5f&quot;,</span> <span class="pre">[1/3]).</span></tt></li>
 <li>the lesser-known <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#list-operationslist">&quot;--&quot; list subtraction</a> operator returns a list that is a copy of the first argument where, for each element in the second argument, the first occurrence of this element (if any) is removed</li>
 <li>refer to the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences">escape sequences</a>, typically in order to specify characters like &quot;space&quot; (<tt class="docutils literal">$\s</tt>); <tt class="docutils literal">$char</tt> is the notation to designate the ASCII value or Unicode code-point of the character <tt class="docutils literal">char</tt> (e.g. <tt class="docutils literal">$A</tt>)</li>
@@ -745,6 +750,11 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <li>unlike lists, binaries are preferably built by appending <a class="reference external" href="https://www.erlang.org/doc/efficiency_guide/binaryhandling.html#constructing-binaries">on their right</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li>typically for non-critical code (e.g. tests or temporary, debugging code):<ul>
+<li>to avoid repeating a prefixing module, <a class="reference external" href="https://www.erlang.org/doc/reference_manual/modules#pre-defined-module-attributes">imports can be done</a>, like in: <tt class="docutils literal"><span class="pre">-import(lists,</span> [map/2, foldl/3, <span class="pre">foldr/3]).</span></tt></li>
+<li>to suppress warnings/errors whenever variables are not used: <tt class="docutils literal"><span class="pre">-compile(nowarn_unused_vars).</span></tt></li>
 </ul>
 </li>
 <li>in boolean expressions <strong>outside of guards</strong>:<ul>

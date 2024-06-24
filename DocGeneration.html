@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Documentation Generation</title>
 <script type="text/javascript" src="mathjax/tex-mml-chtml.js?config=TeX-AMS_CHTML"></script>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
@@ -29,13 +29,13 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, January 4, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, June 23, 2024</td>
 </tr>
 </tbody>
 </table>
 <p><span class="raw-html"><a name="howtos_toc"></a></span></p>
 <div class="contents local topic" id="topic-1">
-<span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<span id="table-of-contents"></span><p class="topic-title"><a class="reference internal" href="#top"><strong>Table of Contents</strong></a></p>
 <ul class="simple">
 <li><a class="reference internal" href="#objective" id="toc-entry-1">Objective</a></li>
 <li><a class="reference internal" href="#our-preferred-lightweight-approach" id="toc-entry-2">Our Preferred Lightweight Approach</a><ul>
@@ -49,40 +49,42 @@
 <li><a class="reference internal" href="#citations-references" id="toc-entry-10">Citations &amp; References</a></li>
 <li><a class="reference internal" href="#commenting" id="toc-entry-11">Commenting</a></li>
 <li><a class="reference internal" href="#defining-blocks" id="toc-entry-12">Defining Blocks</a></li>
+<li><a class="reference internal" href="#fixing-warning-duplicate-explicit-target-name-some-link" id="toc-entry-13">Fixing <tt class="docutils literal">WARNING: Duplicate explicit target name: &quot;some link&quot;</tt></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#our-preferred-more-heavy-duty-approach" id="toc-entry-13">Our Preferred More Heavy-Duty Approach</a><ul>
-<li><a class="reference internal" href="#principle-1" id="toc-entry-14">Principle</a></li>
-<li><a class="reference internal" href="#installation" id="toc-entry-15">Installation</a></li>
-<li><a class="reference internal" href="#configuration" id="toc-entry-16">Configuration</a></li>
-<li><a class="reference internal" href="#theme-selection" id="toc-entry-17">Theme Selection</a></li>
-<li><a class="reference internal" href="#adding-content" id="toc-entry-18">Adding Content</a></li>
-<li><a class="reference internal" href="#inner-links-with-sphinx" id="toc-entry-19">Inner Links with Sphinx</a></li>
+<li><a class="reference internal" href="#our-preferred-more-heavy-duty-approach" id="toc-entry-14">Our Preferred More Heavy-Duty Approach</a><ul>
+<li><a class="reference internal" href="#principle-1" id="toc-entry-15">Principle</a></li>
+<li><a class="reference internal" href="#installation" id="toc-entry-16">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-17">Configuration</a></li>
+<li><a class="reference internal" href="#theme-selection" id="toc-entry-18">Theme Selection</a></li>
+<li><a class="reference internal" href="#adding-content" id="toc-entry-19">Adding Content</a></li>
+<li><a class="reference internal" href="#inner-links-with-sphinx" id="toc-entry-20">Inner Links with Sphinx</a></li>
+<li><a class="reference internal" href="#the-problem-of-nested-includes" id="toc-entry-21">The Problem of Nested Includes</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#miscellaneous" id="toc-entry-20">Miscellaneous</a><ul>
-<li><a class="reference internal" href="#validating-checking-html-content" id="toc-entry-21">Validating / Checking HTML Content</a></li>
-<li><a class="reference internal" href="#fixing-permissions-in-third-party-content-to-integrate-in-a-web-root" id="toc-entry-22">Fixing Permissions in Third-Party Content to Integrate in a Web Root</a></li>
-<li><a class="reference internal" href="#pointing-to-a-specific-moment-in-a-linked-video" id="toc-entry-23">Pointing to a Specific Moment in a Linked Video</a></li>
-<li><a class="reference internal" href="#conversion-between-markup-formats" id="toc-entry-24">Conversion between Markup Formats</a></li>
-<li><a class="reference internal" href="#transformation-of-pdf-files" id="toc-entry-25">Transformation of PDF files</a></li>
-<li><a class="reference internal" href="#image-transformations" id="toc-entry-26">Image Transformations</a><ul>
-<li><a class="reference internal" href="#inverting-an-image" id="toc-entry-27">Inverting an Image</a></li>
-<li><a class="reference internal" href="#rendering-a-vector-image-at-a-given-scale-size" id="toc-entry-28">Rendering a Vector Image at a given Scale/Size</a></li>
-<li><a class="reference internal" href="#adding-a-border-to-an-image" id="toc-entry-29">Adding a Border to an Image</a></li>
-<li><a class="reference internal" href="#compositing-blitting-an-image-onto-another" id="toc-entry-30">Compositing/Blitting an Image onto Another</a></li>
+<li><a class="reference internal" href="#miscellaneous" id="toc-entry-22">Miscellaneous</a><ul>
+<li><a class="reference internal" href="#validating-checking-html-content" id="toc-entry-23">Validating / Checking HTML Content</a></li>
+<li><a class="reference internal" href="#fixing-permissions-in-third-party-content-to-integrate-in-a-web-root" id="toc-entry-24">Fixing Permissions in Third-Party Content to Integrate in a Web Root</a></li>
+<li><a class="reference internal" href="#pointing-to-a-specific-moment-in-a-linked-video" id="toc-entry-25">Pointing to a Specific Moment in a Linked Video</a></li>
+<li><a class="reference internal" href="#conversion-between-markup-formats" id="toc-entry-26">Conversion between Markup Formats</a></li>
+<li><a class="reference internal" href="#transformation-of-pdf-files" id="toc-entry-27">Transformation of PDF files</a></li>
+<li><a class="reference internal" href="#image-transformations" id="toc-entry-28">Image Transformations</a><ul>
+<li><a class="reference internal" href="#inverting-an-image" id="toc-entry-29">Inverting an Image</a></li>
+<li><a class="reference internal" href="#rendering-a-vector-image-at-a-given-scale-size" id="toc-entry-30">Rendering a Vector Image at a given Scale/Size</a></li>
+<li><a class="reference internal" href="#adding-a-border-to-an-image" id="toc-entry-31">Adding a Border to an Image</a></li>
+<li><a class="reference internal" href="#compositing-blitting-an-image-onto-another" id="toc-entry-32">Compositing/Blitting an Image onto Another</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#plot-generation" id="toc-entry-31">Plot Generation</a></li>
-<li><a class="reference internal" href="#uml-diagrams" id="toc-entry-32">UML Diagrams</a><ul>
-<li><a class="reference internal" href="#quick-uml-cheat-sheet" id="toc-entry-33">Quick UML Cheat Sheet</a></li>
-<li><a class="reference internal" href="#tooling" id="toc-entry-34">Tooling</a></li>
+<li><a class="reference internal" href="#plot-generation" id="toc-entry-33">Plot Generation</a></li>
+<li><a class="reference internal" href="#uml-diagrams" id="toc-entry-34">UML Diagrams</a><ul>
+<li><a class="reference internal" href="#quick-uml-cheat-sheet" id="toc-entry-35">Quick UML Cheat Sheet</a></li>
+<li><a class="reference internal" href="#tooling" id="toc-entry-36">Tooling</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#finding-usable-content" id="toc-entry-35">Finding Usable Content</a></li>
-<li><a class="reference internal" href="#using-additional-fonts" id="toc-entry-36">Using Additional Fonts</a></li>
+<li><a class="reference internal" href="#finding-usable-content" id="toc-entry-37">Finding Usable Content</a></li>
+<li><a class="reference internal" href="#using-additional-fonts" id="toc-entry-38">Using Additional Fonts</a></li>
 </ul>
 </li>
 </ul>
@@ -283,9 +285,17 @@ Authors' Last name, First Initial. (Year). Book title: Subtitle. (Edition) [if o
 </div>
 <div class="section" id="defining-blocks">
 <h3><a class="toc-backref" href="#toc-entry-12">Defining Blocks</a></h3>
-<p>All lines of a block shall start with the same whitespace. So, whenever a given block is not left-justified (at least one of its lines starts with a different offset), prefer having all lines of such a block be indented of (at least) 4 spaces (i.e. a tabulation).</p>
+<p>All lines of a block shall start with the same whitespace. So, whenever a given block is not left-justified (meaning that at least one of its lines starts with a different offset), prefer having all lines of such a block be indented of (at least) 4 spaces (i.e. a tabulation).</p>
 <p>Otherwise, if using a single space to indent, as soon as a line of the block is to start with 3 spaces, whitespace-cleanup operations will combine them with the first one to form a tabulation (4 spaces in a row), and all lines of the commented block will not start with the same whitespaces, which could result, from the point of view of RST tools, in an invalid block.</p>
-<p>Before a code block (e.g. introduced with <tt class="docutils literal">.. code:: erlang</tt>), a single colon should be used, not two of them. For example:</p>
+<p>To indent on Emacs, one may select the region of interest and then hit <tt class="docutils literal"><span class="pre">C-x</span> TAB TAB TAB <span class="pre">[...]</span></tt> (or even just <tt class="docutils literal">TAB</tt> once the block is selected).</p>
+<p>Either a standard or a code indented block may be used.</p>
+<p>A <strong>standard block</strong> is introduced by a non-indented text finishing with two colons (<tt class="docutils literal">::</tt>), like in: <tt class="docutils literal">Here is what she said::</tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Unfortunately this does not allow proper French syntax, for which a space is needed before the colons (e.g. typed as <tt class="docutils literal">Elle a dit ensuite ::</tt>): adding such a space will result in no colon to be displayed.</p>
+<p class="last">So we stick to writing an improper <tt class="docutils literal">Elle a dit ensuite::</tt>, which is rendered as <tt class="docutils literal">Elle a dit ensuite:</tt>, better than <tt class="docutils literal">Elle a dit ensuite</tt> but worse than <tt class="docutils literal">Elle a dit ensuite :</tt>.</p>
+</div>
+<p>Before a <strong>code block</strong> (e.g. introduced with <tt class="docutils literal">.. code:: erlang</tt>), a single colon should be used, not two of them. For example:</p>
 <pre class="code literal-block">
 This algorithm can be:
 
@@ -293,23 +303,32 @@ This algorithm can be:
    [...]
 </pre>
 </div>
+<div class="section" id="fixing-warning-duplicate-explicit-target-name-some-link">
+<h3><a class="toc-backref" href="#toc-entry-13">Fixing <tt class="docutils literal">WARNING: Duplicate explicit target name: &quot;some link&quot;</tt></a></h3>
+<p>This typically happens whenever defining a link with a given label more than once.</p>
+<p>A solution is to use anonymous reference instead, i.e. <em>double</em> underscores (so: <tt class="docutils literal">__</tt>) to define references, like in:</p>
+<pre class="literal-block">
+Here is `some link &lt;http://example.org/xxx&gt;`__.
+</pre>
+<p>Using double underscores for links could be considered the norm.</p>
+</div>
 </div>
 </div>
 <div class="section" id="our-preferred-more-heavy-duty-approach">
-<span id="heavy-duty-approach"></span><h1><a class="toc-backref" href="#toc-entry-13">Our Preferred More Heavy-Duty Approach</a></h1>
+<span id="heavy-duty-approach"></span><h1><a class="toc-backref" href="#toc-entry-14">Our Preferred More Heavy-Duty Approach</a></h1>
 <div class="section" id="principle-1">
-<h2><a class="toc-backref" href="#toc-entry-14">Principle</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-15">Principle</a></h2>
 <p>It applies to more ambitious projects, involving larger content with potentially many interlinked pages.</p>
 <p>It is based on the <a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx toolchain</a>, and therefore shares many elements with our <a class="reference internal" href="#lightweight-approach">lightweight approach</a> above, starting from the RST syntax.</p>
 <p>It offers out of the box many useful mechanisms beyond the generation of a single-page website, from a smooth navigation between a set of pages based on foldable menus to a generated index and a local search engine. It moreover can be easily customised.</p>
 <p>More types of outputs are readily supported: HTML, PDF, EPUB, man pages.</p>
 </div>
 <div class="section" id="installation">
-<h2><a class="toc-backref" href="#toc-entry-15">Installation</a></h2>
-<p>One may follow <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/installation.html">these guidelines</a>. On Arch Linux, we install the <a class="reference external" href="https://archlinux.org/packages/community/any/python-sphinx/">python-sphinx</a> package, thanks to: <tt class="docutils literal">pacman <span class="pre">-Sy</span> <span class="pre">python-sphinx</span> <span class="pre">texlive-binextra``(last</span> package being needed now for ``latexmk</tt>, to generate PDFs).</p>
+<h2><a class="toc-backref" href="#toc-entry-16">Installation</a></h2>
+<p>One may follow <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/installation.html">these guidelines</a>. On Arch Linux, we install the <a class="reference external" href="https://archlinux.org/packages/community/any/python-sphinx/">python-sphinx</a> package, thanks to: <tt class="docutils literal">pacman <span class="pre">-Sy</span> <span class="pre">python-sphinx</span> <span class="pre">gnu-free-fonts</span> <span class="pre">texlive-binextra</span></tt> (last package being needed now for <tt class="docutils literal">latexmk</tt>, to generate PDFs).</p>
 </div>
 <div class="section" id="configuration">
-<h2><a class="toc-backref" href="#toc-entry-16">Configuration</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-17">Configuration</a></h2>
 <p>Running <tt class="docutils literal"><span class="pre">sphinx-quickstart</span></tt> is one's best route; in terms of choices:</p>
 <ul class="simple">
 <li>we strongly recommend separating the source and build directories</li>
@@ -319,7 +338,7 @@ This algorithm can be:
 <p>The project settings can be edited in <tt class="docutils literal">source/conf.py</tt>.</p>
 </div>
 <div class="section" id="theme-selection">
-<h2><a class="toc-backref" href="#toc-entry-17">Theme Selection</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-18">Theme Selection</a></h2>
 <p>The default (HTML) theme is the Alabaster one. Other themes may be preferred, whether they are <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/theming.html">Sphinx built-ins</a> or <a class="reference external" href="https://sphinx-themes.org/">external ones</a>. Many can be customised.</p>
 <p>As for us, we prefer mobile-compliant themes with a left column to navigate. This includes the popular <a class="reference external" href="https://sphinx-themes.org/sample-sites/sphinx-rtd-theme/">Read the Docs</a> theme, which will use here, but also the <a class="reference external" href="https://sphinx-themes.org/sample-sites/default-classic/">classic</a> theme.</p>
 <p>The <a class="reference external" href="https://sphinx-rtd-theme.readthedocs.io/en/latest/">documentation</a> of the Read the Docs theme details everything needed. For an installation thereof on Arch, the simplest is to run <tt class="docutils literal">pacman <span class="pre">-Sy</span> <span class="pre">python-sphinx_rtd_theme</span></tt>.</p>
@@ -363,7 +382,7 @@ This algorithm can be:
 </pre>
 </div>
 <div class="section" id="adding-content">
-<h2><a class="toc-backref" href="#toc-entry-18">Adding Content</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-19">Adding Content</a></h2>
 <p>This is just a matter of adding <tt class="docutils literal">*.rst</tt> files (each defining at least one title) in the <tt class="docutils literal">source</tt> directory, and to reference them in a least one table of contents (e.g. in <tt class="docutils literal">source/index.rst</tt>), like in:</p>
 <pre class="literal-block">
 .. toctree::
@@ -376,24 +395,35 @@ This algorithm can be:
 <p>The result in a static website that can safely be transferred and served by any webserver of choice.</p>
 </div>
 <div class="section" id="inner-links-with-sphinx">
-<h2><a class="toc-backref" href="#toc-entry-19">Inner Links with Sphinx</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-20">Inner Links with Sphinx</a></h2>
 <p>In our preferred approach, described <a class="reference external" href="https://stackoverflow.com/a/70355341">here</a> and <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any">there</a>, such inner links - which are possibly defined and referenced in <em>different</em> RST files - are to be managed in a slightly different way than for <a class="reference external" href="#inner-links">Docutils's inner links</a>:</p>
 <ul class="simple">
 <li>first, as shown in the <a class="reference internal" href="#conf-py">conf.py</a> example above, the <tt class="docutils literal">default_role = 'any'</tt> setting should be specified</li>
 <li>then, if each inner link target shall be specified as usual (e.g. as <tt class="docutils literal">.. _`brief answers`:</tt>), they should be referenced like with Docutils but <em>without</em> a trailing underscore (e.g. as <tt class="docutils literal">`brief answers`</tt> - rather than as <tt class="docutils literal">`brief answers`_</tt>)</li>
 </ul>
 </div>
+<div class="section" id="the-problem-of-nested-includes">
+<h2><a class="toc-backref" href="#toc-entry-21">The Problem of Nested Includes</a></h2>
+<p>We would have liked to organise a Sphinx document according to a filesystem tree, so that there is in each directory a RST file that comprises the content for that level and that just lists its direct local children as the RST files in its subdirectories, as relative files, like, in a <tt class="docutils literal">a/b/c/c.rst</tt> file: <tt class="docutils literal">.. include:: d/d.rst</tt>.</p>
+<p>Strangely enough, it worked for 3-level nesting (<tt class="docutils literal">a</tt>, <tt class="docutils literal">a/b</tt> and <tt class="docutils literal">a/b/c</tt>), but not for the next level: even though the RST files in <tt class="docutils literal">c</tt> where included as <tt class="docutils literal">d/d.rst</tt>, they were never found:</p>
+<pre class="literal-block">
+a/b/c/c.rst:4: CRITICAL: Problems with &quot;include&quot; directive path:
+InputError: [Errno 2] No such file or directory: 'a/b/d/d.rst'.
+</pre>
+<p>(we can see that <tt class="docutils literal">c</tt> is lacking; no way of adding it once; and trying there to specify <tt class="docutils literal">.. include:: c/d/d.rst</tt> results in <tt class="docutils literal">a/b/c/c/d/d.rst</tt> not being found...)</p>
+<p>The only (unsatisfactory) solution we found it is specify paths that are &quot;absolute&quot; (i.e. relative to the root of the tree), for example as <tt class="docutils literal">.. include:: /a/b/c/d/d.rst</tt>.</p>
+</div>
 </div>
 <div class="section" id="miscellaneous">
-<h1><a class="toc-backref" href="#toc-entry-20">Miscellaneous</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-22">Miscellaneous</a></h1>
 <p>These hints apply more generically than only with a RST toolchain.</p>
 <div class="section" id="validating-checking-html-content">
-<h2><a class="toc-backref" href="#toc-entry-21">Validating / Checking HTML Content</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-23">Validating / Checking HTML Content</a></h2>
 <p>In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.</p>
 <p>Notably an online HTML page, or set of pages, can be verified by third-party tools like <a class="reference external" href="https://www.deadlinkchecker.com/">this one</a>, to detect dead links.</p>
 </div>
 <div class="section" id="fixing-permissions-in-third-party-content-to-integrate-in-a-web-root">
-<h2><a class="toc-backref" href="#toc-entry-22">Fixing Permissions in Third-Party Content to Integrate in a Web Root</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-24">Fixing Permissions in Third-Party Content to Integrate in a Web Root</a></h2>
 <p>The objective is to ensure that a filesystem tree can be transferred as a whole without permission errors to a given server more than once, whereas the destination user and group (typically specialised and restricted on a server) differ from the source ones.</p>
 <p>It is indeed often necessary to fix permissions in a third-party tree before it is transferred to a server (e.g. MathJax being copied from a client host through <tt class="docutils literal">scp</tt> in a web root on a given server); otherwise the next transfers will stumble on the initial, inadequate group rights, typically preventing them to be overwritten by a process belonging to a different user yet being in the same group, like <tt class="docutils literal">700</tt> instead of <tt class="docutils literal">770</tt> - resulting in <tt class="docutils literal">Permission denied</tt> errors.</p>
 <p>For that we recommend executing our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/fix-www-metadata.sh">fix-www-metadata.sh</a> script in the <em>source</em> root prior to transfer it to a webroot of choice. This typically applies to MathJax (see the <a class="reference internal" href="#rendering-mathematical-elements">Rendering Mathematical Elements</a> section), which therefore should not be installed in the system tree thanks to a package manager (as our script will alter its permissions) but in the user account (e.g. as <tt class="docutils literal">~/Software/mathjax</tt>).</p>
@@ -410,7 +440,7 @@ This algorithm can be:
 <p>Then, afterwards, when the <tt class="docutils literal">stallone</tt> user performs his <tt class="docutils literal">scp</tt> repeatedly to transfer updated versions of his <tt class="docutils literal">mathjax</tt> directory from the client to the server, he should be able to perform a flawless update of its files and directories.</p>
 </div>
 <div class="section" id="pointing-to-a-specific-moment-in-a-linked-video">
-<h2><a class="toc-backref" href="#toc-entry-23">Pointing to a Specific Moment in a Linked Video</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-25">Pointing to a Specific Moment in a Linked Video</a></h2>
 <p>It is as simple as designating, in an HTML link, the targeted second by suffixing the URL video filename with <tt class="docutils literal">#t=DURATION_IN_SECONDS</tt>, like in <tt class="docutils literal"><span class="pre">some-video.mp4#t=1473</span></tt> <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>.</p>
 <table class="docutils footnote" frame="void" id="footnote-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -420,7 +450,7 @@ This algorithm can be:
 </table>
 </div>
 <div class="section" id="conversion-between-markup-formats">
-<h2><a class="toc-backref" href="#toc-entry-24">Conversion between Markup Formats</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-26">Conversion between Markup Formats</a></h2>
 <p><a class="reference external" href="https://pandoc.org/">Pandoc</a> is the tool of choice for such operations, as it often yields good results.</p>
 <p>For example, in order to convert a page written in Mediawiki syntax, whose source content has been pasted in a <tt class="docutils literal"><span class="pre">old-content-in-mediawiki.txt</span></tt> file, into one that be specified in a GitLab wiki (hence in GFM markup, for <em>GitLab Flavored Markdown</em>) from a converted content, to be written in a <tt class="docutils literal"><span class="pre">converted-content.gfm</span></tt> file, one may use:</p>
 <pre class="code bash literal-block">
@@ -458,7 +488,7 @@ $<span class="w"> </span>iconv<span class="w"> </span>-f<span class="w"> </span>
 </pre>
 </div>
 <div class="section" id="transformation-of-pdf-files">
-<h2><a class="toc-backref" href="#toc-entry-25">Transformation of PDF files</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-27">Transformation of PDF files</a></h2>
 <p>For that, one may use the <tt class="docutils literal">pdftk</tt> tool, possibly with the <tt class="docutils literal">convert</tt> one, which comes from <a class="reference external" href="http://www.imagemagick.org/">ImageMagick</a> (typically available thanks to a <tt class="docutils literal">imagemagick</tt> package):</p>
 <ul class="simple">
 <li>to <strong>split all pages of a PDF</strong> in as many individual files (named <tt class="docutils literal">pg_0001.pdf</tt>, <tt class="docutils literal">pg_0002.pdf</tt>, etc.): <tt class="docutils literal">pdftk document.pdf burst</tt></li>
@@ -470,7 +500,7 @@ $<span class="w"> </span>iconv<span class="w"> </span>-f<span class="w"> </span>
 <p>PDF documents may contain images/scans (possibly of texts) and/or actual, raw texts. If a PDF is a scan, OCR (<a class="reference external" href="https://en.wikipedia.org/wiki/Optical_character_recognition">Optical character recognition</a>) can be used in order to convert the embedded scans into their actual text. Such a transformation can be done online, and we found <a class="reference external" href="https://tools.pdf24.org/fr/ocr-pdf">PDF24</a> very useful for that. From such services, usually a PDF (thus including text instead of images) is generated. To obtain a text version thereof respecting its layout (typically to preserve the indentation of a scanned program), one may use: <tt class="docutils literal">pdftotext <span class="pre">-layout</span> <span class="pre">my-OCRed-document.pdf</span></tt> in order to enjoy a proper <tt class="docutils literal"><span class="pre">my-OCRed-document.txt</span></tt>.</p>
 </div>
 <div class="section" id="image-transformations">
-<h2><a class="toc-backref" href="#toc-entry-26">Image Transformations</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-28">Image Transformations</a></h2>
 <p>One may rely on:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://www.gimp.org/">GIMP</a> (<em>GNU Image Manipulation Program</em>; corresponding, on Arch, to the <tt class="docutils literal">gimp</tt> package), for bitmap (e.g. PNG) graphics</li>
@@ -478,7 +508,7 @@ $<span class="w"> </span>iconv<span class="w"> </span>-f<span class="w"> </span>
 <li>or on command-line <a class="reference external" href="https://imagemagick.org">ImageMagick</a> (on Arch Linux, install the <tt class="docutils literal">imagemagick</tt> package, which provides notably the <tt class="docutils literal">convert</tt> and <tt class="docutils literal">display</tt> executables)</li>
 </ul>
 <div class="section" id="inverting-an-image">
-<h3><a class="toc-backref" href="#toc-entry-27">Inverting an Image</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-29">Inverting an Image</a></h3>
 <p>To invert/negate an image (swap colors with their complementary ones, while preserving alpha coordinates):</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>convert<span class="w"> </span>source.png<span class="w"> </span>-channel<span class="w"> </span>RGB<span class="w"> </span>-negate<span class="w"> </span>target.png
@@ -486,7 +516,7 @@ $<span class="w"> </span>convert<span class="w"> </span>source.png<span class="w
 <p>See also the Myriad's automatic rules, which generate <tt class="docutils literal"><span class="pre">X-negated.png</span></tt> from <tt class="docutils literal">X.png</tt> thanks to: <tt class="docutils literal">make <span class="pre">X-negated.png</span></tt>.</p>
 </div>
 <div class="section" id="rendering-a-vector-image-at-a-given-scale-size">
-<h3><a class="toc-backref" href="#toc-entry-28">Rendering a Vector Image at a given Scale/Size</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-30">Rendering a Vector Image at a given Scale/Size</a></h3>
 <p>Let's suppose that a SVG file is available (for example obtained thanks to our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/latex-to-image.sh">latex-to-image.sh</a> script).</p>
 <p>Going for a PNG of a width of 1000 pixels while selecting a high-enough DPI, preserving the aspect ratio and keeping the background transparent:</p>
 <pre class="code bash literal-block">
@@ -495,7 +525,7 @@ $<span class="w"> </span>convert<span class="w"> </span>-density<span class="w">
 <p>Setting a background to a solid color (e.g. <tt class="docutils literal">white</tt>) may allow, when adding a border, to have its color applied only on that border (rather than on the full background).</p>
 </div>
 <div class="section" id="adding-a-border-to-an-image">
-<h3><a class="toc-backref" href="#toc-entry-29">Adding a Border to an Image</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-31">Adding a Border to an Image</a></h3>
 <p>For example to add a 10-pixel wide / 5-pixel tall red border to an image:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>magick<span class="w"> </span>source.png<span class="w"> </span>-bordercolor<span class="w"> </span>red<span class="w"> </span>-border<span class="w"> </span>10x5<span class="w"> </span>target.png
@@ -506,7 +536,7 @@ $<span class="w"> </span>magick<span class="w"> </span>source.png<span class="w"
 </pre>
 </div>
 <div class="section" id="compositing-blitting-an-image-onto-another">
-<h3><a class="toc-backref" href="#toc-entry-30">Compositing/Blitting an Image onto Another</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-32">Compositing/Blitting an Image onto Another</a></h3>
 <p>Let's suppose we have an overall, larger image (e.g. <tt class="docutils literal"><span class="pre">my-overall-plot.png</span></tt>) onto which we want to composite / blit a smaller one (e.g. <tt class="docutils literal"><span class="pre">my-formula.png</span></tt>) at position (100,150) - in pixels, relatively to the top-left corner - with no specific scaling:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>magick<span class="w"> </span>composite<span class="w"> </span>my-formula.png<span class="w"> </span>my-overall-plot.png<span class="w"> </span>-geometry<span class="w"> </span>+100+150<span class="w"> </span>target.png
@@ -523,14 +553,14 @@ $<span class="w"> </span>magick<span class="w"> </span>composite<span class="w">
 </div>
 </div>
 <div class="section" id="plot-generation">
-<h2><a class="toc-backref" href="#toc-entry-31">Plot Generation</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-33">Plot Generation</a></h2>
 <p>Refer to our <a class="reference external" href="DataManagement.html#data-display">data display</a> section.</p>
 </div>
 <div class="section" id="uml-diagrams">
-<h2><a class="toc-backref" href="#toc-entry-32">UML Diagrams</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-34">UML Diagrams</a></h2>
 <p>If <a class="reference external" href="https://en.wikipedia.org/wiki/Systems_Modeling_Language">SysML</a> can also be of interest, we focus here on <a class="reference external" href="https://en.wikipedia.org/wiki/Class_diagram">UML2 class diagrams</a> (one of the 14 types of diagrams provided by UML2).</p>
 <div class="section" id="quick-uml-cheat-sheet">
-<h3><a class="toc-backref" href="#toc-entry-33">Quick UML Cheat Sheet</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-35">Quick UML Cheat Sheet</a></h3>
 <div class="section" id="multiplicities">
 <h4>Multiplicities</h4>
 <p>A <strong>multiplicity</strong> is a definition of <em>cardinality</em> (i.e. number of elements) of some collection of elements.</p>
@@ -582,7 +612,7 @@ $<span class="w"> </span>magick<span class="w"> </span>composite<span class="w">
 </div>
 </div>
 <div class="section" id="tooling">
-<h3><a class="toc-backref" href="#toc-entry-34">Tooling</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-36">Tooling</a></h3>
 <p>In a design phase, one may prefer lightweight tools like <a class="reference external" href="https://graphviz.org/">Graphviz</a>, <a class="reference external" href="https://plantuml.com/">PlantUML</a> or even <a class="reference external" href="https://en.wikipedia.org/wiki/Dia_(software)">Dia</a>.</p>
 <p>As long as the architecture of a framework is not stabilised, having one's tool determine by itself the layout of the rendering (rather than having to place manually one's graphical components) is surely preferable.</p>
 <p>For that we use Graphviz, with <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">our own build conventions</a>.</p>
@@ -599,11 +629,16 @@ $<span class="w"> </span>make<span class="w"> </span>uml_class_diagram_example.p
 </div>
 </div>
 <div class="section" id="finding-usable-content">
-<h2><a class="toc-backref" href="#toc-entry-35">Finding Usable Content</a></h2>
-<p>Assets can be found thanks to <a class="reference external" href="https://search.creativecommons.org/">Creative Commons</a>, which references, among others, <a class="reference external" href="https://openclipart.org">OpenClipart</a>.</p>
+<h2><a class="toc-backref" href="#toc-entry-37">Finding Usable Content</a></h2>
+<p>Assets can be found thanks to <a class="reference external" href="https://search.creativecommons.org/">Creative Commons</a>, which references, among others, <a class="reference external" href="https://openclipart.org">OpenClipart</a>, otherwise possibly <a class="reference external" href="https://publicdomainvectors.org">publicdomainvectors.org</a>.</p>
+<p>General purposes elements:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://openclipart.org/detail/2203/arrowiconsset">arrow icons for toolbar buttons</a></li>
+</ul>
+<p>The simplest approach is to rely on SVG files, to edit them on Inkscape and possibly to export a selection of them as PNG files of the desired size.</p>
 </div>
 <div class="section" id="using-additional-fonts">
-<h2><a class="toc-backref" href="#toc-entry-36">Using Additional Fonts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-38">Using Additional Fonts</a></h2>
 <p>One may use websites like <a class="reference external" href="https://www.dafont.com">Dafont</a> in order to select, based on appearance and licence, a given TTF font.</p>
 <p>At least on Arch, it is sufficient to copy the corresponding downloaded TTF file (as root) in <tt class="docutils literal">/usr/share/fonts/</tt> so that tools like The Gimp support it right afterwards (e.g. no need to run <tt class="docutils literal"><span class="pre">fc-cache</span></tt> beforehand).</p>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>

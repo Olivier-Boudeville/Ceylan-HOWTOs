@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Data Management</title>
 <script type="text/javascript" src="mathjax/tex-mml-chtml.js?config=TeX-AMS_CHTML"></script>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
@@ -29,13 +29,13 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, January 4, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, June 21, 2024</td>
 </tr>
 </tbody>
 </table>
 <p><span class="raw-html"><a name="howtos_toc"></a></span></p>
 <div class="contents local topic" id="topic-1">
-<span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<span id="table-of-contents"></span><p class="topic-title"><a class="reference internal" href="#top"><strong>Table of Contents</strong></a></p>
 <ul class="simple">
 <li><a class="reference internal" href="#overview" id="toc-entry-1">Overview</a></li>
 <li><a class="reference internal" href="#general-purpose-data-format" id="toc-entry-2">General-Purpose Data Format</a><ul>
@@ -47,10 +47,11 @@
 <li><a class="reference internal" href="#common-hints-about-scilab-and-octave" id="toc-entry-6">Common Hints About Scilab and Octave</a></li>
 <li><a class="reference internal" href="#using-scilab" id="toc-entry-7">Using Scilab</a></li>
 <li><a class="reference internal" href="#using-octave" id="toc-entry-8">Using Octave</a></li>
-<li><a class="reference internal" href="#libreoffice" id="toc-entry-9">LibreOffice</a></li>
+<li><a class="reference internal" href="#using-maxima" id="toc-entry-9">Using Maxima</a></li>
+<li><a class="reference internal" href="#using-libreoffice" id="toc-entry-10">Using LibreOffice</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#data-related-displaying-tools" id="toc-entry-10">Data-related Displaying Tools</a></li>
+<li><a class="reference internal" href="#data-related-displaying-tools" id="toc-entry-11">Data-related Displaying Tools</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -170,7 +171,7 @@ $<span class="w"> </span>jq<span class="w"> </span><span class="nb">type</span><
 <span id="data-tools"></span><h1><a class="toc-backref" href="#toc-entry-5">Data-related Processing Tools</a></h1>
 <p>Whenever needing to perform <strong>numerical operations</strong> on data, we recommend the use of <a class="reference external" href="https://www.scilab.org/">Scilab</a>  or <a class="reference external" href="https://www.gnu.org/software/octave/">GNU Octave</a>, which are the two major open-source alternatives to <a class="reference external" href="https://en.wikipedia.org/wiki/MATLAB">MATLAB</a>.</p>
 <p>As such, the three of them support mostly the same syntax (even if Scilab puts less emphasis on syntactic compatibility with MATLAB than Octave does).</p>
-<p>From now on, the specific tool being used among the two MATLAB alternatives will not be specifically mentioned (mentioning &quot;the tool&quot; instead). We tried both alternatives and had more issues (build/installation, proper display) with Scilab, so we mostly used Octave.</p>
+<p>From now on, the specific tool being used among the two MATLAB alternatives will not be specifically mentioned (mentioning &quot;the tool&quot; instead). We tried both alternatives and had more issues (build/installation, proper display) with Scilab, so we mostly used Octave, but did not find it very user-friendly.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">A personal consideration: for basic uses, relying on a generic-purpose programming language remains often vastly more convenient.</p>
@@ -184,12 +185,10 @@ $<span class="w"> </span>jq<span class="w"> </span><span class="nb">type</span><
 <div class="section" id="value-ranges">
 <h3>Value Ranges</h3>
 <p>Ranges can be expressed thanks to:</p>
-<blockquote>
 <ul class="simple">
 <li><tt class="docutils literal">MIN:STEP_SIZE:MAX</tt>, like in: <tt class="docutils literal">x = <span class="pre">-10:2:10</span></tt> resulting in 11 points</li>
 <li>or <tt class="docutils literal">linspace(MIN, MAX, STEP_COUNT)</tt>, like in: <tt class="docutils literal">x = <span class="pre">linspace(-10,</span> 10, 11)</tt> to produce the same list as before</li>
 </ul>
-</blockquote>
 </div>
 <div class="section" id="array-based-functions">
 <h3>Array-based Functions</h3>
@@ -274,7 +273,17 @@ $<span class="w"> </span>octave<span class="w"> </span>--eval<span class="w"> </
 <div class="section" id="using-scilab">
 <h2><a class="toc-backref" href="#toc-entry-7">Using Scilab</a></h2>
 <p>Scilab may be best obtained, on Arch Linux, from the AUR (e.g. <tt class="docutils literal">yay <span class="pre">-Sy</span> scilab</tt>) by selecting the <tt class="docutils literal"><span class="pre">scilab-bin</span></tt> option (relying then on prebuilt binaries); it can then be run with: <tt class="docutils literal">scilab</tt>.</p>
+<p>We experienced quite a few issues in order to obtain Scilab by any means. A last-resort option is to rely on <a class="reference external" href="https://appimage.github.io/Scilab/">an AppImage</a> instead; one may then <a class="reference external" href="GNULinux.html#sandboxing-an-application">sandbox it</a>: first the <a class="reference external" href="https://github.com/davidcl/Scilab.AppDir/releases">Scilab AppImage</a> shall be downloaded, for example as <tt class="docutils literal"><span class="pre">~/Scilab-x86_64.AppImage</span></tt>. Then:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Software/scilab<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software/scilab<span class="w">
+</span>$<span class="w"> </span>mv<span class="w"> </span>~/Scilab-x86_64.AppImage<span class="w"> </span>.<span class="w">
+</span>$<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>Scilab-x86_64.AppImage<span class="w">
+</span>$<span class="w"> </span>firejail<span class="w"> </span>--appimage<span class="w"> </span>./Scilab-x86_64.AppImage<span class="w"> </span><span class="p">&amp;</span>
+</pre>
+<p>Once installed that way, our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/run-scilab.sh">run-scilab.sh</a> can be used instead.</p>
 <p>Note that the copy/paste behaviour is not consistent with the usual UNIX/X11 one, and that tabulation can be used for auto-completion.</p>
+<p>Scilab does not seem to offer any symbolic support out of the box. See <a class="reference internal" href="#using-maxima">Using Maxima</a> instead (knowing that Maxima may be integrated within Scilab).</p>
 <div class="section" id="defining-a-function">
 <h3>Defining a Function</h3>
 <p>Let's suppose we want to define <span class="math">\(my\_func: x \rightarrow 2.x^{2}+1\)</span>.</p>
@@ -341,8 +350,110 @@ $<span class="w"> </span>octave<span class="w"> </span>--eval<span class="w"> </
 <p>The image can be saved either by using the <tt class="docutils literal">Save As</tt> GUI menu and typically selecting PNG, or directly from the console/scripts thanks to the following command: <tt class="docutils literal"><span class="pre">print(&quot;my_plot.png&quot;,</span> <span class="pre">&quot;-dpng&quot;)</span></tt>.</p>
 </div>
 </div>
-<div class="section" id="libreoffice">
-<h2><a class="toc-backref" href="#toc-entry-9">LibreOffice</a></h2>
+<div class="section" id="using-maxima">
+<h2><a class="toc-backref" href="#toc-entry-9">Using Maxima</a></h2>
+<p><a class="reference external" href="https://maxima.sourceforge.io/">Maxima</a> is a free software (GPL) tool for the manipulation of symbolic and numerical expressions.</p>
+<p>It can be installed on Arch with <tt class="docutils literal">pacman <span class="pre">-Sy</span> maxima</tt>.</p>
+<p>A graphical frontend exists, considerably more user-friendly, and useful for teaching the use of Maxima: <tt class="docutils literal">wxmaxima</tt>; it is available on the Arch AUR, yet its build fails at the time of this writing; it has however <a class="reference external" href="https://github.com/wxMaxima-developers/docker-wxmaxima/releases">an AppImage</a> - just try to find a recent <tt class="docutils literal"><span class="pre">wxmaxima-x86_64.AppImage</span></tt> there.</p>
+<p>One may then store this image in <tt class="docutils literal">~/Software/maxima/</tt> and run it either directly or in a sandboxed environment: <tt class="docutils literal">firejail <span class="pre">--appimage</span> <span class="pre">wxmaxima-x86_64.AppImage</span></tt>; see also our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/run-scilab.sh">run-maxima.sh</a> script.</p>
+<p>For example, taking into account that (refer to <a class="reference external" href="https://maxima.sourceforge.io/docs/manual/intromax.html">this introduction</a> for more details):</p>
+<ul class="simple">
+<li>to assign a value to a variable, use the colon (<tt class="docutils literal">:</tt> ; for example: <tt class="docutils literal">a : [1,2]</tt>), not the equal sign (that is used for representing equations)</li>
+<li>each statement is to be ended, on:<ul>
+<li>the command-line: with a semi-colon (<tt class="docutils literal">;</tt>) followed by <tt class="docutils literal">Enter</tt></li>
+<li>the GUI: with just <tt class="docutils literal"><span class="pre">Shift-Enter</span></tt> (the semi-colon is auto-added; <tt class="docutils literal">Enter</tt> is used here for multiline inputs)</li>
+</ul>
+</li>
+<li>one shall enter <tt class="docutils literal"><span class="pre">quit();</span></tt> to exit</li>
+<li>a general matrix <tt class="docutils literal">m</tt> may be defined that way:</li>
+</ul>
+<pre class="code literal-block">
+m: matrix(
+ [m11,m12,m13,tx],
+ [m21,m22,m23,ty],
+ [m31,m32,m33,tz],
+ [0,0,0,1]
+);
+</pre>
+<ul class="simple">
+<li>a diagonal matrix <tt class="docutils literal">s</tt> may be defined that way:</li>
+</ul>
+<pre class="code literal-block">
+s: matrix(
+ [Sx,0,0,0],
+ [0,Sy,0,0],
+ [0,0,Sz,0],
+ [0,0,0,1]
+);
+</pre>
+<ul class="simple">
+<li>a diagonal matrix <tt class="docutils literal">t</tt> may be defined that way:</li>
+</ul>
+<pre class="code literal-block">
+t: matrix(
+ [1,0,0,trx],
+ [0,1,0,try],
+ [0,0,1,trz],
+ [0,0,0,1]
+);
+</pre>
+<ul class="simple">
+<li>multiplication is represented by a dot : <tt class="docutils literal">m.s;</tt></li>
+</ul>
+<p>then Maxima can be directly used in a terminal:</p>
+<pre class="code literal-block">
+$ maxima
+;;; Loading #P&quot;/usr/lib/ecl-23.9.9/sb-bsd-sockets.fas&quot;
+;;; Loading #P&quot;/usr/lib/ecl-23.9.9/sockets.fas&quot;
+Maxima 5.47.0 https://maxima.sourceforge.io
+using Lisp ECL 23.9.9
+Distributed under the GNU Public License. See the file COPYING.
+Dedicated to the memory of William Schelter.
+The function bug_report() provides bug reporting information.
+[...]
+(%i1) m: matrix(
+ [m11,m12,m13,tx],
+ [m21,m22,m23,ty],
+ [m31,m32,m33,tz],
+ [0,0,0,1]
+);
+                            [ m11  m12  m13  tx ]
+                            [                   ]
+                            [ m21  m22  m23  ty ]
+(%o1)                       [                   ]
+                            [ m31  m32  m33  tz ]
+                            [                   ]
+                            [  0    0    0   1  ]
+(%i2) s: matrix(
+ [Sx,0,0,0],
+ [0,Sy,0,0],
+ [0,0,Sz,0],
+ [0,0,0,1]
+);
+                              [ Sx  0   0   0 ]
+                              [               ]
+                              [ 0   Sy  0   0 ]
+(%o2)                         [               ]
+                              [ 0   0   Sz  0 ]
+                              [               ]
+                              [ 0   0   0   1 ]
+(%i3) m.s;
+                       [ Sx m11  Sy m12  Sz m13  tx ]
+                       [                            ]
+                       [ Sx m21  Sy m22  Sz m23  ty ]
+(%o3)                  [                            ]
+                       [ Sx m31  Sy m32  Sz m33  tz ]
+                       [                            ]
+                       [   0       0       0     1  ]
+</pre>
+<p>Doing the same this time with wxmaxima:</p>
+<p><span class="raw-html"><center><img src="wxmaxima-example.png" id="responsive-image-large"></img></center></span>
+</p>
+<p>A session can be saved in a file, using the <tt class="docutils literal">*.wxmx</tt> extension.</p>
+<p>See also <a class="reference external" href="https://maxima.sourceforge.io/docs/manual/maxima_toc.html#SEC_Contents">Maxima's documentation</a>.</p>
+</div>
+<div class="section" id="using-libreoffice">
+<h2><a class="toc-backref" href="#toc-entry-10">Using LibreOffice</a></h2>
 <div class="section" id="to-obtain-a-list-of-all-the-different-values-in-a-selection">
 <h3>To obtain a list of all the different values in a selection</h3>
 <p>The objective is to determine the set of the different (unique) values in a selection (typically a whole column).</p>
@@ -353,7 +464,7 @@ $<span class="w"> </span>octave<span class="w"> </span>--eval<span class="w"> </
 </div>
 </div>
 <div class="section" id="data-related-displaying-tools">
-<span id="data-display"></span><h1><a class="toc-backref" href="#toc-entry-10">Data-related Displaying Tools</a></h1>
+<span id="data-display"></span><h1><a class="toc-backref" href="#toc-entry-11">Data-related Displaying Tools</a></h1>
 <p>For that we rely mostly on <a class="reference external" href="http://www.gnuplot.info/">gnuplot</a>.</p>
 <p>Our conventions are the following:</p>
 <ul class="simple">

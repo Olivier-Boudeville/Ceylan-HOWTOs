@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Version Control Systems</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,18 +28,18 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, January 22, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, June 19, 2024</td>
 </tr>
 </tbody>
 </table>
 <p><span class="raw-html"><a name="howtos_toc"></a></span></p>
 <div class="contents local topic" id="topic-1">
-<span id="table-of-contents"></span><p class="topic-title"><strong>Table of Contents</strong></p>
+<span id="table-of-contents"></span><p class="topic-title"><a class="reference internal" href="#top"><strong>Table of Contents</strong></a></p>
 <ul class="simple">
 <li><a class="reference internal" href="#overview" id="toc-entry-1">Overview</a></li>
 <li><a class="reference internal" href="#git-usage" id="toc-entry-2">Git Usage</a><ul>
 <li><a class="reference internal" href="#recommended-general-conventions" id="toc-entry-3">Recommended General Conventions</a></li>
-<li><a class="reference internal" href="#basic-operations" id="toc-entry-4">Basic Operations</a></li>
+<li><a class="reference internal" href="#base-know-how" id="toc-entry-4">Base Know-How</a></li>
 <li><a class="reference internal" href="#managing-branches" id="toc-entry-5">Managing Branches</a><ul>
 <li><a class="reference internal" href="#merge-versus-rebase" id="toc-entry-6">Merge versus Rebase</a></li>
 <li><a class="reference internal" href="#directly-transferring-changes" id="toc-entry-7">Directly Transferring Changes</a></li>
@@ -62,18 +62,19 @@
 <li><a class="reference internal" href="#fixing-a-commit-message" id="toc-entry-22">Fixing a commit message</a></li>
 <li><a class="reference internal" href="#removing-a-commit-rollback" id="toc-entry-23">Removing a commit (rollback)</a></li>
 <li><a class="reference internal" href="#restoring-a-branch-to-a-past-state" id="toc-entry-24">Restoring a branch to a past state</a></li>
+<li><a class="reference internal" href="#listing-local-or-list-the-remote-branches-by-their-last-modified-date" id="toc-entry-25">Listing local or list the remote branches by their last modified date</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tools" id="toc-entry-25">Tools</a><ul>
-<li><a class="reference internal" href="#on-most-platforms" id="toc-entry-26">On Most Platforms</a></li>
-<li><a class="reference internal" href="#on-windows" id="toc-entry-27">On Windows</a></li>
+<li><a class="reference internal" href="#tools" id="toc-entry-26">Tools</a><ul>
+<li><a class="reference internal" href="#on-most-platforms" id="toc-entry-27">On Most Platforms</a></li>
+<li><a class="reference internal" href="#on-windows" id="toc-entry-28">On Windows</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inner-workings" id="toc-entry-28">Inner Workings</a></li>
-<li><a class="reference internal" href="#translations" id="toc-entry-29">Translations</a></li>
-<li><a class="reference internal" href="#documentation" id="toc-entry-30">Documentation</a></li>
+<li><a class="reference internal" href="#inner-workings" id="toc-entry-29">Inner Workings</a></li>
+<li><a class="reference internal" href="#translations" id="toc-entry-30">Translations</a></li>
+<li><a class="reference internal" href="#documentation" id="toc-entry-31">Documentation</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -104,12 +105,17 @@
 </li>
 </ul>
 </div>
-<div class="section" id="basic-operations">
-<h2><a class="toc-backref" href="#toc-entry-4">Basic Operations</a></h2>
+<div class="section" id="base-know-how">
+<h2><a class="toc-backref" href="#toc-entry-4">Base Know-How</a></h2>
 <ul class="simple">
-<li><strong>specifying a revision</strong>: a <a class="reference external" href="https://git-scm.com/docs/gitrevisions">revision</a> is generally the name of a commit object; it can be its SHA-1, or a symbolic name like <tt class="docutils literal">HEAD</tt> or <tt class="docutils literal"><span class="pre">master&#64;{yesterday}</span></tt>; suffixes may be added:<ul>
+<li><strong>specifying a target revision</strong>:<ul>
+<li>a <a class="reference external" href="https://git-scm.com/docs/gitrevisions">revision</a> is generally the name of a commit object; it can be its SHA-1, or a symbolic name like <tt class="docutils literal">HEAD</tt> or <tt class="docutils literal"><span class="pre">master&#64;{yesterday}</span></tt></li>
+<li>the path that it designates may be either &quot;absolute&quot; (i.e. relative to the root of the clone, like <tt class="docutils literal"><span class="pre">PREFIX:a/b/c/my-file.txt</span></tt>) or relative to the current directory in the clone (provided they start with <tt class="docutils literal">./</tt>, like <tt class="docutils literal"><span class="pre">PREFIX:./c/my-file.txt</span></tt> if being in the previous <tt class="docutils literal">b</tt> directory)</li>
+<li>suffixes may be added:<ul>
 <li><tt class="docutils literal">~[n]</tt> (e.g. <tt class="docutils literal">v1.5.1~3</tt>) allows to designate the generation ancestor (parent, grand-parent, etc.) of a revision; for example: <tt class="docutils literal">git show <span class="pre">HEAD~:a/b/c/my-file.txt</span></tt> shows the first parent of the current commit of that file</li>
 <li><tt class="docutils literal">^[n]</tt> (e.g. <tt class="docutils literal">HEAD^</tt> or <tt class="docutils literal">HEAD^2</tt>) allows to designate the n-th parent (at the same level, should a commit have multiple parents, like after a merge) of the current commit of that file</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><strong>managing branches</strong>:<ul>
@@ -121,16 +127,16 @@
 <li>even shorter, if the name of the target local branch name does not exist yet and matches exactly matches a name on only one remote, <tt class="docutils literal">git co some_branch</tt> will suffice</li>
 </ul>
 </li>
-<li>to delete a local branch: <tt class="docutils literal">git branch <span class="pre">-d</span> my_branch</tt></li>
+<li>to <strong>delete</strong> a local branch (while another one is checked out): <tt class="docutils literal">git branch <span class="pre">-d</span> my_branch</tt>; to force-delete it (typically if not fully merged), use <tt class="docutils literal">git branch <span class="pre">-d</span> my_branch</tt>; to delete it from a specified remote as well: <tt class="docutils literal">git push origin <span class="pre">--delete</span> my_branch</tt></li>
 </ul>
 </li>
-<li><strong>managing tags</strong>:<ul>
-<li>to list (local) tags: <tt class="docutils literal">git tag</tt></li>
+<li><strong>managing tags</strong> (note that they are repository-level, for example not related to any current branch):<ul>
+<li>to list all (local) tags: <tt class="docutils literal">git tag</tt></li>
+<li>to list all (annotated) tags, from the oldest one to the latest one: use Ceylan-Hull's <tt class="docutils literal"><span class="pre">list-tags-by-date.sh</span></tt> script</li>
 <li>to have information about an already-existing tag: <tt class="docutils literal">git show my_tag</tt></li>
 <li>to set a new annotated tag: <tt class="docutils literal">git tag <span class="pre">-a</span> <span class="pre">foobar-version-2.4.0</span> <span class="pre">-m</span> &quot;Release of the version 2.4.0 of Foobar.&quot;</tt>; prefer naming tags differently from branches (e.g. <tt class="docutils literal"><span class="pre">foobar-version-2.4.0</span></tt> rather than <tt class="docutils literal"><span class="pre">foobar-2.4.0</span></tt>) to spare ambiguities to Git</li>
 <li>a set tag must be specifically pushed on a remote, for example: <tt class="docutils literal">git push origin my_tag</tt>; all tags can be pushed with <tt class="docutils literal">git push <span class="pre">--tags</span></tt> (the remote can be implied)</li>
 <li>to delete a tag that was not pushed: <tt class="docutils literal">git tag <span class="pre">--delete</span> my_tag</tt></li>
-<li>to list all (annotated) tags, from the oldest one to the latest one: use Ceylan-Hull's <tt class="docutils literal"><span class="pre">list-tags-by-date.sh</span></tt> script</li>
 </ul>
 </li>
 <li><strong>determining whether a file is in VCS</strong>, knowing that due to <tt class="docutils literal">.gitignore</tt> rules, <tt class="docutils literal"><span class="pre">update-index</span> <span class="pre">--skip-worktree</span></tt>, etc. it is not always obvious:</li>
@@ -410,7 +416,7 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 <div class="section" id="restoring-a-branch-to-a-past-state">
 <h3><a class="toc-backref" href="#toc-entry-24">Restoring a branch to a past state</a></h3>
 <p>Sometimes mistakes are made, committed and pushed - typically when messing up some merge.</p>
-<p>Various operations can be of use:</p>
+<p>Various operations can be of use to correct them:</p>
 <ul class="simple">
 <li>to consult a past state (e.g. based on a SHA1) and possibly create a dedicated branch out of it: use <tt class="docutils literal">checkout</tt></li>
 <li>to selectively remove the changes introduced by specific commits, by adding reverting commits (hence not losing history); use <tt class="docutils literal">revert</tt>; such an operation must be validated thanks to a well-documented commit</li>
@@ -418,18 +424,40 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 </ul>
 <p>See also <a class="reference external" href="https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit">these exchanges</a>.</p>
 </div>
+<div class="section" id="listing-local-or-list-the-remote-branches-by-their-last-modified-date">
+<h3><a class="toc-backref" href="#toc-entry-25">Listing local or list the remote branches by their last modified date</a></h3>
+<p>For <em>local</em> ones:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>git<span class="w"> </span><span class="k">for</span>-each-ref<span class="w"> </span>--sort<span class="o">=</span><span class="s1">'-committerdate:iso8601'</span><span class="w"> </span>--format<span class="o">=</span><span class="s1">' %(committerdate:iso8601)%09%(refname)'</span><span class="w"> </span>refs/heads<span class="w">
+
+</span><span class="m">2024</span>-05-24<span class="w"> </span><span class="m">18</span>:02:52<span class="w"> </span>+0200<span class="w">  </span>refs/heads/17-xxx<span class="w">
+</span><span class="m">2024</span>-05-24<span class="w"> </span><span class="m">18</span>:02:52<span class="w"> </span>+0200<span class="w">  </span>refs/heads/main<span class="w">
+</span><span class="m">2024</span>-05-24<span class="w"> </span><span class="m">14</span>:51:15<span class="w"> </span>+0200<span class="w">  </span>refs/heads/36-yyy<span class="w">
+</span><span class="m">2024</span>-05-24<span class="w"> </span><span class="m">12</span>:19:51<span class="w"> </span>+0200<span class="w">  </span>refs/heads/zzz<span class="w">
+</span><span class="m">2024</span>-04-19<span class="w"> </span><span class="m">18</span>:03:37<span class="w"> </span>+0200<span class="w">  </span>refs/heads/aaa
+</pre>
+<p>For <em>remote</em> ones:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>git<span class="w"> </span><span class="k">for</span>-each-ref<span class="w"> </span>--sort<span class="o">=</span><span class="s1">'-committerdate:iso8601'</span><span class="w"> </span>--format<span class="o">=</span><span class="s1">' %(committerdate:iso8601)%09%(refname)'</span><span class="w"> </span>refs/remotes
+</pre>
+<p>See also:</p>
+<ul class="simple">
+<li>our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/list-lastly-updated-vcs-branches.sh">list-lastly-updated-vcs-branches.sh</a> script</li>
+<li><a class="reference external" href="https://stackoverflow.com/questions/2514172/listing-each-branch-and-its-last-revisions-date-in-git">these exchanges</a>.</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="section" id="tools">
-<h1><a class="toc-backref" href="#toc-entry-25">Tools</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-26">Tools</a></h1>
 <div class="section" id="on-most-platforms">
-<h2><a class="toc-backref" href="#toc-entry-26">On Most Platforms</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-27">On Most Platforms</a></h2>
 <p>At least on UNIX, the command-line Git client (<tt class="docutils literal">git</tt>) is certainly the best tool. In difficult situations, graphical tools such as <tt class="docutils literal">gitk</tt> may be of help.</p>
 <p>Some distributions (e.g. Debian) do not come with a relevant Git autocompletion (for commands, branches, etc.) regarding one's shell of interest (like Bash). A <a class="reference external" href="https://git-scm.com/book/en/v2/Appendix-A:-Git-in-Other-Environments-Git-in-Bash">solution</a> is to download <a class="reference external" href="https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash">git-completion.bash</a>, store it for example in <tt class="docutils literal">~/Software/Git/</tt>, and source it automatically from one's <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt>.</p>
 <p>See also our Ceylan-Hull section about <a class="reference external" href="https://hull.esperide.org/#for-version-control-system-vcs">VCS-related scripts</a>.</p>
 </div>
 <div class="section" id="on-windows">
-<h2><a class="toc-backref" href="#toc-entry-27">On Windows</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-28">On Windows</a></h2>
 <p>Tools like <a class="reference external" href="https://tortoisegit.org/">TortoiseGit</a> may foster a view on the usage of Git that is a bit particular, conflating concepts or introducing extra ones (e.g. a <tt class="docutils literal">sync</tt> command). Apparently also at least some pulls did not reintroduce files just removed from the working directory.</p>
 <p>More generally, cloning on a Windows host an UNIX-originating repository comprising symbolic links may induce oddities (e.g. a symlink named <tt class="docutils literal">S</tt> pointing to <tt class="docutils literal">Foobar</tt> resulting, on a Windows clone, in a file named <tt class="docutils literal">S</tt> whose content is, literally, the text <tt class="docutils literal">&quot;Foobar&quot;</tt>, instead of the expected content of the <tt class="docutils literal">Foobar</tt> file).</p>
 <p>Another option is to use Visual Studio Code (<tt class="docutils literal">vscode</tt>), which supports natively Git (provided that the command-line version is already installed). One may select <tt class="docutils literal">View <span class="pre">-&gt;</span> SCM</tt> (or <tt class="docutils literal"><span class="pre">Ctrl-Shift-G</span></tt>) for that. Clicking on the &quot;VCS&quot; icon (three rings links by two curves; the third from the top) displays a contextual view offering various associated operations (here based on Git).</p>
@@ -437,14 +465,14 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 </div>
 </div>
 <div class="section" id="inner-workings">
-<h1><a class="toc-backref" href="#toc-entry-28">Inner Workings</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-29">Inner Workings</a></h1>
 <p>Git stores internally every version of every file separately (not as a diff with a parent version) as a blob (an opaque binary content) identified by its (SHA1) hash.</p>
 <p>A commit is the identifier of a tree representing the filesystem of interest at a given moment (snapshot). This tree references the files through their SHA1, similarly to a <a class="reference external" href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree</a>.</p>
 <p>A branch is thus nothing but a pointer on a given commit, and <tt class="docutils literal">HEAD</tt> designates the current branch. Git stores natively only blobs, trees and commits.</p>
 <p>The reported differences in the content of a file or a tree are thus only recreated (established dynamically) by Git commands, they are not natively tracked.</p>
 </div>
 <div class="section" id="translations">
-<h1><a class="toc-backref" href="#toc-entry-29">Translations</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-30">Translations</a></h1>
 <p>From English to French:</p>
 <ul class="simple">
 <li><tt class="docutils literal">repository</tt> -&gt; <tt class="docutils literal">dépôt</tt></li>
@@ -461,7 +489,7 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 </ul>
 </div>
 <div class="section" id="documentation">
-<h1><a class="toc-backref" href="#toc-entry-30">Documentation</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-31">Documentation</a></h1>
 <p>Many pointers exist, doing a great job in unveiling how Git is to be used.</p>
 <p>In English, <a class="reference external" href="https://git-scm.com/book/en/v2">Pro GIT</a> is surely a reference.</p>
 <p>In French:</p>
