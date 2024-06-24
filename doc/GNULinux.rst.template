@@ -41,6 +41,11 @@ Using the GNU/Linux Operating System
 
 :raw-html:`</center>`
 
+VS-Code : pacman -Sy code
+File > Preferences > Settings). This will open the setting screen.
+Files: Exclude **/*.beam
+Trim Trailing WhiteSpace
+Ctrl-Shift-M to see problems
 
 
 Overview
@@ -1315,6 +1320,16 @@ This tool is run as ``simplescreenrecorder`` and offers many options and encodin
 Note that, as notified by the tool, the MP4 container type will produce unreadable files if the recording is interrupted (then the MKV container shall be preferred).
 
 See also `this comparison <https://en.wikipedia.org/wiki/Comparison_of_screencasting_software>`_ of screencasting software.
+
+
+
+Specifying iterations with Bash
+-------------------------------
+
+With Bash, as an alternative to ``$(seq N)``, variables may be iterated (e.g. to select filenames) based on:
+
+- a list: ``for i in images-{1,4,9}-of-cats.jpeg; do ...``
+- a range: ``ls images-{1..7}-of-cats.jpeg``, possibly with an increment: ``ls images-{1..7..2}-of-cats.jpeg``
 
 
 

@@ -341,11 +341,25 @@ To comment-out a block of text, just add ``..`` at the beginning of a line, then
 Defining Blocks
 ...............
 
-All lines of a block shall start with the same whitespace. So, whenever a given block is not left-justified (at least one of its lines starts with a different offset), prefer having all lines of such a block be indented of (at least) 4 spaces (i.e. a tabulation).
+All lines of a block shall start with the same whitespace. So, whenever a given block is not left-justified (meaning that at least one of its lines starts with a different offset), prefer having all lines of such a block be indented of (at least) 4 spaces (i.e. a tabulation).
 
 Otherwise, if using a single space to indent, as soon as a line of the block is to start with 3 spaces, whitespace-cleanup operations will combine them with the first one to form a tabulation (4 spaces in a row), and all lines of the commented block will not start with the same whitespaces, which could result, from the point of view of RST tools, in an invalid block.
 
-Before a code block (e.g. introduced with ``.. code:: erlang``), a single colon should be used, not two of them. For example:
+To indent on Emacs, one may select the region of interest and then hit ``C-x TAB TAB TAB [...]`` (or even just ``TAB`` once the block is selected).
+
+Either a standard or a code indented block may be used.
+
+A **standard block** is introduced by a non-indented text finishing with two colons (``::``), like in: ``Here is what she said::``.
+
+
+.. Note::
+
+   Unfortunately this does not allow proper French syntax, for which a space is needed before the colons (e.g. typed as ``Elle a dit ensuite ::``): adding such a space will result in no colon to be displayed.
+
+   So we stick to writing an improper ``Elle a dit ensuite::``, which is rendered as ``Elle a dit ensuite:``, better than ``Elle a dit ensuite`` but worse than ``Elle a dit ensuite :``.
+
+
+Before a **code block** (e.g. introduced with ``.. code:: erlang``), a single colon should be used, not two of them. For example:
 
 .. code::
 
@@ -353,6 +367,21 @@ Before a code block (e.g. introduced with ``.. code:: erlang``), a single colon 
 
    .. code:: erlang
 	  [...]
+
+
+
+Fixing ``WARNING: Duplicate explicit target name: "some link"``
+...............................................................
+
+This typically happens whenever defining a link with a given label more than once.
+
+A solution is to use anonymous reference instead, i.e. *double* underscores (so: ``__``) to define references, like in::
+
+  Here is `some link <http://example.org/xxx>`__.
+
+
+Using double underscores for links could be considered the norm.
+
 
 
 .. _`heavy-duty approach`:
@@ -471,6 +500,7 @@ The result in a static website that can safely be transferred and served by any 
 
 
 
+
 Inner Links with Sphinx
 -----------------------
 
@@ -478,6 +508,22 @@ In our preferred approach, described `here <https://stackoverflow.com/a/70355341
 
 - first, as shown in the `conf.py`_ example above, the ``default_role = 'any'`` setting should be specified
 - then, if each inner link target shall be specified as usual (e.g. as ``.. _`brief answers`:``), they should be referenced like with Docutils but *without* a trailing underscore (e.g. as ```brief answers``` - rather than as ```brief answers`_``)
+
+
+
+The Problem of Nested Includes
+------------------------------
+
+We would have liked to organise a Sphinx document according to a filesystem tree, so that there is in each directory a RST file that comprises the content for that level and that just lists its direct local children as the RST files in its subdirectories, as relative files, like, in a ``a/b/c/c.rst`` file: ``.. include:: d/d.rst``.
+
+Strangely enough, it worked for 3-level nesting (``a``, ``a/b`` and ``a/b/c``), but not for the next level: even though the RST files in ``c`` where included as ``d/d.rst``, they were never found::
+
+ a/b/c/c.rst:4: CRITICAL: Problems with "include" directive path:
+ InputError: [Errno 2] No such file or directory: 'a/b/d/d.rst'.
+
+(we can see that ``c`` is lacking; no way of adding it once; and trying there to specify ``.. include:: c/d/d.rst`` results in ``a/b/c/c/d/d.rst`` not being found...)
+
+The only (unsatisfactory) solution we found it is specify paths that are "absolute" (i.e. relative to the root of the tree), for example as ``.. include:: /a/b/c/d/d.rst``.
 
 
 
@@ -835,7 +881,15 @@ This example results in the following diagram:
 Finding Usable Content
 ----------------------
 
-Assets can be found thanks to `Creative Commons <https://search.creativecommons.org/>`_, which references, among others, `OpenClipart <https://openclipart.org>`_.
+Assets can be found thanks to `Creative Commons <https://search.creativecommons.org/>`_, which references, among others, `OpenClipart <https://openclipart.org>`_, otherwise possibly `publicdomainvectors.org <https://publicdomainvectors.org>`_.
+
+General purposes elements:
+
+- `arrow icons for toolbar buttons <https://openclipart.org/detail/2203/arrowiconsset>`_
+.. in kuba-arrow-icons-set.svg
+
+
+The simplest approach is to rely on SVG files, to edit them on Inkscape and possibly to export a selection of them as PNG files of the desired size.
 
 
 
