@@ -102,7 +102,7 @@ Base Know-How
 	- a shortcut is to use ``git co --track my_remote/some_branch`` instead
 	- even shorter, if the name of the target local branch name does not exist yet and matches exactly matches a name on only one remote, ``git co some_branch`` will suffice
 
-  - to delete a local branch: ``git branch -d my_branch``
+  - to **delete** a local branch (while another one is checked out): ``git branch -d my_branch``; to force-delete it (typically if not fully merged), use ``git branch -d my_branch``; to delete it from a specified remote as well: ``git push origin --delete my_branch``
 
 - **managing tags** (note that they are repository-level, for example not related to any current branch):
 
@@ -504,13 +504,44 @@ Restoring a branch to a past state
 
 Sometimes mistakes are made, committed and pushed - typically when messing up some merge.
 
-Various operations can be of use:
+Various operations can be of use to correct them:
 
 - to consult a past state (e.g. based on a SHA1) and possibly create a dedicated branch out of it: use ``checkout``
 - to selectively remove the changes introduced by specific commits, by adding reverting commits (hence not losing history); use ``revert``; such an operation must be validated thanks to a well-documented commit
 - to come back to a past overall state (e.g. a SHA1), losing all changes done since then (hard delete, rewriting history): use ``reset``, with the ``--soft`` option to keep intermediary changes as non-committed, or with the ``--hard`` option to remove all changes; no commit is involved here (newer commits being just forgotten); if satisfied with this new state, it may be validated thanks to ``git push --force origin HEAD`` - provided that the current branch is not protected
 
 See also `these exchanges <https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit>`_.
+
+
+
+Listing local or list the remote branches by their last modified date
+.....................................................................
+
+For *local* ones:
+
+.. code:: bash
+
+ $ git for-each-ref --sort='-committerdate:iso8601' --format=' %(committerdate:iso8601)%09%(refname)' refs/heads
+
+ 2024-05-24 18:02:52 +0200	refs/heads/17-xxx
+ 2024-05-24 18:02:52 +0200	refs/heads/main
+ 2024-05-24 14:51:15 +0200	refs/heads/36-yyy
+ 2024-05-24 12:19:51 +0200	refs/heads/zzz
+ 2024-04-19 18:03:37 +0200	refs/heads/aaa
+
+
+For *remote* ones:
+
+.. code:: bash
+
+ $ git for-each-ref --sort='-committerdate:iso8601' --format=' %(committerdate:iso8601)%09%(refname)' refs/remotes
+
+
+See also:
+
+- our `list-lastly-updated-vcs-branches.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/list-lastly-updated-vcs-branches.sh>`_ script
+- `these exchanges <https://stackoverflow.com/questions/2514172/listing-each-branch-and-its-last-revisions-date-in-git>`_.
+
 
 
 Tools

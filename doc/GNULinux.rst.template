@@ -41,6 +41,11 @@ Using the GNU/Linux Operating System
 
 :raw-html:`</center>`
 
+VS-Code : pacman -Sy code
+File > Preferences > Settings). This will open the setting screen.
+Files: Exclude **/*.beam
+Trim Trailing WhiteSpace
+Ctrl-Shift-M to see problems
 
 
 Overview
@@ -1199,6 +1204,79 @@ Sometimes problems arise due to older packages, this may be solved by removing t
 
 
 
+
+
+Using Visual Studio Code
+------------------------
+
+`Visual Studio Code <https://en.wikipedia.org/wiki/Visual_Studio_Code>`_ (a.k.a. *VS Code*; not to be confused with *Visual Studio* itself) is a popular free software (MIT licence) source-code multi-platform editor, developed by Microsoft.
+
+It supports many languages and features through extensions.
+
+
+
+Installing
+..........
+
+If not installed thanks to one's distribution, the binaries of `Visual Studio Code <https://code.visualstudio.com/download>`_ can be directly `downloaded <https://code.visualstudio.com/docs/?dv=linux64downloaded>`_ (through an archive named ``code-stable-x64-XXX.tar.gz``) that may be extracted in, say, ``~/Software/Vs-Code``.
+
+Another option is to download and use `VSCodium <https://github.com/VSCodium/vscodium/releases>`_, a version of it without Microsoft branding/telemetry/licensing.
+
+One may then put ``~/Software/Vs-Code/VSCode-linux-x64/bin`` in one's PATH so that VS Code can be run thanks to: ``code``.
+
+
+
+Updating
+........
+
+Prior to running any VS Code, circumvent any proxy that is in the way.
+
+Then launch VS Code, select in the *Help* menu first *Check for updates* then, if any is found, *Download Available Update* which, from GNU/Linux without relying on a package manager, should point to `this download link <https://code.visualstudio.com/docs/?dv=linux64>`_.
+
+Then the dowloaded file (e.g. ``~/Downloads/code-stable-x64-1718139773.tar.gz``) shall be moved to ``~/Software/VS-Code`` and extracted (``tar xvf code-stable-x64-1718139773.tar.gz``) there, creating or updating a ``VSCode-linux-x64`` tree.
+
+
+
+Executing
+.........
+
+One may run ``code``, or rely on our `run-vscode.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/run-vscode.sh>`_ script (notably to accommodate for any proxy).
+
+
+
+Configuring
+...........
+
+
+Fixing whitespaces
+__________________
+
+
+In ``File -> Preferences -> Settings``, preferably in the ``User`` tab (rather than only in the ``Workspace`` one), search and enable the ``Files: Trim Trailing WhiteSpace`` option (or select in the ``Text Editor`` category the ``Files`` subcategory and hunt that option down).
+
+
+
+General-purpose extensions
+__________________________
+
+
+They do not apply to specific language per se.
+
+
+For makefiles, one may rely on the `Makefile Tools <https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools&ssr=false#overview>`_ Microsoft extension.
+
+
+
+Supported Languages
+...................
+
+We recommend using the following extensions for:
+
+- **Python**: the `Microsoft Python extension <https://code.visualstudio.com/docs/languages/python>`_, the `Microsoft Python Debugger extension <https://marketplace.visualstudio.com/items?itemName=ms-python.debugpy>`_ and the `Microsoft Pylance extension <https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance>`_; possibly also `vscode-micromamba <https://github.com/mamba-org/vscode-micromamba>`_
+
+
+
+
 Using E-mail Clients
 --------------------
 
@@ -1230,9 +1308,6 @@ A well-known sandboxing tool is `firejail <https://github.com/netblue30/firejail
 
 
 
-
-
-
 Recording a Screencast
 ----------------------
 
@@ -1245,6 +1320,29 @@ This tool is run as ``simplescreenrecorder`` and offers many options and encodin
 Note that, as notified by the tool, the MP4 container type will produce unreadable files if the recording is interrupted (then the MKV container shall be preferred).
 
 See also `this comparison <https://en.wikipedia.org/wiki/Comparison_of_screencasting_software>`_ of screencasting software.
+
+
+
+Specifying iterations with Bash
+-------------------------------
+
+With Bash, as an alternative to ``$(seq N)``, variables may be iterated (e.g. to select filenames) based on:
+
+- a list: ``for i in images-{1,4,9}-of-cats.jpeg; do ...``
+- a range: ``ls images-{1..7}-of-cats.jpeg``, possibly with an increment: ``ls images-{1..7..2}-of-cats.jpeg``
+
+
+
+Shell Auto-completing the available ``make`` targets
+----------------------------------------------------
+
+If able to do so, just install a ``bash-completion`` package, available on most distributions (including Arch Linux).
+
+Otherwise, one may add to one's shell profile / configuration (e.g. ``~/.bashrc``):
+
+.. code:: bash
+
+  complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' *akefile | sed 's/[^a-zA-Z0-9_.-]*$//' 2>/dev/null\`" make
 
 
 

@@ -86,6 +86,10 @@ Then updating the current shell accordingly (e.g. ``. ~/.bashrc``) allows to che
 
 As Rust does not perform the linking by itself, a linker (typically provided by ``gcc``) must be available.
 
+Afterwards Rust may be updated thanks to ``rustup update``.
+
+Should some day Rust and rustup have to be uninstalled, run ``rustup self uninstall``.
+
 
 
 Examples
@@ -102,6 +106,8 @@ In ``~/hello.rs``:
  fn main() {
 	println!("Hello from Ceylan-HOWTOs!");
  }
+
+One may notice the use of a macro (``!`` suffix), and that most lines of Rust code end with a semicolon (``;``).
 
 To be compiled and linked with ``rustc hello.rs`` and run with ``./hello``; yields as expected: ``Hello from Ceylan-HOWTOs!``.
 
@@ -126,18 +132,31 @@ Related Tools
 Included with rustup
 --------------------
 
+
 Cargo
 .....
 
-`Cargo <https://crates.io/>`_, the included dependency manager and build tool, a.k.a. the Rust community’s crate registry; it allows to install crates and to publish ones, so that Rust projects declare their various dependencies and their build is repeatable; see also the `Cargo guide <https://doc.rust-lang.org/cargo/guide/>`_.
+`Cargo <https://crates.io/>`_ is the Rust integrated dependency manager and build tool.
+
+In Rust, a package of code is referred to as a *crate*. So Cargo is the build system and package manager of choice to access Rust community’s crate registry.
+
+More precisely, Cargo allows installing crates and publishing ones, so that Rust projects can declare their various dependencies and so that their build is repeatable. See also the `Cargo guide <https://doc.rust-lang.org/cargo/guide/>`_.
+
+For its configuration, Cargo relies on a ``Cargo.toml`` manifest file, placed at the root of the tree of the package it applies to.
+
+Its format is named TOML (*Tom's Obvious, Minimal Language*), and the various keys that it introduces `are listed here <https://doc.rust-lang.org/cargo/reference/manifest.html>`_.
+
 
 
 Rustfmt
 .......
 
-`Rustfmt <https://github.com/rust-lang/rustfmt>`_ is the source-formatting tool of choice: it formats Rust code according to the official style guidelines.
+`Rustfmt <https://github.com/rust-lang/rustfmt>`_ is the source-formatting tool of choice: it formats Rust code according to the official style guidelines [#]_.
 
-We found very useful that a stable, conventional formatting exists, and decided from the start to always use it; a great standardization of sources, for easier readings and simplified merges.
+.. [#] e.g. indent with four spaces - not tabs; place the curly braces according to this convention, etc.
+
+
+We found very useful that a stable, conventional formatting exists, and decided from the start to systematically use it. This allows a great standardization of sources, for easier readings and simplified merges.
 
 Rustfmt should be readily available with ``rustup``; otherwise execute ``rustup component add rustfmt``.
 
@@ -162,7 +181,7 @@ to something like::
 
  rust-analyzer 1.76.0 (07dca48 2024-02-04)
 
-As rust-analyzer will need the Rust source code, it can be directly installed with: ``rustup component add rust-src``.
+As rust-analyzer will need the Rust source code, the latter can be directly installed with: ``rustup component add rust-src``.
 
 
 
@@ -173,9 +192,17 @@ The Emacs light-weight `rust-mode <https://github.com/rust-lang/rust-mode>`_ can
 
 A prerequisite thereof is `rust-analyzer`_ (and of course a recent Emacs).
 
-We rely on `straight.el <https://github.com/radian-software/straight.el>`_ to manage our Emacs packages (as a replacement for the Emacs now built-in ``package.el``), so, provided that the `straight.el bases <https://github.com/radian-software/straight.el?tab=readme-ov-file#getting-started>`_ are respected, having ``rustic`` is just a matter of adding, typically  in one's ``~/.emacs.d/init.el``, a ``(straight-use-package 'rustic)`` line.
 
-Another approach that we prefer is to install and configure it with ``use-package rustic``, as done in `Robert Krahn's page <https://robert.kra.hn/posts/rust-emacs-setup/>`_; see `our complete init.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el>`_ for that.
+Base Approach
+.............
+
+One may rely on `straight.el <https://github.com/radian-software/straight.el>`_ to manage one's Emacs packages (as a replacement for the Emacs now built-in ``package.el``), so, provided that the `straight.el bases <https://github.com/radian-software/straight.el?tab=readme-ov-file#getting-started>`_ are respected, having ``rustic`` is just a matter of adding, typically  in one's ``~/.emacs.d/init.el``, a ``(straight-use-package 'rustic)`` line.
+
+
+More Involved Approach
+......................
+
+We prefer installing and configuring ``rustic`` with ``use-package rustic``, as done in `Robert Krahn's page <https://robert.kra.hn/posts/rust-emacs-setup/>`_; see `our complete init.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el>`_ for that.
 
 Then opening a Rust source file (e.g. ``hello.rs``) should automatically exhibit syntax highlighting and the ``Rustic`` mode.
 
@@ -185,7 +212,7 @@ Notably, saving a Rust source file will automatically format it with Rustfmt_, w
 See also:
 
 - the `WikEmacs page <https://wikemacs.org/wiki/Rust>`_
-- the `Robert Krahn's page on it <https://robert.kra.hn/posts/rust-emacs-setup/>`_
+- the `Robert Krahn's page about it <https://robert.kra.hn/posts/rust-emacs-setup/>`_
 
 
 
@@ -197,7 +224,7 @@ More Advanced Topics
 Mode of Operation
 =================
 
-Rust relies on LLVM to generate its code, in order to be platform and hardware-agnostic and achieve best performance.
+Rust relies on LLVM to generate its code, in order to be platform and hardware-agnostic, and to achieve best performance.
 
 
 
@@ -233,14 +260,16 @@ Note that the resulting binary is expected to depend on the precise local CPU an
 Accelerating Builds
 -------------------
 
-A shared compilation cache - specifically `sccache <https://github.com/mozilla/sccache>`_ can be used to speed up builds.
+A shared compilation cache - specifically `sccache <https://github.com/mozilla/sccache>`_ may be used to speed up builds.
 
 See `this section <https://wiki.archlinux.org/title/rust#sccache>`_ for more details.
+
 
 Micro-Cheat Sheet
 =================
 
-- to get Rust (compiler) version: ``rustc -V``
+- to get Rust (compiler) version: ``rustc -V``; for cargo: ``cargo --version``
+- to create a binary (application) `my_project` package: ``cargo new my_project``; Git files will be generated iff not already in a clone
 
 
 

@@ -847,6 +847,7 @@ Terms that are more or less specific to OpenGL:
 - ``Context``: a rendering context corresponds to the OpenGL state and the connection between OpenGL and the system; in order to perform a rendering, a suitable context must be current (i.e. bound, active for the OpenGL commands); it is possible to have multiple rendering contexts share buffer data and textures, which is specially useful when the application uses multiple threads for updating data into the memory of the graphics card
 - ``DDS``: a file format suitable for texture compression that can be directly read by the GPU
 - ``Display list``: a series of OpenGL commands, identified by an integer, to be stored, server-side, for subsequent execution; it is defined so that it can be sent and processed more efficiently, and probably multiple times, by the graphic card (compared to doing the same in immediate mode)
+- ``EBO``: a (GLSL) *Element Buffer Object*, a buffer storing the index of each vertex that OpenGL shall draw (rather than the vertex itself), relatively to a corresponding VBO; defining faces based on indices rather than on vertices allows to avoid vertex duplication (as by design a vertex is common to multiple faces; it should be best specified only once, and referenced as many times as needed); `more information <https://learnopengl.com/Getting-started/Hello-Triangle>`_
 - (pixel) ``fragment``: two-dimensional description of elements (point, line segment, or polygon) produced by the rasterization step, before being stored as pixels in the frame buffer; also defined as: "a point and its associated information"; a fragment translates to a pixel after a process involving in turn: texture mapping, fog effect, antialiasing, tests (scissor, alpha, stencil, depth), blending, dithering, and logical operations on fragments (and, or, xor, not, etc.)
 - ``Evaluator``: the part of the pipeline to perform polynomial mapping (basis functions) and transform higher-level primitives (such as NURBS) into actual ones (vertices, normals, texture coordinates and colors)
 - ``Frame buffer``: the "server-side" pixel buffer, filled, after rasterization took place, by combinations (notably blending) of the selected fragments; it is actually made of a set of logical buffers of bitplanes: the color (itself comprising multiple buffers), depth (for hidden-surface removal), accumulation, and stencil buffers
@@ -952,7 +953,7 @@ As each individual type of model (e.g. a bike model) is natively defined in an a
 
 So in the general case, coordinate systems are nested (recursively defined relatively to their parent) and form a tree [#]_ whose root corresponds to the (possibly absolute) coordinate system of the overall scene, like in (``R`` standing here for *reference frame*, a concept that we deem a bit more general than *coordinate system*):
 
-:raw-html:`<center><img src="reference-frame-tree.png" id="responsive-image-small"></img></center>`
+:raw-html:`<center><img src="reference-frame-tree.png" id="responsive-image-medium"></img></center>`
 :raw-latex:`\begin{figure}[h] \centering \includegraphics[scale=0.6]{reference-frame-tree} \end{figure}`
 
 
@@ -1355,7 +1356,7 @@ Referencing Attributes
 In order that attributes can be defined in a place (program or shader) and referenced later by at least one shader, they must be matched:
 
 - by (attribute) *name*: then they must bear exactly the same name in the main program and in the shader(s) using them, knowing that any name beginning with ``gl_`` is reserved
-- or by (attribute) *location*: their common location is specified, and a per-shader variable name is associated - which is more flexible
+- or by (attribute) *location* (i.e. a positive integer): their common location is specified, and a per-shader variable name is associated - which is more flexible
 - or by *block*, like for the uniform variables, discussed below
 
 In the two last cases, the layout of variables must match on either side (for example in the main program and a given shader); for instance, with "``layout(location = 0) in vec3 input_vertex;``" in its code, a vertex shader will expect a (single) vector of 3 (floating-point) coordinates (``vec3``) to be found at index 0 (``location = 0``) as input (``in``); the application will need to specify a corresponding *Vertex Buffer Object* (VBO) for that.
@@ -1425,6 +1426,23 @@ For example, for a vertex shader, following output variables are predefined:
 - ``vec4 gl_Position`` corresponding to the clip-space (homogeneous) position of the output vertex
 - ``float gl_PointSize``
 - ``float gl_ClipDistance[]``
+
+
+
+Using Multiple Shaders of the Same Type
+.......................................
+
+One may want to use different shaders of the same type (e.g. to have a choice in terms of fragment shaders) in the same scene (e.g. one fragment shader dealing with solid colors, another one with textures).
+
+At any time, up to one shader of a given type may be bound (active), but any number of shader objects (i.e. shaders loaded into memory and compiled) can be defined and available.
+
+One approach is to switch shaders (with ``glUseProgram``) between draw calls: set a shader, draw a model, set another shader, draw another model. However switching shaders incurs some overhead, so a better course of action may be to group models/materials according to the shader they are to rely on, and to iterate on these shaders, bound one after the other, each only once per frame.
+
+Other approaches are to render to textures, to rely on a Framebuffer Object with Renderbuffers Objects attached, or to use deferred shading or GLSL subroutines.
+
+A last approach, perhaps the simplest and overall best, is to define a "macro-shader" per shader type (e.g. a macro-fragment shader) that regroups the code of each of the shaders of interest, and that may apply one or multiple of these effects based on conditions (variables); no switching will be needed then.
+
+Refer to `this thread <https://gamedev.stackexchange.com/questions/22216/using-multiple-shaders>`_ for more details.
 
 
 

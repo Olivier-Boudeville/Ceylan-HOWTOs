@@ -511,6 +511,17 @@ For example, taking into account that (refer to `this introduction <https://maxi
  );
 
 
+- a diagonal matrix ``t`` may be defined that way:
+
+.. code::
+
+ t: matrix(
+  [1,0,0,trx],
+  [0,1,0,try],
+  [0,0,1,trz],
+  [0,0,0,1]
+ );
+
 - multiplication is represented by a dot : ``m.s;``
 
 then Maxima can be directly used in a terminal:
