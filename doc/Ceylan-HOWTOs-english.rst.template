@@ -74,6 +74,12 @@ The latest version of this documentation is to be found at the `official Ceylan-
 
 :raw-latex:`\pagebreak`
 
+.. include:: Rust.rst
+
+
+
+:raw-latex:`\pagebreak`
+
 .. include:: ThreeDimensional.rst
 
 

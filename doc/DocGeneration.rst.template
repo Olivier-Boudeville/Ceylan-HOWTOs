@@ -897,13 +897,9 @@ Finding Usable Content
 
 Assets can be found thanks to `Creative Commons <https://search.creativecommons.org/>`_, which references, among others, `OpenClipart <https://openclipart.org>`_, otherwise possibly `publicdomainvectors.org <https://publicdomainvectors.org>`_.
 
-General purposes elements:
+The simplest approach is to rely on SVG files, to edit them on Inkscape (select any subset of interest of the image), and possibly to export a selection of them as PNG files of the desired size (in the ``Export`` pane, enable the *Export Selected only* option and, in the *Image Size* tab, set the absolute width and/or height wanted).
 
-- `arrow icons for toolbar buttons <https://openclipart.org/detail/2203/arrowiconsset>`_
-.. in kuba-arrow-icons-set.svg
-
-
-The simplest approach is to rely on SVG files, to edit them on Inkscape and possibly to export a selection of them as PNG files of the desired size.
+In order to find the icons needed to devise a GUI from open elements, refer to the tremendously useful `iconify.design <https://icon-sets.iconify.design/>`_ website.
 
 
 
