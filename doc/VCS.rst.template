@@ -371,6 +371,9 @@ Then the following main commands are useful:
   - that was in our current merge-target branch: ``smerge-command-prefix m`` (for ``smerge-keep-mine``), which thus corresponds to ``C-c v m``
   - that is in the other branch, to merge in our current one: ``smerge-command-prefix o`` (for ``smerge-keep-other``), which thus corresponds to ``C-c v o``
 
+Sometimes we would like to accept or refuse **all** changes of a file *as a whole*; apparently there is no way of doing so easily with ``smerge-mode``, so to select a full file version we recommend executing, respectively, ``git checkout --theirs -- MY_FILE`` or ``git checkout --ours -- MY_FILE``.
+
+
 See also our more general `Using Emacs <GNULinux.html#using-emacs>`_ section.
 
 
