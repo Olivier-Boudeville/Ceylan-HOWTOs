@@ -65,6 +65,7 @@ The current HOWTOs relate to the following topics:
 
 - `GNU/Linux <GNULinux.html>`_, the well-known free software operating system
 - `Erlang <Erlang.html>`_, a functional, concurrent language in free software
+- `Rust <Rust.html>`_, a multi-paradigm, efficient, safe language in free software
 - `3D Topics <ThreeDimensional.html>`_, for modelling, evaluating, rendering
 - `Online Interactive Multimedia <OnlineInteractiveMultimedia.html>`_, for networked applications akin to video games
 - `Network Management <Networking.html>`_, to have a better control on one's network
