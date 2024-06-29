@@ -215,10 +215,24 @@ If :math:`\phi(x) = e^{x}/(1+e^{x})` (translating to ``\phi(x) = e^{x}/(1+e^{x})
 
 (translating to ``P_e = \frac{P_n.e^{m}}{1 + P_n.(e^{m}-1)}``)
 
-
 A few other examples of resulting math-related outputs can be seen in `this section <https://myriad.esperide.org/#linear-conventions>`_.
 
 See the next section for a proper use of MathJax in webservers.
+
+Other LaTeX elements that may be convenient:
+
+- multiplying: use ``A \times B`` for :math:`A \times B`, and ``A \cdot B`` for :math:`A \cdot B`
+- Greek letters: use ``\alpha`` for :math:`\alpha` (lowercase), and ``\Gamma`` for :math:`\Gamma` (uppercase)
+- figures, like with:
+
+.. code-block::
+
+ .. figure:: static/xx.png
+	 :align: center
+
+	 Some relevant caption.
+
+
 
 
 
