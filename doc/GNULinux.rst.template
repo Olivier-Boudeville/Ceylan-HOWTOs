@@ -41,11 +41,6 @@ Using the GNU/Linux Operating System
 
 :raw-html:`</center>`
 
-VS-Code : pacman -Sy code
-File > Preferences > Settings). This will open the setting screen.
-Files: Exclude **/*.beam
-Trim Trailing WhiteSpace
-Ctrl-Shift-M to see problems
 
 
 Overview
@@ -1218,6 +1213,8 @@ It supports many languages and features through extensions.
 Installing
 ..........
 
+It can be installed on Arch thanks to ``pacman -Sy code``.
+
 If not installed thanks to one's distribution, the binaries of `Visual Studio Code <https://code.visualstudio.com/download>`_ can be directly `downloaded <https://code.visualstudio.com/docs/?dv=linux64downloaded>`_ (through an archive named ``code-stable-x64-XXX.tar.gz``) that may be extracted in, say, ``~/Software/Vs-Code``.
 
 Another option is to download and use `VSCodium <https://github.com/VSCodium/vscodium/releases>`_, a version of it without Microsoft branding/telemetry/licensing.
@@ -1256,6 +1253,17 @@ In ``File -> Preferences -> Settings``, preferably in the ``User`` tab (rather t
 
 
 
+Ignoring files
+______________
+
+
+Some generated files (e.g. ``*.beam`` ones) should not be shown in the Explorer panel (usually on the left of the screen).
+
+In the settings screen (``File > Preferences > Settings)``, in Files, one may then add: ``Exclude **/*.beam`` to exclude them, regardless of the place in the filesystem tree.
+
+
+
+
 General-purpose extensions
 __________________________
 
@@ -1267,12 +1275,23 @@ For makefiles, one may rely on the `Makefile Tools <https://marketplace.visualst
 
 
 
+
+Fixing Problems
+...............
+
+Use ``Ctrl-Shift-M`` to display in the corresponding panel (generally on the bottom-right of the screen) the problems reported by the enabled extensions.
+
+
+
+
 Supported Languages
 ...................
 
 We recommend using the following extensions for:
 
 - **Python**: the `Microsoft Python extension <https://code.visualstudio.com/docs/languages/python>`_, the `Microsoft Python Debugger extension <https://marketplace.visualstudio.com/items?itemName=ms-python.debugpy>`_ and the `Microsoft Pylance extension <https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance>`_; possibly also `vscode-micromamba <https://github.com/mamba-org/vscode-micromamba>`_
+
+
 
 
 
@@ -1344,6 +1363,37 @@ Otherwise, one may add to one's shell profile / configuration (e.g. ``~/.bashrc`
 
   complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' *akefile | sed 's/[^a-zA-Z0-9_.-]*$//' 2>/dev/null\`" make
 
+
+
+Mini Shell Cheat Sheet
+----------------------
+
+For the basic ``/bin/sh`` shell (Bash being a superset thereof).
+
+
+Switch-like Statement
+.....................
+
+Example:
+
+.. code:: sh
+
+ case "${extension}" in
+
+	  "erl"|"hrl")
+		  reformat_erlang_source_file "${target_file}"
+		  ;;
+
+	  "foo")
+		  reformat_foo "${target_file}"
+		  ;;
+
+
+	  *)
+		  do_something
+		  ;;
+
+ esac
 
 
 
