@@ -292,10 +292,14 @@ Also ``git config --global --edit`` may be of use (beware to trigger a ``vi`` by
 
 
 
+
 Performing operation on remotes with no systematic authentication
 .................................................................
 
-Using a SSH key pair, hence with its public key declared on said remote, is a relevant approach, safer than from example using a ``~/.netrc`` file.
+Using a SSH key pair, hence with its public key declared on said remote, is a relevant approach, safer and more convenient than from example using a ``~/.netrc`` file, with or without a *Personal Access Token* (PAT) - as they tend to expire.
+
+Refer to `this section <Cybersecurity.html#authentication-using-ssh>`_ in order to set up a proper SSH configuration for that.
+
 
 
 

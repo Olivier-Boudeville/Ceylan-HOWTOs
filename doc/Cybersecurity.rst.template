@@ -62,7 +62,47 @@ More precisely:
 
 - for **webservers**, it relates to use the HTTPS protocol with proper X.509 security certificates for TLS-secured exchanges, possibly thanks to `Ceylan-LEEC <http://leec.esperide.org>`_
 
-- for **emails**, see the next section about OpenPGP
+- for **emails**, see the section about OpenPGP below
+
+
+
+
+Authentication Using SSH
+========================
+
+This is certainly the right approach to rely on nowadays (e.g. no more HTTPS with a ``.netrc`` file).
+
+To generate a key pair, one may use ``ssh-keygen`` and prefer for example the ED25519 cipher; for example, if wanting to use a specific key filename:
+
+.. code:: bash
+
+ $ KEY_PATH="~/.ssh/id_ed25519-${USER}-for-general-use-$(date '+%Y%m%d')"
+ $ ssh-keygen -t ed25519 -C "General, personal key notably for VM connections, generated on $(LC_ALL= date '+%A, %B %-e, %Y'), on $(hostname -f)." -f "${KEY_PATH}"
+
+
+One may:
+
+- specify a passphrase (which would then be requested at each use of the private key), or not
+- not specify a file name, if the new key would not collide with any pre-existing one
+
+
+Then the corresponding *public* key may be transferred to any target host, like in:
+
+.. code:: bash
+
+ $ ssh-copy-id -i "${KEY_PATH}" foobar.org
+
+(it would be then the unique time for this host that the user general password on the target host would be requested)
+
+and/or declare it in any web interface (e.g. GitLab) of interest (associating to one's user one's public key).
+
+
+In a Git clone, any specific key name must be specified, typically with:
+
+.. code:: bash
+
+ $ git config core.sshCommand "ssh -o IdentitiesOnly=yes -i ${KEY_PATH} -F /dev/null"
+
 
 
 
