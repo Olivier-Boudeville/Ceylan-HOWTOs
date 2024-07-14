@@ -521,7 +521,10 @@ Inner Links with Sphinx
 In our preferred approach, described `here <https://stackoverflow.com/a/70355341>`_ and `there <https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any>`_, such inner links - which are possibly defined and referenced in *different* RST files - are to be managed in a slightly different way than for `Docutils's inner links <#inner-links>`_:
 
 - first, as shown in the `conf.py`_ example above, the ``default_role = 'any'`` setting should be specified
-- then, if each inner link target shall be specified as usual (e.g. as ``.. _`brief answers`:``), they should be referenced like with Docutils but *without* a trailing underscore (e.g. as ```brief answers``` - rather than as ```brief answers`_``)
+- then, if each inner link target shall be specified as usual (e.g. as ``.. _`brief answers`:``), they should be referenced like with Docutils but *without* a trailing underscore (e.g. as ```brief answers``` - rather than as ```brief answers`_``); optionally such links may be prefixed with ``:ref:``, like in: ```:ref:brief answers```
+
+
+We recommend to allow referencing sections based on their title (each title becoming a possible link target). This is done by adding, among the ``extensions``, the ``'sphinx.ext.autosectionlabel'`` one. Adding in turn, among the ``suppress_warnings``, the ``'autosectionlabel.*'`` one is then useful to silence messages like ``WARNING: duplicate label foo, other instance in bar.rst``.
 
 
 
