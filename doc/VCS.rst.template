@@ -147,6 +147,8 @@ Base Know-How
 
 - listing the **files modified by a given commit**: ``git show --name-only MY_COMMIT_ID`` will print relevant extra information; if wanting only the list of modified files: ``git diff-tree --no-commit-id --name-only -r --pretty COMMIT_ID``
 
+- **merging a remote branch**, without having it / updating it *locally*: for example, to merge the remote ``main`` branch in the current ``my_branch`` branch, without updating the local counterpart of ``main`` (i.e. without having to run for example ``git checkout main && git pull && git my_branch`` first), just execute: ``git merge origin/main``
+
 
 
 Managing Branches
