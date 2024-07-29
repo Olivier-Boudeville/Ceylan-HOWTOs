@@ -201,6 +201,7 @@ They might be lesser known:
 - ``cpulimit``: the way of limiting CPU usage of a given process, for example to avoid overheat (``nice`` just defines respective process priorities)
 - ``inotify-tools``: to be able to monitor filesystem events (e.g. with ``inotifywait``) from scripts
 - ``jq``: for command-line JSON processing (e.g. ``jq . myfile.json`` to display it properly on a terminal)
+- ``yq``: for command-line YAML processing (e.g. ``yq . myfile.yaml`` to display it properly on a terminal), or use our `validate-yaml.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/validate-yaml.sh>`_ script 
 - ``mathjax``: to generate LaTeX-like images for the web
 - ``most``: a replacement for ``more``
 - ``pdftk``: to transform PDF files
