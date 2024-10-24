@@ -240,12 +240,14 @@ See also:
 - the `iptables section <https://wiki.archlinux.org/title/iptables>`_ in the Arch wiki.
 
 
+
 Network Troubleshooting
 =======================
 
 A few pieces of advice/information:
 
 - be familiar with ``ip link``, ``ip addr`` and ``ip route`` (generally used in that order), and ``tcpdump`` for the worst cases
+- to resolve a DNS hostname, i.e. to obtain its IP from its name: ``dig +short my.host.in.domain.tld | tail -n1``
 - to review *host-local* open ports and sockets, use:
 
   - ``ss`` (for *socket statistics*, replacement of ``netstat``), e.g. to determine which program is running at TCP port #8080: ``ss --inet --listening -np | grep :8080``
