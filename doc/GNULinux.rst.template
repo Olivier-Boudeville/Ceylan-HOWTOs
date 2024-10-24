@@ -1182,6 +1182,8 @@ Frequent actions needed:
 
 - to perform replacements based on regular expressions: ``M-x replace-regexp RET regexp RET newstring RET``, with `this REGEXP syntax <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html>`_ (`more information <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html>`_); for example, to remove, in each line, all characters from the first comma: ``M-x replace-regexp RET ,.* RET , RET``
 
+- to open a file that is very large and/or difficult to parse/display: ``M-x find-file-literally``
+
 Other useful commands to trigger with ``M-x``:
 
 - ``replace-string``
