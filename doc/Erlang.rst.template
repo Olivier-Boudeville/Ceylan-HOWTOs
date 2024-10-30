@@ -449,6 +449,19 @@ Post-Mortem Investigations
 Erlang programs may fail, and this may result in mere (Erlang-level) crashes (the VM detects an error, and reports information about it, possibly in the form of a crash dump) or (sometimes, quite infrequently though) in more brutal, lower-level core dumps (the VM crashes as a whole, like any faulty program run by the operating system); this last case happens typically when relying on faulty `NIFs <https://www.erlang.org/doc/tutorial/nif.html>`_.
 
 
+
+Monitoring
+..........
+
+To monitor a (live, Erlang) application, one may use:
+
+- the (integrated) `observer <https://www.erlang.org/doc/apps/observer/observer_ug>`_ graphical tool
+- an headless (command-line) observer: `observer_cli <https://hexdocs.pm/observer_cli/>`_
+- a monitoring and introspection application: `system_monitor <https://github.com/ieQu1/system_monitor>`_
+- an `observer web frontend <https://github.com/systra/ObserverWeb>`_
+
+
+
 Erlang Crash Dumps
 ..................
 
@@ -463,6 +476,7 @@ Using this debug tool is as easy as:
  $ cdv erl_crash.dump
 
 Then, through the wx-based interface, a rather large number of Erlang-level information will be available (processes, ports, ETS tables, nodes, modules, memory, etc.) to better understand the context of this crash and hopefully diagnose its root cause.
+
 
 
 Core Dumps
