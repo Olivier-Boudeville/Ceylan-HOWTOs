@@ -151,6 +151,114 @@ See also the `JCL mode <https://www.erlang.org/doc/man/shell.html#jcl-mode>`_ (f
 
 
 
+Distributed Mode of Operation
+=============================
+
+
+General Information
+-------------------
+
+The goal is to have processes, running on multiple Erlang VMs instantiated on various hosts of a network, interact (of course, as always, by message-passing based on Erlang processes).
+
+Let's suppose that we have two hosts, ``foo.example.com`` (possibly on the LAN) and ``bar.other.info`` (for example a gateway available on the Internet - hence a bit secured, and with many settings activated), each having the latest version of Erlang installed.
+
+To test whether VMs on either side can communicate, one may launch on ``foo.example.com``  for example (killing EMPD and using a specific, rather random port for it, for safer/paranoid testing)::
+
+ $ killall epmd
+
+ # Possibly safer to specify just '-name myfoo' rather directly the FQDN
+ # ('-name myfoo@foo.example.com'), as we can check the name resolution used
+ # by the VM (bogus values like '-name myfoo@ibm.com' would be accepted):
+ #
+ $ ERL_EPMD_PORT=4506 erl -name myfoo -setcookie abc
+ Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
+
+ Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
+ (myfoo@foo.example.com)1>
+
+
+And on ``bar.other.info``::
+
+ $ killall epmd
+ $ ERL_EPMD_PORT=4506 erl -name mybar@bar.other.info -setcookie abc
+ Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
+
+ Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
+ (mybar@bar.other.info)1>
+
+
+Then the following calls may be of interest, to interlink these VMs and check that they agree on interacting.
+
+On ``foo.example.com``::
+
+ 1> net_adm:ping('mybar@bar.other.info').
+ pong
+
+And on ``bar.other.info``::
+
+ 1> net_adm:ping('myfoo@foo.example.com').
+ pong
+
+
+Then either of the two nodes can perform mostly anything on the other host (of course depending on the respective permissions of the users that run them); and of course Erlang cookies are not a security feature, they are just an ad hoc way of preventing unwanted interactions between nodes.
+
+A lot more often than expected, ``pang`` is received (instead of ``pong``), meaning that unfortunately the connection could not be created.
+
+Among the many possible pitfalls, there are (approximately sorted by decreasing level of probability, according to our experience):
+
+- at least a **firewall** between the two hosts filtering packets, either exchanged by the Erlang VMs (using ephemeral ports for that, within a possibly user-specified range), or by the EPMD daemons; one may refer to `our page about firewalls <Networking.html#firewall-management>`_
+- misconfigured (e.g. inconsistent) **DNS** services (e.g. one host unable to resolve the other, or resolving it as a different name that it knows itself); simply running ``hostname -f``, and possibly ``ping foo.example.com`` from ``bar``, and ``ping bar.other.info`` from ``foo``, may unveil surprises)
+- inconsistent `EPMD <https://www.erlang.org/doc/apps/erts/epmd_cmd>`_ **ports** ; beware of any lingering ``ERL_EPMD_PORT`` environment variable that may still apply (this is why, in the example, one was specified; otherwise the default one, 4369, is expected to be relied upon)
+- at least one incorrect (misspelled) **target node**; moreover their names must be atoms (hence the use of single quotes, as they comprise dots) and the FQDN should match (e.g. from the point of view of the EPMD daemon, ``bar`` and ``bar.other.info`` might be considered different)
+- mistmatching (Erlang) **cookies** (of course)
+- mismatching **name addressing**: using short names (``-sname``) mixed with long names (``-name``)
+- faulty EPMD **daemons** (e.g. one having missed that a node respawned; this seldom happens, under specific circumstances) - hence the prior killings in the example
+- incompatible **versions** of Erlang (if in doubt, just use the latest stable one on either side); anyway such an issue should be reported on the console
+
+
+
+With Our Conventions
+--------------------
+
+To focus a bit on developments relying on our conventions (notably the Ceylan-Myriad ones) about firewall settings, one may first inspect the ``/etc/iptables.settings-Gateway.sh`` file to check the firewall settings that are currently listed (e.g. ``grep 'myriad_default_epmd_port\|tcp_' iptables.settings-Gateway.sh``).
+
+This may result for example in::
+
+ myriad_default_epmd_port=4502
+ enable_unfiltered_tcp_range="true"
+ tcp_unfiltered_low_port=60000
+ tcp_unfiltered_high_port=65000
+
+(supposing they apply on both hosts)
+
+One could ensure that these were indeed the ones applied (if ever the prior settings were changed yet with no firewall reloading afterwards), by checking the ``/root/.last-gateway-firewall-activation`` file.
+
+Finally, one may run our ``iptables-inspect.sh`` script to request iptables to describe its current, actual state.
+
+Then, to test the connectivity of corresponding VMs, first on ``foo.example.com``::
+
+ $ killall epmd beam.smp
+ $ ERL_EPMD_PORT=4502 erl -name myfoo@foo.example.com -setcookie abc -kernel inet_dist_listen_min 60000 inet_dist_listen_max 65000
+ Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
+
+ Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
+ (myfoo@foo.example.com)1>
+
+
+And on ``bar.other.info``, this could be::
+
+ $ export ERL_EPMD_PORT=4502
+ $ erl -name mybar@bar.other.info -setcookie abc -kernel inet_dist_listen_min 60000 inet_dist_listen_max 65000
+ Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
+
+ Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
+ (mybar@bar.other.info)1> net_adm:ping('myfoo@foo.example.com').
+ pong
+
+At last it works!
+
+
+
 About Security
 ==============
 
@@ -455,7 +563,7 @@ Monitoring
 
 To monitor a (live, Erlang) application, one may use:
 
-- the (integrated) `observer <https://www.erlang.org/doc/apps/observer/observer_ug>`_ graphical tool
+- the (integrated) `observer <https://www.erlang.org/doc/apps/observer/observer_ug>`_ graphical tool (either locally, or remotely with ``observer:start/1``)
 - an headless (command-line) observer: `observer_cli <https://hexdocs.pm/observer_cli/>`_
 - a monitoring and introspection application: `system_monitor <https://github.com/ieQu1/system_monitor>`_
 - an `observer web frontend <https://github.com/systra/ObserverWeb>`_
@@ -836,6 +944,34 @@ Within `Ceylan-Myriad <http://myriad.esperide.org>`_, if the (non-default) ``myr
 
 
 
+Using ``run_erl/to_erl``
+------------------------
+
+When using `run_erl <https://www.erlang.org/docs/26/man/run_erl.html>`_, lines like the following are output::
+
+ Write pipe '/tmp/launch-erl-3822033.w' found, waiting 2 seconds to ensure start-up is successful indeed.
+
+  **************************************************************
+  ** Node 'us_main' ready and running as a daemon.
+  ** Use 'to_erl /tmp/launch-erl-3822033' to connect to that node.
+  ** (then type CTRL-D to exit without killing the node)
+  **************************************************************
+  (authbind success reported)
+
+ EPMD names output (on default US-Main port ):
+ epmd: up and running on port 4507 with data:
+ name us_main at port 50002
+ name us_main_exec-xxx at port 60001
+
+
+If connecting to that node with ``to_erl /tmp/launch-erl-3822033`` (hence from the local host), a direct access to an Erlang shell on that node is granted.
+
+Remember that exiting the interpreter as usual (hitting CTRL-C twice) thus means killing that node; so prefer CTRL-D (once) instead!
+
+
+
+
+
 Using wx
 --------
 
@@ -933,6 +1069,8 @@ To avoid having to perform a lookup in the documentation:
   - removing an entry: ``ShrunkMap = maps:remove(Key,Map)``
 
 - to detect in a guard whether a term is a map, there is no ``is_map/1`` guard available: ``map_size/1`` will fail the guard if its argument is not a map; a map includes its size in the header word, so ``map_size/1`` is O(1); furthermore, the JIT will inline calls to ``map_size/1``
+
+- a queue can be seen as being augmented (with ``queue:in/2``) on the right ("rear" of the queue), and shrunk (with ``queue:out/1``) on the left ("front" of the queue); for example, adding to an empty queue ``a`` then ``b``, results, when converting the resulting queue in a list, in ``[a,b]``; extracting an element of it returns ``a``, and the remaining queue corresponds then to ``[b]``
 
 - a rule of thumb for naming in Erlang/OTP is that functions having ``size`` in their name are O(1), while functions having ``length`` in their name are O(N)
 
