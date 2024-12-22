@@ -1400,6 +1400,36 @@ Example:
 
 
 
+Mounting Manually crypttab-declared Partitions
+----------------------------------------------
+
+Let's suppose such a partition (here a LUKS-encrypted one) is declared, in ``/etc/crypttab``, as::
+
+  my-encrypted-nvme-storage UUID=a46879cf-xxx luks,timeout=10,fido2-device=auto
+
+
+and then in ``/etc/fstab``, as::
+
+  /dev/mapper/my-encrypted-nvme-storage /var/foobar ext4 rw,relatime,data=ordered,nofail 0 2
+
+
+Such partition is expected to be mounted at boot time, but here was closed for any reason.
+
+
+One can inquire about it thanks to::
+
+ $ SERVICE="systemd-cryptsetup@my\\x2dencrypted\\x2dnvme\\x2dstorage.service"
+ $ systemctl status "$SERVICE"
+ $ journalctl -xeu "$SERVICE"
+ $ cat "/run/systemd/generator/$SERVICE"
+
+
+Mounting it back is "as simple" as executing: ``systemctl start /var/foobar``.
+
+See also `this section <#creating-encrypted-partitions>`_ for related details.
+
+
+
 Other User Settings
 -------------------
 
