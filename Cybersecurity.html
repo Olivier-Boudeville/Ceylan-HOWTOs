@@ -27,7 +27,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, January 4, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, July 14, 2024</td>
 </tr>
 </tbody>
 </table>
@@ -36,31 +36,32 @@
 <span id="table-of-contents"></span><p class="topic-title"><a class="reference internal" href="#top"><strong>Table of Contents</strong></a></p>
 <ul class="simple">
 <li><a class="reference internal" href="#pointers-to-various-security-topics" id="toc-entry-1">Pointers to various Security Topics</a></li>
-<li><a class="reference internal" href="#securing-one-s-e-mail-service-in-general" id="toc-entry-2">Securing One's E-mail Service In General</a></li>
-<li><a class="reference internal" href="#increasing-security-thanks-to-openpgp" id="toc-entry-3">Increasing Security thanks to OpenPGP</a><ul>
-<li><a class="reference internal" href="#purpose" id="toc-entry-4">Purpose</a></li>
-<li><a class="reference internal" href="#technical-solution" id="toc-entry-5">Technical Solution</a><ul>
-<li><a class="reference internal" href="#obtaining-one-s-keys" id="toc-entry-6">Obtaining One's Keys</a></li>
-<li><a class="reference internal" href="#where-are-the-keys-and-how-to-backup-them" id="toc-entry-7">Where are the Keys, and How to Backup Them?</a></li>
-<li><a class="reference internal" href="#how-can-public-keys-be-shared" id="toc-entry-8">How Can Public Keys be Shared?</a></li>
-<li><a class="reference internal" href="#what-can-be-done-with-these-keys" id="toc-entry-9">What can be Done with these Keys?</a></li>
-<li><a class="reference internal" href="#updating-your-keys" id="toc-entry-10">Updating Your Keys</a></li>
-<li><a class="reference internal" href="#deleting-your-keys" id="toc-entry-11">Deleting Your Keys</a></li>
+<li><a class="reference internal" href="#authentication-using-ssh" id="toc-entry-2">Authentication Using SSH</a></li>
+<li><a class="reference internal" href="#securing-one-s-e-mail-service-in-general" id="toc-entry-3">Securing One's E-mail Service In General</a></li>
+<li><a class="reference internal" href="#increasing-security-thanks-to-openpgp" id="toc-entry-4">Increasing Security thanks to OpenPGP</a><ul>
+<li><a class="reference internal" href="#purpose" id="toc-entry-5">Purpose</a></li>
+<li><a class="reference internal" href="#technical-solution" id="toc-entry-6">Technical Solution</a><ul>
+<li><a class="reference internal" href="#obtaining-one-s-keys" id="toc-entry-7">Obtaining One's Keys</a></li>
+<li><a class="reference internal" href="#where-are-the-keys-and-how-to-backup-them" id="toc-entry-8">Where are the Keys, and How to Backup Them?</a></li>
+<li><a class="reference internal" href="#how-can-public-keys-be-shared" id="toc-entry-9">How Can Public Keys be Shared?</a></li>
+<li><a class="reference internal" href="#what-can-be-done-with-these-keys" id="toc-entry-10">What can be Done with these Keys?</a></li>
+<li><a class="reference internal" href="#updating-your-keys" id="toc-entry-11">Updating Your Keys</a></li>
+<li><a class="reference internal" href="#deleting-your-keys" id="toc-entry-12">Deleting Your Keys</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#a-corresponding-cheat-sheet" id="toc-entry-12">A Corresponding Cheat Sheet</a><ul>
-<li><a class="reference internal" href="#root-key" id="toc-entry-13">Root Key</a></li>
-<li><a class="reference internal" href="#subkeys" id="toc-entry-14">Subkeys</a></li>
-<li><a class="reference internal" href="#prepare-revocation" id="toc-entry-15">Prepare Revocation</a></li>
-<li><a class="reference internal" href="#finally" id="toc-entry-16">Finally</a></li>
+<li><a class="reference internal" href="#a-corresponding-cheat-sheet" id="toc-entry-13">A Corresponding Cheat Sheet</a><ul>
+<li><a class="reference internal" href="#root-key" id="toc-entry-14">Root Key</a></li>
+<li><a class="reference internal" href="#subkeys" id="toc-entry-15">Subkeys</a></li>
+<li><a class="reference internal" href="#prepare-revocation" id="toc-entry-16">Prepare Revocation</a></li>
+<li><a class="reference internal" href="#finally" id="toc-entry-17">Finally</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#hints" id="toc-entry-17">Hints</a></li>
-<li><a class="reference internal" href="#obtaining-my-current-public-key" id="toc-entry-18">Obtaining my Current Public Key</a></li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-19">See Also</a></li>
+<li><a class="reference internal" href="#hints" id="toc-entry-18">Hints</a></li>
+<li><a class="reference internal" href="#obtaining-my-current-public-key" id="toc-entry-19">Obtaining my Current Public Key</a></li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-20">See Also</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#a-link-with-decentralized-identifiers" id="toc-entry-20">A Link With Decentralized Identifiers</a></li>
+<li><a class="reference internal" href="#a-link-with-decentralized-identifiers" id="toc-entry-21">A Link With Decentralized Identifiers</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -74,11 +75,35 @@
 <li>for the <strong>management of credentials</strong> such as passwords, some <a class="reference external" href="https://hull.esperide.org/#for-security">Ceylan-Hull scripts</a> may be of help, including for the generation of proper passwords or for the locking of screens</li>
 <li>regarding <strong>network</strong>, each host may be protected by a relevant <a class="reference external" href="https://hull.esperide.org/#firewall-configuration">firewall configuration</a>, opened ports may be checked, etc.; see also our section for <a class="reference external" href="Networking.html#firewall-management">firewall management</a></li>
 <li>for <strong>webservers</strong>, it relates to use the HTTPS protocol with proper X.509 security certificates for TLS-secured exchanges, possibly thanks to <a class="reference external" href="http://leec.esperide.org">Ceylan-LEEC</a></li>
-<li>for <strong>emails</strong>, see the next section about OpenPGP</li>
+<li>for <strong>emails</strong>, see the section about OpenPGP below</li>
 </ul>
 </div>
+<div class="section" id="authentication-using-ssh">
+<h1><a class="toc-backref" href="#toc-entry-2">Authentication Using SSH</a></h1>
+<p>This is certainly the right approach to rely on nowadays (e.g. no more HTTPS with a <tt class="docutils literal">.netrc</tt> file).</p>
+<p>To generate a key pair, one may use <tt class="docutils literal"><span class="pre">ssh-keygen</span></tt> and prefer for example the ED25519 cipher; for example, if wanting to use a specific key filename:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nv">KEY_PATH</span><span class="o">=</span><span class="s2">&quot;~/.ssh/id_ed25519-</span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="s2">-for-general-use-</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span><span class="s2">&quot;</span><span class="w">
+</span>$<span class="w"> </span>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;General, personal key notably for VM connections, generated on </span><span class="k">$(</span><span class="nv">LC_ALL</span><span class="o">=</span><span class="w"> </span>date<span class="w"> </span><span class="s1">'+%A, %B %-e, %Y'</span><span class="k">)</span><span class="s2">, on </span><span class="k">$(</span>hostname<span class="w"> </span>-f<span class="k">)</span><span class="s2">.&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_PATH</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre>
+<p>One may:</p>
+<ul class="simple">
+<li>specify a passphrase (which would then be requested at each use of the private key), or not</li>
+<li>not specify a file name, if the new key would not collide with any pre-existing one</li>
+</ul>
+<p>Then the corresponding <em>public</em> key may be transferred to any target host, like in:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>ssh-copy-id<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_PATH</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>foobar.org
+</pre>
+<p>(it would be then the unique time for this host that the user general password on the target host would be requested)</p>
+<p>and/or declare it in any web interface (e.g. GitLab) of interest (associating to one's user one's public key).</p>
+<p>In a Git clone, any specific key name must be specified, typically with:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>core.sshCommand<span class="w"> </span><span class="s2">&quot;ssh -o IdentitiesOnly=yes -i </span><span class="si">${</span><span class="nv">KEY_PATH</span><span class="si">}</span><span class="s2"> -F /dev/null&quot;</span>
+</pre>
+</div>
 <div class="section" id="securing-one-s-e-mail-service-in-general">
-<h1><a class="toc-backref" href="#toc-entry-2">Securing One's E-mail Service In General</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-3">Securing One's E-mail Service In General</a></h1>
 <p>Now that electronic exchanges are central to most communications, controlling one's e-mail services is of paramount importance.</p>
 <p>It is a real pity that most individuals will not be able in practise to run their own mail server (<a class="reference external" href="https://en.wikipedia.org/wiki/Message_transfer_agent">Message transfer agent</a>), short of being able to setup through their Internet provider a proper <a class="reference external" href="https://en.wikipedia.org/wiki/Reverse_DNS_lookup">reverse DNS</a> information (as any e-mail that such a home server would emit would likely be considered as spam/junk mail by the recipients).</p>
 <p>So one will have to resort to third-party e-mail services (&quot;MX plan&quot;). We do not see the reliance on one's Internet provider e-mail solution as a good choice (even if being able to make use of such an address regardless of any active subscription to that provider), possibly not all registrars are also good email hosters, and surely we do not want to depend on any GAFAM-related service.</p>
@@ -91,9 +116,9 @@
 <p>Wanting to test whether your current e-mail system is reliable? We recommend using the <a class="reference external" href="https://mecsa.jrc.ec.europa.eu">MECSA</a> online testing tool, which is provided by the European Commission and allows to learn a lot about the level of security reached by one's email system.</p>
 </div>
 <div class="section" id="increasing-security-thanks-to-openpgp">
-<span id="openpgp"></span><h1><a class="toc-backref" href="#toc-entry-3">Increasing Security thanks to OpenPGP</a></h1>
+<span id="openpgp"></span><h1><a class="toc-backref" href="#toc-entry-4">Increasing Security thanks to OpenPGP</a></h1>
 <div class="section" id="purpose">
-<h2><a class="toc-backref" href="#toc-entry-4">Purpose</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-5">Purpose</a></h2>
 <p>Albeit such a securing scheme may apply to at least most of the digital exchanges, in practice it is mainly used in the context of email security.</p>
 <p>In the general case, sending an email will end up having its content stored at least on:</p>
 <ul class="simple">
@@ -109,12 +134,12 @@
 <p><strong>Encrypting and signing are solutions to restore some privacy and safety</strong> - yours, but also the ones of the persons with whom you happen to correspond.</p>
 </div>
 <div class="section" id="technical-solution">
-<h2><a class="toc-backref" href="#toc-entry-5">Technical Solution</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">Technical Solution</a></h2>
 <p>It is currently best done thanks to the <a class="reference external" href="https://en.wikipedia.org/wiki/Pretty_Good_Privacy#OpenPGP">OpenPGP</a> open standard for encrypting, signing and decrypting data and communications.</p>
 <p><a class="reference external" href="https://wiki.archlinux.org/title/GnuPG">GnuPG</a> (<em>GNU Privacy Guard</em>) is a complete and free implementation of it (we suppose here that at least its 2.2.* version is used).</p>
 <p>The corresponding command-line executable, <tt class="docutils literal">gpg</tt>, can be installed on Arch Linux with: <tt class="docutils literal">pacman <span class="pre">-Sy</span> gnupg</tt>.</p>
 <div class="section" id="obtaining-one-s-keys">
-<h3><a class="toc-backref" href="#toc-entry-6">Obtaining One's Keys</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-7">Obtaining One's Keys</a></h3>
 <p>A first step is to generate locally one's key pair, knowing that each public key is bound to a username or an e-mail address (which is our preference; having one's domain name allows to create any number of them).</p>
 <p>A nice feature of this cryptographic scheme is that one may issue any number of keys in full autonomy and with neither consequences nor cost. So as many key pairs as notions of &quot;unrelated identities&quot; may be freely created.</p>
 <p>Several settings can be chosen when generating a key, and logically the strongest keys are preferred. Yet uncommon/too recent generation algorithms and/or higher key lengths may not be supported by the various tools <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>, so applying the default settings retained by gpg, or similar ones yet a bit stronger (e.g. at the time of this writing, November 2021, RSA 4096 bits rather than 3072 bits) is probably the way to go (it can already be deemed safe, and will be widely supported); so the generation may be best triggered simply thanks to:</p>
@@ -170,7 +195,7 @@ gpg:<span class="w"> </span>key<span class="w"> </span>9A60ADA4E151B8B5<span cla
 <p>See also <a class="reference external" href="https://wiki.debian.org/Subkeys">these very relevant Debian guidelines</a> for further information about subkey management.</p>
 </div>
 <div class="section" id="where-are-the-keys-and-how-to-backup-them">
-<h3><a class="toc-backref" href="#toc-entry-7">Where are the Keys, and How to Backup Them?</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-8">Where are the Keys, and How to Backup Them?</a></h3>
 <p>The full gpg state is stored by default in its <tt class="docutils literal"><span class="pre">~/.gnupg/</span></tt> tree.</p>
 <p>One may notably notice in it:</p>
 <ul class="simple">
@@ -222,7 +247,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--export-secret-key<span cla
 </ul>
 </div>
 <div class="section" id="how-can-public-keys-be-shared">
-<h3><a class="toc-backref" href="#toc-entry-8">How Can Public Keys be Shared?</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-9">How Can Public Keys be Shared?</a></h3>
 <p>As mentioned, public keys can be freely shared without involving any specific risk, as in practice a private key cannot be derived from its public counterpart.</p>
 <p>So basically any means of sharing them is legit, including the least secured ones. However the point is that their recipients must be sure that they obtained the right public certificate, and not one that has been tampered with.</p>
 <p>Indeed, any man-in-the-middle M between peers A and B able to intercept the communication of A's public key could replace it by his. B would then have no means of detecting that it is actually relying on M's keys rather than on A's ones.</p>
@@ -298,7 +323,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--list-keys<span class="w"> 
 </div>
 </div>
 <div class="section" id="what-can-be-done-with-these-keys">
-<h3><a class="toc-backref" href="#toc-entry-9">What can be Done with these Keys?</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-10">What can be Done with these Keys?</a></h3>
 <p>One may:</p>
 <ul class="simple">
 <li><strong>encrypt</strong> a file: <tt class="docutils literal">gpg <span class="pre">-r</span> james.bond&#64;mi6.org <span class="pre">-e</span> my_file_to_encrypt</tt>; this generates a <tt class="docutils literal">my_file_to_encrypt.gpg</tt> file</li>
@@ -321,7 +346,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--list-keys<span class="w"> 
 </ul>
 </div>
 <div class="section" id="updating-your-keys">
-<h3><a class="toc-backref" href="#toc-entry-10">Updating Your Keys</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-11">Updating Your Keys</a></h3>
 <p>Keys are meant to expire, so that they are updated as technology progresses.</p>
 <p>To check whether one's (secret) keys expired:</p>
 <pre class="code bash literal-block">
@@ -365,7 +390,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--edit-key<span class="w"> <
 </pre>
 </div>
 <div class="section" id="deleting-your-keys">
-<h3><a class="toc-backref" href="#toc-entry-11">Deleting Your Keys</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-12">Deleting Your Keys</a></h3>
 <p>Typically if having expired keys not intended to be renewed:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>gpg<span class="w"> </span>--delete-secret-key<span class="w"> </span>KEYID
@@ -373,9 +398,9 @@ $<span class="w"> </span>gpg<span class="w"> </span>--delete-secret-key<span cla
 </div>
 </div>
 <div class="section" id="a-corresponding-cheat-sheet">
-<h2><a class="toc-backref" href="#toc-entry-12">A Corresponding Cheat Sheet</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-13">A Corresponding Cheat Sheet</a></h2>
 <div class="section" id="root-key">
-<h3><a class="toc-backref" href="#toc-entry-13">Root Key</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-14">Root Key</a></h3>
 <p>Create a master key that will never leave one's network, thanks to <tt class="docutils literal">gpg <span class="pre">--expert</span> <span class="pre">--full-generate-key</span></tt>:</p>
 <ul class="simple">
 <li>with a strong algorithm (e.g. <tt class="docutils literal">Brainpool <span class="pre">P-512</span></tt>, by selecting <tt class="docutils literal">ECC (set your own capabilities)</tt>)</li>
@@ -392,12 +417,12 @@ $<span class="w"> </span>gpg<span class="w"> </span>--default-key<span class="w"
 </pre>
 </div>
 <div class="section" id="subkeys">
-<h3><a class="toc-backref" href="#toc-entry-14">Subkeys</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-15">Subkeys</a></h3>
 <p>Define as many of them as needed (based on <tt class="docutils literal">gpg <span class="pre">--expert</span> <span class="pre">--edit-key</span> NEWKEYID</tt>), possibly one for signing, one for encrypting and one for authenticating (apparently not automatically generated), each time with <tt class="docutils literal">addkey</tt>; select a strong yet commonly-accepted algorithm (e.g. RSA 4096 bits), and a shorter lifespan (e.g. 2 years).</p>
 <p>A simpler &quot;triple&quot; use (S/E/A) key may be preferred or additionally created.</p>
 </div>
 <div class="section" id="prepare-revocation">
-<h3><a class="toc-backref" href="#toc-entry-15">Prepare Revocation</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-16">Prepare Revocation</a></h3>
 <p>Create a revocation certificate for your master key, specifying reason 1 (<tt class="docutils literal">Key has been compromised</tt>) and clarify with a comment (<tt class="docutils literal">This revocation certificate has been generated at key creation.</tt>):</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>gpg<span class="w"> </span>--output<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span>-masterkey.gpg-revocation-certificate.key<span class="w"> </span>--gen-revoke<span class="w"> </span>KEYID
@@ -405,7 +430,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--output<span class="w"> </s
 <p>Stores possibly multiple offline copies of that certificate.</p>
 </div>
 <div class="section" id="finally">
-<h3><a class="toc-backref" href="#toc-entry-16">Finally</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-17">Finally</a></h3>
 <p>Backup secret keys:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span>-full-key-backup-for-james.bond.gpg<span class="w"> </span>--export-secret-keys
@@ -418,7 +443,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--send-keys<span class="w"> 
 </div>
 </div>
 <div class="section" id="hints">
-<h2><a class="toc-backref" href="#toc-entry-17">Hints</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-18">Hints</a></h2>
 <ul class="simple">
 <li>whenever useful, add the <tt class="docutils literal"><span class="pre">--armor</span></tt> option to use ASCII output armor, suitable for copying and pasting content in text format</li>
 <li>if you have multiple email accounts, thanks to <tt class="docutils literal"><span class="pre">--edit-key</span></tt> you can add each one of them in the same key as an identity (name), using the <tt class="docutils literal">adduid</tt> command; you can then set your favourite one as primary</li>
@@ -428,7 +453,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--send-keys<span class="w"> 
 </ul>
 </div>
 <div class="section" id="obtaining-my-current-public-key">
-<h2><a class="toc-backref" href="#toc-entry-18">Obtaining my Current Public Key</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-19">Obtaining my Current Public Key</a></h2>
 <p>As the time of this writing (Tuesday, January 3, 2023), my daily key for signing / encrypting / authenticating is a RSA 4096-bit one designated as <tt class="docutils literal">3e090de4d08e42944d195a7bb8235ece469eb77f</tt>.</p>
 <p>It can be obtained by different means:</p>
 <ul class="simple">
@@ -438,7 +463,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--send-keys<span class="w"> 
 </ul>
 </div>
 <div class="section" id="see-also">
-<h2><a class="toc-backref" href="#toc-entry-19">See Also</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-20">See Also</a></h2>
 <ul class="simple">
 <li>a complete, well-written tutorial, in French: <a class="reference external" href="https://linuxfr.org/news/bien-demarrer-avec-gnupg">Bien démarrer avec GnuPG</a></li>
 <li>still in French: other <a class="reference external" href="https://blog.mailfence.com/fr/meilleures-pratiques-de-signature-numerique-openpgp/">interesting usage hints</a> and <a class="reference external" href="https://wiki.csnu.org/index.php/GnuPG_:_Cr%C3%A9er_la_paire_de_cl%C3%A9_gpg_parfaite_:_cl%C3%A9_maitre,_subkeys_et_support_smartcard_(yubikey)">GnuPG : Créer la paire de clé gpg parfaite</a></li>
@@ -448,7 +473,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--send-keys<span class="w"> 
 </div>
 </div>
 <div class="section" id="a-link-with-decentralized-identifiers">
-<h1><a class="toc-backref" href="#toc-entry-20">A Link With Decentralized Identifiers</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-21">A Link With Decentralized Identifiers</a></h1>
 <p>The use of key pairs in the absence of a certificate authority directly relates to <a class="reference external" href="https://www.w3.org/TR/did-core/">Decentralized Identifiers</a> (DIDs), a class of universal solutions (not depending on any context/organisation, and able to be recognized by any) with which anyone can create one's (globally unique) identifiers that remain in one's full control: one freely issues them, they remain valid as long as their issuer wishes (as none but their creator itself can revoke them), and (for example unlike mere UUIDs) they can be cryptographically verified by anyone.</p>
 <p>No external central authority applies to such identifiers, which cannot reveal personal information unless decided by their issuer and thus sole controller.</p>
 <p>In practice, although other solutions could maybe be considered, it involves, like discussed in the previous sections, generating on one's own at least a public/private key pair, to store safely the private one and to share as widely as needed the public one. Then one can sign and/or encrypt one's messages with a pretty good hope that they will remain secure for a while; such a system enables partial disclosure (as one chooses what one encrypts or signs) in full control (as all operations are driven by the private key that the issuer is the only one to control).</p>

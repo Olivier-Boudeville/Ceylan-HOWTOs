@@ -27,7 +27,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, January 4, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, October 30, 2024</td>
 </tr>
 </tbody>
 </table>
@@ -210,6 +210,7 @@ $<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </sp
 <p>A few pieces of advice/information:</p>
 <ul class="simple">
 <li>be familiar with <tt class="docutils literal">ip link</tt>, <tt class="docutils literal">ip addr</tt> and <tt class="docutils literal">ip route</tt> (generally used in that order), and <tt class="docutils literal">tcpdump</tt> for the worst cases</li>
+<li>to resolve a DNS hostname, i.e. to obtain its IP from its name: <tt class="docutils literal">dig +short my.host.in.domain.tld | tail <span class="pre">-n1</span></tt></li>
 <li>to review <em>host-local</em> open ports and sockets, use:<ul>
 <li><tt class="docutils literal">ss</tt> (for <em>socket statistics</em>, replacement of <tt class="docutils literal">netstat</tt>), e.g. to determine which program is running at TCP port #8080: <tt class="docutils literal">ss <span class="pre">--inet</span> <span class="pre">--listening</span> <span class="pre">-np</span> | grep :8080</tt></li>
 <li><tt class="docutils literal">netstat</tt> could be for example <tt class="docutils literal">netstat <span class="pre">-ltnp</span> | grep :8080</tt></li>

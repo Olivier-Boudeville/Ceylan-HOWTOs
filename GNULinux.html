@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, June 24, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, December 21, 2024</td>
 </tr>
 </tbody>
 </table>
@@ -93,19 +93,16 @@
 <li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-45">Recording a Screencast</a></li>
 <li><a class="reference internal" href="#specifying-iterations-with-bash" id="toc-entry-46">Specifying iterations with Bash</a></li>
 <li><a class="reference internal" href="#shell-auto-completing-the-available-make-targets" id="toc-entry-47">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></li>
-<li><a class="reference internal" href="#other-user-settings" id="toc-entry-48">Other User Settings</a></li>
-<li><a class="reference internal" href="#shortcuts" id="toc-entry-49">Shortcuts</a></li>
+<li><a class="reference internal" href="#mini-shell-cheat-sheet" id="toc-entry-48">Mini Shell Cheat Sheet</a></li>
+<li><a class="reference internal" href="#mounting-manually-crypttab-declared-partitions" id="toc-entry-49">Mounting Manually crypttab-declared Partitions</a></li>
+<li><a class="reference internal" href="#other-user-settings" id="toc-entry-50">Other User Settings</a></li>
+<li><a class="reference internal" href="#shortcuts" id="toc-entry-51">Shortcuts</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-50">See Also</a></li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-52">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
-<p>VS-Code : pacman -Sy code
-File &gt; Preferences &gt; Settings). This will open the setting screen.
-Files: Exclude **/*.beam
-Trim Trailing WhiteSpace
-Ctrl-Shift-M to see problems</p>
 <div class="section" id="overview">
 <h1><a class="toc-backref" href="#toc-entry-1">Overview</a></h1>
 <p>GNU/Linux is our operating system of choice, for many reasons: it is in free software, it is efficient, trustable, reliable and controllable, its mode of operation does not change much over time so any time invested on it is well spent.</p>
@@ -232,6 +229,7 @@ $<span class="w"> </span>shutdown-local-host.sh<span class="w"> </span>--reboot
 <li><tt class="docutils literal">cpulimit</tt>: the way of limiting CPU usage of a given process, for example to avoid overheat (<tt class="docutils literal">nice</tt> just defines respective process priorities)</li>
 <li><tt class="docutils literal"><span class="pre">inotify-tools</span></tt>: to be able to monitor filesystem events (e.g. with <tt class="docutils literal">inotifywait</tt>) from scripts</li>
 <li><tt class="docutils literal">jq</tt>: for command-line JSON processing (e.g. <tt class="docutils literal">jq . myfile.json</tt> to display it properly on a terminal)</li>
+<li><tt class="docutils literal">yq</tt>: for command-line YAML processing (e.g. <tt class="docutils literal">yq . myfile.yaml</tt> to display it properly on a terminal), or use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/validate-yaml.sh">validate-yaml.sh</a> script</li>
 <li><tt class="docutils literal">mathjax</tt>: to generate LaTeX-like images for the web</li>
 <li><tt class="docutils literal">most</tt>: a replacement for <tt class="docutils literal">more</tt></li>
 <li><tt class="docutils literal">pdftk</tt>: to transform PDF files</li>
@@ -950,6 +948,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li>to re-select a region (e.g. to perform multiple substitutions in a row on the same region): <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-x</span></tt></li>
 <li>to abort the current entry in the minibuffer: <tt class="docutils literal"><span class="pre">C-g</span></tt></li>
 <li>to perform replacements based on regular expressions: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET regexp RET newstring RET</tt>, with <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html">this REGEXP syntax</a> (<a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html">more information</a>); for example, to remove, in each line, all characters from the first comma: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET ,.* RET , RET</tt></li>
+<li>to open a file that is very large and/or difficult to parse/display: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">find-file-literally</span></tt></li>
 </ul>
 <p>Other useful commands to trigger with <tt class="docutils literal"><span class="pre">M-x</span></tt>:</p>
 <ul class="simple">
@@ -970,6 +969,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>It supports many languages and features through extensions.</p>
 <div class="section" id="installing">
 <h3>Installing</h3>
+<p>It can be installed on Arch thanks to <tt class="docutils literal">pacman <span class="pre">-Sy</span> code</tt>.</p>
 <p>If not installed thanks to one's distribution, the binaries of <a class="reference external" href="https://code.visualstudio.com/download">Visual Studio Code</a> can be directly <a class="reference external" href="https://code.visualstudio.com/docs/?dv=linux64downloaded">downloaded</a> (through an archive named <tt class="docutils literal"><span class="pre">code-stable-x64-XXX.tar.gz</span></tt>) that may be extracted in, say, <tt class="docutils literal"><span class="pre">~/Software/Vs-Code</span></tt>.</p>
 <p>Another option is to download and use <a class="reference external" href="https://github.com/VSCodium/vscodium/releases">VSCodium</a>, a version of it without Microsoft branding/telemetry/licensing.</p>
 <p>One may then put <tt class="docutils literal"><span class="pre">~/Software/Vs-Code/VSCode-linux-x64/bin</span></tt> in one's PATH so that VS Code can be run thanks to: <tt class="docutils literal">code</tt>.</p>
@@ -990,11 +990,20 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <h4>Fixing whitespaces</h4>
 <p>In <tt class="docutils literal">File <span class="pre">-&gt;</span> Preferences <span class="pre">-&gt;</span> Settings</tt>, preferably in the <tt class="docutils literal">User</tt> tab (rather than only in the <tt class="docutils literal">Workspace</tt> one), search and enable the <tt class="docutils literal">Files: Trim Trailing WhiteSpace</tt> option (or select in the <tt class="docutils literal">Text Editor</tt> category the <tt class="docutils literal">Files</tt> subcategory and hunt that option down).</p>
 </div>
+<div class="section" id="ignoring-files">
+<h4>Ignoring files</h4>
+<p>Some generated files (e.g. <tt class="docutils literal">*.beam</tt> ones) should not be shown in the Explorer panel (usually on the left of the screen).</p>
+<p>In the settings screen (<tt class="docutils literal">File &gt; Preferences &gt; Settings)</tt>, in Files, one may then add: <tt class="docutils literal">Exclude <span class="pre">**/*.beam</span></tt> to exclude them, regardless of the place in the filesystem tree.</p>
+</div>
 <div class="section" id="general-purpose-extensions">
 <h4>General-purpose extensions</h4>
 <p>They do not apply to specific language per se.</p>
 <p>For makefiles, one may rely on the <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools&amp;ssr=false#overview">Makefile Tools</a> Microsoft extension.</p>
 </div>
+</div>
+<div class="section" id="fixing-problems">
+<h3>Fixing Problems</h3>
+<p>Use <tt class="docutils literal"><span class="pre">Ctrl-Shift-M</span></tt> to display in the corresponding panel (generally on the bottom-right of the screen) the problems reported by the enabled extensions.</p>
 </div>
 <div class="section" id="supported-languages">
 <h3>Supported Languages</h3>
@@ -1058,12 +1067,59 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <span class="nb">complete</span><span class="w"> </span>-W<span class="w"> </span><span class="s2">&quot;\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|</span>$<span class="s2">)' *akefile | sed 's/[^a-zA-Z0-9_.-]*</span>$<span class="s2">//' 2&gt;/dev/null\`&quot;</span><span class="w"> </span>make
 </pre>
 </div>
+<div class="section" id="mini-shell-cheat-sheet">
+<h2><a class="toc-backref" href="#toc-entry-48">Mini Shell Cheat Sheet</a></h2>
+<p>For the basic <tt class="docutils literal">/bin/sh</tt> shell (Bash being a superset thereof).</p>
+<div class="section" id="switch-like-statement">
+<h3>Switch-like Statement</h3>
+<p>Example:</p>
+<pre class="code sh literal-block">
+<span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">extension</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span><span class="w">
+
+     </span><span class="s2">&quot;erl&quot;</span><span class="p">|</span><span class="s2">&quot;hrl&quot;</span><span class="o">)</span><span class="w">
+         </span>reformat_erlang_source_file<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">target_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+         </span><span class="p">;;</span><span class="w">
+
+     </span><span class="s2">&quot;foo&quot;</span><span class="o">)</span><span class="w">
+         </span>reformat_foo<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">target_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">
+         </span><span class="p">;;</span><span class="w">
+
+
+     </span>*<span class="o">)</span><span class="w">
+         </span>do_something<span class="w">
+         </span><span class="p">;;</span><span class="w">
+
+</span><span class="k">esac</span>
+</pre>
+</div>
+</div>
+<div class="section" id="mounting-manually-crypttab-declared-partitions">
+<h2><a class="toc-backref" href="#toc-entry-49">Mounting Manually crypttab-declared Partitions</a></h2>
+<p>Let's suppose such a partition (here a LUKS-encrypted one) is declared, in <tt class="docutils literal">/etc/crypttab</tt>, as:</p>
+<pre class="literal-block">
+my-encrypted-nvme-storage UUID=a46879cf-xxx luks,timeout=10,fido2-device=auto
+</pre>
+<p>and then in <tt class="docutils literal">/etc/fstab</tt>, as:</p>
+<pre class="literal-block">
+/dev/mapper/my-encrypted-nvme-storage /var/foobar ext4 rw,relatime,data=ordered,nofail 0 2
+</pre>
+<p>Such partition is expected to be mounted at boot time, but here was closed for any reason.</p>
+<p>One can inquire about it thanks to:</p>
+<pre class="literal-block">
+$ SERVICE=&quot;systemd-cryptsetup&#64;my\\x2dencrypted\\x2dnvme\\x2dstorage.service&quot;
+$ systemctl status &quot;$SERVICE&quot;
+$ journalctl -xeu &quot;$SERVICE&quot;
+$ cat &quot;/run/systemd/generator/$SERVICE&quot;
+</pre>
+<p>Mounting it back is &quot;as simple&quot; as executing: <tt class="docutils literal">systemctl start /var/foobar</tt>.</p>
+<p>See also <a class="reference external" href="#creating-encrypted-partitions">this section</a> for related details.</p>
+</div>
 <div class="section" id="other-user-settings">
-<h2><a class="toc-backref" href="#toc-entry-48">Other User Settings</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-50">Other User Settings</a></h2>
 <p>See our <a class="reference external" href="https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a">preferences</a> for <a class="reference external" href="https://www.startpage.com">Startpage</a>; it can be set as homepage.</p>
 </div>
 <div class="section" id="shortcuts">
-<h2><a class="toc-backref" href="#toc-entry-49">Shortcuts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-51">Shortcuts</a></h2>
 <p>Listing here the main keyboard shortcuts of interest for a few base tools.</p>
 <div class="section" id="for-less">
 <h3>For <tt class="docutils literal">less</tt></h3>
@@ -1111,7 +1167,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-50">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-52">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>

@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, June 23, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, August 24, 2024</td>
 </tr>
 </tbody>
 </table>
@@ -200,6 +200,18 @@ P_e = \frac{P_n.e^{m}}{1 + P_n.(e^{m}-1)}
 <p>(translating to <tt class="docutils literal">P_e = <span class="pre">\frac{P_n.e^{m}}{1</span> + <span class="pre">P_n.(e^{m}-1)}</span></tt>)</p>
 <p>A few other examples of resulting math-related outputs can be seen in <a class="reference external" href="https://myriad.esperide.org/#linear-conventions">this section</a>.</p>
 <p>See the next section for a proper use of MathJax in webservers.</p>
+<p>Other LaTeX elements that may be convenient:</p>
+<ul class="simple">
+<li>multiplying: use <tt class="docutils literal">A \times B</tt> for <span class="math">\(A \times B\)</span>, and <tt class="docutils literal">A \cdot B</tt> for <span class="math">\(A \cdot B\)</span></li>
+<li>Greek letters: use <tt class="docutils literal">\alpha</tt> for <span class="math">\(\alpha\)</span> (lowercase), and <tt class="docutils literal">\Gamma</tt> for <span class="math">\(\Gamma\)</span> (uppercase)</li>
+<li>figures, like with:</li>
+</ul>
+<pre class="code literal-block">
+.. figure:: static/xx.png
+    :align: center
+
+    Some relevant caption.
+</pre>
 </div>
 </div>
 </div>
@@ -396,10 +408,19 @@ Here is `some link &lt;http://example.org/xxx&gt;`__.
 </div>
 <div class="section" id="inner-links-with-sphinx">
 <h2><a class="toc-backref" href="#toc-entry-20">Inner Links with Sphinx</a></h2>
-<p>In our preferred approach, described <a class="reference external" href="https://stackoverflow.com/a/70355341">here</a> and <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any">there</a>, such inner links - which are possibly defined and referenced in <em>different</em> RST files - are to be managed in a slightly different way than for <a class="reference external" href="#inner-links">Docutils's inner links</a>:</p>
+<p>We recommend allowing referencing sections based on their title (each title becoming a possible link target). This is done by adding, among the <tt class="docutils literal">extensions</tt>, the <tt class="docutils literal">'sphinx.ext.autosectionlabel'</tt> one. Adding in turn, among the <tt class="docutils literal">suppress_warnings</tt>, the <tt class="docutils literal"><span class="pre">'autosectionlabel.*'</span></tt> one is then useful to silence messages like <tt class="docutils literal">WARNING: duplicate label foo, other instance in bar.rst</tt>.</p>
+<p>Then, in our preferred approach for inner links, described <a class="reference external" href="https://stackoverflow.com/a/70355341">here</a> and <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any">there</a>, such links - which are possibly defined and referenced in <em>different</em> RST files - are to be managed in a slightly different way than for <a class="reference external" href="#inner-links">Docutils's inner links</a>; indeed in order to be able to reference:</p>
 <ul class="simple">
+<li>label sections (i.e. titles in the document):<ul>
 <li>first, as shown in the <a class="reference internal" href="#conf-py">conf.py</a> example above, the <tt class="docutils literal">default_role = 'any'</tt> setting should be specified</li>
-<li>then, if each inner link target shall be specified as usual (e.g. as <tt class="docutils literal">.. _`brief answers`:</tt>), they should be referenced like with Docutils but <em>without</em> a trailing underscore (e.g. as <tt class="docutils literal">`brief answers`</tt> - rather than as <tt class="docutils literal">`brief answers`_</tt>)</li>
+<li>then, each inner link target (e.g. a <tt class="docutils literal">Brief Answers</tt> title) shall be referenced like with Docutils but <em>without</em> a trailing underscore, e.g. as <tt class="docutils literal">`brief answers`</tt> (rather than as <tt class="docutils literal">`brief answers`_</tt>); optionally such references may be prefixed with <tt class="docutils literal">:ref:</tt>, like in: <tt class="docutils literal"><span class="pre">:ref:`brief</span> answers`</tt>; if wanting to have a specific text displayed for a reference, just use for example <tt class="docutils literal">`my text &lt;brief answers&gt;`</tt> (or <tt class="docutils literal"><span class="pre">:ref:`my</span> text &lt;brief answers&gt;`</tt>)</li>
+</ul>
+</li>
+<li>custom anchors:<ul>
+<li>one must be defined with:  <tt class="docutils literal">.. _my anchor:</tt> or, more classically, as <tt class="docutils literal">.. _`my anchor`:</tt></li>
+<li>then, like for label sections, be referenced as: <tt class="docutils literal">`this is the text of the link &lt;my anchor&gt;`</tt>; optionally such links may be prefixed with <tt class="docutils literal">:ref:</tt>, like in: <tt class="docutils literal"><span class="pre">:ref:`this</span> is the text of the link &lt;my anchor&gt;`</tt>; at least in our tests, using just <tt class="docutils literal"><span class="pre">:ref:`my</span> anchor`</tt> (i.e. not indicating a specific text for the link) would not work (and would result in <tt class="docutils literal">WARNING: Failed to create a cross reference. A title or caption not found: 'my anchor'</tt>)</li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="the-problem-of-nested-includes">
@@ -631,11 +652,8 @@ $<span class="w"> </span>make<span class="w"> </span>uml_class_diagram_example.p
 <div class="section" id="finding-usable-content">
 <h2><a class="toc-backref" href="#toc-entry-37">Finding Usable Content</a></h2>
 <p>Assets can be found thanks to <a class="reference external" href="https://search.creativecommons.org/">Creative Commons</a>, which references, among others, <a class="reference external" href="https://openclipart.org">OpenClipart</a>, otherwise possibly <a class="reference external" href="https://publicdomainvectors.org">publicdomainvectors.org</a>.</p>
-<p>General purposes elements:</p>
-<ul class="simple">
-<li><a class="reference external" href="https://openclipart.org/detail/2203/arrowiconsset">arrow icons for toolbar buttons</a></li>
-</ul>
-<p>The simplest approach is to rely on SVG files, to edit them on Inkscape and possibly to export a selection of them as PNG files of the desired size.</p>
+<p>The simplest approach is to rely on SVG files, to edit them on Inkscape (select any subset of interest of the image), and possibly to export a selection of them as PNG files of the desired size (in the <tt class="docutils literal">Export</tt> pane, enable the <em>Export Selected only</em> option and, in the <em>Image Size</em> tab, set the absolute width and/or height wanted).</p>
+<p>In order to find the icons needed to devise a GUI from open elements, refer to the tremendously useful <a class="reference external" href="https://icon-sets.iconify.design/">iconify.design</a> website.</p>
 </div>
 <div class="section" id="using-additional-fonts">
 <h2><a class="toc-backref" href="#toc-entry-38">Using Additional Fonts</a></h2>

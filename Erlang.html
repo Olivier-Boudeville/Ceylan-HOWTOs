@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, May 20, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, December 21, 2024</td>
 </tr>
 </tbody>
 </table>
@@ -41,48 +41,54 @@
 <li><a class="reference internal" href="#installation" id="toc-entry-3">Installation</a></li>
 <li><a class="reference internal" href="#ceylan-s-language-use" id="toc-entry-4">Ceylan's Language Use</a></li>
 <li><a class="reference internal" href="#using-the-shell" id="toc-entry-5">Using the Shell</a></li>
-<li><a class="reference internal" href="#about-security" id="toc-entry-6">About Security</a></li>
-<li><a class="reference internal" href="#otp-guidelines" id="toc-entry-7">OTP Guidelines</a><ul>
-<li><a class="reference internal" href="#the-app-specification" id="toc-entry-8">The <tt class="docutils literal">.app</tt> Specification</a></li>
-<li><a class="reference internal" href="#starting-otp-applications" id="toc-entry-9">Starting OTP Applications</a></li>
-<li><a class="reference internal" href="#pre-launch-functions" id="toc-entry-10">Pre-Launch Functions</a></li>
-<li><a class="reference internal" href="#otp-supervisors" id="toc-entry-11">OTP Supervisors</a></li>
-<li><a class="reference internal" href="#declaring-worker-processes" id="toc-entry-12">Declaring Worker Processes</a></li>
-<li><a class="reference internal" href="#implementing-worker-processes" id="toc-entry-13">Implementing Worker Processes</a></li>
-<li><a class="reference internal" href="#terminating-workers" id="toc-entry-14">Terminating Workers</a></li>
-<li><a class="reference internal" href="#supervisor-bridges" id="toc-entry-15">Supervisor Bridges</a></li>
-<li><a class="reference internal" href="#extra-information" id="toc-entry-16">Extra Information</a></li>
+<li><a class="reference internal" href="#distributed-mode-of-operation" id="toc-entry-6">Distributed Mode of Operation</a><ul>
+<li><a class="reference internal" href="#general-information" id="toc-entry-7">General Information</a></li>
+<li><a class="reference internal" href="#with-our-conventions" id="toc-entry-8">With Our Conventions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#more-advanced-topics" id="toc-entry-17">More Advanced Topics</a><ul>
-<li><a class="reference internal" href="#metaprogramming" id="toc-entry-18">Metaprogramming</a></li>
-<li><a class="reference internal" href="#improper-lists" id="toc-entry-19">Improper Lists</a></li>
-<li><a class="reference internal" href="#opencl" id="toc-entry-20">OpenCL</a></li>
-<li><a class="reference internal" href="#post-mortem-investigations" id="toc-entry-21">Post-Mortem Investigations</a></li>
+<li><a class="reference internal" href="#about-security" id="toc-entry-9">About Security</a></li>
+<li><a class="reference internal" href="#otp-guidelines" id="toc-entry-10">OTP Guidelines</a><ul>
+<li><a class="reference internal" href="#the-app-specification" id="toc-entry-11">The <tt class="docutils literal">.app</tt> Specification</a></li>
+<li><a class="reference internal" href="#starting-otp-applications" id="toc-entry-12">Starting OTP Applications</a></li>
+<li><a class="reference internal" href="#pre-launch-functions" id="toc-entry-13">Pre-Launch Functions</a></li>
+<li><a class="reference internal" href="#otp-supervisors" id="toc-entry-14">OTP Supervisors</a></li>
+<li><a class="reference internal" href="#declaring-worker-processes" id="toc-entry-15">Declaring Worker Processes</a></li>
+<li><a class="reference internal" href="#implementing-worker-processes" id="toc-entry-16">Implementing Worker Processes</a></li>
+<li><a class="reference internal" href="#terminating-workers" id="toc-entry-17">Terminating Workers</a></li>
+<li><a class="reference internal" href="#supervisor-bridges" id="toc-entry-18">Supervisor Bridges</a></li>
+<li><a class="reference internal" href="#extra-information" id="toc-entry-19">Extra Information</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#language-bindings" id="toc-entry-22">Language Bindings</a></li>
-<li><a class="reference internal" href="#language-implementation" id="toc-entry-23">Language Implementation</a><ul>
-<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="toc-entry-24">Message-Passing: Copying vs Sharing</a></li>
-<li><a class="reference internal" href="#just-in-time-compilation" id="toc-entry-25">Just-in-Time Compilation</a></li>
-<li><a class="reference internal" href="#static-typing" id="toc-entry-26">Static Typing</a></li>
-<li><a class="reference internal" href="#software-robustness" id="toc-entry-27">Software Robustness</a></li>
-<li><a class="reference internal" href="#intermediate-languages" id="toc-entry-28">Intermediate Languages</a></li>
+<li><a class="reference internal" href="#more-advanced-topics" id="toc-entry-20">More Advanced Topics</a><ul>
+<li><a class="reference internal" href="#metaprogramming" id="toc-entry-21">Metaprogramming</a></li>
+<li><a class="reference internal" href="#improper-lists" id="toc-entry-22">Improper Lists</a></li>
+<li><a class="reference internal" href="#opencl" id="toc-entry-23">OpenCL</a></li>
+<li><a class="reference internal" href="#post-mortem-investigations" id="toc-entry-24">Post-Mortem Investigations</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#short-hints" id="toc-entry-29">Short Hints</a><ul>
-<li><a class="reference internal" href="#dealing-with-conditional-availability" id="toc-entry-30">Dealing with Conditional Availability</a></li>
-<li><a class="reference internal" href="#runtime-library-version" id="toc-entry-31">Runtime Library Version</a></li>
-<li><a class="reference internal" href="#proper-naming" id="toc-entry-32">Proper Naming</a></li>
-<li><a class="reference internal" href="#formatting-erlang-code" id="toc-entry-33">Formatting Erlang Code</a></li>
-<li><a class="reference internal" href="#language-features" id="toc-entry-34">Language Features</a></li>
-<li><a class="reference internal" href="#disabling-lco" id="toc-entry-35">Disabling LCO</a></li>
-<li><a class="reference internal" href="#using-wx" id="toc-entry-36">Using wx</a></li>
-<li><a class="reference internal" href="#installing-rebar3" id="toc-entry-37">Installing rebar3</a></li>
+<li><a class="reference internal" href="#language-bindings" id="toc-entry-25">Language Bindings</a></li>
+<li><a class="reference internal" href="#language-implementation" id="toc-entry-26">Language Implementation</a><ul>
+<li><a class="reference internal" href="#message-passing-copying-vs-sharing" id="toc-entry-27">Message-Passing: Copying vs Sharing</a></li>
+<li><a class="reference internal" href="#just-in-time-compilation" id="toc-entry-28">Just-in-Time Compilation</a></li>
+<li><a class="reference internal" href="#static-typing" id="toc-entry-29">Static Typing</a></li>
+<li><a class="reference internal" href="#software-robustness" id="toc-entry-30">Software Robustness</a></li>
+<li><a class="reference internal" href="#intermediate-languages" id="toc-entry-31">Intermediate Languages</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-38">Micro-Cheat Sheet</a></li>
-<li><a class="reference internal" href="#erlang-resources" id="toc-entry-39">Erlang Resources</a></li>
+<li><a class="reference internal" href="#short-hints" id="toc-entry-32">Short Hints</a><ul>
+<li><a class="reference internal" href="#dealing-with-conditional-availability" id="toc-entry-33">Dealing with Conditional Availability</a></li>
+<li><a class="reference internal" href="#runtime-library-version" id="toc-entry-34">Runtime Library Version</a></li>
+<li><a class="reference internal" href="#proper-naming" id="toc-entry-35">Proper Naming</a></li>
+<li><a class="reference internal" href="#formatting-erlang-code" id="toc-entry-36">Formatting Erlang Code</a></li>
+<li><a class="reference internal" href="#language-features" id="toc-entry-37">Language Features</a></li>
+<li><a class="reference internal" href="#disabling-lco" id="toc-entry-38">Disabling LCO</a></li>
+<li><a class="reference internal" href="#using-run-erl-to-erl" id="toc-entry-39">Using <tt class="docutils literal">run_erl/to_erl</tt></a></li>
+<li><a class="reference internal" href="#using-wx" id="toc-entry-40">Using wx</a></li>
+<li><a class="reference internal" href="#installing-rebar3" id="toc-entry-41">Installing rebar3</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-42">Micro-Cheat Sheet</a></li>
+<li><a class="reference internal" href="#erlang-resources" id="toc-entry-43">Erlang Resources</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -156,8 +162,97 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 </pre>
 <p>See also the <a class="reference external" href="https://www.erlang.org/doc/man/shell.html#jcl-mode">JCL mode</a> (for <em>Job Control Language</em>) to connect and interact with other Erlang nodes.</p>
 </div>
+<div class="section" id="distributed-mode-of-operation">
+<h1><a class="toc-backref" href="#toc-entry-6">Distributed Mode of Operation</a></h1>
+<div class="section" id="general-information">
+<h2><a class="toc-backref" href="#toc-entry-7">General Information</a></h2>
+<p>The goal is to have processes, running on multiple Erlang VMs instantiated on various hosts of a network, interact (of course, as always, by message-passing based on Erlang processes).</p>
+<p>Let's suppose that we have two hosts, <tt class="docutils literal">foo.example.com</tt> (possibly on the LAN) and <tt class="docutils literal">bar.other.info</tt> (for example a gateway available on the Internet - hence a bit secured, and with many settings activated), each having the latest version of Erlang installed.</p>
+<p>To test whether VMs on either side can communicate, one may launch on <tt class="docutils literal">foo.example.com</tt>  for example (killing EMPD and using a specific, rather random port for it, for safer/paranoid testing):</p>
+<pre class="literal-block">
+$ killall epmd
+
+# Possibly safer to specify just '-name myfoo' rather directly the FQDN
+# ('-name myfoo&#64;foo.example.com'), as we can check the name resolution used
+# by the VM (bogus values like '-name myfoo&#64;ibm.com' would be accepted):
+#
+$ ERL_EPMD_PORT=4506 erl -name myfoo -setcookie abc
+Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
+
+Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
+(myfoo&#64;foo.example.com)1&gt;
+</pre>
+<p>And on <tt class="docutils literal">bar.other.info</tt>:</p>
+<pre class="literal-block">
+$ killall epmd
+$ ERL_EPMD_PORT=4506 erl -name mybar&#64;bar.other.info -setcookie abc
+Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
+
+Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
+(mybar&#64;bar.other.info)1&gt;
+</pre>
+<p>Then the following calls may be of interest, to interlink these VMs and check that they agree on interacting.</p>
+<p>On <tt class="docutils literal">foo.example.com</tt>:</p>
+<pre class="literal-block">
+1&gt; net_adm:ping('mybar&#64;bar.other.info').
+pong
+</pre>
+<p>And on <tt class="docutils literal">bar.other.info</tt>:</p>
+<pre class="literal-block">
+1&gt; net_adm:ping('myfoo&#64;foo.example.com').
+pong
+</pre>
+<p>Then either of the two nodes can perform mostly anything on the other host (of course depending on the respective permissions of the users that run them); and of course Erlang cookies are not a security feature, they are just an ad hoc way of preventing unwanted interactions between nodes.</p>
+<p>A lot more often than expected, <tt class="docutils literal">pang</tt> is received (instead of <tt class="docutils literal">pong</tt>), meaning that unfortunately the connection could not be created.</p>
+<p>Among the many possible pitfalls, there are (approximately sorted by decreasing level of probability, according to our experience):</p>
+<ul class="simple">
+<li>at least a <strong>firewall</strong> between the two hosts filtering packets, either exchanged by the Erlang VMs (using ephemeral ports for that, within a possibly user-specified range), or by the EPMD daemons; one may refer to <a class="reference external" href="Networking.html#firewall-management">our page about firewalls</a></li>
+<li>misconfigured (e.g. inconsistent) <strong>DNS</strong> services (e.g. one host unable to resolve the other, or resolving it as a different name that it knows itself); simply running <tt class="docutils literal">hostname <span class="pre">-f</span></tt>, and possibly <tt class="docutils literal">ping foo.example.com</tt> from <tt class="docutils literal">bar</tt>, and <tt class="docutils literal">ping bar.other.info</tt> from <tt class="docutils literal">foo</tt>, may unveil surprises)</li>
+<li>inconsistent <a class="reference external" href="https://www.erlang.org/doc/apps/erts/epmd_cmd">EPMD</a> <strong>ports</strong> ; beware of any lingering <tt class="docutils literal">ERL_EPMD_PORT</tt> environment variable that may still apply (this is why, in the example, one was specified; otherwise the default one, 4369, is expected to be relied upon)</li>
+<li>at least one incorrect (misspelled) <strong>target node</strong>; moreover their names must be atoms (hence the use of single quotes, as they comprise dots) and the FQDN should match (e.g. from the point of view of the EPMD daemon, <tt class="docutils literal">bar</tt> and <tt class="docutils literal">bar.other.info</tt> might be considered different)</li>
+<li>mistmatching (Erlang) <strong>cookies</strong> (of course)</li>
+<li>mismatching <strong>name addressing</strong>: using short names (<tt class="docutils literal"><span class="pre">-sname</span></tt>) mixed with long names (<tt class="docutils literal"><span class="pre">-name</span></tt>)</li>
+<li>faulty EPMD <strong>daemons</strong> (e.g. one having missed that a node respawned; this seldom happens, under specific circumstances) - hence the prior killings in the example</li>
+<li>incompatible <strong>versions</strong> of Erlang (if in doubt, just use the latest stable one on either side); anyway such an issue should be reported on the console</li>
+</ul>
+</div>
+<div class="section" id="with-our-conventions">
+<h2><a class="toc-backref" href="#toc-entry-8">With Our Conventions</a></h2>
+<p>To focus a bit on developments relying on our conventions (notably the Ceylan-Myriad ones) about firewall settings, one may first inspect the <tt class="docutils literal"><span class="pre">/etc/iptables.settings-Gateway.sh</span></tt> file to check the firewall settings that are currently listed (e.g. <tt class="docutils literal">grep <span class="pre">'myriad_default_epmd_port\|tcp_'</span> <span class="pre">iptables.settings-Gateway.sh</span></tt>).</p>
+<p>This may result for example in:</p>
+<pre class="literal-block">
+myriad_default_epmd_port=4502
+enable_unfiltered_tcp_range=&quot;true&quot;
+tcp_unfiltered_low_port=60000
+tcp_unfiltered_high_port=65000
+</pre>
+<p>(supposing they apply on both hosts)</p>
+<p>One could ensure that these were indeed the ones applied (if ever the prior settings were changed yet with no firewall reloading afterwards), by checking the <tt class="docutils literal"><span class="pre">/root/.last-gateway-firewall-activation</span></tt> file.</p>
+<p>Finally, one may run our <tt class="docutils literal"><span class="pre">iptables-inspect.sh</span></tt> script to request iptables to describe its current, actual state.</p>
+<p>Then, to test the connectivity of corresponding VMs, first on <tt class="docutils literal">foo.example.com</tt>:</p>
+<pre class="literal-block">
+$ killall epmd beam.smp
+$ ERL_EPMD_PORT=4502 erl -name myfoo&#64;foo.example.com -setcookie abc -kernel inet_dist_listen_min 60000 inet_dist_listen_max 65000
+Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
+
+Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
+(myfoo&#64;foo.example.com)1&gt;
+</pre>
+<p>And on <tt class="docutils literal">bar.other.info</tt>, this could be:</p>
+<pre class="literal-block">
+$ export ERL_EPMD_PORT=4502
+$ erl -name mybar&#64;bar.other.info -setcookie abc -kernel inet_dist_listen_min 60000 inet_dist_listen_max 65000
+Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
+
+Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
+(mybar&#64;bar.other.info)1&gt; net_adm:ping('myfoo&#64;foo.example.com').
+pong
+</pre>
+<p>At last it works!</p>
+</div>
+</div>
 <div class="section" id="about-security">
-<h1><a class="toc-backref" href="#toc-entry-6">About Security</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-9">About Security</a></h1>
 <ul class="simple">
 <li>one should not encrypt messages directly with a key pair (e.g. with RSA, only messages up to around 200 bytes long can be encrypted):  one should encrypt only a <em>symmetric key</em> (generated by a cryptographically-safe random algorithm) that is then used to encrypt one's message(s); ensure an Encrypt-Then-Authenticate scheme to prevent padding oracle attacks (and a secure-compare algorithm for the <em>Message Authentication Code</em> verification to prevent timing attacks); using <a class="reference external" href="https://doc.libsodium.org/">libsodium</a> should make mistakes using the standard crypto primitives less error-prone; see the <a class="reference external" href="https://github.com/jlouis/enacl">enacl</a> Erlang binding for that; for more information, refer to <a class="reference external" href="https://erlangforums.com/t/cannot-encrypt-a-long-binary-using-public-key-encrypt-private-2/724">the corresponding thread</a></li>
 <li>relevant sources of information:<ul>
@@ -172,9 +267,9 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 </ul>
 </div>
 <div class="section" id="otp-guidelines">
-<h1><a class="toc-backref" href="#toc-entry-7">OTP Guidelines</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-10">OTP Guidelines</a></h1>
 <div class="section" id="the-app-specification">
-<h2><a class="toc-backref" href="#toc-entry-8">The <tt class="docutils literal">.app</tt> Specification</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-11">The <tt class="docutils literal">.app</tt> Specification</a></h2>
 <p>For an overall application named <tt class="docutils literal">Foobar</tt>, we recommend defining in <tt class="docutils literal">conf/foobar.app.src</tt> an application specification template that, once properly filled regarding the version of  that application and the modules that it comprises (possibly automatically done thanks to the <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a> logic), will result in an actual application specification file, <tt class="docutils literal">foobar.app</tt>.</p>
 <p>Such a file is necessary in all cases, to generate an OTP application (otherwise with <a class="reference external" href="http://rebar3.org/">rebar3</a> nothing will be built), an OTP release (otherwise the application dependencies will not be reachable), and probably an <a class="reference external" href="https://hex.pm/">hex</a> package as well.</p>
 <p>This specification content is to end up in various places:</p>
@@ -185,7 +280,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 </ul>
 </div>
 <div class="section" id="starting-otp-applications">
-<h2><a class="toc-backref" href="#toc-entry-9">Starting OTP Applications</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-12">Starting OTP Applications</a></h2>
 <p>For an OTP <em>active</em> application of interest - that is one that provides an actual service, i.e. running processes, as opposed to a mere <em>library</em> application, which provides only code - such a specification defines, among other elements, which module will be used to start this application. We recommend to name this module according to the target application and to suffix it with <tt class="docutils literal">_app</tt>, like in:</p>
 <pre class="code erlang literal-block">
 <span class="p">{</span><span class="n">application</span><span class="p">,</span><span class="w"> </span><span class="n">foobar</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -197,7 +292,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 <p>This <tt class="docutils literal">start/2</tt> function, together with its <tt class="docutils literal">stop/1</tt> reciprocal, are the functions listed by the OTP (active) <tt class="docutils literal">application</tt> behaviour; at least for clarity, it is better that <tt class="docutils literal">foobar_app.erl</tt> comprises <tt class="docutils literal"><span class="pre">-behaviour(application).</span></tt></p>
 </div>
 <div class="section" id="pre-launch-functions">
-<h2><a class="toc-backref" href="#toc-entry-10">Pre-Launch Functions</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-13">Pre-Launch Functions</a></h2>
 <p>The previous OTP callbacks may be called by specific-purpose launching code; we tend to define an <tt class="docutils literal">exec/0</tt> function for that: then, with the Myriad make system, executing on the command-line <tt class="docutils literal">make foobar_exec</tt> results in <tt class="docutils literal">foobar_app:exec/0</tt> to be called.</p>
 <p>Having such a pre-launch function is useful when having to set specific information beforehand (see <tt class="docutils literal"><span class="pre">application:set_env/{1,2}</span></tt>) and/or when starting by oneself applications (e.g. see <tt class="docutils literal">otp_utils:start_applications/2</tt>).</p>
 <p>In any case this should result in <tt class="docutils literal">foobar_app:start/2</tt> to be called at application startup, a function whose purpose is generally to spawn the root supervisor of this application.</p>
@@ -226,7 +321,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 <p>Then the <tt class="docutils literal">foo</tt> application shall be launched, and a shell be available to interact with the corresponding VM.</p>
 </div>
 <div class="section" id="otp-supervisors">
-<h2><a class="toc-backref" href="#toc-entry-11">OTP Supervisors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-14">OTP Supervisors</a></h2>
 <p>The purpose of supervisors is to ease the development of fault-tolerant applications by building hierarchical process structures called <em>supervision trees</em>.</p>
 <p>For that, supervisors are to monitor their children, that may be workers (typically implementing the <tt class="docutils literal">gen_{event,server,statem}</tt> behaviour) and/or other supervisors (they can thus be nested).</p>
 <p>We recommend to define a <tt class="docutils literal">foobar_sup:start_link/0</tt> function (it is an user-level API, so any name and arity can be used). This <tt class="docutils literal">foobar_sup</tt> module is meant to implement the <tt class="docutils literal">supervisor</tt> behaviour (to be declared with <tt class="docutils literal"><span class="pre">-behaviour(supervisor).</span></tt>), which in practice requires an <tt class="docutils literal">init/1</tt> function to be defined.</p>
@@ -245,7 +340,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 </pre>
 </div>
 <div class="section" id="declaring-worker-processes">
-<h2><a class="toc-backref" href="#toc-entry-12">Declaring Worker Processes</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-15">Declaring Worker Processes</a></h2>
 <p>Our <tt class="docutils literal">otp_utils</tt> module may help a bit defining proper restart strategies and child specifications, i.e. the information regarding the workers that will be supervised, here, by this root supervisor.</p>
 <p>For example it could be:</p>
 <pre class="code erlang literal-block">
@@ -285,7 +380,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 </table>
 </div>
 <div class="section" id="implementing-worker-processes">
-<h2><a class="toc-backref" href="#toc-entry-13">Implementing Worker Processes</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-16">Implementing Worker Processes</a></h2>
 <p>Such a worker, which can be any Erlang process (implementing an OTP behaviour, like <tt class="docutils literal">gen_server</tt>, or not) will thus be spawned here through a call to the <tt class="docutils literal">foobar:start_link/3</tt> function (another user-defined API) made by this supervisor. This is a mere <em>call</em> (an <tt class="docutils literal">apply/3</tt>), not a spawn of a child process based on that function.</p>
 <p>Therefore the called function is expected to <em>create</em> the worker process by itself, like, in the <tt class="docutils literal">foobar</tt> module:</p>
 <pre class="code erlang literal-block">
@@ -297,7 +392,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 <p>Here thus the spawned worker will start by executing <tt class="docutils literal">foobar:init/2</tt>, a function not expected to return, often trapping EXIT signals (<tt class="docutils literal">process_flag(trap_exit, true)</tt>), setting system flags and, once properly initialised, notifying its supervisor that it is up and running (e.g. <tt class="docutils literal"><span class="pre">proc_lib:init_ack(_Return=self())</span></tt>) before usually entering a tail-recursive loop.</p>
 </div>
 <div class="section" id="terminating-workers">
-<h2><a class="toc-backref" href="#toc-entry-14">Terminating Workers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-17">Terminating Workers</a></h2>
 <p>Depending on the <tt class="docutils literal">shutdown</tt> entry of its child specification, on application stop that worker may be terminated by different ways. We tend to prefer specifying a maximum shutdown duration: then the worker will be sent by its supervisor first a <tt class="docutils literal">shutdown</tt> EXIT message, that this worker may handle, typically in its main loop:</p>
 <pre class="code erlang literal-block">
 <span class="k">receive</span><span class="w">
@@ -310,13 +405,13 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 <p>If the worker fails to stop (on time, or at all) and properly terminate, it will then be brutally killed by its supervisor.</p>
 </div>
 <div class="section" id="supervisor-bridges">
-<h2><a class="toc-backref" href="#toc-entry-15">Supervisor Bridges</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-18">Supervisor Bridges</a></h2>
 <p>Non-OTP processes (e.g. <a class="reference external" href="http://wooper.esperide.org">WOOPER</a> instances) can act as supervisors thanks to the <a class="reference external" href="https://www.erlang.org/doc/man/supervisor_bridge.html">supervisor_bridge</a> module.</p>
 <p>Such a process shall implement the <tt class="docutils literal">supervisor_bridge</tt> behaviour, namely <tt class="docutils literal">init/1</tt> and <tt class="docutils literal">terminate/2</tt>. If the former function spawns a process, the latter shall ensure that this process terminates in a synchronous manner, otherwise race conditions may happen.</p>
 <p>See <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Traces/blob/master/src/traces_bridge_sup.erl">traces_bridge_sup</a> for an example thereof.</p>
 </div>
 <div class="section" id="extra-information">
-<h2><a class="toc-backref" href="#toc-entry-16">Extra Information</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-19">Extra Information</a></h2>
 <p>One may refer to;</p>
 <ul class="simple">
 <li><a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a> as an example of OTP <em>Library</em> Application</li>
@@ -326,9 +421,9 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 </div>
 </div>
 <div class="section" id="more-advanced-topics">
-<h1><a class="toc-backref" href="#toc-entry-17">More Advanced Topics</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-20">More Advanced Topics</a></h1>
 <div class="section" id="metaprogramming">
-<h2><a class="toc-backref" href="#toc-entry-18">Metaprogramming</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-21">Metaprogramming</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Metaprogramming">Metaprogramming</a> is to be done in Erlang through <strong>parse transforms</strong>, which are user-defined modules that transform an AST (for <em>Abstract Syntax Trees</em>, an Erlang term that represents actual code; see the <a class="reference external" href="https://www.erlang.org/doc/apps/erts/absform.html">Abstract Format</a> for more details) into another AST that is fed afterwards to the compiler.</p>
 <p>See also:</p>
 <ul class="simple">
@@ -337,7 +432,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 </ul>
 </div>
 <div class="section" id="improper-lists">
-<h2><a class="toc-backref" href="#toc-entry-19">Improper Lists</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-22">Improper Lists</a></h2>
 <p>A proper list is created from the empty one (<tt class="docutils literal">[]</tt>, also known as &quot;nil&quot;) by appending (with the <tt class="docutils literal">|</tt> operator, a.k.a. &quot;cons&quot;) elements in turn; for example <tt class="docutils literal">[1,2]</tt> is actually <tt class="docutils literal">[1 | [2 | <span class="pre">[]]]</span></tt>.</p>
 <p>However, instead of enriching a list from the empty one, one <em>can</em> start a list with any other term than <tt class="docutils literal">[]</tt>, for example <tt class="docutils literal">my_atom</tt>. Then, instead of <tt class="docutils literal"><span class="pre">[2|[]]</span></tt>, <tt class="docutils literal">[2|my_atom]</tt> may be specified and will be indeed a list - albeit an improper one.</p>
 <p>Many recursive functions expect proper lists, and will fail (typically with a function clause) if given an improper list to process (e.g. <tt class="docutils literal">lists:flatten/1</tt>).</p>
@@ -366,15 +461,25 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 <p>Everyone shall decide on whether relying on improper lists is a trick, a hack or a technique to prohibit.</p>
 </div>
 <div class="section" id="opencl">
-<h2><a class="toc-backref" href="#toc-entry-20">OpenCL</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-23">OpenCL</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/OpenCL">Open Computing Language</a> is a standard interface designed to program many processing architectures, such as CPUs, GPUs, DSPs, FPGAs.</p>
 <p>OpenCL is notably a way of using one's GPU to perform more general-purpose processing than typically the rendering operations allowed by <a class="reference external" href="ThreeDimensional.html#glsl">GLSL</a> (even compared to its compute shaders).</p>
 <p>In Erlang, the <a class="reference external" href="https://github.com/tonyrog/cl">cl binding</a> is available for that.</p>
 <p>A notable user thereof is <a class="reference external" href="ThreeDimensional.html#wings3d">Wing3D</a>; one may refer to the <tt class="docutils literal">*.cl</tt> files in <a class="reference external" href="https://github.com/dgud/wings/tree/master/shaders">this directory</a>, but also to its optional build integration as a source of inspiration, and to <a class="reference external" href="https://github.com/dgud/wings/blob/master/src/wings_cl.erl">wings_cl.erl</a>.</p>
 </div>
 <div class="section" id="post-mortem-investigations">
-<h2><a class="toc-backref" href="#toc-entry-21">Post-Mortem Investigations</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-24">Post-Mortem Investigations</a></h2>
 <p>Erlang programs may fail, and this may result in mere (Erlang-level) crashes (the VM detects an error, and reports information about it, possibly in the form of a crash dump) or (sometimes, quite infrequently though) in more brutal, lower-level core dumps (the VM crashes as a whole, like any faulty program run by the operating system); this last case happens typically when relying on faulty <a class="reference external" href="https://www.erlang.org/doc/tutorial/nif.html">NIFs</a>.</p>
+<div class="section" id="monitoring">
+<h3>Monitoring</h3>
+<p>To monitor a (live, Erlang) application, one may use:</p>
+<ul class="simple">
+<li>the (integrated) <a class="reference external" href="https://www.erlang.org/doc/apps/observer/observer_ug">observer</a> graphical tool (either locally, or remotely with <tt class="docutils literal">observer:start/1</tt>)</li>
+<li>an headless (command-line) observer: <a class="reference external" href="https://hexdocs.pm/observer_cli/">observer_cli</a></li>
+<li>a monitoring and introspection application: <a class="reference external" href="https://github.com/ieQu1/system_monitor">system_monitor</a></li>
+<li>an <a class="reference external" href="https://github.com/systra/ObserverWeb">observer web frontend</a></li>
+</ul>
+</div>
 <div class="section" id="erlang-crash-dumps">
 <h3>Erlang Crash Dumps</h3>
 <p>If experiencing &quot;only&quot; an Erlang-level crash, a <tt class="docutils literal">erl_crash.dump</tt> file is produced in the directory whence the executable (generally <tt class="docutils literal">erl</tt>) was launched. The best way to study it is to use the <tt class="docutils literal">cdv</tt> (refer to <a class="reference external" href="https://www.erlang.org/doc/apps/observer/crashdump_ug.html">crashdump viewer</a>) tool, available, from the Erlang installation, as <tt class="docutils literal">lib/erlang/cdv</tt> <a class="footnote-reference" href="#footnote-5" id="footnote-reference-5">[7]</a>.</p>
@@ -398,7 +503,7 @@ $<span class="w"> </span>cdv<span class="w"> </span>erl_crash.dump
 </div>
 </div>
 <div class="section" id="language-bindings">
-<h1><a class="toc-backref" href="#toc-entry-22">Language Bindings</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-25">Language Bindings</a></h1>
 <p>The two main approaches in order to integrate third-party code to Erlang are to:</p>
 <ul class="simple">
 <li>interact with it as if it was another Erlang node; we defined <a class="reference external" href="http://seaplus.esperide.org">Ceylan-Seaplus</a> for that purpose, to simplify the binding of C code; other libraries provide link to various languages</li>
@@ -408,19 +513,19 @@ $<span class="w"> </span>cdv<span class="w"> </span>erl_crash.dump
 </ul>
 </div>
 <div class="section" id="language-implementation">
-<h1><a class="toc-backref" href="#toc-entry-23">Language Implementation</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-26">Language Implementation</a></h1>
 <div class="section" id="message-passing-copying-vs-sharing">
-<h2><a class="toc-backref" href="#toc-entry-24">Message-Passing: Copying vs Sharing</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-27">Message-Passing: Copying vs Sharing</a></h2>
 <p>Knowing that, in functional languages such as Erlang, terms (&quot;variables&quot;) are immutable, why could not they be shared between local processes when sent through messages, instead of being copied in the heap of each of them, as it is actually the case with the Erlang VM?</p>
 <p>The reason lies in the fact that, beyond the constness of these terms, their life-cycle has also to be managed. If they are copied, each process can very easily perform its (concurrent, autonomous) garbage collections. On the contrary, if terms were shared, then reference counting would be needed to deallocate them properly (neither too soon nor never at all), which, in a concurrent context, is bound to require locks.</p>
 <p>So a trade-off between memory (due to data duplication) and processing (due to lock contention) has to be found and at least for most terms (excepted larger binaries), the sweet spot consists in sacrificing a bit of memory in favour of a lesser CPU load. Solutions like <a class="reference external" href="https://www.erlang.org/doc/man/persistent_term.html">persistent_term</a> may address situations where more specific needs arise.</p>
 </div>
 <div class="section" id="just-in-time-compilation">
-<span id="jit"></span><h2><a class="toc-backref" href="#toc-entry-25">Just-in-Time Compilation</a></h2>
+<span id="jit"></span><h2><a class="toc-backref" href="#toc-entry-28">Just-in-Time Compilation</a></h2>
 <p>This long-awaited feature, named <em>BeamAsm</em> and whose rationale and history have been detailed in <a class="reference external" href="https://www.erlang.org/blog/the-road-to-the-jit/">these articles</a>, has been introduced in Erlang 24 and shall transparently lead to increased performances for most applications.</p>
 </div>
 <div class="section" id="static-typing">
-<h2><a class="toc-backref" href="#toc-entry-26">Static Typing</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-29">Static Typing</a></h2>
 <p>Static type checking can be performed on Erlang code; the usual course of action is to use <a class="reference external" href="https://www.erlang.org/doc/man/dialyzer.html">Dialyzer</a> - albeit other solutions like <a class="reference external" href="https://github.com/josefs/Gradualizer">Gradualizer</a> and also <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a> exist, and are mostly complementary (see also <a class="reference external" href="https://learnyousomeerlang.com/types-or-lack-thereof#for-type-junkies">1</a> and <a class="reference external" href="https://learnyousomeerlang.com/dialyzer">2</a>).</p>
 <p>More precisely:</p>
 <ul class="simple">
@@ -494,21 +599,21 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Sof
 </div>
 </div>
 <div class="section" id="software-robustness">
-<h2><a class="toc-backref" href="#toc-entry-27">Software Robustness</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-30">Software Robustness</a></h2>
 <p>Type correctness is essential, yet of course it does not guarantee that a program is correct and relevant. Other approaches, like the <strong>checking</strong> of other properties (notably concurrency, see <a class="reference external" href="https://github.com/parapluu/Concuerror">Concuerror</a>) can be very useful.</p>
 <p>Beyond checking, <strong>testing</strong> is also an invaluable help for bug-fixing. Various tools may help, including <a class="reference external" href="http://www.quviq.com/products/erlang-quickcheck/">QuickCheck</a>.</p>
 <p>Finally, not all errors can be anticipated, from network outages, hardware failures to human factor. An effective last line of defence is to rely on (this time at runtime) <strong>supervision mechanisms</strong> in order to detect any kind of faults (bound to happen, whether expected or not), and overcome them. The OTP framework is an excellent example of such system, much useful to reach higher levels of robustness, including the well-known nine nines - that is an availability of 99.9999999%.</p>
 </div>
 <div class="section" id="intermediate-languages">
-<h2><a class="toc-backref" href="#toc-entry-28">Intermediate Languages</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-31">Intermediate Languages</a></h2>
 <p>To better discover the inner workings of the Erlang compilation, one may look at the <a class="reference external" href="http://tryerl.seriyps.ru/">eplaypen online demo</a> (whose project is <a class="reference external" href="https://github.com/seriyps/eplaypen">here</a>) and/or at the <a class="reference external" href="https://godbolt.org/">Compiler Explorer</a> (which supports the Erlang language among others).</p>
 <p>Both of them allow to read the intermediate representations involved when compiling Erlang code (BEAM stage, erl_scan, preprocessed sources, abstract code, Core Erlang, Static Single Assignment form, BEAM VM assembler opcodes, x86-64 assembler generated by the JIT, etc.).</p>
 </div>
 </div>
 <div class="section" id="short-hints">
-<h1><a class="toc-backref" href="#toc-entry-29">Short Hints</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-32">Short Hints</a></h1>
 <div class="section" id="dealing-with-conditional-availability">
-<h2><a class="toc-backref" href="#toc-entry-30">Dealing with Conditional Availability</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-33">Dealing with Conditional Availability</a></h2>
 <div class="section" id="regarding-modules-and-from-the-command-line">
 <h3>Regarding modules, and from the command-line</h3>
 <p>Depending on how Erlang was built in a given environment, some modules may or may not be available.</p>
@@ -549,13 +654,13 @@ $<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </s
 </div>
 </div>
 <div class="section" id="runtime-library-version">
-<h2><a class="toc-backref" href="#toc-entry-31">Runtime Library Version</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-34">Runtime Library Version</a></h2>
 <p>To know <strong>which version of a library</strong> (here, wxWidgets) a given Erlang install is using (if any), one may run an Erlang shell (<tt class="docutils literal">erl</tt>), collect the PID of this (UNIX) process (e.g. <tt class="docutils literal">ps <span class="pre">-edf</span> | grep beam</tt>), then trigger a use of that library (e.g. for <tt class="docutils literal">wx</tt>, execute <tt class="docutils literal"><span class="pre">wx:demo().</span></tt>) in order to force its dynamic binding.</p>
 <p>Then determine its name, for example thanks to <tt class="docutils literal">pmap ${BEAM_PID} | grep libwx</tt>).</p>
 <p>This may indicate that for example <tt class="docutils literal"><span class="pre">libwx_gtk2u_core-3.0.so.0.5.0</span></tt> is actually used.</p>
 </div>
 <div class="section" id="proper-naming">
-<h2><a class="toc-backref" href="#toc-entry-32">Proper Naming</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-35">Proper Naming</a></h2>
 <div class="section" id="variable-shorthands">
 <h3>Variable Shorthands</h3>
 <p>Usually we apply the following conventions:</p>
@@ -584,7 +689,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </s
 </div>
 </div>
 <div class="section" id="formatting-erlang-code">
-<h2><a class="toc-backref" href="#toc-entry-33">Formatting Erlang Code</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-36">Formatting Erlang Code</a></h2>
 <p>Various tools are able to format Erlang code, see <a class="reference external" href="https://github.com/WhatsApp/erlfmt/blob/main/doc/ErlangFormatterComparison.md">this page</a> for a comparison thereof.</p>
 <div class="section" id="with-rebar3-format">
 <h3>With <tt class="docutils literal">rebar3_format</tt></h3>
@@ -621,11 +726,11 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 </div>
 </div>
 <div class="section" id="language-features">
-<h2><a class="toc-backref" href="#toc-entry-34">Language Features</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-37">Language Features</a></h2>
 <p>Experimental features (such as <tt class="docutils literal">maybe</tt> in Erlang 25) of the <strong>compiler</strong> (once Erlang has been built, they are <em>potentially available</em>) may have to be specifically <em>enabled</em> at runtime, like in <tt class="docutils literal"><span class="pre">ERL_FLAGS=&quot;-enable-feature</span> all&quot; rebar3 as release escriptize</tt>.</p>
 </div>
 <div class="section" id="disabling-lco">
-<h2><a class="toc-backref" href="#toc-entry-35">Disabling LCO</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-38">Disabling LCO</a></h2>
 <p>LCO means here <em>Last Call Optimisation</em>. This consists simply when, in a given module, a (typically exported) function <tt class="docutils literal">f</tt> ends by calling a <em>local</em> function <tt class="docutils literal">g</tt> (i.e. has for last expression a call like <tt class="docutils literal"><span class="pre">g(...)</span></tt>), in not pushing on the stack the call to <tt class="docutils literal">g</tt>, but instead replacing directly the stackframe of <tt class="docutils literal">f</tt> (which can be skipped here, as returning from <tt class="docutils literal">g</tt> will mean directly returning from <tt class="docutils literal">f</tt> as well) with a proper one for <tt class="docutils literal">g</tt>.</p>
 <p>This trick spares the use of one level of stack at each ending local call, which is key for recursive functions <a class="footnote-reference" href="#footnote-8" id="footnote-reference-8">[10]</a> (typically for infinitely-looping server processes): they remain then in constant stack space, whereas otherwise the number of their stackframes would grow indefinitely, at each recursive call, and explode in memory.</p>
 <table class="docutils footnote" frame="void" id="footnote-8" rules="none">
@@ -645,8 +750,29 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <p>One can nevertheless note that unfortunately LCO is not the only cause for the vanishing of calls in the stacktrace (even in the absence of any function inlining).</p>
 <p>Within <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a>, if the (non-default) <tt class="docutils literal">myriad_disable_lco</tt> compilation option is set (typically with the <tt class="docutils literal"><span class="pre">-Dmyriad_disable_lco</span></tt> command-line flag), this workaround is applied automatically on the modules on which the Myriad parse transform operates - i.e. all but bootstrapped modules (refer to the <tt class="docutils literal">lco_disabling_clause_transform_fun/2</tt> function of the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/meta/myriad_parse_transform.erl">myriad_parse_transform</a> module).</p>
 </div>
+<div class="section" id="using-run-erl-to-erl">
+<h2><a class="toc-backref" href="#toc-entry-39">Using <tt class="docutils literal">run_erl/to_erl</tt></a></h2>
+<p>When using <a class="reference external" href="https://www.erlang.org/docs/26/man/run_erl.html">run_erl</a>, lines like the following are output:</p>
+<pre class="literal-block">
+Write pipe '/tmp/launch-erl-3822033.w' found, waiting 2 seconds to ensure start-up is successful indeed.
+
+ **************************************************************
+ ** Node 'us_main' ready and running as a daemon.
+ ** Use 'to_erl /tmp/launch-erl-3822033' to connect to that node.
+ ** (then type CTRL-D to exit without killing the node)
+ **************************************************************
+ (authbind success reported)
+
+EPMD names output (on default US-Main port ):
+epmd: up and running on port 4507 with data:
+name us_main at port 50002
+name us_main_exec-xxx at port 60001
+</pre>
+<p>If connecting to that node with <tt class="docutils literal">to_erl <span class="pre">/tmp/launch-erl-3822033</span></tt> (hence from the local host), a direct access to an Erlang shell on that node is granted.</p>
+<p>Remember that exiting the interpreter as usual (hitting CTRL-C twice) thus means killing that node; so prefer CTRL-D (once) instead!</p>
+</div>
 <div class="section" id="using-wx">
-<h2><a class="toc-backref" href="#toc-entry-36">Using wx</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-40">Using wx</a></h2>
 <p><a class="reference external" href="https://www.erlang.org/doc/man/wx.html">wx</a> is now <a class="footnote-reference" href="#footnote-9" id="footnote-reference-9">[11]</a> the standard Erlang way of programming one's graphical user interface; it is a binding to the <a class="reference external" href="http://www.wxwidgets.org/">wxWidgets</a> library.</p>
 <table class="docutils footnote" frame="void" id="footnote-9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -698,12 +824,12 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 </ul>
 </div>
 <div class="section" id="installing-rebar3">
-<h2><a class="toc-backref" href="#toc-entry-37">Installing rebar3</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-41">Installing rebar3</a></h2>
 <p>One may use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-rebar3.sh">install-rebar3.sh</a> script for that (installed from sources, or prebuilt).</p>
 </div>
 </div>
 <div class="section" id="micro-cheat-sheet">
-<h1><a class="toc-backref" href="#toc-entry-38">Micro-Cheat Sheet</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-42">Micro-Cheat Sheet</a></h1>
 <p>To avoid having to perform a lookup in the documentation:</p>
 <ul class="simple">
 <li>Erlang indices start at <tt class="docutils literal">1</tt>, except the ones of the <tt class="docutils literal">array</tt> module that are zero-based</li>
@@ -731,9 +857,10 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 </ul>
 </li>
 <li>to detect in a guard whether a term is a map, there is no <tt class="docutils literal">is_map/1</tt> guard available: <tt class="docutils literal">map_size/1</tt> will fail the guard if its argument is not a map; a map includes its size in the header word, so <tt class="docutils literal">map_size/1</tt> is O(1); furthermore, the JIT will inline calls to <tt class="docutils literal">map_size/1</tt></li>
+<li>a queue can be seen as being augmented (with <tt class="docutils literal">queue:in/2</tt>) on the right (&quot;rear&quot; of the queue), and shrunk (with <tt class="docutils literal">queue:out/1</tt>) on the left (&quot;front&quot; of the queue); for example, adding to an empty queue <tt class="docutils literal">a</tt> then <tt class="docutils literal">b</tt>, results, when converting the resulting queue in a list, in <tt class="docutils literal">[a,b]</tt>; extracting an element of it returns <tt class="docutils literal">a</tt>, and the remaining queue corresponds then to <tt class="docutils literal">[b]</tt></li>
 <li>a rule of thumb for naming in Erlang/OTP is that functions having <tt class="docutils literal">size</tt> in their name are O(1), while functions having <tt class="docutils literal">length</tt> in their name are O(N)</li>
 <li>when converting a float to a string, to set the precision (the number of digits after the decimal point) to <tt class="docutils literal">P</tt>, use: <tt class="docutils literal"><span class="pre">&quot;~.Pf&quot;</span></tt>; for example, if <tt class="docutils literal">P=5</tt>, we have: <tt class="docutils literal">&quot;0.33333&quot; = <span class="pre">io_lib:format(&quot;~.5f&quot;,</span> <span class="pre">[1/3]).</span></tt></li>
-<li>the lesser-known <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#list-operationslist">&quot;--&quot; list subtraction</a> operator returns a list that is a copy of the first argument where, for each element in the second argument, the first occurrence of this element (if any) is removed</li>
+<li>the lesser-known <tt class="docutils literal"><span class="pre">--</span></tt> <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#list-operationslist">list subtraction</a> operator returns a list that is a copy of the first argument where, for each element in the second argument, the first occurrence of this element (if any) is removed</li>
 <li>refer to the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences">escape sequences</a>, typically in order to specify characters like &quot;space&quot; (<tt class="docutils literal">$\s</tt>); <tt class="docutils literal">$char</tt> is the notation to designate the ASCII value or Unicode code-point of the character <tt class="docutils literal">char</tt> (e.g. <tt class="docutils literal">$A</tt>)</li>
 <li>see the always handy <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">operator precedence</a> and the various ways to <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#try">handle exceptions with try/catch</a>; note that to catch <em>all</em> exceptions - i.e. those of the <tt class="docutils literal">throw</tt> class, but also of the <tt class="docutils literal">exit</tt> and <tt class="docutils literal">error</tt> classes, one may use: <tt class="docutils literal">try EXPR catch _:E <span class="pre">-&gt;</span> ...</tt> (rather than just: <tt class="docutils literal">try EXPR catch E <span class="pre">-&gt;</span> ...</tt>)</li>
 <li>in <strong>guard expressions</strong>:<ul>
@@ -813,10 +940,11 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
    </span><span class="nv">MaybeListenerPid</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="n">onDeserialisation</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">self</span><span class="p">(),</span><span class="w"> </span><span class="nv">FinalUserData</span><span class="p">]}</span>
 </pre>
 <p>(<tt class="docutils literal">orelse</tt> having more priority than <tt class="docutils literal">!</tt>, parentheses shall be added, otherwise, if having a PID, the message will actually be sent to any process that would be registered as <tt class="docutils literal">true</tt>)</p>
+<p>For the record, an alternative is <tt class="docutils literal"><span class="pre">[f(...)</span> || BoolCondition]</tt>, like in: <tt class="docutils literal">_ = <span class="pre">[put('$ancestors',</span> Ancestors) || Shell =/= {}]</tt> (in <tt class="docutils literal">group.erl</tt>).</p>
 <p>Some of these elements have been adapted from the <a class="reference external" href="https://github.com/dgud/wings/blob/master/CodingGuidelines">Wings3D coding guidelines</a>.</p>
 </div>
 <div class="section" id="erlang-resources">
-<h1><a class="toc-backref" href="#toc-entry-39">Erlang Resources</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-43">Erlang Resources</a></h1>
 <ul class="simple">
 <li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
 <li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well; one may also check the <a class="reference external" href="https://exercism.org/tracks/erlang">Erlang track</a> on Exercism</li>
