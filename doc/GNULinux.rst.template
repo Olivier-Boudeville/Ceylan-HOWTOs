@@ -1368,6 +1368,20 @@ Otherwise, one may add to one's shell profile / configuration (e.g. ``~/.bashrc`
 
 
 
+
+Testing whether a Path is Absolute
+----------------------------------
+
+.. code::
+
+ if [ "$VAR" = /* ]; then
+	echo "absolute"
+ else
+	echo "relative"
+ fi
+
+
+
 Mini Shell Cheat Sheet
 ----------------------
 
