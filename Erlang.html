@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2024 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2025 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, December 21, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, January 5, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -864,7 +864,7 @@ name us_main_exec-xxx at port 60001
 <li>refer to the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences">escape sequences</a>, typically in order to specify characters like &quot;space&quot; (<tt class="docutils literal">$\s</tt>); <tt class="docutils literal">$char</tt> is the notation to designate the ASCII value or Unicode code-point of the character <tt class="docutils literal">char</tt> (e.g. <tt class="docutils literal">$A</tt>)</li>
 <li>see the always handy <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">operator precedence</a> and the various ways to <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#try">handle exceptions with try/catch</a>; note that to catch <em>all</em> exceptions - i.e. those of the <tt class="docutils literal">throw</tt> class, but also of the <tt class="docutils literal">exit</tt> and <tt class="docutils literal">error</tt> classes, one may use: <tt class="docutils literal">try EXPR catch _:E <span class="pre">-&gt;</span> ...</tt> (rather than just: <tt class="docutils literal">try EXPR catch E <span class="pre">-&gt;</span> ...</tt>)</li>
 <li>in <strong>guard expressions</strong>:<ul>
-<li>to express an &quot;and&quot; operator, use a comma, i.e. &quot;<tt class="docutils literal">,</tt>&quot;, like in <tt class="docutils literal">f(A, B, C, D) when A =:= B, C =:= A + D <span class="pre">-&gt;</span></tt></li>
+<li>to express an &quot;and&quot; operator, use a comma, i.e. &quot;<tt class="docutils literal">,</tt>&quot;, like in <tt class="docutils literal">f(A, B, C, D) when A =:= B, C =/= A + D <span class="pre">-&gt;</span></tt></li>
 <li>to express an &quot;or&quot; operator, use a semi-colon, i.e. &quot;<tt class="docutils literal">;</tt>&quot;</li>
 <li><tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt> behave there as tests, and their code is a little less effective than &quot;<tt class="docutils literal">,</tt>&quot; and &quot;<tt class="docutils literal">;</tt>&quot;</li>
 <li>refer to the two tables (test/others) of the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions">BIFs supported in guards expressions</a></li>
@@ -881,13 +881,17 @@ name us_main_exec-xxx at port 60001
 </li>
 <li>typically for non-critical code (e.g. tests or temporary, debugging code):<ul>
 <li>to avoid repeating a prefixing module, <a class="reference external" href="https://www.erlang.org/doc/reference_manual/modules#pre-defined-module-attributes">imports can be done</a>, like in: <tt class="docutils literal"><span class="pre">-import(lists,</span> [map/2, foldl/3, <span class="pre">foldr/3]).</span></tt></li>
-<li>to suppress warnings/errors whenever variables are not used: <tt class="docutils literal"><span class="pre">-compile(nowarn_unused_vars).</span></tt></li>
+<li>to suppress warnings/errors whenever elements are not used, specify for:<ul>
+<li>variables: <tt class="docutils literal"><span class="pre">-compile(nowarn_unused_vars).</span></tt></li>
+<li>functions (rather than silencing them with an <tt class="docutils literal"><span class="pre">-export([f/1,</span> g/3])</tt>): <tt class="docutils literal"><span class="pre">-compile([{nowarn_unused_function,</span> [{f/1}, <span class="pre">{g/3}}}]).</span></tt></li>
+</ul>
+</li>
 </ul>
 </li>
 <li>in boolean expressions <strong>outside of guards</strong>:<ul>
-<li>do not use <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt>, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in <tt class="docutils literal">(A =:= B) and (C =:= D)</tt>) and, more importantly, they do not short-circuit, i.e. in <tt class="docutils literal">E = A and B</tt>, B will be evaluated even if A is already known as false (so is E), and in <tt class="docutils literal">E = A or B</tt>, B will be evaluated even if A is already known as true (so is E)</li>
+<li>do not use <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt>, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in <tt class="docutils literal">(A =:= B) and (C =/= D)</tt>) and, more importantly, they do not short-circuit, i.e. in <tt class="docutils literal">E = A and B</tt>, B will be evaluated even if A is already known as false (so is E), and in <tt class="docutils literal">E = A or B</tt>, B will be evaluated even if A is already known as true (so is E)</li>
 <li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-12" id="footnote-reference-12">[14]</a></li>
-<li>so <tt class="docutils literal">case (A =:= B) and (C =:= D) of</tt> shall become <tt class="docutils literal">case A =:= B andalso C =:= D of</tt></li>
+<li>so <tt class="docutils literal">case (A =:= B) and (C =/= D) of</tt> shall become <tt class="docutils literal">case A =:= B andalso C =/= D of</tt></li>
 <li>a common pattern is to use <tt class="docutils literal">andalso</tt> in order <em>to evaluate a target expression iff a boolean expression is true</em>, to replace a longer expression like:</li>
 </ul>
 </li>

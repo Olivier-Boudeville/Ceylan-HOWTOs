@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2024 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2025 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, December 21, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, January 5, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -952,9 +952,9 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </ul>
 <p>Other useful commands to trigger with <tt class="docutils literal"><span class="pre">M-x</span></tt>:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">replace-string</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">query-replace</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">kill-rectangle</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">replace-string</span> SEARCH_PATTERN REPLACEMENT</tt>; add <tt class="docutils literal"><span class="pre">M-c</span></tt> to set the case-sensitive flag, i.e. to search for the exact string (even if it is lowercase - otherwise uppercase versions thereof will match)</li>
+<li><tt class="docutils literal"><span class="pre">query-replace</span> SEARCH_PATTERN REPLACEMENT</tt></li>
+<li><tt class="docutils literal"><span class="pre">kill-rectangle</span></tt> (operates on a previous selection)</li>
 </ul>
 <p>See also our <a class="reference external" href="VCS.html#performing-a-merge-with-emacs">Performing a Merge with Emacs</a> section.</p>
 </div>
@@ -1090,6 +1090,43 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
          </span><span class="p">;;</span><span class="w">
 
 </span><span class="k">esac</span>
+</pre>
+</div>
+<div class="section" id="testing-whether-a-path-is-absolute">
+<h3>Testing whether a Path is Absolute</h3>
+<p>For almost all shells (including <tt class="docutils literal">/bin/sh</tt>):</p>
+<pre class="code sh literal-block">
+<span class="k">case</span><span class="w"> </span><span class="nv">$DIR</span><span class="w"> </span><span class="k">in</span><span class="w">
+
+   </span>/*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;absolute path&quot;</span><span class="w"> </span><span class="p">;;</span><span class="w">
+   </span>*<span class="o">)</span><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;relative path&quot;</span><span class="w"> </span><span class="p">;;</span><span class="w">
+
+</span><span class="k">esac</span>
+</pre>
+</div>
+<div class="section" id="testing-whether-a-filesystem-element-is-a-regular-file-or-a-symlink">
+<h3>Testing whether a Filesystem Element is a Regular File or a Symlink</h3>
+<p>(as using symbolic links is often convenient)</p>
+<p>Testing if a filesystem element is a symlink:</p>
+<pre class="code sh literal-block">
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-L<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">elem</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w">
+    </span><span class="c1"># elem is a (possibly dead) symlink
+</span><span class="w">    </span>...<span class="w">
+</span><span class="k">fi</span>
+</pre>
+<p>Testing also whether the element pointed to exists (as a file, directory, symlink in turn, etc.):</p>
+<pre class="code sh literal-block">
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-L<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">elem</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">elem</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w">
+    </span><span class="c1"># elem is a non-dead symlink
+</span><span class="w">    </span>...<span class="w">
+</span><span class="k">fi</span>
+</pre>
+<p>Testing whether a given file element is either a regular file or a non-dead symlink is as simple as:</p>
+<pre class="code sh literal-block">
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">elem</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w">
+    </span><span class="c1"># elem is a file
+</span><span class="w">    </span>...<span class="w">
+</span><span class="k">fi</span>
 </pre>
 </div>
 </div>
