@@ -21,13 +21,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2024 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2025 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, July 14, 2024</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, January 27, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -141,7 +141,7 @@ $<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </spa
 <div class="section" id="obtaining-one-s-keys">
 <h3><a class="toc-backref" href="#toc-entry-7">Obtaining One's Keys</a></h3>
 <p>A first step is to generate locally one's key pair, knowing that each public key is bound to a username or an e-mail address (which is our preference; having one's domain name allows to create any number of them).</p>
-<p>A nice feature of this cryptographic scheme is that one may issue any number of keys in full autonomy and with neither consequences nor cost. So as many key pairs as notions of &quot;unrelated identities&quot; may be freely created.</p>
+<p>A nice feature of this cryptographic scheme is that one may issue any number of keys in full autonomy, and with neither consequences nor cost. So as many key pairs as notions of &quot;unrelated identities&quot; may be freely created.</p>
 <p>Several settings can be chosen when generating a key, and logically the strongest keys are preferred. Yet uncommon/too recent generation algorithms and/or higher key lengths may not be supported by the various tools <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>, so applying the default settings retained by gpg, or similar ones yet a bit stronger (e.g. at the time of this writing, November 2021, RSA 4096 bits rather than 3072 bits) is probably the way to go (it can already be deemed safe, and will be widely supported); so the generation may be best triggered simply thanks to:</p>
 <pre class="code bash literal-block">
 <span class="c1"># For current defaults:
@@ -164,7 +164,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--full-gen-key<span class="w
 <p>Then one may enter one's selected identity (e.g. for <tt class="docutils literal">Real name</tt>, one may enter <tt class="docutils literal">James Bond</tt>), one's email address of interest (e.g. <tt class="docutils literal">james.bond&#64;mi6.org</tt>) and possibly:</p>
 <ul class="simple">
 <li>either no specific comment (they are not normalised anyway)</li>
-<li>or one pointing to an authoritative source against which the public key may be verified (such as: &quot;this public key can be verified against its reference in <a class="reference external" href="https://mi6.org/james-bond.pub">https://mi6.org/james-bond.pub</a>&quot; - provided of course such a file is to exist)</li>
+<li>or one pointing to an authoritative source against which the public key may be verified (such as: <tt class="docutils literal">This public key can be verified against its reference in <span class="pre">https://mi6.org/james-bond.pub.</span></tt> - provided of course that such a file exists)</li>
 </ul>
 <p>The requested passphrase only consists on a last-resort protection of the generated private key (that you should <em>never</em> transmit to <em>anyone</em>), in order to avoid that anyone accessing this file on your computer becomes directly able to fully impersonate this identity.</p>
 <p>The operation generates a public/private key pair, and also an associated emergency revocation certificate, so that you can invalidate it at any time and for any reason:</p>
@@ -179,12 +179,12 @@ gpg:<span class="w"> </span>key<span class="w"> </span>9A60ADA4E151B8B5<span cla
 </span>uid<span class="w">   </span>James<span class="w"> </span>Bond<span class="w"> </span>&lt;james.bond&#64;mi6.org&gt;
 </pre>
 <p>Here <tt class="docutils literal">C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5</tt> is the full fingerprint of the public key; it could be shortened to its 8, if not 4, last characters (long/short ID), yet it would expose to the forging of intentionally-colliding keys, so one should only designate a key based on its full fingerprint, and forget unsafe abbreviations.</p>
-<p>The public key can be freely shared, whereas the private one and the revocation certificate must be equally well protected (preferably in different places).</p>
+<p>The public key can be freely shared, whereas the private one and the revocation certificate must be equally well protected (preferably in multiple, different places).</p>
 <p>The only well-known threats to these keys are either a flaw (intentional loophole or accidental weakness) in the cryptographic algorithms on which they rely, or the advent of major research progresses such as quantum computing. Yet it still remains possible for one to &quot;upgrade&quot; one's key with newer algorithms (a new key superseding an older one that is to be revoked afterwards), so as always it will be a never-ending struggle between the spear and the shield, i.e. attack and defense.</p>
 <p>As signing and encrypting correspond to different use cases, having different keys for each may make sense. But instead of generating two unrelated keys, one shall create:</p>
 <ul class="simple">
 <li>first an infrequently-used, very-well protected (hence less accessible), signing-only &quot;master&quot; (primary) key of longer validity (one's actual identity)</li>
-<li>then at least two subkeys (deriving from the previous one, yet autonomous) may be of use:<ul>
+<li>then at least two subkeys (deriving from the previous one, yet autonomous):<ul>
 <li>one for everyday <em>encrypting</em>; a proper subkey has already been automatically created and used by gnupg</li>
 <li>an extra one for everyday <em>signing</em>: such a subkey may be created with a sufficient lifespan so that past signatures can be durably verified</li>
 </ul>
@@ -227,7 +227,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span><s
 #
 </span>$<span class="w"> </span>gpg<span class="w"> </span>-o<span class="w"> </span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span>-full-key-backup-for-james.bond.gpg<span class="w"> </span>--export-secret-keys<span class="w"> </span>C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
 </pre>
-<p>A backup of the revocation certificate shall be done as well (knowing that by design it is not password-protected, and thus having access to this certificate is sufficient to be able to kill your key), preferably in a different location as the role of this certificate is to serve as an urgent safety measure should the private key be lost (non-emergency revocations should be performed thanks to the more adapted and informative <tt class="docutils literal"><span class="pre">--generate-revocation</span></tt> option instead).</p>
+<p>A backup of the revocation certificate shall be done as well (knowing that by design it is not password-protected, and thus having access to this certificate is sufficient to be able to kill your key), preferably in a different location, as the role of this certificate is to serve as an urgent safety measure should the private key be lost (non-emergency revocations should be performed thanks to the more adapted and informative <tt class="docutils literal"><span class="pre">--generate-revocation</span></tt> option instead).</p>
 <p>For long-term auxiliary storage, such a backup can be printed (on paper), possibly thanks to <a class="reference external" href="https://wiki.archlinux.org/title/Paperkey">Paperkey</a> (installed on Arch with <tt class="docutils literal">pacman <span class="pre">-Sy</span> paperkey</tt>). For example:</p>
 <pre class="code bash literal-block">
 <span class="c1"># To print directly:
@@ -261,7 +261,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--export-secret-key<span cla
 <p>Trust is indeed to be spread, by extending it from peer to peer (or friend to friend) in an increasingly large network of trust, typically with trust levels that decrease with the number of peers that have to be traversed in the network before reaching a given identity: you may trust friends of your friends, albeit probably a bit less than your direct friends; networks of trust may reflect that increasing risk, typically based on mean shortest distance between endpoints.</p>
 <p>In practice, if A expresses some level of trust to B, A will digitally sign (thus with its own private key) the public certificate of B, to assess its association with the identity it embeds. This is commonly done at key signing parties (a nice way of meeting likely-minded folks as well).</p>
 <p>Various schemes for vetting (validating in practice the identity carried by B; e.g. should we request B to show their identity card, to prove they control a given domain, or any other identity/ownership proof?) and voting (to decide on the overall trust to be derived from a potentially conflicting set of peer-to-peer endorsements A1, A2, etc. about B) exist; one remains of course free to decide for oneself on which grounds one concedes trust, it is the beauty of a decentralised mode of operation.</p>
-<p>In practice, the sharing of public certificates used to be done through SKS <a class="reference external" href="https://en.wikipedia.org/wiki/Key_server_(cryptographic)">key servers</a>; it is as simple as requesting gpg to send the pblic key that corresponds to the specified fingerprint (here its last 8 characters):</p>
+<p>In practice, the sharing of public certificates used to be done through SKS <a class="reference external" href="https://en.wikipedia.org/wiki/Key_server_(cryptographic)">key servers</a>; it is as simple as requesting gpg to send the public key that corresponds to the specified fingerprint (here its last 8 characters):</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>gpg<span class="w"> </span>--send-keys<span class="w"> </span>E115A8B5<span class="w">
 </span>gpg:<span class="w"> </span>sending<span class="w"> </span>key<span class="w"> </span>9D60ADA5E115A8B5<span class="w"> </span>to<span class="w"> </span>hkps://keyserver.ubuntu.com
@@ -348,6 +348,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--list-keys<span class="w"> 
 <div class="section" id="updating-your-keys">
 <h3><a class="toc-backref" href="#toc-entry-11">Updating Your Keys</a></h3>
 <p>Keys are meant to expire, so that they are updated as technology progresses.</p>
+<p>Typically tools (e-mail clients like Thunderbird) will notify the user whenever once of their registered key is out of date.</p>
 <p>To check whether one's (secret) keys expired:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>gpg<span class="w"> </span>--list-secret-keys<span class="w"> </span>--keyid-format<span class="w"> </span>LONG<span class="w">
@@ -357,7 +358,10 @@ $<span class="w"> </span>gpg<span class="w"> </span>--list-secret-keys<span clas
 </span>uid<span class="w">                 </span><span class="o">[</span><span class="w"> </span>expired<span class="o">]</span><span class="w"> </span>James<span class="w"> </span>Bond<span class="w"> </span>&lt;james.bond&#64;mi6.org&gt;<span class="w">
 </span><span class="o">[</span>...<span class="o">]</span>
 </pre>
-<p>So this key expired and shall be renewed; let's extend it of two years, and proceed interactively, based on its KEYID:</p>
+<p>Below the method to update keys (primary or subkeys) is described; once done, the new versions can be published (see the <a class="reference internal" href="#decentralised-sharing">Decentralised Sharing</a> section) and then found by tools (typically e-mail clients like Thunderbird), which can be requested to search for them in key servers.</p>
+<div class="section" id="update-a-primary-key">
+<h4>Update a Primary Key</h4>
+<p>So here the primary key 3D60ADA5E251A8B5 expired and shall be renewed; let's extend it of two years, and proceed interactively, based on its KEYID:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>gpg<span class="w"> </span>--edit-key<span class="w"> </span>3D60ADA5E251A8B5<span class="w">
 </span>Secret<span class="w"> </span>key<span class="w"> </span>is<span class="w"> </span>available.<span class="w">
@@ -389,6 +393,40 @@ $<span class="w"> </span>gpg<span class="w"> </span>--edit-key<span class="w"> <
  </span>gpg&gt;<span class="w"> </span>save
 </pre>
 </div>
+<div class="section" id="update-subkeys">
+<h4>Update Subkeys</h4>
+<p>Here let's suppose that we created 4 subkeys from a primary one: K1 dedicated to signing, K2 to encrypting, K3 to authenticating and K4 (typically to be declared to your e-mail client) to perform these three operations.</p>
+<p>The lifespan of these subkeys has been chosen relatively small, 2 years, and intentionally smaller than the primary key they derive from.</p>
+<p>Let's extend their lifespan of 2 more years, by selecting them all:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Based on primary one:
+</span>$<span class="w"> </span>gpg<span class="w"> </span>--edit-key<span class="w"> </span>3D60ADA5E251A8B5
+</pre>
+<dl class="docutils">
+<dt>sec  brainpoolP512r1/54EC65AAE18A5162</dt>
+<dd>created: 2023-01-02  expires: 2029-01-21  usage: C
+trust: ultimate      validity: ultimate</dd>
+<dt>ssb  rsa4096/K1**************</dt>
+<dd>created: 2023-01-02  expires: 2027-01-22  usage: S</dd>
+<dt>ssb  rsa4096/K2**************</dt>
+<dd>created: 2023-01-02  expires: 2027-01-22  usage: E</dd>
+<dt>ssb  rsa4096/K3**************</dt>
+<dd>created: 2023-01-02  expired: 2025-01-01  usage: A</dd>
+<dt>ssb  rsa4096/K3**************</dt>
+<dd><blockquote class="first">
+created: 2023-01-02  expired: 2025-01-01  usage: SEA</blockquote>
+<p class="last"># Select these subkeys (they are then listed with a star):
+$ key K1**************
+$ key K2**************
+$ key K3**************
+$ key K4**************
+$ expire
+2y
+save</p>
+</dd>
+</dl>
+</div>
+</div>
 <div class="section" id="deleting-your-keys">
 <h3><a class="toc-backref" href="#toc-entry-12">Deleting Your Keys</a></h3>
 <p>Typically if having expired keys not intended to be renewed:</p>
@@ -419,7 +457,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--default-key<span class="w"
 <div class="section" id="subkeys">
 <h3><a class="toc-backref" href="#toc-entry-15">Subkeys</a></h3>
 <p>Define as many of them as needed (based on <tt class="docutils literal">gpg <span class="pre">--expert</span> <span class="pre">--edit-key</span> NEWKEYID</tt>), possibly one for signing, one for encrypting and one for authenticating (apparently not automatically generated), each time with <tt class="docutils literal">addkey</tt>; select a strong yet commonly-accepted algorithm (e.g. RSA 4096 bits), and a shorter lifespan (e.g. 2 years).</p>
-<p>A simpler &quot;triple&quot; use (S/E/A) key may be preferred or additionally created.</p>
+<p>A simpler &quot;triple&quot; use (S/E/A) single key may be preferred, or additionally created.</p>
 </div>
 <div class="section" id="prepare-revocation">
 <h3><a class="toc-backref" href="#toc-entry-16">Prepare Revocation</a></h3>
@@ -449,7 +487,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--send-keys<span class="w"> 
 <li>if you have multiple email accounts, thanks to <tt class="docutils literal"><span class="pre">--edit-key</span></tt> you can add each one of them in the same key as an identity (name), using the <tt class="docutils literal">adduid</tt> command; you can then set your favourite one as primary</li>
 <li>to always show full fingerprints of keys, add <tt class="docutils literal"><span class="pre">with-fingerprint</span></tt> to your configuration file (typically <tt class="docutils literal"><span class="pre">~/.gnupg/dirmngr.conf</span></tt>)</li>
 <li><a class="reference external" href="https://wiki.debian.org/Subkeys">these Debian guidelines</a> describe a robust, well-defined process for key management that may apply to most developers</li>
-<li>for a proper OpenPGP support, we have had to change of mail client, from Thunderbird (problems importing by itself strong/recent key types, and non-terminating attempts of reading the local pgp key ring) to Evolution (worked directly as expected)</li>
+<li>for a proper OpenPGP support, we have had to change our e-mail client, from Thunderbird (problems importing by itself strong/recent key types, and non-terminating attempts of reading the local pgp key ring) to Evolution (worked directly as expected); yet Evolution came with other drawbacks (regarding agenda/calendar features), so we came back to Thunderbird with rather reasonable settings</li>
 </ul>
 </div>
 <div class="section" id="obtaining-my-current-public-key">
