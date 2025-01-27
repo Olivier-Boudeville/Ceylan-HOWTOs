@@ -1186,9 +1186,9 @@ Frequent actions needed:
 
 Other useful commands to trigger with ``M-x``:
 
-- ``replace-string``
-- ``query-replace``
-- ``kill-rectangle``
+- ``replace-string SEARCH_PATTERN REPLACEMENT``; add ``M-c`` to set the case-sensitive flag, i.e. to search for the exact string (even if it is lowercase - otherwise uppercase versions thereof will match)
+- ``query-replace SEARCH_PATTERN REPLACEMENT``
+- ``kill-rectangle`` (operates on a previous selection)
 
 
 See also our `Performing a Merge with Emacs <VCS.html#performing-a-merge-with-emacs>`_ section.
@@ -1369,19 +1369,6 @@ Otherwise, one may add to one's shell profile / configuration (e.g. ``~/.bashrc`
 
 
 
-Testing whether a Path is Absolute
-----------------------------------
-
-.. code::
-
- if [ "$VAR" = /* ]; then
-	echo "absolute"
- else
-	echo "relative"
- fi
-
-
-
 Mini Shell Cheat Sheet
 ----------------------
 
@@ -1411,6 +1398,64 @@ Example:
 		  ;;
 
  esac
+
+
+
+Testing whether a Path is Absolute
+..................................
+
+For almost all shells (including ``/bin/sh``):
+
+.. code:: sh
+
+ case $DIR in
+
+	/*) echo "absolute path" ;;
+	*)  echo "relative path" ;;
+
+ esac
+
+
+.. Better than:
+   if [[ "${target_path:0:1}" == / || "${target_path:0:2}" == ~[/a-z] ]]; then
+
+
+
+
+Testing whether a Filesystem Element is a Regular File or a Symlink
+...................................................................
+
+(as using symbolic links is often convenient)
+
+Testing if a filesystem element is a symlink:
+
+.. code:: sh
+
+	if [ -L "${elem}" ]; then
+		# elem is a (possibly dead) symlink
+		...
+	fi
+
+
+Testing also whether the element pointed to exists (as a file, directory, symlink in turn, etc.):
+
+.. code:: sh
+
+	if [ -L "${elem}" ] && [ -e "${elem}" ]; then
+		# elem is a non-dead symlink
+		...
+	fi
+
+
+Testing whether a given file element is either a regular file or a non-dead symlink is as simple as:
+
+.. code:: sh
+
+	if [ -f "${elem}" ]; then
+		# elem is a file
+		...
+	fi
+
 
 
 
