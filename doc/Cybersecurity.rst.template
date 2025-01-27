@@ -170,7 +170,7 @@ Obtaining One's Keys
 
 A first step is to generate locally one's key pair, knowing that each public key is bound to a username or an e-mail address (which is our preference; having one's domain name allows to create any number of them).
 
-A nice feature of this cryptographic scheme is that one may issue any number of keys in full autonomy and with neither consequences nor cost. So as many key pairs as notions of "unrelated identities" may be freely created.
+A nice feature of this cryptographic scheme is that one may issue any number of keys in full autonomy, and with neither consequences nor cost. So as many key pairs as notions of "unrelated identities" may be freely created.
 
 Several settings can be chosen when generating a key, and logically the strongest keys are preferred. Yet uncommon/too recent generation algorithms and/or higher key lengths may not be supported by the various tools [#]_, so applying the default settings retained by gpg, or similar ones yet a bit stronger (e.g. at the time of this writing, November 2021, RSA 4096 bits rather than 3072 bits) is probably the way to go (it can already be deemed safe, and will be widely supported); so the generation may be best triggered simply thanks to:
 
@@ -197,7 +197,7 @@ In all cases, one may enter ``1y`` to set the initial validity duration of the g
 Then one may enter one's selected identity (e.g. for ``Real name``, one may enter ``James Bond``), one's email address of interest (e.g. ``james.bond@mi6.org``) and possibly:
 
 - either no specific comment (they are not normalised anyway)
-- or one pointing to an authoritative source against which the public key may be verified (such as: "this public key can be verified against its reference in https://mi6.org/james-bond.pub" - provided of course such a file is to exist)
+- or one pointing to an authoritative source against which the public key may be verified (such as: ``This public key can be verified against its reference in https://mi6.org/james-bond.pub.`` - provided of course that such a file exists)
 
 The requested passphrase only consists on a last-resort protection of the generated private key (that you should *never* transmit to *anyone*), in order to avoid that anyone accessing this file on your computer becomes directly able to fully impersonate this identity.
 
@@ -216,14 +216,14 @@ The operation generates a public/private key pair, and also an associated emerge
 
 Here ``C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5`` is the full fingerprint of the public key; it could be shortened to its 8, if not 4, last characters (long/short ID), yet it would expose to the forging of intentionally-colliding keys, so one should only designate a key based on its full fingerprint, and forget unsafe abbreviations.
 
-The public key can be freely shared, whereas the private one and the revocation certificate must be equally well protected (preferably in different places).
+The public key can be freely shared, whereas the private one and the revocation certificate must be equally well protected (preferably in multiple, different places).
 
 The only well-known threats to these keys are either a flaw (intentional loophole or accidental weakness) in the cryptographic algorithms on which they rely, or the advent of major research progresses such as quantum computing. Yet it still remains possible for one to "upgrade" one's key with newer algorithms (a new key superseding an older one that is to be revoked afterwards), so as always it will be a never-ending struggle between the spear and the shield, i.e. attack and defense.
 
 As signing and encrypting correspond to different use cases, having different keys for each may make sense. But instead of generating two unrelated keys, one shall create:
 
 - first an infrequently-used, very-well protected (hence less accessible), signing-only "master" (primary) key of longer validity (one's actual identity)
-- then at least two subkeys (deriving from the previous one, yet autonomous) may be of use:
+- then at least two subkeys (deriving from the previous one, yet autonomous):
 
   - one for everyday *encrypting*; a proper subkey has already been automatically created and used by gnupg
   - an extra one for everyday *signing*: such a subkey may be created with a sufficient lifespan so that past signatures can be durably verified
@@ -279,7 +279,7 @@ Specifying in filenames the email address may be avoided, in the sense that rath
  $ gpg -o $(date '+%Y%m%d')-full-key-backup-for-james.bond.gpg --export-secret-keys C3987680AD9B79FDC6B7D25C9D60ADA5E115A8B5
 
 
-A backup of the revocation certificate shall be done as well (knowing that by design it is not password-protected, and thus having access to this certificate is sufficient to be able to kill your key), preferably in a different location as the role of this certificate is to serve as an urgent safety measure should the private key be lost (non-emergency revocations should be performed thanks to the more adapted and informative ``--generate-revocation`` option instead).
+A backup of the revocation certificate shall be done as well (knowing that by design it is not password-protected, and thus having access to this certificate is sufficient to be able to kill your key), preferably in a different location, as the role of this certificate is to serve as an urgent safety measure should the private key be lost (non-emergency revocations should be performed thanks to the more adapted and informative ``--generate-revocation`` option instead).
 
 
 For long-term auxiliary storage, such a backup can be printed (on paper), possibly thanks to `Paperkey <https://wiki.archlinux.org/title/Paperkey>`_ (installed on Arch with ``pacman -Sy paperkey``). For example:
@@ -337,7 +337,7 @@ In practice, if A expresses some level of trust to B, A will digitally sign (thu
 
 Various schemes for vetting (validating in practice the identity carried by B; e.g. should we request B to show their identity card, to prove they control a given domain, or any other identity/ownership proof?) and voting (to decide on the overall trust to be derived from a potentially conflicting set of peer-to-peer endorsements A1, A2, etc. about B) exist; one remains of course free to decide for oneself on which grounds one concedes trust, it is the beauty of a decentralised mode of operation.
 
-In practice, the sharing of public certificates used to be done through SKS `key servers <https://en.wikipedia.org/wiki/Key_server_(cryptographic)>`_; it is as simple as requesting gpg to send the pblic key that corresponds to the specified fingerprint (here its last 8 characters):
+In practice, the sharing of public certificates used to be done through SKS `key servers <https://en.wikipedia.org/wiki/Key_server_(cryptographic)>`_; it is as simple as requesting gpg to send the public key that corresponds to the specified fingerprint (here its last 8 characters):
 
 .. code:: bash
 
@@ -447,7 +447,13 @@ One may:
 Updating Your Keys
 ..................
 
+
+.. See also Conventions-OpenGPG-personnelles.rst
+
+
 Keys are meant to expire, so that they are updated as technology progresses.
+
+Typically tools (e-mail clients like Thunderbird) will notify the user whenever once of their registered key is out of date.
 
 To check whether one's (secret) keys expired:
 
@@ -461,7 +467,14 @@ To check whether one's (secret) keys expired:
  [...]
 
 
-So this key expired and shall be renewed; let's extend it of two years, and proceed interactively, based on its KEYID:
+Below the method to update keys (primary or subkeys) is described; once done, the new versions can be published (see the `Decentralised Sharing`_ section) and then found by tools (typically e-mail clients like Thunderbird), which can be requested to search for them in key servers.
+
+
+
+Update a Primary Key
+____________________
+
+So here the primary key 3D60ADA5E251A8B5 expired and shall be renewed; let's extend it of two years, and proceed interactively, based on its KEYID:
 
 .. code:: bash
 
@@ -493,6 +506,42 @@ So this key expired and shall be renewed; let's extend it of two years, and proc
 
   gpg> trust
   gpg> save
+
+
+
+Update Subkeys
+______________
+
+Here let's suppose that we created 4 subkeys from a primary one: K1 dedicated to signing, K2 to encrypting, K3 to authenticating and K4 (typically to be declared to your e-mail client) to perform these three operations.
+
+The lifespan of these subkeys has been chosen relatively small, 2 years, and intentionally smaller than the primary key they derive from.
+
+Let's extend their lifespan of 2 more years, by selecting them all:
+
+.. code:: bash
+
+  # Based on primary one:
+  $ gpg --edit-key 3D60ADA5E251A8B5
+sec  brainpoolP512r1/54EC65AAE18A5162
+	 created: 2023-01-02  expires: 2029-01-21  usage: C
+	 trust: ultimate      validity: ultimate
+ssb  rsa4096/K1**************
+	 created: 2023-01-02  expires: 2027-01-22  usage: S
+ssb  rsa4096/K2**************
+	 created: 2023-01-02  expires: 2027-01-22  usage: E
+ssb  rsa4096/K3**************
+	 created: 2023-01-02  expired: 2025-01-01  usage: A
+ssb  rsa4096/K3**************
+	 created: 2023-01-02  expired: 2025-01-01  usage: SEA
+
+  # Select these subkeys (they are then listed with a star):
+  $ key K1**************
+  $ key K2**************
+  $ key K3**************
+  $ key K4**************
+  $ expire
+  2y
+  save
 
 
 
@@ -539,7 +588,7 @@ Subkeys
 
 Define as many of them as needed (based on ``gpg --expert --edit-key NEWKEYID``), possibly one for signing, one for encrypting and one for authenticating (apparently not automatically generated), each time with ``addkey``; select a strong yet commonly-accepted algorithm (e.g. RSA 4096 bits), and a shorter lifespan (e.g. 2 years).
 
-A simpler "triple" use (S/E/A) key may be preferred or additionally created.
+A simpler "triple" use (S/E/A) single key may be preferred, or additionally created.
 
 .. Elect a primary one (``uid N`` then ``primary`` then ``save``).
 
@@ -584,7 +633,7 @@ Hints
 - if you have multiple email accounts, thanks to ``--edit-key`` you can add each one of them in the same key as an identity (name), using the ``adduid`` command; you can then set your favourite one as primary
 - to always show full fingerprints of keys, add ``with-fingerprint`` to your configuration file (typically ``~/.gnupg/dirmngr.conf``)
 - `these Debian guidelines <https://wiki.debian.org/Subkeys>`_ describe a robust, well-defined process for key management that may apply to most developers
-- for a proper OpenPGP support, we have had to change of mail client, from Thunderbird (problems importing by itself strong/recent key types, and non-terminating attempts of reading the local pgp key ring) to Evolution (worked directly as expected)
+- for a proper OpenPGP support, we have had to change our e-mail client, from Thunderbird (problems importing by itself strong/recent key types, and non-terminating attempts of reading the local pgp key ring) to Evolution (worked directly as expected); yet Evolution came with other drawbacks (regarding agenda/calendar features), so we came back to Thunderbird with rather reasonable settings
 
 
 
