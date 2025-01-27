@@ -1111,12 +1111,6 @@ Using Emacs
 -----------
 
 
-.. _`Emacs configuration`:
-
-Configuration
-.............
-
-Our `init.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el>`_, which may be stored in ``~/.emacs.d/``, currently relies on `straight.el <https://github.com/radian-software/straight.el>`_.
 
 
 Installation
@@ -1124,25 +1118,28 @@ Installation
 
 Quite surprisingly, Emacs still changes a lot (notably in terms of function names), and (elisp) scripts that work for an Emacs version may not work for the next one. So at least controlling one's version may be of use.
 
-Of course using a package manager for that is the best option.
+Of course using a package manager for that is the best option, for example: ``apt-get install emacs`` if the supported version is not too ancient.
+
 
 Otherwise, to perform a manual installation of Emacs on one's user account, it must be first `downloaded <https://www.gnu.org/software/emacs/download.html>`_; one may thus fetch for example ``emacs-28.2.tar.xz``.
 
-Prerequisites may be needed; running - unfortunately as root - ``apt-get build-dep emacs28`` or alike may be of use, or at least having a package like ``libgtk-3-dev`` installed.
+Prerequisites may be needed; running - unfortunately as root - ``apt-get build-dep emacs`` or alike may be of use, or at least having packages like ``libgtk-3-dev`` and ``librust-tree-sitter-dev`` installed.
+
 
 Then:
 
 .. code:: bash
 
  $ mkdir -p ~/Software/Emacs && cd ~/Software/Emacs
- $ mv ~/Downloads/emacs-28.2.tar.xz .
- $ tar xvJf emacs-28.2.tar.xz
- $ cd emacs-28.2
+ $ EMACS_VERSION=28.2
+ $ mv ~/Downloads/emacs-${EMACS_VERSION}.tar.xz .
+ $ tar xvJf emacs-${EMACS_VERSION}.tar.xz
+ $ cd emacs-${EMACS_VERSION}
  # If not having these dependencies:
  $ ./configure --with-xpm=ifavailable --with-gif=ifavailable \
- --with-tiff=ifavailable --with-gnutls=ifavailable --prefix=${HOME}/Software/Emacs/emacs-28.2-install
+ --with-tiff=ifavailable --with-gnutls=ifavailable --prefix=${HOME}/Software/Emacs/emacs-${EMACS_VERSION}-install
  $ make install
- $ cd .. && ln -s emacs-28.2-install emacs-current-install
+ $ cd .. && ln -s emacs-${EMACS_VERSION}-install emacs-current-install
 
 
 Then one's shell environment shall be updated once for all with:
@@ -1150,6 +1147,17 @@ Then one's shell environment shall be updated once for all with:
 .. code:: bash
 
  $ export PATH="${HOME}/Software/Emacs/emacs-current-install/bin:${PATH}"
+
+
+
+ .. _`Emacs configuration`:
+
+Configuration
+.............
+
+Our `init.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el>`_, which may be stored in ``~/.emacs.d/``, currently relies on `straight.el <https://github.com/radian-software/straight.el>`_.
+
+
 
 
 Hints
