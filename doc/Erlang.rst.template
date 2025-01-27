@@ -1034,6 +1034,25 @@ Installing rebar3
 One may use our `install-rebar3.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-rebar3.sh>`_ script for that (installed from sources, or prebuilt).
 
 
+Using Emacs
+-----------
+
+Even when applying `only the minimal Erlang configuration <https://www.erlang.org/doc/apps/tools/erlang_mode_chapter.html#setup-on-unix>`_, a syntax-highlighting problem can often be noticed (at least with our code and Erlang 27.2 / Emacs 29.4), often starting after a docstring delimited with three double-quotes; then for example words in string literals are highlighted as if they were language keywords.
+
+This can be fixed by selecting, in the ``Erlang`` (Emacs) menu, the ``Syntax Highlighting`` submenu, then any level (e.g. ``Level 4``, corresponding to ``erlang-font-lock-level-4``, which can be set with ``(setq font-lock-maximum-decoration 4)``).
+
+in `init.el`, a specific key (here, F11) may be assigned for that::
+
+ (global-set-key [f11] 'erlang-font-lock-level-4)
+
+
+Problem: it would have to be entered again and again, even for a single buffer...
+
+
+.. test with init.el-minimal-for-erlang-testing
+.. for example look up, in oceanic.erl, '-spec execute_command'
+.. Definition of Erlang support for Emacs in $ERL_INSTALL_ROOT/lib/erlang/emacs/erlang.el
+
 
 
 Micro-Cheat Sheet
@@ -1083,7 +1102,7 @@ To avoid having to perform a lookup in the documentation:
 
 - in **guard expressions**:
 
-  - to express an "and" operator, use a comma, i.e. "``,``", like in ``f(A, B, C, D) when A =:= B, C =:= A + D ->``
+  - to express an "and" operator, use a comma, i.e. "``,``", like in ``f(A, B, C, D) when A =:= B, C =/= A + D ->``
   - to express an "or" operator, use a semi-colon, i.e. "``;``"
   - ``andalso`` and ``orelse`` behave there as tests, and their code is a little less effective than "``,``" and "``;``"
   - refer to the two tables (test/others) of the `BIFs supported in guards expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions>`_
@@ -1099,15 +1118,18 @@ To avoid having to perform a lookup in the documentation:
 - typically for non-critical code (e.g. tests or temporary, debugging code):
 
   - to avoid repeating a prefixing module, `imports can be done <https://www.erlang.org/doc/reference_manual/modules#pre-defined-module-attributes>`_, like in: ``-import(lists, [map/2, foldl/3, foldr/3]).``
-  - to suppress warnings/errors whenever variables are not used: ``-compile(nowarn_unused_vars).``
+  - to suppress warnings/errors whenever elements are not used, specify for:
+
+	- variables: ``-compile(nowarn_unused_vars).``
+	- functions (rather than silencing them with an ``-export([f/1, g/3])``): ``-compile([ {nowarn_unused_function, [{f,1}, {g,3}]} ]).``
 
 
 - in boolean expressions **outside of guards**:
 
-  - do not use ``and`` and ``or``, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in ``(A =:= B) and (C =:= D)``) and, more importantly, they do not short-circuit, i.e. in ``E = A and B``, B will be evaluated even if A is already known as false (so is E), and in ``E = A or B``, B will be evaluated even if A is already known as true (so is E)
+  - do not use ``and`` and ``or``, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in ``(A =:= B) and (C =/= D)``) and, more importantly, they do not short-circuit, i.e. in ``E = A and B``, B will be evaluated even if A is already known as false (so is E), and in ``E = A or B``, B will be evaluated even if A is already known as true (so is E)
 
   - prefer ``andalso`` and ``orelse``, which are *control* operators; they short-circuit, and their precedence is `low enough <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_ to spare the need of extra parentheses [#]_
-  - so ``case (A =:= B) and (C =:= D) of`` shall become ``case A =:= B andalso C =:= D of``
+  - so ``case (A =:= B) and (C =/= D) of`` shall become ``case A =:= B andalso C =/= D of``
   - a common pattern is to use ``andalso`` in order *to evaluate a target expression iff a boolean expression is true*, to replace a longer expression like:
 
 .. code:: erlang
