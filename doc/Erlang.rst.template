@@ -1122,6 +1122,7 @@ To avoid having to perform a lookup in the documentation:
 
 	- variables: ``-compile(nowarn_unused_vars).``
 	- functions (rather than silencing them with an ``-export([f/1, g/3])``): ``-compile([ {nowarn_unused_function, [{f,1}, {g,3}]} ]).``
+	- types: they can be silenced with an ``-export_type([t1/0, t2/1])``), which is better (more selective) than ``-compile(nowarn_unused_type)`` (unfortunately ``-compile([ {nowarn_unused_type, [t1/0, t2/1]} ]).`` is not supported)
 
 
 - in boolean expressions **outside of guards**:
