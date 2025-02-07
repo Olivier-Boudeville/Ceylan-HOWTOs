@@ -27,7 +27,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, January 27, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, February 7, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -400,31 +400,28 @@ $<span class="w"> </span>gpg<span class="w"> </span>--edit-key<span class="w"> <
 <p>Let's extend their lifespan of 2 more years, by selecting them all:</p>
 <pre class="code bash literal-block">
 <span class="c1"># Based on primary one:
-</span>$<span class="w"> </span>gpg<span class="w"> </span>--edit-key<span class="w"> </span>3D60ADA5E251A8B5
+</span>$<span class="w"> </span>gpg<span class="w"> </span>--edit-key<span class="w"> </span>3D60ADA5E251A8B5<span class="w">
+</span>sec<span class="w">  </span>brainpoolP512r1/54EC65AAE18A5162<span class="w">
+   </span>created:<span class="w"> </span><span class="m">2023</span>-01-02<span class="w">  </span>expires:<span class="w"> </span><span class="m">2029</span>-01-21<span class="w">  </span>usage:<span class="w"> </span>C<span class="w">
+   </span>trust:<span class="w"> </span>ultimate<span class="w">      </span>validity:<span class="w"> </span>ultimate<span class="w">
+</span>ssb<span class="w">  </span>rsa4096/K1**************<span class="w">
+   </span>created:<span class="w"> </span><span class="m">2023</span>-01-02<span class="w">  </span>expires:<span class="w"> </span><span class="m">2027</span>-01-22<span class="w">  </span>usage:<span class="w"> </span>S<span class="w">
+</span>ssb<span class="w">  </span>rsa4096/K2**************<span class="w">
+   </span>created:<span class="w"> </span><span class="m">2023</span>-01-02<span class="w">  </span>expires:<span class="w"> </span><span class="m">2027</span>-01-22<span class="w">  </span>usage:<span class="w"> </span>E<span class="w">
+</span>ssb<span class="w">  </span>rsa4096/K3**************<span class="w">
+   </span>created:<span class="w"> </span><span class="m">2023</span>-01-02<span class="w">  </span>expired:<span class="w"> </span><span class="m">2025</span>-01-01<span class="w">  </span>usage:<span class="w"> </span>A<span class="w">
+</span>ssb<span class="w">  </span>rsa4096/K3**************<span class="w">
+   </span>created:<span class="w"> </span><span class="m">2023</span>-01-02<span class="w">  </span>expired:<span class="w"> </span><span class="m">2025</span>-01-01<span class="w">  </span>usage:<span class="w"> </span>SEA<span class="w">
+
+</span><span class="c1"># Select these subkeys (they are then listed with a star):
+</span>$<span class="w"> </span>key<span class="w"> </span>K1**************<span class="w">
+</span>$<span class="w"> </span>key<span class="w"> </span>K2**************<span class="w">
+</span>$<span class="w"> </span>key<span class="w"> </span>K3**************<span class="w">
+</span>$<span class="w"> </span>key<span class="w"> </span>K4**************<span class="w">
+</span>$<span class="w"> </span>expire<span class="w">
+</span>2y<span class="w">
+</span>save
 </pre>
-<dl class="docutils">
-<dt>sec  brainpoolP512r1/54EC65AAE18A5162</dt>
-<dd>created: 2023-01-02  expires: 2029-01-21  usage: C
-trust: ultimate      validity: ultimate</dd>
-<dt>ssb  rsa4096/K1**************</dt>
-<dd>created: 2023-01-02  expires: 2027-01-22  usage: S</dd>
-<dt>ssb  rsa4096/K2**************</dt>
-<dd>created: 2023-01-02  expires: 2027-01-22  usage: E</dd>
-<dt>ssb  rsa4096/K3**************</dt>
-<dd>created: 2023-01-02  expired: 2025-01-01  usage: A</dd>
-<dt>ssb  rsa4096/K3**************</dt>
-<dd><blockquote class="first">
-created: 2023-01-02  expired: 2025-01-01  usage: SEA</blockquote>
-<p class="last"># Select these subkeys (they are then listed with a star):
-$ key K1**************
-$ key K2**************
-$ key K3**************
-$ key K4**************
-$ expire
-2y
-save</p>
-</dd>
-</dl>
 </div>
 </div>
 <div class="section" id="deleting-your-keys">

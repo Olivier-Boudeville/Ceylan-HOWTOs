@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, January 16, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, February 7, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -895,6 +895,7 @@ name us_main_exec-xxx at port 60001
 <li>to suppress warnings/errors whenever elements are not used, specify for:<ul>
 <li>variables: <tt class="docutils literal"><span class="pre">-compile(nowarn_unused_vars).</span></tt></li>
 <li>functions (rather than silencing them with an <tt class="docutils literal"><span class="pre">-export([f/1,</span> g/3])</tt>): <tt class="docutils literal"><span class="pre">-compile([</span> {nowarn_unused_function, [{f,1}, <span class="pre">{g,3}]}</span> ]).</tt></li>
+<li>types: they can be silenced with an <tt class="docutils literal"><span class="pre">-export_type([t1/0,</span> t2/1])</tt>), which is better (more selective) than <tt class="docutils literal"><span class="pre">-compile(nowarn_unused_type)</span></tt> (unfortunately <tt class="docutils literal"><span class="pre">-compile([</span> {nowarn_unused_type, [t1/0, t2/1]} ]).</tt> is not supported)</li>
 </ul>
 </li>
 </ul>
