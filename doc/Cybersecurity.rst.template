@@ -522,16 +522,16 @@ Let's extend their lifespan of 2 more years, by selecting them all:
 
   # Based on primary one:
   $ gpg --edit-key 3D60ADA5E251A8B5
-sec  brainpoolP512r1/54EC65AAE18A5162
+  sec  brainpoolP512r1/54EC65AAE18A5162
 	 created: 2023-01-02  expires: 2029-01-21  usage: C
 	 trust: ultimate      validity: ultimate
-ssb  rsa4096/K1**************
+  ssb  rsa4096/K1**************
 	 created: 2023-01-02  expires: 2027-01-22  usage: S
-ssb  rsa4096/K2**************
+  ssb  rsa4096/K2**************
 	 created: 2023-01-02  expires: 2027-01-22  usage: E
-ssb  rsa4096/K3**************
+  ssb  rsa4096/K3**************
 	 created: 2023-01-02  expired: 2025-01-01  usage: A
-ssb  rsa4096/K3**************
+  ssb  rsa4096/K3**************
 	 created: 2023-01-02  expired: 2025-01-01  usage: SEA
 
   # Select these subkeys (they are then listed with a star):
