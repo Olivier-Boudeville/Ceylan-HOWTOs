@@ -1034,6 +1034,7 @@ Installing rebar3
 One may use our `install-rebar3.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-rebar3.sh>`_ script for that (installed from sources, or prebuilt).
 
 
+
 Using Emacs
 -----------
 
@@ -1052,6 +1053,54 @@ Problem: it would have to be entered again and again, even for a single buffer..
 .. test with init.el-minimal-for-erlang-testing
 .. for example look up, in oceanic.erl, '-spec execute_command'
 .. Definition of Erlang support for Emacs in $ERL_INSTALL_ROOT/lib/erlang/emacs/erlang.el
+
+
+
+Contributing to Erlang/OTP
+--------------------------
+
+A simple procedure may be:
+
+- first, check, especially in the case of a bug fixing, whether it corresponds to an already `known issue <https://github.com/erlang/otp/issues>`_
+
+- read at least the `Submitting Pull Requests <https://github.com/Olivier-Boudeville/erlang-otp/blob/master/CONTRIBUTING.md#submitting-pull-requests>`_ section of the official Erlang/OTP contribution guide; for documentation-related contributions, refer to `these guidelines <https://github.com/erlang/otp/wiki/Documentation>`_
+
+- from one's GitHub account, fork the Erlang/OTP official repository, ``https://github.com/erlang/otp`` (just click on ``Fork``, at the top-right of this page), possibly as ``erlang-otp`` for clarity
+
+- clone it; for example::
+
+  $ cd ~/Software/Erlang
+  $ git clone https://github.com/James-Bond/erlang-otp.git erlang-otp-github-my-fork
+  $ cd erlang-otp-github-my-fork
+
+- (configure your clone appropriately in order to authenticate easily)
+
+
+- let's suppose the branch of the upcoming pull request is to derive from the ``maint`` one, and be named ``component/improve-something``::
+
+  $ git remote add upstream https://github.com/erlang/otp.git
+  $ git fetch upstream maint
+  $ git checkout maint
+  $ git checkout -b component/improve-something
+
+- perform the changes, and commit them, with a message such as ``Fix some element of something`` (refer for that to the `Writing good commit messages <https://github.com/erlang/otp/wiki/Writing-good-commit-messages>`_ Erlang-official guidelines)
+
+- push them: ``git push origin HEAD``
+
+- create a corresponding pull request (PR) by visiting the link proposed by the remote, for example ``https://github.com/James-Bond/erlang-otp/pull/new/component/improve-something``
+
+- in order to assess the corresponding authorisations of use/compliance, sign a suitable *Contributor License Agreement* (CLA), thanks to the `CLAassistant <https://github.com/cla-assistant/cla-assistant>`_ that automatically participates to the PR conversation
+
+- wait for the automated tests (continuous integration) to pass and a reviewer to accept or deny this PR, or to request changes that one's does one's best to apply
+
+
+Finally the PR is successfully merged, accepted and closed (see `this example <https://github.com/erlang/otp/pull/9425>`_) - and congratulations, you are an happy contributor to Erlang/OTP!
+
+
+More in-depth readings on that topic:
+
+- `Everything you need to know to start contributing to Erlang today! <https://medium.com/erlang-battleground/all-you-need-to-know-to-start-contributing-to-erlang-2fcd5748319e>`_, by Viacheslav Katsuba, especially to detail how changes should be performed and tested
+- `Writing OTP Modules <https://docs.jj1bdx.tokyo/writing-otp-modules/html/>`_, by Kenji Rikitake
 
 
 
