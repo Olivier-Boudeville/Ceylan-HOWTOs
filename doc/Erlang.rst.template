@@ -1151,13 +1151,15 @@ To avoid having to perform a lookup in the documentation:
 
 - in **guard expressions**:
 
+  - because of side effects, no user-defined function is allowed in guards; refer to the two tables listing all the `BIFs supported in guards expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions>`_ (test or non-test BIFs)
+  - a guard will fail if it returns false *or if it throws an exception*
   - to express an "and" operator, use a comma, i.e. "``,``", like in ``f(A, B, C, D) when A =:= B, C =/= A + D ->``
   - to express an "or" operator, use a semi-colon, i.e. "``;``"
-  - ``andalso`` and ``orelse`` behave there as tests, and their code is a little less effective than "``,``" and "``;``"
-  - refer to the two tables (test/others) of the `BIFs supported in guards expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions>`_
+  - ``andalso`` and ``orelse`` behave there as tests; they mostly convey the same meaning as "``,``" and "``;``" respectively, except that they do not catch exceptions and that their code is a little less effective - but they can be nested inside guards (refer to `this section <https://learnyousomeerlang.com/syntax-in-functions#guards-guards>`_ for more details)
 
 - to handle **binaries**:
 
+  - a binary is a bit string whose number of bits is a multiple of 8 (it can be represented as whole bytes)
   - one may refer to `this cheat sheet <https://cheatography.com/fylke/cheat-sheets/erlang-binaries/>`_; see also an `introduction to the bit syntax <https://www.erlang.org/doc/programming_examples/bit_syntax.html>`_ (including `bit string comprehensions <https://www.erlang.org/doc/reference_manual/expressions.html#bit-string-comprehensions>`_) and its `full reference <https://www.erlang.org/doc/reference_manual/expressions.html#bit_syntax>`_, the `Constructing and Matching Binaries <https://www.erlang.org/doc/efficiency_guide/binaryhandling.html>`_ section and the `binary <https://www.erlang.org/doc/man/binary.html>`_ module; see also our `bin_utils <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/data-management/bin_utils.erl>`_ module
   - as a rule of thumb:
 
