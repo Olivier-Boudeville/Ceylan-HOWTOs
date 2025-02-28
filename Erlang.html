@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, February 12, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, February 28, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -921,13 +921,15 @@ $ git checkout -b component/improve-something
 <li>refer to the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences">escape sequences</a>, typically in order to specify characters like &quot;space&quot; (<tt class="docutils literal">$\s</tt>); <tt class="docutils literal">$char</tt> is the notation to designate the ASCII value or Unicode code-point of the character <tt class="docutils literal">char</tt> (e.g. <tt class="docutils literal">$A</tt>)</li>
 <li>see the always handy <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">operator precedence</a> and the various ways to <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#try">handle exceptions with try/catch</a>; note that to catch <em>all</em> exceptions - i.e. those of the <tt class="docutils literal">throw</tt> class, but also of the <tt class="docutils literal">exit</tt> and <tt class="docutils literal">error</tt> classes, one may use: <tt class="docutils literal">try EXPR catch _:E <span class="pre">-&gt;</span> ...</tt> (rather than just: <tt class="docutils literal">try EXPR catch E <span class="pre">-&gt;</span> ...</tt>)</li>
 <li>in <strong>guard expressions</strong>:<ul>
+<li>because of side effects, no user-defined function is allowed in guards; refer to the two tables listing all the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions">BIFs supported in guards expressions</a> (test or non-test BIFs)</li>
+<li>a guard will fail if it returns false <em>or if it throws an exception</em></li>
 <li>to express an &quot;and&quot; operator, use a comma, i.e. &quot;<tt class="docutils literal">,</tt>&quot;, like in <tt class="docutils literal">f(A, B, C, D) when A =:= B, C =/= A + D <span class="pre">-&gt;</span></tt></li>
 <li>to express an &quot;or&quot; operator, use a semi-colon, i.e. &quot;<tt class="docutils literal">;</tt>&quot;</li>
-<li><tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt> behave there as tests, and their code is a little less effective than &quot;<tt class="docutils literal">,</tt>&quot; and &quot;<tt class="docutils literal">;</tt>&quot;</li>
-<li>refer to the two tables (test/others) of the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions">BIFs supported in guards expressions</a></li>
+<li><tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt> behave <em>there</em> as tests; they mostly convey the same meaning as &quot;<tt class="docutils literal">,</tt>&quot; and &quot;<tt class="docutils literal">;</tt>&quot; respectively, except that they shortcut (they do not evaluate their second operand if the first one suffices), that they do not catch exceptions as they happen (i.e. if a first guard throws, any next guards will not be evaluated, and the whole guard sequence will fail) and that their code is a little less effective - but they can be nested inside guards (refer to <a class="reference external" href="https://learnyousomeerlang.com/syntax-in-functions#guards-guards">this section</a> for more details)</li>
 </ul>
 </li>
 <li>to handle <strong>binaries</strong>:<ul>
+<li>a binary is a bit string whose number of bits is a multiple of 8 (it can be represented as whole bytes)</li>
 <li>one may refer to <a class="reference external" href="https://cheatography.com/fylke/cheat-sheets/erlang-binaries/">this cheat sheet</a>; see also an <a class="reference external" href="https://www.erlang.org/doc/programming_examples/bit_syntax.html">introduction to the bit syntax</a> (including <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#bit-string-comprehensions">bit string comprehensions</a>) and its <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#bit_syntax">full reference</a>, the <a class="reference external" href="https://www.erlang.org/doc/efficiency_guide/binaryhandling.html">Constructing and Matching Binaries</a> section and the <a class="reference external" href="https://www.erlang.org/doc/man/binary.html">binary</a> module; see also our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/data-management/bin_utils.erl">bin_utils</a> module</li>
 <li>as a rule of thumb:<ul>
 <li>even if it may seem a bit counter-intuitive, <em>integers</em> (the default matching type) are handled at the bit level (e.g. <tt class="docutils literal">A:16</tt> means an integer on two bytes), whereas <em>binaries</em> are handled at the byte level (e.g. <tt class="docutils literal">B:16/binary</tt> means 16 bytes) - indeed their bit-level counterparts are <em>bitstrings</em></li>

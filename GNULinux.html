@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, February 7, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, February 28, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -961,7 +961,18 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 <div class="section" id="troubleshooting">
 <h3>Troubleshooting</h3>
-<p>Sometimes problems arise due to older packages, this may be solved by removing the <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt> directory, relaunching Emacs and waiting for all related clones to be downloaded again.</p>
+<div class="section" id="handling-errors">
+<h4>Handling Errors</h4>
+<p>Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt> directory, relaunching Emacs and waiting for all related clones to be downloaded/built again.</p>
+<p>To investigate a problem, one may run Emacs with: <tt class="docutils literal">emacs <span class="pre">--debug-init</span></tt>.</p>
+</div>
+<div class="section" id="relying-a-safe-minimal-fallback-emacs">
+<h4>Relying a safe, minimal, fallback Emacs</h4>
+<p>As many software ecosystems, the Emacs one tends to change/break frequently, and then one's <tt class="docutils literal">init.el</tt> cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.</p>
+<p>One way of overcoming these issues is to have multiple versions of Emacs' configuration, including a very basic one that is never expected to break - just for the purpose of having at all times a base Emacs to fix the others; this is the purpose of our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-minimal.el">minimal init.el</a> configuration.</p>
+<p>Then an always-available Emacs can be run with: <tt class="docutils literal">emacs <span class="pre">--init-directory=~/.emacs.d-fallback</span></tt>, which can made easily available thanks to, in one's shell configuration: <tt class="docutils literal">alias <span class="pre">esafe='emacs</span> <span class="pre">--init-directory=~/.emacs.d-fallback'</span></tt> (<tt class="docutils literal">esafe</tt> for <em>editor safely available</em>).</p>
+<p>Alternatively, such a feature can better be implemented thanks to a shell function (to rely as much as possible on a safe emacs, otherwise on gedit, otherwise on nano); see our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Heavy/blob/master/src/conf/environment/.bashrc.basics">.bashrc.basics</a> file for that.</p>
+</div>
 </div>
 </div>
 <div class="section" id="using-visual-studio-code">
