@@ -1205,7 +1205,22 @@ See also our `Performing a Merge with Emacs <VCS.html#performing-a-merge-with-em
 Troubleshooting
 ...............
 
-Sometimes problems arise due to older packages, this may be solved by removing the ``~/.emacs.d/straight`` directory, relaunching Emacs and waiting for all related clones to be downloaded again.
+Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the ``~/.emacs.d/straight`` directory, relaunching Emacs and waiting for all related clones to be downloaded again.
+
+As many software ecosystems, the Emacs one tends to change/break frequently, and then one's ``init.el`` cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.
+
+One way of overcoming these issues is to have multiple versions of Emacs' configuration, including a very basic one that is never expected to break - just for the purpose of having at all times a base Emacs to fix the others; this is the purpose of our `minimal init.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-minimal.el>`_ configuration.
+
+.. code: sh
+
+ $ mkdir ~/.emacs.d-fallback
+ $ cd ~/.emacs.d-fallback
+ $ ln -s $CEYLAN_MYRIAD/conf/init-minimal.el init.el
+
+Then an always-available Emacs can be run with: ``emacs --init-directory=~/.emacs.d-fallback``, which can made easily available thanks to, in one's shell configuration: ``alias esafe='emacs --init-directory=~/.emacs.d-fallback'`` (``esafe`` for *editor safely available*).
+
+
+Alternatively, such a feature can better be implemented thanks to a shell function (to rely as much as possible on a safe emacs, otherwise on gedit, otherwise on nano); see our `.bashrc.basics <https://github.com/Olivier-Boudeville/Ceylan-Heavy/blob/master/src/conf/environment/.bashrc.basics>`_ file for that.
 
 
 
