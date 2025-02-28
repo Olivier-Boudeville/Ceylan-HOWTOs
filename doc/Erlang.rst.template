@@ -1155,7 +1155,7 @@ To avoid having to perform a lookup in the documentation:
   - a guard will fail if it returns false *or if it throws an exception*
   - to express an "and" operator, use a comma, i.e. "``,``", like in ``f(A, B, C, D) when A =:= B, C =/= A + D ->``
   - to express an "or" operator, use a semi-colon, i.e. "``;``"
-  - ``andalso`` and ``orelse`` behave there as tests; they mostly convey the same meaning as "``,``" and "``;``" respectively, except that they do not catch exceptions and that their code is a little less effective - but they can be nested inside guards (refer to `this section <https://learnyousomeerlang.com/syntax-in-functions#guards-guards>`_ for more details)
+  - ``andalso`` and ``orelse`` behave *there* as tests; they mostly convey the same meaning as "``,``" and "``;``" respectively, except that they shortcut (they do not evaluate their second operand if the first one suffices), that they do not catch exceptions as they happen (i.e. if a first guard throws, any next guards will not be evaluated, and the whole guard sequence will fail) and that their code is a little less effective - but they can be nested inside guards (refer to `this section <https://learnyousomeerlang.com/syntax-in-functions#guards-guards>`_ for more details)
 
 - to handle **binaries**:
 
