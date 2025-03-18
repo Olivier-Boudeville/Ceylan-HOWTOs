@@ -3,6 +3,7 @@
 
 .. title:: Ceylan-HOWTOs: About Emacs
 
+
 -----
 Emacs
 -----
@@ -130,8 +131,7 @@ Hints
 
 
 Emacs Parlance
-______________
-
+--------------
 
 With Emacs:
 
@@ -149,7 +149,7 @@ With Emacs:
 
 
 Key Bindings
-____________
+------------
 
 Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", generally), ``S`` to the ``Shift`` one, and ``-`` is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press *while the modifier is still held down*. ``RET`` means the Enter key, ``SPC`` the spacebar, ``M-L_ARROW`` / ``M-R_ARROW`` the left / right arrow keys.
 
@@ -188,9 +188,8 @@ At least based on our (Emacs and French keyboard) **base** settings (i.e. the on
 
 
 
-
 Frequent Actions
-________________
+----------------
 
 - to tune the font size:
 
@@ -227,6 +226,7 @@ Other **useful commands** to trigger, possibly explicitly with ``M-x``:
 
 
 See also our `Performing a Merge with Emacs <VCS.html#performing-a-merge-with-emacs>`_ section.
+
 
 
 Package Managers
@@ -322,7 +322,7 @@ Troubleshooting
 
 
 Handling Errors
-_______________
+---------------
 
 Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the cache of the package manager (e.g. ``~/.emacs.d/straight``, ``~/.emacs.d/elpaca``), relaunching Emacs and waiting for its state (e.g. all related clones) to be downloaded/built again.
 
@@ -331,7 +331,7 @@ To investigate a problem, one may run Emacs with: ``emacs --debug-init``.
 
 
 Relying a safe, minimal, fallback Emacs
-_______________________________________
+---------------------------------------
 
 As many software ecosystems, the Emacs one tends to change/break frequently, and then one's ``init.el`` cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.
 
@@ -346,8 +346,6 @@ One way of overcoming these issues is to have multiple versions of Emacs' config
 Then an always-available Emacs may be run with: ``emacs --init-directory=$DIR``, which can made easily available thanks to, in one's shell configuration: ``alias esafe='emacs --init-directory=${HOME}/.emacs.d/myriad-fallback'`` (``esafe`` standing for *editor safely available*).
 
 Alternatively, such a feature can better be implemented thanks to a shell function (to rely as much as possible on a safe emacs, otherwise on gedit, otherwise on nano); see our `.bashrc.basics <https://github.com/Olivier-Boudeville/Ceylan-Heavy/blob/master/src/conf/environment/.bashrc.basics>`_ shell file for that.
-
-
 
 
 :raw-html:`<a name="howtos_bottom"></a>`

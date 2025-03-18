@@ -1,5 +1,10 @@
 HOWTOS_TOP = ..
 
+.PHONY: doc all full-doc html pdf diagrams clone-mirror                     \
+		export-doc export-doc-to-official export-doc-to-mirror              \
+		clean clean-doc clean-links info-doc info-howtos info-web
+
+
 # Note: the HTML and PDF main files differ, to accomodate their different
 # structure (autonomous yet interlinked HTML pages vs a single standalone PDF).
 
@@ -53,11 +58,6 @@ DIAGRAMS := $(patsubst %.graph,%.png,$(wildcard *.graph))
 # Read from the user's environment:
 GITHUB_PAGES_BASE := $(shell basename "$(HOWTOS_WEB_MIRROR_BRANCH)")
 
-
-
-.PHONY: doc all full-doc html pdf diagrams clone-mirror                     \
-		export-doc export-doc-to-official export-doc-to-mirror              \
-		clean clean-doc clean-links info info-howtos info-web
 
 
 # Default do-nothing target:
@@ -114,7 +114,7 @@ export-doc-to-mirror: check-mathjax clean-doc create-links doc
 
 
 
-info: info-howtos info-web
+info-doc: info-howtos info-web
 
 
 info-howtos:
