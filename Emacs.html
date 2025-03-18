@@ -43,11 +43,13 @@
 <li><a class="reference internal" href="#emacs-parlance" id="toc-entry-5">Emacs Parlance</a></li>
 <li><a class="reference internal" href="#key-bindings" id="toc-entry-6">Key Bindings</a></li>
 <li><a class="reference internal" href="#frequent-actions" id="toc-entry-7">Frequent Actions</a></li>
+<li><a class="reference internal" href="#package-managers" id="toc-entry-8">Package Managers</a></li>
+<li><a class="reference internal" href="#elisp-hints" id="toc-entry-9">Elisp Hints</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#troubleshooting" id="toc-entry-8">Troubleshooting</a><ul>
-<li><a class="reference internal" href="#handling-errors" id="toc-entry-9">Handling Errors</a></li>
-<li><a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs" id="toc-entry-10">Relying a safe, minimal, fallback Emacs</a></li>
+<li><a class="reference internal" href="#troubleshooting" id="toc-entry-10">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#handling-errors" id="toc-entry-11">Handling Errors</a></li>
+<li><a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs" id="toc-entry-12">Relying a safe, minimal, fallback Emacs</a></li>
 </ul>
 </li>
 </ul>
@@ -187,8 +189,9 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li><tt class="docutils literal"><span class="pre">indent-region</span></tt> (<tt class="docutils literal"><span class="pre">C-M-\</span></tt> difficult on French keyboards)</li>
 </ul>
 <p>See also our <a class="reference external" href="VCS.html#performing-a-merge-with-emacs">Performing a Merge with Emacs</a> section.</p>
+</div>
 <div class="section" id="package-managers">
-<h3>Package Managers</h3>
+<h2><a class="toc-backref" href="#toc-entry-8">Package Managers</a></h2>
 <p>There are at least:</p>
 <ul class="simple">
 <li>package.el</li>
@@ -199,7 +202,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>Refer to <a class="reference external" href="https://github.com/radian-software/straight.el?tab=readme-ov-file#tldr-1">this page</a> for a comparison of package managers.</p>
 </div>
 <div class="section" id="elisp-hints">
-<h3>Elisp Hints</h3>
+<h2><a class="toc-backref" href="#toc-entry-9">Elisp Hints</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Emacs_Lisp">Emacs Lisp</a> is a Lisp dialect made for Emacs.</p>
 <p>See the <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/elisp/">GNU Emacs Lisp Reference Manual</a>.</p>
 <p>An Emacs init file contains a series of Lisp expressions, each of them consisting of a function name followed by arguments (expressions), all surrounded by parentheses.</p>
@@ -249,16 +252,15 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </ul>
 </div>
 </div>
-</div>
 <div class="section" id="troubleshooting">
-<h1><a class="toc-backref" href="#toc-entry-8">Troubleshooting</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-10">Troubleshooting</a></h1>
 <div class="section" id="handling-errors">
-<h2><a class="toc-backref" href="#toc-entry-9">Handling Errors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-11">Handling Errors</a></h2>
 <p>Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the cache of the package manager (e.g. <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt>, <tt class="docutils literal"><span class="pre">~/.emacs.d/elpaca</span></tt>), relaunching Emacs and waiting for its state (e.g. all related clones) to be downloaded/built again.</p>
 <p>To investigate a problem, one may run Emacs with: <tt class="docutils literal">emacs <span class="pre">--debug-init</span></tt>.</p>
 </div>
 <div class="section" id="relying-a-safe-minimal-fallback-emacs">
-<h2><a class="toc-backref" href="#toc-entry-10">Relying a safe, minimal, fallback Emacs</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-12">Relying a safe, minimal, fallback Emacs</a></h2>
 <p>As many software ecosystems, the Emacs one tends to change/break frequently, and then one's <tt class="docutils literal">init.el</tt> cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.</p>
 <p>One way of overcoming these issues is to have multiple versions of Emacs' configuration, including a very basic one that is never expected to break - just for the purpose of having at all times a base Emacs to fix the others; this is one of the purposes of our rather minimal <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el">init-myriad-base</a> configuration, to be used that way:</p>
 <pre class="code sh literal-block">
