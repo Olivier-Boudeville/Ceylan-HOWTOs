@@ -137,7 +137,12 @@ If it is as simple to run ``erl``, we prefer, with Ceylan settings, running ``ma
 Refer then to the `shell commands <https://www.erlang.org/doc/man/shell.html#shell-commands>`_, notably for:
 
 - ``f/1``, used as ``f(X).`` in order to *forget* a variable ``X``, i.e. to remove the binding of this variable and be able to (re)assign it afterwards
-- ``l/1`` (apparently undocumented), used as ``l(my_module)``, to (re)load that module, purging any old version of it; convenient to reload also specially-built BEAMs (e.g. based on parse transforms) that may have been compiled behind the scene
+- ``l/1`` (apparently undocumented), used as ``l(my_module)``, to (re)load that module, purging any old version of it; convenient to reload also specifically-built BEAMs (e.g. based on parse transforms) that may have been compiled behind the scene
+- ``v/1``: ``v(N)`` returns, if:
+
+  - ``N > 0``: the result value of command of (absolute) number ``N``
+  - ``N < 0``: the result value of any previous N-th command; for example ``v(-1)`` corresponds to the value of any previous command
+
 - ``rl/1`` is *not* "reload (module)" (use ``l/1`` for that), it is "record list" (it prints selected record definitions)
 - ``c/1``, used as ``c(my_module)``, to compile (if necessary) *and* (re)load that module, purging any old version of it
 - ``rr/{1,2,3}`` (e.g. used as ``rr(Path).``) to *read records* and have them available on the shell; for example, to be able to use the records defined by xmerl:

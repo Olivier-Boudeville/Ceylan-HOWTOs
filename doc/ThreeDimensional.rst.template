@@ -104,6 +104,8 @@ _________________
 
 
 - all scripts are classes, which are by default anonymous
+- before releasing one's game, it is certainly better to protect it thanks to some level of encryption (see `this thread <https://www.reddit.com/r/godot/comments/1je90av/how_to_protect_your_godot_game_from_being_stolen/>`_)
+
 
 
 Important Paths

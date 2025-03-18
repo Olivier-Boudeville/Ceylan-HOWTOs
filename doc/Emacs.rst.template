@@ -1,0 +1,353 @@
+.. _Top:
+
+
+.. title:: Ceylan-HOWTOs: About Emacs
+
+-----
+Emacs
+-----
+
+
+.. role:: raw-html(raw)
+   :format: html
+
+.. role:: raw-latex(raw)
+   :format: latex
+
+
+:raw-html:`<a name="howtos_top"></a>`
+
+:raw-html:`<div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Emacs">email us</a></p></div>`
+
+
+:raw-html:`<center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img>`
+
+
+:Organisation: Copyright (C) 2025-GENERATION_YEAR_TAG Olivier Boudeville
+:Contact: about (dash) howtos (at) esperide (dot) com
+:Creation date: Sunday, March 16, 2025
+:Lastly updated: GENERATION_DATE_TAG
+
+
+:raw-html:`<a name="howtos_toc"></a>`
+
+.. _`table of contents`:
+
+
+.. contents:: **Table of Contents**
+  :local:
+  :depth: 2
+
+
+:raw-html:`</center>`
+
+
+
+Overview
+========
+
+`Emacs <https://en.wikipedia.org/wiki/Emacs>`_ is a family of free software text editors that are characterised by their extensibility and their ability to be customised at will.
+
+
+
+Installation
+============
+
+Quite surprisingly, Emacs still changes a lot (notably in terms of function names), and (Elisp) scripts that work for an Emacs version may not work for the next one. So at least controlling one's version may be of use; run for that ``emacs --version``. We consider using here Emacs 30.1 or more recent.
+
+
+Of course the best option to install Emacs is to use a (OS-level) package manager, for example: ``apt-get install emacs`` - if the supported version is not too ancient.
+
+
+Otherwise, to perform a manual installation of Emacs on one's user account, it must be first `downloaded <https://www.gnu.org/software/emacs/download.html>`_; one may thus fetch for example ``emacs-30.1.tar.xz``.
+
+Prerequisites may be needed; running - unfortunately as root - ``apt-get build-dep emacs`` or alike may be of use, or at least having packages like ``libgtk-3-dev`` and ``librust-tree-sitter-dev`` installed.
+
+
+Then:
+
+.. code:: bash
+
+ $ mkdir -p ~/Software/Emacs && cd ~/Software/Emacs
+ $ EMACS_VERSION=30.1
+ $ mv ~/Downloads/emacs-${EMACS_VERSION}.tar.xz .
+ $ tar xvJf emacs-${EMACS_VERSION}.tar.xz
+ $ cd emacs-${EMACS_VERSION}
+ # If not having these dependencies:
+ $ ./configure --with-xpm=ifavailable --with-gif=ifavailable \
+ --with-tiff=ifavailable --with-gnutls=ifavailable --prefix=${HOME}/Software/Emacs/emacs-${EMACS_VERSION}-install
+ $ make install
+ $ cd .. && ln -s emacs-${EMACS_VERSION}-install emacs-current-install
+
+
+Then one's shell environment shall be updated once for all with:
+
+.. code:: bash
+
+ $ export PATH="${HOME}/Software/Emacs/emacs-current-install/bin:${PATH}"
+
+
+
+.. _`Emacs configuration`:
+
+Configuration
+=============
+
+Our base Emacs configuration, `init-myriad-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el>`_, is designed to be minimal enough not to depend on any third-party element (so it is not relying on a package manager).
+
+It may be used as:
+
+- a simple configuration of its own, for example on servers (hence just on the console, with no GUI), typically once copied as ``~/.emacs.d/init.el``
+- a fallback configuration, useful when a reliable, unaffected editor is needed to debug one's Emacs configuration (see `Relying a safe, minimal, fallback Emacs`_ for that)
+  - a base configuration expanded (i.e. included) by more involved / specialised configurations (e.g. see our main, most complete Emacs configuration for daily usage, `init-myriad-fully-integrated <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el>`_)
+
+
+In addition to these base and complete configurations, we defined modular, specialised configuration files for a few topics.
+
+First, the standalone ones, i.e. the specialisations that do not depend on any specific (third-party) package, are:
+
+- `init-myriad-rst-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-rst-base.el>`_ for the support of ReStructuredText
+- `init-myriad-erlang-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-base.el>`_, for the basic support of Erlang, following the official guidelines (with no extra tooling involved)
+- `init-myriad-c-cpp-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-c-cpp-base.el>`_, for a basic support of C/C++
+- `init-myriad-python-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-python-base.el>`_, for a basic support of Python
+
+As for the configurations involving packages, we have:
+
+- `init-myriad-package-management <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-package-management.el>`_, to setup a proper management of Emacs packages (currently based on `elpaca <https://github.com/progfolio/elpaca>`_)
+- `init-myriad-erlang-advanced <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el>`_, to provide additional tooling on top of the prior ``init-myriad-erlang-base`` (currently not deemed satisfactory enough, at least for our use cases)
+
+
+Finally, an optional (loaded iff found available) `init-myriad-local <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-local.el>`_ (that link pointing to an example version) configuration allows to define per-computer settings (e.g. to define relevant initial window sizes for that host).
+
+All these configuration files are included by the aforementioned `init-myriad-fully-integrated <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el>`_ one.
+
+For the sake of testing, an instance of Emacs relying on a given configuration file (typically ``init.el``) can be best run with: ``emacs --init-directory=$SOME_DIR``, where ``SOME_DIR`` contains this configuration file (possibly as a symbolic link).
+
+
+
+Hints
+=====
+
+
+Emacs Parlance
+______________
+
+
+With Emacs:
+
+- a ``frame`` is actually a regular GUI window
+- a ``window`` is a subdivision of a ``frame`` (hence to be understood as a *window pane*)
+- a ``buffer`` is the content shown in a ``window``
+- (the) ``point`` is the (current) cursor position
+- the ``mark`` is the beginning of the current selection (typically set by ``C-SPC`` at the current point)
+- ELPA stands for *Emacs Lisp Package Archive* (see `more package-related explanations <https://zellyn.com/2024/08/emacs-packages/>`_):
+
+  - GNU ELPA is ~450 packages, considered part of Emacs
+  - NonGNU ELPA contains third-party packages whose copyright has not been assigned to the Free Software Foundation
+  - MELPA for *Milkypostman’s Emacs Lisp Package Archive*; ~6000 packages that can be freely added
+
+
+
+Key Bindings
+____________
+
+Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", generally), ``S`` to the ``Shift`` one, and ``-`` is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press *while the modifier is still held down*. ``RET`` means the Enter key, ``SPC`` the spacebar, ``M-L_ARROW`` / ``M-R_ARROW`` the left / right arrow keys.
+
+For example ``C-x C--`` means: press and hold the "Ctrl" key, and hit the "x" key, then release all, then press and hold the "Ctrl" key, and hit the "-" key, and release all.
+
+At least based on our (Emacs and French keyboard) **base** settings (i.e. the ones in ``init-base.el``), the following key bindings trigger the corresponding actions:
+
+- ``C-a`` / ``C-e``: move cursor to leftmost / rightmost position
+- ``C-k``: kill all characters on the right from cursor (and thus put them in the kill ring)
+- ``C-s PATTERN RET`` / ``C-r PATTERN RET``: perform direct / reverse case-insensitive search of the specified pattern; then each ``C-s`` / ``C-r`` will jump direct / reverse to any next occurrence; ``RET`` will stop the search
+- ``C-d SEARCH_PATTERN RET REPLACE_PATTERN RET``: perform replacements, bound to ``replace-string`` (default binding to delete char at cursor - ``delete-char`` - not useful enough, as a dedicated key, the Delete one, exists for that)
+- ``C-l LINE_NUMBER``: go to the specified line
+- ``C-x C-s``: save current buffer
+- ``C-x C-k``: kill current buffer
+- ``C-x C-c``: exit Emacs
+- ``C-g``: cancel command/selection
+- ``C-z``: undo last action (or ``C-x u``); to redo, rather than typing ``C-g C-/`` (which would involve a shift, on French keyboards), just perform a non-editing command (such as ``C-SPC``) and then the next ``C-z`` commands will go in the opposite direction in the undo chain (they will redo)
+- ``C-SPC``: set the mark (begin selection)
+- ``C-w``: cut selection in the kill ring (selection is thus removed from the current buffer)
+- ``M-w``: copy selection in the kill ring (selection thus remains in the current buffer)
+- ``C-y``: yank (paste from kill ring, replacing any current selection)
+- ``M-y``: replace text just yanked with an earlier batch of killed text
+- ``C-p``: compile, make
+- ``C-x TAB``: indent rigidly, moving the whole selection left/right with ``M-L_ARROW`` / ``M-R_ARROW`` (see also ``kill-rectangle``)
+- ``M-<`` / : ``M-S-<``: go to beginning / end of the current buffer
+.. - ``M-;``: comment / uncomment current line
+- ``C-x 2``: split window horizontally
+- ``C-x 3``: split window vertically
+- ``M-R_ARROW`` / : ``M-L_ARROW``: go to next / previous buffer
+- ``M-q``: fill current paragraph (reformat / wordwrap it), i.e. applies ``fill-paragraph``
+- ``M-m``: jump to first non-whitespace in the current line
+- ``M-x`` will allow to enter / select commands from the minibuffer (see our `useful commands`_ section below)
+- ``C-o`` or ``F8``: perform whitespace cleanup (now built-in)
+
+..  Additionally, with our **complete** settings:
+
+
+
+
+Frequent Actions
+________________
+
+- to tune the font size:
+
+  - temporarily: use ``C-x C-+`` to increase, ``C-x C--`` to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use ``C-mousewheel``)
+  - permanently: one may add in one's `Emacs configuration`_ file for example: ``(set-face-attribute 'default nil :height 100)``
+
+- to insert special characters (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example ``M-x quoted-insert <tab>``, which is often bound (yet not in our conventions) to ``C-q``; note that pasting a tab with the mouse in the minibuffer works as well
+
+- to insert in the current buffer the output of a shell command: ``C-u then M-!``: enter that shell command, whose output will be pasted at the current cursor position
+
+- to prefix all lines of the selected region: ``C-x`` then ``r`` then ``t``, then type the prefix then type Enter (useful for example to indent a series of lines)
+
+- to sort alphabetically the selected region: ``M-x sort-lines``
+
+- to go to the matching delimiter (parenthesis, bracket, end of word, etc.): to go forward, use ``C-M-f``, and to go backward use ``C-M-b``
+
+- to re-select a region (e.g. to perform multiple substitutions in a row on the same region): ``C-x C-x``
+
+- to abort the current entry in the minibuffer: ``C-g``
+
+- to perform replacements based on regular expressions: ``M-x replace-regexp RET regexp RET newstring RET``, with `this REGEXP syntax <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html>`_ (`more information <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html>`_); for example, to remove, in each line, all characters from the first comma: ``M-x replace-regexp RET ,.* RET , RET``
+
+- to open a file that is very large and/or difficult to parse/display: ``M-x find-file-literally``
+
+
+.. _`useful commands`:
+
+Other **useful commands** to trigger, possibly explicitly with ``M-x``:
+
+- ``replace-string SEARCH_PATTERN REPLACEMENT``; add ``M-c`` to set the case-sensitive flag, i.e. to search for the exact string (even if it is lowercase - otherwise uppercase versions thereof will match); the ``M-%`` default shortcut requires a shift on French keyboards
+- ``query-replace SEARCH_PATTERN REPLACEMENT``
+- ``kill-rectangle`` (operates on a previous selection)
+- ``indent-region`` (``C-M-\`` difficult on French keyboards)
+
+
+See also our `Performing a Merge with Emacs <VCS.html#performing-a-merge-with-emacs>`_ section.
+
+
+Package Managers
+----------------
+
+There are at least:
+
+- package.el
+- straight.el
+- `Elpaca <https://github.com/progfolio/elpaca>`_: *Async Emacs Package Manager* (current state of the art, and the one on which we currently rely)
+
+``use-package`` is not a package manager, it is an extensible configuration macro that is specialised by most of the package managers so that it can be used with any.
+
+Refer to `this page <https://github.com/radian-software/straight.el?tab=readme-ov-file#tldr-1>`_ for a comparison of package managers.
+
+
+
+Elisp Hints
+-----------
+
+
+`Emacs Lisp <https://en.wikipedia.org/wiki/Emacs_Lisp>`_ is a Lisp dialect made for Emacs.
+
+See the `GNU Emacs Lisp Reference Manual <https://www.gnu.org/software/emacs/manual/html_node/elisp/>`_.
+
+An Emacs init file contains a series of Lisp expressions, each of them consisting of a function name followed by arguments (expressions), all surrounded by parentheses.
+
+For example: ``(setq fill-column 60)`` calls the function ``setq`` (*set quoted*) to set the variable ``fill-column`` to ``60``; as ``setq`` affects only the current buffer’s local value, in an initialisation file ``setq-default`` is generally preferred.
+
+- boolean values: ``t`` stands for "true", and ``nil`` for "false"
+- to display a message: ``(message "Hello world!")``
+- a leading single-quote makes a symbol a constant - otherwise it would be treated as a variable name; for example: ``(setq-default major-mode 'text-mode)``
+
+Elisp examples may be the following conditional setting:
+
+.. code:: elisp
+
+ (if (boundp 'coding-category-utf-8)
+	(set-coding-priority '(coding-category-utf-8)))
+
+
+Or the next function definition and key binding:
+
+.. code:: elisp
+
+ (defun my-split-window-func ()
+  (interactive)
+  (split-window-below)
+  (set-window-buffer (next-window) (other-buffer)))
+
+ (global-set-key (kbd "C-x 2") #'my-split-window-func)
+
+
+If needing to include a configuration file in another:
+
+.. code:: elisp
+
+ (load-file "~/elisp/foo.el")
+
+
+To trigger multiple calls in a single expression, use:
+
+.. code:: elisp
+
+  (progn do-this
+		 do-that)
+
+
+.. code:: elisp
+
+ (defun func (arg1 arg2)
+	"Always document your functions."
+	<function body>)
+
+ (defvar var-name <the value>
+	"Always document your variables.")
+
+To concatenate filesystem elements: ``(file-name-concat "/tmp" "foo")`` results in ``"/tmp/foo"``.
+
+
+Related Elisp information sources:
+
+- `Emergency Elisp <https://steve-yegge.blogspot.com/2008/01/emergency-elisp.html>`_
+- `Learn X in Y minutes Where X=Emacs Lisp <https://learnxinyminutes.com/elisp/>`_
+- `Emacs Lisp Guide <https://github.com/chrisdone-archive/elisp-guide>`_
+
+
+
+
+
+Troubleshooting
+===============
+
+
+Handling Errors
+_______________
+
+Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the cache of the package manager (e.g. ``~/.emacs.d/straight``, ``~/.emacs.d/elpaca``), relaunching Emacs and waiting for its state (e.g. all related clones) to be downloaded/built again.
+
+To investigate a problem, one may run Emacs with: ``emacs --debug-init``.
+
+
+
+Relying a safe, minimal, fallback Emacs
+_______________________________________
+
+As many software ecosystems, the Emacs one tends to change/break frequently, and then one's ``init.el`` cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.
+
+One way of overcoming these issues is to have multiple versions of Emacs' configuration, including a very basic one that is never expected to break - just for the purpose of having at all times a base Emacs to fix the others; this is one of the purposes of our rather minimal `init-myriad-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el>`_ configuration, to be used that way:
+
+.. code:: sh
+
+ $ DIR="${HOME}/.emacs.d/myriad-fallback"
+ $ mkdir $DIR && cd $DIR
+ $ ln -s $CEYLAN_MYRIAD/conf/init-myriad-base.el init.el
+
+Then an always-available Emacs may be run with: ``emacs --init-directory=$DIR``, which can made easily available thanks to, in one's shell configuration: ``alias esafe='emacs --init-directory=${HOME}/.emacs.d/myriad-fallback'`` (``esafe`` standing for *editor safely available*).
+
+Alternatively, such a feature can better be implemented thanks to a shell function (to rely as much as possible on a safe emacs, otherwise on gedit, otherwise on nano); see our `.bashrc.basics <https://github.com/Olivier-Boudeville/Ceylan-Heavy/blob/master/src/conf/environment/.bashrc.basics>`_ shell file for that.
+
+
+
+
+:raw-html:`<a name="howtos_bottom"></a>`
