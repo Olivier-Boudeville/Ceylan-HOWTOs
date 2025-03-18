@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, February 28, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, March 16, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -86,20 +86,19 @@
 <li><a class="reference internal" href="#performing-searches-and-replacements" id="toc-entry-38">Performing Searches and Replacements</a></li>
 <li><a class="reference internal" href="#applying-a-xfce4-configuration-to-a-different-user" id="toc-entry-39">Applying a XFCE4 configuration to a different user</a></li>
 <li><a class="reference internal" href="#solving-pulseaudio-issues" id="toc-entry-40">Solving PulseAudio Issues</a></li>
-<li><a class="reference internal" href="#using-emacs" id="toc-entry-41">Using Emacs</a></li>
-<li><a class="reference internal" href="#using-visual-studio-code" id="toc-entry-42">Using Visual Studio Code</a></li>
-<li><a class="reference internal" href="#using-e-mail-clients" id="toc-entry-43">Using E-mail Clients</a></li>
-<li><a class="reference internal" href="#sandboxing-an-application" id="toc-entry-44">Sandboxing an Application</a></li>
-<li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-45">Recording a Screencast</a></li>
-<li><a class="reference internal" href="#specifying-iterations-with-bash" id="toc-entry-46">Specifying iterations with Bash</a></li>
-<li><a class="reference internal" href="#shell-auto-completing-the-available-make-targets" id="toc-entry-47">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></li>
-<li><a class="reference internal" href="#mini-shell-cheat-sheet" id="toc-entry-48">Mini Shell Cheat Sheet</a></li>
-<li><a class="reference internal" href="#mounting-manually-crypttab-declared-partitions" id="toc-entry-49">Mounting Manually crypttab-declared Partitions</a></li>
-<li><a class="reference internal" href="#other-user-settings" id="toc-entry-50">Other User Settings</a></li>
-<li><a class="reference internal" href="#shortcuts" id="toc-entry-51">Shortcuts</a></li>
+<li><a class="reference internal" href="#using-visual-studio-code" id="toc-entry-41">Using Visual Studio Code</a></li>
+<li><a class="reference internal" href="#using-e-mail-clients" id="toc-entry-42">Using E-mail Clients</a></li>
+<li><a class="reference internal" href="#sandboxing-an-application" id="toc-entry-43">Sandboxing an Application</a></li>
+<li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-44">Recording a Screencast</a></li>
+<li><a class="reference internal" href="#specifying-iterations-with-bash" id="toc-entry-45">Specifying iterations with Bash</a></li>
+<li><a class="reference internal" href="#shell-auto-completing-the-available-make-targets" id="toc-entry-46">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></li>
+<li><a class="reference internal" href="#mini-shell-cheat-sheet" id="toc-entry-47">Mini Shell Cheat Sheet</a></li>
+<li><a class="reference internal" href="#mounting-manually-crypttab-declared-partitions" id="toc-entry-48">Mounting Manually crypttab-declared Partitions</a></li>
+<li><a class="reference internal" href="#other-user-settings" id="toc-entry-49">Other User Settings</a></li>
+<li><a class="reference internal" href="#shortcuts" id="toc-entry-50">Shortcuts</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-52">See Also</a></li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-51">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -900,83 +899,8 @@ $<span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </sp
 <p>See also these <a class="reference external" href="https://wiki.archlinux.org/title/PulseAudio/Examples">Arch guidelines</a>.</p>
 <p>As last resort (rarely needed), as root, one may reinstall it: <tt class="docutils literal">pacman <span class="pre">-Sy</span> pulseaudio</tt> and reboot.</p>
 </div>
-<div class="section" id="using-emacs">
-<h2><a class="toc-backref" href="#toc-entry-41">Using Emacs</a></h2>
-<div class="section" id="installation">
-<h3>Installation</h3>
-<p>Quite surprisingly, Emacs still changes a lot (notably in terms of function names), and (elisp) scripts that work for an Emacs version may not work for the next one. So at least controlling one's version may be of use.</p>
-<p>Of course using a package manager for that is the best option, for example: <tt class="docutils literal"><span class="pre">apt-get</span> install emacs</tt> if the supported version is not too ancient.</p>
-<p>Otherwise, to perform a manual installation of Emacs on one's user account, it must be first <a class="reference external" href="https://www.gnu.org/software/emacs/download.html">downloaded</a>; one may thus fetch for example <tt class="docutils literal"><span class="pre">emacs-28.2.tar.xz</span></tt>.</p>
-<p>Prerequisites may be needed; running - unfortunately as root - <tt class="docutils literal"><span class="pre">apt-get</span> <span class="pre">build-dep</span> emacs</tt> or alike may be of use, or at least having packages like <tt class="docutils literal"><span class="pre">libgtk-3-dev</span></tt> and <tt class="docutils literal"><span class="pre">librust-tree-sitter-dev</span></tt> installed.</p>
-<p>Then:</p>
-<pre class="code bash literal-block">
-$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Software/Emacs<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software/Emacs<span class="w">
-</span>$<span class="w"> </span><span class="nv">EMACS_VERSION</span><span class="o">=</span><span class="m">28</span>.2<span class="w">
-</span>$<span class="w"> </span>mv<span class="w"> </span>~/Downloads/emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span>.tar.xz<span class="w"> </span>.<span class="w">
-</span>$<span class="w"> </span>tar<span class="w"> </span>xvJf<span class="w"> </span>emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span>.tar.xz<span class="w">
-</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span><span class="w">
-</span><span class="c1"># If not having these dependencies:
-</span>$<span class="w"> </span>./configure<span class="w"> </span>--with-xpm<span class="o">=</span>ifavailable<span class="w"> </span>--with-gif<span class="o">=</span>ifavailable<span class="w"> </span><span class="se">\
-</span>--with-tiff<span class="o">=</span>ifavailable<span class="w"> </span>--with-gnutls<span class="o">=</span>ifavailable<span class="w"> </span>--prefix<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/Software/Emacs/emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span>-install<span class="w">
-</span>$<span class="w"> </span>make<span class="w"> </span>install<span class="w">
-</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span>-install<span class="w"> </span>emacs-current-install
-</pre>
-<p>Then one's shell environment shall be updated once for all with:</p>
-<pre class="code bash literal-block">
-$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/Software/Emacs/emacs-current-install/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">&quot;</span>
-</pre>
-</div>
-<div class="section" id="configuration-1">
-<span id="emacs-configuration"></span><h3>Configuration</h3>
-<p>Our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">init.el</a>, which may be stored in <tt class="docutils literal"><span class="pre">~/.emacs.d/</span></tt>, currently relies on <a class="reference external" href="https://github.com/radian-software/straight.el">straight.el</a>.</p>
-</div>
-<div class="section" id="hints">
-<h3>Hints</h3>
-<p>Here <tt class="docutils literal">C</tt> corresponds to the &quot;Ctrl&quot; key, <tt class="docutils literal">M</tt> the &quot;Meta&quot; one (i.e. &quot;Alt&quot;, generally) and <tt class="docutils literal">-</tt> is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press <em>while the modifier is still held down</em>.</p>
-<p>For example <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> means: press and hold the &quot;Ctrl&quot; key, and hit the &quot;x&quot; key, then release all, then press and hold the &quot;Ctrl&quot; key, and hit the &quot;-&quot; key, and release all.</p>
-<p>Frequent actions needed:</p>
-<ul class="simple">
-<li>to tune the font size:<ul>
-<li>temporarily: use <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-+</span></tt> to increase, <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use <tt class="docutils literal"><span class="pre">C-mousewheel</span></tt>)</li>
-<li>permanently: one may add in one's <a class="reference internal" href="#emacs-configuration">Emacs configuration</a> file for example: <tt class="docutils literal"><span class="pre">(set-face-attribute</span> 'default nil :height 100)</tt></li>
-</ul>
-</li>
-<li>to insert special characters (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">quoted-insert</span> &lt;tab&gt;</tt>, which is often bound (yet not in our conventions) to <tt class="docutils literal"><span class="pre">C-q</span></tt>; note that pasting a tab with the mouse in the minibuffer works as well</li>
-<li>to insert in the current buffer the output of a shell command: <tt class="docutils literal"><span class="pre">C-u</span> then <span class="pre">M-!</span></tt>: enter that shell command, whose output will be pasted at the current cursor position</li>
-<li>to prefix all lines of the selected region: <tt class="docutils literal"><span class="pre">C-x</span></tt> then <tt class="docutils literal">r</tt> then <tt class="docutils literal">t</tt>, then type the prefix then type Enter (useful for example to indent a series of lines)</li>
-<li>to sort alphabetically the selected region: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">sort-lines</span></tt></li>
-<li>to go to the matching delimiter (parenthesis, bracket, end of word, etc.): to go forward, use <tt class="docutils literal"><span class="pre">C-M-f</span></tt>, and to go backward use <tt class="docutils literal"><span class="pre">C-M-b</span></tt></li>
-<li>to re-select a region (e.g. to perform multiple substitutions in a row on the same region): <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-x</span></tt></li>
-<li>to abort the current entry in the minibuffer: <tt class="docutils literal"><span class="pre">C-g</span></tt></li>
-<li>to perform replacements based on regular expressions: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET regexp RET newstring RET</tt>, with <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html">this REGEXP syntax</a> (<a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html">more information</a>); for example, to remove, in each line, all characters from the first comma: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET ,.* RET , RET</tt></li>
-<li>to open a file that is very large and/or difficult to parse/display: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">find-file-literally</span></tt></li>
-</ul>
-<p>Other useful commands to trigger with <tt class="docutils literal"><span class="pre">M-x</span></tt>:</p>
-<ul class="simple">
-<li><tt class="docutils literal"><span class="pre">replace-string</span> SEARCH_PATTERN REPLACEMENT</tt>; add <tt class="docutils literal"><span class="pre">M-c</span></tt> to set the case-sensitive flag, i.e. to search for the exact string (even if it is lowercase - otherwise uppercase versions thereof will match)</li>
-<li><tt class="docutils literal"><span class="pre">query-replace</span> SEARCH_PATTERN REPLACEMENT</tt></li>
-<li><tt class="docutils literal"><span class="pre">kill-rectangle</span></tt> (operates on a previous selection)</li>
-</ul>
-<p>See also our <a class="reference external" href="VCS.html#performing-a-merge-with-emacs">Performing a Merge with Emacs</a> section.</p>
-</div>
-<div class="section" id="troubleshooting">
-<h3>Troubleshooting</h3>
-<div class="section" id="handling-errors">
-<h4>Handling Errors</h4>
-<p>Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt> directory, relaunching Emacs and waiting for all related clones to be downloaded/built again.</p>
-<p>To investigate a problem, one may run Emacs with: <tt class="docutils literal">emacs <span class="pre">--debug-init</span></tt>.</p>
-</div>
-<div class="section" id="relying-a-safe-minimal-fallback-emacs">
-<h4>Relying a safe, minimal, fallback Emacs</h4>
-<p>As many software ecosystems, the Emacs one tends to change/break frequently, and then one's <tt class="docutils literal">init.el</tt> cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.</p>
-<p>One way of overcoming these issues is to have multiple versions of Emacs' configuration, including a very basic one that is never expected to break - just for the purpose of having at all times a base Emacs to fix the others; this is the purpose of our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-minimal.el">minimal init.el</a> configuration.</p>
-<p>Then an always-available Emacs can be run with: <tt class="docutils literal">emacs <span class="pre">--init-directory=~/.emacs.d-fallback</span></tt>, which can made easily available thanks to, in one's shell configuration: <tt class="docutils literal">alias <span class="pre">esafe='emacs</span> <span class="pre">--init-directory=~/.emacs.d-fallback'</span></tt> (<tt class="docutils literal">esafe</tt> for <em>editor safely available</em>).</p>
-<p>Alternatively, such a feature can better be implemented thanks to a shell function (to rely as much as possible on a safe emacs, otherwise on gedit, otherwise on nano); see our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Heavy/blob/master/src/conf/environment/.bashrc.basics">.bashrc.basics</a> file for that.</p>
-</div>
-</div>
-</div>
 <div class="section" id="using-visual-studio-code">
-<h2><a class="toc-backref" href="#toc-entry-42">Using Visual Studio Code</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-41">Using Visual Studio Code</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Visual_Studio_Code">Visual Studio Code</a> (a.k.a. <em>VS Code</em>; not to be confused with <em>Visual Studio</em> itself) is a popular free software (MIT licence) source-code multi-platform editor, developed by Microsoft.</p>
 <p>It supports many languages and features through extensions.</p>
 <div class="section" id="installing">
@@ -1026,7 +950,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 </div>
 <div class="section" id="using-e-mail-clients">
-<h2><a class="toc-backref" href="#toc-entry-43">Using E-mail Clients</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-42">Using E-mail Clients</a></h2>
 <p>Over time we were preferring <a class="reference external" href="https://help.gnome.org/users/evolution/stable/index.html">Evolution</a> to <a class="reference external" href="https://www.thunderbird.net/">Thunderbird</a>, notably regarding its far better <a class="reference external" href="Cybersecurity.html#securing-thanks-to-openpgp">OpenPGP</a> support. Yet, at least for some IMAP servers (e.g. the ones of <a class="reference external" href="https://www.mailo.com/">Mailo</a>), errors (like: <tt class="docutils literal">Error copying messages: Error</tt>) constantly happening (despite many attempts of configuration changes) and being reported ruined its use for us <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[3]</a>, so we switched back to Thunderbird.</p>
 <table class="docutils footnote" frame="void" id="footnote-3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -1045,13 +969,13 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>See also Ceylan-Hull's <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/email.sh/">email.sh</a> and <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/archive-emails.sh">archive-emails.sh</a> scripts.</p>
 </div>
 <div class="section" id="sandboxing-an-application">
-<h2><a class="toc-backref" href="#toc-entry-44">Sandboxing an Application</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-43">Sandboxing an Application</a></h2>
 <p>Sometimes it is harder to trust an application, for example because it had to be installed as an <a class="reference external" href="https://en.wikipedia.org/wiki/AppImage">AppImage</a>.</p>
 <p>Sandboxing reduces the risk of security breaches by restricting the running environment of untrusted applications: they can be prevented from accessing to filesystems, to the network, etc.</p>
 <p>A well-known sandboxing tool is <a class="reference external" href="https://github.com/netblue30/firejail">firejail</a>. It can be installed <a class="reference external" href="https://wiki.archlinux.org/title/firejail">on Arch Linux</a> with <tt class="docutils literal">pacman <span class="pre">-Sy</span> firejail</tt>. Then an untrusted executable <tt class="docutils literal">my_exec</tt> can simply be run with: <tt class="docutils literal">firejail my_exec</tt>.</p>
 </div>
 <div class="section" id="recording-a-screencast">
-<h2><a class="toc-backref" href="#toc-entry-45">Recording a Screencast</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-44">Recording a Screencast</a></h2>
 <p>We rely on the impressive, feature-rich, free software <a class="reference external" href="https://en.wikipedia.org/wiki/SimpleScreenRecorder">SimpleScreenRecorder</a> (<tt class="docutils literal">pacman <span class="pre">-Sy</span> simplescreenrecorder</tt>).</p>
 <p>This tool is run as <tt class="docutils literal">simplescreenrecorder</tt> and offers many options and encoding choices; it is able to record OpenGL applications <a class="footnote-reference" href="#footnote-4" id="footnote-reference-4">[4]</a> and also the audio.</p>
 <table class="docutils footnote" frame="void" id="footnote-4" rules="none">
@@ -1064,7 +988,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>See also <a class="reference external" href="https://en.wikipedia.org/wiki/Comparison_of_screencasting_software">this comparison</a> of screencasting software.</p>
 </div>
 <div class="section" id="specifying-iterations-with-bash">
-<h2><a class="toc-backref" href="#toc-entry-46">Specifying iterations with Bash</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-45">Specifying iterations with Bash</a></h2>
 <p>With Bash, as an alternative to <tt class="docutils literal">$(seq N)</tt>, variables may be iterated (e.g. to select filenames) based on:</p>
 <ul class="simple">
 <li>a list: <tt class="docutils literal">for i in <span class="pre">images-{1,4,9}-of-cats.jpeg;</span> do ...</tt></li>
@@ -1072,7 +996,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </ul>
 </div>
 <div class="section" id="shell-auto-completing-the-available-make-targets">
-<h2><a class="toc-backref" href="#toc-entry-47">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-46">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></h2>
 <p>If able to do so, just install a <tt class="docutils literal"><span class="pre">bash-completion</span></tt> package, available on most distributions (including Arch Linux).</p>
 <p>Otherwise, one may add to one's shell profile / configuration (e.g. <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt>):</p>
 <pre class="code bash literal-block">
@@ -1080,7 +1004,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </pre>
 </div>
 <div class="section" id="mini-shell-cheat-sheet">
-<h2><a class="toc-backref" href="#toc-entry-48">Mini Shell Cheat Sheet</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-47">Mini Shell Cheat Sheet</a></h2>
 <p>For the basic <tt class="docutils literal">/bin/sh</tt> shell (Bash being a superset thereof).</p>
 <div class="section" id="switch-like-statement">
 <h3>Switch-like Statement</h3>
@@ -1143,7 +1067,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 </div>
 <div class="section" id="mounting-manually-crypttab-declared-partitions">
-<h2><a class="toc-backref" href="#toc-entry-49">Mounting Manually crypttab-declared Partitions</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-48">Mounting Manually crypttab-declared Partitions</a></h2>
 <p>Let's suppose such a partition (here a LUKS-encrypted one) is declared, in <tt class="docutils literal">/etc/crypttab</tt>, as:</p>
 <pre class="literal-block">
 my-encrypted-nvme-storage UUID=a46879cf-xxx luks,timeout=10,fido2-device=auto
@@ -1164,11 +1088,11 @@ $ cat &quot;/run/systemd/generator/$SERVICE&quot;
 <p>See also <a class="reference external" href="#creating-encrypted-partitions">this section</a> for related details.</p>
 </div>
 <div class="section" id="other-user-settings">
-<h2><a class="toc-backref" href="#toc-entry-50">Other User Settings</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-49">Other User Settings</a></h2>
 <p>See our <a class="reference external" href="https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a">preferences</a> for <a class="reference external" href="https://www.startpage.com">Startpage</a>; it can be set as homepage.</p>
 </div>
 <div class="section" id="shortcuts">
-<h2><a class="toc-backref" href="#toc-entry-51">Shortcuts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-50">Shortcuts</a></h2>
 <p>Listing here the main keyboard shortcuts of interest for a few base tools.</p>
 <div class="section" id="for-less">
 <h3>For <tt class="docutils literal">less</tt></h3>
@@ -1216,7 +1140,7 @@ $ cat &quot;/run/systemd/generator/$SERVICE&quot;
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-52">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-51">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>

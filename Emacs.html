@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
+<title>Ceylan-HOWTOs: About Emacs</title>
+<link rel="stylesheet" href="pygments-default.css" type="text/css" />
+<link rel="stylesheet" href="howtos.css" type="text/css" />
+<link href="howtos-icon.png" rel="icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="document" id="emacs">
+<span id="top"></span>
+<h1 class="title">Emacs</h1>
+
+<p><span class="raw-html"><a name="howtos_top"></a></span></p>
+<p><span class="raw-html"><div class="banner"><p><em>Ceylan HOWTOs</em> <a href="http://howtos.esperide.org">browse latest</a> <a href="Ceylan-HOWTOs-english.pdf">get PDF</a> <a href="#howtos_top">go to top</a> <a href="#howtos_toc">go to toc</a> <a href="#howtos_bottom">go to bottom</a> <a href="Ceylan-HOWTOs-overview-english.html">go to HOWTOs</a> <a href="mailto:about(dash)ceylan-howtos(at)esperide(dot)com?subject=[Ceylan-HOWTOs]%20Remark%20about%20Emacs">email us</a></p></div></span></p>
+<p><span class="raw-html"><center><img src="howtos-title.png" id="responsive-image-ultrasmall"></img></span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2025-2025 Olivier Boudeville</td>
+</tr>
+<tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
+</tr>
+<tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, March 16, 2025</td>
+</tr>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, March 18, 2025</td>
+</tr>
+</tbody>
+</table>
+<p><span class="raw-html"><a name="howtos_toc"></a></span></p>
+<div class="contents local topic" id="topic-1">
+<span id="table-of-contents"></span><p class="topic-title"><a class="reference internal" href="#top"><strong>Table of Contents</strong></a></p>
+<ul class="simple">
+<li><a class="reference internal" href="#overview" id="toc-entry-1">Overview</a></li>
+<li><a class="reference internal" href="#installation" id="toc-entry-2">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-3">Configuration</a></li>
+<li><a class="reference internal" href="#hints" id="toc-entry-4">Hints</a><ul>
+<li><a class="reference internal" href="#emacs-parlance" id="toc-entry-5">Emacs Parlance</a></li>
+<li><a class="reference internal" href="#key-bindings" id="toc-entry-6">Key Bindings</a></li>
+<li><a class="reference internal" href="#frequent-actions" id="toc-entry-7">Frequent Actions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting" id="toc-entry-8">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#handling-errors" id="toc-entry-9">Handling Errors</a></li>
+<li><a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs" id="toc-entry-10">Relying a safe, minimal, fallback Emacs</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><span class="raw-html"></center></span></p>
+<div class="section" id="overview">
+<h1><a class="toc-backref" href="#toc-entry-1">Overview</a></h1>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Emacs">Emacs</a> is a family of free software text editors that are characterised by their extensibility and their ability to be customised at will.</p>
+</div>
+<div class="section" id="installation">
+<h1><a class="toc-backref" href="#toc-entry-2">Installation</a></h1>
+<p>Quite surprisingly, Emacs still changes a lot (notably in terms of function names), and (Elisp) scripts that work for an Emacs version may not work for the next one. So at least controlling one's version may be of use; run for that <tt class="docutils literal">emacs <span class="pre">--version</span></tt>. We consider using here Emacs 30.1 or more recent.</p>
+<p>Of course the best option to install Emacs is to use a (OS-level) package manager, for example: <tt class="docutils literal"><span class="pre">apt-get</span> install emacs</tt> - if the supported version is not too ancient.</p>
+<p>Otherwise, to perform a manual installation of Emacs on one's user account, it must be first <a class="reference external" href="https://www.gnu.org/software/emacs/download.html">downloaded</a>; one may thus fetch for example <tt class="docutils literal"><span class="pre">emacs-30.1.tar.xz</span></tt>.</p>
+<p>Prerequisites may be needed; running - unfortunately as root - <tt class="docutils literal"><span class="pre">apt-get</span> <span class="pre">build-dep</span> emacs</tt> or alike may be of use, or at least having packages like <tt class="docutils literal"><span class="pre">libgtk-3-dev</span></tt> and <tt class="docutils literal"><span class="pre">librust-tree-sitter-dev</span></tt> installed.</p>
+<p>Then:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Software/Emacs<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software/Emacs<span class="w">
+</span>$<span class="w"> </span><span class="nv">EMACS_VERSION</span><span class="o">=</span><span class="m">30</span>.1<span class="w">
+</span>$<span class="w"> </span>mv<span class="w"> </span>~/Downloads/emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span>.tar.xz<span class="w"> </span>.<span class="w">
+</span>$<span class="w"> </span>tar<span class="w"> </span>xvJf<span class="w"> </span>emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span>.tar.xz<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span><span class="w">
+</span><span class="c1"># If not having these dependencies:
+</span>$<span class="w"> </span>./configure<span class="w"> </span>--with-xpm<span class="o">=</span>ifavailable<span class="w"> </span>--with-gif<span class="o">=</span>ifavailable<span class="w"> </span><span class="se">\
+</span>--with-tiff<span class="o">=</span>ifavailable<span class="w"> </span>--with-gnutls<span class="o">=</span>ifavailable<span class="w"> </span>--prefix<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/Software/Emacs/emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span>-install<span class="w">
+</span>$<span class="w"> </span>make<span class="w"> </span>install<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>emacs-<span class="si">${</span><span class="nv">EMACS_VERSION</span><span class="si">}</span>-install<span class="w"> </span>emacs-current-install
+</pre>
+<p>Then one's shell environment shall be updated once for all with:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/Software/Emacs/emacs-current-install/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre>
+</div>
+<div class="section" id="configuration">
+<span id="emacs-configuration"></span><h1><a class="toc-backref" href="#toc-entry-3">Configuration</a></h1>
+<p>Our base Emacs configuration, <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el">init-myriad-base</a>, is designed to be minimal enough not to depend on any third-party element (so it is not relying on a package manager).</p>
+<p>It may be used as:</p>
+<ul class="simple">
+<li>a simple configuration of its own, for example on servers (hence just on the console, with no GUI), typically once copied as <tt class="docutils literal"><span class="pre">~/.emacs.d/init.el</span></tt></li>
+<li>a fallback configuration, useful when a reliable, unaffected editor is needed to debug one's Emacs configuration (see <a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs">Relying a safe, minimal, fallback Emacs</a> for that)
+- a base configuration expanded (i.e. included) by more involved / specialised configurations (e.g. see our main, most complete Emacs configuration for daily usage, <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el">init-myriad-fully-integrated</a>)</li>
+</ul>
+<p>In addition to these base and complete configurations, we defined modular, specialised configuration files for a few topics.</p>
+<p>First, the standalone ones, i.e. the specialisations that do not depend on any specific (third-party) package, are:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-rst-base.el">init-myriad-rst-base</a> for the support of ReStructuredText</li>
+<li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-base.el">init-myriad-erlang-base</a>, for the basic support of Erlang, following the official guidelines (with no extra tooling involved)</li>
+<li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-c-cpp-base.el">init-myriad-c-cpp-base</a>, for a basic support of C/C++</li>
+<li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-python-base.el">init-myriad-python-base</a>, for a basic support of Python</li>
+</ul>
+<p>As for the configurations involving packages, we have:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-package-management.el">init-myriad-package-management</a>, to setup a proper management of Emacs packages (currently based on <a class="reference external" href="https://github.com/progfolio/elpaca">elpaca</a>)</li>
+<li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el">init-myriad-erlang-advanced</a>, to provide additional tooling on top of the prior <tt class="docutils literal"><span class="pre">init-myriad-erlang-base</span></tt> (currently not deemed satisfactory enough, at least for our use cases)</li>
+</ul>
+<p>Finally, an optional (loaded iff found available) <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-local.el">init-myriad-local</a> (that link pointing to an example version) configuration allows to define per-computer settings (e.g. to define relevant initial window sizes for that host).</p>
+<p>All these configuration files are included by the aforementioned <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el">init-myriad-fully-integrated</a> one.</p>
+<p>For the sake of testing, an instance of Emacs relying on a given configuration file (typically <tt class="docutils literal">init.el</tt>) can be best run with: <tt class="docutils literal">emacs <span class="pre">--init-directory=$SOME_DIR</span></tt>, where <tt class="docutils literal">SOME_DIR</tt> contains this configuration file (possibly as a symbolic link).</p>
+</div>
+<div class="section" id="hints">
+<h1><a class="toc-backref" href="#toc-entry-4">Hints</a></h1>
+<div class="section" id="emacs-parlance">
+<h2><a class="toc-backref" href="#toc-entry-5">Emacs Parlance</a></h2>
+<p>With Emacs:</p>
+<ul class="simple">
+<li>a <tt class="docutils literal">frame</tt> is actually a regular GUI window</li>
+<li>a <tt class="docutils literal">window</tt> is a subdivision of a <tt class="docutils literal">frame</tt> (hence to be understood as a <em>window pane</em>)</li>
+<li>a <tt class="docutils literal">buffer</tt> is the content shown in a <tt class="docutils literal">window</tt></li>
+<li>(the) <tt class="docutils literal">point</tt> is the (current) cursor position</li>
+<li>the <tt class="docutils literal">mark</tt> is the beginning of the current selection (typically set by <tt class="docutils literal"><span class="pre">C-SPC</span></tt> at the current point)</li>
+<li>ELPA stands for <em>Emacs Lisp Package Archive</em> (see <a class="reference external" href="https://zellyn.com/2024/08/emacs-packages/">more package-related explanations</a>):<ul>
+<li>GNU ELPA is ~450 packages, considered part of Emacs</li>
+<li>NonGNU ELPA contains third-party packages whose copyright has not been assigned to the Free Software Foundation</li>
+<li>MELPA for <em>Milkypostman’s Emacs Lisp Package Archive</em>; ~6000 packages that can be freely added</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="key-bindings">
+<h2><a class="toc-backref" href="#toc-entry-6">Key Bindings</a></h2>
+<p>Here <tt class="docutils literal">C</tt> corresponds to the &quot;Ctrl&quot; key, <tt class="docutils literal">M</tt> the &quot;Meta&quot; one (i.e. &quot;Alt&quot;, generally), <tt class="docutils literal">S</tt> to the <tt class="docutils literal">Shift</tt> one, and <tt class="docutils literal">-</tt> is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press <em>while the modifier is still held down</em>. <tt class="docutils literal">RET</tt> means the Enter key, <tt class="docutils literal">SPC</tt> the spacebar, <tt class="docutils literal"><span class="pre">M-L_ARROW</span></tt> / <tt class="docutils literal"><span class="pre">M-R_ARROW</span></tt> the left / right arrow keys.</p>
+<p>For example <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> means: press and hold the &quot;Ctrl&quot; key, and hit the &quot;x&quot; key, then release all, then press and hold the &quot;Ctrl&quot; key, and hit the &quot;-&quot; key, and release all.</p>
+<p>At least based on our (Emacs and French keyboard) <strong>base</strong> settings (i.e. the ones in <tt class="docutils literal"><span class="pre">init-base.el</span></tt>), the following key bindings trigger the corresponding actions:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">C-a</span></tt> / <tt class="docutils literal"><span class="pre">C-e</span></tt>: move cursor to leftmost / rightmost position</li>
+<li><tt class="docutils literal"><span class="pre">C-k</span></tt>: kill all characters on the right from cursor (and thus put them in the kill ring)</li>
+<li><tt class="docutils literal"><span class="pre">C-s</span> PATTERN RET</tt> / <tt class="docutils literal"><span class="pre">C-r</span> PATTERN RET</tt>: perform direct / reverse case-insensitive search of the specified pattern; then each <tt class="docutils literal"><span class="pre">C-s</span></tt> / <tt class="docutils literal"><span class="pre">C-r</span></tt> will jump direct / reverse to any next occurrence; <tt class="docutils literal">RET</tt> will stop the search</li>
+<li><tt class="docutils literal"><span class="pre">C-d</span> SEARCH_PATTERN RET REPLACE_PATTERN RET</tt>: perform replacements, bound to <tt class="docutils literal"><span class="pre">replace-string</span></tt> (default binding to delete char at cursor - <tt class="docutils literal"><span class="pre">delete-char</span></tt> - not useful enough, as a dedicated key, the Delete one, exists for that)</li>
+<li><tt class="docutils literal"><span class="pre">C-l</span> LINE_NUMBER</tt>: go to the specified line</li>
+<li><tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-s</span></tt>: save current buffer</li>
+<li><tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-k</span></tt>: kill current buffer</li>
+<li><tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-c</span></tt>: exit Emacs</li>
+<li><tt class="docutils literal"><span class="pre">C-g</span></tt>: cancel command/selection</li>
+<li><tt class="docutils literal"><span class="pre">C-z</span></tt>: undo last action (or <tt class="docutils literal"><span class="pre">C-x</span> u</tt>); to redo, rather than typing <tt class="docutils literal"><span class="pre">C-g</span> <span class="pre">C-/</span></tt> (which would involve a shift, on French keyboards), just perform a non-editing command (such as <tt class="docutils literal"><span class="pre">C-SPC</span></tt>) and then the next <tt class="docutils literal"><span class="pre">C-z</span></tt> commands will go in the opposite direction in the undo chain (they will redo)</li>
+<li><tt class="docutils literal"><span class="pre">C-SPC</span></tt>: set the mark (begin selection)</li>
+<li><tt class="docutils literal"><span class="pre">C-w</span></tt>: cut selection in the kill ring (selection is thus removed from the current buffer)</li>
+<li><tt class="docutils literal"><span class="pre">M-w</span></tt>: copy selection in the kill ring (selection thus remains in the current buffer)</li>
+<li><tt class="docutils literal"><span class="pre">C-y</span></tt>: yank (paste from kill ring, replacing any current selection)</li>
+<li><tt class="docutils literal"><span class="pre">M-y</span></tt>: replace text just yanked with an earlier batch of killed text</li>
+<li><tt class="docutils literal"><span class="pre">C-p</span></tt>: compile, make</li>
+<li><tt class="docutils literal"><span class="pre">C-x</span> TAB</tt>: indent rigidly, moving the whole selection left/right with <tt class="docutils literal"><span class="pre">M-L_ARROW</span></tt> / <tt class="docutils literal"><span class="pre">M-R_ARROW</span></tt> (see also <tt class="docutils literal"><span class="pre">kill-rectangle</span></tt>)</li>
+<li><tt class="docutils literal"><span class="pre">M-&lt;</span></tt> / : <tt class="docutils literal"><span class="pre">M-S-&lt;</span></tt>: go to beginning / end of the current buffer</li>
+</ul>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">C-x</span> 2</tt>: split window horizontally</li>
+<li><tt class="docutils literal"><span class="pre">C-x</span> 3</tt>: split window vertically</li>
+<li><tt class="docutils literal"><span class="pre">M-R_ARROW</span></tt> / : <tt class="docutils literal"><span class="pre">M-L_ARROW</span></tt>: go to next / previous buffer</li>
+<li><tt class="docutils literal"><span class="pre">M-q</span></tt>: fill current paragraph (reformat / wordwrap it), i.e. applies <tt class="docutils literal"><span class="pre">fill-paragraph</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">M-m</span></tt>: jump to first non-whitespace in the current line</li>
+<li><tt class="docutils literal"><span class="pre">M-x</span></tt> will allow to enter / select commands from the minibuffer (see our <a class="reference internal" href="#useful-commands">useful commands</a> section below)</li>
+<li><tt class="docutils literal"><span class="pre">C-o</span></tt> or <tt class="docutils literal">F8</tt>: perform whitespace cleanup (now built-in)</li>
+</ul>
+</div>
+<div class="section" id="frequent-actions">
+<h2><a class="toc-backref" href="#toc-entry-7">Frequent Actions</a></h2>
+<ul class="simple">
+<li>to tune the font size:<ul>
+<li>temporarily: use <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-+</span></tt> to increase, <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use <tt class="docutils literal"><span class="pre">C-mousewheel</span></tt>)</li>
+<li>permanently: one may add in one's <a class="reference internal" href="#emacs-configuration">Emacs configuration</a> file for example: <tt class="docutils literal"><span class="pre">(set-face-attribute</span> 'default nil :height 100)</tt></li>
+</ul>
+</li>
+<li>to insert special characters (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">quoted-insert</span> &lt;tab&gt;</tt>, which is often bound (yet not in our conventions) to <tt class="docutils literal"><span class="pre">C-q</span></tt>; note that pasting a tab with the mouse in the minibuffer works as well</li>
+<li>to insert in the current buffer the output of a shell command: <tt class="docutils literal"><span class="pre">C-u</span> then <span class="pre">M-!</span></tt>: enter that shell command, whose output will be pasted at the current cursor position</li>
+<li>to prefix all lines of the selected region: <tt class="docutils literal"><span class="pre">C-x</span></tt> then <tt class="docutils literal">r</tt> then <tt class="docutils literal">t</tt>, then type the prefix then type Enter (useful for example to indent a series of lines)</li>
+<li>to sort alphabetically the selected region: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">sort-lines</span></tt></li>
+<li>to go to the matching delimiter (parenthesis, bracket, end of word, etc.): to go forward, use <tt class="docutils literal"><span class="pre">C-M-f</span></tt>, and to go backward use <tt class="docutils literal"><span class="pre">C-M-b</span></tt></li>
+<li>to re-select a region (e.g. to perform multiple substitutions in a row on the same region): <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-x</span></tt></li>
+<li>to abort the current entry in the minibuffer: <tt class="docutils literal"><span class="pre">C-g</span></tt></li>
+<li>to perform replacements based on regular expressions: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET regexp RET newstring RET</tt>, with <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html">this REGEXP syntax</a> (<a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html">more information</a>); for example, to remove, in each line, all characters from the first comma: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET ,.* RET , RET</tt></li>
+<li>to open a file that is very large and/or difficult to parse/display: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">find-file-literally</span></tt></li>
+</ul>
+<p id="useful-commands">Other <strong>useful commands</strong> to trigger, possibly explicitly with <tt class="docutils literal"><span class="pre">M-x</span></tt>:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">replace-string</span> SEARCH_PATTERN REPLACEMENT</tt>; add <tt class="docutils literal"><span class="pre">M-c</span></tt> to set the case-sensitive flag, i.e. to search for the exact string (even if it is lowercase - otherwise uppercase versions thereof will match); the <tt class="docutils literal"><span class="pre">M-%</span></tt> default shortcut requires a shift on French keyboards</li>
+<li><tt class="docutils literal"><span class="pre">query-replace</span> SEARCH_PATTERN REPLACEMENT</tt></li>
+<li><tt class="docutils literal"><span class="pre">kill-rectangle</span></tt> (operates on a previous selection)</li>
+<li><tt class="docutils literal"><span class="pre">indent-region</span></tt> (<tt class="docutils literal"><span class="pre">C-M-\</span></tt> difficult on French keyboards)</li>
+</ul>
+<p>See also our <a class="reference external" href="VCS.html#performing-a-merge-with-emacs">Performing a Merge with Emacs</a> section.</p>
+<div class="section" id="package-managers">
+<h3>Package Managers</h3>
+<p>There are at least:</p>
+<ul class="simple">
+<li>package.el</li>
+<li>straight.el</li>
+<li><a class="reference external" href="https://github.com/progfolio/elpaca">Elpaca</a>: <em>Async Emacs Package Manager</em> (current state of the art, and the one on which we currently rely)</li>
+</ul>
+<p><tt class="docutils literal"><span class="pre">use-package</span></tt> is not a package manager, it is an extensible configuration macro that is specialised by most of the package managers so that it can be used with any.</p>
+<p>Refer to <a class="reference external" href="https://github.com/radian-software/straight.el?tab=readme-ov-file#tldr-1">this page</a> for a comparison of package managers.</p>
+</div>
+<div class="section" id="elisp-hints">
+<h3>Elisp Hints</h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Emacs_Lisp">Emacs Lisp</a> is a Lisp dialect made for Emacs.</p>
+<p>See the <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/elisp/">GNU Emacs Lisp Reference Manual</a>.</p>
+<p>An Emacs init file contains a series of Lisp expressions, each of them consisting of a function name followed by arguments (expressions), all surrounded by parentheses.</p>
+<p>For example: <tt class="docutils literal">(setq <span class="pre">fill-column</span> 60)</tt> calls the function <tt class="docutils literal">setq</tt> (<em>set quoted</em>) to set the variable <tt class="docutils literal"><span class="pre">fill-column</span></tt> to <tt class="docutils literal">60</tt>; as <tt class="docutils literal">setq</tt> affects only the current buffer’s local value, in an initialisation file <tt class="docutils literal"><span class="pre">setq-default</span></tt> is generally preferred.</p>
+<ul class="simple">
+<li>boolean values: <tt class="docutils literal">t</tt> stands for &quot;true&quot;, and <tt class="docutils literal">nil</tt> for &quot;false&quot;</li>
+<li>to display a message: <tt class="docutils literal">(message &quot;Hello <span class="pre">world!&quot;)</span></tt></li>
+<li>a leading single-quote makes a symbol a constant - otherwise it would be treated as a variable name; for example: <tt class="docutils literal"><span class="pre">(setq-default</span> <span class="pre">major-mode</span> <span class="pre">'text-mode)</span></tt></li>
+</ul>
+<p>Elisp examples may be the following conditional setting:</p>
+<pre class="code elisp literal-block">
+<span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">boundp</span><span class="w"> </span><span class="ss">'coding-category-utf-8</span><span class="p">)</span><span class="w">
+   </span><span class="p">(</span><span class="nv">set-coding-priority</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">coding-category-utf-8</span><span class="p">)))</span>
+</pre>
+<p>Or the next function definition and key binding:</p>
+<pre class="code elisp literal-block">
+<span class="p">(</span><span class="nb">defun</span><span class="w"> </span><span class="nv">my-split-window-func</span><span class="w"> </span><span class="p">()</span><span class="w">
+ </span><span class="p">(</span><span class="k">interactive</span><span class="p">)</span><span class="w">
+ </span><span class="p">(</span><span class="nv">split-window-below</span><span class="p">)</span><span class="w">
+ </span><span class="p">(</span><span class="nf">set-window-buffer</span><span class="w"> </span><span class="p">(</span><span class="nf">next-window</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nf">other-buffer</span><span class="p">)))</span><span class="w">
+
+</span><span class="p">(</span><span class="nv">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nv">kbd</span><span class="w"> </span><span class="s">&quot;C-x 2&quot;</span><span class="p">)</span><span class="w"> </span><span class="nf">#'</span><span class="nv">my-split-window-func</span><span class="p">)</span>
+</pre>
+<p>If needing to include a configuration file in another:</p>
+<pre class="code elisp literal-block">
+<span class="p">(</span><span class="nv">load-file</span><span class="w"> </span><span class="s">&quot;~/elisp/foo.el&quot;</span><span class="p">)</span>
+</pre>
+<p>To trigger multiple calls in a single expression, use:</p>
+<pre class="code elisp literal-block">
+<span class="p">(</span><span class="k">progn</span><span class="w"> </span><span class="nv">do-this</span><span class="w">
+       </span><span class="nv">do-that</span><span class="p">)</span>
+</pre>
+<pre class="code elisp literal-block">
+<span class="p">(</span><span class="nb">defun</span><span class="w"> </span><span class="nv">func</span><span class="w"> </span><span class="p">(</span><span class="nv">arg1</span><span class="w"> </span><span class="nv">arg2</span><span class="p">)</span><span class="w">
+   </span><span class="s">&quot;Always document your functions.&quot;</span><span class="w">
+   </span><span class="nv">&lt;function</span><span class="w"> </span><span class="nv">body&gt;</span><span class="p">)</span><span class="w">
+
+</span><span class="p">(</span><span class="k">defvar</span><span class="w"> </span><span class="nv">var-name</span><span class="w"> </span><span class="nv">&lt;the</span><span class="w"> </span><span class="nv">value&gt;</span><span class="w">
+   </span><span class="s">&quot;Always document your variables.&quot;</span><span class="p">)</span>
+</pre>
+<p>To concatenate filesystem elements: <tt class="docutils literal"><span class="pre">(file-name-concat</span> &quot;/tmp&quot; &quot;foo&quot;)</tt> results in <tt class="docutils literal">&quot;/tmp/foo&quot;</tt>.</p>
+<p>Related Elisp information sources:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://steve-yegge.blogspot.com/2008/01/emergency-elisp.html">Emergency Elisp</a></li>
+<li><a class="reference external" href="https://learnxinyminutes.com/elisp/">Learn X in Y minutes Where X=Emacs Lisp</a></li>
+<li><a class="reference external" href="https://github.com/chrisdone-archive/elisp-guide">Emacs Lisp Guide</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h1><a class="toc-backref" href="#toc-entry-8">Troubleshooting</a></h1>
+<div class="section" id="handling-errors">
+<h2><a class="toc-backref" href="#toc-entry-9">Handling Errors</a></h2>
+<p>Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the cache of the package manager (e.g. <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt>, <tt class="docutils literal"><span class="pre">~/.emacs.d/elpaca</span></tt>), relaunching Emacs and waiting for its state (e.g. all related clones) to be downloaded/built again.</p>
+<p>To investigate a problem, one may run Emacs with: <tt class="docutils literal">emacs <span class="pre">--debug-init</span></tt>.</p>
+</div>
+<div class="section" id="relying-a-safe-minimal-fallback-emacs">
+<h2><a class="toc-backref" href="#toc-entry-10">Relying a safe, minimal, fallback Emacs</a></h2>
+<p>As many software ecosystems, the Emacs one tends to change/break frequently, and then one's <tt class="docutils literal">init.el</tt> cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.</p>
+<p>One way of overcoming these issues is to have multiple versions of Emacs' configuration, including a very basic one that is never expected to break - just for the purpose of having at all times a base Emacs to fix the others; this is one of the purposes of our rather minimal <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el">init-myriad-base</a> configuration, to be used that way:</p>
+<pre class="code sh literal-block">
+$<span class="w"> </span><span class="nv">DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.emacs.d/myriad-fallback&quot;</span><span class="w">
+</span>$<span class="w"> </span>mkdir<span class="w"> </span><span class="nv">$DIR</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$DIR</span><span class="w">
+</span>$<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$CEYLAN_MYRIAD</span>/conf/init-myriad-base.el<span class="w"> </span>init.el
+</pre>
+<p>Then an always-available Emacs may be run with: <tt class="docutils literal">emacs <span class="pre">--init-directory=$DIR</span></tt>, which can made easily available thanks to, in one's shell configuration: <tt class="docutils literal">alias <span class="pre">esafe='emacs</span> <span class="pre">--init-directory=${HOME}/.emacs.d/myriad-fallback'</span></tt> (<tt class="docutils literal">esafe</tt> standing for <em>editor safely available</em>).</p>
+<p>Alternatively, such a feature can better be implemented thanks to a shell function (to rely as much as possible on a safe emacs, otherwise on gedit, otherwise on nano); see our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Heavy/blob/master/src/conf/environment/.bashrc.basics">.bashrc.basics</a> shell file for that.</p>
+<p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
+</div>
+</div>
+</div>
+</body>
+</html>

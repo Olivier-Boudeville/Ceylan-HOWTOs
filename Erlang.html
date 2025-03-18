@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, February 28, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, March 5, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -154,7 +154,12 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 <p>Refer then to the <a class="reference external" href="https://www.erlang.org/doc/man/shell.html#shell-commands">shell commands</a>, notably for:</p>
 <ul class="simple">
 <li><tt class="docutils literal">f/1</tt>, used as <tt class="docutils literal">f(X).</tt> in order to <em>forget</em> a variable <tt class="docutils literal">X</tt>, i.e. to remove the binding of this variable and be able to (re)assign it afterwards</li>
-<li><tt class="docutils literal">l/1</tt> (apparently undocumented), used as <tt class="docutils literal">l(my_module)</tt>, to (re)load that module, purging any old version of it; convenient to reload also specially-built BEAMs (e.g. based on parse transforms) that may have been compiled behind the scene</li>
+<li><tt class="docutils literal">l/1</tt> (apparently undocumented), used as <tt class="docutils literal">l(my_module)</tt>, to (re)load that module, purging any old version of it; convenient to reload also specifically-built BEAMs (e.g. based on parse transforms) that may have been compiled behind the scene</li>
+<li><tt class="docutils literal">v/1</tt>: <tt class="docutils literal">v(N)</tt> returns, if:<ul>
+<li><tt class="docutils literal">N &gt; 0</tt>: the result value of command of (absolute) number <tt class="docutils literal">N</tt></li>
+<li><tt class="docutils literal">N &lt; 0</tt>: the result value of any previous N-th command; for example <tt class="docutils literal"><span class="pre">v(-1)</span></tt> corresponds to the value of any previous command</li>
+</ul>
+</li>
 <li><tt class="docutils literal">rl/1</tt> is <em>not</em> &quot;reload (module)&quot; (use <tt class="docutils literal">l/1</tt> for that), it is &quot;record list&quot; (it prints selected record definitions)</li>
 <li><tt class="docutils literal">c/1</tt>, used as <tt class="docutils literal">c(my_module)</tt>, to compile (if necessary) <em>and</em> (re)load that module, purging any old version of it</li>
 <li><tt class="docutils literal"><span class="pre">rr/{1,2,3}</span></tt> (e.g. used as <tt class="docutils literal">rr(Path).</tt>) to <em>read records</em> and have them available on the shell; for example, to be able to use the records defined by xmerl:</li>
