@@ -68,8 +68,14 @@ all:
 doc: html pdf
 
 
-# The HTML version just links to the HOWTOs pages, the PDF includes them:
-
+# The HTML version just links to the HOWTOs pages, whereas the PDF includes
+# them.
+#
+# Note that, if a new page is added but it is displayed as a blank one on the
+# Esperide server, this is most probably a permission problem (403) due to the
+# umask (cannot be group-read by the server daemon); run on the server the
+# 'fix-www-metadata' make target to fix it.
+#
 html: diagrams $(HOWTO_HTML_FILES) $(HTML_TARGET)
 	@echo "  The HTML content for HOWTOs is available at: file://$$(pwd)/$(DOC_BASE_NAME).html"
 
