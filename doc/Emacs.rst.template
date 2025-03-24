@@ -118,7 +118,7 @@ As for the configurations involving packages, we have:
 - `init-myriad-erlang-advanced <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el>`_, to provide additional tooling on top of the prior ``init-myriad-erlang-base`` (currently not deemed satisfactory enough, at least for our use cases)
 
 
-Finally, an optional (loaded iff found available) `init-myriad-local <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-local.el>`_ (that link pointing to an example version) configuration allows to define per-computer settings (e.g. to define relevant initial window sizes for that host).
+Finally, an optional (loaded iff found available) `init-myriad-local <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-local.el>`_ (this link pointing only to an example version thereof) configuration allows to define per-computer settings (e.g. to define relevant initial window sizes for that host). For such a local configuration to apply, a corresponding ``init-myriad-local.el`` file must exist (possibly as a symbolic link) in one's ``~/.emacs.d`` directory.
 
 All these configuration files are included by the aforementioned `init-myriad-fully-integrated <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el>`_ one.
 
@@ -151,7 +151,7 @@ With Emacs:
 Key Bindings
 ------------
 
-Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", generally), ``S`` to the ``Shift`` one, and ``-`` is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press *while the modifier is still held down*. ``RET`` means the Enter key, ``SPC`` the spacebar, ``M-L_ARROW`` / ``M-R_ARROW`` the left / right arrow keys.
+Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", generally), ``S`` to the ``Shift`` one, ``s`` to the ``Super`` one (a.k.a. the infamous `Windows/Command key <https://en.wikipedia.org/wiki/Super_key_(keyboard_button)>`_), ``-`` is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press *while the modifier is still held down*. ``RET`` means the Enter key, ``SPC`` the spacebar, ``M-L_ARROW`` / ``M-R_ARROW`` the left / right arrow keys.
 
 For example ``C-x C--`` means: press and hold the "Ctrl" key, and hit the "x" key, then release all, then press and hold the "Ctrl" key, and hit the "-" key, and release all.
 
@@ -182,9 +182,14 @@ At least based on our (Emacs and French keyboard) **base** settings (i.e. the on
 - ``M-q``: fill current paragraph (reformat / wordwrap it), i.e. applies ``fill-paragraph``
 - ``M-m``: jump to first non-whitespace in the current line
 - ``M-x`` will allow to enter / select commands from the minibuffer (see our `useful commands`_ section below)
-- ``C-o`` or ``F8``: perform whitespace cleanup (now built-in)
+- ``C-o`` or ``F8``: perform whitespace cleanup (now a built-in package)
 
-..  Additionally, with our **complete** settings:
+
+Additionally, with our **complete** settings, notably with ``lsp-mode``:
+
+- ``s-d``: go to definition of word at cursor (``lsp-find-definition``)
+- ``s-r``: list references to word at cursor (``lsp-find-references``)
+- ``s-n``: rename symbol globally (``lsp-rename``)
 
 
 
