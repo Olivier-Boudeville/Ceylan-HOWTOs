@@ -425,6 +425,13 @@ The opposite operation is:
  $ git update-index --no-skip-worktree <file-list>
 
 
+To list such "skipped" files:
+
+.. code:: bash
+
+ $ git ls-files -v . | grep ^S
+
+
 
 Listing the files managed in VCS from the current directory
 ...........................................................
