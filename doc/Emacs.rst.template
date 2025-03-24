@@ -94,7 +94,7 @@ Then one's shell environment shall be updated once for all with:
 Configuration
 =============
 
-Our base Emacs configuration, `init-myriad-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el>`_, is designed to be minimal enough not to depend on any third-party element (so it is not relying on a package manager).
+Our base Emacs configuration, `init-myriad-base.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el>`_, is designed to be minimal enough not to depend on any third-party element (so it is not relying on a package manager).
 
 It may be used as:
 
@@ -107,20 +107,21 @@ In addition to these base and complete configurations, we defined modular, speci
 
 First, the standalone ones, i.e. the specialisations that do not depend on any specific (third-party) package, are:
 
-- `init-myriad-rst-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-rst-base.el>`_ for the support of ReStructuredText
-- `init-myriad-erlang-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-base.el>`_, for the basic support of Erlang, following the official guidelines (with no extra tooling involved)
-- `init-myriad-c-cpp-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-c-cpp-base.el>`_, for a basic support of C/C++
-- `init-myriad-python-base <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-python-base.el>`_, for a basic support of Python
+- `init-myriad-rst-base.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-rst-base.el>`_ for the support of ReStructuredText
+- `init-myriad-erlang-base.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-base.el>`_, for the basic support of Erlang, following the official guidelines (with no extra tooling involved)
+- `init-myriad-c-cpp-base.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-c-cpp-base.el>`_, for a basic support of C/C++
+- `init-myriad-python-base.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-python-base.el>`_, for a basic support of Python
 
 As for the configurations involving packages, we have:
 
-- `init-myriad-package-management <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-package-management.el>`_, to setup a proper management of Emacs packages (currently based on `elpaca <https://github.com/progfolio/elpaca>`_)
-- `init-myriad-erlang-advanced <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el>`_, to provide additional tooling on top of the prior ``init-myriad-erlang-base`` (currently not deemed satisfactory enough, at least for our use cases)
+- `init-myriad-package-management.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-package-management.el>`_, to setup a proper management of Emacs packages (currently based on `elpaca <https://github.com/progfolio/elpaca>`_)
+- `init-myriad-erlang-advanced.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el>`_, to provide additional tooling on top of the prior ``init-myriad-erlang-base`` (currently not deemed satisfactory enough, at least for our use cases)
 
 
-Finally, an optional (loaded iff found available) `init-myriad-local <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-local.el>`_ (this link pointing only to an example version thereof) configuration allows to define per-computer settings (e.g. to define relevant initial window sizes for that host). For such a local configuration to apply, a corresponding ``init-myriad-local.el`` file must exist (possibly as a symbolic link) in one's ``~/.emacs.d`` directory.
+Finally, an optional local (host-specific) configuration file (to define relevant initial window sizes for that host, any specific proxy, etc.) will be loaded iff found available as ``~/.emacs.d/init-myriad-local.el``; see this `init-myriad-local.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-local.el>`_ as an example thereof.
 
-All these configuration files are included by the aforementioned `init-myriad-fully-integrated <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el>`_ one.
+
+All these configuration files are included by the aforementioned `init-myriad-fully-integrated.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el>`_ one.
 
 For the sake of testing, an instance of Emacs relying on a given configuration file (typically ``init.el``) can be best run with: ``emacs --init-directory=$SOME_DIR``, where ``SOME_DIR`` contains this configuration file (possibly as a symbolic link).
 
