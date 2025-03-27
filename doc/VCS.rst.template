@@ -103,6 +103,8 @@ Base Know-How
 	- even shorter, if the name of the target local branch name does not exist yet and matches exactly matches a name on only one remote, ``git co some_branch`` will suffice
 
   - to **delete** a local branch (while another one is checked out): ``git branch -d my_branch``; to force-delete it (typically if not fully merged), use ``git branch -d my_branch``; to delete it from a specified remote as well: ``git push origin --delete my_branch``
+  - to **change** to a branch: ``git switch target_branch`` (to be preferred to the use of ``git checkout``)
+  - to **update** (synchronise from a remote) branch(es): for a designated branch, use ``git fetch remote branch_name`` (typically ``git fetch origin branch_name``); for all branches of a remote: ``git fetch remote``; for all branches of all remotes: ``git fetch --all``
 
 - **managing tags** (note that they are repository-level, for example not related to any current branch):
 
