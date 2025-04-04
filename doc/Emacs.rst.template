@@ -98,19 +98,21 @@ Our base Emacs configuration, `init-myriad-base.el <https://github.com/Olivier-B
 
 It may be used as:
 
-- a simple configuration of its own, for example on servers (hence just on the console, with no GUI), typically once copied as ``~/.emacs.d/init.el``
+- a simple configuration of its own, for example on servers (hence just on the console, with no GUI), typically once copied or symlinked as ``~/.emacs.d/init.el``
 - a fallback configuration, useful when a reliable, unaffected editor is needed to debug one's Emacs configuration (see `Relying a safe, minimal, fallback Emacs`_ for that)
-  - a base configuration expanded (i.e. included) by more involved / specialised configurations (e.g. see our main, most complete Emacs configuration for daily usage, `init-myriad-fully-integrated <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el>`_)
+  - a base configuration expanded (i.e. included) by more involved / specialised configurations, akin to our main, most complete Emacs configuration for daily usage, `init-myriad-fully-integrated <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el>`_
 
 
-In addition to these base and complete configurations, we defined modular, specialised configuration files for a few topics.
+In addition to these base or complete configurations, we defined modular, specialised configuration files for a few topics.
 
-First, the standalone ones, i.e. the specialisations that do not depend on any specific (third-party) package, are:
+First, the standalone ones, i.e. the specialisations that do not depend on any specific (third-party) package (but still depend on our base Emacs configuration, ``init-myriad-base.el``), are:
 
 - `init-myriad-rst-base.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-rst-base.el>`_ for the support of ReStructuredText
 - `init-myriad-erlang-base.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-base.el>`_, for the basic support of Erlang, following the official guidelines (with no extra tooling involved)
 - `init-myriad-c-cpp-base.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-c-cpp-base.el>`_, for a basic support of C/C++
 - `init-myriad-python-base.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-python-base.el>`_, for a basic support of Python
+- `init-myriad-sensitive.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-sensitive.el>`_, to edit sensitive files (therefore with an increased security); if this configuration is available, it is used for example by our `open-credentials.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/open-credentials.sh>`_ script
+
 
 As for the configurations involving packages, we have:
 
