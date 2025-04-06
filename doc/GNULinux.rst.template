@@ -125,19 +125,22 @@ This may be done by populating ``/etc/modules-load.d/`` with as many files listi
  8021q
 
 
-This is not sufficient though (e.g. one cannot anticipate all modules needed after a while); disabling the *automatic* updates of kernels is also key to reduce issues; this can be done by specifying in ``/etc/pacman.conf``:
+This is not sufficient though (e.g. one cannot anticipate all modules needed after a while); disabling the *automatic* updates of kernels is also key to reduce issues.
+
+We chose to update automatically *only* the stable version of the kernel (i.e. ``linux`` and al), and to freeze the LTS (*Long Term Support*) one (i.e. ``linux-lts`` and al), used as a safer fallback (otherwise, if its version was too close from the stable one, it might suffer from the very same problems). This can be done by specifying in ``/etc/pacman.conf``:
 
 .. code:: bash
 
- IgnorePkg = linux linux-headers
+ IgnorePkg   = linux-lts linux-lts-headers
 
-LTS (*Long Term Support*) kernels are intentionally *not* listed here, as we prefer having them regularly updated in order to minimise the risk that the base and LTS kernels belong to too close versions (as then a problem in terms of hardware support is more likely to arise at the same time with both).
+
+.. LTS (*Long Term Support*) kernels are intentionally *not* listed here, as we prefer having them regularly updated in order to minimise the risk that the base and LTS kernels belong to too close versions (as then a problem in terms of hardware support is more likely to arise at the same time with both).
 
 At least users of NVidia graphic cards may also list there their drivers, as apparently an hardware acceleration supported at boot may be lost after some time, presumably because of an update of its drivers (knowing that the update of the kernel itself was already disabled in that case) - so, if appropriate, better be safe than sorry:
 
 .. code:: bash
 
- IgnorePkg = linux linux-headers nvidia nvidia-utils
+ IgnorePkg = linux-lts linux-lts-headers nvidia nvidia-utils
 
 See also our section about `operating system support for 3D <ThreeDimensional.html#os-support>`_.
 
@@ -182,6 +185,8 @@ Package-related Commands
   - installed (explicitly or not): ``pacman -Q``
   - explicitly installed and not required as dependencies: ``pacman -Qet``
 
+- to install packages: ``pacman -S package_name1 package_name2``
+
 - to determine which package installed a specified file:
 
   - on Arch: ``pkgfile SOME_FILE``; ``pkgfile`` itself must have been installed beforehand, with ``pacman -S pkgfile``, and be updated, with ``pkgfile --update`` (still as root)
@@ -206,6 +211,40 @@ They might be lesser known:
 - ``most``: a replacement for ``more``
 - ``pdftk``: to transform PDF files
 - ``pkgfile``: to retrieve file information about packages
+
+
+
+Bulk Installations
+------------------
+
+These packages are listed thanks to ``pacman -Qet | cut -d' ' -f1``, or even ``pacman -Q | cut -d' ' -f1``.
+
+
+For the **essentials** (to be installed even before the first reboot from the chroot, to be able to access the Internet and to install other packages afterwards):
+
+.. code:: bash
+
+ $ pacman -S --needed --noconfirm base dhcpcd dnsmasq emacs firefox git grub inetutils iproute2 iptables lightdm lightdm-gtk-greeter linux-headers linux-lts linux-lts-headers make man mlocate nano netctl openssh os-prober pacman-contrib parted reflector sudo udisks2 which xfce4 xfce4-goodies xz zlib
+
+
+For the **generally useful** tools:
+
+.. code:: bash
+
+ $ pacman -S --needed --noconfirm alsa-utils android-file-transfer android-tools aspell-en aspell-fr blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap octave psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget
+
+.. Not found: authbind cpulimit yay simplescreenrecorder
+
+
+
+To be Done At Installation-time
+===============================
+
+- setup the pacman mirrors: initially with ``reflector --save /etc/pacman.d/mirrorlist``, and then regularly with ``systemctl enable reflector.service``
+- install relevant packages: see `Bulk Installations`_
+- enable `SMART <https://wiki.archlinux.org/title/S.M.A.R.T.>`_ on all disks: list all actual disks (e.g. ``fdisk -l | grep '^Disk /' | grep -v mapper``), and for each of them, activate SMART (e.g. ``smartctl --smart=on --offlineauto=on --saveauto=on /dev/nvme0n1``); a short test (e.g. ``smartctl --test=short /dev/nvme0n1``) may be performed on each of them
+- rename properly network interface: see `Relying on Stable and User-Friendly Names for Network Interfaces`_
+- set up automatic software update: see `Software Update`_
 
 
 
@@ -839,17 +878,32 @@ As we understand it, installing GRUB (i.e. copying its relevant file elements in
  $ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=MY_GRUB
 
 
+
 Configuring GRUB
 ----------------
 
 .. Note:: Configuring GRUB means generating a settings file whose syntax may be more recent than the one supported by any already-installed GRUB - which would thus be bound to fail at boot. So any configuration update of GRUB shall be done together with the update of its installation.
 
 
-Now is the right time to update one's ``/etc/default/grub``, notably to ensure that ``GRUB_DISABLE_OS_PROBER=false`` is indeed defined, and is not commented out.
+Now is the right time to update one's ``/etc/default/grub``.
 
 If ``os-prober`` is especially useful to auto-detect any Windows installation, we could see that it was not working from a chroot (and thus it has to be done later, directly from the final Arch host).
 
 .. One may still attempt to run ``os-prober``.
+
+
+
+Selecting the Default Boot Menu Entry
+.....................................
+
+Knowing that LTS kernels will be sorted first and thus will be selected by default, one may instead choose one's preferred default - typically the latest stable kernel (instead of any LTS one, used as a fallback).
+
+To do so, the target entry can be identified thanks to ``grep "menuentry '" /boot/grub/grub.cfg`` (for example ``'Arch Linux, with Linux linux'``). Then, in ``/etc/default/grub``, it can be assigned to ``GRUB_DEFAULT`` (e.g. ``GRUB_DEFAULT="Arch Linux, with Linux linux"``) - which is safer / more stable than specifying an entry index.
+
+
+
+Generating the GRUB Configuration File
+......................................
 
 The last step is to generate the corresponding GRUB configuration file:
 
@@ -858,12 +912,15 @@ The last step is to generate the corresponding GRUB configuration file:
  $ grub-mkconfig -o /boot/grub/grub.cfg
 
 
+
 Finally
 -------
 
-Rebooting and selecting a right entry menu (note that LTS kernels will be sorted first and thus be selected by default) should result in a restored boot proceeding as normal.
+Rebooting and selecting a right entry menu should result in a restored boot proceeding as normal.
 
-Moreover, from now, ``os-prober`` should be able to pick up any other system (especially Windows installations) and declare them appropriately: this should be just a matter of running ``grub-mkconfig -o /boot/grub/grub.cfg`` again (and hope for the best).
+Moreover, now that not being in a chroot, ``os-prober`` should be able to pick up any other system (especially Windows installations) and declare them appropriately.
+
+This should be just a matter of defining/uncommenting ``GRUB_DISABLE_OS_PROBER=false``, and running ``grub-mkconfig -o /boot/grub/grub.cfg`` again (and hope for the best).
 
 
 
