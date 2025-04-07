@@ -231,9 +231,11 @@ For the **generally useful** tools:
 
 .. code:: bash
 
- $ pacman -S --needed --noconfirm alsa-utils android-file-transfer android-tools aspell-en aspell-fr blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap octave psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget
+ $ pacman -S --needed --noconfirm alsa-utils android-file-transfer android-tools aspell-en aspell-fr blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap nuspell octave psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore
 
 .. Not found: authbind cpulimit yay simplescreenrecorder
+
+Note: ``gnome-keyring`` is needed so that evolution is able to store credentials.
 
 
 
@@ -877,6 +879,7 @@ As we understand it, installing GRUB (i.e. copying its relevant file elements in
  # the /boot mount point:
  $ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=MY_GRUB
 
+Here GRUB is just installed - it is not ready to be used: do not reboot, configure it first, as shown just below.
 
 
 Configuring GRUB
@@ -885,7 +888,7 @@ Configuring GRUB
 .. Note:: Configuring GRUB means generating a settings file whose syntax may be more recent than the one supported by any already-installed GRUB - which would thus be bound to fail at boot. So any configuration update of GRUB shall be done together with the update of its installation.
 
 
-Now is the right time to update one's ``/etc/default/grub``.
+Now is the right time to update one's ``/etc/default/grub``, which will be used to setup the actual one, ``/boot/grub/grub.cfg``.
 
 If ``os-prober`` is especially useful to auto-detect any Windows installation, we could see that it was not working from a chroot (and thus it has to be done later, directly from the final Arch host).
 
@@ -901,11 +904,30 @@ Knowing that LTS kernels will be sorted first and thus will be selected by defau
 To do so, the target entry can be identified thanks to ``grep "menuentry '" /boot/grub/grub.cfg`` (for example ``'Arch Linux, with Linux linux'``). Then, in ``/etc/default/grub``, it can be assigned to ``GRUB_DEFAULT`` (e.g. ``GRUB_DEFAULT="Arch Linux, with Linux linux"``) - which is safer / more stable than specifying an entry index.
 
 
+Other Settings
+..............
+
+We also recommend specifying:
+
+.. code:: bash
+
+ # So that the first entry is the stable kernel, not the LTS one:
+ GRUB_TOP_LEVEL="/boot/vmlinuz-linux"
+
+ # Longer preferred:
+ GRUB_TIMEOUT=10
+
+ # Customise your GRUB_DISTRIBUTOR
+
+ # No submenu hiding entries wanted:
+ GRUB_DISABLE_SUBMENU=y
+
+
 
 Generating the GRUB Configuration File
 ......................................
 
-The last step is to generate the corresponding GRUB configuration file:
+The last step is to generate and install the corresponding actual GRUB configuration file:
 
 .. code:: bash
 
@@ -1119,9 +1141,19 @@ With grep and sed, ``[[:space:]]`` and ``\s`` are the same, they will both match
 
 
 
+XFCE4 configuration
+-------------------
+
+
+Settings of Interest
+....................
+
+Good window managers are ``Galaxy`` and ``Microdeck3``.
+
+
 
 Applying a XFCE4 configuration to a different user
---------------------------------------------------
+..................................................
 
 The objective is to duplicate the configuration of the ``user_a`` desktop to the ``user_b`` one, for example if ``user_b`` is used to test an untrusted application.
 
@@ -1138,7 +1170,9 @@ Then, typically as root:
 
 Then a key point is to fully reset XFCE4. Unlogging and/or ``killall -HUP xfdesktop`` may not be sufficient. As a last resort, rebooting shall work.
 
-Selecting a per-user wallpaper may be of help.
+Selecting a per-user wallpaper may help distinguishing users.
+
+.. cd ~/.config && tar cvJf $(date '+%Y%m%d')-.config-xfce4.tar.xz xfce4
 
 
 
