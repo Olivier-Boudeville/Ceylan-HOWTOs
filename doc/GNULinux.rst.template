@@ -224,18 +224,29 @@ For the **essentials** (to be installed even before the first reboot from the ch
 
 .. code:: bash
 
- $ pacman -S --needed --noconfirm base dhcpcd dnsmasq emacs firefox git grub inetutils iproute2 iptables lightdm lightdm-gtk-greeter linux-headers linux-lts linux-lts-headers make man mlocate nano netctl openssh os-prober pacman-contrib parted reflector sudo udisks2 which xfce4 xfce4-goodies xz zlib
+ $ pacman -S --needed --noconfirm base dhcpcd dnsmasq emacs firefox git gnome-terminal gparted grub inetutils iproute2 iptables lightdm lightdm-gtk-greeter linux-headers linux-lts linux-lts-headers lsof make man man-pages mlocate nano netctl nmap openssh os-prober package-query pacman-contrib parted reflector sudo udisks2 which xfce4 xfce4-goodies xz zip zlib
 
 
 For the **generally useful** tools:
 
 .. code:: bash
 
- $ pacman -S --needed --noconfirm alsa-utils android-file-transfer android-tools aspell-en aspell-fr blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap nuspell octave psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore
-
-.. Not found: authbind cpulimit yay simplescreenrecorder
+ $ pacman -S --needed --noconfirm 7zip alsa-utils android-file-transfer android-tools aspell-en aspell-fr base-devel bash-completion blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap nuspell octave openresolv psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore
 
 Note: ``gnome-keyring`` is needed so that evolution is able to store credentials.
+
+Possibly useful: ``intel-ucode``.
+
+
+
+AUR Installations
+-----------------
+
+Other packages can only be obtained through the `AUR <https://wiki.archlinux.org/title/Arch_User_Repository>`_ (*Arch User Repository*), notably ``authbind``, ``cpulimit``, ``simplescreenrecorder``.
+
+As for `AUR helpers <https://wiki.archlinux.org/title/AUR_helpers>`_, we use `yay <https://aur.archlinux.org/packages/yay>`_, which is itself in the AUR. To install it, see its `instructions <https://github.com/Jguer/yay?tab=readme-ov-file#installation>`_ or, better, use our `update-aur-installer.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/update-aur-installer.sh>`_ script for that.
+
+Then our `install-arch-package.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-arch-package.sh>`_ script can be used to install indifferently all kinds (Arch or AUR) of packages.
 
 
 
