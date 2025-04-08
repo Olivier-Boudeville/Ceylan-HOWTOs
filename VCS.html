@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, March 19, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, March 30, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -128,6 +128,8 @@
 </ul>
 </li>
 <li>to <strong>delete</strong> a local branch (while another one is checked out): <tt class="docutils literal">git branch <span class="pre">-d</span> my_branch</tt>; to force-delete it (typically if not fully merged), use <tt class="docutils literal">git branch <span class="pre">-d</span> my_branch</tt>; to delete it from a specified remote as well: <tt class="docutils literal">git push origin <span class="pre">--delete</span> my_branch</tt></li>
+<li>to <strong>change</strong> to a branch: <tt class="docutils literal">git switch target_branch</tt> (to be preferred to the use of <tt class="docutils literal">git checkout</tt>)</li>
+<li>to <strong>update</strong> (synchronise from a remote) branch(es): for a designated branch, use <tt class="docutils literal">git fetch remote branch_name</tt> (typically <tt class="docutils literal">git fetch origin branch_name</tt>); for all branches of a remote: <tt class="docutils literal">git fetch remote</tt>; for all branches of all remotes: <tt class="docutils literal">git fetch <span class="pre">--all</span></tt></li>
 </ul>
 </li>
 <li><strong>managing tags</strong> (note that they are repository-level, for example not related to any current branch):<ul>
@@ -363,6 +365,10 @@ $<span class="w"> </span>git<span class="w"> </span>update-index<span class="w">
 <p>The opposite operation is:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>git<span class="w"> </span>update-index<span class="w"> </span>--no-skip-worktree<span class="w"> </span>&lt;file-list&gt;
+</pre>
+<p>To list such &quot;skipped&quot; files:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>git<span class="w"> </span>ls-files<span class="w"> </span>-v<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>^S
 </pre>
 </div>
 <div class="section" id="listing-the-files-managed-in-vcs-from-the-current-directory">
