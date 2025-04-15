@@ -221,7 +221,7 @@ Sometimes, we know for sure that a given file must be transferred as it is on a 
 
  $ git checkout current_branch
  # The current location on the branch matters:
- $ git checkout some_branch path/to/the/target/file
+ $ git checkout some_branch -- path/to/the/target/file
  Updated 1 path from 6f154364
 
 
@@ -510,7 +510,9 @@ Removing a commit (rollback)
 
 The goal here is to withdraw (revert) a (presumably faulty) commit.
 
-If it has not been pushed to remote, use ``git reset HEAD~1``; otherwise (already pushed), use ``git revert HEAD`` (then a push can be made).
+If it has not been pushed to remote, use ``git reset HEAD~1`` (then the commit is removed, but the working tree still has the changes that were in that commit).
+
+Otherwise, if the commit has already been pushed, use ``git revert HEAD`` (then a push can be made to "cancel" the previous commit).
 
 
 
