@@ -231,7 +231,7 @@ For the **generally useful** tools:
 
 .. code:: bash
 
- $ pacman -S --needed --noconfirm 7zip alsa-utils android-file-transfer android-tools aspell-en aspell-fr base-devel bash-completion blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap nuspell octave openresolv psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore
+ $ pacman -S --needed --noconfirm 7zip alsa-utils android-file-transfer android-tools aspell-en aspell-fr base-devel bash-completion blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap nuspell octave openresolv psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore yq
 
 Note: ``gnome-keyring`` is needed so that evolution is able to store credentials.
 
@@ -250,15 +250,34 @@ Then our `install-arch-package.sh <https://github.com/Olivier-Boudeville/Ceylan-
 
 
 
-To be Done At Installation-time
+A few System Installation Hints
 ===============================
+
+Of course now only done with full UEFI, and GPT.
+
+- define and apply a  simple, reliable partition layout; typically for the main disk (NVMe) of an Arch system of a computer meant:
+
+  - for **daily use**, this may be:
+
+	- ``/boot`` [vfat, type: EFI System]: 1 Go (more than enough to host multiple kernels, a graphical bootloader, possibly Windows-related files)
+	- ``/`` [ext4, type: Linux filesystem]: 120 Go (to have sufficient root in order to install many packages)
+	- ``/home`` [ext4 over crypto_LUKS2, type: Linux filesystem]: all the rest, in one chunk (preferably at least 400 Go)
+	- (no need for a dedicated partition for the swap)
+
+  - for a **server/gateway**, this may be:
+
+	- ``/boot`` [vfat, type: EFI System]: 1 Go (more than enough to host multiple kernels)
+	- ``/`` [ext4, type: Linux filesystem]: 50 Go (to have sufficient root in order to install many packages)
+	- ``/home`` [ext4 over crypto_LUKS2, type: Linux filesystem]: 200 Go
+	- ``(swap)`` [swap, type: Linux swap]: 10 Go
+	- ``/var`` [ext4 over crypto_LUKS2, type: Linux filesystem]: all the rest, in one chunk (preferably at least 400 Go)
+
 
 - setup the pacman mirrors: initially with ``reflector --save /etc/pacman.d/mirrorlist``, and then regularly with ``systemctl enable reflector.service``
 - install relevant packages: see `Bulk Installations`_
-- enable `SMART <https://wiki.archlinux.org/title/S.M.A.R.T.>`_ on all disks: list all actual disks (e.g. ``fdisk -l | grep '^Disk /' | grep -v mapper``), and for each of them, activate SMART (e.g. ``smartctl --smart=on --offlineauto=on --saveauto=on /dev/nvme0n1``); a short test (e.g. ``smartctl --test=short /dev/nvme0n1``) may be performed on each of them
+- enable `SMART <https://wiki.archlinux.org/title/S.M.A.R.T.>`_ on all disks: list all actual disks (e.g. ``fdisk -l | grep '^Disk /' | grep -v mapper``), and for each of them, activate SMART (e.g. ``smartctl --smart=on --offlineauto=on --saveauto=on /dev/nvme0n1``); it may be necessary to specify a device type (e.g. ``smartctl  -x /dev/sdc --device=sntrealtek``); a short test (e.g. ``smartctl --test=short /dev/nvme0n1``) may be performed on each of them
 - rename properly network interface: see `Relying on Stable and User-Friendly Names for Network Interfaces`_
 - set up automatic software update: see `Software Update`_
-
 
 
 
@@ -630,7 +649,7 @@ For example we may end up with:
 Creating an encrypted LUKS container
 ....................................
 
-We used to favor LUKS1 over LUKS2 for a better compatibility with ancient Linuces, yet it is no longer relevant, LUKS is widespread now.
+We used to favor LUKS1 over LUKS2 for a better compatibility with ancient Linuces, yet it is no longer relevant, LUKS2 is widespread now.
 
 In order to create such a container, there are `many options <https://wiki.archlinux.org/title/Dm-crypt/Device_encryption#Encryption_options_for_LUKS_mode>`_ to choose from; here are the ones that we prefer:
 
@@ -724,9 +743,6 @@ Deactivating journaling (with the ``-O ^has_journal`` option) could increase a b
  Creating journal (16384 blocks): done
  Writing superblocks and filesystem accounting information: done
 
- # Should be needed (otherwise can be mounted yet not written by one's normal user):
- $ chown -R YOUR_USER:YOUR_GROUP ${MOUNT_POINT}
-
 
 So no more need here for ``tune2fs -O ^has_journal /dev/mapper/${DM_NAME}``. One may still check the resulting settings with ``tune2fs -l /dev/mapper/${DM_NAME}``.
 
@@ -761,6 +777,9 @@ Then:
  total 16
  drwx------ 2 root root 16384 Apr 22 12:41 lost+found
  -rw-rw-r-- 1 root root     0 Apr 22 16:14 WELCOME_TO_K5_ENCRYPTED_12GB_SPACE
+
+ # Should be needed (otherwise can be mounted yet not written by one's normal user):
+ $ chown -R YOUR_USER:YOUR_GROUP ${MOUNT_POINT}
 
  # Record some information if wanted:
  $ mount | grep ${MOUNT_POINT}
@@ -1464,6 +1483,20 @@ Testing whether a given file element is either a regular file or a non-dead syml
 	fi
 
 
+No-Op
+.....
+
+In sh and all, use ``:``, typically to fill (at least temporarily) an otherwise empty control branch with a no-operation (do nothing) statement, like in:
+
+.. code:: sh
+
+	if SOME_COND; then
+		...
+	else
+		:
+	fi
+
+
 
 
 Mounting Manually crypttab-declared Partitions
@@ -1496,6 +1529,27 @@ See also `this section <#creating-encrypted-partitions>`_ for related details.
 
 
 
+Recommended Tooling
+-------------------
+
+The tools are designated according to their Arch package name.
+
+See also our `e script <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/e>`_ (for edit) and our `v script <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/v>`_ (for view), which run the right (available) tool that corresponds to the file extension of its argument.
+
+
+
+Editors
+.......
+
+For content of type:
+
+- bitmap: ``gimp``; note that fonts are now searched in ``/usr/share/gimp/3.0/fonts`` rather than in ``/usr/share/fonts``; use ``Windows -> Dockable Dialogs -> Fonts`` to be able, thanks to the circle arrow, to refresh (reload) the available fonts
+- vector: ``inkscape``
+- vector font (like TTF): preferring ``fontforge`` to ``birdfont``, yet when loading then saving a correct font, both of them were unable to generate a font that could be loaded by gimp afterwards...; moreover the latter will not update its initial graphical font content unless its window is moved once
+
+
+
+
 Other User Settings
 -------------------
 
@@ -1505,8 +1559,8 @@ See our `preferences <https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab
 
 
 
-Shortcuts
----------
+Tool-Specific Shortcuts
+-----------------------
 
 Listing here the main keyboard shortcuts of interest for a few base tools.
 
