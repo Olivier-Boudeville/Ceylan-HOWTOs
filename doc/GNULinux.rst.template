@@ -1498,6 +1498,18 @@ In sh and all, use ``:``, typically to fill (at least temporarily) an otherwise 
 
 
 
+Mini GNU ``sed`` Cheat Sheet
+----------------------------
+
+To substitute in-place a line starting by a prefix with another:
+
+.. code:: bash
+
+ $ sed -i "s|^foobar.version=.*$|foobar.version=${MY_VERSION}|1"
+
+One may also refer to `this cheat sheet <https://quickref.me/sed.html>`_.
+
+
 
 Mounting Manually crypttab-declared Partitions
 ----------------------------------------------
