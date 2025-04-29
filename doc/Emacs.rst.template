@@ -268,6 +268,13 @@ For example: ``(setq fill-column 60)`` calls the function ``setq`` (*set quoted*
 - to display a message: ``(message "Hello world!")``
 - a leading single-quote makes a symbol a constant - otherwise it would be treated as a variable name; for example: ``(setq-default major-mode 'text-mode)``
 
+
+To display messages in standard buffers:
+
+- a regular message (thus in ``*Messages*``): ``(message "This is my message.")``
+- a warning message (thus in ``*Warnings*``), with a (warning) *type* specified: ``(display-warning "foo" "This is my warning.")``; it displays there: ``"Warning (foo): This is my warning."``
+
+
 Elisp examples may be the following conditional setting:
 
 .. code:: elisp
