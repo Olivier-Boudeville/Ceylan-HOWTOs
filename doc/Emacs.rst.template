@@ -195,7 +195,7 @@ With Emacs:
 Key Bindings
 ------------
 
-Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", generally), ``S`` to the ``Shift`` one, ``s`` to the ``Super`` one (a.k.a. the infamous `Windows/Command key <https://en.wikipedia.org/wiki/Super_key_(keyboard_button)>`_), ``-`` is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press *while the modifier is still held down*. ``RET`` means the Enter key, ``SPC`` the spacebar, ``M-L_ARROW`` / ``M-R_ARROW`` the left / right arrow keys.
+Here ``C`` corresponds to the "Ctrl" key, ``M`` the "Meta" one (i.e. "Alt", generally), ``S`` to the ``Shift`` one, ``s`` to the ``Super`` one (a.k.a. the infamous `Windows/Command key <https://en.wikipedia.org/wiki/Super_key_(keyboard_button)>`_), ``-`` is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press *while the modifier is still held down*. ``RET`` means the Enter key, ``SPC`` the spacebar, ``L_ARROW`` / ``M-R_ARROW`` the left / right arrow keys, and ``U_ARROW`` / ``D_ARROW`` the up / down arrow keys.
 
 For example ``C-x C--`` means: press and hold the "Ctrl" key, and hit the "x" key, then release all, then press and hold the "Ctrl" key, and hit the "-" key, and release all.
 
@@ -222,6 +222,7 @@ At least based on our (Emacs and French keyboard) **base** settings (i.e. the on
 .. - ``M-;``: comment / uncomment current line
 - ``C-x 2``: split window horizontally
 - ``C-x 3``: split window vertically
+- ``M-D_ARROW`` / : ``M-U__ARROW``: scroll down / up in the current buffer
 - ``M-R_ARROW`` / : ``M-L_ARROW``: go to next / previous buffer
 - ``M-q``: fill current paragraph (reformat / wordwrap it), i.e. applies ``fill-paragraph``
 - ``M-m``: jump to first non-whitespace in the current line
