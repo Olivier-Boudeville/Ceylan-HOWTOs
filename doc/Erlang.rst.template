@@ -167,7 +167,7 @@ The goal is to have processes, running on multiple Erlang VMs instantiated on va
 
 Let's suppose that we have two hosts, ``foo.example.com`` (possibly on the LAN) and ``bar.other.info`` (for example a gateway available on the Internet - hence a bit secured, and with many settings activated), each having the latest version of Erlang installed.
 
-To test whether VMs on either side can communicate, one may launch on ``foo.example.com``  for example (killing EMPD and using a specific, rather random port for it, for safer/paranoid testing)::
+To test whether VMs on either side can communicate, one may launch on ``foo.example.com``  for example (killing EMPD and using a specific, rather random port for it, for safer/paranoid testing; precising a TCP port range to remind that it matters, firewall-wise)::
 
  $ killall epmd
 
@@ -175,7 +175,7 @@ To test whether VMs on either side can communicate, one may launch on ``foo.exam
  # ('-name myfoo@foo.example.com'), as we can check the name resolution used
  # by the VM (bogus values like '-name myfoo@ibm.com' would be accepted):
  #
- $ ERL_EPMD_PORT=4506 erl -name myfoo -setcookie abc
+ $ ERL_EPMD_PORT=4506 erl -name myfoo -setcookie abc -kernel inet_dist_listen_min 50000 inet_dist_listen_max 51000
  Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
 
  Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
@@ -185,7 +185,7 @@ To test whether VMs on either side can communicate, one may launch on ``foo.exam
 And on ``bar.other.info``::
 
  $ killall epmd
- $ ERL_EPMD_PORT=4506 erl -name mybar@bar.other.info -setcookie abc
+ $ ERL_EPMD_PORT=4506 erl -name mybar@bar.other.info -setcookie abc -kernel inet_dist_listen_min 50000 inet_dist_listen_max 51000
  Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
 
  Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
