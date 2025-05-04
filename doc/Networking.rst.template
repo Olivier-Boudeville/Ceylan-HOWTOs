@@ -69,7 +69,7 @@ Firewall Management
 
 On GNU/Linux, some level of knowledge about ``iptables`` is useful, notably if exposing a computer to the Internet; note though that it is to be superseded by `nftables <https://wiki.archlinux.org/title/Nftables>`_.
 
-One should read first the very clear Arch wiki section about `iptables basic concepts <https://wiki.archlinux.org/title/iptables#Basic_concepts>`_.
+One should read first the very clear Arch wiki section about `iptables basic concepts <https://wiki.archlinux.org/title/iptables#Basic_concepts>`_. See also ``man iptables-extensions`` to understand the extended packet matching modules (triggered with the ``-m`` / ``--match`` options).
 
 A general rule that we retain, especially for an Internet gateway, is to drop all packets by default, and then only to accept the expected ones explicitly and carefully.
 
@@ -187,13 +187,15 @@ Note that often these scripts are setup remotely, while being connected thanks t
 Firewall-related Troubleshooting
 --------------------------------
 
-Use `iptables-inspect.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables-inspect.sh>`_ to list the currently-used firewall rules for the chains of the main tables. Like ``iptables -nL --line-numbers``, it displays the number of each rule of a given chain, which allows to add/remove rules more easily, like in:
+Use `iptables-inspect.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables-inspect.sh>`_ to list the currently-used firewall rules for the chains of the main tables. Like ``iptables -nL --line-numbers`` [#]_, it displays the number of each rule of a given chain, which allows to add/remove rules more easily, like in:
 
 .. code:: bash
 
  # Deletes the first rule of the FORWARD chain (of the 'filter' table):
  # (note that all the next rules will bear a decremented number afterwards!)
  $ iptables -D FORWARD 1
+
+.. [#] Note that unfortunately this command does not display interface information, which can be quite misleading; the output of our script is more precise and thus should be preferred.
 
 
 Setting environment variables (either through files such as ``/etc/iptables.settings-Gateway.sh`` or directly in the shell) is less error-prone; e.g.
@@ -219,6 +221,8 @@ As a reminder, for a given table (``filter`` by default), rules may be:
 
 - appended *at the end* of the selected chain with ``-A`` (then of course any previous rule may eclipse it)
 - inserted either at the *beginning* of the selected chain with ``-I``, or at its position N with ``-I N``
+
+Therefore, just for the sake of testing a safe interface ``foo``, to short-circuit all previous input rules for TCP, one may execute ``iptables -I INPUT -i foo -p tcp -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT`` to ensure that the host will accept from now on all (valid) incoming TCP packets; then use ``iptables -D INPUT 1`` to remove that rule and/or, even better, run your stateless firewall initialisation script to ensure that the base configuration has been correctly restored.
 
 Adding/removing rules "safely" from the command-line may be done more easily by rule specification rather than by rule position.
 
@@ -273,7 +277,7 @@ A few pieces of advice/information:
  10.0.0.0/8 dev enp2s0 proto kernel scope link src 10.0.0.1
  192.168.0.0/16 dev enp4s0 scope link
 
-Here for example, in ``192.168.0.0/16``, ``16`` corresponds to the length of *the network prefix*; the next 16 bits are left to designate hosts, whose addresses therefore range in ``192.168.[0..254].[1..254]``. So ``192.168.0.0/16`` includes the ``192.168.27.0/24`` network, whereas ``192.168.0.0/24`` would not.
+Here for example, in ``192.168.0.0/16``, ``16`` corresponds to the length of *the network prefix*; the next 16 bits are left to designate hosts, whose addresses therefore range in ``192.168.[0..254].[1..254]``. So ``192.168.0.0/16`` includes the ``192.168.27.0/24`` network - whereas ``192.168.0.0/24`` would not.
 
 - go for VLAN only when having reached a first level of correct operation; note that some devices (e.g. non-manageable switches) are not able to handle VLAN-tagged packets and may reject or overwrite this information
 - in some cases, hard reboots / returns to factory settings will fix inexplicable situations; updating to latest firmware may help too (network appliances *do* have bugs as well!)
