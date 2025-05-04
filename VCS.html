@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, March 30, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, April 15, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -225,7 +225,7 @@ $<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </s
 <pre class="code bash literal-block">
 $<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>current_branch<span class="w">
 </span><span class="c1"># The current location on the branch matters:
-</span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>some_branch<span class="w"> </span>path/to/the/target/file<span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>some_branch<span class="w"> </span>--<span class="w"> </span>path/to/the/target/file<span class="w">
 </span>Updated<span class="w"> </span><span class="m">1</span><span class="w"> </span>path<span class="w"> </span>from<span class="w"> </span>6f154364
 </pre>
 </div>
@@ -420,7 +420,8 @@ $<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </spa
 <div class="section" id="removing-a-commit-rollback">
 <h3><a class="toc-backref" href="#toc-entry-23">Removing a commit (rollback)</a></h3>
 <p>The goal here is to withdraw (revert) a (presumably faulty) commit.</p>
-<p>If it has not been pushed to remote, use <tt class="docutils literal">git reset HEAD~1</tt>; otherwise (already pushed), use <tt class="docutils literal">git revert HEAD</tt> (then a push can be made).</p>
+<p>If it has not been pushed to remote, use <tt class="docutils literal">git reset HEAD~1</tt> (then the commit is removed, but the working tree still has the changes that were in that commit).</p>
+<p>Otherwise, if the commit has already been pushed, use <tt class="docutils literal">git revert HEAD</tt> (then a push can be made to &quot;cancel&quot; the previous commit).</p>
 </div>
 <div class="section" id="restoring-a-branch-to-a-past-state">
 <h3><a class="toc-backref" href="#toc-entry-24">Restoring a branch to a past state</a></h3>

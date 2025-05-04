@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, April 8, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, May 2, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -46,7 +46,7 @@
 <li><a class="reference internal" href="#aur-installations" id="toc-entry-8">AUR Installations</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#to-be-done-at-installation-time" id="toc-entry-9">To be Done At Installation-time</a></li>
+<li><a class="reference internal" href="#a-few-system-installation-hints" id="toc-entry-9">A few System Installation Hints</a></li>
 <li><a class="reference internal" href="#systemd-related-hints" id="toc-entry-10">Systemd-related Hints</a><ul>
 <li><a class="reference internal" href="#systemd-commands" id="toc-entry-11">Systemd Commands</a></li>
 <li><a class="reference internal" href="#systemd-journal" id="toc-entry-12">Systemd Journal</a></li>
@@ -96,12 +96,14 @@
 <li><a class="reference internal" href="#specifying-iterations-with-bash" id="toc-entry-48">Specifying iterations with Bash</a></li>
 <li><a class="reference internal" href="#shell-auto-completing-the-available-make-targets" id="toc-entry-49">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></li>
 <li><a class="reference internal" href="#mini-shell-cheat-sheet" id="toc-entry-50">Mini Shell Cheat Sheet</a></li>
-<li><a class="reference internal" href="#mounting-manually-crypttab-declared-partitions" id="toc-entry-51">Mounting Manually crypttab-declared Partitions</a></li>
-<li><a class="reference internal" href="#other-user-settings" id="toc-entry-52">Other User Settings</a></li>
-<li><a class="reference internal" href="#shortcuts" id="toc-entry-53">Shortcuts</a></li>
+<li><a class="reference internal" href="#mini-gnu-sed-cheat-sheet" id="toc-entry-51">Mini GNU <tt class="docutils literal">sed</tt> Cheat Sheet</a></li>
+<li><a class="reference internal" href="#mounting-manually-crypttab-declared-partitions" id="toc-entry-52">Mounting Manually crypttab-declared Partitions</a></li>
+<li><a class="reference internal" href="#recommended-tooling" id="toc-entry-53">Recommended Tooling</a></li>
+<li><a class="reference internal" href="#other-user-settings" id="toc-entry-54">Other User Settings</a></li>
+<li><a class="reference internal" href="#tool-specific-shortcuts" id="toc-entry-55">Tool-Specific Shortcuts</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-54">See Also</a></li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-56">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -248,7 +250,7 @@ $<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span
 </pre>
 <p>For the <strong>generally useful</strong> tools:</p>
 <pre class="code bash literal-block">
-$<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>--noconfirm<span class="w"> </span>7zip<span class="w"> </span>alsa-utils<span class="w"> </span>android-file-transfer<span class="w"> </span>android-tools<span class="w"> </span>aspell-en<span class="w"> </span>aspell-fr<span class="w"> </span>base-devel<span class="w"> </span>bash-completion<span class="w"> </span>blender<span class="w"> </span>calibre<span class="w"> </span>chromium<span class="w"> </span>cronie<span class="w"> </span>curl<span class="w"> </span>diffutils<span class="w"> </span>dos2unix<span class="w"> </span>eog<span class="w"> </span>espeak-ng<span class="w"> </span>evince<span class="w"> </span>evolution<span class="w"> </span>exfat-utils<span class="w"> </span>firejail<span class="w"> </span>gedit<span class="w"> </span>geeqie<span class="w"> </span>gimp<span class="w"> </span>glu<span class="w"> </span>gnome-terminal<span class="w"> </span>gwenview<span class="w"> </span>htop<span class="w"> </span>inkscape<span class="w"> </span>inotify-tools<span class="w"> </span>iputils<span class="w"> </span>jq<span class="w"> </span>less<span class="w"> </span>libreoffice<span class="w"> </span>lsb-release<span class="w"> </span>lshw<span class="w"> </span>mathjax<span class="w"> </span>maxima<span class="w"> </span>meld<span class="w"> </span>mesa-utils<span class="w"> </span>most<span class="w"> </span>mpv<span class="w"> </span>mupdf<span class="w"> </span>nmap<span class="w"> </span>nuspell<span class="w"> </span>octave<span class="w"> </span>openresolv<span class="w"> </span>psensor<span class="w"> </span>python-docutils<span class="w"> </span>rsync<span class="w"> </span>rubber<span class="w"> </span>screen<span class="w"> </span>smartmontools<span class="w"> </span>thunar<span class="w"> </span>thunderbird<span class="w"> </span>traceroute<span class="w"> </span>transmission-qt<span class="w"> </span>tree<span class="w"> </span>vlc<span class="w"> </span>wget<span class="w"> </span>xlockmore
+$<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>--noconfirm<span class="w"> </span>7zip<span class="w"> </span>alsa-utils<span class="w"> </span>android-file-transfer<span class="w"> </span>android-tools<span class="w"> </span>aspell-en<span class="w"> </span>aspell-fr<span class="w"> </span>base-devel<span class="w"> </span>bash-completion<span class="w"> </span>blender<span class="w"> </span>calibre<span class="w"> </span>chromium<span class="w"> </span>cronie<span class="w"> </span>curl<span class="w"> </span>diffutils<span class="w"> </span>dos2unix<span class="w"> </span>eog<span class="w"> </span>espeak-ng<span class="w"> </span>evince<span class="w"> </span>evolution<span class="w"> </span>exfat-utils<span class="w"> </span>firejail<span class="w"> </span>gedit<span class="w"> </span>geeqie<span class="w"> </span>gimp<span class="w"> </span>glu<span class="w"> </span>gnome-terminal<span class="w"> </span>gwenview<span class="w"> </span>htop<span class="w"> </span>inkscape<span class="w"> </span>inotify-tools<span class="w"> </span>iputils<span class="w"> </span>jq<span class="w"> </span>less<span class="w"> </span>libreoffice<span class="w"> </span>lsb-release<span class="w"> </span>lshw<span class="w"> </span>mathjax<span class="w"> </span>maxima<span class="w"> </span>meld<span class="w"> </span>mesa-utils<span class="w"> </span>most<span class="w"> </span>mpv<span class="w"> </span>mupdf<span class="w"> </span>nmap<span class="w"> </span>nuspell<span class="w"> </span>octave<span class="w"> </span>openresolv<span class="w"> </span>psensor<span class="w"> </span>python-docutils<span class="w"> </span>rsync<span class="w"> </span>rubber<span class="w"> </span>screen<span class="w"> </span>smartmontools<span class="w"> </span>thunar<span class="w"> </span>thunderbird<span class="w"> </span>traceroute<span class="w"> </span>transmission-qt<span class="w"> </span>tree<span class="w"> </span>vlc<span class="w"> </span>wget<span class="w"> </span>xlockmore<span class="w"> </span>yq
 </pre>
 <p>Note: <tt class="docutils literal"><span class="pre">gnome-keyring</span></tt> is needed so that evolution is able to store credentials.</p>
 <p>Possibly useful: <tt class="docutils literal"><span class="pre">intel-ucode</span></tt>.</p>
@@ -260,12 +262,31 @@ $<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span
 <p>Then our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-arch-package.sh">install-arch-package.sh</a> script can be used to install indifferently all kinds (Arch or AUR) of packages.</p>
 </div>
 </div>
-<div class="section" id="to-be-done-at-installation-time">
-<h1><a class="toc-backref" href="#toc-entry-9">To be Done At Installation-time</a></h1>
+<div class="section" id="a-few-system-installation-hints">
+<h1><a class="toc-backref" href="#toc-entry-9">A few System Installation Hints</a></h1>
+<p>Of course now only done with full UEFI, and GPT.</p>
 <ul class="simple">
+<li>define and apply a  simple, reliable partition layout; typically for the main disk (NVMe) of an Arch system of a computer meant:<ul>
+<li>for <strong>daily use</strong>, this may be:<ul>
+<li><tt class="docutils literal">/boot</tt> [vfat, type: EFI System]: 1 Go (more than enough to host multiple kernels, a graphical bootloader, possibly Windows-related files)</li>
+<li><tt class="docutils literal">/</tt> [ext4, type: Linux filesystem]: 120 Go (to have sufficient root in order to install many packages)</li>
+<li><tt class="docutils literal">/home</tt> [ext4 over crypto_LUKS2, type: Linux filesystem]: all the rest, in one chunk (preferably at least 400 Go)</li>
+<li>(no need for a dedicated partition for the swap)</li>
+</ul>
+</li>
+<li>for a <strong>server/gateway</strong>, this may be:<ul>
+<li><tt class="docutils literal">/boot</tt> [vfat, type: EFI System]: 1 Go (more than enough to host multiple kernels)</li>
+<li><tt class="docutils literal">/</tt> [ext4, type: Linux filesystem]: 50 Go (to have sufficient root in order to install many packages)</li>
+<li><tt class="docutils literal">/home</tt> [ext4 over crypto_LUKS2, type: Linux filesystem]: 200 Go</li>
+<li><tt class="docutils literal">(swap)</tt> [swap, type: Linux swap]: 10 Go</li>
+<li><tt class="docutils literal">/var</tt> [ext4 over crypto_LUKS2, type: Linux filesystem]: all the rest, in one chunk (preferably at least 400 Go)</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>setup the pacman mirrors: initially with <tt class="docutils literal">reflector <span class="pre">--save</span> /etc/pacman.d/mirrorlist</tt>, and then regularly with <tt class="docutils literal">systemctl enable reflector.service</tt></li>
 <li>install relevant packages: see <a class="reference internal" href="#bulk-installations">Bulk Installations</a></li>
-<li>enable <a class="reference external" href="https://wiki.archlinux.org/title/S.M.A.R.T.">SMART</a> on all disks: list all actual disks (e.g. <tt class="docutils literal">fdisk <span class="pre">-l</span> | grep '^Disk /' | grep <span class="pre">-v</span> mapper</tt>), and for each of them, activate SMART (e.g. <tt class="docutils literal">smartctl <span class="pre">--smart=on</span> <span class="pre">--offlineauto=on</span> <span class="pre">--saveauto=on</span> /dev/nvme0n1</tt>); a short test (e.g. <tt class="docutils literal">smartctl <span class="pre">--test=short</span> /dev/nvme0n1</tt>) may be performed on each of them</li>
+<li>enable <a class="reference external" href="https://wiki.archlinux.org/title/S.M.A.R.T.">SMART</a> on all disks: list all actual disks (e.g. <tt class="docutils literal">fdisk <span class="pre">-l</span> | grep '^Disk /' | grep <span class="pre">-v</span> mapper</tt>), and for each of them, activate SMART (e.g. <tt class="docutils literal">smartctl <span class="pre">--smart=on</span> <span class="pre">--offlineauto=on</span> <span class="pre">--saveauto=on</span> /dev/nvme0n1</tt>); it may be necessary to specify a device type (e.g. <tt class="docutils literal">smartctl&nbsp; <span class="pre">-x</span> /dev/sdc <span class="pre">--device=sntrealtek</span></tt>); a short test (e.g. <tt class="docutils literal">smartctl <span class="pre">--test=short</span> /dev/nvme0n1</tt>) may be performed on each of them</li>
 <li>rename properly network interface: see <a class="reference internal" href="#relying-on-stable-and-user-friendly-names-for-network-interfaces">Relying on Stable and User-Friendly Names for Network Interfaces</a></li>
 <li>set up automatic software update: see <a class="reference internal" href="#software-update">Software Update</a></li>
 </ul>
@@ -555,7 +576,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 <div class="section" id="creating-an-encrypted-luks-container">
 <h3>Creating an encrypted LUKS container</h3>
-<p>We used to favor LUKS1 over LUKS2 for a better compatibility with ancient Linuces, yet it is no longer relevant, LUKS is widespread now.</p>
+<p>We used to favor LUKS1 over LUKS2 for a better compatibility with ancient Linuces, yet it is no longer relevant, LUKS2 is widespread now.</p>
 <p>In order to create such a container, there are <a class="reference external" href="https://wiki.archlinux.org/title/Dm-crypt/Device_encryption#Encryption_options_for_LUKS_mode">many options</a> to choose from; here are the ones that we prefer:</p>
 <pre class="code bash literal-block">
 <span class="c1"># Remove the echo after serious verification (enter YES then the main, daily
@@ -624,10 +645,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </span>Allocating<span class="w"> </span>group<span class="w"> </span>tables:<span class="w"> </span><span class="k">done</span><span class="w">
 </span>Writing<span class="w"> </span>inode<span class="w"> </span>tables:<span class="w"> </span><span class="k">done</span><span class="w">
 </span>Creating<span class="w"> </span>journal<span class="w"> </span><span class="o">(</span><span class="m">16384</span><span class="w"> </span>blocks<span class="o">)</span>:<span class="w"> </span><span class="k">done</span><span class="w">
-</span>Writing<span class="w"> </span>superblocks<span class="w"> </span>and<span class="w"> </span>filesystem<span class="w"> </span>accounting<span class="w"> </span>information:<span class="w"> </span><span class="k">done</span><span class="w">
-
-</span><span class="c1"># Should be needed (otherwise can be mounted yet not written by one's normal user):
-</span>$<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>YOUR_USER:YOUR_GROUP<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span>
+</span>Writing<span class="w"> </span>superblocks<span class="w"> </span>and<span class="w"> </span>filesystem<span class="w"> </span>accounting<span class="w"> </span>information:<span class="w"> </span><span class="k">done</span>
 </pre>
 <p>So no more need here for <tt class="docutils literal">tune2fs <span class="pre">-O</span> ^has_journal <span class="pre">/dev/mapper/${DM_NAME}</span></tt>. One may still check the resulting settings with <tt class="docutils literal">tune2fs <span class="pre">-l</span> <span class="pre">/dev/mapper/${DM_NAME}</span></tt>.</p>
 <p>Declaring keys in <tt class="docutils literal">/etc/fstab</tt> and in <tt class="docutils literal">/etc/crypttab</tt> is not necessary; moreover some care would be needed in order to ensure that the automounter would not freeze at the next reboot, expecting such a key to be available.</p>
@@ -652,6 +670,9 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </span>total<span class="w"> </span><span class="m">16</span><span class="w">
 </span>drwx------<span class="w"> </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">16384</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">12</span>:41<span class="w"> </span>lost+found<span class="w">
 </span>-rw-rw-r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">     </span><span class="m">0</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">16</span>:14<span class="w"> </span>WELCOME_TO_K5_ENCRYPTED_12GB_SPACE<span class="w">
+
+</span><span class="c1"># Should be needed (otherwise can be mounted yet not written by one's normal user):
+</span>$<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>YOUR_USER:YOUR_GROUP<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
 
 </span><span class="c1"># Record some information if wanted:
 </span>$<span class="w"> </span>mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="si">${</span><span class="nv">MOUNT_POINT</span><span class="si">}</span><span class="w">
@@ -1132,9 +1153,28 @@ $<span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </sp
 </span><span class="k">fi</span>
 </pre>
 </div>
+<div class="section" id="no-op">
+<h3>No-Op</h3>
+<p>In sh and all, use <tt class="docutils literal">:</tt>, typically to fill (at least temporarily) an otherwise empty control branch with a no-operation (do nothing) statement, like in:</p>
+<pre class="code sh literal-block">
+<span class="k">if</span><span class="w"> </span>SOME_COND<span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w">
+    </span>...<span class="w">
+</span><span class="k">else</span><span class="w">
+    </span>:<span class="w">
+</span><span class="k">fi</span>
+</pre>
+</div>
+</div>
+<div class="section" id="mini-gnu-sed-cheat-sheet">
+<h2><a class="toc-backref" href="#toc-entry-51">Mini GNU <tt class="docutils literal">sed</tt> Cheat Sheet</a></h2>
+<p>To substitute in-place a line starting by a prefix with another:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s|^foobar.version=.*</span>$<span class="s2">|foobar.version=</span><span class="si">${</span><span class="nv">MY_VERSION</span><span class="si">}</span><span class="s2">|1&quot;</span>
+</pre>
+<p>One may also refer to <a class="reference external" href="https://quickref.me/sed.html">this cheat sheet</a>.</p>
 </div>
 <div class="section" id="mounting-manually-crypttab-declared-partitions">
-<h2><a class="toc-backref" href="#toc-entry-51">Mounting Manually crypttab-declared Partitions</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-52">Mounting Manually crypttab-declared Partitions</a></h2>
 <p>Let's suppose such a partition (here a LUKS-encrypted one) is declared, in <tt class="docutils literal">/etc/crypttab</tt>, as:</p>
 <pre class="literal-block">
 my-encrypted-nvme-storage UUID=a46879cf-xxx luks,timeout=10,fido2-device=auto
@@ -1154,12 +1194,26 @@ $ cat &quot;/run/systemd/generator/$SERVICE&quot;
 <p>Mounting it back is &quot;as simple&quot; as executing: <tt class="docutils literal">systemctl start /var/foobar</tt>.</p>
 <p>See also <a class="reference external" href="#creating-encrypted-partitions">this section</a> for related details.</p>
 </div>
+<div class="section" id="recommended-tooling">
+<h2><a class="toc-backref" href="#toc-entry-53">Recommended Tooling</a></h2>
+<p>The tools are designated according to their Arch package name.</p>
+<p>See also our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/e">e script</a> (for edit) and our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/v">v script</a> (for view), which run the right (available) tool that corresponds to the file extension of its argument.</p>
+<div class="section" id="editors">
+<h3>Editors</h3>
+<p>For content of type:</p>
+<ul class="simple">
+<li>bitmap: <tt class="docutils literal">gimp</tt>; note that fonts are now searched in <tt class="docutils literal">/usr/share/gimp/3.0/fonts</tt> rather than in <tt class="docutils literal">/usr/share/fonts</tt>; use <tt class="docutils literal">Windows <span class="pre">-&gt;</span> Dockable Dialogs <span class="pre">-&gt;</span> Fonts</tt> to be able, thanks to the circle arrow, to refresh (reload) the available fonts</li>
+<li>vector: <tt class="docutils literal">inkscape</tt></li>
+<li>vector font (like TTF): preferring <tt class="docutils literal">fontforge</tt> to <tt class="docutils literal">birdfont</tt>, yet when loading then saving a correct font, both of them were unable to generate a font that could be loaded by gimp afterwards...; moreover the latter will not update its initial graphical font content unless its window is moved once</li>
+</ul>
+</div>
+</div>
 <div class="section" id="other-user-settings">
-<h2><a class="toc-backref" href="#toc-entry-52">Other User Settings</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-54">Other User Settings</a></h2>
 <p>See our <a class="reference external" href="https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a">preferences</a> for <a class="reference external" href="https://www.startpage.com">Startpage</a>; it can be set as homepage.</p>
 </div>
-<div class="section" id="shortcuts">
-<h2><a class="toc-backref" href="#toc-entry-53">Shortcuts</a></h2>
+<div class="section" id="tool-specific-shortcuts">
+<h2><a class="toc-backref" href="#toc-entry-55">Tool-Specific Shortcuts</a></h2>
 <p>Listing here the main keyboard shortcuts of interest for a few base tools.</p>
 <div class="section" id="for-less">
 <h3>For <tt class="docutils literal">less</tt></h3>
@@ -1207,7 +1261,7 @@ $ cat &quot;/run/systemd/generator/$SERVICE&quot;
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-54">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-56">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>

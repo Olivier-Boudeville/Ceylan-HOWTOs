@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, March 19, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, May 3, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -87,10 +87,11 @@
 <li><a class="reference internal" href="#installing-rebar3" id="toc-entry-41">Installing rebar3</a></li>
 <li><a class="reference internal" href="#using-emacs" id="toc-entry-42">Using Emacs</a></li>
 <li><a class="reference internal" href="#contributing-to-erlang-otp" id="toc-entry-43">Contributing to Erlang/OTP</a></li>
+<li><a class="reference internal" href="#uninstalling-erlang" id="toc-entry-44">Uninstalling Erlang</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-44">Micro-Cheat Sheet</a></li>
-<li><a class="reference internal" href="#erlang-resources" id="toc-entry-45">Erlang Resources</a></li>
+<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-45">Micro-Cheat Sheet</a></li>
+<li><a class="reference internal" href="#erlang-resources" id="toc-entry-46">Erlang Resources</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -175,7 +176,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 <h2><a class="toc-backref" href="#toc-entry-7">General Information</a></h2>
 <p>The goal is to have processes, running on multiple Erlang VMs instantiated on various hosts of a network, interact (of course, as always, by message-passing based on Erlang processes).</p>
 <p>Let's suppose that we have two hosts, <tt class="docutils literal">foo.example.com</tt> (possibly on the LAN) and <tt class="docutils literal">bar.other.info</tt> (for example a gateway available on the Internet - hence a bit secured, and with many settings activated), each having the latest version of Erlang installed.</p>
-<p>To test whether VMs on either side can communicate, one may launch on <tt class="docutils literal">foo.example.com</tt>  for example (killing EMPD and using a specific, rather random port for it, for safer/paranoid testing):</p>
+<p>To test whether VMs on either side can communicate, one may launch on <tt class="docutils literal">foo.example.com</tt>  for example (killing EMPD and using a specific, rather random port for it, for safer/paranoid testing; precising a TCP port range to remind that it matters, firewall-wise):</p>
 <pre class="literal-block">
 $ killall epmd
 
@@ -183,7 +184,7 @@ $ killall epmd
 # ('-name myfoo&#64;foo.example.com'), as we can check the name resolution used
 # by the VM (bogus values like '-name myfoo&#64;ibm.com' would be accepted):
 #
-$ ERL_EPMD_PORT=4506 erl -name myfoo -setcookie abc
+$ ERL_EPMD_PORT=4506 erl -name myfoo -setcookie abc -kernel inet_dist_listen_min 50000 inet_dist_listen_max 51000
 Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
 
 Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
@@ -192,7 +193,7 @@ Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
 <p>And on <tt class="docutils literal">bar.other.info</tt>:</p>
 <pre class="literal-block">
 $ killall epmd
-$ ERL_EPMD_PORT=4506 erl -name mybar&#64;bar.other.info -setcookie abc
+$ ERL_EPMD_PORT=4506 erl -name mybar&#64;bar.other.info -setcookie abc -kernel inet_dist_listen_min 50000 inet_dist_listen_max 51000
 Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
 
 Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
@@ -889,9 +890,22 @@ $ git checkout -b component/improve-something
 <li><a class="reference external" href="https://docs.jj1bdx.tokyo/writing-otp-modules/html/">Writing OTP Modules</a>, by Kenji Rikitake</li>
 </ul>
 </div>
+<div class="section" id="uninstalling-erlang">
+<h2><a class="toc-backref" href="#toc-entry-44">Uninstalling Erlang</a></h2>
+<p>Typically useful to prevent version clashes / use of an unexpected version.</p>
+<p>If Erlang was installed:</p>
+<ul class="simple">
+<li>thanks to a package manager, uninstall it the same way</li>
+<li>from sources, with a prefix (default one being <tt class="docutils literal"><span class="pre">PREFIX=/usr/local</span></tt>), then execute, possibly as root:</li>
+</ul>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$PREFIX</span>/bin<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>/bin/rm<span class="w"> </span>-f<span class="w"> </span>ct_run<span class="w"> </span>dialyzer<span class="w"> </span>epmd<span class="w"> </span>erl<span class="w"> </span>erlc<span class="w"> </span>escript<span class="w"> </span>run_erl<span class="w"> </span>to_erl<span class="w"> </span>typer<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$PREFIX</span>/lib<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </span>erlang
+</pre>
+</div>
 </div>
 <div class="section" id="micro-cheat-sheet">
-<h1><a class="toc-backref" href="#toc-entry-44">Micro-Cheat Sheet</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-45">Micro-Cheat Sheet</a></h1>
 <p>To avoid having to perform a lookup in the documentation:</p>
 <ul class="simple">
 <li>Erlang indices start at <tt class="docutils literal">1</tt>, except the ones of the <tt class="docutils literal">array</tt> module that are zero-based</li>
@@ -924,6 +938,7 @@ $ git checkout -b component/improve-something
 <li>when converting a float to a string, to set the precision (the number of digits after the decimal point) to <tt class="docutils literal">P</tt>, use: <tt class="docutils literal"><span class="pre">&quot;~.Pf&quot;</span></tt>; for example, if <tt class="docutils literal">P=5</tt>, we have: <tt class="docutils literal">&quot;0.33333&quot; = <span class="pre">io_lib:format(&quot;~.5f&quot;,</span> <span class="pre">[1/3]).</span></tt></li>
 <li>the lesser-known <tt class="docutils literal"><span class="pre">--</span></tt> <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#list-operationslist">list subtraction</a> operator returns a list that is a copy of the first argument where, for each element in the second argument, the first occurrence of this element (if any) is removed</li>
 <li>refer to the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences">escape sequences</a>, typically in order to specify characters like &quot;space&quot; (<tt class="docutils literal">$\s</tt>); <tt class="docutils literal">$char</tt> is the notation to designate the ASCII value or Unicode code-point of the character <tt class="docutils literal">char</tt> (e.g. <tt class="docutils literal">$A</tt>)</li>
+<li>the integer division operator is <tt class="docutils literal">div</tt>; for example: <tt class="docutils literal">4 div 3 == 1</tt></li>
 <li>see the always handy <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">operator precedence</a> and the various ways to <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#try">handle exceptions with try/catch</a>; note that to catch <em>all</em> exceptions - i.e. those of the <tt class="docutils literal">throw</tt> class, but also of the <tt class="docutils literal">exit</tt> and <tt class="docutils literal">error</tt> classes, one may use: <tt class="docutils literal">try EXPR catch _:E <span class="pre">-&gt;</span> ...</tt> (rather than just: <tt class="docutils literal">try EXPR catch E <span class="pre">-&gt;</span> ...</tt>)</li>
 <li>in <strong>guard expressions</strong>:<ul>
 <li>because of side effects, no user-defined function is allowed in guards; refer to the two tables listing all the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions">BIFs supported in guards expressions</a> (test or non-test BIFs)</li>
@@ -1013,7 +1028,7 @@ $ git checkout -b component/improve-something
 <p>Some of these elements have been adapted from the <a class="reference external" href="https://github.com/dgud/wings/blob/master/CodingGuidelines">Wings3D coding guidelines</a>.</p>
 </div>
 <div class="section" id="erlang-resources">
-<h1><a class="toc-backref" href="#toc-entry-45">Erlang Resources</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-46">Erlang Resources</a></h1>
 <ul class="simple">
 <li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
 <li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well; one may also check the <a class="reference external" href="https://exercism.org/tracks/erlang">Erlang track</a> on Exercism</li>

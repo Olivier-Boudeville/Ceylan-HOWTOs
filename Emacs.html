@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, March 16, 2025</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, April 8, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, May 2, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -38,18 +38,27 @@
 <ul class="simple">
 <li><a class="reference internal" href="#overview" id="toc-entry-1">Overview</a></li>
 <li><a class="reference internal" href="#installation" id="toc-entry-2">Installation</a></li>
-<li><a class="reference internal" href="#configuration" id="toc-entry-3">Configuration</a></li>
-<li><a class="reference internal" href="#hints" id="toc-entry-4">Hints</a><ul>
-<li><a class="reference internal" href="#emacs-parlance" id="toc-entry-5">Emacs Parlance</a></li>
-<li><a class="reference internal" href="#key-bindings" id="toc-entry-6">Key Bindings</a></li>
-<li><a class="reference internal" href="#frequent-actions" id="toc-entry-7">Frequent Actions</a></li>
-<li><a class="reference internal" href="#package-managers" id="toc-entry-8">Package Managers</a></li>
-<li><a class="reference internal" href="#elisp-hints" id="toc-entry-9">Elisp Hints</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-3">Configuration</a><ul>
+<li><a class="reference internal" href="#general-configuration" id="toc-entry-4">General Configuration</a></li>
+<li><a class="reference internal" href="#topic-specific-configurations" id="toc-entry-5">Topic-specific Configurations</a><ul>
+<li><a class="reference internal" href="#regarding-package-management-itself" id="toc-entry-6">Regarding Package Management Itself</a></li>
+<li><a class="reference internal" href="#regarding-erlang" id="toc-entry-7">Regarding Erlang</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#troubleshooting" id="toc-entry-10">Troubleshooting</a><ul>
-<li><a class="reference internal" href="#handling-errors" id="toc-entry-11">Handling Errors</a></li>
-<li><a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs" id="toc-entry-12">Relying a safe, minimal, fallback Emacs</a></li>
+<li><a class="reference internal" href="#wrapping-up-configurations" id="toc-entry-8">Wrapping-up Configurations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hints" id="toc-entry-9">Hints</a><ul>
+<li><a class="reference internal" href="#emacs-parlance" id="toc-entry-10">Emacs Parlance</a></li>
+<li><a class="reference internal" href="#key-bindings" id="toc-entry-11">Key Bindings</a></li>
+<li><a class="reference internal" href="#frequent-actions" id="toc-entry-12">Frequent Actions</a></li>
+<li><a class="reference internal" href="#package-managers" id="toc-entry-13">Package Managers</a></li>
+<li><a class="reference internal" href="#elisp-hints" id="toc-entry-14">Elisp Hints</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting" id="toc-entry-15">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#handling-errors" id="toc-entry-16">Handling Errors</a></li>
+<li><a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs" id="toc-entry-17">Relying a safe, minimal, fallback Emacs</a></li>
 </ul>
 </li>
 </ul>
@@ -85,6 +94,8 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 <div class="section" id="configuration">
 <span id="emacs-configuration"></span><h1><a class="toc-backref" href="#toc-entry-3">Configuration</a></h1>
+<div class="section" id="general-configuration">
+<h2><a class="toc-backref" href="#toc-entry-4">General Configuration</a></h2>
 <p>Our base Emacs configuration, <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el">init-myriad-base.el</a>, is designed to be minimal enough not to depend on any third-party element (so it is not relying on a package manager).</p>
 <p>It may be used as:</p>
 <ul class="simple">
@@ -92,7 +103,10 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li>a fallback configuration, useful when a reliable, unaffected editor is needed to debug one's Emacs configuration (see <a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs">Relying a safe, minimal, fallback Emacs</a> for that)
 - a base configuration expanded (i.e. included) by more involved / specialised configurations, akin to our main, most complete Emacs configuration for daily usage, <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el">init-myriad-fully-integrated</a></li>
 </ul>
-<p>In addition to these base or complete configurations, we defined modular, specialised configuration files for a few topics.</p>
+</div>
+<div class="section" id="topic-specific-configurations">
+<h2><a class="toc-backref" href="#toc-entry-5">Topic-specific Configurations</a></h2>
+<p>In addition to these previous base or complete configurations, we defined modular, specialised configuration files for a few topics.</p>
 <p>First, the standalone ones, i.e. the specialisations that do not depend on any specific (third-party) package (but still depend on our base Emacs configuration, <tt class="docutils literal"><span class="pre">init-myriad-base.el</span></tt>), are:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-rst-base.el">init-myriad-rst-base.el</a> for the support of ReStructuredText</li>
@@ -101,19 +115,39 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-python-base.el">init-myriad-python-base.el</a>, for a basic support of Python</li>
 <li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-sensitive.el">init-myriad-sensitive.el</a>, to edit sensitive files (therefore with an increased security); if this configuration is available, it is used for example by our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/open-credentials.sh">open-credentials.sh</a> script</li>
 </ul>
-<p>As for the configurations involving packages, we have:</p>
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-package-management.el">init-myriad-package-management.el</a>, to setup a proper management of Emacs packages (currently based on <a class="reference external" href="https://github.com/progfolio/elpaca">elpaca</a>)</li>
-<li><a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el">init-myriad-erlang-advanced.el</a>, to provide additional tooling on top of the prior <tt class="docutils literal"><span class="pre">init-myriad-erlang-base</span></tt> (currently not deemed satisfactory enough, at least for our use cases)</li>
-</ul>
+<p>Now the configurations involving extra, specific packages are discussed.</p>
+<div class="section" id="regarding-package-management-itself">
+<h3><a class="toc-backref" href="#toc-entry-6">Regarding Package Management Itself</a></h3>
+<p>We rely on <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-package-management.el">init-myriad-package-management.el</a> in order to setup a proper management of Emacs packages. It is a prerequisite of all next configurations below, and is currently based on <a class="reference external" href="https://github.com/progfolio/elpaca">elpaca</a>.</p>
+</div>
+<div class="section" id="regarding-erlang">
+<h3><a class="toc-backref" href="#toc-entry-7">Regarding Erlang</a></h3>
+<p>We propose <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el">init-myriad-erlang-advanced.el</a>, to provide additional tooling on top of the prior <tt class="docutils literal"><span class="pre">init-myriad-erlang-base</span></tt>.</p>
+<p>It requires <tt class="docutils literal">erlang_ls</tt>, which can be typically obtained thanks to:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Software<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
+</span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/erlang-ls/<span class="w">
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>erlang_ls<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mkdir<span class="w"> </span>bin<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>bin<span class="w">
+</span>$<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>../_build/default/bin/erlang_ls<span class="w">
+</span><span class="c1"># Then add ${HOME}/Software/erlang_ls/bin to your PATH.</span>
+</pre>
+<p><tt class="docutils literal">erlang_ls</tt> shall be regularly updated (e.g. with: <tt class="docutils literal">cd <span class="pre">${HOME}/Software/erlang_ls</span> &amp;&amp; git pull &amp;&amp; make all</tt>).</p>
+<p>Its per-user configuration can be defined in <tt class="docutils literal"><span class="pre">~/.config/erlang_ls</span></tt>. We prefer that it is a symbolic link to our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/erlang_ls.config">own version thereof</a>.</p>
+<p>One may refer to <tt class="docutils literal">~/Software/erlang_ls/misc/dotemacs</tt> for a configuration example.</p>
+</div>
+</div>
+<div class="section" id="wrapping-up-configurations">
+<h2><a class="toc-backref" href="#toc-entry-8">Wrapping-up Configurations</a></h2>
 <p>Finally, an optional local (host-specific) configuration file (to define relevant initial window sizes for that host, any specific proxy, etc.) will be loaded iff found available as <tt class="docutils literal"><span class="pre">~/.emacs.d/init-myriad-local.el</span></tt>; see this <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-local.el">init-myriad-local.el</a> as an example thereof.</p>
-<p>All these configuration files are included by the aforementioned <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el">init-myriad-fully-integrated.el</a> one.</p>
-<p>For the sake of testing, an instance of Emacs relying on a given configuration file (typically <tt class="docutils literal">init.el</tt>) can be best run with: <tt class="docutils literal">emacs <span class="pre">--init-directory=$SOME_DIR</span></tt>, where <tt class="docutils literal">SOME_DIR</tt> contains this configuration file (possibly as a symbolic link).</p>
+<p>All the configuration files that have been listed above are included by the aforementioned <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el">init-myriad-fully-integrated.el</a> one.</p>
+<p>For the sake of testing, an instance of Emacs relying on a given configuration file (typically <tt class="docutils literal">init.el</tt>) can be best run with: <tt class="docutils literal">emacs <span class="pre">--init-directory=$SOME_DIR</span></tt>, where <tt class="docutils literal">SOME_DIR</tt> contains this configuration file (possibly as a symbolic link); see also <a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs">Relying a safe, minimal, fallback Emacs</a> to edit concurrently that configuration file in progress.</p>
+</div>
 </div>
 <div class="section" id="hints">
-<h1><a class="toc-backref" href="#toc-entry-4">Hints</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-9">Hints</a></h1>
 <div class="section" id="emacs-parlance">
-<h2><a class="toc-backref" href="#toc-entry-5">Emacs Parlance</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-10">Emacs Parlance</a></h2>
 <p>With Emacs:</p>
 <ul class="simple">
 <li>a <tt class="docutils literal">frame</tt> is actually a regular GUI window</li>
@@ -130,8 +164,8 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </ul>
 </div>
 <div class="section" id="key-bindings">
-<h2><a class="toc-backref" href="#toc-entry-6">Key Bindings</a></h2>
-<p>Here <tt class="docutils literal">C</tt> corresponds to the &quot;Ctrl&quot; key, <tt class="docutils literal">M</tt> the &quot;Meta&quot; one (i.e. &quot;Alt&quot;, generally), <tt class="docutils literal">S</tt> to the <tt class="docutils literal">Shift</tt> one, <tt class="docutils literal">s</tt> to the <tt class="docutils literal">Super</tt> one (a.k.a. the infamous <a class="reference external" href="https://en.wikipedia.org/wiki/Super_key_(keyboard_button)">Windows/Command key</a>), <tt class="docutils literal">-</tt> is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press <em>while the modifier is still held down</em>. <tt class="docutils literal">RET</tt> means the Enter key, <tt class="docutils literal">SPC</tt> the spacebar, <tt class="docutils literal"><span class="pre">M-L_ARROW</span></tt> / <tt class="docutils literal"><span class="pre">M-R_ARROW</span></tt> the left / right arrow keys.</p>
+<h2><a class="toc-backref" href="#toc-entry-11">Key Bindings</a></h2>
+<p>Here <tt class="docutils literal">C</tt> corresponds to the &quot;Ctrl&quot; key, <tt class="docutils literal">M</tt> the &quot;Meta&quot; one (i.e. &quot;Alt&quot;, generally), <tt class="docutils literal">S</tt> to the <tt class="docutils literal">Shift</tt> one, <tt class="docutils literal">s</tt> to the <tt class="docutils literal">Super</tt> one (a.k.a. the infamous <a class="reference external" href="https://en.wikipedia.org/wiki/Super_key_(keyboard_button)">Windows/Command key</a>), <tt class="docutils literal">-</tt> is just a separator between a modifier (like Ctrl, Meta, etc.) and an actual key to press <em>while the modifier is still held down</em>. <tt class="docutils literal">RET</tt> means the Enter key, <tt class="docutils literal">SPC</tt> the spacebar, <tt class="docutils literal">L_ARROW</tt> / <tt class="docutils literal"><span class="pre">M-R_ARROW</span></tt> the left / right arrow keys, and <tt class="docutils literal">U_ARROW</tt> / <tt class="docutils literal">D_ARROW</tt> the up / down arrow keys.</p>
 <p>For example <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> means: press and hold the &quot;Ctrl&quot; key, and hit the &quot;x&quot; key, then release all, then press and hold the &quot;Ctrl&quot; key, and hit the &quot;-&quot; key, and release all.</p>
 <p>At least based on our (Emacs and French keyboard) <strong>base</strong> settings (i.e. the ones in <tt class="docutils literal"><span class="pre">init-base.el</span></tt>), the following key bindings trigger the corresponding actions:</p>
 <ul class="simple">
@@ -157,6 +191,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">C-x</span> 2</tt>: split window horizontally</li>
 <li><tt class="docutils literal"><span class="pre">C-x</span> 3</tt>: split window vertically</li>
+<li><tt class="docutils literal"><span class="pre">M-D_ARROW</span></tt> / : <tt class="docutils literal"><span class="pre">M-U__ARROW</span></tt>: scroll down / up in the current buffer</li>
 <li><tt class="docutils literal"><span class="pre">M-R_ARROW</span></tt> / : <tt class="docutils literal"><span class="pre">M-L_ARROW</span></tt>: go to next / previous buffer</li>
 <li><tt class="docutils literal"><span class="pre">M-q</span></tt>: fill current paragraph (reformat / wordwrap it), i.e. applies <tt class="docutils literal"><span class="pre">fill-paragraph</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">M-m</span></tt>: jump to first non-whitespace in the current line</li>
@@ -171,7 +206,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </ul>
 </div>
 <div class="section" id="frequent-actions">
-<h2><a class="toc-backref" href="#toc-entry-7">Frequent Actions</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-12">Frequent Actions</a></h2>
 <ul class="simple">
 <li>to tune the font size:<ul>
 <li>temporarily: use <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-+</span></tt> to increase, <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use <tt class="docutils literal"><span class="pre">C-mousewheel</span></tt>)</li>
@@ -198,7 +233,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>See also our <a class="reference external" href="VCS.html#performing-a-merge-with-emacs">Performing a Merge with Emacs</a> section.</p>
 </div>
 <div class="section" id="package-managers">
-<h2><a class="toc-backref" href="#toc-entry-8">Package Managers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-13">Package Managers</a></h2>
 <p>There are at least:</p>
 <ul class="simple">
 <li>package.el</li>
@@ -209,7 +244,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>Refer to <a class="reference external" href="https://github.com/radian-software/straight.el?tab=readme-ov-file#tldr-1">this page</a> for a comparison of package managers.</p>
 </div>
 <div class="section" id="elisp-hints">
-<h2><a class="toc-backref" href="#toc-entry-9">Elisp Hints</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-14">Elisp Hints</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Emacs_Lisp">Emacs Lisp</a> is a Lisp dialect made for Emacs.</p>
 <p>See the <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/elisp/">GNU Emacs Lisp Reference Manual</a>.</p>
 <p>An Emacs init file contains a series of Lisp expressions, each of them consisting of a function name followed by arguments (expressions), all surrounded by parentheses.</p>
@@ -218,6 +253,11 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li>boolean values: <tt class="docutils literal">t</tt> stands for &quot;true&quot;, and <tt class="docutils literal">nil</tt> for &quot;false&quot;</li>
 <li>to display a message: <tt class="docutils literal">(message &quot;Hello <span class="pre">world!&quot;)</span></tt></li>
 <li>a leading single-quote makes a symbol a constant - otherwise it would be treated as a variable name; for example: <tt class="docutils literal"><span class="pre">(setq-default</span> <span class="pre">major-mode</span> <span class="pre">'text-mode)</span></tt></li>
+</ul>
+<p>To display messages in standard buffers:</p>
+<ul class="simple">
+<li>a regular message (thus in <tt class="docutils literal">*Messages*</tt>): <tt class="docutils literal">(message &quot;This is my <span class="pre">message.&quot;)</span></tt></li>
+<li>a warning message (thus in <tt class="docutils literal">*Warnings*</tt>), with a (warning) <em>type</em> specified: <tt class="docutils literal"><span class="pre">(display-warning</span> &quot;foo&quot; &quot;This is my <span class="pre">warning.&quot;)</span></tt>; it displays there: <tt class="docutils literal">&quot;Warning (foo): This is my warning.&quot;</tt></li>
 </ul>
 <p>Elisp examples may be the following conditional setting:</p>
 <pre class="code elisp literal-block">
@@ -260,14 +300,14 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 </div>
 <div class="section" id="troubleshooting">
-<h1><a class="toc-backref" href="#toc-entry-10">Troubleshooting</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-15">Troubleshooting</a></h1>
 <div class="section" id="handling-errors">
-<h2><a class="toc-backref" href="#toc-entry-11">Handling Errors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-16">Handling Errors</a></h2>
 <p>Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the cache of the package manager (e.g. <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt>, <tt class="docutils literal"><span class="pre">~/.emacs.d/elpaca</span></tt>), relaunching Emacs and waiting for its state (e.g. all related clones) to be downloaded/built again.</p>
 <p>To investigate a problem, one may run Emacs with: <tt class="docutils literal">emacs <span class="pre">--debug-init</span></tt>.</p>
 </div>
 <div class="section" id="relying-a-safe-minimal-fallback-emacs">
-<h2><a class="toc-backref" href="#toc-entry-12">Relying a safe, minimal, fallback Emacs</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-17">Relying a safe, minimal, fallback Emacs</a></h2>
 <p>As many software ecosystems, the Emacs one tends to change/break frequently, and then one's <tt class="docutils literal">init.el</tt> cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.</p>
 <p>One way of overcoming these issues is to have multiple versions of Emacs' configuration, including a very basic one that is never expected to break - just for the purpose of having at all times a base Emacs to fix the others; this is one of the purposes of our rather minimal <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el">init-myriad-base</a> configuration, to be used that way:</p>
 <pre class="code sh literal-block">

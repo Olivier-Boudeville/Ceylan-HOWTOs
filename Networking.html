@@ -27,7 +27,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, March 19, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, May 4, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -60,7 +60,7 @@
 <div class="section" id="firewall-management">
 <h1><a class="toc-backref" href="#toc-entry-2">Firewall Management</a></h1>
 <p>On GNU/Linux, some level of knowledge about <tt class="docutils literal">iptables</tt> is useful, notably if exposing a computer to the Internet; note though that it is to be superseded by <a class="reference external" href="https://wiki.archlinux.org/title/Nftables">nftables</a>.</p>
-<p>One should read first the very clear Arch wiki section about <a class="reference external" href="https://wiki.archlinux.org/title/iptables#Basic_concepts">iptables basic concepts</a>.</p>
+<p>One should read first the very clear Arch wiki section about <a class="reference external" href="https://wiki.archlinux.org/title/iptables#Basic_concepts">iptables basic concepts</a>. See also <tt class="docutils literal">man <span class="pre">iptables-extensions</span></tt> to understand the extended packet matching modules (triggered with the <tt class="docutils literal"><span class="pre">-m</span></tt> / <tt class="docutils literal"><span class="pre">--match</span></tt> options).</p>
 <p>A general rule that we retain, especially for an Internet gateway, is to drop all packets by default, and then only to accept the expected ones explicitly and carefully.</p>
 <div class="section" id="configuration-of-a-gateway-to-the-internet">
 <h2><a class="toc-backref" href="#toc-entry-3">Configuration of a Gateway to the Internet</a></h2>
@@ -162,12 +162,18 @@ $<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enabl
 </div>
 <div class="section" id="firewall-related-troubleshooting">
 <h2><a class="toc-backref" href="#toc-entry-4">Firewall-related Troubleshooting</a></h2>
-<p>Use <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables-inspect.sh">iptables-inspect.sh</a> to list the currently-used firewall rules for the chains of the main tables. Like <tt class="docutils literal">iptables <span class="pre">-nL</span> <span class="pre">--line-numbers</span></tt>, it displays the number of each rule of a given chain, which allows to add/remove rules more easily, like in:</p>
+<p>Use <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables-inspect.sh">iptables-inspect.sh</a> to list the currently-used firewall rules for the chains of the main tables. Like <tt class="docutils literal">iptables <span class="pre">-nL</span> <span class="pre">--line-numbers</span></tt> <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a>, it displays the number of each rule of a given chain, which allows to add/remove rules more easily, like in:</p>
 <pre class="code bash literal-block">
 <span class="c1"># Deletes the first rule of the FORWARD chain (of the 'filter' table):
 # (note that all the next rules will bear a decremented number afterwards!)
 </span>$<span class="w"> </span>iptables<span class="w"> </span>-D<span class="w"> </span>FORWARD<span class="w"> </span><span class="m">1</span>
 </pre>
+<table class="docutils footnote" frame="void" id="footnote-2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-2">[2]</a></td><td>Note that unfortunately this command does not display interface information, which can be quite misleading; the output of our script is more precise and thus should be preferred.</td></tr>
+</tbody>
+</table>
 <p>Setting environment variables (either through files such as <tt class="docutils literal"><span class="pre">/etc/iptables.settings-Gateway.sh</span></tt> or directly in the shell) is less error-prone; e.g.</p>
 <pre class="code bash literal-block">
 <span class="o">[</span>...<span class="o">]</span><span class="w">
@@ -186,6 +192,7 @@ $<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </sp
 <li>appended <em>at the end</em> of the selected chain with <tt class="docutils literal"><span class="pre">-A</span></tt> (then of course any previous rule may eclipse it)</li>
 <li>inserted either at the <em>beginning</em> of the selected chain with <tt class="docutils literal"><span class="pre">-I</span></tt>, or at its position N with <tt class="docutils literal"><span class="pre">-I</span> N</tt></li>
 </ul>
+<p>Therefore, just for the sake of testing a safe interface <tt class="docutils literal">foo</tt>, to short-circuit all previous input rules for TCP, one may execute <tt class="docutils literal">iptables <span class="pre">-I</span> INPUT <span class="pre">-i</span> foo <span class="pre">-p</span> tcp <span class="pre">-m</span> state <span class="pre">--state</span> NEW,RELATED,ESTABLISHED <span class="pre">-j</span> ACCEPT</tt> to ensure that the host will accept from now on all (valid) incoming TCP packets; then use <tt class="docutils literal">iptables <span class="pre">-D</span> INPUT 1</tt> to remove that rule and/or, even better, run your stateless firewall initialisation script to ensure that the base configuration has been correctly restored.</p>
 <p>Adding/removing rules &quot;safely&quot; from the command-line may be done more easily by rule specification rather than by rule position.</p>
 <p>For example removing a given rule can be done:</p>
 <ul class="simple">
@@ -235,7 +242,7 @@ $<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>
 </span><span class="m">10</span>.0.0.0/8<span class="w"> </span>dev<span class="w"> </span>enp2s0<span class="w"> </span>proto<span class="w"> </span>kernel<span class="w"> </span>scope<span class="w"> </span>link<span class="w"> </span>src<span class="w"> </span><span class="m">10</span>.0.0.1<span class="w">
 </span><span class="m">192</span>.168.0.0/16<span class="w"> </span>dev<span class="w"> </span>enp4s0<span class="w"> </span>scope<span class="w"> </span>link
 </pre>
-<p>Here for example, in <tt class="docutils literal">192.168.0.0/16</tt>, <tt class="docutils literal">16</tt> corresponds to the length of <em>the network prefix</em>; the next 16 bits are left to designate hosts, whose addresses therefore range in <tt class="docutils literal"><span class="pre">192.168.[0..254].[1..254]</span></tt>. So <tt class="docutils literal">192.168.0.0/16</tt> includes the <tt class="docutils literal">192.168.27.0/24</tt> network, whereas <tt class="docutils literal">192.168.0.0/24</tt> would not.</p>
+<p>Here for example, in <tt class="docutils literal">192.168.0.0/16</tt>, <tt class="docutils literal">16</tt> corresponds to the length of <em>the network prefix</em>; the next 16 bits are left to designate hosts, whose addresses therefore range in <tt class="docutils literal"><span class="pre">192.168.[0..254].[1..254]</span></tt>. So <tt class="docutils literal">192.168.0.0/16</tt> includes the <tt class="docutils literal">192.168.27.0/24</tt> network - whereas <tt class="docutils literal">192.168.0.0/24</tt> would not.</p>
 <ul class="simple">
 <li>go for VLAN only when having reached a first level of correct operation; note that some devices (e.g. non-manageable switches) are not able to handle VLAN-tagged packets and may reject or overwrite this information</li>
 <li>in some cases, hard reboots / returns to factory settings will fix inexplicable situations; updating to latest firmware may help too (network appliances <em>do</em> have bugs as well!)</li>
