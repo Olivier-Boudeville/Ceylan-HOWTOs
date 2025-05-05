@@ -228,13 +228,14 @@ At least based on our (Emacs and French keyboard) **base** settings (i.e. the on
 - ``M-m``: jump to first non-whitespace in the current line
 - ``M-x`` will allow to enter / select commands from the minibuffer (see our `useful commands`_ section below)
 - ``C-o`` or ``F8``: perform whitespace cleanup (now a built-in package)
-
+- ``C-q``: go to the next error (``next-error``)
 
 Additionally, with our **complete** settings, notably with ``lsp-mode``:
 
 - ``s-d``: go to definition of word at cursor (``lsp-find-definition``)
 - ``s-r``: list references to word at cursor (``lsp-find-references``)
 - ``s-n``: rename symbol globally (``lsp-rename``)
+- ``s-q``: insert specific character (``quoted-insert``); for example ``s-q C-j`` allows to insert a newline
 
 
 
@@ -246,7 +247,7 @@ Frequent Actions
   - temporarily: use ``C-x C-+`` to increase, ``C-x C--`` to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use ``C-mousewheel``)
   - permanently: one may add in one's `Emacs configuration`_ file for example: ``(set-face-attribute 'default nil :height 100)``
 
-- to insert special characters (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example ``M-x quoted-insert <tab>``, which is often bound (yet not in our conventions) to ``C-q``; note that pasting a tab with the mouse in the minibuffer works as well
+- to insert special characters (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example ``M-x quoted-insert <tab>``, which is bound in our conventions to ``s-q`` (instead of ``C-q``, already taken); note that pasting a tab with the mouse in the minibuffer works as well
 
 - to insert in the current buffer the output of a shell command: ``C-u then M-!``: enter that shell command, whose output will be pasted at the current cursor position
 
@@ -264,6 +265,7 @@ Frequent Actions
 
 - to open a file that is very large and/or difficult to parse/display: ``M-x find-file-literally``
 
+- to describe the action to which a given key corresponds: ``M-x describe-key``
 
 .. _`useful commands`:
 
