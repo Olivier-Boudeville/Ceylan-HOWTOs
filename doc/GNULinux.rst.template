@@ -1498,6 +1498,15 @@ In sh and all, use ``:``, typically to fill (at least temporarily) an otherwise 
 
 
 
+Mini GNU ``grep`` Cheat Sheet
+----------------------------
+
+To display 15 lines of context after a match:
+
+ $ cat foo.txt | grep -A 15 MY_PATTERN
+
+
+
 Mini GNU ``sed`` Cheat Sheet
 ----------------------------
 
