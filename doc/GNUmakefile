@@ -101,16 +101,18 @@ clone-mirror:
 export-doc: clean-doc full-doc export-doc-to-official export-doc-to-mirror
 
 
-# Drawback: scp will not preserve symlinks, it will duplicate files instead
+# Drawback of scp: will not preserve symlinks, it will duplicate files instead
 # (which may be useful though, for example for MathJax).
 #
-# rsync would not, but requires a different source layout (copies a full tree,
-# not a set of files), so currently not used:
-# rsync -avze "ssh $(SP)" $(SOME_WEB_TREE) $(WEB_SRV):$(WEB_ROOT)/Howtos/
+# rsync used not to be relied upon, as it was supposed to require a different
+# source layout (copies a full tree, not a set of files), but now is (note that,
+# depending on the context, the target group may be set, but the user not - yet
+# it is better than nothing; a fix-www-metadata make target on the server is
+# still needed).
 #
 export-doc-to-official: check-mathjax clean-doc create-links doc
 	@echo "   Exporting HOWTOs documentation to official website ($(WEB_SRV))"
-	@/bin/scp $(SP) -r $(WEB_CONTENT) $(WEB_SRV):$(WEB_ROOT)/Howtos/
+	@rsync -rlpD -vz -e "ssh -p $(SSH_PORT)" --chown=${WEBSYNC_TARGET_USER}:${WEBSYNC_TARGET_GROUP} $(WEB_CONTENT) $(WEB_SRV):$(WEB_ROOT)/Howtos/
 
 
 # H option for cp so that a local MathJax is copied in target branch:
