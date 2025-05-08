@@ -236,6 +236,7 @@ Additionally, with our **complete** settings, notably with ``lsp-mode``:
 - ``s-r``: list references to word at cursor (``lsp-find-references``)
 - ``s-n``: rename symbol globally (``lsp-rename``)
 - ``s-q``: insert specific character (``quoted-insert``); for example ``s-q C-j`` allows to insert a newline
+- ``s-c``: comment/uncomment the current selection (``comment-dwim`` is a toggle, better than ``comment-region`` or ``uncomment-region``)
 
 
 
