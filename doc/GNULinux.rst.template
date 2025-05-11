@@ -231,7 +231,7 @@ For the **generally useful** tools:
 
 .. code:: bash
 
- $ pacman -S --needed --noconfirm 7zip alsa-utils android-file-transfer android-tools aspell-en aspell-fr base-devel bash-completion blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap nuspell octave openresolv psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore yq
+ $ pacman -S --needed --noconfirm 7zip alsa-utils android-file-transfer android-tools aspell-en aspell-fr base-devel bash-completion blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap ntp nuspell octave openresolv psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore yq
 
 Note: ``gnome-keyring`` is needed so that evolution is able to store credentials.
 
@@ -1178,6 +1178,10 @@ XFCE4 configuration
 Settings of Interest
 ....................
 
+At least most of the XFCE4 configuration can be found in the ``~/.config/xfce4/`` tree, notably in the ``~/.config/xfce4/xfconf/xfce-perchannel-xml`` directory.
+
+From there symbolic links can be created to reference version; see `our preferred (XFCE4) settings <https://github.com/Olivier-Boudeville/Ceylan-Heavy/tree/master/src/conf/environment/xfce4>`_ for that.
+
 Good window managers are ``Galaxy`` and ``Microdeck3``.
 
 
@@ -1198,16 +1202,44 @@ Then, typically as root:
  $ cp -rf /home/user_a/.local/share/xfce4 /home/user_b/.local/share
  $ chmod -R /home/user_b/{.config,.local} user_b:users
 
+
 Then a key point is to fully reset XFCE4. Unlogging and/or ``killall -HUP xfdesktop`` may not be sufficient. As a last resort, rebooting shall work.
 
-Selecting a per-user wallpaper may help distinguishing users.
+Selecting a per-user wallpaper may help distinguishing users and hosts.
 
 .. cd ~/.config && tar cvJf $(date '+%Y%m%d')-.config-xfce4.tar.xz xfce4
 
 
 
+Using PulseAudio
+----------------
+
+
+Installation
+............
+
+Of course PulseAudio shall be installed first, for example with ``pacman -S --needed pulseaudio pulseaudio-alsa``; related executables like ``pacmd`` and ``pactl`` become available as well.
+
+As one's main, regular user, one may then run:
+
+.. code::
+
+ # Probably not started initially:
+
+ # Start it:
+ $ systemctl --user start pulseaudio
+
+ # Check:
+ $ systemctl --user status pulseaudio
+
+ # Enable for good:
+ $ systemctl --user enable pulseaudio
+
+Then only one can have proper issues with PulseAudio.
+
+
 Solving PulseAudio Issues
--------------------------
+.........................
 
 As your current user:
 
