@@ -224,14 +224,14 @@ For the **essentials** (to be installed even before the first reboot from the ch
 
 .. code:: bash
 
- $ pacman -S --needed --noconfirm base dhcpcd dnsmasq emacs firefox git gnome-terminal gparted grub inetutils iproute2 iptables lightdm lightdm-gtk-greeter linux-headers linux-lts linux-lts-headers lsof make man man-pages mlocate nano netctl nmap openssh os-prober package-query pacman-contrib parted reflector sudo udisks2 which xfce4 xfce4-goodies xz zip zlib
+ $ pacman -S --needed --noconfirm base dhcpcd dnsmasq emacs firefox git gnome-terminal gparted grub inetutils iproute2 iptables lightdm lightdm-gtk-greeter linux-headers linux-lts linux-lts-headers lsof make man man-pages mlocate nano netctl nmap openssh os-prober package-query pacman-contrib parted reflector sudo udisks2 unzip which xfce4 xfce4-goodies xz zip zlib
 
 
 For the **generally useful** tools:
 
 .. code:: bash
 
- $ pacman -S --needed --noconfirm 7zip alsa-utils android-file-transfer android-tools aspell-en aspell-fr base-devel bash-completion blender calibre chromium cronie curl diffutils dos2unix eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal gwenview htop inkscape inotify-tools iputils jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap ntp nuspell octave openresolv psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore yq
+ $ pacman -S --needed --noconfirm 7zip alsa-utils android-file-transfer android-tools aspell-en aspell-fr base-devel bash-completion blender calibre chromium cronie curl diffutils dos2unix drill eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal graphviz gwenview htop inkscape inotify-tools iputils iw jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap ntp nuspell octave openresolv psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore xorg-xinput yq
 
 Note: ``gnome-keyring`` is needed so that evolution is able to store credentials.
 
@@ -1549,6 +1549,62 @@ To substitute in-place a line starting by a prefix with another:
  $ sed -i "s|^foobar.version=.*$|foobar.version=${MY_VERSION}|1"
 
 One may also refer to `this cheat sheet <https://quickref.me/sed.html>`_.
+
+
+
+
+Managing Fonts
+--------------
+
+
+Choosing one's Font
+...................
+
+Fonts of good reputations, notably for programming (name and corresponding package specified):
+
+- Jetbrains Mono (``ttf-jetbrains-mono-nerd``)
+- `Iosevka <https://typeof.net/Iosevka/>`_ (``ttc-iosevka``)
+- Inconsolata (``ttf-inconsolata-nerd``)
+- DejaVu (``ttf-dejavu-nerd``)
+- Fantasque (``ttf-fantasque-nerd``)
+
+
+See also `this comparison site <https://www.slant.co/topics/67/~best-programming-fonts>`_.
+
+
+
+Locations
+.........
+
+For manually-installed fonts, the system-wide location to prefer is ``/usr/local/share/fonts/`` (it should be created if not already existing).
+
+``/usr/share/fonts/`` is to be managed solely by the package manager.
+
+
+
+Installation
+............
+
+Fonts are best handled through the package manager.
+
+For example, ``pacman ttc-iosevka`` creates ``/usr/share/fonts/TTF/Iosevka-*.ttc`` files.
+
+To query the package manager about fonts: ``pacman -Ss font``, or ``pacman -Ss monospace`` for example.
+
+
+
+Configuration
+.............
+
+
+- to list all fonts and styles available on the system for applications using Fontconfig, execute ``fc-list``; for a more tractable list of font families: ``fc-list --format="%{family[0]}\n" | sort | uniq``
+
+- to update manually the Fontconfig cache: ``fc-cache``
+
+See also:
+
+- our section for `Emacs font configuration <Emacs.html#fonts>`_
+- the corresponding `ArchWiki page about fonts <https://wiki.archlinux.org/title/Fonts>`_
 
 
 
