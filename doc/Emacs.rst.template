@@ -107,6 +107,24 @@ It may be used as:
   - a base configuration expanded (i.e. included) by more involved / specialised configurations, akin to our main, most complete Emacs configuration for daily usage, `init-myriad-fully-integrated <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-fully-integrated.el>`_
 
 
+
+Fonts
+-----
+
+- to display information about the current font: ``M-x describe-font RET`` (see also ``describe-char`` - when the point is on an actual character)
+- to set the:
+
+  - font used by the current frame: use for example ``(set-frame-font "JetBrainsMonoNerdFont 10")`` or ``(set-frame-font "Iosevka Fixed")``
+  - default font: use for example ``(set-default-font "DejaVu Sans Mono 14")``
+
+
+See also:
+
+- our section about `how to manage fonts <GNULinux.html#managing-fonts>`_ in general
+- `this complete guide <http://xahlee.info/emacs/emacs/emacs_list_and_set_font.html>`_ about fonts with Emacs
+
+
+
 Topic-specific Configurations
 -----------------------------
 
@@ -268,6 +286,8 @@ Frequent Actions
 
 - to describe the action to which a given key corresponds: ``M-x describe-key``
 
+- to describe the character (including its font) at which the point is: ``M-x describe-char``
+
 .. _`useful commands`:
 
 Other **useful commands** to trigger, possibly explicitly with ``M-x``:
@@ -276,6 +296,7 @@ Other **useful commands** to trigger, possibly explicitly with ``M-x``:
 - ``query-replace SEARCH_PATTERN REPLACEMENT``
 - ``kill-rectangle`` (operates on a previous selection)
 - ``indent-region`` (``C-M-\`` difficult on French keyboards)
+- ``eval-expression`` prompts in the minibuffer for the (ELISP) expression to evaluate, whose result is briefly displayed there, and recorded in the ``*Messages*`` buffer (see this `complete guide about ELISP evaluation <http://xahlee.info/emacs/emacs/elisp_eval_lisp_code.html>`_)
 
 
 See also our `Performing a Merge with Emacs <VCS.html#performing-a-merge-with-emacs>`_ section.
@@ -310,7 +331,8 @@ An Emacs init file contains a series of Lisp expressions, each of them consistin
 For example: ``(setq fill-column 60)`` calls the function ``setq`` (*set quoted*) to set the variable ``fill-column`` to ``60``; as ``setq`` affects only the current buffer’s local value, in an initialisation file ``setq-default`` is generally preferred.
 
 - boolean values: ``t`` stands for "true", and ``nil`` for "false"
-- to display a message: ``(message "Hello world!")``
+- to display a message: ``(message "Hello world!")``; with a variable: ``(message "My selected font name: %s" my-font-name)``
+
 - a leading single-quote makes a symbol a constant - otherwise it would be treated as a variable name; for example: ``(setq-default major-mode 'text-mode)``
 
 
@@ -364,7 +386,10 @@ To trigger multiple calls in a single expression, use:
  (defvar var-name <the value>
 	"Always document your variables.")
 
-To concatenate filesystem elements: ``(file-name-concat "/tmp" "foo")`` results in ``"/tmp/foo"``.
+To concatenate:
+
+- strings: ``(concat "foo" "bar")``
+- filesystem elements: ``(file-name-concat "/tmp" "foo")`` results in ``"/tmp/foo"``.
 
 
 Related Elisp information sources:
