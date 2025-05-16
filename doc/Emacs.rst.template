@@ -278,7 +278,7 @@ Frequent Actions
 
 - to re-select a region (e.g. to perform multiple substitutions in a row on the same region): ``C-x C-x``
 
-- to abort the current entry in the minibuffer: ``C-g``
+- to abort the current entry in the minibuffer: ``C-g``; if a command seems stuck in the minibuffer, it may be a recursive edit (then try ``C-]``, i.e. ``(abort-recursive-edit)``), or not the minibuffer but the echo area that should be cleared (then try ``M-x C-g``)
 
 - to perform replacements based on regular expressions: ``M-x replace-regexp RET regexp RET newstring RET``, with `this REGEXP syntax <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html>`_ (`more information <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html>`_); for example, to remove, in each line, all characters from the first comma: ``M-x replace-regexp RET ,.* RET , RET``
 
