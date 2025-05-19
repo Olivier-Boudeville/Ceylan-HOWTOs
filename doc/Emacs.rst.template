@@ -238,8 +238,13 @@ At least based on our (Emacs and French keyboard) **base** settings (i.e. the on
 - ``C-x TAB``: indent rigidly, moving the whole selection left/right with ``M-L_ARROW`` / ``M-R_ARROW`` (see also ``kill-rectangle``)
 - ``M-<`` / : ``M-S-<``: go to beginning / end of the current buffer
 .. - ``M-;``: comment / uncomment current line
-- ``C-x 2``: split window horizontally
-- ``C-x 3``: split window vertically
+
+- ``C-x 2``: split window horizontally, i.e. top/bottom (``split-window-below``)
+- ``C-x 3``: split window vertically, i.e. left/right (``split-window-right``)
+- ``C-x 0``: delete the current window
+- ``C-x 1``: restore a single-window view
+
+
 - ``M-D_ARROW`` / : ``M-U__ARROW``: scroll down / up in the current buffer
 - ``M-R_ARROW`` / : ``M-L_ARROW``: go to next / previous buffer
 - ``M-q``: fill current paragraph (reformat / wordwrap it), i.e. applies ``fill-paragraph``
