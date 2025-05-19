@@ -69,7 +69,7 @@ Godot (version 3.4.1) will not be able to load FBX files that reference formats 
 Installation
 ............
 
-On Arch Linux, one may simply use ``pacman -Sy godot``.
+On Arch Linux, one may simply use ``pacman -S godot``.
 
 Or just, for maximum control, one may instead directly download the GNU/Linux version `from the Godot official website <https://godotengine.org/download/linux/>`_.
 
@@ -99,12 +99,47 @@ We prefer using C# to GDScript or C++, as:
 .. [#] With additionally quite many differences. For example, with GDScript, variables are typed, like in ``var my_msg : String = 'Hello!'``. So ``my_msg = 7`` is to result in a (*runtime*) error. Python lists are Godot arrays. ``None`` is ``null``. A switch-like operator (``match``) exists, etc.
 
 
+
 Development Hints
 _________________
 
-
 - all scripts are classes, which are by default anonymous
 - before releasing one's game, it is certainly better to protect it thanks to some level of encryption (see `this thread <https://www.reddit.com/r/godot/comments/1je90av/how_to_protect_your_godot_game_from_being_stolen/>`_)
+
+
+
+Protection Hints
+________________
+
+Protecting one's (Godot) application is surely desirable, especially if it is not an online one.
+
+Good **general measures** can be:
+
+- protect the application with copyright, DMCA and a trademark, and in-application graphical representations of it (e.g. check pixels of the title/splash/help screens to trigger copyright infringements if they do not match the original trademark, or do not display the official URL)
+- ensure that anteriority of one's work can be proven (many solutions exists, from sending oneself a registered letter to paying a bailiff or storing a relevant hash in a public, mainstream blockchain)
+- quickly get in touch with any distribution platform used
+- be the first on one's market and/or drop the price to deter copycats
+- build on one's community
+- involve an online/server-side operation in the core of the application
+- have first contacts with a relevant lawyer
+- watermark assets / use steganography to include identifiers pointing to your project (URL to official website, public key, etc.)
+
+
+Notable defensive options **against the reverse engineering** of one's (Godot) application are:
+
+- releasing only versions of one's application that are compiled, optimised and without symbols
+- encrypting one's PCK file `with one's own encryption key <https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_with_script_encryption_key.html>`_ (e.g. a 256-bit AES key); then the export templates shall be specifically compiled from sources with that same key
+- obfuscating one's GDScripts, typically with the `GDMaim <https://github.com/cherriesandmochi/gdmaim>`_ plugin when exporting one's project
+- relying on statically compiled languages resulting in native binaries, like Godot Rust or C++ GDExtensions - especially for the core application logic; possibly AOT (*Ahead-Of-Time*) compilation could help as well
+- performing at various random moments checksums of critical data, comparing it to the expected, well-hidden embedded sums (possibly received online), and triggering a delayed, smart application-specific response
+- customising one's engine, to change the way assets are loaded, how keys are fetched/used or, more generally, the encryption logic, the bytecodes of some operations (in order to break the standard decompilers), etc.
+- as a very last resort, relying on DRM / kernel-level watchdog programs (for protection, or to be able to establish in court that adequate protection measures were indeed applied)
+
+Solutions could be implemented as C++ (preferably to C#, as .Net can be more easily reversed) GDNative plugins, inserted into the startup path so that they are executed before most operations (loading assets, interpreting GDScripts, etc.).
+
+For a very basic test-proof of these measures, just search for some literal symbol (e.g. function name, or ``foobar.tcsn``) known to exist in the sources (e.g. with ``strings my_app.pck | grep MY_SYMBOL``).
+
+
 
 
 
@@ -1506,7 +1541,7 @@ Reference GLSL Compiler
 
 As always, different compilers (corresponding to different brands of graphical cards) will not implement exactly the same way the (OpenGL GLSL, here) specification; and a shader may work correctly on one type of card and not on another.
 
-Testing shader code with the `OpenGL / OpenGL ES Reference Compiler <https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/>`_, a.k.a. ``glslang`` (installed on Arch Linux thanks to ``pacman -Sy glslang``, to be run as ``glslangValidator``) may report interesting information.
+Testing shader code with the `OpenGL / OpenGL ES Reference Compiler <https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/>`_, a.k.a. ``glslang`` (installed on Arch Linux thanks to ``pacman -S glslang``, to be run as ``glslangValidator``) may report interesting information.
 
 See the *OpenGL GLSL reference compiler* section of `this page <https://learnopengl.com/In-Practice/Debugging>`_ for more information.
 
@@ -1571,7 +1606,7 @@ If it is not the case (no direct rendering, or a GLX error being returned - typi
 
 If using a NVidia graphic card, consider reading this `Arch Linux wiki page <https://wiki.archlinux.org/title/NVIDIA>`_ first.
 
-In our case, relevant installations could be done with ``pacman -Sy nvidia nvidia-utils`` but required a reboot.
+In our case, relevant installations could be done with ``pacman -S nvidia nvidia-utils`` but required a reboot.
 
 Despite package dependencies and a not-so-successful attempt of using DKMS in order to link kernel updates with graphic controller updates, too often a proper 3D support was lost, either from the boot or afterwards. Refer to our `software update section <GNULinux.html#software-update>`_ for hints in order to secure the durable use of proper drivers.
 
