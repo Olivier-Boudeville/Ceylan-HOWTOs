@@ -231,7 +231,7 @@ For the **generally useful** tools:
 
 .. code:: bash
 
- $ pacman -S --needed --noconfirm 7zip alsa-utils android-file-transfer android-tools aspell-en aspell-fr base-devel bash-completion blender calibre chromium cronie curl diffutils dos2unix drill eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal graphviz gwenview htop inkscape inotify-tools iputils iw jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap ntp nuspell octave openresolv psensor python-docutils rsync rubber screen smartmontools thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore xorg-xinput yq
+ $ pacman -S --needed --noconfirm 7zip alsa-utils android-file-transfer android-tools aspell-en aspell-fr base-devel bash-completion blender calibre chromium cronie curl diffutils dos2unix drill eog espeak-ng evince evolution exfat-utils firejail gedit geeqie gimp glu gnome-terminal graphviz gwenview htop inkscape inotify-tools iputils iw jq less libreoffice lsb-release lshw mathjax maxima meld mesa-utils most mpv mupdf nmap ntp nuspell octave openresolv psensor python-docutils python-sphinx python-sphinx_rtd_theme rsync rubber screen smartmontools texlive texlive-binextra texlive-gnu-freefont texlive-xetex thunar thunderbird traceroute transmission-qt tree vlc wget xlockmore xorg-xinput yq
 
 Note: ``gnome-keyring`` is needed so that evolution is able to store credentials.
 
