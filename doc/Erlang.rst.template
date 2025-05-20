@@ -779,9 +779,34 @@ Properly Commenting
 As far as we understand, the best practice is to rely on:
 
 - `EDoc <https://www.erlang.org/doc/apps/edoc/chapter.html>`_, possibly with its `wiki notation <https://www.erlang.org/doc/apps/edoc/chapter#Wiki_notation>`_
-- the `new -moduledoc / -doc attributes <https://www.erlang.org/eeps/eep-0059#new-module-attributes>`_, which are replacements for EDoc style comments
+- the `new -moduledoc / -doc attributes <https://www.erlang.org/eeps/eep-0059#new-module-attributes>`_, which are replacements for EDoc style comments; refer to this `documentation page <https://www.erlang.org/doc/system/documentation.html>`_ to make good use of them
 - documentation text in which verbatim quoting is done by enclosing the target text with ````` (i.e. a single backquote, on both sides - even if, for some reason, `this section <https://www.erlang.org/doc/apps/edoc/chapter#verbatim-quoting>`_ promotes ```'``), as suggested by the `Erlang/OTP sources themselves <https://github.com/erlang/otp/blob/master/lib/kernel/src/inet.erl#L70>`_; so documentation may include for example ```gethostbyaddr/1``` or ```"150.236.20.73"```
 - named hypertext links are in the form of ``[displayed text](http://foobar.html)``, otherwise a link to be displayed verbatim may just be specified as ``[http://foobar.html]``
+
+As a reminder of the syntax that ``-moduledoc`` / ``-doc`` attributes support (note the ``m/t/c`` prefixes):
+
+.. code:: erlang
+
+ -moduledoc """
+   A module for **basic arithmetic**.
+
+   This module can be used to add and subtract values. For example:
+
+   ```erlang
+   1> arith:subtract(arith:add(2, 3), 1).
+   4
+   ```
+
+   See `sub/2` or `arith:subtract/2`, and the `m:arith` module for more details.
+
+   In terms of types, refer to `t:number/0` and `t:arith:number/0` for more details.
+
+   In terms of callbacks, refer to `c:increment/0` and `c:arith:increment/0` for more details.
+   """.
+
+Extra pages (e.g. ``notes.md``) may be defined and referenced.
+
+The availability of such documentation can be tested from a shell, with for example ``1> h(arith).`` or ``h(arith, add)``.
 
 
 Failure to properly specify comments is bound to mess with the syntax highlighting (at least with `Emacs <Emacs.html#regarding-erlang>`_).
