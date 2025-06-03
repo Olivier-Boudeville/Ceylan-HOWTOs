@@ -1242,6 +1242,16 @@ To avoid having to perform a lookup in the documentation:
 	- functions (rather than silencing them with an ``-export([f/1, g/3])``): ``-compile([ {nowarn_unused_function, [{f,1}, {g,3}]} ]).``
 	- types: they can be silenced with an ``-export_type([t1/0, t2/1])``), which is better (more selective) than ``-compile(nowarn_unused_type)`` (unfortunately ``-compile([ {nowarn_unused_type, [t1/0, t2/1]} ]).`` is not supported)
 
+- to define a multi-clause anonymous (i.e. lambda) function, for example for a fold:
+
+.. code:: erlang
+
+   F = fun( K, [ _SingleV ], RetMap ) ->
+			  RetMap;
+		  ( K, Dups, RetMap ) ->
+			  table:add_entry( K, Dups, RetMap )
+	   end,
+
 
 - in boolean expressions **outside of guards**:
 
