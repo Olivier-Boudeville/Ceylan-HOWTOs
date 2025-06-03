@@ -259,7 +259,7 @@ A few pieces of advice/information:
 - interfaces may be associated to any number of IP addresses, this may create surprises
 - when a network does not work properly, always consider that this device may be faulty, that cables may malfunction, and that power supplies may be culprits
 - having smart switches may help a lot, to better control one's network (e.g. disabling ports, checking statuses, isolating sections, etc.)
-- beware to DHCP server(s) being left unnoticed; various devices may use them to get a random address and become difficult to spot
+- beware to DHCP server(s) being left unnoticed; various devices may use them to get a random address and become difficult to spot; the current leases set up by dnsmaq are stored in ``/var/lib/misc/dnsmasq.leases`` (plausible format: ``<ending lease UNIX timestamp> <device MAC address> <assigned IPv4> IPC <assigned IPv4>``, like in ``1748173995 40:ed:00:56:54:68 10.0.77.103 IPC 01:30:ed:00:36:54:68``)
 - netmasks shall not be neglected, for example in routes:
 
 .. code:: bash
