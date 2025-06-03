@@ -1413,6 +1413,21 @@ With Bash, as an alternative to ``$(seq N)``, variables may be iterated (e.g. to
 
 
 
+Overcoming Failed Redirections
+------------------------------
+
+If wanting to redirect an output stream to a file, like in ``some_command 1> foo.txt``, if the ``noclobber`` option is set, a (bash) shell will refuse overwriting any already-existing file of that name (e.g. with ``foo.txt: cannot overwrite existing file``).
+
+To allow such overwriting:
+
+- just for a given command: use ``>|`` instead (e.g. ``some_command 1>| foo.txt``)
+- for the current shell session onward: execute ``set +o noclobber`` (and use ``set -o noclobber`` to disallow overwriting afterwards)
+
+
+Failing to overwrite might also stem from owner/permission problems, or the file being protected with ``chattr``, etc.
+
+
+
 Shell Auto-completing the available ``make`` targets
 ----------------------------------------------------
 
