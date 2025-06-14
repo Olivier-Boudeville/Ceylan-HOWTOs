@@ -1178,7 +1178,7 @@ To avoid having to perform a lookup in the documentation:
 - for tuples of unknown number of elements:
 
   - **setting** an element is to be done with ``setelement(positive_index(), tuple(), term()) -> tuple()``
-  - **extracting** an element is to be done with ``element(positive_index(), tuple()) -> term()``
+  - **reading** an element is to be done with ``element(positive_index(), tuple()) -> term()``
   - **adding** an element at a given index (e.g. to append a record tag) is to be done with ``erlang:insert_element(positive_index(), tuple(), term()) -> tuple()``
 
   - **removing** an element at a given index (e.g. to chop a record tag) is to be done with ``erlang:delete_element(positive_index(), tuple()) -> tuple()``
