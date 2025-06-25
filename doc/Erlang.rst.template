@@ -808,8 +808,112 @@ Extra pages (e.g. ``notes.md``) may be defined and referenced.
 
 The availability of such documentation can be tested from a shell, with for example ``1> h(arith).`` or ``h(arith, add)``.
 
-
 Failure to properly specify comments is bound to mess with the syntax highlighting (at least with `Emacs <Emacs.html#regarding-erlang>`_).
+
+
+
+Performing Local Returns
+------------------------
+
+Quite often we would like to be able to write code with conditions able to shortcut like:
+
+.. code:: erlang
+
+  f(A) ->
+
+	Res = case g(A) of
+
+	  % Wanting this clause to stop the processing here:
+	  X ->
+		return something(X); % Yet 'return' does not exist.
+
+	  Y ->
+		h(Y)
+
+	end,
+	i(Res),
+	[...]
+	some_expression().
+
+  U = f(12),
+  k(U),
+  [...]
+
+
+One can consider here that ``g/1`` allows to detect specific cases like ``X`` that shall stop the processing, and that, in the general case, multiple of such conditions are to be checked (e.g. with ``g1/1``, ``g2/1``, etc.), each possibly with a different outcome.
+
+However there is no ``return`` operator in Erlang, and thus by default the ``X`` branch cannot finish without ``i/1`` being called and the rest of the expressions below being evaluated.
+
+If ever ``g/1`` could be expressed as a guard expression (which is not that common, since the expressiveness of Erlang guards is quite limited), then **pattern-matching** could be used at the level of ``f/1``, at the expense of some refactoring.
+
+Otherwise, a solution would be to **nest cases**, i.e. to append at the end of the ``Y`` branch the whole section starting with the ``i/1`` call. Yet, at each new condition, the whole code would gain one nesting level and be indented more on the right, and cascading like this is not desirable (as quickly not readable).
+
+Yet it should be known that the ``throw/1`` BIF (*Built-In Function*), which raises an exception of class ``throw``, is not specifically dedicated to error management: as stated `in its documentation <https://www.erlang.org/doc/apps/erts/erlang#throw/1>`_, it is more generally intended to be used to perform **non-local returns** from functions.
+
+So the previous example could be transformed in:
+
+.. code:: erlang
+
+  f(A) ->
+
+	try:
+
+	  Res = case g(A) of
+
+		X ->
+		  throw(something(X));
+
+		Y ->
+		  h(Y)
+
+	  end,
+	  i(Res),
+	  [...]
+	  some_expression()
+
+	catch
+
+	  throw:Something ->
+		Something
+
+	end.
+
+  U = f(12),
+  k(U),
+  [...]
+
+
+Doing so adds a single level of nesting (for the ``try/catch``), regardless of the number of shortcut conditions to consider, and let them be handled specifically if needed (thanks to any pattern-matching done in the ``catch`` clause).
+
+However such use of ``throw/1`` may not seem so easy, natural or possibly very efficient (stack unwinding?), and at least some developers prefer staying away from using it for non-error branching (i.e. for local returns [#]_).
+
+.. [#] Actually, more generally, some consider that relying on local returns is a bad practice in itself (less readable, more imperative-like).
+
+
+So, quite often, in our opinion, the best remaining option - even if it is not very satisfactory (heavy, long), is to **define extra (helper) functions** like ``h_helper/1`` in:
+
+.. code:: erlang
+
+  f(A) ->
+
+	Res = case g(A) of
+
+	  X ->
+		something(X);
+
+	  Y ->
+		h_helper(Y)
+
+	end.
+
+  h_helper(Z) ->
+	i(Z),
+	[...]
+	some_expression().
+
+  U = f(12),
+  k(U),
+  [...].
 
 
 
