@@ -235,7 +235,7 @@ At least based on our (Emacs and French keyboard) **base** settings (i.e. the on
 - ``C-y``: yank (paste from kill ring, replacing any current selection)
 - ``M-y``: replace text just yanked with an earlier batch of killed text
 - ``C-p``: compile, make
-- ``C-x TAB``: indent rigidly, moving the whole selection left/right with ``M-L_ARROW`` / ``M-R_ARROW`` (see also ``kill-rectangle``)
+- ``C-x TAB``: indent rigidly (see `indent-rigidly <https://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Commands.html>`_), translating interactively the whole selection left/right of one column per ``M-L_ARROW`` / ``M-R_ARROW`` key being hit, until ``RET`` is pressed (see also ``kill-rectangle``)
 - ``M-<`` / : ``M-S-<``: go to beginning / end of the current buffer
 .. - ``M-;``: comment / uncomment current line
 
