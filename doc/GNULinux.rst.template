@@ -237,6 +237,15 @@ Note: ``gnome-keyring`` is needed so that evolution is able to store credentials
 
 Possibly useful: ``intel-ucode``.
 
+For **laptops**:
+
+.. code:: bash
+
+ $ pacman -S --needed --noconfirm wpa_supplicant
+
+
+
+
 
 
 AUR Installations
