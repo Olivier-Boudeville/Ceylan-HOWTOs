@@ -24,7 +24,7 @@ HTML_TARGET = $(CURRENT_HOWTOS_HTML)
 PDF_TARGET := Ceylan-HOWTOs-english.pdf
 
 
-DOC_GENERATED_FILES := $(HOWTO_HTML_FILES) $(HTML_TARGET) $(PDF_TARGET)
+DOC_GENERATED_FILES := $(HOWTOS_HTML_FILES) $(HTML_TARGET) $(PDF_TARGET)
 
 
 # For the main HTML/PDF documents of interest:
@@ -41,11 +41,11 @@ SYMLINKS = Ceylan-HOWTOs-top-level-html.rst.template \
 OTHER_TEMPLATES = $(SYMLINKS) $(OVERALL_DOCUMENTS)
 
 # Only the source files of actual HOWTOs (not top-level ones):
-HOWTO_ACTUAL_TEMPLATES = $(filter-out $(OTHER_TEMPLATES),$(wildcard *.rst.template))
+HOWTOS_ACTUAL_TEMPLATES = $(filter-out $(OTHER_TEMPLATES),$(wildcard *.rst.template))
 
 
-HOWTO_RST_FILES = $(patsubst %.rst.template,%.rst,$(HOWTO_ACTUAL_TEMPLATES))
-HOWTO_HTML_FILES = $(patsubst %.rst.template,%.html,$(HOWTO_ACTUAL_TEMPLATES))
+HOWTOS_RST_FILES = $(patsubst %.rst.template,%.rst,$(HOWTOS_ACTUAL_TEMPLATES))
+HOWTOS_HTML_FILES = $(patsubst %.rst.template,%.html,$(HOWTOS_ACTUAL_TEMPLATES))
 
 
 PROJECT_CSS := pygments-default.css,howtos.css
@@ -76,11 +76,11 @@ doc: html pdf
 # umask (cannot be group-read by the server daemon); run on the server the
 # 'fix-www-metadata' make target to fix it.
 #
-html: diagrams $(HOWTO_HTML_FILES) $(HTML_TARGET)
+html: diagrams $(HOWTOS_HTML_FILES) $(HTML_TARGET)
 	@echo "  The HTML content for HOWTOs is available at: file://$$(pwd)/$(DOC_BASE_NAME).html"
 
 
-pdf: diagrams $(HOWTO_RST_FILES) $(PDF_TARGET)
+pdf: diagrams $(HOWTOS_RST_FILES) $(PDF_TARGET)
 
 
 diagrams: $(DIAGRAMS)
@@ -134,9 +134,9 @@ info-doc: info-howtos info-web
 
 
 info-howtos:
-	@echo "HOWTO_ACTUAL_TEMPLATES = $(HOWTO_ACTUAL_TEMPLATES)"
-	@echo "HOWTO_RST_FILES = $(HOWTO_RST_FILES)"
-	@echo "HOWTO_HTML_FILES = $(HOWTO_HTML_FILES)"
+	@echo "HOWTOS_ACTUAL_TEMPLATES = $(HOWTOS_ACTUAL_TEMPLATES)"
+	@echo "HOWTOS_RST_FILES = $(HOWTOS_RST_FILES)"
+	@echo "HOWTOS_HTML_FILES = $(HOWTOS_HTML_FILES)"
 	@echo "DOC_GENERATED_FILES = $(DOC_GENERATED_FILES)"
 
 
@@ -146,6 +146,8 @@ info-web:
 	@echo "WEB_CONTENT = $(WEB_CONTENT)"
 	@echo "WEB_SRV = $(WEB_SRV)"
 	@echo "WEB_ROOT = $(WEB_ROOT)"
+	@echo "HOWTOS_WEB_MIRROR_BRANCH = $(HOWTOS_WEB_MIRROR_BRANCH)"
+	@echo "GITHUB_PAGES_BASE = $(GITHUB_PAGES_BASE)"
 
 
 DOCUTILS_TOP = .
