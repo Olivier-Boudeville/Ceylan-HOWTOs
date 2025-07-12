@@ -1,7 +1,7 @@
 HOWTOS_TOP = ..
 
-.PHONY: doc all full-doc html pdf diagrams clone-mirror                     \
-		export-doc export-doc-to-official export-doc-to-mirror              \
+.PHONY: doc all full-doc html pdf diagrams clone-mirror                        \
+		pre-doc export-doc export-doc-to-official export-doc-to-mirror         \
 		clean clean-doc clean-links info-doc info-howtos info-web
 
 
@@ -98,7 +98,14 @@ clone-mirror:
 
 
 
-export-doc: clean-doc full-doc export-doc-to-official export-doc-to-mirror
+export-doc: clean-doc pre-doc full-doc export-doc-to-official export-doc-to-mirror
+
+
+# Force regeneration, to avoid that the overview information displays an ancient
+# last update:
+#
+pre-doc:
+	@touch Ceylan-HOWTOs-top-level-*.rst.template
 
 
 # Drawback of scp: will not preserve symlinks, it will duplicate files instead
@@ -112,7 +119,8 @@ export-doc: clean-doc full-doc export-doc-to-official export-doc-to-mirror
 #
 export-doc-to-official: check-mathjax clean-doc create-links doc
 	@echo "   Exporting HOWTOs documentation to official website ($(WEB_SRV))"
-	@rsync -rlpD -vz -e "ssh -p $(SSH_PORT)" --chown=${WEBSYNC_TARGET_USER}:${WEBSYNC_TARGET_GROUP} $(WEB_CONTENT) $(WEB_SRV):$(WEB_ROOT)/Howtos/
+	@rsync -rlpD -vz -e "ssh -p $(SSH_PORT)" --chown=${WEBSYNC_TARGET_USER}:${WEBSYNC_TARGET_GROUP} $(WEB_CONTENT) $(WEB_SRV):$(WEB_ROOT)/Howtos/ || true # As "some files/attrs were not transferred"
+	@echo "WARNING: consider running any fix-www-metadata make target on the server in order to correct permissions there!" 1>&2
 
 
 # H option for cp so that a local MathJax is copied in target branch:
