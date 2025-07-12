@@ -406,6 +406,6 @@ See Also
 
 - Ceylan-Hull's section about scripts for `network management <http://hull.esperide.org/#network-management>`_ and for `firewall configuration <http://hull.esperide.org/#network-management>`_
 - `A bit of Cybersecurity <Cybersecurity.html>`_
-
+- to test based on a non-filtering iptables configuration, one may take inspiration from our `iptables.rules-FullDisabling.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-FullDisabling.sh>`_ script
 
 :raw-html:`<a name="howtos_bottom"></a>`
