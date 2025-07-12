@@ -1317,9 +1317,9 @@ To avoid having to perform a lookup in the documentation:
 
 - see the always handy `operator precedence <https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence>`_ and the various ways to `handle exceptions with try/catch <https://www.erlang.org/doc/reference_manual/expressions.html#try>`_; note that to catch *all* exceptions - i.e. those of the ``throw`` class, but also of the ``exit`` and ``error`` classes, one may use: ``try EXPR catch _:E -> ...`` (rather than just: ``try EXPR catch E -> ...``)
 
-- in **guard expressions**:
+- in **guard expressions** (see `their list <https://www.erlang.org/doc/system/expressions.html#guard-expressions>`_):
 
-  - because of side effects, no user-defined function is allowed in guards; refer to the two tables listing all the `BIFs supported in guards expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions>`_ (test or non-test BIFs)
+  - because of side effects, no user-defined function is allowed in guards; refer to the two tables listing all the `BIFs supported in guards expressions <https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions>`_ (test or non-test BIFs); notably in a guard there is no way of testing whether a value belongs to a list (except, of course, if the list is statically defined, by testing explicitly each of its elements against said value, interspersed with ``orelse`` operators...)
   - a guard will fail if it returns false *or if it throws an exception*
   - to express an "and" operator, use a comma, i.e. "``,``", like in ``f(A, B, C, D) when A =:= B, C =/= A + D ->``
   - to express an "or" operator, use a semi-colon, i.e. "``;``"
