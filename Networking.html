@@ -27,7 +27,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, May 4, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, July 12, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -42,18 +42,23 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#network-troubleshooting" id="toc-entry-5">Network Troubleshooting</a></li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-6">See Also</a></li>
+<li><a class="reference internal" href="#dns-management" id="toc-entry-6">DNS Management</a><ul>
+<li><a class="reference internal" href="#resolving-host-domain-names" id="toc-entry-7">Resolving Host/Domain Names</a><ul>
+<li><a class="reference internal" href="#avoiding-faulty-resolutions" id="toc-entry-8">Avoiding Faulty Resolutions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#caching-dns-requests" id="toc-entry-9">Caching DNS Requests</a></li>
+<li><a class="reference internal" href="#adapting-to-various-networks" id="toc-entry-10">Adapting to Various Networks</a></li>
+<li><a class="reference internal" href="#wrapping-up" id="toc-entry-11">Wrapping Up</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-12">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
 <div class="section" id="investigating-network-issues">
 <h1><a class="toc-backref" href="#toc-entry-1">Investigating Network Issues</a></h1>
 <p>Tools like <tt class="docutils literal">ping</tt>, <tt class="docutils literal">traceroute</tt>, <tt class="docutils literal">drill</tt>, <tt class="docutils literal">arp</tt>, etc. are invaluable.</p>
-<p>For example:</p>
-<ul class="simple">
-<li>to get all/most DNS records of a given domain, knowing that <tt class="docutils literal">any</tt> requests (e.g. <tt class="docutils literal">dig +noall +answer +multiline TARGET_DOMAIN any</tt>) may be not honored by some servers, we recommend using our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-dns-records.sh">list-dns-records.sh</a> script</li>
-<li>to perform a reverse DNS lookup (thus translating a given IP address into a domain name), one may use: <tt class="docutils literal">drill <span class="pre">-x</span> TARGET_IP</tt>.</li>
-</ul>
 <p>Use <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-scan.sh">ip-scan.sh</a> to scans all IPs with any specified prefix, and <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/ip-examine.sh">ip-examine.sh</a> to collect information about a given IP.</p>
 <p>Use <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/monitor-network.sh">monitor-network.sh</a> to investigate unstable connections.</p>
 </div>
@@ -217,7 +222,6 @@ $<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </sp
 <p>A few pieces of advice/information:</p>
 <ul class="simple">
 <li>be familiar with <tt class="docutils literal">ip link</tt>, <tt class="docutils literal">ip addr</tt> and <tt class="docutils literal">ip route</tt> (generally used in that order), and <tt class="docutils literal">tcpdump</tt> for the worst cases</li>
-<li>to resolve a DNS hostname, i.e. to obtain its IP from its name: <tt class="docutils literal">dig +short my.host.in.domain.tld | tail <span class="pre">-n1</span></tt></li>
 <li>to review <em>host-local</em> open ports and sockets, use:<ul>
 <li><tt class="docutils literal">ss</tt> (for <em>socket statistics</em>, replacement of <tt class="docutils literal">netstat</tt>), e.g. to determine which program is running at TCP port #8080: <tt class="docutils literal">ss <span class="pre">--inet</span> <span class="pre">--listening</span> <span class="pre">-np</span> | grep :8080</tt></li>
 <li><tt class="docutils literal">netstat</tt> could be for example <tt class="docutils literal">netstat <span class="pre">-ltnp</span> | grep :8080</tt></li>
@@ -232,7 +236,7 @@ $<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </sp
 <li>interfaces may be associated to any number of IP addresses, this may create surprises</li>
 <li>when a network does not work properly, always consider that this device may be faulty, that cables may malfunction, and that power supplies may be culprits</li>
 <li>having smart switches may help a lot, to better control one's network (e.g. disabling ports, checking statuses, isolating sections, etc.)</li>
-<li>beware to DHCP server(s) being left unnoticed; various devices may use them to get a random address and become difficult to spot</li>
+<li>beware to DHCP server(s) being left unnoticed; various devices may use them to get a random address and become difficult to spot; the current leases set up by dnsmaq are stored in <tt class="docutils literal">/var/lib/misc/dnsmasq.leases</tt> (plausible format: <tt class="docutils literal">&lt;ending lease UNIX timestamp&gt; &lt;device MAC address&gt; &lt;assigned IPv4&gt; IPC &lt;assigned IPv4&gt;</tt>, like in <tt class="docutils literal">1748173995 40:ed:00:56:54:68 10.0.77.103 IPC 01:30:ed:00:36:54:68</tt>)</li>
 <li>netmasks shall not be neglected, for example in routes:</li>
 </ul>
 <pre class="code bash literal-block">
@@ -253,11 +257,91 @@ $<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>
 <li>consider monitoring temperatures, fans, availability, performances</li>
 </ul>
 </div>
+<div class="section" id="dns-management">
+<h1><a class="toc-backref" href="#toc-entry-6">DNS Management</a></h1>
+<p>The current configuration of resolution can be tested just by using <tt class="docutils literal">ping</tt>, yet tools lie <tt class="docutils literal">drill</tt> (otherwise <tt class="docutils literal">dig</tt>) are of help.</p>
+<p>For example to:</p>
+<ul class="simple">
+<li>resolve a DNS hostname, i.e. to obtain its IP from its name: <tt class="docutils literal">dig +short my.host.in.domain.tld | tail <span class="pre">-n1</span></tt></li>
+<li>perform a reverse DNS lookup (thus translating a given IP address into a domain name), one may use: <tt class="docutils literal">drill <span class="pre">-x</span> TARGET_IP</tt>.</li>
+<li>get all/most DNS records of a given domain, knowing that <tt class="docutils literal">any</tt> requests (e.g. <tt class="docutils literal">dig +noall +answer +multiline TARGET_DOMAIN any</tt>) may be not honored by some servers, we recommend using our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-dns-records.sh">list-dns-records.sh</a> script</li>
+</ul>
+<div class="section" id="resolving-host-domain-names">
+<h2><a class="toc-backref" href="#toc-entry-7">Resolving Host/Domain Names</a></h2>
+<p>Apparently the current trend is to rely on <a class="reference external" href="https://wiki.archlinux.org/title/Openresolv">openresolv</a>, which is an implementation of <a class="reference external" href="https://en.wikipedia.org/wiki/Resolvconf">resolvconf</a>.</p>
+<p>From <tt class="docutils literal">/etc/resolvconf.conf</tt>, the actual <tt class="docutils literal">/etc/resolv.conf</tt> is generated (run <tt class="docutils literal">resolvconf <span class="pre">-u</span></tt> to apply a new configuration).</p>
+<div class="section" id="avoiding-faulty-resolutions">
+<h3><a class="toc-backref" href="#toc-entry-8">Avoiding Faulty Resolutions</a></h3>
+<p>If having defined a wildcard DNS (e.g. <tt class="docutils literal">*.foobar.org</tt>), by default the <tt class="docutils literal">foobar.org</tt> server (possibly itself a DNS server for LAN clients) may resolve non-existing hosts into its own address (which may be the cause of many surprises), instead of returning the expected <tt class="docutils literal">Name or service not known</tt> error.</p>
+<p>To avoid that, ultimately in <tt class="docutils literal">/etc/resolv.conf</tt> there should be &quot;<tt class="docutils literal">search .</tt>&quot; (not having &quot;<tt class="docutils literal">search foobar.org</tt>&quot; will <em>not</em> suffice). This is true for all resolution levels, i.e. for servers and clients alike.</p>
+</div>
+</div>
+<div class="section" id="caching-dns-requests">
+<h2><a class="toc-backref" href="#toc-entry-9">Caching DNS Requests</a></h2>
+<p>To better cache DNS requests, we chose to have both servers and clients run their instance of <tt class="docutils literal">dnsmasq</tt>, with an extended cache size.</p>
+<p><tt class="docutils literal">dnsmasq</tt> will then play the role of a (at least) local DNS server (reading its entries from <tt class="docutils literal">/etc/hosts</tt>), DHCP server if wanted, etc.</p>
+<p>For that, ultimately in <tt class="docutils literal">/etc/resolv.conf</tt> (whose regeneration can be triggered manually with <tt class="docutils literal">resolvconf <span class="pre">-u</span></tt>), there should be &quot;<tt class="docutils literal">nameserver 127.0.0.1</tt>&quot; or, more precisely with our conventions:</p>
+<pre class="code literal-block">
+# Generated by resolvconf
+search .
+nameserver ::1
+nameserver 127.0.0.1
+options trust-ad
+</pre>
+<p>The configuration of dnsmasq itself is defined in <tt class="docutils literal">/etc/dnsmasq.conf</tt>.</p>
+<p>Even if the procedures described below may introduce per-network DNS servers, we recommend defining statically from here alternate/fallback DNS servers with at least one <tt class="docutils literal">server=XX.YY.ZZ.TT</tt> line.</p>
+<p>For these external &quot;reference&quot; DNS servers, prefer, for privacy rather than for performance, relying not on the ones of your ISP, and try to use non-tracking ones.</p>
+</div>
+<div class="section" id="adapting-to-various-networks">
+<h2><a class="toc-backref" href="#toc-entry-10">Adapting to Various Networks</a></h2>
+<p>Many computers, especially laptops, have to adapt to various networks.</p>
+<p>One way of doing so is to use <a class="reference external" href="https://wiki.archlinux.org/title/Netctl">netctl</a>, and per-network configuration files like <tt class="docutils literal"><span class="pre">/etc/netctl/my-foobar-network</span></tt> (started with <tt class="docutils literal">netctl start <span class="pre">my-foobar-network</span></tt>). These files may include a directive like <tt class="docutils literal"><span class="pre">DNS=('192.168.0.22')</span></tt> to designate the (here local) DNS server that shall be used. Note that its address will not end up in <tt class="docutils literal">/etc/resolv.conf</tt>, as dnsmasq will be the (only) one interacting with that DNS server - and only when needed (i.e. when a DNS name is not already in its cache).</p>
+<p>For that we have to tell <tt class="docutils literal">openresolv</tt> to write the current, network-specific DNS server in a file that dnsmasq will later read. This is of course to be specified in <tt class="docutils literal">/etc/resolvconf.conf</tt>, typically with a <tt class="docutils literal"><span class="pre">dnsmasq_resolv=/etc/dnsmasq-resolv.conf</span></tt> setting.</p>
+<p>In order to check that setting, executing <tt class="docutils literal">resolvconf <span class="pre">-u</span></tt> should result in a <tt class="docutils literal"><span class="pre">/etc/dnsmasq-resolv.conf</span></tt> file whose content is, in this example:</p>
+<pre class="code literal-block">
+# Generated by resolvconf
+nameserver 192.168.0.22
+</pre>
+<p>We just have to tell dnsmasq to read and apply it. This is of course to be done in <tt class="docutils literal">/etc/dnsmasq.conf</tt>, with following lines:</p>
+<pre class="code literal-block">
+resolv-file=/etc/dnsmasq-resolv.conf
+
+# If ever settings were to be passed from openresolv:
+conf-file=/etc/dnsmasq-conf.conf
+</pre>
+<p>Checking is then a matter of running:</p>
+<ul class="simple">
+<li><tt class="docutils literal">systemctl status dnsmasq.service</tt>:  <tt class="docutils literal">using nameserver 192.168.0.22#53</tt> shall be listed there (together with any DNS server(s) statically listed in <tt class="docutils literal">/etc/dnsmasq.conf</tt>)</li>
+<li><tt class="docutils literal">drill google.com</tt>: then <tt class="docutils literal">SERVER: ::1</tt> or <tt class="docutils literal">SERVER: 127.0.0.1</tt> should be returned, which indicates that a local resolution is taking place indeed</li>
+</ul>
+</div>
+<div class="section" id="wrapping-up">
+<h2><a class="toc-backref" href="#toc-entry-11">Wrapping Up</a></h2>
+<p>So <tt class="docutils literal">/etc/resolvconf.conf</tt> could be:</p>
+<pre class="code literal-block">
+resolv_conf=/etc/resolv.conf
+name_servers=&quot;::1 127.0.0.1&quot;
+resolv_conf_options=&quot;trust-ad&quot;
+dnsmasq_conf=/etc/dnsmasq-conf.conf
+dnsmasq_resolv=/etc/dnsmasq-resolv.conf
+search_domains=.
+</pre>
+<p>which should result in a <tt class="docutils literal">resolv.conf</tt> like:</p>
+<pre class="code literal-block">
+# Generated by resolvconf
+search .
+nameserver ::1
+nameserver 127.0.0.1
+options trust-ad
+</pre>
+</div>
+</div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-6">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-12">See Also</a></h1>
 <ul class="simple">
 <li>Ceylan-Hull's section about scripts for <a class="reference external" href="http://hull.esperide.org/#network-management">network management</a> and for <a class="reference external" href="http://hull.esperide.org/#network-management">firewall configuration</a></li>
 <li><a class="reference external" href="Cybersecurity.html">A bit of Cybersecurity</a></li>
+<li>to test based on a non-filtering iptables configuration, one may take inspiration from our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-FullDisabling.sh">iptables.rules-FullDisabling.sh</a> script</li>
 </ul>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
 </div>

@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, May 3, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, July 12, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -76,22 +76,24 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#short-hints" id="toc-entry-32">Short Hints</a><ul>
-<li><a class="reference internal" href="#dealing-with-conditional-availability" id="toc-entry-33">Dealing with Conditional Availability</a></li>
-<li><a class="reference internal" href="#runtime-library-version" id="toc-entry-34">Runtime Library Version</a></li>
-<li><a class="reference internal" href="#proper-naming" id="toc-entry-35">Proper Naming</a></li>
-<li><a class="reference internal" href="#formatting-erlang-code" id="toc-entry-36">Formatting Erlang Code</a></li>
-<li><a class="reference internal" href="#language-features" id="toc-entry-37">Language Features</a></li>
-<li><a class="reference internal" href="#disabling-lco" id="toc-entry-38">Disabling LCO</a></li>
-<li><a class="reference internal" href="#using-run-erl-to-erl" id="toc-entry-39">Using <tt class="docutils literal">run_erl/to_erl</tt></a></li>
-<li><a class="reference internal" href="#using-wx" id="toc-entry-40">Using wx</a></li>
-<li><a class="reference internal" href="#installing-rebar3" id="toc-entry-41">Installing rebar3</a></li>
-<li><a class="reference internal" href="#using-emacs" id="toc-entry-42">Using Emacs</a></li>
-<li><a class="reference internal" href="#contributing-to-erlang-otp" id="toc-entry-43">Contributing to Erlang/OTP</a></li>
-<li><a class="reference internal" href="#uninstalling-erlang" id="toc-entry-44">Uninstalling Erlang</a></li>
+<li><a class="reference internal" href="#properly-commenting" id="toc-entry-33">Properly Commenting</a></li>
+<li><a class="reference internal" href="#performing-local-returns" id="toc-entry-34">Performing Local Returns</a></li>
+<li><a class="reference internal" href="#dealing-with-conditional-availability" id="toc-entry-35">Dealing with Conditional Availability</a></li>
+<li><a class="reference internal" href="#runtime-library-version" id="toc-entry-36">Runtime Library Version</a></li>
+<li><a class="reference internal" href="#proper-in-program-naming" id="toc-entry-37">Proper In-Program Naming</a></li>
+<li><a class="reference internal" href="#formatting-erlang-code" id="toc-entry-38">Formatting Erlang Code</a></li>
+<li><a class="reference internal" href="#language-features" id="toc-entry-39">Language Features</a></li>
+<li><a class="reference internal" href="#disabling-lco" id="toc-entry-40">Disabling LCO</a></li>
+<li><a class="reference internal" href="#using-run-erl-to-erl" id="toc-entry-41">Using <tt class="docutils literal">run_erl/to_erl</tt></a></li>
+<li><a class="reference internal" href="#using-wx" id="toc-entry-42">Using wx</a></li>
+<li><a class="reference internal" href="#installing-rebar3" id="toc-entry-43">Installing rebar3</a></li>
+<li><a class="reference internal" href="#using-emacs" id="toc-entry-44">Using Emacs</a></li>
+<li><a class="reference internal" href="#contributing-to-erlang-otp" id="toc-entry-45">Contributing to Erlang/OTP</a></li>
+<li><a class="reference internal" href="#uninstalling-erlang" id="toc-entry-46">Uninstalling Erlang</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-45">Micro-Cheat Sheet</a></li>
-<li><a class="reference internal" href="#erlang-resources" id="toc-entry-46">Erlang Resources</a></li>
+<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-47">Micro-Cheat Sheet</a></li>
+<li><a class="reference internal" href="#erlang-resources" id="toc-entry-48">Erlang Resources</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -175,8 +177,10 @@ $<span class="w"> </span>erl<span class="w"> </span>-eval<span class="w"> </span
 <div class="section" id="general-information">
 <h2><a class="toc-backref" href="#toc-entry-7">General Information</a></h2>
 <p>The goal is to have processes, running on multiple Erlang VMs instantiated on various hosts of a network, interact (of course, as always, by message-passing based on Erlang processes).</p>
+<div class="section" id="testing">
+<h3>Testing</h3>
 <p>Let's suppose that we have two hosts, <tt class="docutils literal">foo.example.com</tt> (possibly on the LAN) and <tt class="docutils literal">bar.other.info</tt> (for example a gateway available on the Internet - hence a bit secured, and with many settings activated), each having the latest version of Erlang installed.</p>
-<p>To test whether VMs on either side can communicate, one may launch on <tt class="docutils literal">foo.example.com</tt>  for example (killing EMPD and using a specific, rather random port for it, for safer/paranoid testing; precising a TCP port range to remind that it matters, firewall-wise):</p>
+<p>To test whether VMs on either side can communicate, one may launch on <tt class="docutils literal">foo.example.com</tt>  for example (killing EMPD and using a specific, rather random port for it, for safer/paranoid testing; specifying here a TCP port range to remind that it matters, firewall-wise):</p>
 <pre class="literal-block">
 $ killall epmd
 
@@ -211,25 +215,68 @@ pong
 pong
 </pre>
 <p>Then either of the two nodes can perform mostly anything on the other host (of course depending on the respective permissions of the users that run them); and of course Erlang cookies are not a security feature, they are just an ad hoc way of preventing unwanted interactions between nodes.</p>
-<p>A lot more often than expected, <tt class="docutils literal">pang</tt> is received (instead of <tt class="docutils literal">pong</tt>), meaning that unfortunately the connection could not be created.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h3>Troubleshooting</h3>
+<p>The previous testing may have failed, and thus shall be investigated.</p>
+<p>If wanting to start from a working configuration and gradually enrich it until reproducing that failure, just launch two shells on a given host, executing <tt class="docutils literal">erl <span class="pre">-name</span> a&#64;127.0.0.1 <span class="pre">-setcookie</span> hello</tt> on the first, and <tt class="docutils literal">erl <span class="pre">-name</span> b&#64;127.0.0.1 <span class="pre">-setcookie</span> hello</tt> on the second.</p>
+<p>On the <tt class="docutils literal">a</tt> (first) node, <tt class="docutils literal"><span class="pre">net_adm:ping('b&#64;127.0.0.1')</span></tt> is expected to succeed, as, on the <tt class="docutils literal">b</tt> (second) node, <tt class="docutils literal"><span class="pre">net_adm:ping('a&#64;127.0.0.1')</span></tt>. Use CTRL-C twice to exit both Erlang shells.</p>
+<p>Then, in order to quick-check whether long-name connectivity is available and to rule out the most obvious culprits, for example in the first shell:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Check (with root permissions) that the firewall rules are safe; for example:
+</span>$<span class="w"> </span>iptables<span class="w"> </span>-nL<span class="w">
+</span>Chain<span class="w"> </span>INPUT<span class="w"> </span><span class="o">(</span>policy<span class="w"> </span>ACCEPT<span class="o">)</span><span class="w">
+</span>target<span class="w">     </span>prot<span class="w"> </span>opt<span class="w"> </span><span class="nb">source</span><span class="w">               </span>destination<span class="w">
+
+</span>Chain<span class="w"> </span>FORWARD<span class="w"> </span><span class="o">(</span>policy<span class="w"> </span>ACCEPT<span class="o">)</span><span class="w">
+</span>target<span class="w">     </span>prot<span class="w"> </span>opt<span class="w"> </span><span class="nb">source</span><span class="w">               </span>destination<span class="w">
+
+</span>Chain<span class="w"> </span>OUTPUT<span class="w"> </span><span class="o">(</span>policy<span class="w"> </span>ACCEPT<span class="o">)</span><span class="w">
+</span>target<span class="w">     </span>prot<span class="w"> </span>opt<span class="w"> </span><span class="nb">source</span><span class="w">               </span>destination<span class="w">
+
+</span><span class="c1"># Just to be on the safer side for this test:
+</span>$<span class="w"> </span>killall<span class="w"> </span>beam.smp<span class="w"> </span>epmd<span class="w">
+
+</span><span class="c1"># Then launch a new target first node:
+</span>$<span class="w"> </span><span class="nv">ERL_EPMD_PORT</span><span class="o">=</span><span class="m">4032</span><span class="w"> </span>erl<span class="w"> </span>-name<span class="w"> </span>n1<span class="w"> </span>-setcookie<span class="w"> </span>aa<span class="w">
+</span>Erlang/OTP<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="o">[</span>erts-11.1.4<span class="o">]</span><span class="w"> </span><span class="o">[</span>source<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">64</span>-bit<span class="o">]</span><span class="w"> </span><span class="o">[</span>smp:4:4<span class="o">]</span><span class="w"> </span><span class="o">[</span>ds:4:4:10<span class="o">]</span><span class="w"> </span><span class="o">[</span>async-threads:1<span class="o">]</span><span class="w"> </span><span class="o">[</span>hipe<span class="o">]</span><span class="w">
+
+</span>Eshell<span class="w"> </span>V11.1.4<span class="w">  </span><span class="o">(</span>abort<span class="w"> </span>with<span class="w"> </span>^G<span class="o">)</span><span class="w">
+</span><span class="o">(</span>n1&#64;hurricane.foobar.org<span class="o">)</span><span class="m">1</span>&gt;
+</pre>
+<p>In the second shell, try finding the previous node:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span><span class="nv">ERL_EPMD_PORT</span><span class="o">=</span><span class="m">4032</span><span class="w"> </span>erl<span class="w"> </span>-name<span class="w"> </span>n2<span class="w"> </span>-setcookie<span class="w"> </span>aa<span class="w">
+</span>Erlang/OTP<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="o">[</span>erts-11.1.4<span class="o">]</span><span class="w"> </span><span class="o">[</span>source<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">64</span>-bit<span class="o">]</span><span class="w"> </span><span class="o">[</span>smp:4:4<span class="o">]</span><span class="w"> </span><span class="o">[</span>ds:4:4:10<span class="o">]</span><span class="w"> </span><span class="o">[</span>async-threads:1<span class="o">]</span><span class="w"> </span><span class="o">[</span>hipe<span class="o">]</span><span class="w">
+
+</span>Eshell<span class="w"> </span>V11.1.4<span class="w">  </span><span class="o">(</span>abort<span class="w"> </span>with<span class="w"> </span>^G<span class="o">)</span><span class="w">
+</span><span class="o">(</span>n2&#64;hurricane.foobar.org<span class="o">)</span><span class="m">1</span>&gt;<span class="w"> </span>net_adm:ping<span class="o">(</span><span class="s1">'n1&#64;hurricane.foobar.org'</span><span class="o">)</span>.<span class="w">
+</span>pong
+</pre>
+<p>If you see <tt class="docutils literal">pang</tt> here, run to the nearest altar and make a sacrifice to any Distribution God you may believe in (Norse ones being presumably the most effective here), and hunt down the failure causes listed in the next section.</p>
+</div>
+<div class="section" id="most-likely-causes-of-node-connection-failures">
+<h3>Most Likely Causes of Node Connection Failures</h3>
+<p>Way too often, for obscure reasons Erlang nodes fail to connect to each other (especially with long names), and little to no information is available to diagnose the issue: <tt class="docutils literal">pang</tt> is received (instead of <tt class="docutils literal">pong</tt>), meaning that unfortunately the connection could not be created.</p>
 <p>Among the many possible pitfalls, there are (approximately sorted by decreasing level of probability, according to our experience):</p>
 <ul class="simple">
-<li>at least a <strong>firewall</strong> between the two hosts filtering packets, either exchanged by the Erlang VMs (using ephemeral ports for that, within a possibly user-specified range), or by the EPMD daemons; one may refer to <a class="reference external" href="Networking.html#firewall-management">our page about firewalls</a></li>
-<li>misconfigured (e.g. inconsistent) <strong>DNS</strong> services (e.g. one host unable to resolve the other, or resolving it as a different name that it knows itself); simply running <tt class="docutils literal">hostname <span class="pre">-f</span></tt>, and possibly <tt class="docutils literal">ping foo.example.com</tt> from <tt class="docutils literal">bar</tt>, and <tt class="docutils literal">ping bar.other.info</tt> from <tt class="docutils literal">foo</tt>, may unveil surprises)</li>
-<li>inconsistent <a class="reference external" href="https://www.erlang.org/doc/apps/erts/epmd_cmd">EPMD</a> <strong>ports</strong> ; beware of any lingering <tt class="docutils literal">ERL_EPMD_PORT</tt> environment variable that may still apply (this is why, in the example, one was specified; otherwise the default one, 4369, is expected to be relied upon)</li>
+<li>at least a <strong>firewall</strong> between the two hosts filtering packets, either exchanged by the Erlang VMs (using ephemeral ports for that, within a possibly user-specified range), or by the EPMD daemons; one may refer to <a class="reference external" href="Networking.html#firewall-management">our page about firewalls</a>; one may take inspiration for example from our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/iptables.rules-FullDisabling.sh">iptables.rules-FullDisabling.sh</a> script</li>
+<li>misconfigured (e.g. inconsistent) <strong>naming / DNS</strong> services (e.g. one host unable to resolve the other, or resolving it as a different name that it knows itself); simply running <tt class="docutils literal">hostname <span class="pre">-f</span></tt>, and possibly <tt class="docutils literal">ping foo.example.com</tt> from <tt class="docutils literal">bar</tt>, and <tt class="docutils literal">ping bar.other.info</tt> from <tt class="docutils literal">foo</tt>, may unveil surprises; inspect both <tt class="docutils literal">/etc/hosts</tt> files, which is often the scene of the disaster; if your hostname is <tt class="docutils literal">hurricane</tt> and your domain is <tt class="docutils literal">foobar.org</tt>, then a line like the following one is known to work (whereas many variations of it may be deemed &quot;incorrect&quot;): <tt class="docutils literal">127.0.0.1&nbsp; hurricane.foobar.org hurricane localhost.localdomain localhost</tt>, provided of course that, still in that file, you have not also a declaration such as <tt class="docutils literal">192.168.0.5 hurricane.foobar.org hurricane</tt> (setting one's IP shall better be done in one's profile in <tt class="docutils literal">/etc/netctl</tt>, right?)</li>
+<li>inconsistent <a class="reference external" href="https://www.erlang.org/doc/apps/erts/epmd_cmd">EPMD</a> <strong>ports</strong> ; beware of any lingering <tt class="docutils literal">ERL_EPMD_PORT</tt> environment variable that may still apply (this is why, in the example, one was specified; otherwise the default one, <tt class="docutils literal">4369</tt>, is expected to be relied upon)</li>
 <li>at least one incorrect (misspelled) <strong>target node</strong>; moreover their names must be atoms (hence the use of single quotes, as they comprise dots) and the FQDN should match (e.g. from the point of view of the EPMD daemon, <tt class="docutils literal">bar</tt> and <tt class="docutils literal">bar.other.info</tt> might be considered different)</li>
-<li>mistmatching (Erlang) <strong>cookies</strong> (of course)</li>
+<li>mistmatching (Erlang) <strong>cookies</strong> (of course): check that they use the same cookie, either from the start (use the <tt class="docutils literal"><span class="pre">-setcookie</span> MY_COOKIE</tt> command-line option) or after having changed it after the VM was launched (use <tt class="docutils literal">erlang:set_cookie/1</tt> for that / check with <tt class="docutils literal">erlang:get_cookie/0</tt>)</li>
 <li>mismatching <strong>name addressing</strong>: using short names (<tt class="docutils literal"><span class="pre">-sname</span></tt>) mixed with long names (<tt class="docutils literal"><span class="pre">-name</span></tt>)</li>
 <li>faulty EPMD <strong>daemons</strong> (e.g. one having missed that a node respawned; this seldom happens, under specific circumstances) - hence the prior killings in the example</li>
 <li>incompatible <strong>versions</strong> of Erlang (if in doubt, just use the latest stable one on either side); anyway such an issue should be reported on the console</li>
 </ul>
+</div>
 </div>
 <div class="section" id="with-our-conventions">
 <h2><a class="toc-backref" href="#toc-entry-8">With Our Conventions</a></h2>
 <p>To focus a bit on developments relying on our conventions (notably the Ceylan-Myriad ones) about firewall settings, one may first inspect the <tt class="docutils literal"><span class="pre">/etc/iptables.settings-Gateway.sh</span></tt> file to check the firewall settings that are currently listed (e.g. <tt class="docutils literal">grep <span class="pre">'myriad_default_epmd_port\|tcp_'</span> <span class="pre">iptables.settings-Gateway.sh</span></tt>).</p>
 <p>This may result for example in:</p>
 <pre class="literal-block">
-myriad_default_epmd_port=4502
+myriad_default_epmd_port=4506
 enable_unfiltered_tcp_range=&quot;true&quot;
 tcp_unfiltered_low_port=60000
 tcp_unfiltered_high_port=65000
@@ -240,7 +287,7 @@ tcp_unfiltered_high_port=65000
 <p>Then, to test the connectivity of corresponding VMs, first on <tt class="docutils literal">foo.example.com</tt>:</p>
 <pre class="literal-block">
 $ killall epmd beam.smp
-$ ERL_EPMD_PORT=4502 erl -name myfoo&#64;foo.example.com -setcookie abc -kernel inet_dist_listen_min 60000 inet_dist_listen_max 65000
+$ ERL_EPMD_PORT=4506 erl -name myfoo&#64;foo.example.com -setcookie abc -kernel inet_dist_listen_min 50000 inet_dist_listen_max 55000
 Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
 
 Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
@@ -248,8 +295,8 @@ Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
 </pre>
 <p>And on <tt class="docutils literal">bar.other.info</tt>, this could be:</p>
 <pre class="literal-block">
-$ export ERL_EPMD_PORT=4502
-$ erl -name mybar&#64;bar.other.info -setcookie abc -kernel inet_dist_listen_min 60000 inet_dist_listen_max 65000
+$ export ERL_EPMD_PORT=4506
+$ erl -name mybar&#64;bar.other.info -setcookie abc -kernel inet_dist_listen_min 50000 inet_dist_listen_max 55000
 Erlang/OTP 27 [erts-15.2] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [jit:ns]
 
 Eshell V15.2 (press Ctrl+G to abort, type help(). for help)
@@ -620,8 +667,131 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Sof
 </div>
 <div class="section" id="short-hints">
 <h1><a class="toc-backref" href="#toc-entry-32">Short Hints</a></h1>
+<div class="section" id="properly-commenting">
+<h2><a class="toc-backref" href="#toc-entry-33">Properly Commenting</a></h2>
+<p>As far as we understand, the best practice is to rely on:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.erlang.org/doc/apps/edoc/chapter.html">EDoc</a>, possibly with its <a class="reference external" href="https://www.erlang.org/doc/apps/edoc/chapter#Wiki_notation">wiki notation</a></li>
+<li>the <a class="reference external" href="https://www.erlang.org/eeps/eep-0059#new-module-attributes">new -moduledoc / -doc attributes</a>, which are replacements for EDoc style comments; refer to this <a class="reference external" href="https://www.erlang.org/doc/system/documentation.html">documentation page</a> to make good use of them</li>
+<li>documentation text in which verbatim quoting is done by enclosing the target text with <tt class="docutils literal">`</tt> (i.e. a single backquote, on both sides - even if, for some reason, <a class="reference external" href="https://www.erlang.org/doc/apps/edoc/chapter#verbatim-quoting">this section</a> promotes <tt class="docutils literal">`'</tt>), as suggested by the <a class="reference external" href="https://github.com/erlang/otp/blob/master/lib/kernel/src/inet.erl#L70">Erlang/OTP sources themselves</a>; so documentation may include for example <tt class="docutils literal">`gethostbyaddr/1`</tt> or <tt class="docutils literal">`&quot;150.236.20.73&quot;`</tt></li>
+<li>named hypertext links are in the form of <tt class="docutils literal">[displayed <span class="pre">text](http://foobar.html)</span></tt>, otherwise a link to be displayed verbatim may just be specified as <tt class="docutils literal"><span class="pre">[http://foobar.html]</span></tt></li>
+</ul>
+<p>As a reminder of the syntax that <tt class="docutils literal"><span class="pre">-moduledoc</span></tt> / <tt class="docutils literal"><span class="pre">-doc</span></tt> attributes support (note the <tt class="docutils literal">m/t/c</tt> prefixes):</p>
+<pre class="code erlang literal-block">
+<span class="p">-</span><span class="ni">moduledoc</span><span class="w"> </span><span class="s">&quot;&quot;&quot;
+  A module for **basic arithmetic**.
+
+  This module can be used to add and subtract values. For example:
+
+  ```erlang
+  1&gt; arith:subtract(arith:add(2, 3), 1).
+  4
+  ```
+
+  See `sub/2` or `arith:subtract/2`, and the `m:arith` module for more details.
+
+  In terms of types, refer to `t:number/0` and `t:arith:number/0` for more details.
+
+  In terms of callbacks, refer to `c:increment/0` and `c:arith:increment/0` for more details.
+  &quot;&quot;&quot;</span><span class="p">.</span>
+</pre>
+<p>Extra pages (e.g. <tt class="docutils literal">notes.md</tt>) may be defined and referenced.</p>
+<p>The availability of such documentation can be tested from a shell, with for example <tt class="docutils literal">1&gt; h(arith).</tt> or <tt class="docutils literal">h(arith, add)</tt>.</p>
+<p>Failure to properly specify comments is bound to mess with the syntax highlighting (at least with <a class="reference external" href="Emacs.html#regarding-erlang">Emacs</a>).</p>
+</div>
+<div class="section" id="performing-local-returns">
+<h2><a class="toc-backref" href="#toc-entry-34">Performing Local Returns</a></h2>
+<p>Quite often we would like to be able to write code with conditions able to shortcut like:</p>
+<pre class="code erlang literal-block">
+<span class="nf">f</span><span class="p">(</span><span class="nv">A</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+
+  </span><span class="nv">Res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="nv">A</span><span class="p">)</span><span class="w"> </span><span class="k">of</span><span class="w">
+
+    </span><span class="c">% Wanting this clause to stop the processing here:</span><span class="w">
+    </span><span class="nv">X</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+      </span><span class="n">return</span><span class="w"> </span><span class="n">something</span><span class="p">(</span><span class="nv">X</span><span class="p">);</span><span class="w"> </span><span class="c">% Yet 'return' does not exist.</span><span class="w">
+
+    </span><span class="nv">Y</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+      </span><span class="n">h</span><span class="p">(</span><span class="nv">Y</span><span class="p">)</span><span class="w">
+
+  </span><span class="k">end</span><span class="p">,</span><span class="w">
+  </span><span class="n">i</span><span class="p">(</span><span class="nv">Res</span><span class="p">),</span><span class="w">
+  </span><span class="p">[...]</span><span class="w">
+  </span><span class="n">some_expression</span><span class="p">().</span><span class="w">
+
+</span><span class="nv">U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span><span class="w">
+</span><span class="nf">k</span><span class="p">(</span><span class="nv">U</span><span class="p">),</span><span class="w">
+</span><span class="p">[...]</span>
+</pre>
+<p>One can consider here that <tt class="docutils literal">g/1</tt> allows to detect specific cases like <tt class="docutils literal">X</tt> that shall stop the processing, and that, in the general case, multiple of such conditions are to be checked (e.g. with <tt class="docutils literal">g1/1</tt>, <tt class="docutils literal">g2/1</tt>, etc.), each possibly with a different outcome.</p>
+<p>However there is no <tt class="docutils literal">return</tt> operator in Erlang, and thus by default the <tt class="docutils literal">X</tt> branch cannot finish without <tt class="docutils literal">i/1</tt> being called and the rest of the expressions below being evaluated.</p>
+<p>If ever <tt class="docutils literal">g/1</tt> could be expressed as a guard expression (which is not that common, since the expressiveness of Erlang guards is quite limited), then <strong>pattern-matching</strong> could be used at the level of <tt class="docutils literal">f/1</tt>, at the expense of some refactoring.</p>
+<p>Otherwise, a solution would be to <strong>nest cases</strong>, i.e. to append at the end of the <tt class="docutils literal">Y</tt> branch the whole section starting with the <tt class="docutils literal">i/1</tt> call. Yet, at each new condition, the whole code would gain one nesting level and be indented more on the right, and cascading like this is not desirable (as quickly not readable).</p>
+<p>Yet it should be known that the <tt class="docutils literal">throw/1</tt> BIF (<em>Built-In Function</em>), which raises an exception of class <tt class="docutils literal">throw</tt>, is not specifically dedicated to error management: as stated <a class="reference external" href="https://www.erlang.org/doc/apps/erts/erlang#throw/1">in its documentation</a>, it is more generally intended to be used to perform <strong>non-local returns</strong> from functions.</p>
+<p>So the previous example could be transformed in:</p>
+<pre class="code erlang literal-block">
+<span class="nf">f</span><span class="p">(</span><span class="nv">A</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+
+  </span><span class="k">try</span><span class="p">:</span><span class="w">
+
+    </span><span class="nv">Res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="nv">A</span><span class="p">)</span><span class="w"> </span><span class="k">of</span><span class="w">
+
+      </span><span class="nv">X</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="n">throw</span><span class="p">(</span><span class="n">something</span><span class="p">(</span><span class="nv">X</span><span class="p">));</span><span class="w">
+
+      </span><span class="nv">Y</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+        </span><span class="n">h</span><span class="p">(</span><span class="nv">Y</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">end</span><span class="p">,</span><span class="w">
+    </span><span class="n">i</span><span class="p">(</span><span class="nv">Res</span><span class="p">),</span><span class="w">
+    </span><span class="p">[...]</span><span class="w">
+    </span><span class="n">some_expression</span><span class="p">()</span><span class="w">
+
+  </span><span class="k">catch</span><span class="w">
+
+    </span><span class="nn">throw</span><span class="p">:</span><span class="nv">Something</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+      </span><span class="nv">Something</span><span class="w">
+
+  </span><span class="k">end</span><span class="p">.</span><span class="w">
+
+</span><span class="nv">U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span><span class="w">
+</span><span class="nf">k</span><span class="p">(</span><span class="nv">U</span><span class="p">),</span><span class="w">
+</span><span class="p">[...]</span>
+</pre>
+<p>Doing so adds a single level of nesting (for the <tt class="docutils literal">try/catch</tt>), regardless of the number of shortcut conditions to consider, and let them be handled specifically if needed (thanks to any pattern-matching done in the <tt class="docutils literal">catch</tt> clause).</p>
+<p>However such use of <tt class="docutils literal">throw/1</tt> may not seem so easy, natural or possibly very efficient (stack unwinding?), and at least some developers prefer staying away from using it for non-error branching (i.e. for local returns <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[9]</a>).</p>
+<table class="docutils footnote" frame="void" id="footnote-7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-7">[9]</a></td><td>Actually, more generally, some consider that relying on local returns is a bad practice in itself (less readable, more imperative-like).</td></tr>
+</tbody>
+</table>
+<p>So, quite often, in our opinion, the best remaining option - even if it is not very satisfactory (heavy, long), is to <strong>define extra (helper) functions</strong> like <tt class="docutils literal">h_helper/1</tt> in:</p>
+<pre class="code erlang literal-block">
+<span class="nf">f</span><span class="p">(</span><span class="nv">A</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+
+  </span><span class="nv">Res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="nv">A</span><span class="p">)</span><span class="w"> </span><span class="k">of</span><span class="w">
+
+    </span><span class="nv">X</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+      </span><span class="n">something</span><span class="p">(</span><span class="nv">X</span><span class="p">);</span><span class="w">
+
+    </span><span class="nv">Y</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+      </span><span class="n">h_helper</span><span class="p">(</span><span class="nv">Y</span><span class="p">)</span><span class="w">
+
+  </span><span class="k">end</span><span class="p">.</span><span class="w">
+
+</span><span class="nf">h_helper</span><span class="p">(</span><span class="nv">Z</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+  </span><span class="n">i</span><span class="p">(</span><span class="nv">Z</span><span class="p">),</span><span class="w">
+  </span><span class="p">[...]</span><span class="w">
+  </span><span class="n">some_expression</span><span class="p">().</span><span class="w">
+
+</span><span class="nv">U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span><span class="w">
+</span><span class="nf">k</span><span class="p">(</span><span class="nv">U</span><span class="p">),</span><span class="w">
+</span><span class="p">[...].</span>
+</pre>
+</div>
 <div class="section" id="dealing-with-conditional-availability">
-<h2><a class="toc-backref" href="#toc-entry-33">Dealing with Conditional Availability</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-35">Dealing with Conditional Availability</a></h2>
 <div class="section" id="regarding-modules-and-from-the-command-line">
 <h3>Regarding modules, and from the command-line</h3>
 <p>Depending on how Erlang was built in a given environment, some modules may or may not be available.</p>
@@ -662,13 +832,14 @@ $<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </s
 </div>
 </div>
 <div class="section" id="runtime-library-version">
-<h2><a class="toc-backref" href="#toc-entry-34">Runtime Library Version</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-36">Runtime Library Version</a></h2>
 <p>To know <strong>which version of a library</strong> (here, wxWidgets) a given Erlang install is using (if any), one may run an Erlang shell (<tt class="docutils literal">erl</tt>), collect the PID of this (UNIX) process (e.g. <tt class="docutils literal">ps <span class="pre">-edf</span> | grep beam</tt>), then trigger a use of that library (e.g. for <tt class="docutils literal">wx</tt>, execute <tt class="docutils literal"><span class="pre">wx:demo().</span></tt>) in order to force its dynamic binding.</p>
 <p>Then determine its name, for example thanks to <tt class="docutils literal">pmap ${BEAM_PID} | grep libwx</tt>).</p>
 <p>This may indicate that for example <tt class="docutils literal"><span class="pre">libwx_gtk2u_core-3.0.so.0.5.0</span></tt> is actually used.</p>
 </div>
-<div class="section" id="proper-naming">
-<h2><a class="toc-backref" href="#toc-entry-35">Proper Naming</a></h2>
+<div class="section" id="proper-in-program-naming">
+<h2><a class="toc-backref" href="#toc-entry-37">Proper In-Program Naming</a></h2>
+<p>These are some conventions that we recommend.</p>
 <div class="section" id="variable-shorthands">
 <h3>Variable Shorthands</h3>
 <p>Usually we apply the following conventions:</p>
@@ -676,6 +847,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </s
 <li>the <em>head</em> and <em>tail</em> of a list are designated as <tt class="docutils literal">H</tt> and <tt class="docutils literal">T</tt>, like in: <tt class="docutils literal">L = [H|T]</tt></li>
 <li><tt class="docutils literal">Acc</tt> means <em>accumulator</em>, in a tail-recursive function</li>
 <li><tt class="docutils literal">K</tt> designates a <em>key</em>, and <tt class="docutils literal">V</tt> designates its associated <em>value</em></li>
+<li>longer (type-related) names shall be abbreviated; for example a &quot;canonical incoming trigger specification&quot; may result in the <tt class="docutils literal">canon_incoming_trigger_spec/0</tt> type, and a variable of that type may be named <tt class="docutils literal">CITS</tt></li>
 <li>a list of elements is designated by a plural variable name, usually suffixed with <tt class="docutils literal">s</tt>, like in: <tt class="docutils literal">Ints</tt>, <tt class="docutils literal">Xs</tt>, <tt class="docutils literal">Cars</tt></li>
 </ul>
 </div>
@@ -697,21 +869,21 @@ $<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </s
 </div>
 </div>
 <div class="section" id="formatting-erlang-code">
-<h2><a class="toc-backref" href="#toc-entry-36">Formatting Erlang Code</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-38">Formatting Erlang Code</a></h2>
 <p>Various tools are able to format Erlang code, see <a class="reference external" href="https://github.com/WhatsApp/erlfmt/blob/main/doc/ErlangFormatterComparison.md">this page</a> for a comparison thereof.</p>
 <div class="section" id="with-rebar3-format">
 <h3>With <tt class="docutils literal">rebar3_format</tt></h3>
-<p>For projects already relying on rebar, one may use <a class="reference external" href="https://github.com/AdRoll/rebar3_format">rebar3_format</a> (as a plugin <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[9]</a>) that way:</p>
+<p>For projects already relying on rebar, one may use <a class="reference external" href="https://github.com/AdRoll/rebar3_format">rebar3_format</a> (as a plugin <a class="footnote-reference" href="#footnote-8" id="footnote-reference-8">[10]</a>) that way:</p>
 <pre class="code shell literal-block">
 $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
 </span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AdRoll/rebar3_format.git<span class="w">
 </span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>rebar3_format<span class="w">
 </span>$<span class="w"> </span><span class="nv">ERL_FLAGS</span><span class="o">=</span><span class="s2">&quot;-enable-feature all&quot;</span><span class="w"> </span>rebar3<span class="w"> </span>format
 </pre>
-<table class="docutils footnote" frame="void" id="footnote-7" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-7">[9]</a></td><td>Note that <tt class="docutils literal">rebar3_format</tt> cannot be used as an escript (so no <tt class="docutils literal"><span class="pre">ERL_FLAGS=&quot;-enable-feature</span> all&quot; rebar3 as release escriptize</tt> shall be issued).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-8">[10]</a></td><td>Note that <tt class="docutils literal">rebar3_format</tt> cannot be used as an escript (so no <tt class="docutils literal"><span class="pre">ERL_FLAGS=&quot;-enable-feature</span> all&quot; rebar3 as release escriptize</tt> shall be issued).</td></tr>
 </tbody>
 </table>
 <p>Then <tt class="docutils literal">{project_plugins, [rebar3_format]}</tt> shall be added to the project's <tt class="docutils literal">rebar.config</tt>.</p>
@@ -734,17 +906,17 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 </div>
 </div>
 <div class="section" id="language-features">
-<h2><a class="toc-backref" href="#toc-entry-37">Language Features</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-39">Language Features</a></h2>
 <p>Experimental features (such as <tt class="docutils literal">maybe</tt> in Erlang 25) of the <strong>compiler</strong> (once Erlang has been built, they are <em>potentially available</em>) may have to be specifically <em>enabled</em> at runtime, like in <tt class="docutils literal"><span class="pre">ERL_FLAGS=&quot;-enable-feature</span> all&quot; rebar3 as release escriptize</tt>.</p>
 </div>
 <div class="section" id="disabling-lco">
-<h2><a class="toc-backref" href="#toc-entry-38">Disabling LCO</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-40">Disabling LCO</a></h2>
 <p>LCO means here <em>Last Call Optimisation</em>. This consists simply when, in a given module, a (typically exported) function <tt class="docutils literal">f</tt> ends by calling a <em>local</em> function <tt class="docutils literal">g</tt> (i.e. has for last expression a call like <tt class="docutils literal"><span class="pre">g(...)</span></tt>), in not pushing on the stack the call to <tt class="docutils literal">g</tt>, but instead replacing directly the stackframe of <tt class="docutils literal">f</tt> (which can be skipped here, as returning from <tt class="docutils literal">g</tt> will mean directly returning from <tt class="docutils literal">f</tt> as well) with a proper one for <tt class="docutils literal">g</tt>.</p>
-<p>This trick spares the use of one level of stack at each ending local call, which is key for recursive functions <a class="footnote-reference" href="#footnote-8" id="footnote-reference-8">[10]</a> (typically for infinitely-looping server processes): they remain then in constant stack space, whereas otherwise the number of their stackframes would grow indefinitely, at each recursive call, and explode in memory.</p>
-<table class="docutils footnote" frame="void" id="footnote-8" rules="none">
+<p>This trick spares the use of one level of stack at each ending local call, which is key for recursive functions <a class="footnote-reference" href="#footnote-9" id="footnote-reference-9">[11]</a> (typically for infinitely-looping server processes): they remain then in constant stack space, whereas otherwise the number of their stackframes would grow indefinitely, at each recursive call, and explode in memory.</p>
+<table class="docutils footnote" frame="void" id="footnote-9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-8">[10]</a></td><td>When the last call of <tt class="docutils literal">f</tt> branches to <tt class="docutils literal">f</tt> itself, it is named TCO, for <em>Tail Call Optimisation</em> (which is thus a special - albeit essential - case of LCO).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-9">[11]</a></td><td>When the last call of <tt class="docutils literal">f</tt> branches to <tt class="docutils literal">f</tt> itself, it is named TCO, for <em>Tail Call Optimisation</em> (which is thus a special - albeit essential - case of LCO).</td></tr>
 </tbody>
 </table>
 <p>So LCO is surely not an option for a functional language like Erlang, yet it comes with a drawback: if <tt class="docutils literal">f</tt> ends with a last call to <tt class="docutils literal">g</tt> that ends with a last call to <tt class="docutils literal">h</tt> and a runtime error happens in them, none of these functions will appear in the resulting stacktraces: supposing all these functions use a library <tt class="docutils literal">foobar</tt>, it will be as if the VM directly jumped from the entry point in the user code (typically a function calling <tt class="docutils literal">f</tt>) to the failing point in a function of <tt class="docutils literal">foobar</tt>; there will be no line number pointing to the expression of <tt class="docutils literal">f</tt>,  <tt class="docutils literal">g</tt> or <tt class="docutils literal">h</tt> that triggers the faulty behaviour, whereas this is probably the information we are mostly interested in - as these functions may make numerous calls to <tt class="docutils literal">foobar</tt>'s function. This makes the debugging unnecessarily difficult.</p>
@@ -759,7 +931,7 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <p>Within <a class="reference external" href="http://myriad.esperide.org">Ceylan-Myriad</a>, if the (non-default) <tt class="docutils literal">myriad_disable_lco</tt> compilation option is set (typically with the <tt class="docutils literal"><span class="pre">-Dmyriad_disable_lco</span></tt> command-line flag), this workaround is applied automatically on the modules on which the Myriad parse transform operates - i.e. all but bootstrapped modules (refer to the <tt class="docutils literal">lco_disabling_clause_transform_fun/2</tt> function of the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/meta/myriad_parse_transform.erl">myriad_parse_transform</a> module).</p>
 </div>
 <div class="section" id="using-run-erl-to-erl">
-<h2><a class="toc-backref" href="#toc-entry-39">Using <tt class="docutils literal">run_erl/to_erl</tt></a></h2>
+<h2><a class="toc-backref" href="#toc-entry-41">Using <tt class="docutils literal">run_erl/to_erl</tt></a></h2>
 <p>When using <a class="reference external" href="https://www.erlang.org/docs/26/man/run_erl.html">run_erl</a>, lines like the following are output:</p>
 <pre class="literal-block">
 Write pipe '/tmp/launch-erl-3822033.w' found, waiting 2 seconds to ensure start-up is successful indeed.
@@ -780,12 +952,12 @@ name us_main_exec-xxx at port 60001
 <p>Remember that exiting the interpreter as usual (hitting CTRL-C twice) thus means killing that node; so prefer CTRL-D (once) instead!</p>
 </div>
 <div class="section" id="using-wx">
-<h2><a class="toc-backref" href="#toc-entry-40">Using wx</a></h2>
-<p><a class="reference external" href="https://www.erlang.org/doc/man/wx.html">wx</a> is now <a class="footnote-reference" href="#footnote-9" id="footnote-reference-9">[11]</a> the standard Erlang way of programming one's graphical user interface; it is a binding to the <a class="reference external" href="http://www.wxwidgets.org/">wxWidgets</a> library.</p>
-<table class="docutils footnote" frame="void" id="footnote-9" rules="none">
+<h2><a class="toc-backref" href="#toc-entry-42">Using wx</a></h2>
+<p><a class="reference external" href="https://www.erlang.org/doc/man/wx.html">wx</a> is now <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[12]</a> the standard Erlang way of programming one's graphical user interface; it is a binding to the <a class="reference external" href="http://www.wxwidgets.org/">wxWidgets</a> library.</p>
+<table class="docutils footnote" frame="void" id="footnote-10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-9">[11]</a></td><td><tt class="docutils literal">wx</tt> replaced <a class="reference external" href="https://www.erlang.org/docs/18/man/gs.html">gs</a>. To shelter already-developed graphical applications from any future change of backend, we developed <a class="reference external" href="https://myriad.esperide.org/#graphical-user-interface-gui">MyriadGUI</a>, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[12]</a></td><td><tt class="docutils literal">wx</tt> replaced <a class="reference external" href="https://www.erlang.org/docs/18/man/gs.html">gs</a>. To shelter already-developed graphical applications from any future change of backend, we developed <a class="reference external" href="https://myriad.esperide.org/#graphical-user-interface-gui">MyriadGUI</a>, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.</td></tr>
 </tbody>
 </table>
 <p>Here are some very general wx-related information that may be of help when programming GUIs with this backend:</p>
@@ -802,21 +974,21 @@ name us_main_exec-xxx at port 60001
 <li>the <a class="reference external" href="https://docs.wxwidgets.org/latest/overview_events.html#overview_events_propagation">way wx/wxWidgets manage event propagation</a> is complex; here are some elements:<ul>
 <li>for each actual event happening, wx creates an instance of <a class="reference external" href="https://docs.wxwidgets.org/latest/classwx_event.html">wxEvent</a> (a direct, abstract child class of <tt class="docutils literal">wxObject</tt>), which itself is specialised into many event classes that are more concrete</li>
 <li>among them, they are so-called <em>command events</em>, which originate from a variety of simple controls and correspond to the <a class="reference external" href="https://docs.wxwidgets.org/latest/classwx_command_event.html">wxCommandEvent</a> mother class; by default only these command events are set to propagate, i.e. only them will be transmitted to the event handler of the parent widget if the current one does not process them by itself (&quot;did not connect to them&quot;)</li>
-<li>by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will <em>not</em> be propagated anymore, possibly preventing the built-in wx event handlers to operate (e.g. to properly manage resizings); to restore their activation, <tt class="docutils literal">skip</tt> (to be understood here as &quot;propagate event&quot; - however counter-intuitive it may seem) shall be set to <tt class="docutils literal">true</tt> (either by passing a corresponding option when connecting, or by calling <tt class="docutils literal">wxEvent:skip/2</tt> with <tt class="docutils literal">skip</tt> set to <tt class="docutils literal">true</tt> from one's event handler) <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[12]</a></li>
-<li>when a process connects to the emitter of a given type of events (e.g. <tt class="docutils literal">close_window</tt> for a given frame), this process is to receive corresponding messages and then perform any kind of operation; however these operations cannot be synchronous (they are non-blocking: the process does not send to anyone any notification that it finished handling that event), and thus, if <tt class="docutils literal">skip</tt> is <tt class="docutils literal">true</tt> (that is, if event propagation is enabled), any other associated event handler(s) will be triggered concurrently to the processing of these event messages; this may be a problem for example if a controller listens to the <tt class="docutils literal">close_window</tt> event emitted by a main frame in order to perform a proper termination: the basic, built-in event handlers will then by default be triggered whereas the controller teardown may be still in progress, and this may result in errors (e.g. OpenGL ones, like <tt class="docutils literal"><span class="pre">{{{badarg,&quot;This&quot;},{wxGLCanvas,swapBuffers,1}},...</span></tt> because the built-in close handlers already deallocated the OpenGL context); a proper design is to ensure that <tt class="docutils literal">skip</tt> remains set to false so that propagation of such events is disabled in these cases: then only the user code is in charge of closing the application, at its own pace <a class="footnote-reference" href="#footnote-11" id="footnote-reference-11">[13]</a></li>
+<li>by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will <em>not</em> be propagated anymore, possibly preventing the built-in wx event handlers to operate (e.g. to properly manage resizings); to restore their activation, <tt class="docutils literal">skip</tt> (to be understood here as &quot;propagate event&quot; - however counter-intuitive it may seem) shall be set to <tt class="docutils literal">true</tt> (either by passing a corresponding option when connecting, or by calling <tt class="docutils literal">wxEvent:skip/2</tt> with <tt class="docutils literal">skip</tt> set to <tt class="docutils literal">true</tt> from one's event handler) <a class="footnote-reference" href="#footnote-11" id="footnote-reference-11">[13]</a></li>
+<li>when a process connects to the emitter of a given type of events (e.g. <tt class="docutils literal">close_window</tt> for a given frame), this process is to receive corresponding messages and then perform any kind of operation; however these operations cannot be synchronous (they are non-blocking: the process does not send to anyone any notification that it finished handling that event), and thus, if <tt class="docutils literal">skip</tt> is <tt class="docutils literal">true</tt> (that is, if event propagation is enabled), any other associated event handler(s) will be triggered concurrently to the processing of these event messages; this may be a problem for example if a controller listens to the <tt class="docutils literal">close_window</tt> event emitted by a main frame in order to perform a proper termination: the basic, built-in event handlers will then by default be triggered whereas the controller teardown may be still in progress, and this may result in errors (e.g. OpenGL ones, like <tt class="docutils literal"><span class="pre">{{{badarg,&quot;This&quot;},{wxGLCanvas,swapBuffers,1}},...</span></tt> because the built-in close handlers already deallocated the OpenGL context); a proper design is to ensure that <tt class="docutils literal">skip</tt> remains set to false so that propagation of such events is disabled in these cases: then only the user code is in charge of closing the application, at its own pace <a class="footnote-reference" href="#footnote-12" id="footnote-reference-12">[14]</a></li>
 </ul>
 </li>
 </ul>
-<table class="docutils footnote" frame="void" id="footnote-10" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[12]</a></td><td>MyriadGUI took a different convention: whether an event will propagate by default depends on its type, knowing that most of the types are to propagate. Yet the user can override these default behaviours, by specifying either the <tt class="docutils literal">trap_event</tt> or the <tt class="docutils literal">propagate_event</tt> subscription option, or by calling either the <tt class="docutils literal">trap_event/1</tt> or the <tt class="docutils literal">propagate_event/1</tt> function.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="footnote-11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-11">[13]</a></td><td>This is why MyriadGUI applies per-event type defaults, thus possibly trapping events; in this case, if the built-in backend mechanisms would still be of use, they can be triggered by calling the <tt class="docutils literal">propagate_event/1</tt> function from the user-defined handler, only once all its prerequisite operations have been performed (this is thus a way of restoring sequential operations).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-11">[13]</a></td><td>MyriadGUI took a different convention: whether an event will propagate by default depends on its type, knowing that most of the types are to propagate. Yet the user can override these default behaviours, by specifying either the <tt class="docutils literal">trap_event</tt> or the <tt class="docutils literal">propagate_event</tt> subscription option, or by calling either the <tt class="docutils literal">trap_event/1</tt> or the <tt class="docutils literal">propagate_event/1</tt> function.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="footnote-12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-12">[14]</a></td><td>This is why MyriadGUI applies per-event type defaults, thus possibly trapping events; in this case, if the built-in backend mechanisms would still be of use, they can be triggered by calling the <tt class="docutils literal">propagate_event/1</tt> function from the user-defined handler, only once all its prerequisite operations have been performed (this is thus a way of restoring sequential operations).</td></tr>
 </tbody>
 </table>
 <ul class="simple">
@@ -832,11 +1004,11 @@ name us_main_exec-xxx at port 60001
 </ul>
 </div>
 <div class="section" id="installing-rebar3">
-<h2><a class="toc-backref" href="#toc-entry-41">Installing rebar3</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-43">Installing rebar3</a></h2>
 <p>One may use our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-rebar3.sh">install-rebar3.sh</a> script for that (installed from sources, or prebuilt).</p>
 </div>
 <div class="section" id="using-emacs">
-<h2><a class="toc-backref" href="#toc-entry-42">Using Emacs</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-44">Using Emacs</a></h2>
 <p>Even when applying <a class="reference external" href="https://www.erlang.org/doc/apps/tools/erlang_mode_chapter.html#setup-on-unix">only the minimal Erlang configuration</a>, a syntax-highlighting problem can often be noticed (at least with our code and Erlang 27.2 / Emacs 29.4), often starting after a docstring delimited with three double-quotes; then for example words in string literals are highlighted as if they were language keywords.</p>
 <p>This can be fixed by selecting, in the <tt class="docutils literal">Erlang</tt> (Emacs) menu, the <tt class="docutils literal">Syntax Highlighting</tt> submenu, then any level (e.g. <tt class="docutils literal">Level 4</tt>, corresponding to <tt class="docutils literal"><span class="pre">erlang-font-lock-level-4</span></tt>, which can be set with <tt class="docutils literal">(setq <span class="pre">font-lock-maximum-decoration</span> 4)</tt>).</p>
 <p>in <cite>init.el</cite>, a specific key (here, F11) may be assigned for that:</p>
@@ -846,7 +1018,7 @@ name us_main_exec-xxx at port 60001
 <p>Problem: it would have to be entered again and again, even for a single buffer...</p>
 </div>
 <div class="section" id="contributing-to-erlang-otp">
-<h2><a class="toc-backref" href="#toc-entry-43">Contributing to Erlang/OTP</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-45">Contributing to Erlang/OTP</a></h2>
 <p>A simple procedure may be:</p>
 <ul>
 <li><p class="first">first, check, especially in the case of a bug fixing, whether it corresponds to an already <a class="reference external" href="https://github.com/erlang/otp/issues">known issue</a></p>
@@ -891,7 +1063,7 @@ $ git checkout -b component/improve-something
 </ul>
 </div>
 <div class="section" id="uninstalling-erlang">
-<h2><a class="toc-backref" href="#toc-entry-44">Uninstalling Erlang</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-46">Uninstalling Erlang</a></h2>
 <p>Typically useful to prevent version clashes / use of an unexpected version.</p>
 <p>If Erlang was installed:</p>
 <ul class="simple">
@@ -905,14 +1077,14 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 </div>
 </div>
 <div class="section" id="micro-cheat-sheet">
-<h1><a class="toc-backref" href="#toc-entry-45">Micro-Cheat Sheet</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-47">Micro-Cheat Sheet</a></h1>
 <p>To avoid having to perform a lookup in the documentation:</p>
 <ul class="simple">
 <li>Erlang indices start at <tt class="docutils literal">1</tt>, except the ones of the <tt class="docutils literal">array</tt> module that are zero-based</li>
 <li>when they yield the same result, <tt class="docutils literal">=:=</tt> is a bit more efficient than <tt class="docutils literal">==</tt></li>
 <li>for tuples of unknown number of elements:<ul>
 <li><strong>setting</strong> an element is to be done with <tt class="docutils literal"><span class="pre">setelement(positive_index(),</span> <span class="pre">tuple(),</span> <span class="pre">term())</span> <span class="pre">-&gt;</span> tuple()</tt></li>
-<li><strong>extracting</strong> an element is to be done with <tt class="docutils literal"><span class="pre">element(positive_index(),</span> <span class="pre">tuple())</span> <span class="pre">-&gt;</span> term()</tt></li>
+<li><strong>reading</strong> an element is to be done with <tt class="docutils literal"><span class="pre">element(positive_index(),</span> <span class="pre">tuple())</span> <span class="pre">-&gt;</span> term()</tt></li>
 <li><strong>adding</strong> an element at a given index (e.g. to append a record tag) is to be done with <tt class="docutils literal"><span class="pre">erlang:insert_element(positive_index(),</span> <span class="pre">tuple(),</span> <span class="pre">term())</span> <span class="pre">-&gt;</span> tuple()</tt></li>
 <li><strong>removing</strong> an element at a given index (e.g. to chop a record tag) is to be done with <tt class="docutils literal"><span class="pre">erlang:delete_element(positive_index(),</span> <span class="pre">tuple())</span> <span class="pre">-&gt;</span> tuple()</tt></li>
 </ul>
@@ -940,8 +1112,8 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 <li>refer to the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/data_types.html#escape-sequences">escape sequences</a>, typically in order to specify characters like &quot;space&quot; (<tt class="docutils literal">$\s</tt>); <tt class="docutils literal">$char</tt> is the notation to designate the ASCII value or Unicode code-point of the character <tt class="docutils literal">char</tt> (e.g. <tt class="docutils literal">$A</tt>)</li>
 <li>the integer division operator is <tt class="docutils literal">div</tt>; for example: <tt class="docutils literal">4 div 3 == 1</tt></li>
 <li>see the always handy <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">operator precedence</a> and the various ways to <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#try">handle exceptions with try/catch</a>; note that to catch <em>all</em> exceptions - i.e. those of the <tt class="docutils literal">throw</tt> class, but also of the <tt class="docutils literal">exit</tt> and <tt class="docutils literal">error</tt> classes, one may use: <tt class="docutils literal">try EXPR catch _:E <span class="pre">-&gt;</span> ...</tt> (rather than just: <tt class="docutils literal">try EXPR catch E <span class="pre">-&gt;</span> ...</tt>)</li>
-<li>in <strong>guard expressions</strong>:<ul>
-<li>because of side effects, no user-defined function is allowed in guards; refer to the two tables listing all the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions">BIFs supported in guards expressions</a> (test or non-test BIFs)</li>
+<li>in <strong>guard expressions</strong> (see <a class="reference external" href="https://www.erlang.org/doc/system/expressions.html#guard-expressions">their list</a>):<ul>
+<li>because of side effects, no user-defined function is allowed in guards; refer to the two tables listing all the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions">BIFs supported in guards expressions</a> (test or non-test BIFs); notably in a guard there is no way of testing whether a value belongs to a list (except, of course, if the list is statically defined, by testing explicitly each of its elements against said value, interspersed with <tt class="docutils literal">orelse</tt> operators...)</li>
 <li>a guard will fail if it returns false <em>or if it throws an exception</em></li>
 <li>to express an &quot;and&quot; operator, use a comma, i.e. &quot;<tt class="docutils literal">,</tt>&quot;, like in <tt class="docutils literal">f(A, B, C, D) when A =:= B, C =/= A + D <span class="pre">-&gt;</span></tt></li>
 <li>to express an &quot;or&quot; operator, use a semi-colon, i.e. &quot;<tt class="docutils literal">;</tt>&quot;</li>
@@ -952,10 +1124,12 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 <li>a binary is a bit string whose number of bits is a multiple of 8 (it can be represented as whole bytes)</li>
 <li>one may refer to <a class="reference external" href="https://cheatography.com/fylke/cheat-sheets/erlang-binaries/">this cheat sheet</a>; see also an <a class="reference external" href="https://www.erlang.org/doc/programming_examples/bit_syntax.html">introduction to the bit syntax</a> (including <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#bit-string-comprehensions">bit string comprehensions</a>) and its <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#bit_syntax">full reference</a>, the <a class="reference external" href="https://www.erlang.org/doc/efficiency_guide/binaryhandling.html">Constructing and Matching Binaries</a> section and the <a class="reference external" href="https://www.erlang.org/doc/man/binary.html">binary</a> module; see also our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/data-management/bin_utils.erl">bin_utils</a> module</li>
 <li>as a rule of thumb:<ul>
-<li>even if it may seem a bit counter-intuitive, <em>integers</em> (the default matching type) are handled at the bit level (e.g. <tt class="docutils literal">A:16</tt> means an integer on two bytes), whereas <em>binaries</em> are handled at the byte level (e.g. <tt class="docutils literal">B:16/binary</tt> means 16 bytes) - indeed their bit-level counterparts are <em>bitstrings</em></li>
+<li>even if it may seem a bit counter-intuitive, <em>integers</em> (which is the default matching type) are handled at the <strong>bit</strong> level (e.g. <tt class="docutils literal">A:16</tt> means an integer on two bytes), whereas <em>binaries</em> are handled at the <strong>byte</strong> level (e.g. <tt class="docutils literal">B:16/binary</tt> means (a binary of) 16 <strong>bytes</strong>) - indeed their bit-level counterparts are <em>bitstrings</em></li>
+<li>to match any tail (remaining part) of a binary, the corresponding mute variable must be suffixed with <tt class="docutils literal">/binary</tt> (e.g. with <tt class="docutils literal">&lt;&lt;FullData:FullLen/binary, _NextChunk/binary&gt;&gt;</tt>), otherwise (e.g. with just <tt class="docutils literal">&lt;&lt;FullData:FullLen/binary, _NextChunk&gt;&gt;</tt>), the <tt class="docutils literal">_NextChunk</tt> mute variable will attempt to match only a (single) one-byte integer</li>
 <li>unlike lists, binaries are preferably built by appending <a class="reference external" href="https://www.erlang.org/doc/efficiency_guide/binaryhandling.html#constructing-binaries">on their right</a></li>
 </ul>
 </li>
+<li>to determine the size (memory footprint) of a binary, use: <tt class="docutils literal">1 = <span class="pre">size(&lt;&lt;122&gt;&gt;)</span></tt>; for a bitstring: <tt class="docutils literal">8 = <span class="pre">bit_size(&lt;&lt;122&gt;&gt;)</span></tt></li>
 </ul>
 </li>
 <li>typically for non-critical code (e.g. tests or temporary, debugging code):<ul>
@@ -968,9 +1142,19 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 </li>
 </ul>
 </li>
+<li>to define a multi-clause anonymous (i.e. lambda) function, for example for a fold:</li>
+</ul>
+<pre class="code erlang literal-block">
+<span class="nv">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">fun</span><span class="p">(</span><span class="w"> </span><span class="nv">K</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">_</span><span class="nv">SingleV</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nv">RetMap</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+           </span><span class="nv">RetMap</span><span class="p">;</span><span class="w">
+       </span><span class="p">(</span><span class="w"> </span><span class="nv">K</span><span class="p">,</span><span class="w"> </span><span class="nv">Dups</span><span class="p">,</span><span class="w"> </span><span class="nv">RetMap</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
+           </span><span class="nn">table</span><span class="p">:</span><span class="nf">add_entry</span><span class="p">(</span><span class="w"> </span><span class="nv">K</span><span class="p">,</span><span class="w"> </span><span class="nv">Dups</span><span class="p">,</span><span class="w"> </span><span class="nv">RetMap</span><span class="w"> </span><span class="p">)</span><span class="w">
+    </span><span class="k">end</span><span class="p">,</span>
+</pre>
+<ul class="simple">
 <li>in boolean expressions <strong>outside of guards</strong>:<ul>
 <li>do not use <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt>, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in <tt class="docutils literal">(A =:= B) and (C =/= D)</tt>) and, more importantly, they do not short-circuit, i.e. in <tt class="docutils literal">E = A and B</tt>, B will be evaluated even if A is already known as false (so is E), and in <tt class="docutils literal">E = A or B</tt>, B will be evaluated even if A is already known as true (so is E)</li>
-<li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-12" id="footnote-reference-12">[14]</a></li>
+<li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-13" id="footnote-reference-13">[15]</a></li>
 <li>so <tt class="docutils literal">case (A =:= B) and (C =/= D) of</tt> shall become <tt class="docutils literal">case A =:= B andalso C =/= D of</tt></li>
 <li>a common pattern is to use <tt class="docutils literal">andalso</tt> in order <em>to evaluate a target expression iff a boolean expression is true</em>, to replace a longer expression like:</li>
 </ul>
@@ -987,10 +1171,10 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 
 </span><span class="k">end</span>
 </pre>
-<table class="docutils footnote" frame="void" id="footnote-12" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-13" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-12">[14]</a></td><td><p class="first">Note that it is <em>not</em> the case of the <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt> operators, whose precedence is higher than, notably, the comparison operators.</p>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-13">[15]</a></td><td><p class="first">Note that it is <em>not</em> the case of the <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt> operators, whose precedence is higher than, notably, the comparison operators.</p>
 <p class="last">For example a clause defined as <tt class="docutils literal">f(I) when is_integer(I) and I &gt;= 0 <span class="pre">-&gt;</span> ...</tt>  will never be triggered as it is interpreted as <tt class="docutils literal">f(I) when (is_integer(I) and I) &gt;= 0 <span class="pre">-&gt;</span> ...</tt>, and the <tt class="docutils literal">and</tt> guard will always fail as I is an integer here, not a boolean. So such a clause should be defined as the (correct) <tt class="docutils literal">f(I) when is_integer(I) andalso I &gt;= 0 <span class="pre">-&gt;</span> ...</tt> instead.</p>
 </td></tr>
 </tbody>
@@ -1028,7 +1212,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 <p>Some of these elements have been adapted from the <a class="reference external" href="https://github.com/dgud/wings/blob/master/CodingGuidelines">Wings3D coding guidelines</a>.</p>
 </div>
 <div class="section" id="erlang-resources">
-<h1><a class="toc-backref" href="#toc-entry-46">Erlang Resources</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-48">Erlang Resources</a></h1>
 <ul class="simple">
 <li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
 <li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well; one may also check the <a class="reference external" href="https://exercism.org/tracks/erlang">Erlang track</a> on Exercism</li>

@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, March 19, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, May 18, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -159,7 +159,7 @@
 <p>Godot (version 3.4.1) will not be able to load FBX files that reference formats like PSD or TIF and/or of older versions (e.g. FBX 6.1). See for that our section regarding <a class="reference internal" href="#format-conversions">format conversions</a>.</p>
 <div class="section" id="installation">
 <h3><a class="toc-backref" href="#toc-entry-3">Installation</a></h3>
-<p>On Arch Linux, one may simply use <tt class="docutils literal">pacman <span class="pre">-Sy</span> godot</tt>.</p>
+<p>On Arch Linux, one may simply use <tt class="docutils literal">pacman <span class="pre">-S</span> godot</tt>.</p>
 <p>Or just, for maximum control, one may instead directly download the GNU/Linux version <a class="reference external" href="https://godotengine.org/download/linux/">from the Godot official website</a>.</p>
 <p>If planning to be able to develop in C# in addition to GDScript (refer to our <a class="reference internal" href="#scripting-language">Scripting Language</a> section), prefer the .NET version (as opposed to the Standard one), i.e. the &quot;<tt class="docutils literal">.NET (x86_64)</tt>&quot; version - provided that the support for .NET is already secured, either based on the <a class="reference external" href="https://dotnet.microsoft.com/download">Microsoft .NET SDK</a> or, possibly better, on the <a class="reference external" href="https://www.mono-project.com/download/stable/">Mono SDK</a>.</p>
 <p>The installation procedure that we prefer can be done automatically thanks to our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-godot.sh">install-godot.sh</a> script.</p>
@@ -189,6 +189,33 @@
 <li>all scripts are classes, which are by default anonymous</li>
 <li>before releasing one's game, it is certainly better to protect it thanks to some level of encryption (see <a class="reference external" href="https://www.reddit.com/r/godot/comments/1je90av/how_to_protect_your_godot_game_from_being_stolen/">this thread</a>)</li>
 </ul>
+</div>
+<div class="section" id="protection-hints">
+<h4>Protection Hints</h4>
+<p>Protecting one's (Godot) application is surely desirable, especially if it is not an online one.</p>
+<p>Good <strong>general measures</strong> can be:</p>
+<ul class="simple">
+<li>protect the application with copyright, DMCA and a trademark, and in-application graphical representations of it (e.g. check pixels of the title/splash/help screens to trigger copyright infringements if they do not match the original trademark, or do not display the official URL)</li>
+<li>ensure that anteriority of one's work can be proven (many solutions exists, from sending oneself a registered letter to paying a bailiff or storing a relevant hash in a public, mainstream blockchain)</li>
+<li>quickly get in touch with any distribution platform used</li>
+<li>be the first on one's market and/or drop the price to deter copycats</li>
+<li>build on one's community</li>
+<li>involve an online/server-side operation in the core of the application</li>
+<li>have first contacts with a relevant lawyer</li>
+<li>watermark assets / use steganography to include identifiers pointing to your project (URL to official website, public key, etc.)</li>
+</ul>
+<p>Notable defensive options <strong>against the reverse engineering</strong> of one's (Godot) application are:</p>
+<ul class="simple">
+<li>releasing only versions of one's application that are compiled, optimised and without symbols</li>
+<li>encrypting one's PCK file <a class="reference external" href="https://docs.godotengine.org/en/stable/contributing/development/compiling/compiling_with_script_encryption_key.html">with one's own encryption key</a> (e.g. a 256-bit AES key); then the export templates shall be specifically compiled from sources with that same key</li>
+<li>obfuscating one's GDScripts, typically with the <a class="reference external" href="https://github.com/cherriesandmochi/gdmaim">GDMaim</a> plugin when exporting one's project</li>
+<li>relying on statically compiled languages resulting in native binaries, like Godot Rust or C++ GDExtensions - especially for the core application logic; possibly AOT (<em>Ahead-Of-Time</em>) compilation could help as well</li>
+<li>performing at various random moments checksums of critical data, comparing it to the expected, well-hidden embedded sums (possibly received online), and triggering a delayed, smart application-specific response</li>
+<li>customising one's engine, to change the way assets are loaded, how keys are fetched/used or, more generally, the encryption logic, the bytecodes of some operations (in order to break the standard decompilers), etc.</li>
+<li>as a very last resort, relying on DRM / kernel-level watchdog programs (for protection, or to be able to establish in court that adequate protection measures were indeed applied)</li>
+</ul>
+<p>Solutions could be implemented as C++ (preferably to C#, as .Net can be more easily reversed) GDNative plugins, inserted into the startup path so that they are executed before most operations (loading assets, interpreting GDScripts, etc.).</p>
+<p>For a very basic test-proof of these measures, just search for some literal symbol (e.g. function name, or <tt class="docutils literal">foobar.tcsn</tt>) known to exist in the sources (e.g. with <tt class="docutils literal">strings my_app.pck | grep MY_SYMBOL</tt>).</p>
 </div>
 <div class="section" id="important-paths">
 <h4>Important Paths</h4>
@@ -1221,7 +1248,7 @@ P_{\beta\rightarrow\alpha}
 <div class="section" id="reference-glsl-compiler">
 <h3><a class="toc-backref" href="#toc-entry-63">Reference GLSL Compiler</a></h3>
 <p>As always, different compilers (corresponding to different brands of graphical cards) will not implement exactly the same way the (OpenGL GLSL, here) specification; and a shader may work correctly on one type of card and not on another.</p>
-<p>Testing shader code with the <a class="reference external" href="https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/">OpenGL / OpenGL ES Reference Compiler</a>, a.k.a. <tt class="docutils literal">glslang</tt> (installed on Arch Linux thanks to <tt class="docutils literal">pacman <span class="pre">-Sy</span> glslang</tt>, to be run as <tt class="docutils literal">glslangValidator</tt>) may report interesting information.</p>
+<p>Testing shader code with the <a class="reference external" href="https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/">OpenGL / OpenGL ES Reference Compiler</a>, a.k.a. <tt class="docutils literal">glslang</tt> (installed on Arch Linux thanks to <tt class="docutils literal">pacman <span class="pre">-S</span> glslang</tt>, to be run as <tt class="docutils literal">glslangValidator</tt>) may report interesting information.</p>
 <p>See the <em>OpenGL GLSL reference compiler</em> section of <a class="reference external" href="https://learnopengl.com/In-Practice/Debugging">this page</a> for more information.</p>
 </div>
 </div>
@@ -1266,7 +1293,7 @@ P_{\beta\rightarrow\alpha}
 <h2><a class="toc-backref" href="#toc-entry-67">Troubleshooting</a></h2>
 <p>If it is not the case (no direct rendering, or a GLX error being returned - typically involving any <tt class="docutils literal">X Error of failed request:&nbsp; BadValue</tt> for a <tt class="docutils literal">X_GLXCreateNewContext</tt>), one should investigate one's configuration (with <tt class="docutils literal">lspci | grep VGA</tt>, <tt class="docutils literal">lsmod</tt>, etc.), update one's video driver on par with the current kernel, sacrifice a chicken, reboot, etc.</p>
 <p>If using a NVidia graphic card, consider reading this <a class="reference external" href="https://wiki.archlinux.org/title/NVIDIA">Arch Linux wiki page</a> first.</p>
-<p>In our case, relevant installations could be done with <tt class="docutils literal">pacman <span class="pre">-Sy</span> nvidia <span class="pre">nvidia-utils</span></tt> but required a reboot.</p>
+<p>In our case, relevant installations could be done with <tt class="docutils literal">pacman <span class="pre">-S</span> nvidia <span class="pre">nvidia-utils</span></tt> but required a reboot.</p>
 <p>Despite package dependencies and a not-so-successful attempt of using DKMS in order to link kernel updates with graphic controller updates, too often a proper 3D support was lost, either from the boot or afterwards. Refer to our <a class="reference external" href="GNULinux.html#software-update">software update section</a> for hints in order to secure the durable use of proper drivers.</p>
 </div>
 </div>

@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, May 2, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, July 9, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -88,22 +88,25 @@
 <li><a class="reference internal" href="#adding-a-locale" id="toc-entry-40">Adding a Locale</a></li>
 <li><a class="reference internal" href="#performing-searches-and-replacements" id="toc-entry-41">Performing Searches and Replacements</a></li>
 <li><a class="reference internal" href="#xfce4-configuration" id="toc-entry-42">XFCE4 configuration</a></li>
-<li><a class="reference internal" href="#solving-pulseaudio-issues" id="toc-entry-43">Solving PulseAudio Issues</a></li>
+<li><a class="reference internal" href="#using-pulseaudio" id="toc-entry-43">Using PulseAudio</a></li>
 <li><a class="reference internal" href="#using-visual-studio-code" id="toc-entry-44">Using Visual Studio Code</a></li>
 <li><a class="reference internal" href="#using-e-mail-clients" id="toc-entry-45">Using E-mail Clients</a></li>
 <li><a class="reference internal" href="#sandboxing-an-application" id="toc-entry-46">Sandboxing an Application</a></li>
 <li><a class="reference internal" href="#recording-a-screencast" id="toc-entry-47">Recording a Screencast</a></li>
 <li><a class="reference internal" href="#specifying-iterations-with-bash" id="toc-entry-48">Specifying iterations with Bash</a></li>
-<li><a class="reference internal" href="#shell-auto-completing-the-available-make-targets" id="toc-entry-49">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></li>
-<li><a class="reference internal" href="#mini-shell-cheat-sheet" id="toc-entry-50">Mini Shell Cheat Sheet</a></li>
-<li><a class="reference internal" href="#mini-gnu-sed-cheat-sheet" id="toc-entry-51">Mini GNU <tt class="docutils literal">sed</tt> Cheat Sheet</a></li>
-<li><a class="reference internal" href="#mounting-manually-crypttab-declared-partitions" id="toc-entry-52">Mounting Manually crypttab-declared Partitions</a></li>
-<li><a class="reference internal" href="#recommended-tooling" id="toc-entry-53">Recommended Tooling</a></li>
-<li><a class="reference internal" href="#other-user-settings" id="toc-entry-54">Other User Settings</a></li>
-<li><a class="reference internal" href="#tool-specific-shortcuts" id="toc-entry-55">Tool-Specific Shortcuts</a></li>
+<li><a class="reference internal" href="#overcoming-failed-redirections" id="toc-entry-49">Overcoming Failed Redirections</a></li>
+<li><a class="reference internal" href="#shell-auto-completing-the-available-make-targets" id="toc-entry-50">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></li>
+<li><a class="reference internal" href="#mini-shell-cheat-sheet" id="toc-entry-51">Mini Shell Cheat Sheet</a></li>
+<li><a class="reference internal" href="#mini-gnu-grep-cheat-sheet" id="toc-entry-52">Mini GNU <tt class="docutils literal">grep</tt> Cheat Sheet</a></li>
+<li><a class="reference internal" href="#mini-gnu-sed-cheat-sheet" id="toc-entry-53">Mini GNU <tt class="docutils literal">sed</tt> Cheat Sheet</a></li>
+<li><a class="reference internal" href="#managing-fonts" id="toc-entry-54">Managing Fonts</a></li>
+<li><a class="reference internal" href="#mounting-manually-crypttab-declared-partitions" id="toc-entry-55">Mounting Manually crypttab-declared Partitions</a></li>
+<li><a class="reference internal" href="#recommended-tooling" id="toc-entry-56">Recommended Tooling</a></li>
+<li><a class="reference internal" href="#other-user-settings" id="toc-entry-57">Other User Settings</a></li>
+<li><a class="reference internal" href="#tool-specific-shortcuts" id="toc-entry-58">Tool-Specific Shortcuts</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#see-also" id="toc-entry-56">See Also</a></li>
+<li><a class="reference internal" href="#see-also" id="toc-entry-59">See Also</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -246,14 +249,18 @@ $<span class="w"> </span>shutdown-local-host.sh<span class="w"> </span>--reboot
 <p>These packages are listed thanks to <tt class="docutils literal">pacman <span class="pre">-Qet</span> | cut <span class="pre">-d'</span> ' <span class="pre">-f1</span></tt>, or even <tt class="docutils literal">pacman <span class="pre">-Q</span> | cut <span class="pre">-d'</span> ' <span class="pre">-f1</span></tt>.</p>
 <p>For the <strong>essentials</strong> (to be installed even before the first reboot from the chroot, to be able to access the Internet and to install other packages afterwards):</p>
 <pre class="code bash literal-block">
-$<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>--noconfirm<span class="w"> </span>base<span class="w"> </span>dhcpcd<span class="w"> </span>dnsmasq<span class="w"> </span>emacs<span class="w"> </span>firefox<span class="w"> </span>git<span class="w"> </span>gnome-terminal<span class="w"> </span>gparted<span class="w"> </span>grub<span class="w"> </span>inetutils<span class="w"> </span>iproute2<span class="w"> </span>iptables<span class="w"> </span>lightdm<span class="w"> </span>lightdm-gtk-greeter<span class="w"> </span>linux-headers<span class="w"> </span>linux-lts<span class="w"> </span>linux-lts-headers<span class="w"> </span>lsof<span class="w"> </span>make<span class="w"> </span>man<span class="w"> </span>man-pages<span class="w"> </span>mlocate<span class="w"> </span>nano<span class="w"> </span>netctl<span class="w"> </span>nmap<span class="w"> </span>openssh<span class="w"> </span>os-prober<span class="w"> </span>package-query<span class="w"> </span>pacman-contrib<span class="w"> </span>parted<span class="w"> </span>reflector<span class="w"> </span>sudo<span class="w"> </span>udisks2<span class="w"> </span>which<span class="w"> </span>xfce4<span class="w"> </span>xfce4-goodies<span class="w"> </span>xz<span class="w"> </span>zip<span class="w"> </span>zlib
+$<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>--noconfirm<span class="w"> </span>base<span class="w"> </span>dhcpcd<span class="w"> </span>dnsmasq<span class="w"> </span>emacs<span class="w"> </span>firefox<span class="w"> </span>git<span class="w"> </span>gnome-terminal<span class="w"> </span>gparted<span class="w"> </span>grub<span class="w"> </span>inetutils<span class="w"> </span>iproute2<span class="w"> </span>iptables<span class="w"> </span>lightdm<span class="w"> </span>lightdm-gtk-greeter<span class="w"> </span>linux-headers<span class="w"> </span>linux-lts<span class="w"> </span>linux-lts-headers<span class="w"> </span>lsof<span class="w"> </span>make<span class="w"> </span>man<span class="w"> </span>man-pages<span class="w"> </span>mlocate<span class="w"> </span>nano<span class="w"> </span>netctl<span class="w"> </span>nmap<span class="w"> </span>openssh<span class="w"> </span>os-prober<span class="w"> </span>package-query<span class="w"> </span>pacman-contrib<span class="w"> </span>parted<span class="w"> </span>reflector<span class="w"> </span>sudo<span class="w"> </span>udisks2<span class="w"> </span>unzip<span class="w"> </span>which<span class="w"> </span>xfce4<span class="w"> </span>xfce4-goodies<span class="w"> </span>xz<span class="w"> </span>zip<span class="w"> </span>zlib
 </pre>
 <p>For the <strong>generally useful</strong> tools:</p>
 <pre class="code bash literal-block">
-$<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>--noconfirm<span class="w"> </span>7zip<span class="w"> </span>alsa-utils<span class="w"> </span>android-file-transfer<span class="w"> </span>android-tools<span class="w"> </span>aspell-en<span class="w"> </span>aspell-fr<span class="w"> </span>base-devel<span class="w"> </span>bash-completion<span class="w"> </span>blender<span class="w"> </span>calibre<span class="w"> </span>chromium<span class="w"> </span>cronie<span class="w"> </span>curl<span class="w"> </span>diffutils<span class="w"> </span>dos2unix<span class="w"> </span>eog<span class="w"> </span>espeak-ng<span class="w"> </span>evince<span class="w"> </span>evolution<span class="w"> </span>exfat-utils<span class="w"> </span>firejail<span class="w"> </span>gedit<span class="w"> </span>geeqie<span class="w"> </span>gimp<span class="w"> </span>glu<span class="w"> </span>gnome-terminal<span class="w"> </span>gwenview<span class="w"> </span>htop<span class="w"> </span>inkscape<span class="w"> </span>inotify-tools<span class="w"> </span>iputils<span class="w"> </span>jq<span class="w"> </span>less<span class="w"> </span>libreoffice<span class="w"> </span>lsb-release<span class="w"> </span>lshw<span class="w"> </span>mathjax<span class="w"> </span>maxima<span class="w"> </span>meld<span class="w"> </span>mesa-utils<span class="w"> </span>most<span class="w"> </span>mpv<span class="w"> </span>mupdf<span class="w"> </span>nmap<span class="w"> </span>nuspell<span class="w"> </span>octave<span class="w"> </span>openresolv<span class="w"> </span>psensor<span class="w"> </span>python-docutils<span class="w"> </span>rsync<span class="w"> </span>rubber<span class="w"> </span>screen<span class="w"> </span>smartmontools<span class="w"> </span>thunar<span class="w"> </span>thunderbird<span class="w"> </span>traceroute<span class="w"> </span>transmission-qt<span class="w"> </span>tree<span class="w"> </span>vlc<span class="w"> </span>wget<span class="w"> </span>xlockmore<span class="w"> </span>yq
+$<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>--noconfirm<span class="w"> </span>7zip<span class="w"> </span>alsa-utils<span class="w"> </span>android-file-transfer<span class="w"> </span>android-tools<span class="w"> </span>aspell-en<span class="w"> </span>aspell-fr<span class="w"> </span>base-devel<span class="w"> </span>bash-completion<span class="w"> </span>blender<span class="w"> </span>calibre<span class="w"> </span>chromium<span class="w"> </span>cronie<span class="w"> </span>curl<span class="w"> </span>diffutils<span class="w"> </span>dos2unix<span class="w"> </span>drill<span class="w"> </span>eog<span class="w"> </span>espeak-ng<span class="w"> </span>evince<span class="w"> </span>evolution<span class="w"> </span>exfat-utils<span class="w"> </span>firejail<span class="w"> </span>gedit<span class="w"> </span>geeqie<span class="w"> </span>gimp<span class="w"> </span>glu<span class="w"> </span>gnome-terminal<span class="w"> </span>graphviz<span class="w"> </span>gwenview<span class="w"> </span>htop<span class="w"> </span>inkscape<span class="w"> </span>inotify-tools<span class="w"> </span>iputils<span class="w"> </span>iw<span class="w"> </span>jq<span class="w"> </span>less<span class="w"> </span>libreoffice<span class="w"> </span>lsb-release<span class="w"> </span>lshw<span class="w"> </span>mathjax<span class="w"> </span>maxima<span class="w"> </span>meld<span class="w"> </span>mesa-utils<span class="w"> </span>most<span class="w"> </span>mpv<span class="w"> </span>mupdf<span class="w"> </span>nmap<span class="w"> </span>ntp<span class="w"> </span>nuspell<span class="w"> </span>octave<span class="w"> </span>openresolv<span class="w"> </span>psensor<span class="w"> </span>python-docutils<span class="w"> </span>python-sphinx<span class="w"> </span>python-sphinx_rtd_theme<span class="w"> </span>rsync<span class="w"> </span>rubber<span class="w"> </span>screen<span class="w"> </span>smartmontools<span class="w"> </span>texlive<span class="w"> </span>texlive-binextra<span class="w"> </span>texlive-gnu-freefont<span class="w"> </span>texlive-xetex<span class="w"> </span>thunar<span class="w"> </span>thunderbird<span class="w"> </span>traceroute<span class="w"> </span>transmission-qt<span class="w"> </span>tree<span class="w"> </span>vlc<span class="w"> </span>wget<span class="w"> </span>xlockmore<span class="w"> </span>xorg-xinput<span class="w"> </span>yq
 </pre>
 <p>Note: <tt class="docutils literal"><span class="pre">gnome-keyring</span></tt> is needed so that evolution is able to store credentials.</p>
 <p>Possibly useful: <tt class="docutils literal"><span class="pre">intel-ucode</span></tt>.</p>
+<p>For <strong>laptops</strong>:</p>
+<pre class="code bash literal-block">
+$<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>--needed<span class="w"> </span>--noconfirm<span class="w"> </span>wpa_supplicant
+</pre>
 </div>
 <div class="section" id="aur-installations">
 <h2><a class="toc-backref" href="#toc-entry-8">AUR Installations</a></h2>
@@ -957,6 +964,8 @@ $<span class="w"> </span>locale-gen<span class="w">
 <h2><a class="toc-backref" href="#toc-entry-42">XFCE4 configuration</a></h2>
 <div class="section" id="settings-of-interest">
 <h3>Settings of Interest</h3>
+<p>At least most of the XFCE4 configuration can be found in the <tt class="docutils literal"><span class="pre">~/.config/xfce4/</span></tt> tree, notably in the <tt class="docutils literal"><span class="pre">~/.config/xfce4/xfconf/xfce-perchannel-xml</span></tt> directory.</p>
+<p>From there symbolic links can be created to reference version; see <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Heavy/tree/master/src/conf/environment/xfce4">our preferred (XFCE4) settings</a> for that.</p>
 <p>Good window managers are <tt class="docutils literal">Galaxy</tt> and <tt class="docutils literal">Microdeck3</tt>.</p>
 </div>
 <div class="section" id="applying-a-xfce4-configuration-to-a-different-user">
@@ -971,11 +980,31 @@ $<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/h
 </span>$<span class="w"> </span>chmod<span class="w"> </span>-R<span class="w"> </span>/home/user_b/<span class="o">{</span>.config,.local<span class="o">}</span><span class="w"> </span>user_b:users
 </pre>
 <p>Then a key point is to fully reset XFCE4. Unlogging and/or <tt class="docutils literal">killall <span class="pre">-HUP</span> xfdesktop</tt> may not be sufficient. As a last resort, rebooting shall work.</p>
-<p>Selecting a per-user wallpaper may help distinguishing users.</p>
+<p>Selecting a per-user wallpaper may help distinguishing users and hosts.</p>
 </div>
+</div>
+<div class="section" id="using-pulseaudio">
+<h2><a class="toc-backref" href="#toc-entry-43">Using PulseAudio</a></h2>
+<div class="section" id="installation">
+<h3>Installation</h3>
+<p>Of course PulseAudio shall be installed first, for example with <tt class="docutils literal">pacman <span class="pre">-S</span> <span class="pre">--needed</span> pulseaudio <span class="pre">pulseaudio-alsa</span></tt>; related executables like <tt class="docutils literal">pacmd</tt> and <tt class="docutils literal">pactl</tt> become available as well.</p>
+<p>As one's main, regular user, one may then run:</p>
+<pre class="code literal-block">
+# Probably not started initially:
+
+# Start it:
+$ systemctl --user start pulseaudio
+
+# Check:
+$ systemctl --user status pulseaudio
+
+# Enable for good:
+$ systemctl --user enable pulseaudio
+</pre>
+<p>Then only one can have proper issues with PulseAudio.</p>
 </div>
 <div class="section" id="solving-pulseaudio-issues">
-<h2><a class="toc-backref" href="#toc-entry-43">Solving PulseAudio Issues</a></h2>
+<h3>Solving PulseAudio Issues</h3>
 <p>As your current user:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </span>/tmp/pulse*<span class="w"> </span>~/.pulse*<span class="w"> </span>~/.config/pulse<span class="w">
@@ -986,6 +1015,7 @@ $<span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </sp
 <p>One may run <tt class="docutils literal">pacmd <span class="pre">list-cards</span></tt> to obtain the information (e.g. symbolic and profile names) to specify <tt class="docutils literal"><span class="pre">set-card-profile</span></tt> entries (useful to set proper defaults and switch off unwanted elements).</p>
 <p>See also these <a class="reference external" href="https://wiki.archlinux.org/title/PulseAudio/Examples">Arch guidelines</a>.</p>
 <p>As last resort (rarely needed), as root, one may reinstall it: <tt class="docutils literal">pacman <span class="pre">-Sy</span> pulseaudio</tt> and reboot.</p>
+</div>
 </div>
 <div class="section" id="using-visual-studio-code">
 <h2><a class="toc-backref" href="#toc-entry-44">Using Visual Studio Code</a></h2>
@@ -1083,8 +1113,18 @@ $<span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </sp
 <li>a range: <tt class="docutils literal">ls <span class="pre">images-{1..7}-of-cats.jpeg</span></tt>, possibly with an increment: <tt class="docutils literal">ls <span class="pre">images-{1..7..2}-of-cats.jpeg</span></tt></li>
 </ul>
 </div>
+<div class="section" id="overcoming-failed-redirections">
+<h2><a class="toc-backref" href="#toc-entry-49">Overcoming Failed Redirections</a></h2>
+<p>If wanting to redirect an output stream to a file, like in <tt class="docutils literal">some_command 1&gt; foo.txt</tt>, if the <tt class="docutils literal">noclobber</tt> option is set, a (bash) shell will refuse overwriting any already-existing file of that name (e.g. with <tt class="docutils literal">foo.txt: cannot overwrite existing file</tt>).</p>
+<p>To allow such overwriting:</p>
+<ul class="simple">
+<li>just for a given command: use <tt class="docutils literal">&gt;|</tt> instead (e.g. <tt class="docutils literal">some_command 1&gt;| foo.txt</tt>)</li>
+<li>for the current shell session onward: execute <tt class="docutils literal">set +o noclobber</tt> (and use <tt class="docutils literal">set <span class="pre">-o</span> noclobber</tt> to disallow overwriting afterwards)</li>
+</ul>
+<p>Failing to overwrite might also stem from owner/permission problems, or the file being protected with <tt class="docutils literal">chattr</tt>, etc.</p>
+</div>
 <div class="section" id="shell-auto-completing-the-available-make-targets">
-<h2><a class="toc-backref" href="#toc-entry-49">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-50">Shell Auto-completing the available <tt class="docutils literal">make</tt> targets</a></h2>
 <p>If able to do so, just install a <tt class="docutils literal"><span class="pre">bash-completion</span></tt> package, available on most distributions (including Arch Linux).</p>
 <p>Otherwise, one may add to one's shell profile / configuration (e.g. <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt>):</p>
 <pre class="code bash literal-block">
@@ -1092,7 +1132,7 @@ $<span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </sp
 </pre>
 </div>
 <div class="section" id="mini-shell-cheat-sheet">
-<h2><a class="toc-backref" href="#toc-entry-50">Mini Shell Cheat Sheet</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-51">Mini Shell Cheat Sheet</a></h2>
 <p>For the basic <tt class="docutils literal">/bin/sh</tt> shell (Bash being a superset thereof).</p>
 <div class="section" id="switch-like-statement">
 <h3>Switch-like Statement</h3>
@@ -1165,16 +1205,60 @@ $<span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </sp
 </pre>
 </div>
 </div>
+<div class="section" id="mini-gnu-grep-cheat-sheet">
+<h2><a class="toc-backref" href="#toc-entry-52">Mini GNU <tt class="docutils literal">grep</tt> Cheat Sheet</a></h2>
+<p>To display 15 lines of context after a match:</p>
+<blockquote>
+$ cat foo.txt | grep -A 15 MY_PATTERN</blockquote>
+</div>
 <div class="section" id="mini-gnu-sed-cheat-sheet">
-<h2><a class="toc-backref" href="#toc-entry-51">Mini GNU <tt class="docutils literal">sed</tt> Cheat Sheet</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-53">Mini GNU <tt class="docutils literal">sed</tt> Cheat Sheet</a></h2>
 <p>To substitute in-place a line starting by a prefix with another:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s|^foobar.version=.*</span>$<span class="s2">|foobar.version=</span><span class="si">${</span><span class="nv">MY_VERSION</span><span class="si">}</span><span class="s2">|1&quot;</span>
 </pre>
 <p>One may also refer to <a class="reference external" href="https://quickref.me/sed.html">this cheat sheet</a>.</p>
 </div>
+<div class="section" id="managing-fonts">
+<h2><a class="toc-backref" href="#toc-entry-54">Managing Fonts</a></h2>
+<div class="section" id="choosing-one-s-font">
+<h3>Choosing one's Font</h3>
+<p>Fonts of good reputations, notably for programming (name and corresponding package specified):</p>
+<ul class="simple">
+<li>Jetbrains Mono (<tt class="docutils literal"><span class="pre">ttf-jetbrains-mono-nerd</span></tt>)</li>
+<li><a class="reference external" href="https://typeof.net/Iosevka/">Iosevka</a> (<tt class="docutils literal"><span class="pre">ttc-iosevka</span></tt>)</li>
+<li>Inconsolata (<tt class="docutils literal"><span class="pre">ttf-inconsolata-nerd</span></tt>)</li>
+<li>DejaVu (<tt class="docutils literal"><span class="pre">ttf-dejavu-nerd</span></tt>)</li>
+<li>Fantasque (<tt class="docutils literal"><span class="pre">ttf-fantasque-nerd</span></tt>)</li>
+</ul>
+<p>See also <a class="reference external" href="https://www.slant.co/topics/67/~best-programming-fonts">this comparison site</a>.</p>
+</div>
+<div class="section" id="locations">
+<h3>Locations</h3>
+<p>For manually-installed fonts, the system-wide location to prefer is <tt class="docutils literal">/usr/local/share/fonts/</tt> (it should be created if not already existing).</p>
+<p><tt class="docutils literal">/usr/share/fonts/</tt> is to be managed solely by the package manager.</p>
+</div>
+<div class="section" id="installation-1">
+<h3>Installation</h3>
+<p>Fonts are best handled through the package manager.</p>
+<p>For example, <tt class="docutils literal">pacman <span class="pre">ttc-iosevka</span></tt> creates <tt class="docutils literal"><span class="pre">/usr/share/fonts/TTF/Iosevka-*.ttc</span></tt> files.</p>
+<p>To query the package manager about fonts: <tt class="docutils literal">pacman <span class="pre">-Ss</span> font</tt>, or <tt class="docutils literal">pacman <span class="pre">-Ss</span> monospace</tt> for example.</p>
+</div>
+<div class="section" id="configuration-1">
+<h3>Configuration</h3>
+<ul class="simple">
+<li>to list all fonts and styles available on the system for applications using Fontconfig, execute <tt class="docutils literal"><span class="pre">fc-list</span></tt>; for a more tractable list of font families: <tt class="docutils literal"><span class="pre">fc-list</span> <span class="pre">--format=&quot;%{family[0]}\n&quot;</span> | sort | uniq</tt></li>
+<li>to update manually the Fontconfig cache: <tt class="docutils literal"><span class="pre">fc-cache</span></tt></li>
+</ul>
+<p>See also:</p>
+<ul class="simple">
+<li>our section for <a class="reference external" href="Emacs.html#fonts">Emacs font configuration</a></li>
+<li>the corresponding <a class="reference external" href="https://wiki.archlinux.org/title/Fonts">ArchWiki page about fonts</a></li>
+</ul>
+</div>
+</div>
 <div class="section" id="mounting-manually-crypttab-declared-partitions">
-<h2><a class="toc-backref" href="#toc-entry-52">Mounting Manually crypttab-declared Partitions</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-55">Mounting Manually crypttab-declared Partitions</a></h2>
 <p>Let's suppose such a partition (here a LUKS-encrypted one) is declared, in <tt class="docutils literal">/etc/crypttab</tt>, as:</p>
 <pre class="literal-block">
 my-encrypted-nvme-storage UUID=a46879cf-xxx luks,timeout=10,fido2-device=auto
@@ -1195,7 +1279,7 @@ $ cat &quot;/run/systemd/generator/$SERVICE&quot;
 <p>See also <a class="reference external" href="#creating-encrypted-partitions">this section</a> for related details.</p>
 </div>
 <div class="section" id="recommended-tooling">
-<h2><a class="toc-backref" href="#toc-entry-53">Recommended Tooling</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-56">Recommended Tooling</a></h2>
 <p>The tools are designated according to their Arch package name.</p>
 <p>See also our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/e">e script</a> (for edit) and our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/v">v script</a> (for view), which run the right (available) tool that corresponds to the file extension of its argument.</p>
 <div class="section" id="editors">
@@ -1209,11 +1293,11 @@ $ cat &quot;/run/systemd/generator/$SERVICE&quot;
 </div>
 </div>
 <div class="section" id="other-user-settings">
-<h2><a class="toc-backref" href="#toc-entry-54">Other User Settings</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-57">Other User Settings</a></h2>
 <p>See our <a class="reference external" href="https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a">preferences</a> for <a class="reference external" href="https://www.startpage.com">Startpage</a>; it can be set as homepage.</p>
 </div>
 <div class="section" id="tool-specific-shortcuts">
-<h2><a class="toc-backref" href="#toc-entry-55">Tool-Specific Shortcuts</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-58">Tool-Specific Shortcuts</a></h2>
 <p>Listing here the main keyboard shortcuts of interest for a few base tools.</p>
 <div class="section" id="for-less">
 <h3>For <tt class="docutils literal">less</tt></h3>
@@ -1261,7 +1345,7 @@ $ cat &quot;/run/systemd/generator/$SERVICE&quot;
 </div>
 </div>
 <div class="section" id="see-also">
-<h1><a class="toc-backref" href="#toc-entry-56">See Also</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-59">See Also</a></h1>
 <p>One may refer to our other mini-HOWTO regarding:</p>
 <ul class="simple">
 <li><a class="reference external" href="Networking.html">Network Management</a></li>
