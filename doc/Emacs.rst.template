@@ -154,25 +154,7 @@ Regarding Erlang
 
 We propose `init-myriad-erlang-advanced.el <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el>`_, to provide additional tooling on top of the prior ``init-myriad-erlang-base``.
 
-.. (currently not deemed satisfactory enough, at least for our use cases)
-
-It requires ``erlang_ls``, which can be typically obtained thanks to:
-
-.. code:: bash
-
-  $ mkdir -p ~/Software
-  $ cd ~/Software
-  $ git clone https://github.com/erlang-ls/
-  $ cd erlang_ls && make && mkdir bin && cd bin
-  $ ln -s ../_build/default/bin/erlang_ls
-  # Then add ${HOME}/Software/erlang_ls/bin to your PATH.
-
-``erlang_ls`` shall be regularly updated (e.g. with: ``cd ${HOME}/Software/erlang_ls && git pull && make all``).
-
-
-Its per-user configuration can be defined in ``~/.config/erlang_ls``. We prefer that it is a symbolic link to our `own version thereof <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/erlang_ls.config>`_.
-
-One may refer to ``~/Software/erlang_ls/misc/dotemacs`` for a configuration example.
+See also `our Erlang-related section on that topic <Erlang.html#using-emacs-for-erlang>`_.
 
 
 

@@ -846,9 +846,9 @@ Properly Commenting
 
 As far as we understand, the best practice is to rely on:
 
-- `EDoc <https://www.erlang.org/doc/apps/edoc/chapter.html>`_, possibly with its `wiki notation <https://www.erlang.org/doc/apps/edoc/chapter#Wiki_notation>`_
-- the `new -moduledoc / -doc attributes <https://www.erlang.org/eeps/eep-0059#new-module-attributes>`_, which are replacements for EDoc style comments; refer to this `documentation page <https://www.erlang.org/doc/system/documentation.html>`_ to make good use of them
-- documentation text in which verbatim quoting is done by enclosing the target text with ````` (i.e. a single backquote, on both sides - even if, for some reason, `this section <https://www.erlang.org/doc/apps/edoc/chapter#verbatim-quoting>`_ promotes ```'``), as suggested by the `Erlang/OTP sources themselves <https://github.com/erlang/otp/blob/master/lib/kernel/src/inet.erl#L70>`_; so documentation may include for example ```gethostbyaddr/1``` or ```"150.236.20.73"```
+- `EDoc <https://www.erlang.org/doc/apps/edoc/chapter.html>`_, yet without relying on the syntax exposed in that link (not even its `wiki notation <https://www.erlang.org/doc/apps/edoc/chapter#Wiki_notation>`_), but according to the next point (i.e. the Markdown syntax)
+- the `new -moduledoc / -doc attributes <https://www.erlang.org/eeps/eep-0059#new-module-attributes>`_, which are replacements for EDoc style comments; refer to this `documentation page <https://www.erlang.org/doc/system/documentation.html>`_ to make good use of them; in a nutshell, we recommend using the default format for documentation attributes, Markdown, whose actual syntax is summarised for example in `this page <https://www.markdownguide.org/basic-syntax/>`_
+- documentation text in which verbatim quoting is therefore done by enclosing the target text with ````` (i.e. a single backquote, on both sides - even if, for some reason, `this section <https://www.erlang.org/doc/apps/edoc/chapter#verbatim-quoting>`_ promotes ```'``), as suggested by the `Erlang/OTP sources themselves <https://github.com/erlang/otp/blob/master/lib/kernel/src/inet.erl#L70>`_; so documentation may include for example ```gethostbyaddr/1``` or ```"150.236.20.73"```
 - named hypertext links are in the form of ``[displayed text](http://foobar.html)``, otherwise a link to be displayed verbatim may just be specified as ``[http://foobar.html]``
 
 As a reminder of the syntax that ``-moduledoc`` / ``-doc`` attributes support (note the ``m/t/c`` prefixes):
@@ -1091,6 +1091,7 @@ Formatting Erlang Code
 
 Various tools are able to format Erlang code, see `this page <https://github.com/WhatsApp/erlfmt/blob/main/doc/ErlangFormatterComparison.md>`_ for a comparison thereof.
 
+
 With ``rebar3_format``
 ......................
 
@@ -1249,12 +1250,78 @@ Extra information resources about ``wx`` (besides the documentation of its modul
 
 
 
+Using a LSP language server for Erlang
+--------------------------------------
+
+We used to rely on `erlang_ls <https://erlang-ls.github.io/>`_, which is archived (unmaintained) now; we prefer using `ELP <https://whatsapp.github.io/erlang-language-platform/>`_, i.e. the so-called *Erlang Language Platform* now.
+
+
+Installing ELP
+..............
+
+We mostly follow `these guidelines here <https://whatsapp.github.io/erlang-language-platform/docs/get-started/install/#from-source/>`_
+
+This implies the build of `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_, which requires:
+
+- Java 11 or more recent, which we obtain (based on OpenJDK) on Arch with ``pacman -S jdk-openjdk`` and that we select based on the output of ``archlinux-java status``, leading to execute for example: ``archlinux-java set java-24-openjdk`` (check then the actual version with ``java -version``)
+- `sbt <https://github.com/sbt/sbt>`_ (*a build tool for Scala, Java, and more*), which can be obtained on Arch with ``pacman -S sbt``.
+
+Once these prerequisite are available, eqWAlizer can be built:
+
+.. code:: bash
+
+ $ mkdir ~/Software
+ $ cd ~/Software
+ $ git clone https://github.com/WhatsApp/eqwalizer.git
+ $ pushd eqwalizer/eqwalizer
+ $ sbt assembly
+ $ popd
+
+ # May find for example
+ # eqwalizer/eqwalizer/target/scala-3.6.4/eqwalizer.jar:
+ $ find eqwalizer -name eqwalizer.jar
+
+
+Then in one's  ``~/.bashrc`` for example, supposing a single version of such a build exists, one may declare::
+
+  export ELP_EQWALIZER_PATH="$(/bin/ls ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar)"
+
+
+Then ELP shall be built, which requires sufficiently recent Rust and cargo (notably for the `edition2024` feature; on Arch, ``pacman -S rust`` shall suffice).
+
+.. code:: bash
+
+ $ cd ~/Software
+ $ git clone https://github.com/WhatsApp/erlang-language-platform.git
+ # This will be long:
+ $ cd erlang-language-platform && cargo build --release
+
+
+Then in one's  ``~/.bashrc`` for example, one may declare::
+
+  export PATH="${HOME}/Software/erlang-language-platform/target/release:${PATH}"
+
+Test that tyhe ``elp`` can be found indeed.
+
+
+
+Integrating ELP to Emacs
+........................
+
+For that `these guidelines <https://whatsapp.github.io/erlang-language-platform/docs/get-started/editors/emacs/>`_ shall be followed.
+
+We simply recommend the use of the dedicated `Myriad configuration for Erlang <https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el>`_.
+
+
+
 Installing rebar3
 -----------------
 
 One may use our `install-rebar3.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/install-rebar3.sh>`_ script for that (installed from sources, or prebuilt).
 
 
+
+.. _`using Emacs for Erlang`:
 
 Using Emacs
 -----------
@@ -1267,13 +1334,13 @@ in `init.el`, a specific key (here, F11) may be assigned for that::
 
  (global-set-key [f11] 'erlang-font-lock-level-4)
 
-
 Problem: it would have to be entered again and again, even for a single buffer...
-
 
 .. test with init.el-minimal-for-erlang-testing
 .. for example look up, in oceanic.erl, '-spec execute_command'
 .. Definition of Erlang support for Emacs in $ERL_INSTALL_ROOT/lib/erlang/emacs/erlang.el
+
+See also `Using a LSP language server for Erlang`_.
 
 
 
@@ -1418,7 +1485,7 @@ To avoid having to perform a lookup in the documentation:
 	- functions (rather than silencing them with an ``-export([f/1, g/3])``): ``-compile([ {nowarn_unused_function, [{f,1}, {g,3}]} ]).``
 	- types: they can be silenced with an ``-export_type([t1/0, t2/1])``), which is better (more selective) than ``-compile(nowarn_unused_type)`` (unfortunately ``-compile([ {nowarn_unused_type, [t1/0, t2/1]} ]).`` is not supported)
 
-- to define a multi-clause anonymous (i.e. lambda) function, for example for a fold:
+- to define a multi-clause anonymous (i.e. lambda) function, for example for a fold, just use the ``fun`` name for the first clause, and omit it for the next ones:
 
 .. code:: erlang
 
