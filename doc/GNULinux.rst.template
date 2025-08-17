@@ -1537,15 +1537,31 @@ Testing whether a given file element is either a regular file or a non-dead syml
 	fi
 
 
+
+Arithmetic Operations
+.....................
+
+To perform (basic) arithmetic operations (on ``sh``, not ``bash`` or alike, which provide better, alternate ways), the best approach we consider is to use ``expr`` (*evaluate expressions*), like in:
+
+.. code:: sh
+
+	count=$(expr ${count} + 1)  # Increment
+	max_year=$(expr ${new_year} - 1)  # Decrement
+	minutes_as_secs=$(expr ${minutes} \* 60) # Multiply (note the escaping)
+
+``bc`` could be used as well, provided it is available on the local host.
+
+
+
 No-Op
 .....
 
-In sh and all, use ``:``, typically to fill (at least temporarily) an otherwise empty control branch with a no-operation (do nothing) statement, like in:
+In ``sh`` and all, use ``:``, typically to fill (at least temporarily) an otherwise empty control branch with a no-operation (do nothing) statement, like in:
 
 .. code:: sh
 
 	if SOME_COND; then
-		...
+		echo "Hello"
 	else
 		:
 	fi
@@ -1557,8 +1573,11 @@ Mini GNU ``grep`` Cheat Sheet
 
 To display 15 lines of context after a match:
 
+.. code:: bash
+
  $ cat foo.txt | grep -A 15 MY_PATTERN
 
+(``-A`` means "after"; use ``-B`` for "before", and ``-C`` for both, i.e. a context of the specified number of lines before *and* after the match)
 
 
 Mini GNU ``sed`` Cheat Sheet
