@@ -326,7 +326,7 @@ Here are extra `examples thereof <https://libguides.wpi.edu/citingsources/apa_ex
 - the in-text reference pointers shall be, for books, like ``(Author, Year)``; for example ``(Taylor, 2005)``
 - each of these pointers designates an actual reference in the form:
 
- Authors' Last name, First Initial. (Year). Book title: Subtitle. (Edition) [if other than the 1st]. Publisher
+  ``Authors' Last name, First Initial. (Year). Book title: Subtitle. (Edition) [if other than the 1st]. Publisher``
 
 
 Unfortunately neither types of APA citations is supported (possibly because of the parentheses and/or the space, the text is not interpreted as a citation. So for example ``[(Taylor, 2005)]_`` / ``.. [(Taylor, 2005)]`` will not work.
