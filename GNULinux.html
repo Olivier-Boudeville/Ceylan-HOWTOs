@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, August 6, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, August 15, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -1197,16 +1197,18 @@ $<span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </sp
 <h3>Arithmetic Operations</h3>
 <p>To perform (basic) arithmetic operations (on <tt class="docutils literal">sh</tt>, not <tt class="docutils literal">bash</tt> or alike, which provide better, alternate ways), the best approach we consider is to use <tt class="docutils literal">expr</tt> (<em>evaluate expressions</em>), like in:</p>
 <pre class="code sh literal-block">
-<span class="nv">minutes_as_secs</span><span class="o">=</span><span class="k">$(</span>expr<span class="w"> </span><span class="si">${</span><span class="nv">minutes</span><span class="si">}</span><span class="w"> </span><span class="se">\*</span><span class="w"> </span><span class="m">60</span><span class="k">)</span>
+<span class="nv">count</span><span class="o">=</span><span class="k">$(</span>expr<span class="w"> </span><span class="si">${</span><span class="nv">count</span><span class="si">}</span><span class="w"> </span>+<span class="w"> </span><span class="m">1</span><span class="k">)</span><span class="w">  </span><span class="c1"># Increment
+</span><span class="nv">max_year</span><span class="o">=</span><span class="k">$(</span>expr<span class="w"> </span><span class="si">${</span><span class="nv">new_year</span><span class="si">}</span><span class="w"> </span>-<span class="w"> </span><span class="m">1</span><span class="k">)</span><span class="w">  </span><span class="c1"># Decrement
+</span><span class="nv">minutes_as_secs</span><span class="o">=</span><span class="k">$(</span>expr<span class="w"> </span><span class="si">${</span><span class="nv">minutes</span><span class="si">}</span><span class="w"> </span><span class="se">\*</span><span class="w"> </span><span class="m">60</span><span class="k">)</span><span class="w"> </span><span class="c1"># Multiply (note the escaping)</span>
 </pre>
 <p><tt class="docutils literal">bc</tt> could be used as well, provided it is available on the local host.</p>
 </div>
 <div class="section" id="no-op">
 <h3>No-Op</h3>
-<p>In sh and all, use <tt class="docutils literal">:</tt>, typically to fill (at least temporarily) an otherwise empty control branch with a no-operation (do nothing) statement, like in:</p>
+<p>In <tt class="docutils literal">sh</tt> and all, use <tt class="docutils literal">:</tt>, typically to fill (at least temporarily) an otherwise empty control branch with a no-operation (do nothing) statement, like in:</p>
 <pre class="code sh literal-block">
 <span class="k">if</span><span class="w"> </span>SOME_COND<span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w">
-    </span>...<span class="w">
+    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hello&quot;</span><span class="w">
 </span><span class="k">else</span><span class="w">
     </span>:<span class="w">
 </span><span class="k">fi</span>
@@ -1219,6 +1221,7 @@ $<span class="w"> </span>/bin/rm<span class="w"> </span>-rf<span class="w"> </sp
 <pre class="code bash literal-block">
 $<span class="w"> </span>cat<span class="w"> </span>foo.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">15</span><span class="w"> </span>MY_PATTERN
 </pre>
+<p>(<tt class="docutils literal"><span class="pre">-A</span></tt> means &quot;after&quot;; use <tt class="docutils literal"><span class="pre">-B</span></tt> for &quot;before&quot;, and <tt class="docutils literal"><span class="pre">-C</span></tt> for both, i.e. a context of the specified number of lines before <em>and</em> after the match)</p>
 </div>
 <div class="section" id="mini-gnu-sed-cheat-sheet">
 <h2><a class="toc-backref" href="#toc-entry-53">Mini GNU <tt class="docutils literal">sed</tt> Cheat Sheet</a></h2>

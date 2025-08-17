@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, March 16, 2025</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, June 25, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, August 17, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -140,18 +140,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <div class="section" id="regarding-erlang">
 <h3><a class="toc-backref" href="#toc-entry-8">Regarding Erlang</a></h3>
 <p>We propose <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-erlang-advanced.el">init-myriad-erlang-advanced.el</a>, to provide additional tooling on top of the prior <tt class="docutils literal"><span class="pre">init-myriad-erlang-base</span></tt>.</p>
-<p>It requires <tt class="docutils literal">erlang_ls</tt>, which can be typically obtained thanks to:</p>
-<pre class="code bash literal-block">
-$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Software<span class="w">
-</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
-</span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/erlang-ls/<span class="w">
-</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>erlang_ls<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mkdir<span class="w"> </span>bin<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>bin<span class="w">
-</span>$<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>../_build/default/bin/erlang_ls<span class="w">
-</span><span class="c1"># Then add ${HOME}/Software/erlang_ls/bin to your PATH.</span>
-</pre>
-<p><tt class="docutils literal">erlang_ls</tt> shall be regularly updated (e.g. with: <tt class="docutils literal">cd <span class="pre">${HOME}/Software/erlang_ls</span> &amp;&amp; git pull &amp;&amp; make all</tt>).</p>
-<p>Its per-user configuration can be defined in <tt class="docutils literal"><span class="pre">~/.config/erlang_ls</span></tt>. We prefer that it is a symbolic link to our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/erlang_ls.config">own version thereof</a>.</p>
-<p>One may refer to <tt class="docutils literal">~/Software/erlang_ls/misc/dotemacs</tt> for a configuration example.</p>
+<p>See also <a class="reference external" href="Erlang.html#using-emacs-for-erlang">our Erlang-related section on that topic</a>.</p>
 </div>
 </div>
 <div class="section" id="wrapping-up-configurations">

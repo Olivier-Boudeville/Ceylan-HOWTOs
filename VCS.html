@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Tuesday, April 15, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, August 18, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -344,15 +344,15 @@ $<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </s
 <p>The stash is convenient in order to switch branches without having to perform an arbitrary (meaningless) commit just for the sake of switching.</p>
 <p>A basic use of the stash is the following:</p>
 <ul class="simple">
-<li>to store the currently modified files in the stash: <tt class="docutils literal">git stash</tt> (equivalent of <tt class="docutils literal">git stash push</tt>)</li>
-<li>to restore the (by default lastly) stored state (hence the reciprocal of the previous command), i.e. to apply it to the current files (with no review and no changes to add afterwards) and then drop that stashed entry: <tt class="docutils literal">git stash pop [STASH_INDEX]</tt></li>
-<li>to list the various sets of modifications stashed away: <tt class="docutils literal">git stash list</tt></li>
-<li>to show the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created:<ul>
-<li>with just one synthetic line per file changed: <tt class="docutils literal">git stash show [STASH_INDEX]</tt></li>
-<li>with all actual changes: <tt class="docutils literal">git stash show <span class="pre">-p</span> [STASH_INDEX]</tt></li>
+<li>to <strong>store the currently modified files in the stash</strong>: <tt class="docutils literal">git stash</tt> (equivalent of <tt class="docutils literal">git stash push</tt>)</li>
+<li>to restore the (by default lastly) stored state (hence the reciprocal of the previous command), i.e. to <strong>apply these stashed changes</strong> to the current files (with no review and no changes to add afterwards) and then drop that stashed entry: <tt class="docutils literal">git stash pop [STASH_INDEX]</tt></li>
+<li>to <strong>list</strong> the various sets of modifications stashed away: <tt class="docutils literal">git stash list</tt></li>
+<li>to <strong>show</strong> the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created:<ul>
+<li>with just <em>one synthetic line</em> per file changed: <tt class="docutils literal">git stash show [STASH_INDEX]</tt></li>
+<li>with <em>all</em> actual changes: <tt class="docutils literal">git stash show <span class="pre">-p</span> [STASH_INDEX]</tt></li>
 </ul>
 </li>
-<li>to drop a stash entry: <tt class="docutils literal">git stash drop [STASH_INDEX]</tt></li>
+<li>to <strong>drop</strong> (i.e. to forget, to get rid of) a stash entry: <tt class="docutils literal">git stash drop [STASH_INDEX]</tt></li>
 </ul>
 <p>Refer to the <a class="reference external" href="https://git-scm.com/docs/git-stash/">git stash documentation</a> for more information.</p>
 </div>
