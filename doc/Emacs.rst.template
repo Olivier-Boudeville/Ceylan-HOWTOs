@@ -387,6 +387,11 @@ Related Elisp information sources:
 
 
 
+LSP-mode Hints
+--------------
+
+Projets imported accross LSP seesions are persisted in ``~/.emacs.d/.lsp-session-v1``. It may be removed to make other importing choices.
+
 
 
 Troubleshooting

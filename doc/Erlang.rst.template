@@ -784,7 +784,8 @@ Our preferred options (beyond path specifications of course) are: ``--infer --fm
 About eqWAlizer
 ...............
 
-It is a tool developed in Rust.
+It is a tool developed in Scala. It operates on Erlang source files (thus not on BEAM ones).
+
 
 
 Installing eqWAlizer
@@ -1261,14 +1262,13 @@ Installing ELP
 ..............
 
 
-
 From Sources (recommended)
 __________________________
 
 
 We mostly follow `these guidelines here <https://whatsapp.github.io/erlang-language-platform/docs/get-started/install/#from-source/>`_.
 
-Rather that relying on a installing from sources implies the build of `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_, which requires:
+Relying on a installation from sources implies the build of `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_, which itself, being Scala-based, requires:
 
 - Java 11 or more recent, which we obtain (based on OpenJDK) on Arch with ``pacman -S jdk-openjdk`` and that we select based on the output of ``archlinux-java status``, leading to execute for example: ``archlinux-java set java-24-openjdk`` (check then the actual version with ``java -version``)
 - `sbt <https://github.com/sbt/sbt>`_ (*a build tool for Scala, Java, and more*), which can be obtained on Arch with ``pacman -S sbt``.
@@ -1292,7 +1292,7 @@ Once these prerequisite are available, eqWAlizer can be built:
  $ find eqwalizer -name eqwalizer.jar
 
 
-Then in one's  ``~/.bashrc`` for example, supposing a single version of such a build exists, one may declare::
+Then in one's  ``~/.bashrc`` for example, supposing a single version of such a build exists, one may declare, so that the next ELP build can find this eqwalizer one::
 
   export ELP_EQWALIZER_PATH="$(/bin/ls ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar)"
 
@@ -1322,6 +1322,24 @@ _____________
 `Prebuilt-binaries <https://github.com/WhatsApp/erlang-language-platform/releases>`_ are available.
 
 One can download for example ``elp-linux-x86_64-unknown-linux-gnu-otp-28.tar.gz`` and, provided that the local glibc is not too ancient, a functional ``elp`` can be extracted from that archive, preferably in a dedicated ``~/Software/erlang-language-platform/target/release`` directory, for consistency.
+
+
+Using ELP
+.........
+
+If using a separate ``build_info.json`` file that would be not be located in the root directory of the current application/project but in, for example, ``conf/build_info.json``, then the root directories of applications shall be defined in that file relatively to its location (hence, here, ``conf``), not relatively to its parent directory, where the ``.elp.toml`` referencing that file lies.
+
+For example, if a ``bar`` project/application depends on a ``foo`` one whose parent directly (clone) is a sibling directory of this one, in ``bar/conf/build_info.json``, the ``foo`` application shall have a ``"dir": "../../foo"`` entry (as reached from ``bar/conf``), not a ``"dir": "../foo"`` one.
+
+Then the ``src_dirs`` and ``extra_src_dirs`` entries for this project/application can be defined relatively to this ``dir`` directory [#]_.
+
+.. [#] With Ceylan-Myriad, the ``list-src-dirs`` and ``list-extra-src-dirs`` make targets can be used in order to generate suitable values for these entries.
+
+
+We also noticed that:
+
+- albeit they *can* be resolved (for example they can be found by selecting ``Go to definition``), unfortunately the remote types (e.g. ``foo_mod:my_type()``) do not have their documentation displayed when hovering over them (unlike, surprisingly, functions, like ``foo_mod:my_function()``).
+- one should avoid accessing one's clone through a symbolic link; more precisely, if a clone is named for example ``OSDL-Language`` and one wants it to be available also, in the same parent directory, as ``osdl_language``, a corresponding symlink may be created yet, due to either the Emacs LSP mode or ELP, operating from that directory will prevent ELP to locate the other applications (i.e. files loaded from there, for example with ``cd osdl_language; emacs src/foo.erl``, will not be able to resolve references pointing to the other applications in the ``build_info.json`` file)
 
 
 
@@ -1361,6 +1379,25 @@ Problem: it would have to be entered again and again, even for a single buffer..
 .. Definition of Erlang support for Emacs in $ERL_INSTALL_ROOT/lib/erlang/emacs/erlang.el
 
 See also `Using a LSP language server for Erlang`_.
+
+
+
+.. _`using VS Code for Erlang`:
+
+Using VS Code
+-------------
+
+It can be best `installed on Arch Linux <https://wiki.archlinux.org/title/Visual_Studio_Code>`_ with ``pacman -Sy code``, yet the `erlang-language-platform <https://marketplace.visualstudio.com/items?itemName=erlang-language-platform.erlang-language-platform>`_ does not look available in Open VSX; as a result, the ``visual-studio-code-bin`` proprietary Microsoft-branded release could be needed.
+
+The user settings with the ``code`` package seem to be stored in ``~/.config/Code - OSS/User/settings.json``.
+
+It can be run as ``/usr/bin/code``, which may be a symbolic link to ``/usr/bin/code-oss``.
+
+The best VS Code extension for Erlang is most probably Pierrick Gourlain's `erlang <https://marketplace.visualstudio.com/items?itemName=pgourlain.erlang>`_ one.
+
+To switch from (deprecated) ``erlang_ls`` to ``erlang-language-platform``, `apply these hints <https://zed.dev/docs/languages/erlang>`_.
+
+In our experiment, most elements became unresolved in VS Code (probably due to some configuration of this tool, of the Erlang extension or of the ELP server), and we went back to Emacs.
 
 
 
@@ -1434,7 +1471,7 @@ Micro-Cheat Sheet
 
 To avoid having to perform a lookup in the documentation:
 
-- Erlang indices start at ``1``, except the ones of the ``array`` module that are zero-based
+- Erlang indices start at ``1`` (except the ones of the ``array`` module, the positions in binaries and ``string:slice/3``, which are zero-based)
 
 - when they yield the same result, ``=:=`` is a bit more efficient than ``==``
 
