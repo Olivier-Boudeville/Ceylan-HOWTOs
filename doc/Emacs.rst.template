@@ -396,6 +396,19 @@ When debugging one's Emacs+LSP configuration, between two tests both processes s
 
 
 
+Typing Special Characters
+-------------------------
+
+Use ``C-x 8 KEY`` where KEY allows to select the character to insert. For example if KEY is ``E``, then ``€`` is inserted.
+
+Wait after ``C-x 8`` to have a paginated list in the modeline.
+
+.. (use n/p to go to the next/previous pages).
+
+To obtain a capital letter like ``É``, a simpler approach is to uppercase its lowercase counterpart (like ``é``): when the current point designates it, just enter ``M-c``.
+
+
+
 Troubleshooting
 ===============
 

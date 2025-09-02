@@ -1062,11 +1062,13 @@ Variable Shorthands
 
 Usually we apply the following conventions:
 
-- the *head* and *tail* of a list are designated as ``H`` and ``T``, like in: ``L = [H|T]``
+- the *head* and *tail* of a list are designated as ``H`` and ``T`` (and possibly ``L``), like in: ``L = [H|T]``
 - ``Acc`` means *accumulator*, in a tail-recursive function
+- ``P`` designates a *pair* (a tuple of two elements)
 - ``K`` designates a *key*, and ``V`` designates its associated *value*
 - longer (type-related) names shall be abbreviated; for example a "canonical incoming trigger specification" may result in the ``canon_incoming_trigger_spec/0`` type, and a variable of that type may be named ``CITS``
-- a list of elements is designated by a plural variable name, usually suffixed with ``s``, like in: ``Ints``, ``Xs``, ``Cars``
+- a list of elements is designated by a plural variable name, usually suffixed with ``s``, like in: ``Ints``, ``Xs``, ``Xss`` (list of lists of X), ``Cars``
+
 
 
 Function Pairs

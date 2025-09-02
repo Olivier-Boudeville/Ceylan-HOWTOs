@@ -920,3 +920,22 @@ One may use websites like `Dafont <https://www.dafont.com>`_ in order to select,
 At least on Arch, it is sufficient to copy the corresponding downloaded TTF file (as root) in ``/usr/share/fonts/`` so that tools like The Gimp support it right afterwards (e.g. no need to run ``fc-cache`` beforehand).
 
 :raw-html:`<a name="howtos_bottom"></a>`
+
+
+Language-specific Conventions
+-----------------------------
+
+
+In French
+.........
+
+Bullet lists are not supposed to start with a capital letter (see `this link <https://vitrinelinguistique.oqlf.gouv.qc.ca/25108/banque-de-depannage-linguistique/la-ponctuation/enumeration-verticale>`_ for more complete conventions).
+
+In order to type specific characters on Windows, refer to `this link <https://assistanteplus.fr/majuscules-accentuees-solutions-simples-pour-mac-et-pc/>`_; notably:
+
+- À (a majuscule accent): Alt + 0192
+- É (e majuscule accent aigu) =Alt + 0201
+- È (e majuscule accent grave): Alt + 0200
+- Ê (e majuscule accent circonflexe): Alt + 0202
+
+See `this section <Emacs.html#typing-special-characters>`_ to do the same on Emacs.
