@@ -392,6 +392,8 @@ LSP-mode Hints
 
 Projets imported accross LSP seesions are persisted in ``~/.emacs.d/.lsp-session-v1``. It may be removed to make other importing choices.
 
+When debugging one's Emacs+LSP configuration, between two tests both processes shall be killed, possibly with: ``killall emacs elp``.
+
 
 
 Troubleshooting
