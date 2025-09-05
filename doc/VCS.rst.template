@@ -151,6 +151,8 @@ Base Know-How
 
 - **merging a remote branch**, without having it / updating it *locally*: for example, to merge the remote ``main`` branch in the current ``my_branch`` branch, without updating the local counterpart of ``main`` (i.e. without having to run for example ``git checkout main && git pull && git my_branch`` first), just execute: ``git merge origin/main``
 
+- **listing the logs relative to a file despite its moving/renaming**: ``git log --follow my_file``
+
 
 
 Managing Branches
