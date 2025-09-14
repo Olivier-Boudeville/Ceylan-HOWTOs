@@ -530,7 +530,9 @@ Then, in our preferred approach for inner links, described `here <https://stacko
 - custom anchors:
 
   - one must be defined with:  ``.. _my anchor:`` or, more classically, as ``.. _`my anchor`:``
-  - then, like for label sections, be referenced as: ```this is the text of the link <my anchor>```; optionally such links may be prefixed with ``:ref:``, like in: ``:ref:`this is the text of the link <my anchor>```; at least in our tests, using just ``:ref:`my anchor``` (i.e. not indicating a specific text for the link) would not work (and would result in ``WARNING: Failed to create a cross reference. A title or caption not found: 'my anchor'``)
+  - then, like for label sections, be referenced as: ```this is the text of the link <my anchor>```; optionally such links may be prefixed with ``:ref:``, like in: ``:ref:`this is the text of the link <my anchor>```; using just ``:ref:`my anchor``` (i.e. not indicating a specific text for the link) seems now correctly supported
+
+.. It used not to work (and would result in ``WARNING: Failed to create a cross reference. A title or caption not found: 'my anchor'``)
 
 
 
