@@ -1487,6 +1487,8 @@ To avoid having to perform a lookup in the documentation:
 
 (no need for the ``erlang`` module to be explicitly specified for the first two functions, as both are auto-imported)
 
+- for (list, map, bit string) **comprehensions**, since Erlang 28.0, in addition to the usual, *relaxed* list generators (``Pattern <- ListExpr`` for lists and maps, ``BitstringPattern <= BitStringExpr`` for bit strings), `strict variants <https://www.erlang.org/doc/system/expressions.html#comprehensions>`_ thereof exist: ``Pattern <:- ListExpr`` for lists and maps, ``BitstringPattern <:= BitStringExpr`` for bit strings; these strict variants, instead of silently ignoring the generated elements that do not match the pattern, will raise an exception instead (e.g. ``exception error: no match of right hand side value XXX``)
+
 - for ``maps``: refer to `map expressions <https://www.erlang.org/doc/reference_manual/expressions.html#map_expressions>`_, the `maps module <https://www.erlang.org/doc/man/maps.html>`_ and the corresponding part of the `efficiency guide <https://www.erlang.org/doc/efficiency_guide/maps.html>`_; in short:
 
   - creating/updating maps is ``EmptyMap = #{}``, ``NewMFromScratch = #{K1 => V1, K2 => V2}`` or ``UpdatedM = M#{K1 => V1, K2 => V2}``
