@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, August 18, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, September 14, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -173,6 +173,7 @@
 <ul class="simple">
 <li>listing the <strong>files modified by a given commit</strong>: <tt class="docutils literal">git show <span class="pre">--name-only</span> MY_COMMIT_ID</tt> will print relevant extra information; if wanting only the list of modified files: <tt class="docutils literal">git <span class="pre">diff-tree</span> <span class="pre">--no-commit-id</span> <span class="pre">--name-only</span> <span class="pre">-r</span> <span class="pre">--pretty</span> COMMIT_ID</tt></li>
 <li><strong>merging a remote branch</strong>, without having it / updating it <em>locally</em>: for example, to merge the remote <tt class="docutils literal">main</tt> branch in the current <tt class="docutils literal">my_branch</tt> branch, without updating the local counterpart of <tt class="docutils literal">main</tt> (i.e. without having to run for example <tt class="docutils literal">git checkout main &amp;&amp; git pull &amp;&amp; git my_branch</tt> first), just execute: <tt class="docutils literal">git merge origin/main</tt></li>
+<li><strong>listing the logs relative to a file despite its moving/renaming</strong>: <tt class="docutils literal">git log <span class="pre">--follow</span> my_file</tt></li>
 </ul>
 </div>
 <div class="section" id="managing-branches">

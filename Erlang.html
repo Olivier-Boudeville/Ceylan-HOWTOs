@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, August 18, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, September 14, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -89,12 +89,13 @@
 <li><a class="reference internal" href="#using-a-lsp-language-server-for-erlang" id="toc-entry-43">Using a LSP language server for Erlang</a></li>
 <li><a class="reference internal" href="#installing-rebar3" id="toc-entry-44">Installing rebar3</a></li>
 <li><a class="reference internal" href="#using-emacs" id="toc-entry-45">Using Emacs</a></li>
-<li><a class="reference internal" href="#contributing-to-erlang-otp" id="toc-entry-46">Contributing to Erlang/OTP</a></li>
-<li><a class="reference internal" href="#uninstalling-erlang" id="toc-entry-47">Uninstalling Erlang</a></li>
+<li><a class="reference internal" href="#using-vs-code" id="toc-entry-46">Using VS Code</a></li>
+<li><a class="reference internal" href="#contributing-to-erlang-otp" id="toc-entry-47">Contributing to Erlang/OTP</a></li>
+<li><a class="reference internal" href="#uninstalling-erlang" id="toc-entry-48">Uninstalling Erlang</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-48">Micro-Cheat Sheet</a></li>
-<li><a class="reference internal" href="#erlang-resources" id="toc-entry-49">Erlang Resources</a></li>
+<li><a class="reference internal" href="#micro-cheat-sheet" id="toc-entry-49">Micro-Cheat Sheet</a></li>
+<li><a class="reference internal" href="#erlang-resources" id="toc-entry-50">Erlang Resources</a></li>
 </ul>
 </div>
 <p><span class="raw-html"></center></span></p>
@@ -633,7 +634,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Sof
 </div>
 <div class="section" id="about-eqwalizer">
 <h3>About eqWAlizer</h3>
-<p>It is a tool developed in Rust.</p>
+<p>It is a tool developed in Scala. It operates on Erlang source files (thus not on BEAM ones).</p>
 <div class="section" id="installing-eqwalizer">
 <h4>Installing eqWAlizer</h4>
 <p>We install <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a> that way:</p>
@@ -845,11 +846,12 @@ $<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </s
 <h3>Variable Shorthands</h3>
 <p>Usually we apply the following conventions:</p>
 <ul class="simple">
-<li>the <em>head</em> and <em>tail</em> of a list are designated as <tt class="docutils literal">H</tt> and <tt class="docutils literal">T</tt>, like in: <tt class="docutils literal">L = [H|T]</tt></li>
+<li>the <em>head</em> and <em>tail</em> of a list are designated as <tt class="docutils literal">H</tt> and <tt class="docutils literal">T</tt> (and possibly <tt class="docutils literal">L</tt>), like in: <tt class="docutils literal">L = [H|T]</tt></li>
 <li><tt class="docutils literal">Acc</tt> means <em>accumulator</em>, in a tail-recursive function</li>
+<li><tt class="docutils literal">P</tt> designates a <em>pair</em> (a tuple of two elements)</li>
 <li><tt class="docutils literal">K</tt> designates a <em>key</em>, and <tt class="docutils literal">V</tt> designates its associated <em>value</em></li>
 <li>longer (type-related) names shall be abbreviated; for example a &quot;canonical incoming trigger specification&quot; may result in the <tt class="docutils literal">canon_incoming_trigger_spec/0</tt> type, and a variable of that type may be named <tt class="docutils literal">CITS</tt></li>
-<li>a list of elements is designated by a plural variable name, usually suffixed with <tt class="docutils literal">s</tt>, like in: <tt class="docutils literal">Ints</tt>, <tt class="docutils literal">Xs</tt>, <tt class="docutils literal">Cars</tt></li>
+<li>a list of elements is designated by a plural variable name, usually suffixed with <tt class="docutils literal">s</tt>, like in: <tt class="docutils literal">Ints</tt>, <tt class="docutils literal">Xs</tt>, <tt class="docutils literal">Xss</tt> (list of lists of X), <tt class="docutils literal">Cars</tt></li>
 </ul>
 </div>
 <div class="section" id="function-pairs">
@@ -1009,8 +1011,10 @@ name us_main_exec-xxx at port 60001
 <p>We used to rely on <a class="reference external" href="https://erlang-ls.github.io/">erlang_ls</a>, which is archived (unmaintained) now; we prefer using <a class="reference external" href="https://whatsapp.github.io/erlang-language-platform/">ELP</a>, i.e. the so-called <em>Erlang Language Platform</em> now.</p>
 <div class="section" id="installing-elp">
 <h3>Installing ELP</h3>
-<p>We mostly follow <a class="reference external" href="https://whatsapp.github.io/erlang-language-platform/docs/get-started/install/#from-source/">these guidelines here</a></p>
-<p>This implies the build of <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a>, which requires:</p>
+<div class="section" id="from-sources-recommended">
+<h4>From Sources (recommended)</h4>
+<p>We mostly follow <a class="reference external" href="https://whatsapp.github.io/erlang-language-platform/docs/get-started/install/#from-source/">these guidelines here</a>.</p>
+<p>Relying on a installation from sources implies the build of <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a>, which itself, being Scala-based, requires:</p>
 <ul class="simple">
 <li>Java 11 or more recent, which we obtain (based on OpenJDK) on Arch with <tt class="docutils literal">pacman <span class="pre">-S</span> <span class="pre">jdk-openjdk</span></tt> and that we select based on the output of <tt class="docutils literal"><span class="pre">archlinux-java</span> status</tt>, leading to execute for example: <tt class="docutils literal"><span class="pre">archlinux-java</span> set <span class="pre">java-24-openjdk</span></tt> (check then the actual version with <tt class="docutils literal">java <span class="pre">-version</span></tt>)</li>
 <li><a class="reference external" href="https://github.com/sbt/sbt">sbt</a> (<em>a build tool for Scala, Java, and more</em>), which can be obtained on Arch with <tt class="docutils literal">pacman <span class="pre">-S</span> sbt</tt>.</li>
@@ -1028,7 +1032,7 @@ $<span class="w"> </span>mkdir<span class="w"> </span>~/Software<span class="w">
 # eqwalizer/eqwalizer/target/scala-3.6.4/eqwalizer.jar:
 </span>$<span class="w"> </span>find<span class="w"> </span>eqwalizer<span class="w"> </span>-name<span class="w"> </span>eqwalizer.jar
 </pre>
-<p>Then in one's  <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt> for example, supposing a single version of such a build exists, one may declare:</p>
+<p>Then in one's  <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt> for example, supposing a single version of such a build exists, one may declare, so that the next ELP build can find this eqwalizer one:</p>
 <pre class="literal-block">
 export ELP_EQWALIZER_PATH=&quot;$(/bin/ls ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar)&quot;
 </pre>
@@ -1043,7 +1047,30 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Sof
 <pre class="literal-block">
 export PATH=&quot;${HOME}/Software/erlang-language-platform/target/release:${PATH}&quot;
 </pre>
-<p>Test that tyhe <tt class="docutils literal">elp</tt> can be found indeed.</p>
+<p>Test that the <tt class="docutils literal">elp</tt> executable can be found indeed.</p>
+</div>
+<div class="section" id="from-binaries">
+<h4>From Binaries</h4>
+<p><a class="reference external" href="https://github.com/WhatsApp/erlang-language-platform/releases">Prebuilt-binaries</a> are available.</p>
+<p>One can download for example <tt class="docutils literal"><span class="pre">elp-linux-x86_64-unknown-linux-gnu-otp-28.tar.gz</span></tt> and, provided that the local glibc is not too ancient, a functional <tt class="docutils literal">elp</tt> can be extracted from that archive, preferably in a dedicated <tt class="docutils literal"><span class="pre">~/Software/erlang-language-platform/target/release</span></tt> directory, for consistency.</p>
+</div>
+</div>
+<div class="section" id="using-elp">
+<h3>Using ELP</h3>
+<p>If using a separate <tt class="docutils literal">build_info.json</tt> file that would be not be located in the root directory of the current application/project but in, for example, <tt class="docutils literal">conf/build_info.json</tt>, then the root directories of applications shall be defined in that file relatively to its location (hence, here, <tt class="docutils literal">conf</tt>), not relatively to its parent directory, where the <tt class="docutils literal">.elp.toml</tt> referencing that file lies.</p>
+<p>For example, if a <tt class="docutils literal">bar</tt> project/application depends on a <tt class="docutils literal">foo</tt> one whose parent directly (clone) is a sibling directory of this one, in <tt class="docutils literal">bar/conf/build_info.json</tt>, the <tt class="docutils literal">foo</tt> application shall have a <tt class="docutils literal">&quot;dir&quot;: <span class="pre">&quot;../../foo&quot;</span></tt> entry (as reached from <tt class="docutils literal">bar/conf</tt>), not a <tt class="docutils literal">&quot;dir&quot;: <span class="pre">&quot;../foo&quot;</span></tt> one.</p>
+<p>Then the <tt class="docutils literal">src_dirs</tt> and <tt class="docutils literal">extra_src_dirs</tt> entries for this project/application can be defined relatively to this <tt class="docutils literal">dir</tt> directory <a class="footnote-reference" href="#footnote-13" id="footnote-reference-13">[15]</a>.</p>
+<table class="docutils footnote" frame="void" id="footnote-13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-13">[15]</a></td><td>With Ceylan-Myriad, the <tt class="docutils literal"><span class="pre">list-src-dirs</span></tt> and <tt class="docutils literal"><span class="pre">list-extra-src-dirs</span></tt> make targets can be used in order to generate suitable values for these entries.</td></tr>
+</tbody>
+</table>
+<p>We also noticed that:</p>
+<ul class="simple">
+<li>albeit they <em>can</em> be resolved (for example they can be found by selecting <tt class="docutils literal">Go to definition</tt>), unfortunately the remote types (e.g. <tt class="docutils literal">foo_mod:my_type()</tt>) do not have their documentation displayed when hovering over them (unlike, surprisingly, functions, like <tt class="docutils literal">foo_mod:my_function()</tt>).</li>
+<li>one should avoid accessing one's clone through a symbolic link; more precisely, if a clone is named for example <tt class="docutils literal"><span class="pre">OSDL-Language</span></tt> and one wants it to be available also, in the same parent directory, as <tt class="docutils literal">osdl_language</tt>, a corresponding symlink may be created yet, due to either the Emacs LSP mode or ELP, operating from that directory will prevent ELP to locate the other applications (i.e. files loaded from there, for example with <tt class="docutils literal">cd osdl_language; emacs src/foo.erl</tt>, will not be able to resolve references pointing to the other applications in the <tt class="docutils literal">build_info.json</tt> file)</li>
+</ul>
 </div>
 <div class="section" id="integrating-elp-to-emacs">
 <h3>Integrating ELP to Emacs</h3>
@@ -1066,8 +1093,17 @@ export PATH=&quot;${HOME}/Software/erlang-language-platform/target/release:${PAT
 <p>Problem: it would have to be entered again and again, even for a single buffer...</p>
 <p>See also <a class="reference internal" href="#using-a-lsp-language-server-for-erlang">Using a LSP language server for Erlang</a>.</p>
 </div>
+<div class="section" id="using-vs-code">
+<span id="using-vs-code-for-erlang"></span><h2><a class="toc-backref" href="#toc-entry-46">Using VS Code</a></h2>
+<p>It can be best <a class="reference external" href="https://wiki.archlinux.org/title/Visual_Studio_Code">installed on Arch Linux</a> with <tt class="docutils literal">pacman <span class="pre">-Sy</span> code</tt>, yet the <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=erlang-language-platform.erlang-language-platform">erlang-language-platform</a> does not look available in Open VSX; as a result, the <tt class="docutils literal"><span class="pre">visual-studio-code-bin</span></tt> proprietary Microsoft-branded release could be needed.</p>
+<p>The user settings with the <tt class="docutils literal">code</tt> package seem to be stored in <tt class="docutils literal"><span class="pre">~/.config/Code</span> - OSS/User/settings.json</tt>.</p>
+<p>It can be run as <tt class="docutils literal">/usr/bin/code</tt>, which may be a symbolic link to <tt class="docutils literal"><span class="pre">/usr/bin/code-oss</span></tt>.</p>
+<p>The best VS Code extension for Erlang is most probably Pierrick Gourlain's <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=pgourlain.erlang">erlang</a> one.</p>
+<p>To switch from (deprecated) <tt class="docutils literal">erlang_ls</tt> to <tt class="docutils literal"><span class="pre">erlang-language-platform</span></tt>, <a class="reference external" href="https://zed.dev/docs/languages/erlang">apply these hints</a>.</p>
+<p>In our experiment, most elements became unresolved in VS Code (probably due to some configuration of this tool, of the Erlang extension or of the ELP server), and we went back to Emacs.</p>
+</div>
 <div class="section" id="contributing-to-erlang-otp">
-<h2><a class="toc-backref" href="#toc-entry-46">Contributing to Erlang/OTP</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-47">Contributing to Erlang/OTP</a></h2>
 <p>A simple procedure may be:</p>
 <ul>
 <li><p class="first">first, check, especially in the case of a bug fixing, whether it corresponds to an already <a class="reference external" href="https://github.com/erlang/otp/issues">known issue</a></p>
@@ -1112,7 +1148,7 @@ $ git checkout -b component/improve-something
 </ul>
 </div>
 <div class="section" id="uninstalling-erlang">
-<h2><a class="toc-backref" href="#toc-entry-47">Uninstalling Erlang</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-48">Uninstalling Erlang</a></h2>
 <p>Typically useful to prevent version clashes / use of an unexpected version.</p>
 <p>If Erlang was installed:</p>
 <ul class="simple">
@@ -1126,10 +1162,10 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 </div>
 </div>
 <div class="section" id="micro-cheat-sheet">
-<h1><a class="toc-backref" href="#toc-entry-48">Micro-Cheat Sheet</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-49">Micro-Cheat Sheet</a></h1>
 <p>To avoid having to perform a lookup in the documentation:</p>
 <ul class="simple">
-<li>Erlang indices start at <tt class="docutils literal">1</tt>, except the ones of the <tt class="docutils literal">array</tt> module that are zero-based</li>
+<li>Erlang indices start at <tt class="docutils literal">1</tt> (except the ones of the <tt class="docutils literal">array</tt> module, the positions in binaries and <tt class="docutils literal">string:slice/3</tt>, which are zero-based)</li>
 <li>when they yield the same result, <tt class="docutils literal">=:=</tt> is a bit more efficient than <tt class="docutils literal">==</tt></li>
 <li>for tuples of unknown number of elements:<ul>
 <li><strong>setting</strong> an element is to be done with <tt class="docutils literal"><span class="pre">setelement(positive_index(),</span> <span class="pre">tuple(),</span> <span class="pre">term())</span> <span class="pre">-&gt;</span> tuple()</tt></li>
@@ -1191,7 +1227,12 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 </li>
 </ul>
 </li>
-<li>to define a multi-clause anonymous (i.e. lambda) function, for example for a fold, just use the <tt class="docutils literal">fun</tt> name for the first clause, and omit it for the next ones:</li>
+<li>to define anonymous (i.e. lambda) functions:<ul>
+<li>beware to the <a class="reference external" href="https://www.erlang.org/doc/system/funs.html#variable-bindings-within-a-fun">shadowing of variable bindings</a> in their function head; using extra guards might be needed</li>
+<li>an example of spec involving them: <tt class="docutils literal"><span class="pre">-spec</span> <span class="pre">foo(integer(),</span> <span class="pre">fun((key())</span> <span class="pre">-&gt;</span> <span class="pre">value()))</span> <span class="pre">-&gt;</span> integer()</tt> (note the two levels of parentheses after <tt class="docutils literal">fun</tt>)</li>
+<li>for a multi-clause lambda function, for example for a fold, just use the <tt class="docutils literal">fun</tt> name for the first clause, and omit it for the next ones:</li>
+</ul>
+</li>
 </ul>
 <pre class="code erlang literal-block">
 <span class="nv">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">fun</span><span class="p">(</span><span class="w"> </span><span class="nv">K</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">_</span><span class="nv">SingleV</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="nv">RetMap</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
@@ -1203,7 +1244,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 <ul class="simple">
 <li>in boolean expressions <strong>outside of guards</strong>:<ul>
 <li>do not use <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt>, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in <tt class="docutils literal">(A =:= B) and (C =/= D)</tt>) and, more importantly, they do not short-circuit, i.e. in <tt class="docutils literal">E = A and B</tt>, B will be evaluated even if A is already known as false (so is E), and in <tt class="docutils literal">E = A or B</tt>, B will be evaluated even if A is already known as true (so is E)</li>
-<li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-13" id="footnote-reference-13">[15]</a></li>
+<li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-14" id="footnote-reference-14">[16]</a></li>
 <li>so <tt class="docutils literal">case (A =:= B) and (C =/= D) of</tt> shall become <tt class="docutils literal">case A =:= B andalso C =/= D of</tt></li>
 <li>a common pattern is to use <tt class="docutils literal">andalso</tt> in order <em>to evaluate a target expression iff a boolean expression is true</em>, to replace a longer expression like:</li>
 </ul>
@@ -1220,10 +1261,10 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 
 </span><span class="k">end</span>
 </pre>
-<table class="docutils footnote" frame="void" id="footnote-13" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-14" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-13">[15]</a></td><td><p class="first">Note that it is <em>not</em> the case of the <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt> operators, whose precedence is higher than, notably, the comparison operators.</p>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-14">[16]</a></td><td><p class="first">Note that it is <em>not</em> the case of the <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt> operators, whose precedence is higher than, notably, the comparison operators.</p>
 <p class="last">For example a clause defined as <tt class="docutils literal">f(I) when is_integer(I) and I &gt;= 0 <span class="pre">-&gt;</span> ...</tt>  will never be triggered as it is interpreted as <tt class="docutils literal">f(I) when (is_integer(I) and I) &gt;= 0 <span class="pre">-&gt;</span> ...</tt>, and the <tt class="docutils literal">and</tt> guard will always fail as I is an integer here, not a boolean. So such a clause should be defined as the (correct) <tt class="docutils literal">f(I) when is_integer(I) andalso I &gt;= 0 <span class="pre">-&gt;</span> ...</tt> instead.</p>
 </td></tr>
 </tbody>
@@ -1261,7 +1302,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 <p>Some of these elements have been adapted from the <a class="reference external" href="https://github.com/dgud/wings/blob/master/CodingGuidelines">Wings3D coding guidelines</a>.</p>
 </div>
 <div class="section" id="erlang-resources">
-<h1><a class="toc-backref" href="#toc-entry-49">Erlang Resources</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-50">Erlang Resources</a></h1>
 <ul class="simple">
 <li>the reference is the <a class="reference external" href="http://erlang.org">Erlang official website</a></li>
 <li>for teaching purpose, we would dearly recommend <a class="reference external" href="https://learnyousomeerlang.com/content">Learn You Some Erlang for Great Good!</a>; many other high-quality <a class="reference external" href="https://erlangforums.com/c/erlang-learning-resources/8">Erlang books</a> exist as well; one may also check the <a class="reference external" href="https://exercism.org/tracks/erlang">Erlang track</a> on Exercism</li>
