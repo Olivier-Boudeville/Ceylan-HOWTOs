@@ -1544,7 +1544,11 @@ To avoid having to perform a lookup in the documentation:
 	- functions (rather than silencing them with an ``-export([f/1, g/3])``): ``-compile([ {nowarn_unused_function, [{f,1}, {g,3}]} ]).``
 	- types: they can be silenced with an ``-export_type([t1/0, t2/1])``), which is better (more selective) than ``-compile(nowarn_unused_type)`` (unfortunately ``-compile([ {nowarn_unused_type, [t1/0, t2/1]} ]).`` is not supported)
 
-- to define a multi-clause anonymous (i.e. lambda) function, for example for a fold, just use the ``fun`` name for the first clause, and omit it for the next ones:
+- to define anonymous (i.e. lambda) functions:
+
+  - beware to the `shadowing of variable bindings <https://www.erlang.org/doc/system/funs.html#variable-bindings-within-a-fun>`_ in their function head; using extra guards might be needed
+  - an example of spec involving them: ``-spec foo(integer(), fun((key()) -> value())) -> integer()`` (note the two levels of parentheses after ``fun``)
+  - for a multi-clause lambda function, for example for a fold, just use the ``fun`` name for the first clause, and omit it for the next ones:
 
 .. code:: erlang
 
