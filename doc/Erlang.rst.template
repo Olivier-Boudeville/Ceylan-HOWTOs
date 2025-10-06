@@ -1272,7 +1272,7 @@ We mostly follow `these guidelines here <https://whatsapp.github.io/erlang-langu
 
 Relying on a installation from sources implies the build of `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_, which itself, being Scala-based, requires:
 
-- Java 11 or more recent, which we obtain (based on OpenJDK) on Arch with ``pacman -S jdk-openjdk`` and that we select based on the output of ``archlinux-java status``, leading to execute for example: ``archlinux-java set java-24-openjdk`` (check then the actual version with ``java -version``)
+- Java 11 or more recent (if using LogMX, see [this page](https://traces.esperide.org/#requested-widths-for-logmx-entry-columns-not-honored), which we can obtain (based on OpenJDK) on Arch with ``pacman -S jdk-openjdk`` and that we select based on the output of ``archlinux-java status``, leading to execute for example: ``archlinux-java set java-24-openjdk`` (check then the actual version with ``java -version``)
 - `sbt <https://github.com/sbt/sbt>`_ (*a build tool for Scala, Java, and more*), which can be obtained on Arch with ``pacman -S sbt``.
 
 .. sbt may be difficult to obtain.
@@ -1299,15 +1299,16 @@ Then in one's  ``~/.bashrc`` for example, supposing a single version of such a b
   export ELP_EQWALIZER_PATH="$(/bin/ls ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar)"
 
 
-Then ELP shall be built, which requires sufficiently recent Rust and cargo (notably for the `edition2024` feature; on Arch, ``pacman -S rust`` shall suffice).
+Then ELP shall be built, which requires sufficiently recent Rust and cargo (notably for the `edition2024` feature; on Arch, ``pacman -S cargo`` shall suffice).
 
 .. code:: bash
 
  $ cd ~/Software
  $ git clone https://github.com/WhatsApp/erlang-language-platform.git
- # This will be long:
- $ cd erlang-language-platform && cargo build --release
-
+ # cd erlang-language-platform
+ # This will be long, and may overheat one's CPU, so use either:
+ $ cargo build --release
+ # Or: cpulimit --limit 200 cargo build --release
 
 Then in one's  ``~/.bashrc`` for example, one may declare::
 

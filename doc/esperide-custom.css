@@ -1,0 +1,68 @@
+/* Esperide customisation of the built-in Sphinx Alabaster theme:
+ *
+ * To avoid too much vertical spacing between a sentence like "The various
+ * colors are:" and the first list element like " - blue":
+ *
+ * (must be referenced in conf.py)
+ *
+ */
+
+
+/* Base theme */
+
+@import 'theme.css';
+
+
+
+/* Our customisation of it, to try to address multiple problems:
+  - headers like h3 have too little space above, and too much below
+  - a sentence followed by a list do not belong to the same paragraph, leading
+    to too much vertical space between them
+*/
+
+
+h1 {
+	/* to test: background-color: green; */
+	margin-top: 5%;
+	/* No effect unfortunately: */
+    margin-bottom: -5px;
+}
+
+
+h2 {
+	/* to test: background-color: green; */
+	margin-top: 3%;
+	/* No effect unfortunately: */
+    margin-bottom: -5px;
+}
+
+
+h3 {
+	/* to test: background-color: green; */
+	margin-top: 4%;
+	/* No effect unfortunately: */
+    margin-bottom: -10px;
+}
+
+
+p {
+	/* to test: background-color: yellow; */
+    margin-top: 1%;
+    margin-bottom: 5px;
+}
+p.caption {
+
+    margin-top: 5%;
+
+}
+
+
+div.toctree-wrapper {
+    margin-top: 5%;
+
+}
+
+
+ul {
+    margin-top: 0px;
+}

@@ -496,6 +496,49 @@ Here is one `customisation thereof <https://sphinx-rtd-theme.readthedocs.io/en/l
 
 
 
+Theme Customisation
+-------------------
+
+Our opinion is that the themes, notably the Alabaster one, are mostly good, except regarding (at least with Alabaster) the vertical spacing between paragraphs, which is too large - especially between a sentence (which ends up in a paragraph of its own) that introduces a list and the first item of that list, like:
+
+.. code::
+
+   The various colors are:
+
+   - blue
+   - green
+
+Indeed, with the Alabaster theme (thus unrelated to the rendering in the current page), in our opinion ``blue`` should be displayed closer to the previous line.
+
+For the sake of testing, replacing ``<p>The various [...]`` with ``<p style="margin: 0px">The various [...]`` yields a far better result.
+
+However the built-in ``theme.css`` is not designed to be directly edited (e.g. it is CSS-minified); so instead we defined ``source/static/esperide-custom.css`` roughly as:
+
+.. code:: css
+
+ @import 'theme.css';
+
+ h3 {
+	margin-top: 4%;
+	/* No effect unfortunately: */
+	 margin-bottom: -10px;
+ }
+
+ p {
+	margin-top: 5px;
+	margin-bottom: 2px;
+ }
+
+ ul {
+	margin-top: 0px;
+ }
+
+
+We then referenced it in ``source/conf.py`` simply with ``html_css_files = ["esperide-custom.css"]`` (knowing that there was already ``html_static_path = ['static']``).
+
+The result is sufficiently better in our opinion.
+
+
 
 Adding Content
 --------------
