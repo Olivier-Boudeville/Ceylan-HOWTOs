@@ -606,19 +606,20 @@ The reported differences in the content of a file or a tree are thus only recrea
 Translations
 ============
 
-From English to French:
+Between English / French:
 
-- ``repository`` -> ``dépôt``
-- ``to checkout`` -> ``extraire``
-- ``to commit`` -> ``valider``
-- ``a commit`` -> ``une validation``
-- ``a tag`` -> ``une étiquette``
-- ``in VCS`` -> ``en GCL`` (Gestion de Configuration Logicielle)
-- ``snapshot`` -> ``instantané`` (de l'état du sous-système de fichiers géré en GCL)
-- ``merge`` -> ``fusion``
-- ``head`` -> ``tête``
-- ``fast-forward`` -> ``avancement direct``
-- ``fast-forwarded`` -> ``directement avancée``
+- ``repository`` / ``dépôt``
+- ``to checkout`` / ``extraire``
+- ``to commit`` / ``valider``
+- ``a commit`` / ``une validation``
+- ``a tag`` / ``une étiquette``
+- ``in VCS`` / ``en GCL`` (Gestion de Configuration Logicielle)
+- ``snapshot`` / ``instantané`` (de l'état du sous-système de fichiers géré en GCL)
+- ``merge`` / ``fusion``
+- ``head`` / ``tête``
+- ``fast-forward`` / ``avancement direct``
+- ``fast-forwarded`` / ``directement avancée``
+- ``pull request`` / ``demande de fusion`` (de branches)
 
 
 
