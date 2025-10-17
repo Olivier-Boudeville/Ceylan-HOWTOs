@@ -361,6 +361,19 @@ In order to list the differences of a given file with the previous commits (prec
 
 
 
+Searching through all past versions of a given file
+...................................................
+
+Let's say that in a Git repository there is a file whose current path is ``foo/bar.txt``, and you would like to find the versions of it (even by taking renamings into account) that included a given string, for example ``"hello world"``.
+
+To list all commits whose differences contain that string (actually additions/deletions of instances of it), use: ``git log -S'hello world' --follow -p ./foo/bar.txt``.
+
+To do the same with a regular expression instead of a mere string: ``git log -G'hello.*world' --follow -p ./foo/bar.txt``.
+
+Refer to the `git-log page <https://git-scm.com/docs/git-log>`_ for more details.
+
+
+
 Performing a Merge with Emacs
 .............................
 
