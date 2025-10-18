@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, March 16, 2025</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, September 14, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, October 18, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -179,7 +179,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">C-a</span></tt> / <tt class="docutils literal"><span class="pre">C-e</span></tt>: move cursor to leftmost / rightmost position</li>
 <li><tt class="docutils literal"><span class="pre">C-k</span></tt>: kill all characters on the right from cursor (and thus put them in the kill ring)</li>
-<li><tt class="docutils literal"><span class="pre">C-s</span> PATTERN RET</tt> / <tt class="docutils literal"><span class="pre">C-r</span> PATTERN RET</tt>: perform direct / reverse case-insensitive search of the specified pattern; then each <tt class="docutils literal"><span class="pre">C-s</span></tt> / <tt class="docutils literal"><span class="pre">C-r</span></tt> will jump direct / reverse to any next occurrence; <tt class="docutils literal">RET</tt> will stop the search</li>
+<li><tt class="docutils literal"><span class="pre">C-s</span> PATTERN RET</tt> / <tt class="docutils literal"><span class="pre">C-r</span> PATTERN RET</tt>: perform direct (corresponding to <tt class="docutils literal"><span class="pre">isearch-forward</span></tt>) / reverse case-insensitive search of the specified pattern; then each <tt class="docutils literal"><span class="pre">C-s</span></tt> / <tt class="docutils literal"><span class="pre">C-r</span></tt> will jump direct / reverse to any next occurrence of the pattern; <tt class="docutils literal">RET</tt> will stop the search; to go through the past patterns that were previously searched, <tt class="docutils literal"><span class="pre">C-s</span> <span class="pre">C-s</span></tt> will search the previous pattern, and <tt class="docutils literal"><span class="pre">M-p</span></tt> / <tt class="docutils literal"><span class="pre">M-n</span></tt> will allow to go through the pattern history (better than switching to the minibuffer by putting the cursor in front of I-search and pressing <tt class="docutils literal">U_ARROW</tt> / <tt class="docutils literal">D_ARROW</tt> to have the access to the previous search terms, then pressing <tt class="docutils literal">RET</tt> after selecting one of them)</li>
 <li><tt class="docutils literal"><span class="pre">C-d</span> SEARCH_PATTERN RET REPLACE_PATTERN RET</tt>: perform replacements, bound to <tt class="docutils literal"><span class="pre">replace-string</span></tt> (default binding to delete char at cursor - <tt class="docutils literal"><span class="pre">delete-char</span></tt> - not useful enough, as a dedicated key, the Delete one, exists for that)</li>
 <li><tt class="docutils literal"><span class="pre">C-l</span> LINE_NUMBER</tt>: go to the specified line</li>
 <li><tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-s</span></tt>: save current buffer</li>
@@ -235,7 +235,11 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li>to abort the current entry in the minibuffer: <tt class="docutils literal"><span class="pre">C-g</span></tt>; if a command seems stuck in the minibuffer, it may be a recursive edit (then try <tt class="docutils literal"><span class="pre">C-]</span></tt>, i.e. <tt class="docutils literal"><span class="pre">(abort-recursive-edit)</span></tt>), or not the minibuffer but the echo area that should be cleared (then try <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">C-g</span></tt>)</li>
 <li>to perform replacements based on regular expressions: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET regexp RET newstring RET</tt>, with <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html">this REGEXP syntax</a> (<a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html">more information</a>); for example, to remove, in each line, all characters from the first comma: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET ,.* RET , RET</tt></li>
 <li>to open a file that is very large and/or difficult to parse/display: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">find-file-literally</span></tt></li>
-<li>to describe the action to which a given key corresponds: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">describe-key</span></tt></li>
+<li>to describe:<ul>
+<li>a given function, say <tt class="docutils literal"><span class="pre">some-command</span></tt>: <tt class="docutils literal"><span class="pre">C-h</span> f <span class="pre">some-command</span></tt></li>
+<li>the action to which a given key corresponds: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">describe-key</span></tt></li>
+</ul>
+</li>
 <li>to describe the character (including its font) at which the point is: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">describe-char</span></tt></li>
 </ul>
 <p id="useful-commands">Other <strong>useful commands</strong> to trigger, possibly explicitly with <tt class="docutils literal"><span class="pre">M-x</span></tt>:</p>
