@@ -203,7 +203,7 @@ At least based on our (Emacs and French keyboard) **base** settings (i.e. the on
 
 - ``C-a`` / ``C-e``: move cursor to leftmost / rightmost position
 - ``C-k``: kill all characters on the right from cursor (and thus put them in the kill ring)
-- ``C-s PATTERN RET`` / ``C-r PATTERN RET``: perform direct / reverse case-insensitive search of the specified pattern; then each ``C-s`` / ``C-r`` will jump direct / reverse to any next occurrence; ``RET`` will stop the search
+- ``C-s PATTERN RET`` / ``C-r PATTERN RET``: perform direct (corresponding to ``isearch-forward``) / reverse case-insensitive search of the specified pattern; then each ``C-s`` / ``C-r`` will jump direct / reverse to any next occurrence of the pattern; ``RET`` will stop the search; to go through the past patterns that were previously searched, ``C-s C-s`` will search the previous pattern, and ``M-p`` / ``M-n`` will allow to go through the pattern history (better than switching to the minibuffer by putting the cursor in front of I-search and pressing ``U_ARROW`` / ``D_ARROW`` to have the access to the previous search terms, then pressing ``RET`` after selecting one of them)
 - ``C-d SEARCH_PATTERN RET REPLACE_PATTERN RET``: perform replacements, bound to ``replace-string`` (default binding to delete char at cursor - ``delete-char`` - not useful enough, as a dedicated key, the Delete one, exists for that)
 - ``C-l LINE_NUMBER``: go to the specified line
 - ``C-x C-s``: save current buffer
@@ -271,7 +271,10 @@ Frequent Actions
 
 - to open a file that is very large and/or difficult to parse/display: ``M-x find-file-literally``
 
-- to describe the action to which a given key corresponds: ``M-x describe-key``
+- to describe:
+
+  - a given function, say ``some-command``: ``C-h f some-command``
+  - the action to which a given key corresponds: ``M-x describe-key``
 
 - to describe the character (including its font) at which the point is: ``M-x describe-char``
 
