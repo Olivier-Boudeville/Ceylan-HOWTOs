@@ -563,17 +563,22 @@ Inner Links with Sphinx
 
 We recommend allowing referencing sections based on their title (each title becoming a possible link target). This is done by adding, among the ``extensions``, the ``'sphinx.ext.autosectionlabel'`` one. Adding in turn, among the ``suppress_warnings``, the ``'autosectionlabel.*'`` one is then useful to silence messages like ``WARNING: duplicate label foo, other instance in bar.rst``.
 
-Then, in our preferred approach for inner links, described `here <https://stackoverflow.com/a/70355341>`_ and `there <https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any>`_, such links - which are possibly defined and referenced in *different* RST files - are to be managed in a slightly different way than for `Docutils's inner links <#inner-links>`_; indeed in order to be able to reference:
+Then, in our preferred approach for inner links, described `here <https://stackoverflow.com/a/70355341>`_ and `there <https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any>`_, such links - which are possibly defined and referenced in *different* RST files - are to be managed in a slightly different way than for `Docutils's inner links <#inner-links>`_.
 
-- label sections (i.e. titles in the document):
+Indeed, in order to be able to reference:
 
-  - first, as shown in the `conf.py`_ example above, the ``default_role = 'any'`` setting should be specified
-  - then, each inner link target (e.g. a ``Brief Answers`` title) shall be referenced like with Docutils but *without* a trailing underscore, e.g. as ```brief answers``` (rather than as ```brief answers`_``); optionally such references may be prefixed with ``:ref:``, like in: ``:ref:`brief answers```; if wanting to have a specific text displayed for a reference, just use for example ```my text <brief answers>``` (or ``:ref:`my text <brief answers>```)
+- **label sections** (i.e. titles in the document):
 
-- custom anchors:
+  - first, as shown in the `conf.py`_ example above, the ``default_role = 'any'`` setting may be specified (this means that if no role is specified, then the most flexible ``any`` one is assumed; for example writing just ```hello``` would translate to ``:any:`goodbye``` (rather than for example ``:ref:`hello```)
+  - then, each inner link target (e.g. a ``Brief Answers`` title) shall be referenced (preserving or not the upper/lower case of this title) like with Docutils but *without* a trailing underscore, e.g. as ```brief answers``` (rather than as ```brief answers`_``); optionally (this is what we recommend, for clarity and to emphasize this is Sphinx syntax, and not the Docutils one), such references may be prefixed with ``:ref:``, like in: ``:ref:`brief answers```; if wanting to have a specific text displayed for regarding this reference, just use for example ```my text <brief answers>``` (or ``:ref:`my text <brief answers>```) - and of course do not define any specific ``my text`` anchor
 
-  - one must be defined with:  ``.. _my anchor:`` or, more classically, as ``.. _`my anchor`:``
-  - then, like for label sections, be referenced as: ```this is the text of the link <my anchor>```; optionally such links may be prefixed with ``:ref:``, like in: ``:ref:`this is the text of the link <my anchor>```; using just ``:ref:`my anchor``` (i.e. not indicating a specific text for the link) seems now correctly supported
+- **custom anchors** (see also `this link <https://www.sphinx-doc.org/en/master/usage/referencing.html#role-ref>`_) pointing to (i.e. followed by) an element that is neither a title or a caption (otherwise, if using the ``autosectionlabel`` extension and defining a custom anchor before a title, a ``WARNING: duplicate label this is my anchor`` will be issued):
+
+  - such an anchor must be defined with:  ``.. _this is my anchor:`` or, more classically, as ``.. _`this is my anchor`:``; as mentioned, it will actually point to any next element of any class
+  - then, like for label sections, it can be referenced as: ```this is the text of the link <this is my anchor>```; optionally (still recommended by us), such links may be prefixed with ``:ref:``, like in: ``:ref:`this is the text of the link <this is my anchor>``` (using just ``:ref:`this is my anchor```, i.e. not indicating a specific text for the anchor link, is *not* supported)
+
+.. Does not seem true for custom anchors: using just ``:ref:`this is my anchor``` (i.e. not indicating a specific text for the link) seems now correctly supported; indeed we have: "WARNING: Failed to create a cross reference. A title or caption not found"; and "WARNING: duplicate label" if the anchor is just before a title
+
 
 .. It used not to work (and would result in ``WARNING: Failed to create a cross reference. A title or caption not found: 'my anchor'``)
 
