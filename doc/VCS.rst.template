@@ -244,6 +244,13 @@ Common Procedures
 -----------------
 
 
+Testing Push Permissions on a Remote
+....................................
+
+Provided that a clone has already been made, from there ``git push --dry-run`` may be of use.
+
+
+
 Overcoming auto-signed SSL certificate issues
 .............................................
 
