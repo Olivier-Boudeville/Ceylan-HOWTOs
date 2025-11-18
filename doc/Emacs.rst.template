@@ -179,11 +179,11 @@ Emacs Parlance
 
 With Emacs:
 
-- a ``frame`` is actually a regular GUI window
+- a ``frame`` is actually a regular GUI **window**
 - a ``window`` is a subdivision of a ``frame`` (hence to be understood as a *window pane*)
 - a ``buffer`` is the content shown in a ``window``
-- (the) ``point`` is the (current) cursor position
-- the ``mark`` is the beginning of the current selection (typically set by ``C-SPC`` at the current point)
+- (the) ``point`` is the (current) **cursor position**
+- the ``mark`` is the **beginning of the current selection** (typically set by ``C-SPC`` at the current point)
 - ELPA stands for *Emacs Lisp Package Archive* (see `more package-related explanations <https://zellyn.com/2024/08/emacs-packages/>`_):
 
   - GNU ELPA is ~450 packages, considered part of Emacs
@@ -248,35 +248,34 @@ Additionally, with our **complete** settings, notably with ``lsp-mode``:
 Frequent Actions
 ----------------
 
-- to tune the font size:
+- to tune the **font size**:
 
   - temporarily: use ``C-x C-+`` to increase, ``C-x C--`` to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use ``C-mousewheel``)
   - permanently: one may add in one's `Emacs configuration`_ file for example: ``(set-face-attribute 'default nil :height 100)``
 
-- to insert special characters (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example ``M-x quoted-insert <tab>``, which is bound in our conventions to ``s-q`` (instead of ``C-q``, already taken); note that pasting a tab with the mouse in the minibuffer works as well
+- to insert **special characters** (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example ``M-x quoted-insert <tab>``, which is bound in our conventions to ``s-q`` (instead of ``C-q``, already taken); note that pasting a tab with the mouse in the minibuffer works as well
 
-- to insert in the current buffer the output of a shell command: ``C-u then M-!``: enter that shell command, whose output will be pasted at the current cursor position
+- to insert in the current buffer the **output of a shell command**: ``C-u then M-!``: enter that shell command, whose output will be pasted at the current cursor position
 
-- to prefix all lines of the selected region: ``C-x`` then ``r`` then ``t``, then type the prefix then type Enter (useful for example to indent a series of lines)
+- to **prefix** all lines of the selected region: ``C-x`` then ``r`` then ``t``, then type the prefix then type Enter (useful for example to indent a series of lines)
 
-- to sort alphabetically the selected region: ``M-x sort-lines``
+- to **sort alphabetically** the selected region: ``M-x sort-lines``
 
-- to go to the matching delimiter (parenthesis, bracket, end of word, etc.): to go forward, use ``C-M-f``, and to go backward use ``C-M-b``
+- to go to the **matching delimiter** (parenthesis, bracket, end of word, etc.): to go forward, use ``C-M-f``, and to go backward use ``C-M-b``
 
-- to re-select a region (e.g. to perform multiple substitutions in a row on the same region): ``C-x C-x``
+- to **re-select** a region (e.g. to perform multiple substitutions in a row on the same region): ``C-x C-x``
 
-- to abort the current entry in the minibuffer: ``C-g``; if a command seems stuck in the minibuffer, it may be a recursive edit (then try ``C-]``, i.e. ``(abort-recursive-edit)``), or not the minibuffer but the echo area that should be cleared (then try ``M-x C-g``)
+- to **abort** the current entry in the minibuffer: ``C-g``; if a command seems stuck in the minibuffer, it may be a recursive edit (then try ``C-]``, i.e. ``(abort-recursive-edit)``), or not the minibuffer but the echo area that should be cleared (then try ``M-x C-g``)
 
-- to perform replacements based on regular expressions: ``M-x replace-regexp RET regexp RET newstring RET``, with `this REGEXP syntax <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html>`_ (`more information <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html>`_); for example, to remove, in each line, all characters from the first comma: ``M-x replace-regexp RET ,.* RET , RET``
+- to perform **replacements based on regular expressions**: ``M-x replace-regexp RET regexp RET newstring RET``, with `this REGEXP syntax <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html>`_ (`more information <https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html>`_); for example, to remove, in each line, all characters from the first comma: ``M-x replace-regexp RET ,.* RET , RET``
 
-- to open a file that is very large and/or difficult to parse/display: ``M-x find-file-literally``
+- to open a file that is very **large and/or difficult** to parse/display: ``M-x find-file-literally``
 
-- to describe:
+- to **describe**:
 
   - a given function, say ``some-command``: ``C-h f some-command``
   - the action to which a given key corresponds: ``M-x describe-key``
-
-- to describe the character (including its font) at which the point is: ``M-x describe-char``
+  - the character (including its font) at which the point is: ``M-x describe-char``
 
 
 .. _`useful commands`:
@@ -286,7 +285,7 @@ Other **useful commands** to trigger, possibly explicitly with ``M-x``:
 - ``replace-string SEARCH_PATTERN REPLACEMENT``; add ``M-c`` to set the case-sensitive flag, i.e. to search for the exact string (even if it is lowercase - otherwise uppercase versions thereof will match); the ``M-%`` default shortcut requires a shift on French keyboards
 - ``query-replace SEARCH_PATTERN REPLACEMENT``
 - ``kill-rectangle`` (operates on a previous selection)
-- ``indent-region`` (``C-M-\`` difficult on French keyboards)
+- ``indent-region`` (``C-M-\`` difficult on French keyboards); see also ``indent-rigidly`` above
 - ``eval-expression`` prompts in the minibuffer for the (ELISP) expression to evaluate, whose result is briefly displayed there, and recorded in the ``*Messages*`` buffer (see this `complete guide about ELISP evaluation <http://xahlee.info/emacs/emacs/elisp_eval_lisp_code.html>`_)
 - ``untabify``: to replace tabulations with spaces, depending on the current ``tab-width`` settings; operates only a selection, so generally the whole current buffer has to be selected beforehand
 
