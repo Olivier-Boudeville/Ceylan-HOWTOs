@@ -791,7 +791,9 @@ It is a tool developed in Scala. It operates on Erlang source files (thus not on
 Installing eqWAlizer
 ____________________
 
-We install `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_ that way:
+Now we build it from sources with ELP, refer to the `ELP From Sources`_ section.
+
+Alternatively we used to install `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_ that way:
 
 .. code:: bash
 
@@ -799,6 +801,7 @@ We install `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_ that way:
  $ mkdir -p eqwalizer && cd eqwalizer
  $ wget https://github.com/WhatsApp/eqwalizer/releases/download/vx.y.z/elp-linux.tar.gz
  $ tar xvf elp-linux.tar.gz && mkdir -p bin && /bin/mv -f elp bin/
+
 
 Then just ensure that the ``~/Software/eqwalizer/bin`` directory is in your PATH (e.g. set in your ``.bashrc``).
 
@@ -1264,15 +1267,17 @@ Installing ELP
 ..............
 
 
-From Sources (recommended)
-__________________________
 
+ELP From Sources
+________________
+
+This is the approach that we recommend.
 
 We mostly follow `these guidelines here <https://whatsapp.github.io/erlang-language-platform/docs/get-started/install/#from-source/>`_.
 
 Relying on a installation from sources implies the build of `eqWAlizer <https://github.com/WhatsApp/eqwalizer>`_, which itself, being Scala-based, requires:
 
-- Java 11 or more recent (if using LogMX, see [this page](https://traces.esperide.org/#requested-widths-for-logmx-entry-columns-not-honored), which we can obtain (based on OpenJDK) on Arch with ``pacman -S jdk-openjdk`` and that we select based on the output of ``archlinux-java status``, leading to execute for example: ``archlinux-java set java-24-openjdk`` (check then the actual version with ``java -version``)
+- Java 11 or more recent (if using LogMX, see `this page <https://traces.esperide.org/#requested-widths-for-logmx-entry-columns-not-honored>`_), which we can obtain (based on OpenJDK) on Arch with ``pacman -S jdk-openjdk`` and that we select based on the output of ``archlinux-java status``, leading to execute for example: ``archlinux-java set java-24-openjdk`` (check then the actual version with ``java -version``)
 - `sbt <https://github.com/sbt/sbt>`_ (*a build tool for Scala, Java, and more*), which can be obtained on Arch with ``pacman -S sbt``.
 
 .. sbt may be difficult to obtain.
@@ -1285,6 +1290,7 @@ Once these prerequisite are available, eqWAlizer can be built:
  $ mkdir ~/Software
  $ cd ~/Software
  $ git clone https://github.com/WhatsApp/eqwalizer.git
+ # If not building from the main branch: git tag -l && git checkout vx.y.z
  $ pushd eqwalizer/eqwalizer
  $ sbt assembly
  $ popd
@@ -1296,7 +1302,7 @@ Once these prerequisite are available, eqWAlizer can be built:
 
 Then in one's  ``~/.bashrc`` for example, supposing a single version of such a build exists, one may declare, so that the next ELP build can find this eqwalizer one::
 
-  export ELP_EQWALIZER_PATH="$(/bin/ls ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar)"
+  export ELP_EQWALIZER_PATH="$(/bin/ls -t ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar 2>/dev/null | head -n 1)"
 
 
 Then ELP shall be built, which requires sufficiently recent Rust and cargo (notably for the `edition2024` feature; on Arch, ``pacman -S cargo`` shall suffice).
@@ -1304,22 +1310,26 @@ Then ELP shall be built, which requires sufficiently recent Rust and cargo (nota
 .. code:: bash
 
  $ cd ~/Software
+
+ # Or: cd erlang-language-platform && git pull
  $ git clone https://github.com/WhatsApp/erlang-language-platform.git
- # cd erlang-language-platform
+
+ $ cd erlang-language-platform
  # This will be long, and may overheat one's CPU, so use either:
- $ cargo build --release
+
  # Or: cpulimit --limit 200 cargo build --release
+ $ cargo build --release
 
 Then in one's  ``~/.bashrc`` for example, one may declare::
 
   export PATH="${HOME}/Software/erlang-language-platform/target/release:${PATH}"
 
-Test that the ``elp`` executable can be found indeed.
+Test that the ``elp`` executable can be found indeed, and remove any previous server running (e.g. run ``killall elp``).
 
 
 
-From Binaries
-_____________
+ELP From Binaries
+_________________
 
 
 `Prebuilt-binaries <https://github.com/WhatsApp/erlang-language-platform/releases>`_ are available.
@@ -1489,6 +1499,8 @@ To avoid having to perform a lookup in the documentation:
 (no need for the ``erlang`` module to be explicitly specified for the first two functions, as both are auto-imported)
 
 - for (list, map, bit string) **comprehensions**, since Erlang 28.0, in addition to the usual, *relaxed* list generators (``Pattern <- ListExpr`` for lists and maps, ``BitstringPattern <= BitStringExpr`` for bit strings), `strict variants <https://www.erlang.org/doc/system/expressions.html#comprehensions>`_ thereof exist: ``Pattern <:- ListExpr`` for lists and maps, ``BitstringPattern <:= BitStringExpr`` for bit strings; these strict variants, instead of silently ignoring the generated elements that do not match the pattern, will raise an exception instead (e.g. ``exception error: no match of right hand side value XXX``)
+
+- ``lists:foldl/3`` is generally the best folding procedure, and its `signature <https://www.erlang.org/doc/apps/stdlib/lists.html#foldl/3>`_ is ``foldl(Fun, Acc0, List) -> Acc1``
 
 - for ``maps``: refer to `map expressions <https://www.erlang.org/doc/reference_manual/expressions.html#map_expressions>`_, the `maps module <https://www.erlang.org/doc/man/maps.html>`_ and the corresponding part of the `efficiency guide <https://www.erlang.org/doc/efficiency_guide/maps.html>`_; in short:
 
