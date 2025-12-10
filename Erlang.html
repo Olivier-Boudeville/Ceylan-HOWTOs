@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.22.3: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Erlang</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, October 18, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, December 10, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -637,7 +637,8 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Sof
 <p>It is a tool developed in Scala. It operates on Erlang source files (thus not on BEAM ones).</p>
 <div class="section" id="installing-eqwalizer">
 <h4>Installing eqWAlizer</h4>
-<p>We install <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a> that way:</p>
+<p>Now we build it from sources with ELP, refer to the <a class="reference internal" href="#elp-from-sources">ELP From Sources</a> section.</p>
+<p>Alternatively we used to install <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a> that way:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
 </span>$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>eqwalizer<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>eqwalizer<span class="w">
@@ -1011,12 +1012,13 @@ name us_main_exec-xxx at port 60001
 <p>We used to rely on <a class="reference external" href="https://erlang-ls.github.io/">erlang_ls</a>, which is archived (unmaintained) now; we prefer using <a class="reference external" href="https://whatsapp.github.io/erlang-language-platform/">ELP</a>, i.e. the so-called <em>Erlang Language Platform</em> now.</p>
 <div class="section" id="installing-elp">
 <h3>Installing ELP</h3>
-<div class="section" id="from-sources-recommended">
-<h4>From Sources (recommended)</h4>
+<div class="section" id="elp-from-sources">
+<h4>ELP From Sources</h4>
+<p>This is the approach that we recommend.</p>
 <p>We mostly follow <a class="reference external" href="https://whatsapp.github.io/erlang-language-platform/docs/get-started/install/#from-source/">these guidelines here</a>.</p>
 <p>Relying on a installation from sources implies the build of <a class="reference external" href="https://github.com/WhatsApp/eqwalizer">eqWAlizer</a>, which itself, being Scala-based, requires:</p>
 <ul class="simple">
-<li>Java 11 or more recent (if using LogMX, see [this page](<a class="reference external" href="https://traces.esperide.org/#requested-widths-for-logmx-entry-columns-not-honored">https://traces.esperide.org/#requested-widths-for-logmx-entry-columns-not-honored</a>), which we can obtain (based on OpenJDK) on Arch with <tt class="docutils literal">pacman <span class="pre">-S</span> <span class="pre">jdk-openjdk</span></tt> and that we select based on the output of <tt class="docutils literal"><span class="pre">archlinux-java</span> status</tt>, leading to execute for example: <tt class="docutils literal"><span class="pre">archlinux-java</span> set <span class="pre">java-24-openjdk</span></tt> (check then the actual version with <tt class="docutils literal">java <span class="pre">-version</span></tt>)</li>
+<li>Java 11 or more recent (if using LogMX, see <a class="reference external" href="https://traces.esperide.org/#requested-widths-for-logmx-entry-columns-not-honored">this page</a>), which we can obtain (based on OpenJDK) on Arch with <tt class="docutils literal">pacman <span class="pre">-S</span> <span class="pre">jdk-openjdk</span></tt> and that we select based on the output of <tt class="docutils literal"><span class="pre">archlinux-java</span> status</tt>, leading to execute for example: <tt class="docutils literal"><span class="pre">archlinux-java</span> set <span class="pre">java-24-openjdk</span></tt> (check then the actual version with <tt class="docutils literal">java <span class="pre">-version</span></tt>)</li>
 <li><a class="reference external" href="https://github.com/sbt/sbt">sbt</a> (<em>a build tool for Scala, Java, and more</em>), which can be obtained on Arch with <tt class="docutils literal">pacman <span class="pre">-S</span> sbt</tt>.</li>
 </ul>
 <p>Once these prerequisite are available, eqWAlizer can be built:</p>
@@ -1024,6 +1026,7 @@ name us_main_exec-xxx at port 60001
 $<span class="w"> </span>mkdir<span class="w"> </span>~/Software<span class="w">
 </span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
 </span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/WhatsApp/eqwalizer.git<span class="w">
+</span><span class="c1"># If not building from the main branch: git tag -l &amp;&amp; git checkout vx.y.z
 </span>$<span class="w"> </span><span class="nb">pushd</span><span class="w"> </span>eqwalizer/eqwalizer<span class="w">
 </span>$<span class="w"> </span>sbt<span class="w"> </span>assembly<span class="w">
 </span>$<span class="w"> </span><span class="nb">popd</span><span class="w">
@@ -1034,25 +1037,29 @@ $<span class="w"> </span>mkdir<span class="w"> </span>~/Software<span class="w">
 </pre>
 <p>Then in one's  <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt> for example, supposing a single version of such a build exists, one may declare, so that the next ELP build can find this eqwalizer one:</p>
 <pre class="literal-block">
-export ELP_EQWALIZER_PATH=&quot;$(/bin/ls ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar)&quot;
+export ELP_EQWALIZER_PATH=&quot;$(/bin/ls -t ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar 2&gt;/dev/null | head -n 1)&quot;
 </pre>
 <p>Then ELP shall be built, which requires sufficiently recent Rust and cargo (notably for the <cite>edition2024</cite> feature; on Arch, <tt class="docutils literal">pacman <span class="pre">-S</span> cargo</tt> shall suffice).</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
+
+</span><span class="c1"># Or: cd erlang-language-platform &amp;&amp; git pull
 </span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/WhatsApp/erlang-language-platform.git<span class="w">
-</span><span class="c1"># cd erlang-language-platform
-# This will be long, and may overheat one's CPU, so use either:
-</span>$<span class="w"> </span>cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w">
-</span><span class="c1"># Or: cpulimit --limit 200 cargo build --release</span>
+
+</span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>erlang-language-platform<span class="w">
+</span><span class="c1"># This will be long, and may overheat one's CPU, so use either:
+</span><span class="w">
+</span><span class="c1"># Or: cpulimit --limit 200 cargo build --release
+</span>$<span class="w"> </span>cargo<span class="w"> </span>build<span class="w"> </span>--release
 </pre>
 <p>Then in one's  <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt> for example, one may declare:</p>
 <pre class="literal-block">
 export PATH=&quot;${HOME}/Software/erlang-language-platform/target/release:${PATH}&quot;
 </pre>
-<p>Test that the <tt class="docutils literal">elp</tt> executable can be found indeed.</p>
+<p>Test that the <tt class="docutils literal">elp</tt> executable can be found indeed, and remove any previous server running (e.g. run <tt class="docutils literal">killall elp</tt>).</p>
 </div>
-<div class="section" id="from-binaries">
-<h4>From Binaries</h4>
+<div class="section" id="elp-from-binaries">
+<h4>ELP From Binaries</h4>
 <p><a class="reference external" href="https://github.com/WhatsApp/erlang-language-platform/releases">Prebuilt-binaries</a> are available.</p>
 <p>One can download for example <tt class="docutils literal"><span class="pre">elp-linux-x86_64-unknown-linux-gnu-otp-28.tar.gz</span></tt> and, provided that the local glibc is not too ancient, a functional <tt class="docutils literal">elp</tt> can be extracted from that archive, preferably in a dedicated <tt class="docutils literal"><span class="pre">~/Software/erlang-language-platform/target/release</span></tt> directory, for consistency.</p>
 </div>
@@ -1180,6 +1187,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 <p>(no need for the <tt class="docutils literal">erlang</tt> module to be explicitly specified for the first two functions, as both are auto-imported)</p>
 <ul class="simple">
 <li>for (list, map, bit string) <strong>comprehensions</strong>, since Erlang 28.0, in addition to the usual, <em>relaxed</em> list generators (<tt class="docutils literal">Pattern &lt;- ListExpr</tt> for lists and maps, <tt class="docutils literal">BitstringPattern &lt;= BitStringExpr</tt> for bit strings), <a class="reference external" href="https://www.erlang.org/doc/system/expressions.html#comprehensions">strict variants</a> thereof exist: <tt class="docutils literal">Pattern &lt;:- ListExpr</tt> for lists and maps, <tt class="docutils literal">BitstringPattern &lt;:= BitStringExpr</tt> for bit strings; these strict variants, instead of silently ignoring the generated elements that do not match the pattern, will raise an exception instead (e.g. <tt class="docutils literal">exception error: no match of right hand side value XXX</tt>)</li>
+<li><tt class="docutils literal">lists:foldl/3</tt> is generally the best folding procedure, and its <a class="reference external" href="https://www.erlang.org/doc/apps/stdlib/lists.html#foldl/3">signature</a> is <tt class="docutils literal">foldl(Fun, Acc0, List) <span class="pre">-&gt;</span> Acc1</tt></li>
 <li>for <tt class="docutils literal">maps</tt>: refer to <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#map_expressions">map expressions</a>, the <a class="reference external" href="https://www.erlang.org/doc/man/maps.html">maps module</a> and the corresponding part of the <a class="reference external" href="https://www.erlang.org/doc/efficiency_guide/maps.html">efficiency guide</a>; in short:<ul>
 <li>creating/updating maps is <tt class="docutils literal">EmptyMap = #{}</tt>, <tt class="docutils literal">NewMFromScratch = #{K1 =&gt; V1, K2 =&gt; V2}</tt> or <tt class="docutils literal">UpdatedM = <span class="pre">M#{K1</span> =&gt; V1, K2 =&gt; V2}</tt></li>
 <li>updating the value associated to an already-existing key <tt class="docutils literal">K</tt> is <tt class="docutils literal">ModM = <span class="pre">M#{K</span> := V}</tt></li>

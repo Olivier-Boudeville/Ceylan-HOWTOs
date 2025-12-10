@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.22.3: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Rust</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -166,7 +166,7 @@ rust-analyzer 1.76.0 (07dca48 2024-02-04)
 <h3>More Involved Approach</h3>
 <p>We prefer installing and configuring <tt class="docutils literal">rustic</tt> with <tt class="docutils literal"><span class="pre">use-package</span> rustic</tt>, as done in <a class="reference external" href="https://robert.kra.hn/posts/rust-emacs-setup/">Robert Krahn's page</a>; see <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init.el">our complete init.el</a> for that.</p>
 <p>Then opening a Rust source file (e.g. <tt class="docutils literal">hello.rs</tt>) should automatically exhibit syntax highlighting and the <tt class="docutils literal">Rustic</tt> mode.</p>
-<p>Notably, saving a Rust source file will automatically format it with <a class="reference external" href="https://github.com/rust-lang/rustfmt">Rustfmt</a>, which is neat.</p>
+<p>Notably, saving a Rust source file will automatically format it with <a href="#system-message-1"><span class="problematic" id="problematic-1">Rustfmt_</span></a>, which is neat.</p>
 <p>See also:</p>
 <ul class="simple">
 <li>the <a class="reference external" href="https://wikemacs.org/wiki/Rust">WikEmacs page</a></li>
@@ -223,6 +223,12 @@ rustflags = [&quot;-C&quot;, &quot;target-cpu=native&quot;]
 <li>the reference is the <a class="reference external" href="http://erlang.org">Rust official website</a></li>
 </ul>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
+</div>
+<div class="system-messages section">
+<h1>Docutils System Messages</h1>
+<div class="system-message" id="system-message-1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">Rust.rst</tt>, line 209); <em><a href="#problematic-1">backlink</a></em></p>
+Duplicate target name, cannot be used as a unique reference: &quot;rustfmt&quot;.</div>
 </div>
 </div>
 </body>

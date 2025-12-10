@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.22.3: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About 3D</title>
 <script type="text/javascript" src="mathjax/tex-mml-chtml.js?config=TeX-AMS_CHTML"></script>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
@@ -145,7 +145,7 @@
 <p>As usual, these information pertain to a GNU/Linux perspective.</p>
 <div class="section" id="cross-platform-game-engines">
 <h1><a class="toc-backref" href="#toc-entry-1">Cross-Platform Game Engines</a></h1>
-<p>The big three are <a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Unreal_Engine">Unreal Engine</a> and <a class="reference internal" href="#unity3d">Unity3D</a> <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>.</p>
+<p>The big three are <a href="#system-message-1"><span class="problematic" id="problematic-1">Godot_</span></a>, <a href="#system-message-2"><span class="problematic" id="problematic-2">`Unreal Engine`_</span></a> and <a class="reference internal" href="#unity3d">Unity3D</a> <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>.</p>
 <table class="docutils footnote" frame="void" id="footnote-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -556,7 +556,7 @@ You can use both characters and animations royalty free for personal, commercial
 <li>OpenGL is a <strong>software interface to graphics hardware</strong>, i.e. the <em>specification</em> of an API (of around 150 functions in its older version 1.1), developed and maintained by the <a class="reference external" href="https://www.khronos.org/">Khronos Group</a></li>
 <li>a video card will run an <em>implementation</em> of that specification, generally developed by the manufacturer of that card; a good rule of thumb is to always update one's video card drivers to their <strong>latest stable version</strong>, as OpenGL implementations are constantly improved (bug-fixing) and updated (with regard to newer OpenGL versions)</li>
 <li>OpenGL concentrates on <strong>hardware-independent 2D/3D rendering</strong>; no commands for performing window-related tasks or obtaining user input are included; for example frame buffer configuration is done outside of OpenGL, in conjunction with the windowing system</li>
-<li>OpenGL offers only <strong>low-level primitives</strong> organised through a <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id57691">pipeline</a> in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such, OpenGL is a building-block for higher-level engines (e.g. like <a class="reference external" href="https://en.wikipedia.org/wiki/Godot_(game_engine)">Godot</a>)</li>
+<li>OpenGL offers only <strong>low-level primitives</strong> organised through a <a class="reference external" href="https://www.glprogramming.com/blue/ch02.html#id57691">pipeline</a> in which vertices are assembled into primitives, then to fragments, and finally to pixels in the frame buffer; as such, OpenGL is a building-block for higher-level engines (e.g. like <a href="#system-message-3"><span class="problematic" id="problematic-3">Godot_</span></a>)</li>
 <li>OpenGL is a <strong>procedural</strong> (function-based, not object-oriented) <strong>state machine</strong> comprising a larger number of variables defined within a given OpenGL state (named an <em>OpenGL context</em>; comprising vertex coordinates, textures, frame buffer, etc.); said otherwise, all OpenGL state variables behave like &quot;global&quot; variables, more precisely they are actually relative to an OpenGL context that is often implicit; when a parameter is set, it applies and lasts as long as it is not modified (if still using the same OpenGL context); the effect of an OpenGL command may vary depending on whether certain modes are enabled (i.e. whether some state variables are set to a given value)</li>
 <li>so the <strong>currently processed element</strong> (e.g. a vertex) <strong>inherits (implicitly) the current settings of the context</strong> (e.g. color, normal, texture coordinate, etc.); this is the only reasonable mode of operation, knowing that a host of parameters apply whenever performing a rendering operation (specifying all these parameters would not be a realistic option); as a result, any specific parameter shall be set first (prior to triggering such an operation), and is to last afterwards (being &quot;implicitly inherited&quot;), until possibly being reassigned in some later point in time</li>
 <li>OpenGL respects a <strong>client/server execution model</strong>: an application (a specific client, running on a CPU) issues commands to a rendering server (on the same host or not - see GLX; generally the server can be seen as running on a local graphic card), that executes them <strong>sequentially and in-order</strong>; as such, most of the calls performed by user programs are <strong>asynchronous</strong>: they are triggered by the (client) program through OpenGL, and return almost immediately, whereas they have not been executed (by the server) yet: they have just be queued; indeed OpenGL implementations are almost always pipelined, so the rendering must be thought as primarily taking place in a background process; additional facilities like <em>Display Lists</em> allow to pipeline operations (as opposed to the default <em>immediate mode</em>), which are accumulated for processing at a later time, as fast as the graphic card can then process them</li>
@@ -1326,6 +1326,18 @@ P_{\beta\rightarrow\alpha}
 </ul>
 <p>See also the Wikipedia's <a class="reference external" href="https://en.wikipedia.org/wiki/Glossary_of_computer_graphics">glossary of computer graphics</a>.</p>
 <p><span class="raw-html"><a name="howtos_bottom"></a></span></p>
+</div>
+<div class="system-messages section">
+<h1>Docutils System Messages</h1>
+<div class="system-message" id="system-message-1">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ThreeDimensional.rst</tt>, line 52); <em><a href="#problematic-1">backlink</a></em></p>
+Duplicate target name, cannot be used as a unique reference: &quot;godot&quot;.</div>
+<div class="system-message" id="system-message-2">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ThreeDimensional.rst</tt>, line 52); <em><a href="#problematic-2">backlink</a></em></p>
+Duplicate target name, cannot be used as a unique reference: &quot;unreal engine&quot;.</div>
+<div class="system-message" id="system-message-3">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">ThreeDimensional.rst</tt>, line 683); <em><a href="#problematic-3">backlink</a></em></p>
+Duplicate target name, cannot be used as a unique reference: &quot;godot&quot;.</div>
 </div>
 </div>
 </body>

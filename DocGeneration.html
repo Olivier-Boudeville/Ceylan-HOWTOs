@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.22.3: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Documentation Generation</title>
 <script type="text/javascript" src="mathjax/tex-mml-chtml.js?config=TeX-AMS_CHTML"></script>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, October 18, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, October 29, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -448,16 +448,17 @@ The various colors are:
 <div class="section" id="inner-links-with-sphinx">
 <h2><a class="toc-backref" href="#toc-entry-21">Inner Links with Sphinx</a></h2>
 <p>We recommend allowing referencing sections based on their title (each title becoming a possible link target). This is done by adding, among the <tt class="docutils literal">extensions</tt>, the <tt class="docutils literal">'sphinx.ext.autosectionlabel'</tt> one. Adding in turn, among the <tt class="docutils literal">suppress_warnings</tt>, the <tt class="docutils literal"><span class="pre">'autosectionlabel.*'</span></tt> one is then useful to silence messages like <tt class="docutils literal">WARNING: duplicate label foo, other instance in bar.rst</tt>.</p>
-<p>Then, in our preferred approach for inner links, described <a class="reference external" href="https://stackoverflow.com/a/70355341">here</a> and <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any">there</a>, such links - which are possibly defined and referenced in <em>different</em> RST files - are to be managed in a slightly different way than for <a class="reference external" href="#inner-links">Docutils's inner links</a>; indeed in order to be able to reference:</p>
+<p>Then, in our preferred approach for inner links, described <a class="reference external" href="https://stackoverflow.com/a/70355341">here</a> and <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/referencing.html#role-any">there</a>, such links - which are possibly defined and referenced in <em>different</em> RST files - are to be managed in a slightly different way than for <a class="reference external" href="#inner-links">Docutils's inner links</a>.</p>
+<p>Indeed, in order to be able to reference:</p>
 <ul class="simple">
-<li>label sections (i.e. titles in the document):<ul>
-<li>first, as shown in the <a class="reference internal" href="#conf-py">conf.py</a> example above, the <tt class="docutils literal">default_role = 'any'</tt> setting should be specified</li>
-<li>then, each inner link target (e.g. a <tt class="docutils literal">Brief Answers</tt> title) shall be referenced like with Docutils but <em>without</em> a trailing underscore, e.g. as <tt class="docutils literal">`brief answers`</tt> (rather than as <tt class="docutils literal">`brief answers`_</tt>); optionally such references may be prefixed with <tt class="docutils literal">:ref:</tt>, like in: <tt class="docutils literal"><span class="pre">:ref:`brief</span> answers`</tt>; if wanting to have a specific text displayed for a reference, just use for example <tt class="docutils literal">`my text &lt;brief answers&gt;`</tt> (or <tt class="docutils literal"><span class="pre">:ref:`my</span> text &lt;brief answers&gt;`</tt>)</li>
+<li><strong>label sections</strong> (i.e. titles in the document):<ul>
+<li>first, as shown in the <a class="reference internal" href="#conf-py">conf.py</a> example above, the <tt class="docutils literal">default_role = 'any'</tt> setting may be specified (this means that if no role is specified, then the most flexible <tt class="docutils literal">any</tt> one is assumed; for example writing just <tt class="docutils literal">`hello`</tt> would translate to <tt class="docutils literal"><span class="pre">:any:`goodbye`</span></tt> (rather than for example <tt class="docutils literal"><span class="pre">:ref:`hello`</span></tt>)</li>
+<li>then, each inner link target (e.g. a <tt class="docutils literal">Brief Answers</tt> title) shall be referenced (preserving or not the upper/lower case of this title) like with Docutils but <em>without</em> a trailing underscore, e.g. as <tt class="docutils literal">`brief answers`</tt> (rather than as <tt class="docutils literal">`brief answers`_</tt>); optionally (this is what we recommend, for clarity and to emphasize this is Sphinx syntax, and not the Docutils one), such references may be prefixed with <tt class="docutils literal">:ref:</tt>, like in: <tt class="docutils literal"><span class="pre">:ref:`brief</span> answers`</tt>; if wanting to have a specific text displayed for regarding this reference, just use for example <tt class="docutils literal">`my text &lt;brief answers&gt;`</tt> (or <tt class="docutils literal"><span class="pre">:ref:`my</span> text &lt;brief answers&gt;`</tt>) - and of course do not define any specific <tt class="docutils literal">my text</tt> anchor</li>
 </ul>
 </li>
-<li>custom anchors:<ul>
-<li>one must be defined with:  <tt class="docutils literal">.. _my anchor:</tt> or, more classically, as <tt class="docutils literal">.. _`my anchor`:</tt></li>
-<li>then, like for label sections, be referenced as: <tt class="docutils literal">`this is the text of the link &lt;my anchor&gt;`</tt>; optionally such links may be prefixed with <tt class="docutils literal">:ref:</tt>, like in: <tt class="docutils literal"><span class="pre">:ref:`this</span> is the text of the link &lt;my anchor&gt;`</tt>; using just <tt class="docutils literal"><span class="pre">:ref:`my</span> anchor`</tt> (i.e. not indicating a specific text for the link) seems now correctly supported</li>
+<li><strong>custom anchors</strong> (see also <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/referencing.html#role-ref">this link</a>) pointing to (i.e. followed by) an element that is neither a title or a caption (otherwise, if using the <tt class="docutils literal">autosectionlabel</tt> extension and defining a custom anchor before a title, a <tt class="docutils literal">WARNING: duplicate label this is my anchor</tt> will be issued):<ul>
+<li>such an anchor must be defined with:  <tt class="docutils literal">.. _this is my anchor:</tt> or, more classically, as <tt class="docutils literal">.. _`this is my anchor`:</tt>; as mentioned, it will actually point to any next element of any class</li>
+<li>then, like for label sections, it can be referenced as: <tt class="docutils literal">`this is the text of the link &lt;this is my anchor&gt;`</tt>; optionally (still recommended by us), such links may be prefixed with <tt class="docutils literal">:ref:</tt>, like in: <tt class="docutils literal"><span class="pre">:ref:`this</span> is the text of the link &lt;this is my anchor&gt;`</tt> (using just <tt class="docutils literal"><span class="pre">:ref:`this</span> is my anchor`</tt>, i.e. not indicating a specific text for the anchor link, is <em>not</em> supported)</li>
 </ul>
 </li>
 </ul>

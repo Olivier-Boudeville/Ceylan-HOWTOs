@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.22.3: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Emacs</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, March 16, 2025</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, October 18, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, October 29, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -158,11 +158,11 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <h2><a class="toc-backref" href="#toc-entry-11">Emacs Parlance</a></h2>
 <p>With Emacs:</p>
 <ul class="simple">
-<li>a <tt class="docutils literal">frame</tt> is actually a regular GUI window</li>
+<li>a <tt class="docutils literal">frame</tt> is actually a regular GUI <strong>window</strong></li>
 <li>a <tt class="docutils literal">window</tt> is a subdivision of a <tt class="docutils literal">frame</tt> (hence to be understood as a <em>window pane</em>)</li>
 <li>a <tt class="docutils literal">buffer</tt> is the content shown in a <tt class="docutils literal">window</tt></li>
-<li>(the) <tt class="docutils literal">point</tt> is the (current) cursor position</li>
-<li>the <tt class="docutils literal">mark</tt> is the beginning of the current selection (typically set by <tt class="docutils literal"><span class="pre">C-SPC</span></tt> at the current point)</li>
+<li>(the) <tt class="docutils literal">point</tt> is the (current) <strong>cursor position</strong></li>
+<li>the <tt class="docutils literal">mark</tt> is the <strong>beginning of the current selection</strong> (typically set by <tt class="docutils literal"><span class="pre">C-SPC</span></tt> at the current point)</li>
 <li>ELPA stands for <em>Emacs Lisp Package Archive</em> (see <a class="reference external" href="https://zellyn.com/2024/08/emacs-packages/">more package-related explanations</a>):<ul>
 <li>GNU ELPA is ~450 packages, considered part of Emacs</li>
 <li>NonGNU ELPA contains third-party packages whose copyright has not been assigned to the Free Software Foundation</li>
@@ -221,33 +221,33 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <div class="section" id="frequent-actions">
 <h2><a class="toc-backref" href="#toc-entry-13">Frequent Actions</a></h2>
 <ul class="simple">
-<li>to tune the font size:<ul>
+<li>to tune the <strong>font size</strong>:<ul>
 <li>temporarily: use <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-+</span></tt> to increase, <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C--</span></tt> to decrease (or press Shift then click the first mouse button to select a relevant option; or, even better, use <tt class="docutils literal"><span class="pre">C-mousewheel</span></tt>)</li>
 <li>permanently: one may add in one's <a class="reference internal" href="#emacs-configuration">Emacs configuration</a> file for example: <tt class="docutils literal"><span class="pre">(set-face-attribute</span> 'default nil :height 100)</tt></li>
 </ul>
 </li>
-<li>to insert special characters (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">quoted-insert</span> &lt;tab&gt;</tt>, which is bound in our conventions to <tt class="docutils literal"><span class="pre">s-q</span></tt> (instead of <tt class="docutils literal"><span class="pre">C-q</span></tt>, already taken); note that pasting a tab with the mouse in the minibuffer works as well</li>
-<li>to insert in the current buffer the output of a shell command: <tt class="docutils literal"><span class="pre">C-u</span> then <span class="pre">M-!</span></tt>: enter that shell command, whose output will be pasted at the current cursor position</li>
-<li>to prefix all lines of the selected region: <tt class="docutils literal"><span class="pre">C-x</span></tt> then <tt class="docutils literal">r</tt> then <tt class="docutils literal">t</tt>, then type the prefix then type Enter (useful for example to indent a series of lines)</li>
-<li>to sort alphabetically the selected region: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">sort-lines</span></tt></li>
-<li>to go to the matching delimiter (parenthesis, bracket, end of word, etc.): to go forward, use <tt class="docutils literal"><span class="pre">C-M-f</span></tt>, and to go backward use <tt class="docutils literal"><span class="pre">C-M-b</span></tt></li>
-<li>to re-select a region (e.g. to perform multiple substitutions in a row on the same region): <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-x</span></tt></li>
-<li>to abort the current entry in the minibuffer: <tt class="docutils literal"><span class="pre">C-g</span></tt>; if a command seems stuck in the minibuffer, it may be a recursive edit (then try <tt class="docutils literal"><span class="pre">C-]</span></tt>, i.e. <tt class="docutils literal"><span class="pre">(abort-recursive-edit)</span></tt>), or not the minibuffer but the echo area that should be cleared (then try <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">C-g</span></tt>)</li>
-<li>to perform replacements based on regular expressions: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET regexp RET newstring RET</tt>, with <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html">this REGEXP syntax</a> (<a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html">more information</a>); for example, to remove, in each line, all characters from the first comma: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET ,.* RET , RET</tt></li>
-<li>to open a file that is very large and/or difficult to parse/display: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">find-file-literally</span></tt></li>
-<li>to describe:<ul>
+<li>to insert <strong>special characters</strong> (e.g. tab or newline) as raw characters in commands (e.g. in I-search or replace-string): use for example <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">quoted-insert</span> &lt;tab&gt;</tt>, which is bound in our conventions to <tt class="docutils literal"><span class="pre">s-q</span></tt> (instead of <tt class="docutils literal"><span class="pre">C-q</span></tt>, already taken); note that pasting a tab with the mouse in the minibuffer works as well</li>
+<li>to insert in the current buffer the <strong>output of a shell command</strong>: <tt class="docutils literal"><span class="pre">C-u</span> then <span class="pre">M-!</span></tt>: enter that shell command, whose output will be pasted at the current cursor position</li>
+<li>to <strong>prefix</strong> all lines of the selected region: <tt class="docutils literal"><span class="pre">C-x</span></tt> then <tt class="docutils literal">r</tt> then <tt class="docutils literal">t</tt>, then type the prefix then type Enter (useful for example to indent a series of lines)</li>
+<li>to <strong>sort alphabetically</strong> the selected region: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">sort-lines</span></tt></li>
+<li>to go to the <strong>matching delimiter</strong> (parenthesis, bracket, end of word, etc.): to go forward, use <tt class="docutils literal"><span class="pre">C-M-f</span></tt>, and to go backward use <tt class="docutils literal"><span class="pre">C-M-b</span></tt></li>
+<li>to <strong>re-select</strong> a region (e.g. to perform multiple substitutions in a row on the same region): <tt class="docutils literal"><span class="pre">C-x</span> <span class="pre">C-x</span></tt></li>
+<li>to <strong>abort</strong> the current entry in the minibuffer: <tt class="docutils literal"><span class="pre">C-g</span></tt>; if a command seems stuck in the minibuffer, it may be a recursive edit (then try <tt class="docutils literal"><span class="pre">C-]</span></tt>, i.e. <tt class="docutils literal"><span class="pre">(abort-recursive-edit)</span></tt>), or not the minibuffer but the echo area that should be cleared (then try <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">C-g</span></tt>)</li>
+<li>to perform <strong>replacements based on regular expressions</strong>: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET regexp RET newstring RET</tt>, with <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html">this REGEXP syntax</a> (<a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html">more information</a>); for example, to remove, in each line, all characters from the first comma: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">replace-regexp</span> RET ,.* RET , RET</tt></li>
+<li>to open a file that is very <strong>large and/or difficult</strong> to parse/display: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">find-file-literally</span></tt></li>
+<li>to <strong>describe</strong>:<ul>
 <li>a given function, say <tt class="docutils literal"><span class="pre">some-command</span></tt>: <tt class="docutils literal"><span class="pre">C-h</span> f <span class="pre">some-command</span></tt></li>
 <li>the action to which a given key corresponds: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">describe-key</span></tt></li>
+<li>the character (including its font) at which the point is: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">describe-char</span></tt></li>
 </ul>
 </li>
-<li>to describe the character (including its font) at which the point is: <tt class="docutils literal"><span class="pre">M-x</span> <span class="pre">describe-char</span></tt></li>
 </ul>
 <p id="useful-commands">Other <strong>useful commands</strong> to trigger, possibly explicitly with <tt class="docutils literal"><span class="pre">M-x</span></tt>:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">replace-string</span> SEARCH_PATTERN REPLACEMENT</tt>; add <tt class="docutils literal"><span class="pre">M-c</span></tt> to set the case-sensitive flag, i.e. to search for the exact string (even if it is lowercase - otherwise uppercase versions thereof will match); the <tt class="docutils literal"><span class="pre">M-%</span></tt> default shortcut requires a shift on French keyboards</li>
 <li><tt class="docutils literal"><span class="pre">query-replace</span> SEARCH_PATTERN REPLACEMENT</tt></li>
 <li><tt class="docutils literal"><span class="pre">kill-rectangle</span></tt> (operates on a previous selection)</li>
-<li><tt class="docutils literal"><span class="pre">indent-region</span></tt> (<tt class="docutils literal"><span class="pre">C-M-\</span></tt> difficult on French keyboards)</li>
+<li><tt class="docutils literal"><span class="pre">indent-region</span></tt> (<tt class="docutils literal"><span class="pre">C-M-\</span></tt> difficult on French keyboards); see also <tt class="docutils literal"><span class="pre">indent-rigidly</span></tt> above</li>
 <li><tt class="docutils literal"><span class="pre">eval-expression</span></tt> prompts in the minibuffer for the (ELISP) expression to evaluate, whose result is briefly displayed there, and recorded in the <tt class="docutils literal">*Messages*</tt> buffer (see this <a class="reference external" href="http://xahlee.info/emacs/emacs/elisp_eval_lisp_code.html">complete guide about ELISP evaluation</a>)</li>
 <li><tt class="docutils literal">untabify</tt>: to replace tabulations with spaces, depending on the current <tt class="docutils literal"><span class="pre">tab-width</span></tt> settings; operates only a selection, so generally the whole current buffer has to be selected beforehand</li>
 </ul>

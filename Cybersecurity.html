@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.22.3: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Cybersecurity</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -27,7 +27,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, March 19, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, November 22, 2025</td>
 </tr>
 </tbody>
 </table>
@@ -83,15 +83,19 @@
 <p>This is certainly the right approach to rely on nowadays (e.g. no more HTTPS with a <tt class="docutils literal">.netrc</tt> file).</p>
 <p>To generate a key pair, one may use <tt class="docutils literal"><span class="pre">ssh-keygen</span></tt> and prefer for example the ED25519 cipher; for example, if wanting to use a specific key filename:</p>
 <pre class="code bash literal-block">
-$<span class="w"> </span><span class="nv">KEY_PATH</span><span class="o">=</span><span class="s2">&quot;~/.ssh/id_ed25519-</span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="s2">-for-general-use-</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span><span class="s2">&quot;</span><span class="w">
+$<span class="w"> </span><span class="nv">KEY_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/id_ed25519-</span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="s2">-for-general-use-</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%Y%m%d'</span><span class="k">)</span><span class="s2">&quot;</span><span class="w">
 </span>$<span class="w"> </span>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;General, personal key notably for VM connections, generated on </span><span class="k">$(</span><span class="nv">LC_ALL</span><span class="o">=</span><span class="w"> </span>date<span class="w"> </span><span class="s1">'+%A, %B %-e, %Y'</span><span class="k">)</span><span class="s2">, on </span><span class="k">$(</span>hostname<span class="w"> </span>-f<span class="k">)</span><span class="s2">.&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_PATH</span><span class="si">}</span><span class="s2">&quot;</span>
 </pre>
+<p>(the specified comment will end up in the public key, and thus may be seen by anyone)</p>
 <p>One may:</p>
 <ul class="simple">
 <li>specify a passphrase (which would then be requested at each use of the private key), or not</li>
 <li>not specify a file name, if the new key would not collide with any pre-existing one</li>
 </ul>
-<p>Then the corresponding <em>public</em> key may be transferred to any target host, like in:</p>
+<p>This should generate two files:
+- the private key, whose path is directly the value of <tt class="docutils literal">KEY_PATH</tt>, and of course must be kept as a secret
+- the corresponding public one, whose path is <tt class="docutils literal"><span class="pre">${KEY_PATH}.pub</span></tt></p>
+<p>Then this <em>public</em> key may be transferred to any target host, like in:</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span>ssh-copy-id<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KEY_PATH</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>foobar.org
 </pre>
@@ -101,6 +105,8 @@ $<span class="w"> </span>ssh-copy-id<span class="w"> </span>-i<span class="w"> <
 <pre class="code bash literal-block">
 $<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>core.sshCommand<span class="w"> </span><span class="s2">&quot;ssh -o IdentitiesOnly=yes -i </span><span class="si">${</span><span class="nv">KEY_PATH</span><span class="si">}</span><span class="s2"> -F /dev/null&quot;</span>
 </pre>
+<p>(alternatively one's <tt class="docutils literal"><span class="pre">~/.ssh/config</span></tt> file may be updated accordingly, see <a class="reference external" href="https://docs.gitlab.com/user/ssh/#configure-ssh-to-point-to-a-different-directory">this section</a>)</p>
+<p>To troubleshoot the connection to a given host as a given user, one may use for example <tt class="docutils literal">ssh <span class="pre">-Tvvv</span> git&#64;github.com</tt>.</p>
 </div>
 <div class="section" id="securing-one-s-e-mail-service-in-general">
 <h1><a class="toc-backref" href="#toc-entry-3">Securing One's E-mail Service In General</a></h1>
