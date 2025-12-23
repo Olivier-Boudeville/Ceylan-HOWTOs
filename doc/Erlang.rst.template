@@ -1289,7 +1289,10 @@ Once these prerequisite are available, eqWAlizer can be built:
 
  $ mkdir ~/Software
  $ cd ~/Software
+
+ # Or, just to update: cd eqwalizer && git pull
  $ git clone https://github.com/WhatsApp/eqwalizer.git
+
  # If not building from the main branch: git tag -l && git checkout vx.y.z
  $ pushd eqwalizer/eqwalizer
  $ sbt assembly
@@ -1311,14 +1314,15 @@ Then ELP shall be built, which requires sufficiently recent Rust and cargo (nota
 
  $ cd ~/Software
 
- # Or: cd erlang-language-platform && git pull
+ # Or, just to update: cd erlang-language-platform && git pull
  $ git clone https://github.com/WhatsApp/erlang-language-platform.git
 
  $ cd erlang-language-platform
- # This will be long, and may overheat one's CPU, so use either:
 
- # Or: cpulimit --limit 200 cargo build --release
- $ cargo build --release
+ # This will be long, and may overheat one's CPU, so use either:
+  $ cargo build --release
+ # Or: cpulimit --limit 100 cargo build --release
+
 
 Then in one's  ``~/.bashrc`` for example, one may declare::
 
