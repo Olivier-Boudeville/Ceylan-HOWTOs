@@ -443,6 +443,11 @@ So this results, in ``foobar_sup``, in a code akin to:
 	{ok, {SupSettings, ChildSpecs}}.
 
 
+Stopping a supervisor (see its ``stop/0`` function) shall be done synchronously; otherwise, if done asynchronously, a race condition will exist and, should that supervisor have created processes that are still alive once ``stop/0`` has been run, they will be killed by its own supervisor (thus with ``{'EXIT',Pid,killed}`` messages being sent upward in the process hierarchy) [#]_. The same applies for the ``terminate/2`` callback of the ``supervisor_bridge`` behaviour.
+
+.. [#] As a result, WOOPER users may call ``wooper:delete_synchronously_instance/1`` for that.
+
+
 
 
 Declaring Worker Processes
@@ -457,7 +462,7 @@ For example it could be:
  init(_Args=[]) ->
 	[...]
 	SupSettings = otp_utils:get_supervisor_settings(
-					_RestartStrategy=one_for_one, ExecTarget),
+		_RestartStrategy=one_for_one, ExecTarget),
 	% Always restarted in production:
 	RestartSettings = otp_utils:get_restart_setting(ExecTarget),
 	WorkerShutdownDuration =
@@ -1095,6 +1100,12 @@ To better denote reciprocal operations, following namings for functions may be u
 Formatting Erlang Code
 ----------------------
 
+In terms of indentation, the consensus seems preferring (in Erlang, and also quite generally) a series of spaces (notably: four of them) to a tabulation.
+
+For a corresponding Emacs configuration, refer to `this section <Emacs.html#managing-indentation>`_.
+
+
+
 Various tools are able to format Erlang code, see `this page <https://github.com/WhatsApp/erlfmt/blob/main/doc/ErlangFormatterComparison.md>`_ for a comparison thereof.
 
 
@@ -1308,7 +1319,7 @@ Then in one's  ``~/.bashrc`` for example, supposing a single version of such a b
   export ELP_EQWALIZER_PATH="$(/bin/ls -t ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar 2>/dev/null | head -n 1)"
 
 
-Then ELP shall be built, which requires sufficiently recent Rust and cargo (notably for the `edition2024` feature; on Arch, ``pacman -S cargo`` shall suffice).
+Then ELP shall be built, which requires sufficiently recent Rust and Cargo (notably for the `edition2024` feature; on Arch, ``pacman -S cargo`` shall suffice).
 
 .. code:: bash
 
