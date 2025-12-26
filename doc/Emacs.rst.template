@@ -219,6 +219,7 @@ At least based on our (Emacs and French keyboard) **base** settings (i.e. the on
 - ``C-p``: compile, make
 - ``C-x TAB``: indent rigidly (see `indent-rigidly <https://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Commands.html>`_), translating interactively the whole selection left/right of one column per ``M-L_ARROW`` / ``M-R_ARROW`` key being hit, until ``RET`` is pressed (see also ``kill-rectangle``)
 - ``M-<`` / : ``M-S-<``: go to beginning / end of the current buffer
+- ``C-x h`` : select the whole buffer
 .. - ``M-;``: comment / uncomment current line
 
 - ``C-x 2``: split window horizontally, i.e. top/bottom (``split-window-below``)
@@ -287,7 +288,7 @@ Other **useful commands** to trigger, possibly explicitly with ``M-x``:
 - ``kill-rectangle`` (operates on a previous selection)
 - ``indent-region`` (``C-M-\`` difficult on French keyboards); see also ``indent-rigidly`` above
 - ``eval-expression`` prompts in the minibuffer for the (ELISP) expression to evaluate, whose result is briefly displayed there, and recorded in the ``*Messages*`` buffer (see this `complete guide about ELISP evaluation <http://xahlee.info/emacs/emacs/elisp_eval_lisp_code.html>`_)
-- ``untabify``: to replace tabulations with spaces, depending on the current ``tab-width`` settings; operates only a selection, so generally the whole current buffer has to be selected beforehand
+- ``untabify``: to replace tabulations with spaces, depending on the current ``tab-width`` settings; operates only a selection, so generally the whole current buffer has to be selected beforehand (see also `this section <managing-indentation>`_)
 
 See also our `Performing a Merge with Emacs <VCS.html#performing-a-merge-with-emacs>`_ section.
 
@@ -409,6 +410,26 @@ Wait after ``C-x 8`` to have a paginated list in the modeline.
 .. (use n/p to go to the next/previous pages).
 
 To obtain a capital letter like ``É``, a simpler approach is to uppercase its lowercase counterpart (like ``é``): when the current point designates it, just enter ``M-c``.
+
+
+
+Managing Indentation
+--------------------
+
+To prevent a given mode (in this example, the Erlang one) to indent based on tabulations rather than spaces (even if this makes files a little larger):
+
+.. code:: elisp
+
+  (add-hook 'erlang-mode-hook '(lambda() (setq indent-tabs-mode nil)))
+
+Then hitting TAB will actually write spaces in corresponding files.
+
+To select how many spaces correspond to a one tabulation (4 is a good value), use for example: ``(setq-default tab-width 4)``.
+
+Also, to convert all tabulations in one's buffer into spaces, select the whole buffer (``C-x h``) and then execute: ``M-x untabify``.
+
+See also,  in our `To fix names, paths, permissions, content <https://hull.esperide.org/#to-fix-names-paths-permissions-content>`_ section, the `fix-whitespaces.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/fix-whitespaces.sh>`_ script that takes care of tabulations as well.
+
 
 
 
