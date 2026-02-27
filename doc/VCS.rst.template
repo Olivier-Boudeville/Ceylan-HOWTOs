@@ -441,8 +441,15 @@ One should use `this method <https://stackoverflow.com/questions/1753070/how-do-
 
  $ git update-index --skip-worktree <file-list>
 
+If such tracked files are already locally modified, use:
 
-The opposite operation is:
+.. code:: bash
+
+ $ git update-index --assume-unchanged <file-list>
+
+
+
+The opposite operation, in order to re-enable commits, is:
 
 .. code:: bash
 
