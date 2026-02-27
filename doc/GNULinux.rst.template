@@ -1580,6 +1580,8 @@ To display 15 lines of context after a match:
 (``-A`` means "after"; use ``-B`` for "before", and ``-C`` for both, i.e. a context of the specified number of lines before *and* after the match)
 
 
+
+
 Mini GNU ``sed`` Cheat Sheet
 ----------------------------
 
@@ -1588,6 +1590,8 @@ To substitute in-place a line starting by a prefix with another:
 .. code:: bash
 
  $ sed -i "s|^foobar.version=.*$|foobar.version=${MY_VERSION}|1"
+
+To chain sed commands in a single invocation, use ``-e``, starting from the first one; for example: ``sed -e cmd_1 -e cmd_2 ...``.
 
 One may also refer to `this cheat sheet <https://quickref.me/sed.html>`_.
 
