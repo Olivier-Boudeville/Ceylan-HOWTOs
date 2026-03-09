@@ -654,14 +654,14 @@ Conversion between Markup Formats
 
 `Pandoc <https://pandoc.org/>`_ is the tool of choice for such operations, as it often yields good results.
 
-For example, in order to convert a page written in Mediawiki syntax, whose source content has been pasted in a ``old-content-in-mediawiki.txt`` file, into one that be specified in a GitLab wiki (hence in GFM markup, for *GitLab Flavored Markdown*) from a converted content, to be written in a ``converted-content.gfm`` file, one may use:
+For example, in order to convert a page written in Mediawiki syntax, whose source content has been pasted in a ``old-content-in-mediawiki.txt`` file, into one that be specified in a GitLab wiki (hence in GFM markup, for *Github Flavored Markdown*) from a converted content, to be written in a ``converted-content.gfm`` file, one may use:
 
 .. code:: bash
 
  $ pandoc old-content-in-mediawiki.txt --from=mediawiki --to=gfm --standalone -o converted-content.gfm
 
  # Or, for older versions of pandoc not supporting a gfm writer:
- $ pandoc old-content-in-mediawiki.txt --from=mediawiki --to=markdown_github --standalone -o converted-content.gfm
+ $ pandoc old-content-in-mediawiki.txt --from=mediawiki --to=gfm --standalone -o converted-content.gfm
 
 
 Then the content in ``converted-content.gfm`` file can be pasted in the target GitLab wiki page.
@@ -673,15 +673,24 @@ Another example is the conversion of a GitLab wiki page into a RST document (e.g
  $ pandoc my-gitlab-wiki-extract.gfm --from=gfm --to=rst --standalone -o my-converted-content.rst
 
  # Or, for older versions of pandoc not supporting a gfm reader:
- $ pandoc my-gitlab-wiki-extract.gfm --from=markdown_github --to=rst --standalone -o my-converted-content.rst
+ $ pandoc my-gitlab-wiki-extract.gfm --from=gfm --to=rst --standalone -o my-converted-content.rst
 
 
-Finally, if really needing to generate a Word document, an example may be:
+Finally, if really needing to generate a Word document, an example from a RST document may be:
 
 .. code:: bash
 
  $ pandoc my-document.rst --from=rst --to=docx -o my-converted-document.docx
 
+
+Whereas this would be, from a GFM document (typically a GitLab/Github page):
+
+.. code:: bash
+
+ $ pandoc test.txt --from=gfm --to=docx -o test.docx
+
+
+Of course then various improvements could be made on the resulting Word document: a table of contents and line breaks could be added, images could be restored, etc.
 
 
 The lists of the input and output formats supported by Pandoc and of their corresponding command-line options is specified `here <https://pandoc.org/MANUAL.html#general-options>`_.
@@ -704,7 +713,7 @@ Then the encoding may be changed before calling pandoc, for example like:
 
 .. code:: bash
 
- $ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=markdown_github --standalone -o output.gfm
+ $ iconv -f ISO-8859-1 -t utf-8 input.html | pandoc --from=html --to=gfm --standalone -o output.gfm
 
 
 
