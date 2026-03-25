@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.22.3: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.22.4: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Emacs</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2025-2025 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2025-2026 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, March 16, 2025</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, October 29, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, March 25, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -57,11 +57,12 @@
 <li><a class="reference internal" href="#elisp-hints" id="toc-entry-15">Elisp Hints</a></li>
 <li><a class="reference internal" href="#lsp-mode-hints" id="toc-entry-16">LSP-mode Hints</a></li>
 <li><a class="reference internal" href="#typing-special-characters" id="toc-entry-17">Typing Special Characters</a></li>
+<li><a class="reference internal" href="#managing-indentation" id="toc-entry-18">Managing Indentation</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#troubleshooting" id="toc-entry-18">Troubleshooting</a><ul>
-<li><a class="reference internal" href="#handling-errors" id="toc-entry-19">Handling Errors</a></li>
-<li><a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs" id="toc-entry-20">Relying a safe, minimal, fallback Emacs</a></li>
+<li><a class="reference internal" href="#troubleshooting" id="toc-entry-19">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#handling-errors" id="toc-entry-20">Handling Errors</a></li>
+<li><a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs" id="toc-entry-21">Relying a safe, minimal, fallback Emacs</a></li>
 </ul>
 </li>
 </ul>
@@ -195,6 +196,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li><tt class="docutils literal"><span class="pre">C-p</span></tt>: compile, make</li>
 <li><tt class="docutils literal"><span class="pre">C-x</span> TAB</tt>: indent rigidly (see <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Commands.html">indent-rigidly</a>), translating interactively the whole selection left/right of one column per <tt class="docutils literal"><span class="pre">M-L_ARROW</span></tt> / <tt class="docutils literal"><span class="pre">M-R_ARROW</span></tt> key being hit, until <tt class="docutils literal">RET</tt> is pressed (see also <tt class="docutils literal"><span class="pre">kill-rectangle</span></tt>)</li>
 <li><tt class="docutils literal"><span class="pre">M-&lt;</span></tt> / : <tt class="docutils literal"><span class="pre">M-S-&lt;</span></tt>: go to beginning / end of the current buffer</li>
+<li><tt class="docutils literal"><span class="pre">C-x</span> h</tt> : select the whole buffer</li>
 </ul>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">C-x</span> 2</tt>: split window horizontally, i.e. top/bottom (<tt class="docutils literal"><span class="pre">split-window-below</span></tt>)</li>
@@ -249,7 +251,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li><tt class="docutils literal"><span class="pre">kill-rectangle</span></tt> (operates on a previous selection)</li>
 <li><tt class="docutils literal"><span class="pre">indent-region</span></tt> (<tt class="docutils literal"><span class="pre">C-M-\</span></tt> difficult on French keyboards); see also <tt class="docutils literal"><span class="pre">indent-rigidly</span></tt> above</li>
 <li><tt class="docutils literal"><span class="pre">eval-expression</span></tt> prompts in the minibuffer for the (ELISP) expression to evaluate, whose result is briefly displayed there, and recorded in the <tt class="docutils literal">*Messages*</tt> buffer (see this <a class="reference external" href="http://xahlee.info/emacs/emacs/elisp_eval_lisp_code.html">complete guide about ELISP evaluation</a>)</li>
-<li><tt class="docutils literal">untabify</tt>: to replace tabulations with spaces, depending on the current <tt class="docutils literal"><span class="pre">tab-width</span></tt> settings; operates only a selection, so generally the whole current buffer has to be selected beforehand</li>
+<li><tt class="docutils literal">untabify</tt>: to replace tabulations with spaces, depending on the current <tt class="docutils literal"><span class="pre">tab-width</span></tt> settings; operates only a selection, so generally the whole current buffer has to be selected beforehand (see also <a class="reference external" href="managing-indentation">this section</a>)</li>
 </ul>
 <p>See also our <a class="reference external" href="VCS.html#performing-a-merge-with-emacs">Performing a Merge with Emacs</a> section.</p>
 </div>
@@ -334,16 +336,27 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>Wait after <tt class="docutils literal"><span class="pre">C-x</span> 8</tt> to have a paginated list in the modeline.</p>
 <p>To obtain a capital letter like <tt class="docutils literal">É</tt>, a simpler approach is to uppercase its lowercase counterpart (like <tt class="docutils literal">é</tt>): when the current point designates it, just enter <tt class="docutils literal"><span class="pre">M-c</span></tt>.</p>
 </div>
+<div class="section" id="managing-indentation">
+<h2><a class="toc-backref" href="#toc-entry-18">Managing Indentation</a></h2>
+<p>To prevent a given mode (in this example, the Erlang one) to indent based on tabulations rather than spaces (even if this makes files a little larger):</p>
+<pre class="code elisp literal-block">
+<span class="p">(</span><span class="nv">add-hook</span><span class="w"> </span><span class="ss">'erlang-mode-hook</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nb">lambda</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="k">setq</span><span class="w"> </span><span class="nv">indent-tabs-mode</span><span class="w"> </span><span class="no">nil</span><span class="p">)))</span>
+</pre>
+<p>Then hitting TAB will actually write spaces in corresponding files.</p>
+<p>To select how many spaces correspond to a one tabulation (4 is a good value), use for example: <tt class="docutils literal"><span class="pre">(setq-default</span> <span class="pre">tab-width</span> 4)</tt>.</p>
+<p>Also, to convert all tabulations in one's buffer into spaces, select the whole buffer (<tt class="docutils literal"><span class="pre">C-x</span> h</tt>) and then execute: <tt class="docutils literal"><span class="pre">M-x</span> untabify</tt>.</p>
+<p>See also,  in our <a class="reference external" href="https://hull.esperide.org/#to-fix-names-paths-permissions-content">To fix names, paths, permissions, content</a> section, the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/fix-whitespaces.sh">fix-whitespaces.sh</a> script that takes care of tabulations as well.</p>
+</div>
 </div>
 <div class="section" id="troubleshooting">
-<h1><a class="toc-backref" href="#toc-entry-18">Troubleshooting</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-19">Troubleshooting</a></h1>
 <div class="section" id="handling-errors">
-<h2><a class="toc-backref" href="#toc-entry-19">Handling Errors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-20">Handling Errors</a></h2>
 <p>Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the cache of the package manager (e.g. <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt>, <tt class="docutils literal"><span class="pre">~/.emacs.d/elpaca</span></tt>), relaunching Emacs and waiting for its state (e.g. all related clones) to be downloaded/built again.</p>
 <p>To investigate a problem, one may run Emacs with: <tt class="docutils literal">emacs <span class="pre">--debug-init</span></tt>.</p>
 </div>
 <div class="section" id="relying-a-safe-minimal-fallback-emacs">
-<h2><a class="toc-backref" href="#toc-entry-20">Relying a safe, minimal, fallback Emacs</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-21">Relying a safe, minimal, fallback Emacs</a></h2>
 <p>As many software ecosystems, the Emacs one tends to change/break frequently, and then one's <tt class="docutils literal">init.el</tt> cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.</p>
 <p>One way of overcoming these issues is to have multiple versions of Emacs' configuration, including a very basic one that is never expected to break - just for the purpose of having at all times a base Emacs to fix the others; this is one of the purposes of our rather minimal <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el">init-myriad-base</a> configuration, to be used that way:</p>
 <pre class="code sh literal-block">

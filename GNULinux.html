@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.22.3: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.22.4: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About GNU/Linux</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2025 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2026 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, October 18, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, March 25, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -1229,6 +1229,7 @@ $<span class="w"> </span>cat<span class="w"> </span>foo.txt<span class="w"> </sp
 <pre class="code bash literal-block">
 $<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s|^foobar.version=.*</span>$<span class="s2">|foobar.version=</span><span class="si">${</span><span class="nv">MY_VERSION</span><span class="si">}</span><span class="s2">|1&quot;</span>
 </pre>
+<p>To chain sed commands in a single invocation, use <tt class="docutils literal"><span class="pre">-e</span></tt>, starting from the first one; for example: <tt class="docutils literal">sed <span class="pre">-e</span> cmd_1 <span class="pre">-e</span> cmd_2 ...</tt>.</p>
 <p>One may also refer to <a class="reference external" href="https://quickref.me/sed.html">this cheat sheet</a>.</p>
 </div>
 <div class="section" id="managing-fonts">

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.22.3: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.22.4: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Erlang</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -22,13 +22,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2025 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2026 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, December 10, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, March 25, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -395,6 +395,13 @@ pong
    </span><span class="p">[...]</span><span class="w">
    </span><span class="p">{</span><span class="n">ok</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nv">SupSettings</span><span class="p">,</span><span class="w"> </span><span class="nv">ChildSpecs</span><span class="p">}}.</span>
 </pre>
+<p>Stopping a supervisor (see its <tt class="docutils literal">stop/0</tt> function) shall be done synchronously; otherwise, if done asynchronously, a race condition will exist and, should that supervisor have created processes that are still alive once <tt class="docutils literal">stop/0</tt> has been run, they will be killed by its own supervisor (thus with <tt class="docutils literal"><span class="pre">{'EXIT',Pid,killed}</span></tt> messages being sent upward in the process hierarchy) <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[5]</a>. The same applies for the <tt class="docutils literal">terminate/2</tt> callback of the <tt class="docutils literal">supervisor_bridge</tt> behaviour.</p>
+<table class="docutils footnote" frame="void" id="footnote-3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-3">[5]</a></td><td>As a result, WOOPER users may call <tt class="docutils literal">wooper:delete_synchronously_instance/1</tt> for that.</td></tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="declaring-worker-processes">
 <h2><a class="toc-backref" href="#toc-entry-15">Declaring Worker Processes</a></h2>
@@ -404,7 +411,7 @@ pong
 <span class="nf">init</span><span class="p">(_</span><span class="nv">Args</span><span class="o">=</span><span class="p">[])</span><span class="w"> </span><span class="o">-&gt;</span><span class="w">
    </span><span class="p">[...]</span><span class="w">
    </span><span class="nv">SupSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">otp_utils</span><span class="p">:</span><span class="nf">get_supervisor_settings</span><span class="p">(</span><span class="w">
-                   </span><span class="p">_</span><span class="nv">RestartStrategy</span><span class="o">=</span><span class="n">one_for_one</span><span class="p">,</span><span class="w"> </span><span class="nv">ExecTarget</span><span class="p">),</span><span class="w">
+       </span><span class="p">_</span><span class="nv">RestartStrategy</span><span class="o">=</span><span class="n">one_for_one</span><span class="p">,</span><span class="w"> </span><span class="nv">ExecTarget</span><span class="p">),</span><span class="w">
    </span><span class="c">% Always restarted in production:</span><span class="w">
    </span><span class="nv">RestartSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">otp_utils</span><span class="p">:</span><span class="nf">get_restart_setting</span><span class="p">(</span><span class="nv">ExecTarget</span><span class="p">),</span><span class="w">
    </span><span class="nv">WorkerShutdownDuration</span><span class="w"> </span><span class="o">=</span><span class="w">
@@ -421,18 +428,18 @@ pong
    </span><span class="nv">ChildSpecs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">MainWorkerChild</span><span class="p">],</span><span class="w">
    </span><span class="p">{</span><span class="n">ok</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nv">SupSettings</span><span class="p">,</span><span class="w"> </span><span class="nv">ChildSpecs</span><span class="p">}}.</span>
 </pre>
-<p>Children are created synchronously and in the order of their specification <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[5]</a>.</p>
-<table class="docutils footnote" frame="void" id="footnote-3" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-3">[5]</a></td><td>Yet some interleaving is possible thanks to <tt class="docutils literal">proc_lib:init_ack/1</tt>.</td></tr>
-</tbody>
-</table>
-<p>So if <tt class="docutils literal"><span class="pre">ChildSpecs=[A,</span> B, C]</tt>, then a child according to the A spec is first created, then, once it is over (either its <tt class="docutils literal">init/1</tt> finished successfully, or it called <tt class="docutils literal"><span class="pre">proc_lib:init_ack/{1,2}</span></tt> <a class="footnote-reference" href="#footnote-4" id="footnote-reference-4">[6]</a> and then continued its own initialisation concurrently), a child according to the B spec is created, then once done a child according to the C spec.</p>
+<p>Children are created synchronously and in the order of their specification <a class="footnote-reference" href="#footnote-4" id="footnote-reference-4">[6]</a>.</p>
 <table class="docutils footnote" frame="void" id="footnote-4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-4">[6]</a></td><td>Typically: <tt class="docutils literal"><span class="pre">proc_lib:init_ack(self())</span></tt>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-4">[6]</a></td><td>Yet some interleaving is possible thanks to <tt class="docutils literal">proc_lib:init_ack/1</tt>.</td></tr>
+</tbody>
+</table>
+<p>So if <tt class="docutils literal"><span class="pre">ChildSpecs=[A,</span> B, C]</tt>, then a child according to the A spec is first created, then, once it is over (either its <tt class="docutils literal">init/1</tt> finished successfully, or it called <tt class="docutils literal"><span class="pre">proc_lib:init_ack/{1,2}</span></tt> <a class="footnote-reference" href="#footnote-5" id="footnote-reference-5">[7]</a> and then continued its own initialisation concurrently), a child according to the B spec is created, then once done a child according to the C spec.</p>
+<table class="docutils footnote" frame="void" id="footnote-5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-5">[7]</a></td><td>Typically: <tt class="docutils literal"><span class="pre">proc_lib:init_ack(self())</span></tt>.</td></tr>
 </tbody>
 </table>
 </div>
@@ -539,11 +546,11 @@ pong
 </div>
 <div class="section" id="erlang-crash-dumps">
 <h3>Erlang Crash Dumps</h3>
-<p>If experiencing &quot;only&quot; an Erlang-level crash, a <tt class="docutils literal">erl_crash.dump</tt> file is produced in the directory whence the executable (generally <tt class="docutils literal">erl</tt>) was launched. The best way to study it is to use the <tt class="docutils literal">cdv</tt> (refer to <a class="reference external" href="https://www.erlang.org/doc/apps/observer/crashdump_ug.html">crashdump viewer</a>) tool, available, from the Erlang installation, as <tt class="docutils literal">lib/erlang/cdv</tt> <a class="footnote-reference" href="#footnote-5" id="footnote-reference-5">[7]</a>.</p>
-<table class="docutils footnote" frame="void" id="footnote-5" rules="none">
+<p>If experiencing &quot;only&quot; an Erlang-level crash, a <tt class="docutils literal">erl_crash.dump</tt> file is produced in the directory whence the executable (generally <tt class="docutils literal">erl</tt>) was launched. The best way to study it is to use the <tt class="docutils literal">cdv</tt> (refer to <a class="reference external" href="https://www.erlang.org/doc/apps/observer/crashdump_ug.html">crashdump viewer</a>) tool, available, from the Erlang installation, as <tt class="docutils literal">lib/erlang/cdv</tt> <a class="footnote-reference" href="#footnote-6" id="footnote-reference-6">[8]</a>.</p>
+<table class="docutils footnote" frame="void" id="footnote-6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-5">[7]</a></td><td>Hence, according to the Ceylan-Myriad conventions, in <tt class="docutils literal"><span class="pre">~/Software/Erlang/Erlang-current-install/lib/erlang/cdv</span></tt>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-6">[8]</a></td><td>Hence, according to the Ceylan-Myriad conventions, in <tt class="docutils literal"><span class="pre">~/Software/Erlang/Erlang-current-install/lib/erlang/cdv</span></tt>.</td></tr>
 </tbody>
 </table>
 <p>Using this debug tool is as easy as:</p>
@@ -589,11 +596,11 @@ $<span class="w"> </span>cdv<span class="w"> </span>erl_crash.dump
 <li>Dialyzer is a discrepancy analyzer that aims <strong>to prove the presence of type-induced runtime crashes</strong> (it may not be able to detect all type problems, yet &quot;is never wrong&quot;); Dialyzer does not use type specifications to guide the analysis: first it infers type information, and then only, if requested, it checks that information against the type specifications; so Dialyzer may operate with or without type specifications</li>
 <li>whereas tools like Gradualizer and eqWAlizer are more conventional type systems, based on the theory of gradual typing, that aim <strong>to prove the absence of such crashes</strong>; notably Gradualizer depends intimately on type specifications: by default, without them, no static typing happens</li>
 </ul>
-<p>See <a class="reference external" href="https://www.erlang.org/eeps/eep-0061">EEP 61</a> for further typing-related information <a class="footnote-reference" href="#footnote-6" id="footnote-reference-6">[8]</a>.</p>
-<table class="docutils footnote" frame="void" id="footnote-6" rules="none">
+<p>See <a class="reference external" href="https://www.erlang.org/eeps/eep-0061">EEP 61</a> for further typing-related information <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[9]</a>.</p>
+<table class="docutils footnote" frame="void" id="footnote-7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-6">[8]</a></td><td>On a side note, the (newer) <tt class="docutils literal">dynamic()</tt> type mentioned there is often used to mark &quot;inherently dynamic code&quot;, like reading from ETS, message passing, deserialization and so on.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-7">[9]</a></td><td>On a side note, the (newer) <tt class="docutils literal">dynamic()</tt> type mentioned there is often used to mark &quot;inherently dynamic code&quot;, like reading from ETS, message passing, deserialization and so on.</td></tr>
 </tbody>
 </table>
 <p>Also a few <a class="reference external" href="https://github.com/llaisdy/beam_languages#statically-typed-languages">statically-typed languages</a> can operate on top of the Erlang VM, even if none has reached yet the popularity of Erlang or Elixir (that are dynamically-typed).</p>
@@ -684,6 +691,8 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Sof
 <span class="p">-</span><span class="ni">moduledoc</span><span class="w"> </span><span class="s">&quot;&quot;&quot;
   A module for **basic arithmetic**.
 
+  Refer to &lt;http://foo.org&gt; for more details.
+
   This module can be used to add and subtract values. For example:
 
   ```erlang
@@ -762,11 +771,11 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Sof
 </span><span class="p">[...]</span>
 </pre>
 <p>Doing so adds a single level of nesting (for the <tt class="docutils literal">try/catch</tt>), regardless of the number of shortcut conditions to consider, and let them be handled specifically if needed (thanks to any pattern-matching done in the <tt class="docutils literal">catch</tt> clause).</p>
-<p>However such use of <tt class="docutils literal">throw/1</tt> may not seem so easy, natural or possibly very efficient (stack unwinding?), and at least some developers prefer staying away from using it for non-error branching (i.e. for local returns <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[9]</a>).</p>
-<table class="docutils footnote" frame="void" id="footnote-7" rules="none">
+<p>However such use of <tt class="docutils literal">throw/1</tt> may not seem so easy, natural or possibly very efficient (stack unwinding?), and at least some developers prefer staying away from using it for non-error branching (i.e. for local returns <a class="footnote-reference" href="#footnote-8" id="footnote-reference-8">[10]</a>).</p>
+<table class="docutils footnote" frame="void" id="footnote-8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-7">[9]</a></td><td>Actually, more generally, some consider that relying on local returns is a bad practice in itself (less readable, more imperative-like).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-8">[10]</a></td><td>Actually, more generally, some consider that relying on local returns is a bad practice in itself (less readable, more imperative-like).</td></tr>
 </tbody>
 </table>
 <p>So, quite often, in our opinion, the best remaining option - even if it is not very satisfactory (heavy, long), is to <strong>define extra (helper) functions</strong> like <tt class="docutils literal">h_helper/1</tt> in:</p>
@@ -874,20 +883,22 @@ $<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </s
 </div>
 <div class="section" id="formatting-erlang-code">
 <h2><a class="toc-backref" href="#toc-entry-38">Formatting Erlang Code</a></h2>
+<p>In terms of indentation, the consensus seems preferring (in Erlang, and also quite generally) a series of spaces (notably: four of them) to a tabulation.</p>
+<p>For a corresponding Emacs configuration, refer to <a class="reference external" href="Emacs.html#managing-indentation">this section</a>.</p>
 <p>Various tools are able to format Erlang code, see <a class="reference external" href="https://github.com/WhatsApp/erlfmt/blob/main/doc/ErlangFormatterComparison.md">this page</a> for a comparison thereof.</p>
 <div class="section" id="with-rebar3-format">
 <h3>With <tt class="docutils literal">rebar3_format</tt></h3>
-<p>For projects already relying on rebar, one may use <a class="reference external" href="https://github.com/AdRoll/rebar3_format">rebar3_format</a> (as a plugin <a class="footnote-reference" href="#footnote-8" id="footnote-reference-8">[10]</a>) that way:</p>
+<p>For projects already relying on rebar, one may use <a class="reference external" href="https://github.com/AdRoll/rebar3_format">rebar3_format</a> (as a plugin <a class="footnote-reference" href="#footnote-9" id="footnote-reference-9">[11]</a>) that way:</p>
 <pre class="code shell literal-block">
 $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
 </span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AdRoll/rebar3_format.git<span class="w">
 </span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>rebar3_format<span class="w">
 </span>$<span class="w"> </span><span class="nv">ERL_FLAGS</span><span class="o">=</span><span class="s2">&quot;-enable-feature all&quot;</span><span class="w"> </span>rebar3<span class="w"> </span>format
 </pre>
-<table class="docutils footnote" frame="void" id="footnote-8" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-8">[10]</a></td><td>Note that <tt class="docutils literal">rebar3_format</tt> cannot be used as an escript (so no <tt class="docutils literal"><span class="pre">ERL_FLAGS=&quot;-enable-feature</span> all&quot; rebar3 as release escriptize</tt> shall be issued).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-9">[11]</a></td><td>Note that <tt class="docutils literal">rebar3_format</tt> cannot be used as an escript (so no <tt class="docutils literal"><span class="pre">ERL_FLAGS=&quot;-enable-feature</span> all&quot; rebar3 as release escriptize</tt> shall be issued).</td></tr>
 </tbody>
 </table>
 <p>Then <tt class="docutils literal">{project_plugins, [rebar3_format]}</tt> shall be added to the project's <tt class="docutils literal">rebar.config</tt>.</p>
@@ -916,11 +927,11 @@ $<span class="w"> </span>erlfmt<span class="w"> </span>--write<span class="w"> <
 <div class="section" id="disabling-lco">
 <h2><a class="toc-backref" href="#toc-entry-40">Disabling LCO</a></h2>
 <p>LCO means here <em>Last Call Optimisation</em>. This consists simply when, in a given module, a (typically exported) function <tt class="docutils literal">f</tt> ends by calling a <em>local</em> function <tt class="docutils literal">g</tt> (i.e. has for last expression a call like <tt class="docutils literal"><span class="pre">g(...)</span></tt>), in not pushing on the stack the call to <tt class="docutils literal">g</tt>, but instead replacing directly the stackframe of <tt class="docutils literal">f</tt> (which can be skipped here, as returning from <tt class="docutils literal">g</tt> will mean directly returning from <tt class="docutils literal">f</tt> as well) with a proper one for <tt class="docutils literal">g</tt>.</p>
-<p>This trick spares the use of one level of stack at each ending local call, which is key for recursive functions <a class="footnote-reference" href="#footnote-9" id="footnote-reference-9">[11]</a> (typically for infinitely-looping server processes): they remain then in constant stack space, whereas otherwise the number of their stackframes would grow indefinitely, at each recursive call, and explode in memory.</p>
-<table class="docutils footnote" frame="void" id="footnote-9" rules="none">
+<p>This trick spares the use of one level of stack at each ending local call, which is key for recursive functions <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[12]</a> (typically for infinitely-looping server processes): they remain then in constant stack space, whereas otherwise the number of their stackframes would grow indefinitely, at each recursive call, and explode in memory.</p>
+<table class="docutils footnote" frame="void" id="footnote-10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-9">[11]</a></td><td>When the last call of <tt class="docutils literal">f</tt> branches to <tt class="docutils literal">f</tt> itself, it is named TCO, for <em>Tail Call Optimisation</em> (which is thus a special - albeit essential - case of LCO).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[12]</a></td><td>When the last call of <tt class="docutils literal">f</tt> branches to <tt class="docutils literal">f</tt> itself, it is named TCO, for <em>Tail Call Optimisation</em> (which is thus a special - albeit essential - case of LCO).</td></tr>
 </tbody>
 </table>
 <p>So LCO is surely not an option for a functional language like Erlang, yet it comes with a drawback: if <tt class="docutils literal">f</tt> ends with a last call to <tt class="docutils literal">g</tt> that ends with a last call to <tt class="docutils literal">h</tt> and a runtime error happens in them, none of these functions will appear in the resulting stacktraces: supposing all these functions use a library <tt class="docutils literal">foobar</tt>, it will be as if the VM directly jumped from the entry point in the user code (typically a function calling <tt class="docutils literal">f</tt>) to the failing point in a function of <tt class="docutils literal">foobar</tt>; there will be no line number pointing to the expression of <tt class="docutils literal">f</tt>,  <tt class="docutils literal">g</tt> or <tt class="docutils literal">h</tt> that triggers the faulty behaviour, whereas this is probably the information we are mostly interested in - as these functions may make numerous calls to <tt class="docutils literal">foobar</tt>'s function. This makes the debugging unnecessarily difficult.</p>
@@ -957,11 +968,11 @@ name us_main_exec-xxx at port 60001
 </div>
 <div class="section" id="using-wx">
 <h2><a class="toc-backref" href="#toc-entry-42">Using wx</a></h2>
-<p><a class="reference external" href="https://www.erlang.org/doc/man/wx.html">wx</a> is now <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[12]</a> the standard Erlang way of programming one's graphical user interface; it is a binding to the <a class="reference external" href="http://www.wxwidgets.org/">wxWidgets</a> library.</p>
-<table class="docutils footnote" frame="void" id="footnote-10" rules="none">
+<p><a class="reference external" href="https://www.erlang.org/doc/man/wx.html">wx</a> is now <a class="footnote-reference" href="#footnote-11" id="footnote-reference-11">[13]</a> the standard Erlang way of programming one's graphical user interface; it is a binding to the <a class="reference external" href="http://www.wxwidgets.org/">wxWidgets</a> library.</p>
+<table class="docutils footnote" frame="void" id="footnote-11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[12]</a></td><td><tt class="docutils literal">wx</tt> replaced <a class="reference external" href="https://www.erlang.org/docs/18/man/gs.html">gs</a>. To shelter already-developed graphical applications from any future change of backend, we developed <a class="reference external" href="https://myriad.esperide.org/#graphical-user-interface-gui">MyriadGUI</a>, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-11">[13]</a></td><td><tt class="docutils literal">wx</tt> replaced <a class="reference external" href="https://www.erlang.org/docs/18/man/gs.html">gs</a>. To shelter already-developed graphical applications from any future change of backend, we developed <a class="reference external" href="https://myriad.esperide.org/#graphical-user-interface-gui">MyriadGUI</a>, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.</td></tr>
 </tbody>
 </table>
 <p>Here are some very general wx-related information that may be of help when programming GUIs with this backend:</p>
@@ -978,21 +989,21 @@ name us_main_exec-xxx at port 60001
 <li>the <a class="reference external" href="https://docs.wxwidgets.org/latest/overview_events.html#overview_events_propagation">way wx/wxWidgets manage event propagation</a> is complex; here are some elements:<ul>
 <li>for each actual event happening, wx creates an instance of <a class="reference external" href="https://docs.wxwidgets.org/latest/classwx_event.html">wxEvent</a> (a direct, abstract child class of <tt class="docutils literal">wxObject</tt>), which itself is specialised into many event classes that are more concrete</li>
 <li>among them, they are so-called <em>command events</em>, which originate from a variety of simple controls and correspond to the <a class="reference external" href="https://docs.wxwidgets.org/latest/classwx_command_event.html">wxCommandEvent</a> mother class; by default only these command events are set to propagate, i.e. only them will be transmitted to the event handler of the parent widget if the current one does not process them by itself (&quot;did not connect to them&quot;)</li>
-<li>by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will <em>not</em> be propagated anymore, possibly preventing the built-in wx event handlers to operate (e.g. to properly manage resizings); to restore their activation, <tt class="docutils literal">skip</tt> (to be understood here as &quot;propagate event&quot; - however counter-intuitive it may seem) shall be set to <tt class="docutils literal">true</tt> (either by passing a corresponding option when connecting, or by calling <tt class="docutils literal">wxEvent:skip/2</tt> with <tt class="docutils literal">skip</tt> set to <tt class="docutils literal">true</tt> from one's event handler) <a class="footnote-reference" href="#footnote-11" id="footnote-reference-11">[13]</a></li>
-<li>when a process connects to the emitter of a given type of events (e.g. <tt class="docutils literal">close_window</tt> for a given frame), this process is to receive corresponding messages and then perform any kind of operation; however these operations cannot be synchronous (they are non-blocking: the process does not send to anyone any notification that it finished handling that event), and thus, if <tt class="docutils literal">skip</tt> is <tt class="docutils literal">true</tt> (that is, if event propagation is enabled), any other associated event handler(s) will be triggered concurrently to the processing of these event messages; this may be a problem for example if a controller listens to the <tt class="docutils literal">close_window</tt> event emitted by a main frame in order to perform a proper termination: the basic, built-in event handlers will then by default be triggered whereas the controller teardown may be still in progress, and this may result in errors (e.g. OpenGL ones, like <tt class="docutils literal"><span class="pre">{{{badarg,&quot;This&quot;},{wxGLCanvas,swapBuffers,1}},...</span></tt> because the built-in close handlers already deallocated the OpenGL context); a proper design is to ensure that <tt class="docutils literal">skip</tt> remains set to false so that propagation of such events is disabled in these cases: then only the user code is in charge of closing the application, at its own pace <a class="footnote-reference" href="#footnote-12" id="footnote-reference-12">[14]</a></li>
+<li>by default, for a given type of event, when defining one's event handler (typically when connecting a process to the emitter of such events), this event will <em>not</em> be propagated anymore, possibly preventing the built-in wx event handlers to operate (e.g. to properly manage resizings); to restore their activation, <tt class="docutils literal">skip</tt> (to be understood here as &quot;propagate event&quot; - however counter-intuitive it may seem) shall be set to <tt class="docutils literal">true</tt> (either by passing a corresponding option when connecting, or by calling <tt class="docutils literal">wxEvent:skip/2</tt> with <tt class="docutils literal">skip</tt> set to <tt class="docutils literal">true</tt> from one's event handler) <a class="footnote-reference" href="#footnote-12" id="footnote-reference-12">[14]</a></li>
+<li>when a process connects to the emitter of a given type of events (e.g. <tt class="docutils literal">close_window</tt> for a given frame), this process is to receive corresponding messages and then perform any kind of operation; however these operations cannot be synchronous (they are non-blocking: the process does not send to anyone any notification that it finished handling that event), and thus, if <tt class="docutils literal">skip</tt> is <tt class="docutils literal">true</tt> (that is, if event propagation is enabled), any other associated event handler(s) will be triggered concurrently to the processing of these event messages; this may be a problem for example if a controller listens to the <tt class="docutils literal">close_window</tt> event emitted by a main frame in order to perform a proper termination: the basic, built-in event handlers will then by default be triggered whereas the controller teardown may be still in progress, and this may result in errors (e.g. OpenGL ones, like <tt class="docutils literal"><span class="pre">{{{badarg,&quot;This&quot;},{wxGLCanvas,swapBuffers,1}},...</span></tt> because the built-in close handlers already deallocated the OpenGL context); a proper design is to ensure that <tt class="docutils literal">skip</tt> remains set to false so that propagation of such events is disabled in these cases: then only the user code is in charge of closing the application, at its own pace <a class="footnote-reference" href="#footnote-13" id="footnote-reference-13">[15]</a></li>
 </ul>
 </li>
 </ul>
-<table class="docutils footnote" frame="void" id="footnote-11" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-11">[13]</a></td><td>MyriadGUI took a different convention: whether an event will propagate by default depends on its type, knowing that most of the types are to propagate. Yet the user can override these default behaviours, by specifying either the <tt class="docutils literal">trap_event</tt> or the <tt class="docutils literal">propagate_event</tt> subscription option, or by calling either the <tt class="docutils literal">trap_event/1</tt> or the <tt class="docutils literal">propagate_event/1</tt> function.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="footnote-12" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-12">[14]</a></td><td>This is why MyriadGUI applies per-event type defaults, thus possibly trapping events; in this case, if the built-in backend mechanisms would still be of use, they can be triggered by calling the <tt class="docutils literal">propagate_event/1</tt> function from the user-defined handler, only once all its prerequisite operations have been performed (this is thus a way of restoring sequential operations).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-12">[14]</a></td><td>MyriadGUI took a different convention: whether an event will propagate by default depends on its type, knowing that most of the types are to propagate. Yet the user can override these default behaviours, by specifying either the <tt class="docutils literal">trap_event</tt> or the <tt class="docutils literal">propagate_event</tt> subscription option, or by calling either the <tt class="docutils literal">trap_event/1</tt> or the <tt class="docutils literal">propagate_event/1</tt> function.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="footnote-13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-13">[15]</a></td><td>This is why MyriadGUI applies per-event type defaults, thus possibly trapping events; in this case, if the built-in backend mechanisms would still be of use, they can be triggered by calling the <tt class="docutils literal">propagate_event/1</tt> function from the user-defined handler, only once all its prerequisite operations have been performed (this is thus a way of restoring sequential operations).</td></tr>
 </tbody>
 </table>
 <ul class="simple">
@@ -1025,10 +1036,14 @@ name us_main_exec-xxx at port 60001
 <pre class="code bash literal-block">
 $<span class="w"> </span>mkdir<span class="w"> </span>~/Software<span class="w">
 </span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
+
+</span><span class="c1"># Or, just to update: cd eqwalizer &amp;&amp; git pull
 </span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/WhatsApp/eqwalizer.git<span class="w">
+
 </span><span class="c1"># If not building from the main branch: git tag -l &amp;&amp; git checkout vx.y.z
 </span>$<span class="w"> </span><span class="nb">pushd</span><span class="w"> </span>eqwalizer/eqwalizer<span class="w">
 </span>$<span class="w"> </span>sbt<span class="w"> </span>assembly<span class="w">
+</span><span class="c1"># Or (as a tad demanding): cpulimit --limit 100 sbt assembly
 </span>$<span class="w"> </span><span class="nb">popd</span><span class="w">
 
 </span><span class="c1"># May find for example
@@ -1039,18 +1054,17 @@ $<span class="w"> </span>mkdir<span class="w"> </span>~/Software<span class="w">
 <pre class="literal-block">
 export ELP_EQWALIZER_PATH=&quot;$(/bin/ls -t ${HOME}/Software/eqwalizer/eqwalizer/target/scala-*/eqwalizer.jar 2&gt;/dev/null | head -n 1)&quot;
 </pre>
-<p>Then ELP shall be built, which requires sufficiently recent Rust and cargo (notably for the <cite>edition2024</cite> feature; on Arch, <tt class="docutils literal">pacman <span class="pre">-S</span> cargo</tt> shall suffice).</p>
+<p>Then ELP shall be built, which requires sufficiently recent Rust and Cargo (notably for the <cite>edition2024</cite> feature; on Arch, <tt class="docutils literal">pacman <span class="pre">-S</span> cargo</tt> shall suffice).</p>
 <pre class="code bash literal-block">
 $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Software<span class="w">
 
-</span><span class="c1"># Or: cd erlang-language-platform &amp;&amp; git pull
+</span><span class="c1"># Or, just to update: cd erlang-language-platform &amp;&amp; git pull
 </span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/WhatsApp/erlang-language-platform.git<span class="w">
-
 </span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>erlang-language-platform<span class="w">
+
 </span><span class="c1"># This will be long, and may overheat one's CPU, so use either:
-</span><span class="w">
-</span><span class="c1"># Or: cpulimit --limit 200 cargo build --release
-</span>$<span class="w"> </span>cargo<span class="w"> </span>build<span class="w"> </span>--release
+</span>$<span class="w"> </span>cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w">
+</span><span class="c1"># Or (even if not actually effective): cpulimit --limit 100 cargo build --release</span>
 </pre>
 <p>Then in one's  <tt class="docutils literal"><span class="pre">~/.bashrc</span></tt> for example, one may declare:</p>
 <pre class="literal-block">
@@ -1068,11 +1082,11 @@ export PATH=&quot;${HOME}/Software/erlang-language-platform/target/release:${PAT
 <h3>Using ELP</h3>
 <p>If using a separate <tt class="docutils literal">build_info.json</tt> file that would be not be located in the root directory of the current application/project but in, for example, <tt class="docutils literal">conf/build_info.json</tt>, then the root directories of applications shall be defined in that file relatively to its location (hence, here, <tt class="docutils literal">conf</tt>), not relatively to its parent directory, where the <tt class="docutils literal">.elp.toml</tt> referencing that file lies.</p>
 <p>For example, if a <tt class="docutils literal">bar</tt> project/application depends on a <tt class="docutils literal">foo</tt> one whose parent directly (clone) is a sibling directory of this one, in <tt class="docutils literal">bar/conf/build_info.json</tt>, the <tt class="docutils literal">foo</tt> application shall have a <tt class="docutils literal">&quot;dir&quot;: <span class="pre">&quot;../../foo&quot;</span></tt> entry (as reached from <tt class="docutils literal">bar/conf</tt>), not a <tt class="docutils literal">&quot;dir&quot;: <span class="pre">&quot;../foo&quot;</span></tt> one.</p>
-<p>Then the <tt class="docutils literal">src_dirs</tt> and <tt class="docutils literal">extra_src_dirs</tt> entries for this project/application can be defined relatively to this <tt class="docutils literal">dir</tt> directory <a class="footnote-reference" href="#footnote-13" id="footnote-reference-13">[15]</a>.</p>
-<table class="docutils footnote" frame="void" id="footnote-13" rules="none">
+<p>Then the <tt class="docutils literal">src_dirs</tt> and <tt class="docutils literal">extra_src_dirs</tt> entries for this project/application can be defined relatively to this <tt class="docutils literal">dir</tt> directory <a class="footnote-reference" href="#footnote-14" id="footnote-reference-14">[16]</a>.</p>
+<table class="docutils footnote" frame="void" id="footnote-14" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-13">[15]</a></td><td>With Ceylan-Myriad, the <tt class="docutils literal"><span class="pre">list-src-dirs</span></tt> and <tt class="docutils literal"><span class="pre">list-extra-src-dirs</span></tt> make targets can be used in order to generate suitable values for these entries.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-14">[16]</a></td><td>With Ceylan-Myriad, the <tt class="docutils literal"><span class="pre">list-src-dirs</span></tt> and <tt class="docutils literal"><span class="pre">list-extra-src-dirs</span></tt> make targets can be used in order to generate suitable values for these entries.</td></tr>
 </tbody>
 </table>
 <p>We also noticed that:</p>
@@ -1255,7 +1269,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 <ul class="simple">
 <li>in boolean expressions <strong>outside of guards</strong>:<ul>
 <li>do not use <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt>, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in <tt class="docutils literal">(A =:= B) and (C =/= D)</tt>) and, more importantly, they do not short-circuit, i.e. in <tt class="docutils literal">E = A and B</tt>, B will be evaluated even if A is already known as false (so is E), and in <tt class="docutils literal">E = A or B</tt>, B will be evaluated even if A is already known as true (so is E)</li>
-<li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-14" id="footnote-reference-14">[16]</a></li>
+<li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-15" id="footnote-reference-15">[17]</a></li>
 <li>so <tt class="docutils literal">case (A =:= B) and (C =/= D) of</tt> shall become <tt class="docutils literal">case A =:= B andalso C =/= D of</tt></li>
 <li>a common pattern is to use <tt class="docutils literal">andalso</tt> in order <em>to evaluate a target expression iff a boolean expression is true</em>, to replace a longer expression like:</li>
 </ul>
@@ -1272,10 +1286,10 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 
 </span><span class="k">end</span>
 </pre>
-<table class="docutils footnote" frame="void" id="footnote-14" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-15" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#footnote-reference-14">[16]</a></td><td><p class="first">Note that it is <em>not</em> the case of the <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt> operators, whose precedence is higher than, notably, the comparison operators.</p>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-15">[17]</a></td><td><p class="first">Note that it is <em>not</em> the case of the <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt> operators, whose precedence is higher than, notably, the comparison operators.</p>
 <p class="last">For example a clause defined as <tt class="docutils literal">f(I) when is_integer(I) and I &gt;= 0 <span class="pre">-&gt;</span> ...</tt>  will never be triggered as it is interpreted as <tt class="docutils literal">f(I) when (is_integer(I) and I) &gt;= 0 <span class="pre">-&gt;</span> ...</tt>, and the <tt class="docutils literal">and</tt> guard will always fail as I is an integer here, not a boolean. So such a clause should be defined as the (correct) <tt class="docutils literal">f(I) when is_integer(I) andalso I &gt;= 0 <span class="pre">-&gt;</span> ...</tt> instead.</p>
 </td></tr>
 </tbody>
