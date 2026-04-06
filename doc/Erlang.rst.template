@@ -867,6 +867,8 @@ As a reminder of the syntax that ``-moduledoc`` / ``-doc`` attributes support (n
  -moduledoc """
    A module for **basic arithmetic**.
 
+   Refer to <http://foo.org> for more details.
+
    This module can be used to add and subtract values. For example:
 
    ```erlang
@@ -1307,6 +1309,7 @@ Once these prerequisite are available, eqWAlizer can be built:
  # If not building from the main branch: git tag -l && git checkout vx.y.z
  $ pushd eqwalizer/eqwalizer
  $ sbt assembly
+ # Or (as a tad demanding): cpulimit --limit 100 sbt assembly
  $ popd
 
  # May find for example
@@ -1327,12 +1330,11 @@ Then ELP shall be built, which requires sufficiently recent Rust and Cargo (nota
 
  # Or, just to update: cd erlang-language-platform && git pull
  $ git clone https://github.com/WhatsApp/erlang-language-platform.git
-
  $ cd erlang-language-platform
 
  # This will be long, and may overheat one's CPU, so use either:
-  $ cargo build --release
- # Or: cpulimit --limit 100 cargo build --release
+ $ cargo build --release
+ # Or (even if not actually effective): cpulimit --limit 100 cargo build --release
 
 
 Then in one's  ``~/.bashrc`` for example, one may declare::
