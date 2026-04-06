@@ -1272,7 +1272,7 @@ Extra information resources about ``wx`` (besides the documentation of its modul
 Using a LSP language server for Erlang
 --------------------------------------
 
-We used to rely on `erlang_ls <https://erlang-ls.github.io/>`_, which is archived (unmaintained) now; we prefer using `ELP <https://whatsapp.github.io/erlang-language-platform/>`_, i.e. the so-called *Erlang Language Platform* now.
+We used to rely on `erlang_ls <https://erlang-ls.github.io/>`_, which is archived (unmaintained) now; so currently we prefer using `ELP <https://whatsapp.github.io/erlang-language-platform/>`_, i.e. the so-called *Erlang Language Platform*.
 
 
 
@@ -1284,7 +1284,7 @@ Installing ELP
 ELP From Sources
 ________________
 
-This is the approach that we recommend.
+This is the approach that we recommend, at least if enjoying sufficient permissions to install packages easily for prerequisites (otherwise prefer installing binaries, see next section for that).
 
 We mostly follow `these guidelines here <https://whatsapp.github.io/erlang-language-platform/docs/get-started/install/#from-source/>`_.
 
@@ -1351,7 +1351,10 @@ _________________
 
 `Prebuilt-binaries <https://github.com/WhatsApp/erlang-language-platform/releases>`_ are available.
 
-One can download for example ``elp-linux-x86_64-unknown-linux-gnu-otp-28.tar.gz`` and, provided that the local glibc is not too ancient, a functional ``elp`` can be extracted from that archive, preferably in a dedicated ``~/Software/erlang-language-platform/target/release`` directory, for consistency.
+One can download for example ``elp-linux-x86_64-unknown-linux-gnu-otp-28.tar.gz`` and, provided that the local glibc is not too ancient, a functional ``elp`` executable can be extracted from that archive, preferably in a dedicated ``~/Software/erlang-language-platform/target/release`` directory, for consistency.
+
+Like in the previous section, ensure that the ``elp`` executable in the user's ``PATH``.
+
 
 
 Using ELP
