@@ -345,6 +345,49 @@ To consult the journal:
 So for example ``journalctl -n 200 -fu my_unit`` may be convenient to have recent history together with the next entries to come.
 
 
+Systemd Mini-Recipes
+--------------------
+
+
+Delaying the Activation of a Service
+....................................
+
+For example if the current service requires both network and all local filesystems (listed in ``/etc/fstab``) to be available, its definition may include:
+
+.. code::
+
+  After=network.target local-fs.target
+  Requires=network.target local-fs.target
+
+
+
+Relying on Service Files that are in Version Control
+....................................................
+
+No one wants to lose one's precisely crafted systemd service files; so one may define them once for all in one's Git, and have them only symlinked from ``/etc/systemd/system/``.
+
+However such a Git clone would best exist under a non-privileged account, resulting in a problem: at systemd startup, the filesystem hosting that clone may not be available yet (typically if it is encrypted), resulting in systemd seeing a dead link and not starting that unit.
+
+A solution is to define an extra service just in charge of triggering a late reloading of the configuration of systemd, like in this ``foobar-systemd-reloader.service`` file::
+
+ [Unit]
+ Description=Reloads systemd's daemon configuration, typically so that it can read service files that are available through symlinks in non-root, later-mounted partitions
+ After=local-fs.target
+ Requires=local-fs.target
+
+ [Service]
+ Type=oneshot
+ ExecStart=/usr/bin/systemctl daemon-reload
+
+ [Install]
+ WantedBy=multi-user.target
+
+Of course this unit should *not* be based on such a symlink, and should be properly activated, for example with::
+
+ $ systemctl start foobar-systemd-reloader.service
+ $ systemctl status foobar-systemd-reloader.service
+ $ systemctl enable foobar-systemd-reloader.service
+
 
 .. _`core dumps`:
 
