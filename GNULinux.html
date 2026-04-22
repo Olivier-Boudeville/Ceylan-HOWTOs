@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, April 6, 2026</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, April 22, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -339,7 +339,7 @@ $<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span
 </ul>
 </li>
 <li>for a given unit <tt class="docutils literal">my_unit</tt> (see <a class="reference internal" href="#systemd-commands">Systemd Commands</a> for selection): <tt class="docutils literal">journalctl <span class="pre">-u</span> my_unit</tt></li>
-<li>showing <tt class="docutils literal">COUNT</tt> lines: add <tt class="docutils literal"><span class="pre">-n</span> COUNT</tt> (default: 10)</li>
+<li>showing <tt class="docutils literal">COUNT</tt> lines: add <tt class="docutils literal"><span class="pre">-n</span> COUNT</tt> (default: 10, often too short)</li>
 </ul>
 <p>So for example <tt class="docutils literal">journalctl <span class="pre">-n</span> 200 <span class="pre">-fu</span> my_unit</tt> may be convenient to have recent history together with the next entries to come.</p>
 </div>
@@ -377,6 +377,11 @@ $ systemctl start foobar-systemd-reloader.service
 $ systemctl status foobar-systemd-reloader.service
 $ systemctl enable foobar-systemd-reloader.service
 </pre>
+</div>
+<div class="section" id="performing-some-routine-checks">
+<h3>Performing Some Routine Checks</h3>
+<p>One may run <tt class="docutils literal">systemctl <span class="pre">--failed</span></tt> from time to time to spot any failed service.</p>
+<p>Once corrected, <tt class="docutils literal">systemctl <span class="pre">reset-failed</span></tt> may be used to remove past failures.</p>
 </div>
 </div>
 </div>
