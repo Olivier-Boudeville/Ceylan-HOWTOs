@@ -137,6 +137,48 @@ In that case we strongly recommend:
 Wanting to test whether your current e-mail system is reliable? We recommend using the `MECSA <https://mecsa.jrc.ec.europa.eu>`_ online testing tool, which is provided by the European Commission and allows to learn a lot about the level of security reached by one's email system.
 
 
+
+A bit of Information about 2FA
+==============================
+
+**2FA** means `two-factor authentication <https://en.wikipedia.org/w/index.php?title=Two-factor_authentication>`_, a security measure demanding that two distinct types of evidence are used in order to authenticate to a given server (to log on one's account, to access a given resource, etc.).
+
+As SMS are a weak authentication means (they are easily intercepted, as relying on a telecom network, for example through SIM swapping), one may prefer instead using an "authenticator app" (which, once configured, requires no specific network connectivity, and never exports a secret) that generates a type of evidence based on OTP (*One-Time Passwords*).
+
+Such passwords are unique (at any given time), ephemeral (each is valid only during a given server-specified period, of for example 30 seconds), single-use (no possible replay) codes - thus a lot safer than static passwords.
+
+Two types of OTP systems exist:
+
+- TOTP (*Time-based One-Time Password*), whose codes are based on wallclock time
+- HOTP (*HMAC-based One-Time Password*), whose codes are based on a shared counter
+
+TOTP is the most common and the one that we use here.
+
+The mode of operation of TOTP is the following: a secret is shared between the server (which typically issues an alphanumerical code) and the app (which is given that code). Then, during each OTP period (e.g. slice of 30 seconds), each of them is able to generate the corresponding, same OTP, which is based (only) on: the current time, the aforementioned shared secret, and a hashing function (e.g. HMAC-SHA1).
+
+
+On **GNU/Linux**, one may rely on `Gnome Authenticator <https://apps.gnome.org/Authenticator/>`_ (safe, reliable, graphical, free software):
+
+- install it on Arch with ``pacman -S authenticator``
+- run it as ``authenticator``
+- configure it by:
+
+  - typing Ctrl-N to create a new account
+  - selecting the "provider", i.e. the token issuer of the service to authenticate to (e.g. `Github <https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-app>`_); this authenticator application has a profile for most well-known providers, otherwise its corresponding information (at least target server, algorithm, computing method, period, digits) will have to be entered explicitly
+  - specifying the "account" (e.g. ``GitHub:James-Bond``)
+  - specifying the "token" (i.e. the secret shared by the server)
+
+On **Android**, `Aegis Authenticator <https://getaegis.app/>`_ (`available through F-Droid <https://f-droid.org/packages/com.beemdevelopment.aegis/>`_) is our solution of choice. It is standard, in free software, can be protected by a password and/or a biometric element (typically a fingerprint) and can scan QR codes to auto-configure the access to a server; otherwise the configuration information can be entered manually, and then:
+
+- "Name" corresponds to the previous account
+- "Issuer" corresponds the previous provider
+- "Group" and "Note" are optional
+- "Secret" corresponds the previous token
+
+Then, during each OTP period, the authenticator app of interest shall be able to generate the OTP that will be accepted by said server.
+
+
+
 .. _`OpenPGP`:
 
 Increasing Security thanks to OpenPGP
