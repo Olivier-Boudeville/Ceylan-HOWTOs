@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, December 19, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, April 22, 2026</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, April 25, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -762,8 +762,15 @@ $<span class="w"> </span>umount<span class="w"> </span><span class="si">${</span
 <p>Here are a few guidelines (on Arch Linux, with UEFI and GPT - rather than any MBR) that could be useful, knowing that considerably more complete information can be found in <a class="reference external" href="https://wiki.archlinux.org/title/GRUB">this page</a>.</p>
 <div class="section" id="prerequisites">
 <h2><a class="toc-backref" href="#toc-entry-24">Prerequisites</a></h2>
-<p>At least the following packages will be needed (anyway they are likely to be already available, either from a real install or from a rescue medium): <tt class="docutils literal">grub</tt>, <tt class="docutils literal">efibootmgr</tt> and  <tt class="docutils literal"><span class="pre">os-prober</span></tt>.</p>
-<p>You will also need a bootable (most probably removable) install/rescue medium, typically an USB stick whose content can be erased. Either you have access to another computer (Linux or not), or you have a multiboot and, after a smart journey in the BIOS menus, you will be able to nevertheless launch a Windows instance (generally GRUB just concentrates on wreaking havoc on unfortunate Linuces, rather than doing the same to Windows installations).</p>
+<p>At least the following <strong>packages</strong> will be needed (anyway they are likely to be already available, either from a real install or from a rescue medium): <tt class="docutils literal">grub</tt>, <tt class="docutils literal">efibootmgr</tt> and  <tt class="docutils literal"><span class="pre">os-prober</span></tt>.</p>
+<p>You will also need a bootable (most probably removable) <strong>install/rescue medium</strong>, typically an USB stick whose content can be erased. Either you have access to another computer (Linux or not), or you have a multiboot and, after a smart journey in the BIOS menus, you will be able to nevertheless launch a Windows instance (generally GRUB just concentrates on wreaking havoc on unfortunate Linuces, rather than doing the same to Windows installations).</p>
+<p>Our recommended approach to <strong>obtain a rescue key</strong> from any functional Arch host is to:</p>
+<ul class="simple">
+<li>download the latest stable Arch ISO image (e.g. <tt class="docutils literal"><span class="pre">archlinux-2026.04.01-x86_64.iso</span></tt>) thanks to <a class="reference external" href="https://archlinux.org/download/">this page</a> of the Arch official website; one may prefer using the the Magnet link specified there, to be operated with the <tt class="docutils literal">transmission</tt> application; the integrity of the ISO can be checked by comparing the BLAKE2b checksum in that page with the output of, for example: <tt class="docutils literal">b2sum <span class="pre">~/Downloads/archlinux-2026.04.01-x86_64.iso</span></tt></li>
+<li>plug the USB key, check with <tt class="docutils literal">ls <span class="pre">-l</span> <span class="pre">/dev/disk/by-id/usb-*</span></tt> that it is detected, wait a bit for any slow auto-mount to happen, run <tt class="docutils literal">lsblk</tt> to ensure that no previous partition of that key has been auto-mounted (otherwise unmount it, for example thanks to: <tt class="docutils literal">umount /dev/sdc1</tt>)</li>
+<li>then write the ISO to that key, for example with, as root: <tt class="docutils literal">cat <span class="pre">/home/bond/Downloads/archlinux-2026.04.01-x86_64.iso</span> &gt; <span class="pre">/dev/disk/by-id/usb-JetFlash_Transcend_16GB_xx-0\:0</span></tt></li>
+<li>wait for completion; one can then unplug one's new Arch rescue key</li>
+</ul>
 <p>If having only a Windows instance at hand, one may just follow <a class="reference external" href="https://wiki.archlinux.org/title/USB_flash_installation_medium#Using_win32diskimager">these guidelines</a>, which mostly boil down to downloading and installing the (free software) <a class="reference external" href="https://sourceforge.net/projects/win32diskimager/files/latest/download">Win32 Disk Imager</a> tool, grabbing also <a class="reference external" href="https://archlinux.org/download/">a relevant ISO</a> (e.g. <tt class="docutils literal"><span class="pre">archlinux-2023.04.01-x86_64.iso</span></tt> at the time of this writing) and writing in on said USB stick.</p>
 </div>
 <div class="section" id="running-a-live-rescue-arch">
@@ -819,7 +826,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/mnt<
 <p>As we understand it, installing GRUB (i.e. copying its relevant file elements in a proper location in <tt class="docutils literal">/boot</tt>) and configuring it can be done in any order; we prefer anyway installing it first, with:</p>
 <pre class="code bash literal-block">
 <span class="c1"># Note that the 'EFI' directory is not directly specified here, only
-# the /boot mount point:
+# the /boot mount point (whose partition is supposed to be already mounted):
 </span>$<span class="w"> </span>grub-install<span class="w"> </span>--target<span class="o">=</span>x86_64-efi<span class="w"> </span>--efi-directory<span class="o">=</span>/boot<span class="w"> </span>--bootloader-id<span class="o">=</span>MY_GRUB
 </pre>
 <p>Here GRUB is just installed - it is not ready to be used: do not reboot, configure it first, as shown just below.</p>
@@ -835,7 +842,8 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/mnt<
 <div class="section" id="selecting-the-default-boot-menu-entry">
 <h3>Selecting the Default Boot Menu Entry</h3>
 <p>Knowing that LTS kernels will be sorted first and thus will be selected by default, one may instead choose one's preferred default - typically the latest stable kernel (instead of any LTS one, used as a fallback).</p>
-<p>To do so, the target entry can be identified thanks to <tt class="docutils literal">grep &quot;menuentry '&quot; /boot/grub/grub.cfg</tt> (for example <tt class="docutils literal">'Arch Linux, with Linux linux'</tt>). Then, in <tt class="docutils literal">/etc/default/grub</tt>, it can be assigned to <tt class="docutils literal">GRUB_DEFAULT</tt> (e.g. <tt class="docutils literal"><span class="pre">GRUB_DEFAULT=&quot;Arch</span> Linux, with Linux linux&quot;</tt>) - which is safer / more stable than specifying an entry index.</p>
+<p>To do so, the target entry can be identified thanks to <tt class="docutils literal">grep &quot;menuentry '&quot; /boot/grub/grub.cfg</tt> (for example <tt class="docutils literal">'Arch Linux, with Linux linux'</tt>). Then, in <tt class="docutils literal">/etc/default/grub</tt>, it can be assigned to <tt class="docutils literal">GRUB_DEFAULT</tt> (e.g. <tt class="docutils literal"><span class="pre">GRUB_DEFAULT=&quot;Arch</span> Linux, with Linux linux&quot;</tt>) - which is safer / more stable than specifying an entry index (like with <tt class="docutils literal">GRUB_DEFAULT=0</tt>).</p>
+<p>Yet apparently now, with recent (2.00 or later) versions of <tt class="docutils literal"><span class="pre">grub-mkconfig</span></tt>, the best approach is to specify the full identifier of the target entry instead, like in <tt class="docutils literal"><span class="pre">GRUB_DEFAULT=&quot;gnulinux-advanced-c8c4b8f0-d8ef-4dbc-bc75-4ee43cb7263a&gt;gnulinux-linux-advanced-c8c4b8f0-d8ef-4dbc-bc75-4ee43cb7263a&quot;</span></tt>.</p>
 </div>
 <div class="section" id="other-settings">
 <h3>Other Settings</h3>
