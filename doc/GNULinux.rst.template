@@ -340,9 +340,10 @@ To consult the journal:
 
 - for a given unit ``my_unit`` (see `Systemd Commands`_ for selection): ``journalctl -u my_unit``
 
-- showing ``COUNT`` lines: add ``-n COUNT`` (default: 10)
+- showing ``COUNT`` lines: add ``-n COUNT`` (default: 10, often too short)
 
 So for example ``journalctl -n 200 -fu my_unit`` may be convenient to have recent history together with the next entries to come.
+
 
 
 Systemd Mini-Recipes
@@ -387,6 +388,17 @@ Of course this unit should *not* be based on such a symlink, and should be prope
  $ systemctl start foobar-systemd-reloader.service
  $ systemctl status foobar-systemd-reloader.service
  $ systemctl enable foobar-systemd-reloader.service
+
+
+
+Performing Some Routine Checks
+..............................
+
+One may run ``systemctl --failed`` from time to time to spot any failed service.
+
+Once corrected, ``systemctl reset-failed`` may be used to remove past failures.
+
+
 
 
 .. _`core dumps`:
@@ -879,10 +891,20 @@ Here are a few guidelines (on Arch Linux, with UEFI and GPT - rather than any MB
 Prerequisites
 -------------
 
-At least the following packages will be needed (anyway they are likely to be already available, either from a real install or from a rescue medium): ``grub``, ``efibootmgr`` and  ``os-prober``.
+At least the following **packages** will be needed (anyway they are likely to be already available, either from a real install or from a rescue medium): ``grub``, ``efibootmgr`` and  ``os-prober``.
 
+You will also need a bootable (most probably removable) **install/rescue medium**, typically an USB stick whose content can be erased. Either you have access to another computer (Linux or not), or you have a multiboot and, after a smart journey in the BIOS menus, you will be able to nevertheless launch a Windows instance (generally GRUB just concentrates on wreaking havoc on unfortunate Linuces, rather than doing the same to Windows installations).
 
-You will also need a bootable (most probably removable) install/rescue medium, typically an USB stick whose content can be erased. Either you have access to another computer (Linux or not), or you have a multiboot and, after a smart journey in the BIOS menus, you will be able to nevertheless launch a Windows instance (generally GRUB just concentrates on wreaking havoc on unfortunate Linuces, rather than doing the same to Windows installations).
+Our recommended approach to **obtain a rescue key** from any functional Arch host is to:
+
+- download the latest stable Arch ISO image (e.g. ``archlinux-2026.04.01-x86_64.iso``) thanks to `this page <https://archlinux.org/download/>`_ of the Arch official website; one may prefer using the the Magnet link specified there, to be operated with the ``transmission`` application; the integrity of the ISO can be checked by comparing the BLAKE2b checksum in that page with the output of, for example: ``b2sum ~/Downloads/archlinux-2026.04.01-x86_64.iso``
+
+- plug the USB key, check with ``ls -l /dev/disk/by-id/usb-*`` that it is detected, wait a bit for any slow auto-mount to happen, run ``lsblk`` to ensure that no previous partition of that key has been auto-mounted (otherwise unmount it, for example thanks to: ``umount /dev/sdc1``)
+
+- then write the ISO to that key, for example with, as root: ``cat /home/bond/Downloads/archlinux-2026.04.01-x86_64.iso > /dev/disk/by-id/usb-JetFlash_Transcend_16GB_xx-0\:0``
+
+- wait for completion; one can then unplug one's new Arch rescue key
+
 
 If having only a Windows instance at hand, one may just follow `these guidelines <https://wiki.archlinux.org/title/USB_flash_installation_medium#Using_win32diskimager>`_, which mostly boil down to downloading and installing the (free software) `Win32 Disk Imager <https://sourceforge.net/projects/win32diskimager/files/latest/download>`_ tool, grabbing also `a relevant ISO <https://archlinux.org/download/>`_ (e.g. ``archlinux-2023.04.01-x86_64.iso`` at the time of this writing) and writing in on said USB stick.
 
@@ -956,7 +978,7 @@ As we understand it, installing GRUB (i.e. copying its relevant file elements in
 .. code:: bash
 
  # Note that the 'EFI' directory is not directly specified here, only
- # the /boot mount point:
+ # the /boot mount point (whose partition is supposed to be already mounted):
  $ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=MY_GRUB
 
 Here GRUB is just installed - it is not ready to be used: do not reboot, configure it first, as shown just below.
@@ -981,7 +1003,10 @@ Selecting the Default Boot Menu Entry
 
 Knowing that LTS kernels will be sorted first and thus will be selected by default, one may instead choose one's preferred default - typically the latest stable kernel (instead of any LTS one, used as a fallback).
 
-To do so, the target entry can be identified thanks to ``grep "menuentry '" /boot/grub/grub.cfg`` (for example ``'Arch Linux, with Linux linux'``). Then, in ``/etc/default/grub``, it can be assigned to ``GRUB_DEFAULT`` (e.g. ``GRUB_DEFAULT="Arch Linux, with Linux linux"``) - which is safer / more stable than specifying an entry index.
+To do so, the target entry can be identified thanks to ``grep "menuentry '" /boot/grub/grub.cfg`` (for example ``'Arch Linux, with Linux linux'``). Then, in ``/etc/default/grub``, it can be assigned to ``GRUB_DEFAULT`` (e.g. ``GRUB_DEFAULT="Arch Linux, with Linux linux"``) - which is safer / more stable than specifying an entry index (like with ``GRUB_DEFAULT=0``).
+
+Yet apparently now, with recent (2.00 or later) versions of ``grub-mkconfig``, the best approach is to specify the full identifier of the target entry instead, like in ``GRUB_DEFAULT="gnulinux-advanced-c8c4b8f0-d8ef-4dbc-bc75-4ee43cb7263a>gnulinux-linux-advanced-c8c4b8f0-d8ef-4dbc-bc75-4ee43cb7263a"``.
+
 
 
 Other Settings
