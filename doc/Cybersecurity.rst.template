@@ -141,7 +141,7 @@ Wanting to test whether your current e-mail system is reliable? We recommend usi
 A bit of Information about 2FA
 ==============================
 
-**2FA** means `two-factor authentication <https://en.wikipedia.org/w/index.php?title=Two-factor_authentication>`_, a security measure demanding that two distinct types of evidence are used in order to authenticate to a given server (to log on one's account, to access a given resource, etc.).
+**2FA** means `two-factor authentication <https://en.wikipedia.org/w/index.php?title=Two-factor_authentication>`_, a security measure demanding that two distinct types of evidence are used in order to authenticate to a given server (to log on one's account, to access a given resource, etc.), i.e. to access to a corresponding service..
 
 As SMS are a weak authentication means (they are easily intercepted, as relying on a telecom network, for example through SIM swapping), one may prefer instead using an "authenticator app" (which, once configured, requires no specific network connectivity, and never exports a secret) that generates a type of evidence based on OTP (*One-Time Passwords*).
 
@@ -177,6 +177,8 @@ On **Android**, `Aegis Authenticator <https://getaegis.app/>`_ (`available throu
 
 Then, during each OTP period, the authenticator app of interest shall be able to generate the OTP that will be accepted by said server.
 
+
+.. Note:: For at least most services (e.g. GitHub), at most one authentication application can be used at any time: registering a second TOTP application will result in the first one to be removed. So, in order to enjoy multiple applications (typically on one's main computer and one's smartphone), initialise them in the same movement, based on the same secret (alphanumerical key or QR code).
 
 
 .. _`OpenPGP`:
