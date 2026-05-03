@@ -245,12 +245,21 @@ Network Troubleshooting
 A few pieces of advice/information:
 
 - be familiar with ``ip link``, ``ip addr`` and ``ip route`` (generally used in that order), and ``tcpdump`` for the worst cases
-- to review *host-local* open ports and sockets, use:
+- to review *host-local* open ports and sockets, in order to determine which :
 
-  - ``ss`` (for *socket statistics*, replacement of ``netstat``), e.g. to determine which program is running at TCP port #8080: ``ss --inet --listening -np | grep :8080``
-  - ``netstat`` could be for example ``netstat -ltnp | grep :8080``
-  - ``lsof -i :8080``
-  - ``fuser 8080/tcp``, before looking up the returned PID
+  - **program** is running at a given TCP port (e.g. #8080):
+
+	- recommended: ``ss`` (for *socket statistics*, replacement of ``netstat``), e.g.  ``ss --inet --listening -np | grep :8080``
+	- ``netstat`` (now considered deprecated) could be for example ``netstat -ltnp | grep :8080``
+	- ``lsof -i :8080``
+	- ``fuser 8080/tcp``, before looking up the returned PID
+
+  - **ports** are opened by a process, based on its PID (e.g. 1234):
+
+	- recommended: ``lsof -Pan -i -p 1234``
+	- for TCP: ``ss -lptn | grep pid=1234``; for UDP: ``ss -lpun | grep pid=1234``
+	- ``netstat -tulpn | grep 1234``
+	- ``ls -l /proc/1234>/fd | grep socket``
 
 - for remote testing of open ports and sockets, use ``nmap``
 - nowadays, many devices change their MAC address regularly, like smartphones do
