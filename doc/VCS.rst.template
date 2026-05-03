@@ -361,6 +361,32 @@ Rather than creating it from a pre-existing branch and removing all inherited co
 
 
 
+Listing differences / Merging with a Dedicated Tool
+...................................................
+
+Sometimes a basic diff is not sufficiently convenient (e.g. if very long lines differ only at some points).
+
+To rely instead on a dedicated, specialised diff tool (such as ``meld``), use ``git difftool``.
+
+For example ``git difftool SomeFile`` may launch a ``meld`` instance showing the differences between content in HEAD (left pane) and content in the working directory (right pane).
+
+If wanting to configure which executable is to be run through ``difftool``:
+
+.. code:: bash
+
+ $ git config --global diff.tool meld
+ $ git config --global difftool.prompt false
+
+Tools like ``meld`` can also be used for merges, for example with:
+
+.. code:: bash
+
+ $ git config --global merge.tool meld
+ $ git config --global mergetool.prompt false
+ $ git config --global mergetool.keepBackup false
+
+
+
 Listing differences with prior versions of a file
 .................................................
 
