@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, April 6, 2026</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, May 1, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -684,7 +684,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/Sof
 <li><a class="reference external" href="https://www.erlang.org/doc/apps/edoc/chapter.html">EDoc</a>, yet without relying on the syntax exposed in that link (not even its <a class="reference external" href="https://www.erlang.org/doc/apps/edoc/chapter#Wiki_notation">wiki notation</a>), but according to the next point (i.e. the Markdown syntax)</li>
 <li>the <a class="reference external" href="https://www.erlang.org/eeps/eep-0059#new-module-attributes">new -moduledoc / -doc attributes</a>, which are replacements for EDoc style comments; refer to this <a class="reference external" href="https://www.erlang.org/doc/system/documentation.html">documentation page</a> to make good use of them; in a nutshell, we recommend using the default format for documentation attributes, Markdown, whose actual syntax is summarised for example in <a class="reference external" href="https://www.markdownguide.org/basic-syntax/">this page</a></li>
 <li>documentation text in which verbatim quoting is therefore done by enclosing the target text with <tt class="docutils literal">`</tt> (i.e. a single backquote, on both sides - even if, for some reason, <a class="reference external" href="https://www.erlang.org/doc/apps/edoc/chapter#verbatim-quoting">this section</a> promotes <tt class="docutils literal">`'</tt>), as suggested by the <a class="reference external" href="https://github.com/erlang/otp/blob/master/lib/kernel/src/inet.erl#L70">Erlang/OTP sources themselves</a>; so documentation may include for example <tt class="docutils literal">`gethostbyaddr/1`</tt> or <tt class="docutils literal">`&quot;150.236.20.73&quot;`</tt></li>
-<li>named hypertext links are in the form of <tt class="docutils literal">[displayed <span class="pre">text](http://foobar.html)</span></tt>, otherwise a link to be displayed verbatim may just be specified as <tt class="docutils literal"><span class="pre">[http://foobar.html]</span></tt></li>
+<li>named hypertext links are in the form of <tt class="docutils literal">[displayed <span class="pre">text](http://foobar.html)</span></tt>, otherwise a link to be displayed verbatim may just be specified as <tt class="docutils literal"><span class="pre">&lt;http://foobar.html&gt;</span></tt> (rather than as <tt class="docutils literal"><span class="pre">[http://foobar.html]</span></tt>; note that the raw URL would be sufficient)</li>
 </ul>
 <p>As a reminder of the syntax that <tt class="docutils literal"><span class="pre">-moduledoc</span></tt> / <tt class="docutils literal"><span class="pre">-doc</span></tt> attributes support (note the <tt class="docutils literal">m/t/c</tt> prefixes):</p>
 <pre class="code erlang literal-block">

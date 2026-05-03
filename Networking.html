@@ -21,13 +21,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2025 Olivier Boudeville</td>
+<tr class="field"><th class="field-name">Organisation:</th><td class="field-body">Copyright (C) 2021-2026 Olivier Boudeville</td>
 </tr>
 <tr class="field"><th class="field-name">Contact:</th><td class="field-body">about (dash) howtos (at) esperide (dot) com</td>
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, July 12, 2025</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, May 3, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -222,11 +222,21 @@ $<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </sp
 <p>A few pieces of advice/information:</p>
 <ul class="simple">
 <li>be familiar with <tt class="docutils literal">ip link</tt>, <tt class="docutils literal">ip addr</tt> and <tt class="docutils literal">ip route</tt> (generally used in that order), and <tt class="docutils literal">tcpdump</tt> for the worst cases</li>
-<li>to review <em>host-local</em> open ports and sockets, use:<ul>
-<li><tt class="docutils literal">ss</tt> (for <em>socket statistics</em>, replacement of <tt class="docutils literal">netstat</tt>), e.g. to determine which program is running at TCP port #8080: <tt class="docutils literal">ss <span class="pre">--inet</span> <span class="pre">--listening</span> <span class="pre">-np</span> | grep :8080</tt></li>
-<li><tt class="docutils literal">netstat</tt> could be for example <tt class="docutils literal">netstat <span class="pre">-ltnp</span> | grep :8080</tt></li>
+<li>to review <em>host-local</em> open ports and sockets, in order to determine which :<ul>
+<li><strong>program</strong> is running at a given TCP port (e.g. #8080):<ul>
+<li>recommended: <tt class="docutils literal">ss</tt> (for <em>socket statistics</em>, replacement of <tt class="docutils literal">netstat</tt>), e.g.  <tt class="docutils literal">ss <span class="pre">--inet</span> <span class="pre">--listening</span> <span class="pre">-np</span> | grep :8080</tt></li>
+<li><tt class="docutils literal">netstat</tt> (now considered deprecated) could be for example <tt class="docutils literal">netstat <span class="pre">-ltnp</span> | grep :8080</tt></li>
 <li><tt class="docutils literal">lsof <span class="pre">-i</span> :8080</tt></li>
 <li><tt class="docutils literal">fuser 8080/tcp</tt>, before looking up the returned PID</li>
+</ul>
+</li>
+<li><strong>ports</strong> are opened by a process, based on its PID (e.g. 1234):<ul>
+<li>recommended: <tt class="docutils literal">lsof <span class="pre">-Pan</span> <span class="pre">-i</span> <span class="pre">-p</span> 1234</tt></li>
+<li>for TCP: <tt class="docutils literal">ss <span class="pre">-lptn</span> | grep pid=1234</tt>; for UDP: <tt class="docutils literal">ss <span class="pre">-lpun</span> | grep pid=1234</tt></li>
+<li><tt class="docutils literal">netstat <span class="pre">-tulpn</span> | grep 1234</tt></li>
+<li><tt class="docutils literal">ls <span class="pre">-l</span> <span class="pre">/proc/1234&gt;/fd</span> | grep socket</tt></li>
+</ul>
+</li>
 </ul>
 </li>
 <li>for remote testing of open ports and sockets, use <tt class="docutils literal">nmap</tt></li>
