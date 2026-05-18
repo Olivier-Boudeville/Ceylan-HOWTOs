@@ -282,19 +282,40 @@ A few pieces of advice/information:
 Here for example, in ``192.168.0.0/16``, ``16`` corresponds to the length of *the network prefix*; the next 16 bits are left to designate hosts, whose addresses therefore range in ``192.168.[0..254].[1..254]``. So ``192.168.0.0/16`` includes the ``192.168.27.0/24`` network - whereas ``192.168.0.0/24`` would not.
 
 - go for VLAN only when having reached a first level of correct operation; note that some devices (e.g. non-manageable switches) are not able to handle VLAN-tagged packets and may reject or overwrite this information
-- in some cases, hard reboots / returns to factory settings will fix inexplicable situations; updating to latest firmware may help too (network appliances *do* have bugs as well!)
+- in some cases, hard reboots / returns to factory settings will fix inextricable situations; updating to latest firmware may help too (network appliances *do* have bugs as well!)
 - secure spare parts (if possible all cables, fibers, devices, power supply, etc. shall exist at least in two copies, tested just after purchased): when the one in operation will fail, the outage will be quickly solved by switching element; the troubleshooting will be easier as well: replace the whole set of equipment, check that everything works again, and try to progress by dichotomy (change half of the elements, and check whether everything remains functional)
-- purchase only equipment of quality, and treat it gently (e.g. use an Uninterruptible Power Supply providing good-quality current)
+- purchase only equipment of quality, and treat it gently (e.g. use an UPS - *Uninterruptible Power Supply* - providing good-quality current)
 - take notes about the operations that are performed, the detected issues and the current configuration, and put the whole in VCS
 - check temperature, ventilation and prevent dust accumulation
 - consider monitoring temperatures, fans, availability, performances
 
 
 
+Network Scanning
+================
+
+When hosting a server, checking what can be seen from the outside (typically from Internet) shall be done regularly.
+
+To do so, first obtain the IP of your server (possibly resolving it from DNS, with ``ping foo.org`` or ``dig +short foobar.org``), and then execute, preferably as root:
+
+- ``nmap $IP`` to scan usual ports
+
+- ``nmap -p- --open $IP`` to scan all TCP ports (any service of interest running on a non-standard port shall be identified as the one usually at this port, or as ``unknown``)
+
+- ``nmap -sU --open $IP`` to scan all UDP ports (at least most of them shall be in ignored state (open/filtered, or closed)
+
+- ``nmap -sV $IP`` to detect the most usual services based on their behaviour (regardless of their port)
+
+- ``nmap -O $IP`` to detect the operating system of the target server, or ``nmap -O -sSU $IP`` for a more involved (TCP SYN/UDP) scan
+
+- ``nmap -A $IP`` for a full audit, i.e. an aggressive scan
+
+
+
 DNS Management
 ==============
 
-The current configuration of resolution can be tested just by using ``ping``, yet tools lie ``drill`` (otherwise ``dig``) are of help.
+The current configuration of resolution can be tested just by using ``ping``, yet tools like ``drill`` (otherwise ``dig``) are of help.
 
 For example to:
 
