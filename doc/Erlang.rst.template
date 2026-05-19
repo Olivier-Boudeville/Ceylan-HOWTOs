@@ -82,9 +82,9 @@ Taken from `this presentation <https://erlangforums.com/t/erlang-101-processes-p
 Installation
 ============
 
-Erlang can be installed thanks to the various options listed in `these guidelines <https://www.erlang.org/downloads>`_.
+Erlang can be installed thanks to the various options listed in `the official guidelines <https://www.erlang.org/downloads>`_.
 
-Building Erlang from the sources of its latest stable version is certainly the best approach; for more control we prefer relying on our `custom procedure <https://myriad.esperide.org/#software-prerequisites>`_.
+Building Erlang from the sources of its latest stable version is certainly the best approach; for more control we prefer relying on our `custom procedure <https://myriad.esperide.org/#software-prerequisites>`_ (especially its variation in order to obtain an `Erlang with GUI support <https://myriad.esperide.org/#securing-an-erlang-environment-with-gui-support-recommended>`_).
 
 For a development activity, we recommend also specifying the following options to our ``conf/install-erlang.sh`` script:
 
@@ -1055,7 +1055,7 @@ Runtime Library Version
 
 To know **which version of a library** (here, wxWidgets) a given Erlang install is using (if any), one may run an Erlang shell (``erl``), collect the PID of this (UNIX) process (e.g. ``ps -edf | grep beam``), then trigger a use of that library (e.g. for ``wx``, execute ``wx:demo().``) in order to force its dynamic binding.
 
-Then determine its name, for example thanks to ``pmap ${BEAM_PID} | grep libwx``).
+Then one can determine its name, for example thanks to ``pmap BEAM_PID | grep libwx``.
 
 This may indicate that for example ``libwx_gtk2u_core-3.0.so.0.5.0`` is actually used.
 
@@ -1219,6 +1219,19 @@ Using wx
 `wx <https://www.erlang.org/doc/man/wx.html>`_ is now [#]_ the standard Erlang way of programming one's graphical user interface; it is a binding to the `wxWidgets <http://www.wxwidgets.org/>`_ library.
 
 .. [#] ``wx`` replaced `gs <https://www.erlang.org/docs/18/man/gs.html>`_. To shelter already-developed graphical applications from any future change of backend, we developed `MyriadGUI <https://myriad.esperide.org/#graphical-user-interface-gui>`_, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.
+
+
+Availability and Build-related Issues
+.....................................
+
+One should ensure first that the local host has a proper GUI support, by running from the Erlang shell either ``wx:demo()`` or ``observer:start()``.
+
+If a wx-related error happens like a ``{load_driver,"No driver found"}`` exception being raised, refer to `our wx-related Erlang build guidelines <https://myriad.esperide.org/#securing-an-erlang-environment-with-gui-support-recommended>`_.
+
+
+
+Making use of ``wx``
+....................
 
 Here are some very general wx-related information that may be of help when programming GUIs with this backend:
 
@@ -1520,7 +1533,7 @@ To avoid having to perform a lookup in the documentation:
 
 - for (list, map, bit string) **comprehensions**, since Erlang 28.0, in addition to the usual, *relaxed* list generators (``Pattern <- ListExpr`` for lists and maps, ``BitstringPattern <= BitStringExpr`` for bit strings), `strict variants <https://www.erlang.org/doc/system/expressions.html#comprehensions>`_ thereof exist: ``Pattern <:- ListExpr`` for lists and maps, ``BitstringPattern <:= BitStringExpr`` for bit strings; these strict variants, instead of silently ignoring the generated elements that do not match the pattern, will raise an exception instead (e.g. ``exception error: no match of right hand side value XXX``)
 
-- ``lists:foldl/3`` is generally the best folding procedure, and its `signature <https://www.erlang.org/doc/apps/stdlib/lists.html#foldl/3>`_ is ``foldl(Fun, Acc0, List) -> Acc1``, with ``Fun(Elem, AccIn)`` being called on each head-to-tail element of ``List`` in turn 
+- ``lists:foldl/3`` is generally the best folding procedure, and its `signature <https://www.erlang.org/doc/apps/stdlib/lists.html#foldl/3>`_ is ``foldl(Fun, Acc0, List) -> Acc1``, with ``Fun(Elem, AccIn)`` being called on each head-to-tail element of ``List`` in turn
 
 - for ``maps``: refer to `map expressions <https://www.erlang.org/doc/reference_manual/expressions.html#map_expressions>`_, the `maps module <https://www.erlang.org/doc/man/maps.html>`_ and the corresponding part of the `efficiency guide <https://www.erlang.org/doc/efficiency_guide/maps.html>`_; in short:
 

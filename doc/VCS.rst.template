@@ -119,11 +119,11 @@ Base Know-How
 
 .. code:: bash
 
- # Target file is tracked iff is listed by:
+ # Target file is tracked iff it is listed by:
  $ git ls-files | grep my_file
 
  # Or, in order to trigger an error if this target file is not tracked:
- git ls-files --error-unmatch my_file
+ $ git ls-files --error-unmatch my_file
 
 .. _`checkout`:
 
