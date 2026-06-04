@@ -94,13 +94,14 @@ Base Know-How
 
 - **managing branches**:
 
-  - **creating** branches is done thanks to the ``checkout`` command, often abbreviated as ``co`` here
-  - to create a branch deriving from the current one (the current ``HEAD``) and switching to it at the same time (performing its co, while inheriting any local changes): ``git co -b my_new_branch``
-  - to `create a local branch corresponding to a remote one <https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches>`_ (let's suppose it is named ``some_branch``), assuming that a remote server (e.g. ``my_remote``, possibly ``origin``) has already been declared (e.g. ``git remote add my_remote URL``):
+  - **creating** branches is done thanks to the ``checkout`` command (often abbreviated as ``co`` here):
 
-	- first step is to update the remote-tracking branches with ``git fetch my_remote``, then to create the target local branch tracking that remote (upstream) one with: ``git co -b some_branch my_remote/some_branch`` (also switching to it here)
-	- a shortcut is to use ``git co --track my_remote/some_branch`` instead
-	- even shorter, if the name of the target local branch name does not exist yet and matches exactly matches a name on only one remote, ``git co some_branch`` will suffice
+	- to create a branch deriving from the current one (the current ``HEAD``) and switching to it at the same time (performing its co, while inheriting any local changes): ``git co -b my_new_branch``
+	- to `create a local branch corresponding to a remote one <https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches>`_ (let's suppose it is named ``some_branch``), assuming that a remote server (e.g. ``my_remote``, possibly ``origin``) has already been declared (e.g. ``git remote add my_remote URL``):
+
+	  - first step is to update the remote-tracking branches with ``git fetch my_remote``, then to create the target local branch tracking that remote (upstream) one with: ``git co -b some_branch my_remote/some_branch`` (also switching to it here)
+	  - a shortcut is to use ``git co --track my_remote/some_branch`` instead
+	  - even shorter, if the name of the target local branch name does not exist yet and matches exactly matches a name on only one remote, ``git co some_branch`` will suffice
 
   - to **delete** a local branch (while another one is checked out): ``git branch -d my_branch``; to force-delete it (typically if not fully merged), use ``git branch -d my_branch``; to delete it from a specified remote as well: ``git push origin --delete my_branch``
   - to **change** to a branch: ``git switch target_branch`` (to be preferred to the use of ``git checkout``)
