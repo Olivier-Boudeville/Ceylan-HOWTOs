@@ -245,6 +245,9 @@ Additionally, with our **complete** settings, notably with ``lsp-mode``:
 - ``s-c``: comment/uncomment the current selection (``comment-dwim`` is a toggle, better than ``comment-region`` or ``uncomment-region``)
 
 
+In the same spirit, one may refer to our `Shell Command-line Editing <GNULinux.html#shell-command-line-editing>`_ section.
+
+
 
 Frequent Actions
 ----------------
