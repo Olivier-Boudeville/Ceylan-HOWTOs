@@ -304,6 +304,7 @@ Systemd Commands
 
   - managed by systemd: ``systemctl list-units [PATTERN]``
   - installed (as files): ``systemctl list-unit-files [PATTERN]`` or ``tree /etc/systemd/system``
+  - currently failed:``systemctl --failed``
 
 - **getting runtime status information** about units: ``systemctl status [PATTERN]``
 
@@ -338,9 +339,13 @@ To consult the journal:
 	- stopping there: ``journalctl -e``
 	- continuously printing the new entries as they are added: ``journalctl -f`` (or ``--follow``)
 
-- for a given unit ``my_unit`` (see `Systemd Commands`_ for selection): ``journalctl -u my_unit``
+- for a given unit ``my_unit`` (see `Systemd Commands`_ for selecting the unit):
+
+  - all logs: ``journalctl -u my_unit``
+  - all logs since its last start: ``unit=my_unit; journalctl -u $unit --since "$(systemctl show -p ActiveEnterTimestamp $unit | cut -d= -f2)"``
 
 - showing ``COUNT`` lines: add ``-n COUNT`` (default: 10, often too short)
+- displaying only the errors: add ``-p err`` (only error-level priority, 3)
 
 So for example ``journalctl -n 200 -fu my_unit`` may be convenient to have recent history together with the next entries to come.
 
