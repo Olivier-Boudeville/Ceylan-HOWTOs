@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.22.4: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.23: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Version Control Systems</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Saturday, May 2, 2026</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, July 1, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -122,12 +122,14 @@
 </ul>
 </li>
 <li><strong>managing branches</strong>:<ul>
-<li><strong>creating</strong> branches is done thanks to the <tt class="docutils literal">checkout</tt> command, often abbreviated as <tt class="docutils literal">co</tt> here</li>
+<li><strong>creating</strong> branches is done thanks to the <tt class="docutils literal">checkout</tt> command (often abbreviated as <tt class="docutils literal">co</tt> here):<ul>
 <li>to create a branch deriving from the current one (the current <tt class="docutils literal">HEAD</tt>) and switching to it at the same time (performing its co, while inheriting any local changes): <tt class="docutils literal">git co <span class="pre">-b</span> my_new_branch</tt></li>
 <li>to <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches">create a local branch corresponding to a remote one</a> (let's suppose it is named <tt class="docutils literal">some_branch</tt>), assuming that a remote server (e.g. <tt class="docutils literal">my_remote</tt>, possibly <tt class="docutils literal">origin</tt>) has already been declared (e.g. <tt class="docutils literal">git remote add my_remote URL</tt>):<ul>
 <li>first step is to update the remote-tracking branches with <tt class="docutils literal">git fetch my_remote</tt>, then to create the target local branch tracking that remote (upstream) one with: <tt class="docutils literal">git co <span class="pre">-b</span> some_branch my_remote/some_branch</tt> (also switching to it here)</li>
 <li>a shortcut is to use <tt class="docutils literal">git co <span class="pre">--track</span> my_remote/some_branch</tt> instead</li>
 <li>even shorter, if the name of the target local branch name does not exist yet and matches exactly matches a name on only one remote, <tt class="docutils literal">git co some_branch</tt> will suffice</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>to <strong>delete</strong> a local branch (while another one is checked out): <tt class="docutils literal">git branch <span class="pre">-d</span> my_branch</tt>; to force-delete it (typically if not fully merged), use <tt class="docutils literal">git branch <span class="pre">-d</span> my_branch</tt>; to delete it from a specified remote as well: <tt class="docutils literal">git push origin <span class="pre">--delete</span> my_branch</tt></li>
@@ -147,11 +149,11 @@
 <li><strong>determining whether a file is in VCS</strong>, knowing that due to <tt class="docutils literal">.gitignore</tt> rules, <tt class="docutils literal"><span class="pre">update-index</span> <span class="pre">--skip-worktree</span></tt>, etc. it is not always obvious:</li>
 </ul>
 <pre class="code bash literal-block">
-<span class="c1"># Target file is tracked iff is listed by:
+<span class="c1"># Target file is tracked iff it is listed by:
 </span>$<span class="w"> </span>git<span class="w"> </span>ls-files<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>my_file<span class="w">
 
 </span><span class="c1"># Or, in order to trigger an error if this target file is not tracked:
-</span>git<span class="w"> </span>ls-files<span class="w"> </span>--error-unmatch<span class="w"> </span>my_file
+</span>$<span class="w"> </span>git<span class="w"> </span>ls-files<span class="w"> </span>--error-unmatch<span class="w"> </span>my_file
 </pre>
 <ul class="simple" id="checkout">
 <li>getting the <strong>version of a file as it was at a given revision</strong>:</li>

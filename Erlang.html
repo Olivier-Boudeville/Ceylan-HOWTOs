@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.22.4: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.23: https://docutils.sourceforge.io/" />
 <title>Ceylan-HOWTOs: About Erlang</title>
 <link rel="stylesheet" href="pygments-default.css" type="text/css" />
 <link rel="stylesheet" href="howtos.css" type="text/css" />
@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Friday, May 1, 2026</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, July 1, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -121,8 +121,8 @@
 </div>
 <div class="section" id="installation">
 <span id="erlang-installation"></span><h1><a class="toc-backref" href="#toc-entry-3">Installation</a></h1>
-<p>Erlang can be installed thanks to the various options listed in <a class="reference external" href="https://www.erlang.org/downloads">these guidelines</a>.</p>
-<p>Building Erlang from the sources of its latest stable version is certainly the best approach; for more control we prefer relying on our <a class="reference external" href="https://myriad.esperide.org/#software-prerequisites">custom procedure</a>.</p>
+<p>Erlang can be installed thanks to the various options listed in <a class="reference external" href="https://www.erlang.org/downloads">the official guidelines</a>.</p>
+<p>Building Erlang from the sources of its latest stable version is certainly the best approach; for more control we prefer relying on our <a class="reference external" href="https://myriad.esperide.org/#software-prerequisites">custom procedure</a> (especially its variation in order to obtain an <a class="reference external" href="https://myriad.esperide.org/#securing-an-erlang-environment-with-gui-support-recommended">Erlang with GUI support</a>).</p>
 <p>For a development activity, we recommend also specifying the following options to our <tt class="docutils literal"><span class="pre">conf/install-erlang.sh</span></tt> script:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">--doc-install</span></tt>, so that the reference documentation can be accessed locally (in <tt class="docutils literal"><span class="pre">~/Software/Erlang/Erlang-current-documentation/</span></tt>); creating a bookmark pointing to the module index, located in <tt class="docutils literal">doc/man_index.html</tt>, would most probably be useful</li>
@@ -846,7 +846,7 @@ $<span class="w"> </span>erl<span class="w"> </span>-noshell<span class="w"> </s
 <div class="section" id="runtime-library-version">
 <h2><a class="toc-backref" href="#toc-entry-36">Runtime Library Version</a></h2>
 <p>To know <strong>which version of a library</strong> (here, wxWidgets) a given Erlang install is using (if any), one may run an Erlang shell (<tt class="docutils literal">erl</tt>), collect the PID of this (UNIX) process (e.g. <tt class="docutils literal">ps <span class="pre">-edf</span> | grep beam</tt>), then trigger a use of that library (e.g. for <tt class="docutils literal">wx</tt>, execute <tt class="docutils literal"><span class="pre">wx:demo().</span></tt>) in order to force its dynamic binding.</p>
-<p>Then determine its name, for example thanks to <tt class="docutils literal">pmap ${BEAM_PID} | grep libwx</tt>).</p>
+<p>Then one can determine its name, for example thanks to <tt class="docutils literal">pmap BEAM_PID | grep libwx</tt>.</p>
 <p>This may indicate that for example <tt class="docutils literal"><span class="pre">libwx_gtk2u_core-3.0.so.0.5.0</span></tt> is actually used.</p>
 </div>
 <div class="section" id="proper-in-program-naming">
@@ -975,6 +975,13 @@ name us_main_exec-xxx at port 60001
 <tr><td class="label"><a class="fn-backref" href="#footnote-reference-11">[13]</a></td><td><tt class="docutils literal">wx</tt> replaced <a class="reference external" href="https://www.erlang.org/docs/18/man/gs.html">gs</a>. To shelter already-developed graphical applications from any future change of backend, we developed <a class="reference external" href="https://myriad.esperide.org/#graphical-user-interface-gui">MyriadGUI</a>, an interface doing its best to hide the underlying graphical backend at hand: should the best option in Erlang change, that API would have to be ported to the newer backend, hopefully with little to (ideally) no change in the user applications.</td></tr>
 </tbody>
 </table>
+<div class="section" id="availability-and-build-related-issues">
+<h3>Availability and Build-related Issues</h3>
+<p>One should ensure first that the local host has a proper GUI support, by running from the Erlang shell either <tt class="docutils literal">wx:demo()</tt> or <tt class="docutils literal">observer:start()</tt>.</p>
+<p>If a wx-related error happens like a <tt class="docutils literal"><span class="pre">{load_driver,&quot;No</span> driver found&quot;}</tt> exception being raised, refer to <a class="reference external" href="https://myriad.esperide.org/#securing-an-erlang-environment-with-gui-support-recommended">our wx-related Erlang build guidelines</a>.</p>
+</div>
+<div class="section" id="making-use-of-wx">
+<h3>Making use of <tt class="docutils literal">wx</tt></h3>
 <p>Here are some very general wx-related information that may be of help when programming GUIs with this backend:</p>
 <ul class="simple">
 <li>in wxWidgets parlance, &quot;window&quot; designates any kind of widget (not only frame-like elements)</li>
@@ -1017,6 +1024,7 @@ name us_main_exec-xxx at port 60001
 <li>Doug Edmunds' <a class="reference external" href="http://wxerlang.dougedmunds.com/">wxerlang workups</a></li>
 <li><a class="reference external" href="https://www.wxwidgets.org/">wxWidgets itself</a></li>
 </ul>
+</div>
 </div>
 <div class="section" id="using-a-lsp-language-server-for-erlang">
 <h2><a class="toc-backref" href="#toc-entry-43">Using a LSP language server for Erlang</a></h2>
@@ -1201,8 +1209,9 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 </ul>
 <p>(no need for the <tt class="docutils literal">erlang</tt> module to be explicitly specified for the first two functions, as both are auto-imported)</p>
 <ul class="simple">
-<li>for (list, map, bit string) <strong>comprehensions</strong>, since Erlang 28.0, in addition to the usual, <em>relaxed</em> list generators (<tt class="docutils literal">Pattern &lt;- ListExpr</tt> for lists and maps, <tt class="docutils literal">BitstringPattern &lt;= BitStringExpr</tt> for bit strings), <a class="reference external" href="https://www.erlang.org/doc/system/expressions.html#comprehensions">strict variants</a> thereof exist: <tt class="docutils literal">Pattern &lt;:- ListExpr</tt> for lists and maps, <tt class="docutils literal">BitstringPattern &lt;:= BitStringExpr</tt> for bit strings; these strict variants, instead of silently ignoring the generated elements that do not match the pattern, will raise an exception instead (e.g. <tt class="docutils literal">exception error: no match of right hand side value XXX</tt>)</li>
-<li><tt class="docutils literal">lists:foldl/3</tt> is generally the best folding procedure, and its <a class="reference external" href="https://www.erlang.org/doc/apps/stdlib/lists.html#foldl/3">signature</a> is <tt class="docutils literal">foldl(Fun, Acc0, List) <span class="pre">-&gt;</span> Acc1</tt></li>
+<li>in addition to the traditional <a class="reference external" href="https://www.erlang.org/doc/system/ref_man_records.html">tuple-based records</a>, since 29.0 <a class="reference external" href="https://www.erlang.org/doc/system/ref_man_native_records.html">native records</a> exist, are a true, distinct type of its own, and shall nowadays be preferred to tuple-based records</li>
+<li>for (<a class="reference external" href="https://www.erlang.org/doc/system/list_comprehensions.html">list</a>, <a class="reference external" href="https://www.erlang.org/doc/system/expressions.html#comprehensions">map</a>, <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#bit-string-comprehensions">bit string</a>) <strong>comprehensions</strong>, since Erlang 28.0, in addition to the usual, <em>relaxed</em> list generators (<tt class="docutils literal">Pattern &lt;- ListExpr</tt> for lists and maps, <tt class="docutils literal">BitstringPattern &lt;= BitStringExpr</tt> for bit strings), <a class="reference external" href="https://www.erlang.org/doc/system/expressions.html#comprehensions">strict variants</a> thereof exist: <tt class="docutils literal">Pattern &lt;:- ListExpr</tt> for lists and maps, <tt class="docutils literal">BitstringPattern &lt;:= BitStringExpr</tt> for bit strings; these strict variants, instead of silently ignoring the generated elements that do not match the pattern, will raise an exception instead (e.g. <tt class="docutils literal">exception error: no match of right hand side value XXX</tt>)</li>
+<li><tt class="docutils literal">lists:foldl/3</tt> is generally the best folding procedure, and its <a class="reference external" href="https://www.erlang.org/doc/apps/stdlib/lists.html#foldl/3">signature</a> is <tt class="docutils literal">foldl(Fun, Acc0, List) <span class="pre">-&gt;</span> Acc1</tt>, with <tt class="docutils literal">Fun(Elem, AccIn)</tt> being called on each head-to-tail element of <tt class="docutils literal">List</tt> in turn</li>
 <li>for <tt class="docutils literal">maps</tt>: refer to <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#map_expressions">map expressions</a>, the <a class="reference external" href="https://www.erlang.org/doc/man/maps.html">maps module</a> and the corresponding part of the <a class="reference external" href="https://www.erlang.org/doc/efficiency_guide/maps.html">efficiency guide</a>; in short:<ul>
 <li>creating/updating maps is <tt class="docutils literal">EmptyMap = #{}</tt>, <tt class="docutils literal">NewMFromScratch = #{K1 =&gt; V1, K2 =&gt; V2}</tt> or <tt class="docutils literal">UpdatedM = <span class="pre">M#{K1</span> =&gt; V1, K2 =&gt; V2}</tt></li>
 <li>updating the value associated to an already-existing key <tt class="docutils literal">K</tt> is <tt class="docutils literal">ModM = <span class="pre">M#{K</span> := V}</tt></li>
@@ -1226,8 +1235,8 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 <li>in <strong>guard expressions</strong> (see <a class="reference external" href="https://www.erlang.org/doc/system/expressions.html#guard-expressions">their list</a>):<ul>
 <li>because of side effects, no user-defined function is allowed in guards; refer to the two tables listing all the <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#guard-expressions">BIFs supported in guards expressions</a> (test or non-test BIFs); notably in a guard there is no way of testing whether a value belongs to a list (except, of course, if the list is statically defined, by testing explicitly each of its elements against said value, interspersed with <tt class="docutils literal">orelse</tt> operators...)</li>
 <li>a guard will fail if it returns false <em>or if it throws an exception</em></li>
-<li>to express an &quot;and&quot; operator, use a comma, i.e. &quot;<tt class="docutils literal">,</tt>&quot;, like in <tt class="docutils literal">f(A, B, C, D) when A =:= B, C =/= A + D <span class="pre">-&gt;</span></tt></li>
-<li>to express an &quot;or&quot; operator, use a semi-colon, i.e. &quot;<tt class="docutils literal">;</tt>&quot;</li>
+<li>to express an &quot;and&quot; operator, use a comma, i.e. &quot;<tt class="docutils literal">,</tt>&quot;, like in <tt class="docutils literal">f(A, B, C, D) when A =:= B, C =/= A + D <span class="pre">-&gt;</span></tt> (knowing that <tt class="docutils literal">and</tt> is now deprecated)</li>
+<li>to express an &quot;or&quot; operator, use a semi-colon, i.e. &quot;<tt class="docutils literal">;</tt>&quot; (knowing that <tt class="docutils literal">or</tt> is now deprecated)</li>
 <li><tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt> behave <em>there</em> as tests; they mostly convey the same meaning as &quot;<tt class="docutils literal">,</tt>&quot; and &quot;<tt class="docutils literal">;</tt>&quot; respectively, except that they shortcut (they do not evaluate their second operand if the first one suffices), that they do not catch exceptions as they happen (i.e. if a first guard throws, any next guards will not be evaluated, and the whole guard sequence will fail) and that their code is a little less effective - but they can be nested inside guards (refer to <a class="reference external" href="https://learnyousomeerlang.com/syntax-in-functions#guards-guards">this section</a> for more details)</li>
 </ul>
 </li>
@@ -1269,7 +1278,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
 </pre>
 <ul class="simple">
 <li>in boolean expressions <strong>outside of guards</strong>:<ul>
-<li>do not use <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt>, which are strict boolean operators, not intended for control; indeed their precedence is low (parentheses around the conditions being then necessary, like in <tt class="docutils literal">(A =:= B) and (C =/= D)</tt>) and, more importantly, they do not short-circuit, i.e. in <tt class="docutils literal">E = A and B</tt>, B will be evaluated even if A is already known as false (so is E), and in <tt class="docutils literal">E = A or B</tt>, B will be evaluated even if A is already known as true (so is E)</li>
+<li>do not use <tt class="docutils literal">and</tt> and <tt class="docutils literal">or</tt>, which are strict boolean operators, not intended for control (and are now deprecated); indeed their precedence is low (parentheses around the conditions being then necessary, like in <tt class="docutils literal">(A =:= B) and (C =/= D)</tt>) and, more importantly, they do not short-circuit, i.e. in <tt class="docutils literal">E = A and B</tt>, B will be evaluated even if A is already known as false (so is E), and in <tt class="docutils literal">E = A or B</tt>, B will be evaluated even if A is already known as true (so is E)</li>
 <li>prefer <tt class="docutils literal">andalso</tt> and <tt class="docutils literal">orelse</tt>, which are <em>control</em> operators; they short-circuit, and their precedence is <a class="reference external" href="https://www.erlang.org/doc/reference_manual/expressions.html#operator-precedence">low enough</a> to spare the need of extra parentheses <a class="footnote-reference" href="#footnote-15" id="footnote-reference-15">[17]</a></li>
 <li>so <tt class="docutils literal">case (A =:= B) and (C =/= D) of</tt> shall become <tt class="docutils literal">case A =:= B andalso C =/= D of</tt></li>
 <li>a common pattern is to use <tt class="docutils literal">andalso</tt> in order <em>to evaluate a target expression iff a boolean expression is true</em>, to replace a longer expression like:</li>
@@ -1324,7 +1333,7 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span
    </span><span class="nv">MaybeListenerPid</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="n">onDeserialisation</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">self</span><span class="p">(),</span><span class="w"> </span><span class="nv">FinalUserData</span><span class="p">]}</span>
 </pre>
 <p>(<tt class="docutils literal">orelse</tt> having more priority than <tt class="docutils literal">!</tt>, parentheses shall be added, otherwise, if having a PID, the message will actually be sent to any process that would be registered as <tt class="docutils literal">true</tt>)</p>
-<p>For the record, an alternative is <tt class="docutils literal"><span class="pre">[f(...)</span> || BoolCondition]</tt>, like in: <tt class="docutils literal">_ = <span class="pre">[put('$ancestors',</span> Ancestors) || Shell =/= {}]</tt> (in <tt class="docutils literal">group.erl</tt>).</p>
+<p>For the record, an alternative is <tt class="docutils literal"><span class="pre">[f(...)</span> || BoolCondition]</tt>, like in: <tt class="docutils literal">_ = <span class="pre">[put('$ancestors',</span> Ancestors) || Shell =/= {}]</tt> (found in <tt class="docutils literal">group.erl</tt>).</p>
 <p>Some of these elements have been adapted from the <a class="reference external" href="https://github.com/dgud/wings/blob/master/CodingGuidelines">Wings3D coding guidelines</a>.</p>
 </div>
 <div class="section" id="erlang-resources">
