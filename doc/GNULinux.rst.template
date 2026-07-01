@@ -1236,6 +1236,9 @@ Searches: to be made with ``grep``
 
 To search for a **set** of patterns, separate them by an (escaped) pipe; for example: ``grep 'hello\|goodbye\|farewell' Foobar.java``.
 
+Note that many faster/more user-friendly alternatives to ``grep`` exist, notably ``rg`` (*ripgrep*).
+
+
 
 Replacements: to be made with ``sed``
 .....................................
@@ -1782,6 +1785,35 @@ Other User Settings
 
 See our `preferences <https://www.startpage.com/do/mypage.pl?prfe=cd347822749aab26ebcc5b5e5d0352b578a0f37dc831f791974bb7f9549e7d5c2614650b7157b6f29bccdcb6675b437eeee32a5a5f37686b01ea56658d241d1925959ace1973900c97547972ffa464fd80e1cb6a>`_ for `Startpage <https://www.startpage.com>`_; it can be set as homepage.
 
+
+
+
+Shell Command-line Editing
+--------------------------
+
+At least with ``bash``, the following keyboard shortcuts exist (many being in-line with the `Emacs key bindings <Emacs.html#key-bindings>`_):
+
+- to go to:
+
+  - beginning of line: ``Ctrl + A``
+  - end of line: ``Ctrl + E``
+  - previous word: ``Alt + B``
+  - next word: ``Alt + F``
+
+- to remove:
+
+  - the word before the cursor: ``Ctrl + W``
+  - the word after the cursor: ``Alt + D``
+  - all from begin to cursor: ``Ctrl + U``
+  - all from cursor to end: ``Ctrl + K``
+
+- to edit and:
+
+  - paste (yank) last killed text: ``Ctrl + Y``
+  - go through past kills: ``Alt + Y``
+
+
+Execute ``bind -P`` to list all current bindings.
 
 
 
