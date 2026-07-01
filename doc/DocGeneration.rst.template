@@ -295,7 +295,7 @@ Inner Links
 
 Defining any title (e.g. the ``"Rendering Mathematical Elements"`` one above) automatically introduces in turn a corresponding anchor, which, for the HTML output, can then be referenced from any page, for example as raw HTML (like `MyPage.html#rendering-mathematical-elements <DocGeneration.html#rendering-mathematical-elements>`_, or directly from the current page as `#rendering-mathematical-elements <#rendering-mathematical-elements>`_) or directly through RST in the document (e.g. specified as ```Rendering Mathematical Elements`_``, resulting in: `Rendering Mathematical Elements`_).
 
-Note the light transformation (spaces becoming dashes) of the specified name once a it is translated into a legit HTML anchor.
+Note the light "slug-like" transformation (e.g. spaces becoming dashes) of the specified name once it is translated into a legit HTML anchor.
 
 Extra local anchors (e.g. that could be named ``"how to render equations"``) can also be specified anywhere in the document (e.g. just before the previously mentioned title, so that it can be designated with other words), thanks to::
 
@@ -304,7 +304,13 @@ Extra local anchors (e.g. that could be named ``"how to render equations"``) can
 
 It can then be referenced from the same page as `#how-to-render-equations <#how-to-render-equations>`_ or from another one as `MyPage.html#how-to-render-equations <DocGeneration.html#how-to-render-equations>`_.
 
-Note that titles and hypertext links introduce local links as well, so one's inner links may clash with them (resulting in ``(ERROR/3) Duplicate target name [...]``); the best option is generally to phrase these inner links differently.
+Note that titles and hypertext links introduce local links as well, so one's inner links may clash with them (resulting in ``(ERROR/3) Duplicate target name [...]``); one option is to phrase these inner links differently, another (better) one is to prevent the creation of a local link by this hypertext reference, by suffixing it with two underscores instead of one::
+
+  .. `Foo <http://foo.org>`__
+
+instead of the usual link-creating::
+
+  .. `Foo <http://foo.org>`_
 
 
 
@@ -612,6 +618,25 @@ Validating / Checking HTML Content
 In addition to the verification of the messages reported when the document is built, some tools allow to perform some checks on a generated document.
 
 Notably an online HTML page, or set of pages, can be verified by third-party tools like `this one <https://www.deadlinkchecker.com/>`_, to detect dead links.
+
+
+
+Solving Lacking `*.sty` files
+-----------------------------
+
+When an infamous issue like ``! LaTeX Error: File `soul.sty' not found.`` is raised, it is the sign that the installed ``texlive`` group is not sufficient.
+
+The solution is to find the relevant package in charge of this missing file, and to install it, like in:
+
+.. code:: bash
+
+  $ pacman -F soul.sty
+  extra/texlive-plaingeneric 2023.66594-19 (texlive)
+	usr/share/texmf-dist/tex/generic/soul/soul.sty
+
+  $ pacman -S texlive-plaingeneric
+
+
 
 
 Fixing Permissions in Third-Party Content to Integrate in a Web Root
