@@ -58,7 +58,7 @@ The big three are Godot_, `Unreal Engine`_ and Unity3D_ [#]_.
 Godot
 -----
 
-`Godot <https://en.wikipedia.org/wiki/Godot_(game_engine)>`_ is our personal favorite engine, notably because it is free software (`released under the very permissive MIT license <https://godotengine.org/license>`_).
+`Godot <https://en.wikipedia.org/wiki/Godot_(game_engine)>`__ is our personal favorite engine, notably because it is free software (`released under the very permissive MIT license <https://godotengine.org/license>`_).
 
 See its `official website <https://godotengine.org/>`_ and its `asset library <https://godotengine.org/asset-library/asset>`_.
 
@@ -178,7 +178,7 @@ Sources of Godot-related Information
 Unreal Engine
 -------------
 
-Another contender is the `Unreal Engine <https://en.wikipedia.org/wiki/Unreal_Engine>`_, a C++ game engine developed by Epic Games; we have not used it yet.
+Another contender is the `Unreal Engine <https://en.wikipedia.org/wiki/Unreal_Engine>`__, a C++ game engine developed by Epic Games; we have not used it yet.
 
 The Unreal Engine 5 brings new features that may be of interest, including a `fully dynamic global illumination and reflection system <https://docs.unrealengine.com/5.0/en-US/lumen-global-illumination-and-reflections-in-unreal-engine/>`_ (Lumen, not requiring baked lightmaps anymore), a `virtualized geometry system <https://docs.unrealengine.com/5.0/en-US/nanite-virtualized-geometry-in-unreal-engine/>`_ (Nanite, simplifying detailed geometries on the fly) and a `quality 2D/3D asset library <https://www.unrealengine.com/en-US/features/quixel-megascans>`_ (the Quixel Megascans library, obtained from real-world scans).
 
@@ -205,7 +205,7 @@ Note that parts of the content of assets will be Unreal-specific (``*.uasset``, 
 Unity3D
 -------
 
-`Unity <https://en.wikipedia.org/wiki/Unity_(game_engine)>`_ is most probably still the most popular cross-platform game engine, despite recent controversies.
+`Unity <https://en.wikipedia.org/wiki/Unity_(game_engine)>`__ is most probably still the most popular cross-platform game engine, despite recent controversies.
 
 Regarding the licensing of the engine, `various plans <https://store.unity.com/#plans-individual>`_ apply (warning: they may have changed since this writing), depending notably on whether one subscribes as an individual or a team, and on one's profile, revenue and funding; the general idea is not taking royalties, but **flat**, per seat yearly fees increasing with the organisation "size" (typically in the $400-$1800 range, per seat).
 

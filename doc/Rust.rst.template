@@ -151,7 +151,7 @@ Its format is named TOML (*Tom's Obvious, Minimal Language*), and the various ke
 Rustfmt
 .......
 
-`Rustfmt <https://github.com/rust-lang/rustfmt>`_ is the source-formatting tool of choice: it formats Rust code according to the official style guidelines [#]_.
+`Rustfmt <https://github.com/rust-lang/rustfmt>`__ is the source-formatting tool of choice: it formats Rust code according to the official style guidelines [#]_.
 
 .. [#] e.g. indent with four spaces - not tabs; place the curly braces according to this convention, etc.
 
