@@ -78,7 +78,8 @@ Principle
 
 We found this approach convenient for lighter projects, i.e. ones comprising a limited number of pages. This is the case of this page and more generally of the whole Ceylan-HOWTO website.
 
-We chose to rely on the `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_ syntax and tools, also known as RST, a part of the `Docutils <https://docutils.sourceforge.io/>`_ project. Here we do not specifically rely on elements related to Python or the Sphinx toolchain, as our more `heavy-duty approach`_ does.
+We chose to rely on the `reStructuredText <https://en.wikipedia.org/wiki/ReStructuredText>`_ syntax and tools, also known as RST, a part of the `Docutils <https://docutils.sourceforge.io/>`_ project. Here we do not specifically rely on elements related to Python or the Sphinx toolchain, as our more `heavy-duty approach`_ does. Refer to `this page <https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>`_ for a RST syntax cheat sheet.
+
 
 We augmented reStructuredText with:
 
@@ -304,7 +305,7 @@ Extra local anchors (e.g. that could be named ``"how to render equations"``) can
 
 It can then be referenced from the same page as `#how-to-render-equations <#how-to-render-equations>`_ or from another one as `MyPage.html#how-to-render-equations <DocGeneration.html#how-to-render-equations>`_.
 
-Note that titles and hypertext links introduce local links as well, so one's inner links may clash with them (resulting in ``(ERROR/3) Duplicate target name [...]``); one option is to phrase these inner links differently, another (better) one is to prevent the creation of a local link by this hypertext reference, by suffixing it with two underscores instead of one::
+Note that titles and hypertext links introduce local links as well, so one's inner links may clash with them (resulting in ``(ERROR/3) Duplicate target name [...]``); one option is to phrase these inner links differently, another (better) one is to prevent the creation of a local link by this hypertext reference, by suffixing it with two underscores instead of one, i.e. specifying::
 
   .. `Foo <http://foo.org>`__
 

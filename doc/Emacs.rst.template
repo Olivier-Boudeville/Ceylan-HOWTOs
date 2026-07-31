@@ -235,6 +235,7 @@ At least based on our (Emacs and French keyboard) **base** settings (i.e. the on
 - ``M-x`` will allow to enter / select commands from the minibuffer (see our `useful commands`_ section below)
 - ``C-o`` or ``F8``: perform whitespace cleanup (now a built-in package)
 - ``C-q``: go to the next error (``next-error``)
+- ``C-c g``: trigger AI assistance thanks to `gptel <#gptel-usage>`_
 
 Additionally, with our **complete** settings, notably with ``lsp-mode``:
 
@@ -281,6 +282,13 @@ Frequent Actions
   - the action to which a given key corresponds: ``M-x describe-key``
   - the character (including its font) at which the point is: ``M-x describe-char``
 
+.. _`gptel-usage`:
+
+- to use any **AI model** (based on `gptel <https://gptel.org/manual.html>`__, once it has been properly setup, as for example by our ``myriad-local-override/init-myriad-ai.el`` configuration file), the following commands are of use:
+
+  - ``gptel-send``: send all text up to (point), or the selection if region is active (works anywhere in Emacs; probably sufficient for many uses)
+  - ``gptel``: create a new dedicated chat buffer
+  - ``gptel-rewrite``: rewrite, refactor or change the selected region; can diff/ediff changes before merging/applying
 
 .. _`useful commands`:
 
@@ -309,6 +317,20 @@ There are at least:
 ``use-package`` is not a package manager, it is an extensible configuration macro that is specialised by most of the package managers so that it can be used with any.
 
 Refer to `this page <https://github.com/radian-software/straight.el?tab=readme-ov-file#tldr-1>`_ for a comparison of package managers.
+
+
+
+Elpaca Hints
+............
+
+Should various (prerequisite) packages fail to build/operate properly, and restarting from a fresh, new install be preferred:
+
+#. ensure that no Emacs instance is running
+#. remove any ``~/.emacs.d/elpa/`` (not expected to be used by Elpaca), ``~/.emacs.d/elpaca/`` (its own cache/state) and ``~/.emacs.d/eln-cache/`` (general Emacs precompilation cache) trees
+#. update the `official Elpaca verbatim bootstrap block <https://github.com/progfolio/elpaca#installer>`_ (typically in our ``init-myriad-package-management.el`` configuration file)
+#. (enable any proxy)
+#. launch Emacs and wait until all packages are cloned and rebuilt
+#. close and relaunch Emacs to check everything is functional again
 
 
 
