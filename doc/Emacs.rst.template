@@ -325,8 +325,8 @@ Elpaca Hints
 
 Should various (prerequisite) packages fail to build/operate properly, and restarting from a fresh, new install be preferred:
 
-#. ensure that no Emacs instance is running
-#. remove any ``~/.emacs.d/elpa/`` (not expected to be used by Elpaca), ``~/.emacs.d/elpaca/`` (its own cache/state) and ``~/.emacs.d/eln-cache/`` (general Emacs precompilation cache) trees
+#. ensure that no Emacs instance is running (e.g. ``killall emacs emacsclient``)
+#. remove any ``~/.emacs.d/elpa/`` (not expected to be used by Elpaca), ``~/.emacs.d/elpaca/`` (its own cache/state) and ``~/.emacs.d/eln-cache/`` (general Emacs precompilation cache) trees: ``/bin/rm -rf ~/.emacs.d/elpa/ ~/.emacs.d/elpaca/ ~/.emacs.d/eln-cache/``
 #. update the `official Elpaca verbatim bootstrap block <https://github.com/progfolio/elpaca#installer>`_ (typically in our ``init-myriad-package-management.el`` configuration file)
 #. (enable any proxy)
 #. launch Emacs and wait until all packages are cloned and rebuilt
