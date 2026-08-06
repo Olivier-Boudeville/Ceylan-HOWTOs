@@ -367,6 +367,36 @@ For example if the current service requires both network and all local filesyste
 
 
 
+Solving Asynchronous Network Availability Issues with ``netctl``
+................................................................
+
+Unlike systemd-networkd or NetworkManager, netctl does not have a "wait-online" service  (its ``network-online.target`` is a no-op) on which services that require network features (like reflector needing DNS resolution) could wait.
+
+So the best course of action is to add one, for example as ``/etc/systemd/system/netctl-wait-online.service``::
+
+ [Unit]
+ Description=Wait until network is online (profile-agnostic netctl wait)
+ Wants=network.target
+ After=network.target
+
+ [Service]
+ Type=oneshot
+ ExecStart=/usr/bin/bash -c 'until getent hosts archlinux.org >/dev/null 2>&1; do sleep 1; done'
+
+ [Install]
+ WantedBy=network-online.target
+
+And then to enable it, with ``systemctl enable netctl-wait-online.service``, before updating all units that require it.
+
+For example, ``reflector.service`` (typically available in ``/etc/systemd/system/multi-user.target.wants/``), may depend on this new service thanks to::
+
+ After=network-online.target netctl-wait-online.service nss-lookup.target
+
+
+Once all relevant units have been updated (searching for ``network-online.target`` in ``After`` clauses may help, and ``systemctl --failed`` too), just execute ``systemctl daemon-reload`` to reload the updated units.
+
+
+
 Relying on Service Files that are in Version Control
 ....................................................
 
@@ -1868,6 +1898,50 @@ For ``mplayer``
 - **take a screenshot**: ``s`` (notably if using our `v <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/v>`_ script, as the ``-vf screenshot`` command-line option must have been specified); then a ``shot0001.png`` file will be silently created in the directory whence mplayer was launched, next screenshot will be ``shot0002.png``, etc.
 
 
+
+Tool-Specific Hints
+===================
+
+
+Applying Email Filtering Rules from a Thunderbird Instance to Another
+---------------------------------------------------------------------
+
+(knowing that, with IMAP, both the e-mails and the directories that store them are on the server, hence are natively synchronised between clients)
+
+It is just a matter of closing both Thunderbird instances, then transferring the master's ``msgFilterRules.dat`` (typically ``~/.thunderbird/p13f2p2g.Ma Dalton/ImapMail/imap.xxx.org/msgFilterRules.dat``; if needed, select the right one based on the latest modification timestamp) into its counterpart slave instance.
+
+
+
+Recommended Thunderbird Extensions
+----------------------------------
+
+By decreasing level of (felt) importance, and to be searched (and checked) directly from Thunderbird:
+
+- CardBook
+- DKIM Verifier
+- Auto Address Cleaner
+
+Possibly later: Quicktext, Signature Switch, Send Later.
+
+
+Recommended Firefox Extensions
+------------------------------
+
+By decreasing level of (felt) importance, and to be searched (and checked) directly from Firefox:
+
+- uBlock Origin
+- Privacy Badger
+- HTTPS everywhere
+- I still don't care about cookies
+- New Tab Override
+- Consent-O-Matic
+- Ghostery
+- Cookie AutoDelete
+- ClearURLs
+- Restore Tab
+- SponsorBlock for Youtube
+- Improve YouTube!
+- Smart Referer
 
 
 See Also
