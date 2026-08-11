@@ -1194,6 +1194,33 @@ One should then hunt down under the ``/etc/systemd`` tree (especially in  ``/etc
 
 
 
+Defining an In-RAM Filesystem
+-----------------------------
+
+It may be useful typically to speed up a webserver in charge of sharing static content (considerably quicker if served from a web root in RAM).
+
+Relying on ``tmpfs`` for that, notably so that a maximum size can be enforced (unlike ``ramfs``, which may indefinitely balloon in memory).
+
+As root:
+
+..  code:: bash
+
+ # Create the mount point:
+ $ mkdir -p /mnt/myramdisk
+
+ # Create and mount directly (so no need to run a filesystem creation command
+ # like mkfs.ext4) the pseudo-filesystem (which is thus not EXT4 or any other
+ # well-known filesystem type):
+ #
+ # (type, size limit, virtual source, point)
+ #
+ $ mount -t tmpfs -o size=512m tmpfs /mnt/myramdisk
+
+To make such an in-RAM filesystem permanent, just add, in ``/etc/fstab``, for example::
+
+  tmpfs /var/www/static tmpfs defaults,size=2G 0 0
+
+
 
 Installing Wine
 ---------------
@@ -1934,7 +1961,6 @@ By decreasing level of (felt) importance, and to be searched (and checked) direc
 - HTTPS everywhere
 - I still don't care about cookies
 - New Tab Override
-- Consent-O-Matic
 - Ghostery
 - Cookie AutoDelete
 - ClearURLs
@@ -1942,6 +1968,8 @@ By decreasing level of (felt) importance, and to be searched (and checked) direc
 - SponsorBlock for Youtube
 - Improve YouTube!
 - Smart Referer
+
+.. comment Remove: Consent-O-Matic, suspected to mess at least with GitHub, and possibly Streetview
 
 
 See Also
