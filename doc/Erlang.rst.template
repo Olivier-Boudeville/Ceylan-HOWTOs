@@ -539,6 +539,54 @@ See `traces_bridge_sup <https://github.com/Olivier-Boudeville/Ceylan-Traces/blob
 
 
 
+Making Use of Behaviours
+------------------------
+
+The goal here is to define, in a *behaviour module*, a programming interface - in the sense of a set of function signatures (*callbacks*) - so that *callback modules* can implement this interface and declare that they do so.
+
+
+
+Example of a *behaviour module*
+...............................
+
+.. code:: erlang
+
+ -module(logger).
+
+ % Declaration of callbacks (no export needed):
+ -callback log_info(Message :: string()) -> ok.
+ -callback log_error(Message :: string()) -> ok.
+
+ -export([foo/1]).
+
+ % Does not pertain to the behaviour:
+ foo(X) -> X+1.
+
+
+
+Example of a corresponding *callback module*
+............................................
+
+The compiler just checks that every callback declared in the specified behaviour module is implemented indeed:
+
+.. code:: erlang
+
+  -module(console_logger).
+  -behaviour(logger).
+
+  -export([log_info/1, log_error/1, baz/1]).
+
+  log_info(Message) ->
+	io:format("INFO: ~s~n", [Message]).
+
+  log_error(Message) ->
+	io:format("ERROR: ~s~n", [Message]).
+
+  % Other functions may be defined:
+  baz(X) -> X+1.
+
+
+
 Extra Information
 -----------------
 
@@ -1531,7 +1579,22 @@ To avoid having to perform a lookup in the documentation:
 
 (no need for the ``erlang`` module to be explicitly specified for the first two functions, as both are auto-imported)
 
-- in addition to the traditional `tuple-based records <https://www.erlang.org/doc/system/ref_man_records.html>`_, since 29.0 `native records <https://www.erlang.org/doc/system/ref_man_native_records.html>`_ exist, are a true, distinct type of its own, and shall nowadays be preferred to tuple-based records
+- in addition to the traditional `tuple-based records <https://www.erlang.org/doc/system/ref_man_records.html>`_, since 29.0 `native records <https://www.erlang.org/doc/system/ref_man_native_records.html>`_ exist, are a true, distinct type of its own (hence their ``native`` naming - not tuples in disguise), and shall nowadays be preferred to tuple-based records; such native records were designed in `EEP 79 <https://www.erlang.org/eeps/eep-0079.html>`_ and:
+
+  - are defined for example thanks to ``-record #vec{x, y = 0.0 :: float()}.``; so ``-record #name{...}.`` instead of ``-record(name, {...}).``
+  - are module-private by default, so they have to be exported ``-export_record([vec, position]).`` from, supposedly from now, their ``foo`` defining module, before being usable in other modules
+  - can be instantiated (constructed; from any module) for example with ``V = #foo:vec{x=10.0, y=20.0}.`` or, if already imported typically with ``-import_record(foo, [vec]).``, simply as ``V = #vec{x=10.0, y=20.0}.``; note that ``-export_record(...).`` and ``-import_record(...).`` are processed by the compiler, they are *not* mere preprocessor directives
+  - can be matched like tuple-based records are (provided that their definition is exported by their defining module)
+  - reading and setting fields can be done anonymously (i.e. without specifying the actual type of the native record at hand) provided that the compiler is able to determine that type; then in order to:
+
+	- read a field: instead of ``A = V#vec.x``, one may write ``A = V#_.x``
+	- update a field: instead of ``V2 = V1#vec{x=4}``, one may write ``V2 = V1#_{x=4}``
+
+  - if needed, can be programmatically created and inspected thanks to the `records <https://www.erlang.org/doc/apps/stdlib/records.html>`_ module, which offers introspection facilities
+  - are implemented in the BEAM VM based on a new internal tag, datastructure and opcodes:
+
+	- each record instance starts in memory with an header comprising the "native record" tag, an identifier of its owning (defining) module, an identifier of this specific native record definition and the number of fields that it supports, before listing the value of each of these fields in turn
+	- in a very similar way as for ``maps``, smaller records are directly stored in the heap of their handling process, whereas larger ones are off-heap and ref-counted
 
 - for (`list <https://www.erlang.org/doc/system/list_comprehensions.html>`_, `map <https://www.erlang.org/doc/system/expressions.html#comprehensions>`_, `bit string <https://www.erlang.org/doc/reference_manual/expressions.html#bit-string-comprehensions>`_) **comprehensions**, since Erlang 28.0, in addition to the usual, *relaxed* list generators (``Pattern <- ListExpr`` for lists and maps, ``BitstringPattern <= BitStringExpr`` for bit strings), `strict variants <https://www.erlang.org/doc/system/expressions.html#comprehensions>`_ thereof exist: ``Pattern <:- ListExpr`` for lists and maps, ``BitstringPattern <:= BitStringExpr`` for bit strings; these strict variants, instead of silently ignoring the generated elements that do not match the pattern, will raise an exception instead (e.g. ``exception error: no match of right hand side value XXX``)
 
@@ -1583,7 +1646,7 @@ To avoid having to perform a lookup in the documentation:
 	- to match any tail (remaining part) of a binary, the corresponding mute variable must be suffixed with ``/binary`` (e.g. with ``<<FullData:FullLen/binary, _NextChunk/binary>>``), otherwise (e.g. with just ``<<FullData:FullLen/binary, _NextChunk>>``), the ``_NextChunk`` mute variable will attempt to match only a (single) one-byte integer
 	- unlike lists, binaries are preferably built by appending `on their right <https://www.erlang.org/doc/efficiency_guide/binaryhandling.html#constructing-binaries>`_
 
-  - to determine the size (memory footprint) of a binary, use: ``1 = size(<<122>>)``; for a bitstring: ``8 = bit_size(<<122>>)``
+  - to determine the size (memory footprint) of a binary, use: ``1 = size(<<122>>)``; for a bitstring: ``8 = bit_size(<<122>>)``; both are constant-time and cheap, as already stored in the binary header
 
 - typically for non-critical code (e.g. tests or temporary, debugging code):
 
