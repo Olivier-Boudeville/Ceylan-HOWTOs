@@ -299,7 +299,7 @@ Other **useful commands** to trigger, possibly explicitly with ``M-x``:
 - ``kill-rectangle`` (operates on a previous selection)
 - ``indent-region`` (``C-M-\`` difficult on French keyboards); see also ``indent-rigidly`` above
 - ``eval-expression`` prompts in the minibuffer for the (ELISP) expression to evaluate, whose result is briefly displayed there, and recorded in the ``*Messages*`` buffer (see this `complete guide about ELISP evaluation <http://xahlee.info/emacs/emacs/elisp_eval_lisp_code.html>`_)
-- ``untabify``: to replace tabulations with spaces, depending on the current ``tab-width`` settings; operates only a selection, so generally the whole current buffer has to be selected beforehand (see also `this section <managing-indentation>`_)
+- ``untabify``: to replace tabulations with spaces, depending on the current ``tab-width`` settings; operates only a selection, so generally the whole current buffer has to be selected beforehand (see also `this section <#managing-indentation>`_)
 
 See also our `Performing a Merge with Emacs <VCS.html#performing-a-merge-with-emacs>`_ section.
 
@@ -441,7 +441,9 @@ To obtain a capital letter like ``É``, a simpler approach is to uppercase its l
 Managing Indentation
 --------------------
 
-To prevent a given mode (in this example, the Erlang one) to indent based on tabulations rather than spaces (even if this makes files a little larger):
+Over time we came to believe that in most source files (e.g. shell scripts), spaces shall be preferred to tabulations.
+
+So,in order to prevent a given mode (in this example, the Erlang one) to indent based on tabulations rather than spaces (even if this makes files a little larger):
 
 .. code:: elisp
 
