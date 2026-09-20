@@ -297,8 +297,10 @@ Systemd-related Hints
 *Systemd* is the current reference system and service manager for GNU/Linux. It is in charge of configuring, launching, monitoring, controlling, etc. all the software services running on a given host.
 
 
-Systemd Commands
-----------------
+.. _`Systemd Commands`:
+
+Systemd Commands, with ``systemctl``
+------------------------------------
 
 - **listing** the units:
 
@@ -320,12 +322,14 @@ Systemd Commands
 
 
 
-Systemd Journal
----------------
+Systemd Journal, with ``journalctl``
+------------------------------------
 
 In order to query the contents of the systemd journal (as written by ``systemd-journald.service``), the ``journalctl`` command may be used.
 
-To consult the journal:
+
+To consult the journal
+......................
 
 - from:
 
@@ -348,6 +352,40 @@ To consult the journal:
 - displaying only the errors: add ``-p err`` (only error-level priority, 3)
 
 So for example ``journalctl -n 200 -fu my_unit`` may be convenient to have recent history together with the next entries to come.
+
+
+
+To investigate a Computer Crash
+...............................
+
+A system/kernel failure may be involved, and useful information might be available in the logs.
+
+The last boots may be listed first:
+
+.. code:: bash
+
+ $ journalctl --list-boots
+ IDX BOOT ID                          FIRST ENTRY                  LAST ENTRY
+  -3 ce036461a9e44c67bace70c4b9508bc6 Wed 2026-06-10 19:36:34 CEST Sat 2026-09-19 01:22:42 CEST
+  -2 f215a94c8b5b423a8f77a7b201013bcb Sat 2026-09-19 10:53:49 CEST Sat 2026-09-19 11:23:31 CEST
+  -1 d1d6829253394cd09878f91da4cebde0 Sat 2026-09-19 11:24:01 CEST Sat 2026-09-19 12:02:17 CEST
+   0 42914063284945ee8892eae4282a5b6b Sat 2026-09-19 12:02:47 CEST Sun 2026-09-20 22:12:10 CEST
+
+Here we are interested in what was recorded before the first "recent" reboot (boot -2) - i.e. probably just before the crash, thus at the end of the -3 boot.
+
+The best option is probably to start from the end of boot -3 and to go backward from there, thanks to: ``journalctl -b -3 --reverse``.
+
+If the ante-chronological order is not found clear enough, the 50 last lines that were logged before the reboot of interest may be displayed (in chronological order):
+
+.. code:: bash
+
+  $ journalctl --until "2026-09-19 10:53:49" | tail -n 50
+  # Or (less direct, yet probably a lot quicker):
+  $ journalctl --until "2026-09-19 10:53:49" --reverse | head -n 50 | tac | more
+
+Note that starting instead from about 5 minutes before the reboot of interest thanks to ``journalctl --since "2026-09-19 10:48"`` would not be that relevant, as the crash may have happened a lot sooner than that (so better select the n-th last logs, regardless of their timestamps).
+
+Finally, in many cases no relevant information about the crash will ultimately be found in the logs. - however  this will have then been established for sure.
 
 
 
