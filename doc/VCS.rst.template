@@ -174,7 +174,7 @@ In practice, in order to transfer the changes of a branch A in a branch B:
 
 .. code:: bash
 
- $ git co B
+ $ git checkout B
 
  # Either first case (integrate development A in master B):
  $ git merge A # or: git pull A
@@ -182,6 +182,16 @@ In practice, in order to transfer the changes of a branch A in a branch B:
  # Or second one (resynchronise development B on master A):
  $ git rebase A # or: git pull -rebase A
 
+ # If prioritizing the commits in A and wanting to avoid resolvable
+ # (content-based) conflicts:
+ #
+ # (note that the meaning of ours/theirs in swapped in a rebase context,
+ # compared to a merge one)
+ #
+ $ git rebase -X ours A
+
+ # If (unresolvable) conflicts remain, merging should be more robust:
+ $ git merge -X theirs A
 
 How such a last ``rebase`` of branch A in branch B is done? The bifurcation point of B compared to A is moved from its initial position to the current head of A, on which all changes recorded in B are applied; the resulting history of B looks like if these changes had been directly performed from the version of A designated in this rebase, and thus B can be then directly fast-forwarded to its tip, which comprises both the changes synchronised from A and, then, the ones specifically introduced in B.
 
@@ -395,8 +405,12 @@ In order to list the differences of a given file with the previous commits (prec
 
 
 
-Searching through all past versions of a given file
-...................................................
+Searching content in VCS history
+................................
+
+
+Searching content through all versions of a given file
+******************************************************
 
 Let's say that in a Git repository there is a file whose current path is ``foo/bar.txt``, and you would like to find the versions of it (even by taking renamings into account) that included a given string, for example ``"hello world"``.
 
@@ -404,7 +418,22 @@ To list all commits whose differences contain that string (actually additions/de
 
 To do the same with a regular expression instead of a mere string: ``git log -G'hello.*world' --follow -p ./foo/bar.txt``.
 
+See also the next section.
+
+
+
+Searching content through all versions of all files of all branches
+*******************************************************************
+
+In the same spirit as in the previous section, just execute ``git log --all -S'hello world'``, and the commits including the specified string will be listed, with some metadata.
+
+To also display the corresponding actual diffs, execute ``git log --all -p -S'hello world'``.
+
+To do the same with a regex: ``git log --all -p -G'^TimingInfo'``.
+
+
 Refer to the `git-log page <https://git-scm.com/docs/git-log>`_ for more details.
+
 
 
 
