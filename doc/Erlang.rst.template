@@ -1542,6 +1542,22 @@ More in-depth readings on that topic:
 - `Writing OTP Modules <https://docs.jj1bdx.tokyo/writing-otp-modules/html/>`_, by Kenji Rikitake
 
 
+
+Modifying Code of Erlang/OTP
+----------------------------
+
+In some cases, "instrumenting" the Erlang VM, ERTS, etc. may help with some troubleshooting.
+
+The shortest way to do so is to:
+
+- go in the Erlang source (build) tree (e.g. in ``SRC_ROOT=~/Software/Erlang/otp_src_x.y.z``)
+- modify the source of the modules of interest (e.g. by adding a few ``logger:log(warning, "XXXX ~ts.", [Node])`` in ``lib/kernel/src/global.erl``)
+- rebuild (selectively) from ``SRC_ROOT``, and trigger a new install; for example with: ``make -s all install``
+
+Then it can be seen that the timestamp of the modified modules (e.g. in ``~/Software/Erlang/Erlang-current-install/lib/erlang/lib/kernel-a.b.c/ebin/global.beam``) has been updated indeed.
+
+
+
 Uninstalling Erlang
 -------------------
 
@@ -1589,6 +1605,8 @@ To avoid having to perform a lookup in the documentation:
 
 	- read a field: instead of ``A = V#vec.x``, one may write ``A = V#_.x``
 	- update a field: instead of ``V2 = V1#vec{x=4}``, one may write ``V2 = V1#_{x=4}``
+
+  - an (alias) type can be defined to designate such native records, like in: ``-type vec() :: #vec{}.``
 
   - if needed, can be programmatically created and inspected thanks to the `records <https://www.erlang.org/doc/apps/stdlib/records.html>`_ module, which offers introspection facilities
   - are implemented in the BEAM VM based on a new internal tag, datastructure and opcodes:
@@ -1654,7 +1672,7 @@ To avoid having to perform a lookup in the documentation:
   - to suppress warnings/errors whenever elements are not used, specify for:
 
 	- variables: ``-compile(nowarn_unused_vars).``
-	- functions (rather than silencing them with an ``-export([f/1, g/3])``): ``-compile([ {nowarn_unused_function, [{f,1}, {g,3}]} ]).``
+	- functions (rather than silencing them with an ``-export([f/1, g/3])``): ``-compile([ {nowarn_unused_function, [{f,1}, {g,3}]}]).``
 	- types: they can be silenced with an ``-export_type([t1/0, t2/1])``), which is better (more selective) than ``-compile(nowarn_unused_type)`` (unfortunately ``-compile([ {nowarn_unused_type, [t1/0, t2/1]} ]).`` is not supported)
 
 - to define anonymous (i.e. lambda) functions:
