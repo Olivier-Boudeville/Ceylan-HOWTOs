@@ -195,7 +195,7 @@ $<span class="w"> </span>jq<span class="w"> </span><span class="nb">type</span><
 <p>Many functions are defined so that they can be called also with <em>arrays</em> of parameters, instead of just standalone values. For that, a dot/period-based syntax has been introduced so that each element of an input vector is applied to the function in turn. A key understanding is that such a dot applies not to variables but to operators; for example <tt class="docutils literal"><span class="pre">2*x.^2+1</span></tt> shall not be read as <tt class="docutils literal"><span class="pre">2*(x.)^2+1</span></tt> but as <tt class="docutils literal"><span class="pre">2*x(.^)2+1</span></tt>.</p>
 <p>As an example, a <span class="math">\(\phi\)</span> function can be defined <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a> as <span class="math">\(\phi(x) = e^{x}/(1+e^{x})\)</span>:</p>
 <pre class="code matlab literal-block">
-<span class="k">function</span><span class="w"> </span>retval<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">phi </span><span class="p">(</span>x<span class="p">)</span><span class="w">
+<span class="k">function</span><span class="w"> </span>retval<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">phi</span><span class="w"> </span><span class="p">(</span>x<span class="p">)</span><span class="w">
  </span><span class="n">retval</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">./</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">));</span><span class="w">
 </span><span class="n">endfunction</span>
 </pre>
@@ -241,7 +241,7 @@ $<span class="w"> </span>jq<span class="w"> </span><span class="nb">type</span><
 </span>#<span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">freely</span><span class="w"> </span><span class="n">chosen</span><span class="p">,</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">does</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">to</span><span class="w">
 </span>#<span class="w"> </span><span class="n">correspond</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">script</span><span class="w"> </span><span class="n">filename</span><span class="p">:</span><span class="w">
 </span>#<span class="w">
-</span><span class="k">function</span><span class="w"> </span>retval<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">phi_exp </span><span class="p">(</span>x<span class="p">)</span><span class="w">
+</span><span class="k">function</span><span class="w"> </span>retval<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">phi_exp</span><span class="w"> </span><span class="p">(</span>x<span class="p">)</span><span class="w">
    </span><span class="n">retval</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w">
 </span><span class="n">endfunction</span><span class="w">
 
@@ -315,8 +315,8 @@ $<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>
 <h3>Defining a Function</h3>
 <p>As already seen, so that it can operate on single values or arrays, a <span class="math">\(\phi(x) = e^{x}/(1+e^{x})\)</span> function can be defined as:</p>
 <pre class="code octave literal-block">
-<span class="k">function</span><span class="w"> </span>retval<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">phi </span><span class="p">(</span>x<span class="p">)</span><span class="w">
-  </span><span class="n">retval</span> <span class="p">=</span> <span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">./</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="k">function</span><span class="w"> </span>retval<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">phi</span><span class="w"> </span><span class="p">(</span>x<span class="p">)</span>
+  <span class="n">retval</span> <span class="p">=</span> <span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">./</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 <span class="k">endfunction</span>
 </pre>
 </div>

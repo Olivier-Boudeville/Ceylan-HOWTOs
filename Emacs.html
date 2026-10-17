@@ -28,7 +28,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Sunday, March 16, 2025</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, July 1, 2026</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Sunday, August 30, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -53,16 +53,19 @@
 <li><a class="reference internal" href="#emacs-parlance" id="toc-entry-11">Emacs Parlance</a></li>
 <li><a class="reference internal" href="#key-bindings" id="toc-entry-12">Key Bindings</a></li>
 <li><a class="reference internal" href="#frequent-actions" id="toc-entry-13">Frequent Actions</a></li>
-<li><a class="reference internal" href="#package-managers" id="toc-entry-14">Package Managers</a></li>
-<li><a class="reference internal" href="#elisp-hints" id="toc-entry-15">Elisp Hints</a></li>
-<li><a class="reference internal" href="#lsp-mode-hints" id="toc-entry-16">LSP-mode Hints</a></li>
-<li><a class="reference internal" href="#typing-special-characters" id="toc-entry-17">Typing Special Characters</a></li>
-<li><a class="reference internal" href="#managing-indentation" id="toc-entry-18">Managing Indentation</a></li>
+<li><a class="reference internal" href="#package-managers" id="toc-entry-14">Package Managers</a><ul>
+<li><a class="reference internal" href="#elpaca-hints" id="toc-entry-15">Elpaca Hints</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#troubleshooting" id="toc-entry-19">Troubleshooting</a><ul>
-<li><a class="reference internal" href="#handling-errors" id="toc-entry-20">Handling Errors</a></li>
-<li><a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs" id="toc-entry-21">Relying a safe, minimal, fallback Emacs</a></li>
+<li><a class="reference internal" href="#elisp-hints" id="toc-entry-16">Elisp Hints</a></li>
+<li><a class="reference internal" href="#lsp-mode-hints" id="toc-entry-17">LSP-mode Hints</a></li>
+<li><a class="reference internal" href="#typing-special-characters" id="toc-entry-18">Typing Special Characters</a></li>
+<li><a class="reference internal" href="#managing-indentation" id="toc-entry-19">Managing Indentation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting" id="toc-entry-20">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#handling-errors" id="toc-entry-21">Handling Errors</a></li>
+<li><a class="reference internal" href="#relying-a-safe-minimal-fallback-emacs" id="toc-entry-22">Relying a safe, minimal, fallback Emacs</a></li>
 </ul>
 </li>
 </ul>
@@ -210,6 +213,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li><tt class="docutils literal"><span class="pre">M-x</span></tt> will allow to enter / select commands from the minibuffer (see our <a class="reference internal" href="#useful-commands">useful commands</a> section below)</li>
 <li><tt class="docutils literal"><span class="pre">C-o</span></tt> or <tt class="docutils literal">F8</tt>: perform whitespace cleanup (now a built-in package)</li>
 <li><tt class="docutils literal"><span class="pre">C-q</span></tt>: go to the next error (<tt class="docutils literal"><span class="pre">next-error</span></tt>)</li>
+<li><tt class="docutils literal"><span class="pre">C-c</span> g</tt>: trigger AI assistance thanks to <a class="reference external" href="#gptel-usage">gptel</a></li>
 </ul>
 <p>Additionally, with our <strong>complete</strong> settings, notably with <tt class="docutils literal"><span class="pre">lsp-mode</span></tt>:</p>
 <ul class="simple">
@@ -245,6 +249,14 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </ul>
 </li>
 </ul>
+<ul class="simple" id="gptel-usage">
+<li>to use any <strong>AI model</strong> (based on <a class="reference external" href="https://gptel.org/manual.html">gptel</a>, once it has been properly setup, as for example by our <tt class="docutils literal"><span class="pre">myriad-local-override/init-myriad-ai.el</span></tt> configuration file), the following commands are of use:<ul>
+<li><tt class="docutils literal"><span class="pre">gptel-send</span></tt>: send all text up to (point), or the selection if region is active (works anywhere in Emacs; probably sufficient for many uses)</li>
+<li><tt class="docutils literal">gptel</tt>: create a new dedicated chat buffer</li>
+<li><tt class="docutils literal"><span class="pre">gptel-rewrite</span></tt>: rewrite, refactor or change the selected region; can diff/ediff changes before merging/applying</li>
+</ul>
+</li>
+</ul>
 <p id="useful-commands">Other <strong>useful commands</strong> to trigger, possibly explicitly with <tt class="docutils literal"><span class="pre">M-x</span></tt>:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">replace-string</span> SEARCH_PATTERN REPLACEMENT</tt>; add <tt class="docutils literal"><span class="pre">M-c</span></tt> to set the case-sensitive flag, i.e. to search for the exact string (even if it is lowercase - otherwise uppercase versions thereof will match); the <tt class="docutils literal"><span class="pre">M-%</span></tt> default shortcut requires a shift on French keyboards</li>
@@ -252,7 +264,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <li><tt class="docutils literal"><span class="pre">kill-rectangle</span></tt> (operates on a previous selection)</li>
 <li><tt class="docutils literal"><span class="pre">indent-region</span></tt> (<tt class="docutils literal"><span class="pre">C-M-\</span></tt> difficult on French keyboards); see also <tt class="docutils literal"><span class="pre">indent-rigidly</span></tt> above</li>
 <li><tt class="docutils literal"><span class="pre">eval-expression</span></tt> prompts in the minibuffer for the (ELISP) expression to evaluate, whose result is briefly displayed there, and recorded in the <tt class="docutils literal">*Messages*</tt> buffer (see this <a class="reference external" href="http://xahlee.info/emacs/emacs/elisp_eval_lisp_code.html">complete guide about ELISP evaluation</a>)</li>
-<li><tt class="docutils literal">untabify</tt>: to replace tabulations with spaces, depending on the current <tt class="docutils literal"><span class="pre">tab-width</span></tt> settings; operates only a selection, so generally the whole current buffer has to be selected beforehand (see also <a class="reference external" href="managing-indentation">this section</a>)</li>
+<li><tt class="docutils literal">untabify</tt>: to replace tabulations with spaces, depending on the current <tt class="docutils literal"><span class="pre">tab-width</span></tt> settings; operates only a selection, so generally the whole current buffer has to be selected beforehand (see also <a class="reference external" href="#managing-indentation">this section</a>)</li>
 </ul>
 <p>See also our <a class="reference external" href="VCS.html#performing-a-merge-with-emacs">Performing a Merge with Emacs</a> section.</p>
 </div>
@@ -266,9 +278,21 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </ul>
 <p><tt class="docutils literal"><span class="pre">use-package</span></tt> is not a package manager, it is an extensible configuration macro that is specialised by most of the package managers so that it can be used with any.</p>
 <p>Refer to <a class="reference external" href="https://github.com/radian-software/straight.el?tab=readme-ov-file#tldr-1">this page</a> for a comparison of package managers.</p>
+<div class="section" id="elpaca-hints">
+<h3><a class="toc-backref" href="#toc-entry-15">Elpaca Hints</a></h3>
+<p>Should various (prerequisite) packages fail to build/operate properly, and restarting from a fresh, new install be preferred:</p>
+<ol class="arabic simple">
+<li>ensure that no Emacs instance is running (e.g. <tt class="docutils literal">killall emacs emacsclient</tt>)</li>
+<li>remove any <tt class="docutils literal"><span class="pre">~/.emacs.d/elpa/</span></tt> (not expected to be used by Elpaca), <tt class="docutils literal"><span class="pre">~/.emacs.d/elpaca/</span></tt> (its own cache/state) and <tt class="docutils literal"><span class="pre">~/.emacs.d/eln-cache/</span></tt> (general Emacs precompilation cache) trees: <tt class="docutils literal">/bin/rm <span class="pre">-rf</span> <span class="pre">~/.emacs.d/elpa/</span> <span class="pre">~/.emacs.d/elpaca/</span> <span class="pre">~/.emacs.d/eln-cache/</span></tt></li>
+<li>update the <a class="reference external" href="https://github.com/progfolio/elpaca#installer">official Elpaca verbatim bootstrap block</a> (typically in our <tt class="docutils literal"><span class="pre">init-myriad-package-management.el</span></tt> configuration file)</li>
+<li>(enable any proxy)</li>
+<li>launch Emacs and wait until all packages are cloned and rebuilt</li>
+<li>close and relaunch Emacs to check everything is functional again</li>
+</ol>
+</div>
 </div>
 <div class="section" id="elisp-hints">
-<h2><a class="toc-backref" href="#toc-entry-15">Elisp Hints</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-16">Elisp Hints</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Emacs_Lisp">Emacs Lisp</a> is a Lisp dialect made for Emacs.</p>
 <p>See the <a class="reference external" href="https://www.gnu.org/software/emacs/manual/html_node/elisp/">GNU Emacs Lisp Reference Manual</a>.</p>
 <p>An Emacs init file contains a series of Lisp expressions, each of them consisting of a function name followed by arguments (expressions), all surrounded by parentheses.</p>
@@ -327,19 +351,20 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </ul>
 </div>
 <div class="section" id="lsp-mode-hints">
-<h2><a class="toc-backref" href="#toc-entry-16">LSP-mode Hints</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-17">LSP-mode Hints</a></h2>
 <p>Projets imported accross LSP seesions are persisted in <tt class="docutils literal"><span class="pre">~/.emacs.d/.lsp-session-v1</span></tt>. It may be removed to make other importing choices.</p>
 <p>When debugging one's Emacs+LSP configuration, between two tests both processes shall be killed, possibly with: <tt class="docutils literal">killall emacs elp</tt>.</p>
 </div>
 <div class="section" id="typing-special-characters">
-<h2><a class="toc-backref" href="#toc-entry-17">Typing Special Characters</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-18">Typing Special Characters</a></h2>
 <p>Use <tt class="docutils literal"><span class="pre">C-x</span> 8 KEY</tt> where KEY allows to select the character to insert. For example if KEY is <tt class="docutils literal">E</tt>, then <tt class="docutils literal">€</tt> is inserted.</p>
 <p>Wait after <tt class="docutils literal"><span class="pre">C-x</span> 8</tt> to have a paginated list in the modeline.</p>
 <p>To obtain a capital letter like <tt class="docutils literal">É</tt>, a simpler approach is to uppercase its lowercase counterpart (like <tt class="docutils literal">é</tt>): when the current point designates it, just enter <tt class="docutils literal"><span class="pre">M-c</span></tt>.</p>
 </div>
 <div class="section" id="managing-indentation">
-<h2><a class="toc-backref" href="#toc-entry-18">Managing Indentation</a></h2>
-<p>To prevent a given mode (in this example, the Erlang one) to indent based on tabulations rather than spaces (even if this makes files a little larger):</p>
+<h2><a class="toc-backref" href="#toc-entry-19">Managing Indentation</a></h2>
+<p>Over time we came to believe that in most source files (e.g. shell scripts), spaces shall be preferred to tabulations.</p>
+<p>So,in order to prevent a given mode (in this example, the Erlang one) to indent based on tabulations rather than spaces (even if this makes files a little larger):</p>
 <pre class="code elisp literal-block">
 <span class="p">(</span><span class="nv">add-hook</span><span class="w"> </span><span class="ss">'erlang-mode-hook</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nb">lambda</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="k">setq</span><span class="w"> </span><span class="nv">indent-tabs-mode</span><span class="w"> </span><span class="no">nil</span><span class="p">)))</span>
 </pre>
@@ -350,14 +375,14 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </div>
 </div>
 <div class="section" id="troubleshooting">
-<h1><a class="toc-backref" href="#toc-entry-19">Troubleshooting</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-20">Troubleshooting</a></h1>
 <div class="section" id="handling-errors">
-<h2><a class="toc-backref" href="#toc-entry-20">Handling Errors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-21">Handling Errors</a></h2>
 <p>Sometimes problems arise due to older packages, for example when a new version of Emacs is used. This may be solved by removing the cache of the package manager (e.g. <tt class="docutils literal"><span class="pre">~/.emacs.d/straight</span></tt>, <tt class="docutils literal"><span class="pre">~/.emacs.d/elpaca</span></tt>), relaunching Emacs and waiting for its state (e.g. all related clones) to be downloaded/built again.</p>
 <p>To investigate a problem, one may run Emacs with: <tt class="docutils literal">emacs <span class="pre">--debug-init</span></tt>.</p>
 </div>
 <div class="section" id="relying-a-safe-minimal-fallback-emacs">
-<h2><a class="toc-backref" href="#toc-entry-21">Relying a safe, minimal, fallback Emacs</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-22">Relying a safe, minimal, fallback Emacs</a></h2>
 <p>As many software ecosystems, the Emacs one tends to change/break frequently, and then one's <tt class="docutils literal">init.el</tt> cannot be edited anymore with a functional Emacs - and the whole situation quickly degenerates in a mess.</p>
 <p>One way of overcoming these issues is to have multiple versions of Emacs' configuration, including a very basic one that is never expected to break - just for the purpose of having at all times a base Emacs to fix the others; this is one of the purposes of our rather minimal <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/conf/init-myriad-base.el">init-myriad-base</a> configuration, to be used that way:</p>
 <pre class="code sh literal-block">

@@ -29,7 +29,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Wednesday, January 12, 2022</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, July 1, 2026</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Monday, August 3, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -116,7 +116,7 @@
 <div class="section" id="principle">
 <h2><a class="toc-backref" href="#toc-entry-3">Principle</a></h2>
 <p>We found this approach convenient for lighter projects, i.e. ones comprising a limited number of pages. This is the case of this page and more generally of the whole Ceylan-HOWTO website.</p>
-<p>We chose to rely on the <a class="reference external" href="https://en.wikipedia.org/wiki/ReStructuredText">reStructuredText</a> syntax and tools, also known as RST, a part of the <a class="reference external" href="https://docutils.sourceforge.io/">Docutils</a> project. Here we do not specifically rely on elements related to Python or the Sphinx toolchain, as our more <a class="reference internal" href="#heavy-duty-approach">heavy-duty approach</a> does.</p>
+<p>We chose to rely on the <a class="reference external" href="https://en.wikipedia.org/wiki/ReStructuredText">reStructuredText</a> syntax and tools, also known as RST, a part of the <a class="reference external" href="https://docutils.sourceforge.io/">Docutils</a> project. Here we do not specifically rely on elements related to Python or the Sphinx toolchain, as our more <a class="reference internal" href="#heavy-duty-approach">heavy-duty approach</a> does. Refer to <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html">this page</a> for a RST syntax cheat sheet.</p>
 <p>We augmented reStructuredText with:</p>
 <ul class="simple">
 <li>a set of <strong>make-based defines and rules</strong> (automatic or explicit) that were aggregated in Ceylan-Myriad (see notably <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/doc/GNUmakerules-docutils.inc">GNUmakerules-docutils.inc</a> and the <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Myriad/blob/master/src/scripts/generate-docutils.sh">generate-docutils.sh</a> generation script); this mechanism is layer-friendly, in the sense that all layers defined (directly or not) on top of Myriad are able by default to re-use these elements and to customise them if needed</li>
@@ -267,7 +267,7 @@ P_e = \frac{P_n.e^{m}}{1 + P_n.(e^{m}-1)}
 .. _`how to render equations`:
 </pre>
 <p>It can then be referenced from the same page as <a class="reference external" href="#how-to-render-equations">#how-to-render-equations</a> or from another one as <a class="reference external" href="DocGeneration.html#how-to-render-equations">MyPage.html#how-to-render-equations</a>.</p>
-<p>Note that titles and hypertext links introduce local links as well, so one's inner links may clash with them (resulting in <tt class="docutils literal">(ERROR/3) Duplicate target name <span class="pre">[...]</span></tt>); one option is to phrase these inner links differently, another (better) one is to prevent the creation of a local link by this hypertext reference, by suffixing it with two underscores instead of one:</p>
+<p>Note that titles and hypertext links introduce local links as well, so one's inner links may clash with them (resulting in <tt class="docutils literal">(ERROR/3) Duplicate target name <span class="pre">[...]</span></tt>); one option is to phrase these inner links differently, another (better) one is to prevent the creation of a local link by this hypertext reference, by suffixing it with two underscores instead of one, i.e. specifying:</p>
 <pre class="literal-block">
 .. `Foo &lt;http://foo.org&gt;`__
 </pre>

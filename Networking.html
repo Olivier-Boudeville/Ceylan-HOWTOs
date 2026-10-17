@@ -27,7 +27,7 @@
 </tr>
 <tr class="field"><th class="field-name">Creation date:</th><td class="field-body">Saturday, November 20, 2021</td>
 </tr>
-<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Wednesday, July 1, 2026</td>
+<tr class="field"><th class="field-name">Lastly updated:</th><td class="field-body">Thursday, October 15, 2026</td>
 </tr>
 </tbody>
 </table>
@@ -287,7 +287,7 @@ $<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>
 <p>For example to:</p>
 <ul class="simple">
 <li>resolve a DNS hostname, i.e. to obtain its IP from its name: <tt class="docutils literal">dig +short my.host.in.domain.tld | tail <span class="pre">-n1</span></tt></li>
-<li>perform a reverse DNS lookup (thus translating a given IP address into a domain name), one may use: <tt class="docutils literal">drill <span class="pre">-x</span> TARGET_IP</tt>.</li>
+<li>perform a reverse DNS lookup (thus translating a given IP address into a domain name), one may use: <tt class="docutils literal">drill <span class="pre">-x</span> TARGET_IP</tt> (alternatively: <tt class="docutils literal">dig +short <span class="pre">-x</span> TARGET</tt>)</li>
 <li>get all/most DNS records of a given domain, knowing that <tt class="docutils literal">any</tt> requests (e.g. <tt class="docutils literal">dig +noall +answer +multiline TARGET_DOMAIN any</tt>) may be not honored by some servers, we recommend using our <a class="reference external" href="https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/list-dns-records.sh">list-dns-records.sh</a> script</li>
 </ul>
 <div class="section" id="resolving-host-domain-names">
