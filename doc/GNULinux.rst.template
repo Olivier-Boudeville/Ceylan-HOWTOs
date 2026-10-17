@@ -1762,7 +1762,7 @@ To substitute in-place a line starting by a prefix with another:
 
  $ sed -i "s|^foobar.version=.*$|foobar.version=${MY_VERSION}|1"
 
-To chain sed commands in a single invocation, use ``-e``, starting from the first one; for example: ``sed -e cmd_1 -e cmd_2 ...``.
+To chain sed commands in a single invocation, use ``-e``, *starting from the very first one*; for example: ``sed -e cmd_1 -e cmd_2 ...``.
 
 One may also refer to `this cheat sheet <https://quickref.me/sed.html>`_.
 
@@ -1840,7 +1840,9 @@ and then in ``/etc/fstab``, as::
 Such partition is expected to be mounted at boot time, but here was closed for any reason.
 
 
-One can inquire about it thanks to::
+One can inquire about it thanks to:
+
+.. code:: bash
 
  $ SERVICE="systemd-cryptsetup@my\\x2dencrypted\\x2dnvme\\x2dstorage.service"
  $ systemctl status "$SERVICE"
@@ -1851,6 +1853,24 @@ One can inquire about it thanks to::
 Mounting it back is "as simple" as executing: ``systemctl start /var/foobar``.
 
 See also `this section <#creating-encrypted-partitions>`_ for related details.
+
+
+
+Renaming Massively Files
+------------------------
+
+To remove some substring from all filenames found in a tree, if having the ``rename`` command from the ``util-linux`` package (check with ``rename --version``), just run:
+
+.. code:: bash
+
+ $ find . -type f -exec rename -v -- '-Some-String-to-remove' '' {} +
+
+
+
+Recording Audio/Video Online Content
+------------------------------------
+
+Refer to our `record-video-from-url.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/record-video-from-url.sh>`_ and  `record-audio-from-url.sh <https://github.com/Olivier-Boudeville/Ceylan-Hull/blob/master/record-audio-from-url.sh>`_ scripts (better than using Firefox extensions for recording for example Youtube).
 
 
 
@@ -1968,8 +1988,29 @@ Tool-Specific Hints
 ===================
 
 
+For Thunderbird
+---------------
+
+
+Restoring One's Default Agenda
+..............................
+
+Too often (e.g. when loading an ``*.ics`` file), the default agenda changes.
+
+To restore it:
+
+- open the ``Agenda`` tab
+- ensure that the left ``Agendas`` panel exists, otherwise select (for the French version) ``Affichage -> Agenda -> Panneau d'agenda -> Afficher le panneau d'agenda``
+- just select (highlight) the agenda wanted as default
+- the ``Agendas`` panel can then be closed
+
+(this setting can be tested then by creating a test event)
+
+
+
 Applying Email Filtering Rules from a Thunderbird Instance to Another
----------------------------------------------------------------------
+.....................................................................
+
 
 (knowing that, with IMAP, both the e-mails and the directories that store them are on the server, hence are natively synchronised between clients)
 
@@ -1978,7 +2019,7 @@ It is just a matter of closing both Thunderbird instances, then transferring the
 
 
 Recommended Thunderbird Extensions
-----------------------------------
+..................................
 
 By decreasing level of (felt) importance, and to be searched (and checked) directly from Thunderbird:
 
@@ -1989,8 +2030,13 @@ By decreasing level of (felt) importance, and to be searched (and checked) direc
 Possibly later: Quicktext, Signature Switch, Send Later.
 
 
+
+For Firefox
+-----------
+
+
 Recommended Firefox Extensions
-------------------------------
+..............................
 
 By decreasing level of (felt) importance, and to be searched (and checked) directly from Firefox:
 
@@ -2008,6 +2054,9 @@ By decreasing level of (felt) importance, and to be searched (and checked) direc
 - Smart Referer
 
 .. comment Remove: Consent-O-Matic, suspected to mess at least with GitHub, and possibly Streetview
+
+Refer also to our `Recording Audio/Video Online Content`_ section.
+
 
 
 See Also
