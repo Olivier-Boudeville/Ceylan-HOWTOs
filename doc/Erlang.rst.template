@@ -544,10 +544,14 @@ Making Use of Behaviours
 
 The goal here is to define, in a *behaviour module*, a programming interface - in the sense of a set of function signatures (*callbacks*) - so that *callback modules* can implement this interface and declare that they do so.
 
+Behaviours are simple yet fairly limited abstractions.
 
 
-Example of a *behaviour module*
-...............................
+
+Example of a behaviour module
+.............................
+
+A *behaviour module* merely defines a **programming interface**, as a set of function signatures named *callbacks* (with no inheritance involved - see for example `WOOPER <http://wooper.esperide.org>`_ for that), possibly with functions that can be exported (as any other module):
 
 .. code:: erlang
 
@@ -564,10 +568,16 @@ Example of a *behaviour module*
 
 
 
-Example of a corresponding *callback module*
-............................................
+Example of a corresponding callback module
+..........................................
 
-The compiler just checks that every callback declared in the specified behaviour module is implemented indeed:
+A *callback module* **implements an interface**, as defined by a behaviour module.
+
+The compiler just checks that every callback declared in the specified behaviour module is implemented indeed; these functions must be exported by the callback module.
+
+To compile a callback module, the BEAM of its behaviour module (here ``logger.beam``) must be already available.
+
+Example of such a callback module, implementing the aforementioned behaviour module:
 
 .. code:: erlang
 
