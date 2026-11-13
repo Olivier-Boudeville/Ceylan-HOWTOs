@@ -1724,6 +1724,37 @@ To perform (basic) arithmetic operations (on ``sh``, not ``bash`` or alike, whic
 
 
 
+Here-documents
+..............
+
+A Here-document (a.k.a. a *heredoc*) allows to output, directly from a script, a multi-line block of text, either in a file or in the standard input of a piped command.
+
+General example:
+
+.. code:: bash
+
+  some_command << FOOBAR
+  First line of text.
+  Second one.
+  FOOBAR
+
+(where ``FOOBAR`` can be any user-defined delimiter)
+
+
+To write a file that way:
+
+.. code:: bash
+
+  cat << EOF > some_file.txt
+  First line of text.
+  Second one.
+  EOF
+
+
+By default (unless the delimiter name is quoted), inner environment variables (e.g. ``a=$HELLO``) and commands (e.g. ``b=$(ls -1)``) will be interpreted.
+
+
+
 No-Op
 .....
 
